@@ -1,183 +1,197 @@
 <?php
-
 use yii\helpers\Html;
+use yii\grid\GridView as Gridview2;
 use kartik\grid\GridView;
-use yii\bootstrap\Dropdown;
-use backend\models\ActivityRoom;
+use yii\helpers\Url;
 use kartik\widgets\Select2;
 
-/* @var $searchModel backend\models\TrainingSearch */
-
-$this->title = 'Trainings';
-$this->params['breadcrumbs'][] = $this->title;
+/* @var $this yii\web\View */
+/* @var $searchModel backend\modules\pusdiklat\planning\models\ActivitySearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
+$this->title = Yii::t('app', 'Training Activities');
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="training-index">
+<div class="activity-index">
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 	<?php \yii\widgets\Pjax::begin([
 		'id'=>'pjax-gridview',
 	]); ?>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'kartik\grid\SerialColumn'],                       
+            ['class' => 'kartik\grid\SerialColumn'],        
 			[
 				'attribute' => 'name',
-				'format'=>'raw',
 				'vAlign'=>'middle',
 				'hAlign'=>'left',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
-				'contentOptions'=>['class'=>'kv-sticky-column'],
+				'contentOptions'=>['class'=>'kv-sticky-column'],	
+				'format'=>'raw',
 				'value' => function ($data){
-					return Html::tag('span', $data->name, ['title'=>$data->note,'data-toggle'=>"tooltip",'data-placement'=>"top",'style'=>'cursor:pointer']);
+					return Html::a($data->name,'#',[
+						'title'=>$data->description.'<hr>'.$data->training->note,
+						'data-toggle'=>"tooltip",
+						'data-placement'=>"top",
+						'data-html'=>'true',
+					]);
 				},
-			],
-            
-            
+			],            
 			[
 				'attribute' => 'start',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
-				'width'=>'100px',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
-				'value' => function ($data) {
-					return date('d M y',strtotime($data->start));
-				}
+				'width'=>'100px',
+				'format'=>'raw',
+				'value' => function ($data){
+					return Html::tag('span',date('d M Y',strtotime($data->start)),[
+						'class'=>'label label-info',
+					]);
+				},
 			],
 		
 			[
-				'class' => 'kartik\grid\DataColumn',
-				'attribute' => 'finish',
+				'attribute' => 'end',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
+				'headerOptions'=>['class'=>'kv-sticky-column'],
+				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'width'=>'100px',
-				'headerOptions'=>['class'=>'kv-sticky-column'],
-				'contentOptions'=>['class'=>'kv-sticky-column'],
-				//'editableOptions'=>['header'=>'Finish', 'size'=>'md','formOptions'=>['action'=>\yii\helpers\Url::to('editable')]],
-				'value' => function ($data) {
-					return date('d M y',strtotime($data->finish));
-				}
-			],
-       
-            
-			[
-				'class' => 'kartik\grid\DataColumn',
-				'attribute' => 'studentCount',
-				'label'=> 'Student',
 				'format'=>'raw',
-				'vAlign'=>'middle',
+				'value' => function ($data){
+					return Html::tag('span',date('d M Y',strtotime($data->end)),[
+						'class'=>'label label-info',
+					]);
+				},
+			],
+			[
+				'label' => 'Student',
+				'vAlign'=>'left',
 				'hAlign'=>'center',
-				'width'=>'60px',
-				'vAlign'=>'middle',
+				'width' => '75px',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
-				'value' => function ($data)
-				{
-					$studentCount = \backend\models\TrainingClassStudent::find()
+				'format'=>'raw',
+				'value' => function ($data){
+					return Html::a($data->training->student_count_plan,['index-student-plan'],
+						[
+							'class'=>'label label-primary',
+							'data-pjax'=>'0',
+							'data-toggle'=>'tooltip',
+							'title' => 'Click to view student spread plan',
+						]);
+				},
+            ],
+			
+			[
+				'format' => 'raw',
+				'label' => 'PIC',
+				'vAlign'=>'middle',
+				'hAlign'=>'center',
+				'width'=>'70px',
+				'headerOptions'=>['class'=>'kv-sticky-column'],
+				'contentOptions'=>['class'=>'kv-sticky-column'],
+				'value' => function ($data){
+					// CEK AUTHORISE ACCESS
+					$permit = \hscstudio\heart\helpers\Heart::OrganisationAuthorized(
+						[
+							'1213020200', // CEK KD_UNIT_ORG 1213020200 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
+							'1213020000', // BIDANG RENBANG
+							'1213000000', // PUSDIKLAT
+						],
+						[
+							1, // 1= HEAD OF KD_UNIT_ORG
+						]
+					);
+					$object_person=\backend\models\ObjectPerson::find()
 						->where([
-							'tb_training_class_id' => \backend\models\TrainingClass::find()
-								->select('id')
-								->where([
-									'tb_training_id'=>$data->id,
-									'status'=>1
-								]),
-							'status' => 1
-						])->count();
-					if($data->status==2){	
-						return Html::a($data->studentCount, 
-							'#', 
-							['title'=>$studentCount,'class' => 'label label-default','data-pjax'=>0,
-							'data-toggle'=>"tooltip",'data-placement'=>"top"]);
+							'object'=>'activity',
+							'object_id'=>$data->id,														
+							'type'=>'organisation_1213020200' //1213020200 CEK KD_UNIT_ORG 1213020200 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
+						])
+						->one();
+					if($permit){
+						$options = [
+									'class'=>'label label-info modal-heart',
+									'data-toggle'=>'tooltip',
+									'data-pjax'=>'0',
+									'data-html'=>'true',
+									'title'=>($object_person!=null)?'CURRENT PIC TRAINING <br> '.$object_person->person->name.'.<br> CLICK HERE TO CHANGE PIC':'CLICK HERE TO SET PIC',
+									'modal-title'=>($object_person!=null)?'CHANGE PIC':'SET PIC',
+									'modal-size'=>'modal-md',
+								];
+						$person_name = ($object_person!=null)?substr($object_person->person->name,0,5).'.':'-';
+						return Html::a($person_name,['pic','id'=>$data->id],$options);
 					}
 					else{
-						return (int)$data->studentCount;
+						$options = [
+									'class'=>'label label-info',
+									'data-toggle'=>'tooltip',
+									'data-pjax'=>'0',
+									'data-html'=>'true',
+									'title'=>($object_person!=null)?'CURRENT PIC TRAINING <br> '.$object_person->person->name.'':'PIC IS UNAVAILABLE',
+								];
+						$person_name = ($object_person!=null)?substr($object_person->person->name,0,5).'.':'-';
+						return Html::tag('span',$person_name,$options);
 					}
 				}
 			],
+			
 			[
-				'format' => 'raw',
-				'class' => 'kartik\grid\DataColumn',
-				'attribute' => 'classCount',
-				'label'=> 'Class',
-				'vAlign'=>'middle',
-				'hAlign'=>'center',
-				'width'=>'60px',
-				'vAlign'=>'middle',
-				'headerOptions'=>['class'=>'kv-sticky-column'],
-				'contentOptions'=>['class'=>'kv-sticky-column'],
-				'value' => function ($data)
-				{
-					$classCount = \backend\models\TrainingClass::find()->where(['tb_training_id' => $data->id])->count();
-					if($data->status==2){	
-						if($classCount>$data->classCount){
-							return Html::a($data->classCount, '#', ['title'=>$classCount,'class' => 'label label-default','data-pjax'=>0,'data-toggle'=>"tooltip",'data-placement'=>"top"]);
-						}
-						else{
-							return Html::a($data->classCount, '#', ['title'=>$classCount,'class' => 'label label-default','data-pjax'=>0,'data-toggle'=>"tooltip",'data-placement'=>"top"]);
-						}
-					}
-					else{
-						return $data->classCount;
-					}
-				}
-			],
-					
-			[
-				'format' => 'raw',
 				'attribute' => 'status',
+				'filter' => false,
+				'label' => 'Status',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
-				'width'=>'60px',
+				'width'=>'75px',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
-				'value' => function ($data) use ($year){					
-					if ($data->status==1){
-						$icon='<span class="glyphicon glyphicon-check"></span>';
-						$label='label label-info';
-						$title='READY';
-					}	
-					else if ($data->status==2){ 
-						$icon='<span class="glyphicon glyphicon-refresh"></span>';
-						$label='label label-success';
-						$title='EXECUTE';
-					}
-					else if ($data->status==3){ 
-						$icon='<span class="glyphicon glyphicon-trash"></span>';
-						$label='label label-danger';
-						$title='CANCEL';
-					}
-					else {
-						$icon='<span class="glyphicon glyphicon-fire"></span>';
-						$label='label label-warning';
-						$title='PLAN';
-					}
-					return Html::tag('span', $icon, ['class'=>$label,'title'=>$title,'data-toggle'=>"tooltip",'data-placement'=>"top",'style'=>'cursor:pointer']);
-				}
+				'format'=>'raw',
+				'value' => function ($data){
+					$status_icons = [
+						'0'=>'<span class="glyphicon glyphicon-fire"></span>',
+						'1'=>'<span class="glyphicon glyphicon-refresh"></span>',
+						'2'=>'<span class="glyphicon glyphicon-check"></span>',
+						'3'=>'<span class="glyphicon glyphicon-remove"></span>'
+					];
+					$status_classes = ['0'=>'warning','1'=>'info','2'=>'success','3'=>'danger'];
+					$status_title = ['0'=>'Plan','1'=>'Ready','2'=>'Execution','3'=>'Cancel'];					
+					return Html::tag(
+						'span',
+						$status_icons[$data->status],
+						[
+							'class'=>'label label-'.$status_classes[$data->status],
+							'data-toggle'=>'tooltip',
+							'data-pjax'=>'0',
+							'title'=>$status_title[$data->status],
+						]
+					);
+				},
 			],
+			
+			// 'location',
+            // 'hostel',
+            // 'status',
+            // 'created',
+            // 'created_by',
+            // 'modified',
+            // 'modified_by',
+
             [
 				'class' => 'kartik\grid\ActionColumn',
-				'template' => '{dashboard}',
-				'buttons' => [
-					'dashboard' => function ($url, $model) {
-								$icon='<span class="fa fa-dashboard"></span>';
-								return ($model->status!=2)?'':Html::a($icon,$url,[
-									'data-pjax'=>"0",
-								]);
-							},
-				],			
+				'template' => '{view} {update}',
 			],
         ],
 		'panel' => [
-			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i></h3>',
-			//'type'=>'primary',
-			'before'=>'<div class="pull-right" style="margin-right:5px;">'.
+			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
+			'before'=>
+				'<div class="pull-right" style="margin-right:5px;">'.
 				Select2::widget([
 					'name' => 'year', 
 					'data' => $year_training,
@@ -198,7 +212,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				'<div class="pull-right" style="margin-right:5px;">'.
 				Select2::widget([
 					'name' => 'status', 
-					'data' => ['all'=>'All','0'=>'Plan','1'=>'Ready','2'=>'Execute','3'=>'Cancel'],
+					'data' => ['nocancel'=>'All -Cancel','all'=>'All','0'=>'Plan','1'=>'Ready','2'=>'Execute','3'=>'Cancel'],
 					'value' => $status,
 					'options' => [
 						'placeholder' => 'Status ...', 
@@ -213,60 +227,15 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 					],
 				]).
 				'</div>',
-			'after'=>'
-				<div class="row">
-				<div class="col-md-8">
-				Keterangan:<br>
-				<ul>
-					<li>Student = Jumlah rencana peserta diklat</li>
-					<li>Class = Jumlah class yang dibutuhkan</li>
-					<li>Room = Jumlah room yang telah dipesan</li>
-				</ul>
-				</div>
-				<div class="col-md-4" style="text-align:right;">'.
-				Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', ['index'], ['class' => 'btn btn-info']).
-				'</div>
-				</div>',	
-			'showFooter'=>true,
+			'after'=>
+				Html::a('<i class="fa fa-fw fa-link"></i> Student Plan', ['index-student-plan'], ['class' => 'btn btn-default','data-pjax'=>'0']).' '.
+				Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
+			'showFooter'=>false
 		],
 		'responsive'=>true,
 		'hover'=>true,
     ]); ?>
-	<?php echo \hscstudio\heart\widgets\Modal::widget(['modalSize'=>'modal-lg']); ?>
+	<?= \hscstudio\heart\widgets\Modal::widget() ?>
+	<?php /* $this->registerCss('.select2-container{width:125px !important;}'); */ ?>
 	<?php \yii\widgets\Pjax::end(); ?>
-	<?php 	
-	echo Html::beginTag('div', ['class'=>'row']);
-		echo Html::beginTag('div', ['class'=>'col-md-2']);
-			echo Html::beginTag('div', ['class'=>'dropdown']);
-				echo Html::button('PHPExcel <span class="caret"></span></button>', 
-					['type'=>'button', 'class'=>'btn btn-default', 'data-toggle'=>'dropdown']);
-				echo Dropdown::widget([
-					'items' => [
-						['label' => 'EXport XLSX', 'url' => ['php-excel?filetype=xlsx&template=yes']],
-						['label' => 'EXport XLS', 'url' => ['php-excel?filetype=xls&template=yes']],
-						['label' => 'Export PDF', 'url' => ['php-excel?filetype=pdf&template=no']],
-					],
-				]); 
-			echo Html::endTag('div');
-		echo Html::endTag('div');
-	
-		echo Html::beginTag('div', ['class'=>'col-md-2']);
-			echo Html::beginTag('div', ['class'=>'dropdown']);
-				echo Html::button('OpenTBS <span class="caret"></span></button>', 
-					['type'=>'button', 'class'=>'btn btn-default', 'data-toggle'=>'dropdown']);
-				echo Dropdown::widget([
-					'items' => [
-						['label' => 'EXport DOCX', 'url' => ['open-tbs?filetype=docx']],
-						['label' => 'EXport ODT', 'url' => ['open-tbs?filetype=odt']],
-						['label' => 'EXport XLSX', 'url' => ['open-tbs?filetype=xlsx']],
-					],
-				]); 
-			echo Html::endTag('div');
-		echo Html::endTag('div');
-		
-		
-		
-	echo Html::endTag('div');
-	?>
-
 </div>
