@@ -28,11 +28,11 @@ class Module extends \yii\base\Module
 				['icon'=>'fa fa-fw fa-stack-exchange', 'label' => 'Training', 'url' => ['/'.$this->uniqueId.'/training3/index'],'path'=>[
 					'/training3/',
 				]],
-				['icon'=>'fa fa-fw fa-person','label' => 'Realisasi Peserta', 'url' => ['#']],
+				['icon'=>'fa fa-fw fa-bar-chart','label' => 'Realisasi Peserta', 'url' => ['#']],
 			]],
-			['icon'=>'fa fa-fw fa-person','label' => 'Data Pengajar', 'url' => ['#']],
-			['icon'=>'fa fa-fw fa-person','label' => 'Data Peserta', 'url' => ['#']],
-			['icon'=>'fa fa-fw fa-person','label' => 'Realisasi Peserta', 'url' => ['#']],
+			['icon'=>'fa fa-fw fa-user-md','label' => 'Data Pengajar', 'url' => ['#']],
+			['icon'=>'fa fa-fw fa-user','label' => 'Data Peserta', 'url' => ['#']],
+			['icon'=>'fa fa-fw fa-pie-chart','label' => 'Realisasi Peserta', 'url' => ['#']],
 		];
 	}
 }
