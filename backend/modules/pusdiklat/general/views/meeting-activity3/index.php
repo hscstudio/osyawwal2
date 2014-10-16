@@ -112,8 +112,8 @@ $this->params['breadcrumbs'][] = $this->title;
 					// CEK AUTHORISE ACCESS
 					$permit = \hscstudio\heart\helpers\Heart::OrganisationAuthorized(
 						[
-							'1213020100', // CEK KD_UNIT_ORG 1213020100 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
-							'1213020000', // BIDANG RENBANG
+							'1213010300', // CEK KD_UNIT_ORG 1213020200 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
+							'1213010000', // BIDANG RENBANG
 							'1213000000', // PUSDIKLAT
 						],
 						[
@@ -123,8 +123,8 @@ $this->params['breadcrumbs'][] = $this->title;
 					$object_person=\backend\models\ObjectPerson::find()
 						->where([
 							'object'=>'activity',
-							'object_id'=>$data->id,
-							'type'=>'organisation_1213020100', // CEK KD_UNIT_ORG 1213020100 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
+							'object_id'=>$data->id,														
+							'type'=>'organisation_1213010300' //1213010100 CEK KD_UNIT_ORG 1213010100 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
 						])
 						->one();
 					

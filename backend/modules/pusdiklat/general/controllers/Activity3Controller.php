@@ -4,21 +4,18 @@ namespace backend\modules\pusdiklat\general\controllers;
 
 use Yii;
 use backend\models\Activity;
-use backend\models\ActivityHistory;
-use backend\models\ActivityRoom;
-use backend\models\Room;
-use backend\models\Meeting;
+use backend\models\Training;
+use backend\models\TrainingStudentPlan;
+use backend\models\Program;
+use backend\models\ProgramHistory;
 use backend\models\Reference;
 use backend\models\ObjectPerson;
-use backend\modules\pusdiklat\general\models\MeetingActivitySearch as ActivitySearch;;
-use backend\modules\pusdiklat\general\models\RoomSearch;
+use backend\modules\pusdiklat\general\models\TrainingActivitySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use hscstudio\heart\helpers\Heart;
 use yii\helpers\ArrayHelper;
-use yii\data\ActiveDataProvider;
-
 /**
  * ActivityController implements the CRUD actions for Activity model.
  */
@@ -41,64 +38,71 @@ class Activity3Controller extends Controller
      * Lists all Activity models.
      * @return mixed
      */
-    public function actionIndex($year='',$status='all')
+    public function actionIndex($year='',$status='nocancel')
     {
 		if(empty($year)) $year=date('Y');
-		$searchModel = new ActivitySearch();
+		$searchModel = new TrainingActivitySearch();
 		$queryParams = Yii::$app->request->getQueryParams();
-		$organisation_id = 391;
-		if($status=='all'){
+		if($status=='nocancel'){
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
-					'organisation_id' => $organisation_id
+				$queryParams['TrainingActivitySearch']=[
+					'status'=> [0,1,2],
 				];
 			}
 			else{
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'year' => $year,
-					'organisation_id' => $organisation_id
+					'status'=> [0,1,2],
+				];
+			}
+		}
+		else if($status=='all'){
+			if($year=='all'){
+				$queryParams['TrainingActivitySearch']=[
+				];
+			}
+			else{
+				$queryParams['TrainingActivitySearch']=[
+					'year' => $year,
 				];
 			}
 		}
 		else{
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'status' => $status,
-					'organisation_id' => $organisation_id
 				];
 			}
 			else{
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'year' => $year,
 					'status' => $status,
-					'organisation_id' => $organisation_id
 				];
 			}
 		}
-		
 		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
 		$dataProvider = $searchModel->search($queryParams);
 		$dataProvider->getSort()->defaultOrder = ['start'=>SORT_ASC,'end'=>SORT_ASC];
 		
 		// GET ALL TRAINING YEAR
-		$year_meeting = yii\helpers\ArrayHelper::map(Activity::find()
+		$year_training = yii\helpers\ArrayHelper::map(Activity::find()
 			->select(['year'=>'YEAR(start)','start','end'])
 			->orderBy(['year'=>'DESC'])
 			->groupBy(['year'])
 			->currentSatker()
 			->asArray()
 			->all(), 'year', 'year');
-		$year_meeting['all']='All'	;
+		$year_training['all']='All'	;
 		
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
 			'year' => $year,
 			'status' => $status,
-			'year_meeting' => $year_meeting,
+			'year_training' => $year_training,
         ]);
     }
-	
+
     /**
      * Displays a single Activity model.
      * @param integer $id
@@ -106,71 +110,9 @@ class Activity3Controller extends Controller
      */
     public function actionView($id)
     {
-        $satker_id = (int)Yii::$app->user->identity->employee->satker_id;
-		
-        $query = ActivityHistory::find()
-			->joinWith('meeting')
-			->where([
-				'satker_id' => $satker_id,
-				'id' => $id,				
-			]);
-			
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-		$dataProvider->getSort()->defaultOrder = ['revision'=>SORT_DESC];
-		
-		return $this->render('view', [
+        return $this->render('view', [
             'model' => $this->findModel($id),
-			'dataProvider' => $dataProvider,
         ]);
-    }
-
-    /**
-     * Creates a new Activity model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Activity();		
-		$meeting = new Meeting([
-			'organisation_id'=>391
-		]);
-		$renders=[];
-		$renders['model'] = $model;
-		$renders['meeting'] = $meeting;
-        if (Yii::$app->request->post()){ 
-			$connection=Yii::$app->getDb();
-			$transaction = $connection->beginTransaction();	
-			try{
-				if($model->load(Yii::$app->request->post())){					
-					$model->satker = 'current';
-					$model->location = implode('|',$model->location);
-					$model->status =0;									
-					if($model->save()) {
-						Yii::$app->getSession()->setFlash('success', 'Activity data have saved.');
-						if($meeting->load(Yii::$app->request->post())){							
-							$meeting->activity_id= $model->id;	
-							$meeting->organisation_id = 391;							
-							if($meeting->save()){								 
-								Yii::$app->getSession()->setFlash('success', 'Meeting & activity data have saved.');
-								$transaction->commit();
-								return $this->redirect(['view', 'id' => $model->id]);
-							}
-						}						
-					}
-					else{
-						Yii::$app->getSession()->setFlash('error', 'Data is NOT saved.');
-					}				
-				}
-			}
-			catch (Exception $e) {
-				Yii::$app->getSession()->setFlash('error', 'Roolback transaction. Data is not saved');
-			}
-        } 
-		
-		return $this->render('create', $renders);
     }
 
     /**
@@ -182,53 +124,36 @@ class Activity3Controller extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-		$model->start = date('Y-m-d',strtotime($model->start));
-		$model->end = date('Y-m-d',strtotime($model->end));
-		$meeting = Meeting::findOne([
-			'activity_id'=>$model->id,
-			'organisation_id'=>391
-		]);
+		$training = Training::findOne(['activity_id'=>$model->id]);
 		$renders=[];
 		$renders['model'] = $model;
-		$renders['meeting'] = $meeting;
+		$renders['training'] = $training;
+		
+		$program_revisions = yii\helpers\ArrayHelper::map(ProgramHistory::find()
+			->select(['revision'])
+			->where([
+				'id' => $training->program_id
+			])
+			->orderBy(['revision'=>'DESC'])
+			->groupBy(['revision'])
+			->asArray()
+			->all(), 'revision', 'revision');
+		$renders['program_revisions'] = $program_revisions;
 		
 		if (Yii::$app->request->post()){ 
 			$connection=Yii::$app->getDb();
 			$transaction = $connection->beginTransaction();	
 			try{
 				if($model->load(Yii::$app->request->post())){
-					if (isset(Yii::$app->request->post()['create_revision'])){
-						$model->create_revision = true;
-					}
-					$model->satker = 'current';
-					$model->location = implode('|',$model->location);									
+					$model->satker = 'current';								
 					if($model->save()) {
 						Yii::$app->getSession()->setFlash('success', 'Activity data have saved.');
-						if($meeting->load(Yii::$app->request->post())){							
-							$meeting->activity_id= $model->id;
-							if (isset(Yii::$app->request->post()['create_revision'])){
-								$meeting->create_revision = true;
-								
-							}
-							/* $meeting->program_revision = (int)\backend\models\ProgramHistory::getRevision($meeting->program_id); */
-							// GENERATE TRAINING NUMBER
-							if(Yii::$app->request->post('generate_number')){
-								$year = date('Y',strtotime($model->start));
-								$program = Program::find()->where(['id'=>$meeting->program_id])->currentSatker()->active()->one();
-								$program_owner = sprintf("%02s", $program->satker->sort);
-								$activity_owner = sprintf("%02s", $model->satker->sort);							
-								if($program_owner==$activity_owner) $activity_owner='00';
-								$program_number = $program->number;
-								$meeting_of_program_this_year = Activity::find()
-									->where('start<=:start and YEAR(start)=:this_year',[':start'=>$model->start,':this_year'=>$year])			
-									->currentSatker()
-									->active()
-									->count()+1;
-								$meeting->number = $year.'-'.$program_owner.'-'.$activity_owner.'-'.$program_number.'.'.$meeting_of_program_this_year;
-							}
+						if($training->load(Yii::$app->request->post())){							
+							$training->activity_id= $model->id;
+							/* $training->program_revision = (int)\backend\models\ProgramHistory::getRevision($training->program_id); */
 							
-							if($meeting->save()){								 
-								Yii::$app->getSession()->setFlash('success', 'Meeting & activity data have saved.');
+							if($training->save()){								 
+								Yii::$app->getSession()->setFlash('success', 'Training & activity data have saved.');
 								$transaction->commit();
 								return $this->redirect(['view', 'id' => $model->id]);
 							}
@@ -247,23 +172,7 @@ class Activity3Controller extends Controller
 		return $this->render('update', $renders);
     }
 
-    /**
-     * Deletes an existing Activity model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-		if($this->findModel($id)->delete()) {
-			Yii::$app->getSession()->setFlash('success', 'Data have deleted.');
-		}
-		else{
-			Yii::$app->getSession()->setFlash('error', 'Data is not deleted.');
-		}
-        return $this->redirect(['index']);
-    }
-
+   
     /**
      * Finds the Activity model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -290,7 +199,100 @@ class Activity3Controller extends Controller
 		return $model->name;
 	}
 	
+	/**
+     * Lists all Activity models.
+     * @return mixed
+     */
+    public function actionIndexStudentPlan($year='',$status='nocancel')
+    {
+        if(empty($year)) $year=date('Y');
+		$searchModel = new TrainingActivitySearch();
+		$queryParams = Yii::$app->request->getQueryParams();
+		if($status=='nocancel'){
+			if($year=='all'){
+				$queryParams['TrainingActivitySearch']=[
+					'status'=> [0,1,2],
+				];
+			}
+			else{
+				$queryParams['TrainingActivitySearch']=[
+					'year' => $year,
+					'status'=> [0,1,2],
+				];
+			}
+		}
+		else if($status=='all'){
+			if($year=='all'){
+				$queryParams['TrainingActivitySearch']=[
+				];
+			}
+			else{
+				$queryParams['TrainingActivitySearch']=[
+					'year' => $year,
+				];
+			}
+		}
+		else{
+			if($year=='all'){
+				$queryParams['TrainingActivitySearch']=[
+					'status' => $status,
+				];
+			}
+			else{
+				$queryParams['TrainingActivitySearch']=[
+					'year' => $year,
+					'status' => $status,
+				];
+			}
+		}
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$dataProvider = $searchModel->search($queryParams);
+		$dataProvider->getSort()->defaultOrder = ['start'=>SORT_ASC,'end'=>SORT_ASC];
+		
+		// GET ALL TRAINING YEAR
+		$year_training = yii\helpers\ArrayHelper::map(Activity::find()
+			->select(['year'=>'YEAR(start)','start','end'])
+			->orderBy(['year'=>'DESC'])
+			->groupBy(['year'])
+			->currentSatker()
+			->active()
+			->asArray()
+			->all(), 'year', 'year');
+		$year_training['all']='All'	;
+
+        return $this->render('indexStudentPlan', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+			'year' => $year,
+			'status' => $status,
+			'year_training' => $year_training,
+        ]);
+    }
 	
+	/**
+     * Displays a single Activity model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionViewStudentPlan($id)
+    {
+		$model = $this->findModel($id);
+		$training = Training::findOne(['activity_id'=>$model->id]);
+		$trainingStudentPlan = TrainingStudentPlan::findOne(['training_id'=>$model->id]);
+		if(null==$trainingStudentPlan){
+			$trainingStudentPlan = new TrainingStudentPlan(
+				['training_id'=>$model->id]
+			);
+		}
+		$renders=[];
+		$renders['model'] = $model;
+		$renders['training'] = $training;
+		$renders['trainingStudentPlan'] = $trainingStudentPlan;
+        if (Yii::$app->request->isAjax)
+			return $this->renderAjax('viewStudentPlan', $renders);
+		else
+			return $this->render('viewStudentPlan', $renders);
+    }
 	
 	/**
      * Updates an existing Program model.
@@ -304,8 +306,8 @@ class Activity3Controller extends Controller
 		$renders = [];
 		$renders['model'] = $model;
 		$object_people_array = [
-			// CEK ID 393 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
-			'organisation_391'=>'PIC Meeting'
+			//1213010300 CEK KD_UNIT_ORG 1213010300 IN TABLE ORGANISATION 
+			'organisation_1213010300'=>'PIC TRAINING ACTIVITY [SUBBAG RT & ASSET]'
 		];
 		$renders['object_people_array'] = $object_people_array;
 		foreach($object_people_array as $object_person=>$label){
@@ -347,61 +349,4 @@ class Activity3Controller extends Controller
 				return $this->render('pic', $renders);
         }
     }
-	
-	 /**
-     * Lists all Room models.
-     * @return mixed
-     */
-    public function actionRoom($activity_id, $satker_id=0)
-    {
-		$activity=$this->findModel($activity_id);
-		
-        $searchModel = new RoomSearch();
-		if($satker_id===0) $satker_id = (int)$activity->location;
-		if($satker_id<0) $satker_id = (int)Yii::$app->user->identity->employee->satker_id;
-		if($satker_id=='all'){
-			$queryParams['RoomSearch']=[
-				'status'=>1,
-			];
-		}
-		else{
-			$queryParams['RoomSearch']=[
-				'satker_id'=>$satker_id,
-				'status'=>1,
-			];
-		}	
-		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
-        $dataProvider = $searchModel->search($queryParams);
-
-		// GET ALL TRAINING YEAR
-		$satkers['all']='- All -';
-		$satkers = yii\helpers\ArrayHelper::map(\backend\models\Reference::find()
-			->where(['type'=>'satker'])
-			//->orderBy(['eselon'=>'ASC',])
-			//->active()
-			->asArray()
-			->all(), 'id', 'name');
-		
-		if (Yii::$app->request->isAjax){
-			return $this->renderAjax('room', [
-				'searchModel' => $searchModel,
-				'dataProvider' => $dataProvider,
-				'activity_id'=>$activity_id,
-				'activity'=>$activity,
-				'satker_id'=>$satker_id,
-				'satkers'=>$satkers,
-			]);
-		}
-		else{
-			return $this->render('room', [
-				'searchModel' => $searchModel,
-				'dataProvider' => $dataProvider,
-				'activity_id'=>$activity_id,
-				'activity'=>$activity,
-				'satker_id'=>$satker_id,
-				'satkers'=>$satkers,
-			]);
-		}
-    }
-	
 }

@@ -1,6 +1,6 @@
 
 <?php $controller = $this->context;
-$menus = $controller->module->getMenuItems();
+$menus = $controller->module->menuItems;
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 ?>
 <div class="pusdiklat-planning-default-index">

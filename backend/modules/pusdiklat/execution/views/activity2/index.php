@@ -97,7 +97,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					// CEK AUTHORISE ACCESS
 					$permit = \hscstudio\heart\helpers\Heart::OrganisationAuthorized(
 						[
-							'1213030100', // CEK KD_UNIT_ORG 1213030100 IN TABLE ORGANISATION IS SUBBIDANG PENYEL I
+							'1213030200', // CEK KD_UNIT_ORG 1213030100 IN TABLE ORGANISATION IS SUBBIDANG PENYEL I
 							'1213030000', // BIDANG PENYEL
 							'1213000000', // PUSDIKLAT
 						],
@@ -109,7 +109,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						->where([
 							'object'=>'activity',
 							'object_id'=>$data->id,														
-							'type'=>'organisation_1213030100' //1213030100 CEK KD_UNIT_ORG 1213030100 IN TABLE ORGANISATION IS SUBBIDANG PENYEL I
+							'type'=>'organisation_1213030200' //1213030100 CEK KD_UNIT_ORG 1213030100 IN TABLE ORGANISATION IS SUBBIDANG PENYEL I
 						])
 						->one();
 					if($permit){

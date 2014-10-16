@@ -24,7 +24,7 @@ class Module extends \yii\base\Module
 			];
 		};
 		
-		$menus = (\hscstudio\heart\modules\admin\components\AccessHelper::getAssignedMenu(Yii::$app->user->id,4,$callback,true));
+		$menus = (\mdm\admin\components\MenuHelper::getAssignedMenu(Yii::$app->user->id,4,$callback,true));
 		//return $menus;
 		return [
 			['icon'=>'fa fa-fw fa-dashboard','label' => 'Dashboard', 'url' => ['/'.$this->uniqueId.'/default']],
@@ -35,6 +35,9 @@ class Module extends \yii\base\Module
 				['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Training Activity', 'url' => ['activity/index'],'path'=>[
 					'/activity/',
 				]],
+				['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Meeting Activity', 'url' => ['meeting-activity/index'],'path'=>[
+					'/meeting-activity/',
+				]],
 			]],
 			['icon'=>'fa fa-fw fa-university', 'label' => '+ Kurikulum', 'url' => ['#'], 'items'=>[
 				['icon'=>'fa fa-fw fa-list','label' => 'Program', 'url' => ['program2/index'],'path'=>[
@@ -43,6 +46,9 @@ class Module extends \yii\base\Module
 				['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Training Activity', 'url' => ['activity2/index'],'path'=>[
 					'/activity2/',
 				]],
+				['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Meeting Activity', 'url' => ['meeting-activity2/index'],'path'=>[
+					'/meeting-activity2/',
+				]],
 			]],
 			['icon'=>'fa fa-fw fa-users', 'label' => '+ Tenaga Pengajar', 'url' => ['#'], 'items'=>[
 				['icon'=>'fa fa-fw fa-list','label' => 'Program', 'url' => ['program3/index'],'path'=>[
@@ -50,6 +56,9 @@ class Module extends \yii\base\Module
 				]],
 				['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Training Activity', 'url' => ['activity3/index'],'path'=>[
 					'/activity3/',
+				]],
+				['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Meeting Activity', 'url' => ['meeting-activity3/index'],'path'=>[
+					'/meeting-activity3/',
 				]],
 				['icon'=>'fa fa-fw fa-stack-exchange', 'label' => 'Trainer', 'url' => ['trainer3/index'],'path'=>[
 					'/trainer3/',

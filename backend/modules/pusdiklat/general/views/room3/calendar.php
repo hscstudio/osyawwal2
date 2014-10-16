@@ -66,7 +66,10 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				element.attr("class", element.attr("class")+" "+event.class);
 				element.attr("modal-size", event.modalSize);
 				element.attr("modal-title", event.modalTitle);
-				element.attr("data-toggle", event.dataToggle);
+				element.attr("data-toggle", event.dataToggle);				
+			}'),
+			'eventMouseover' => new yii\web\JsExpression('function(calEvent, jsEvent) {
+				$("[data-toggle=\'tooltip\']").tooltip(); 
 			}')
 		],
     ]);

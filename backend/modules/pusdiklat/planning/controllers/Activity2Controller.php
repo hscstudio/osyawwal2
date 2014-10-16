@@ -10,7 +10,7 @@ use backend\models\Program;
 use backend\models\ProgramHistory;
 use backend\models\Reference;
 use backend\models\ObjectPerson;
-use backend\modules\pusdiklat\planning\models\ActivitySearch;
+use backend\modules\pusdiklat\planning\models\TrainingActivitySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -41,16 +41,16 @@ class Activity2Controller extends Controller
     public function actionIndex($year='',$status='nocancel')
     {
 		if(empty($year)) $year=date('Y');
-		$searchModel = new ActivitySearch();
+		$searchModel = new TrainingActivitySearch();
 		$queryParams = Yii::$app->request->getQueryParams();
 		if($status=='nocancel'){
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'status'=> [0,1,2],
 				];
 			}
 			else{
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'year' => $year,
 					'status'=> [0,1,2],
 				];
@@ -58,23 +58,23 @@ class Activity2Controller extends Controller
 		}
 		else if($status=='all'){
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 				];
 			}
 			else{
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'year' => $year,
 				];
 			}
 		}
 		else{
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'status' => $status,
 				];
 			}
 			else{
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'year' => $year,
 					'status' => $status,
 				];
@@ -206,16 +206,16 @@ class Activity2Controller extends Controller
     public function actionIndexStudentPlan($year='',$status='nocancel')
     {
         if(empty($year)) $year=date('Y');
-		$searchModel = new ActivitySearch();
+		$searchModel = new TrainingActivitySearch();
 		$queryParams = Yii::$app->request->getQueryParams();
 		if($status=='nocancel'){
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'status'=> [0,1,2],
 				];
 			}
 			else{
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'year' => $year,
 					'status'=> [0,1,2],
 				];
@@ -223,23 +223,23 @@ class Activity2Controller extends Controller
 		}
 		else if($status=='all'){
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 				];
 			}
 			else{
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'year' => $year,
 				];
 			}
 		}
 		else{
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'status' => $status,
 				];
 			}
 			else{
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'year' => $year,
 					'status' => $status,
 				];

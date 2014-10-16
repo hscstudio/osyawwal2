@@ -3,7 +3,7 @@ namespace backend\modules\pusdiklat\execution\controllers;
 
 use Yii;
 use backend\models\Activity;
-use backend\modules\pusdiklat\execution\models\ActivitySearch;
+use backend\modules\pusdiklat\execution\models\TrainingActivitySearch;
 
 use backend\models\Person;
 use backend\models\ObjectPerson;
@@ -67,16 +67,16 @@ class Activity2Controller extends Controller
     public function actionIndex($year='',$status='nocancel')
     {
 		if(empty($year)) $year=date('Y');
-		$searchModel = new ActivitySearch();
+		$searchModel = new TrainingActivitySearch();
 		$queryParams = Yii::$app->request->getQueryParams();
 		if($status=='nocancel'){
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'status'=> [0,1,2],
 				];
 			}
 			else{
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'year' => $year,
 					'status'=> [0,1,2],
 				];
@@ -84,23 +84,23 @@ class Activity2Controller extends Controller
 		}
 		else if($status=='all'){
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 				];
 			}
 			else{
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'year' => $year,
 				];
 			}
 		}
 		else{
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'status' => $status,
 				];
 			}
 			else{
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'year' => $year,
 					'status' => $status,
 				];
@@ -225,16 +225,16 @@ class Activity2Controller extends Controller
     public function actionIndexStudentPlan($year='',$status='nocancel')
     {
         if(empty($year)) $year=date('Y');
-		$searchModel = new ActivitySearch();
+		$searchModel = new TrainingActivitySearch();
 		$queryParams = Yii::$app->request->getQueryParams();
 		if($status=='nocancel'){
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'status'=> [0,1,2],
 				];
 			}
 			else{
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'year' => $year,
 					'status'=> [0,1,2],
 				];
@@ -242,23 +242,23 @@ class Activity2Controller extends Controller
 		}
 		else if($status=='all'){
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 				];
 			}
 			else{
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'year' => $year,
 				];
 			}
 		}
 		else{
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'status' => $status,
 				];
 			}
 			else{
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'year' => $year,
 					'status' => $status,
 				];
@@ -325,8 +325,8 @@ class Activity2Controller extends Controller
 		$renders = [];
 		$renders['model'] = $model;
 		$object_people_array = [
-			//1213030100 CEK KD_UNIT_ORG 1213030100 IN TABLE ORGANISATION IS SUBBIDANG PENYEL I
-			'organisation_1213030100'=>'PIC TRAINING ACTIVITY [BIDANG PENYELENGGARAAN I]'
+			//1213030200 CEK KD_UNIT_ORG 1213030200 IN TABLE ORGANISATION IS SUBBIDANG PENYEL I
+			'organisation_1213030200'=>'PIC TRAINING ACTIVITY [BIDANG PENYELENGGARAAN I]'
 		];
 		$renders['object_people_array'] = $object_people_array;
 		foreach($object_people_array as $object_person=>$label){

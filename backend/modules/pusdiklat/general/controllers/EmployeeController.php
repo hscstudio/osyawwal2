@@ -15,7 +15,7 @@ use hscstudio\heart\helpers\Heart;
 /**
  * EmployeeController implements the CRUD actions for Employee model.
  */
-class Employee2Controller extends Controller
+class EmployeeController extends Controller
 {
     public $layout = '@hscstudio/heart/views/layouts/column2';
     public function behaviors()

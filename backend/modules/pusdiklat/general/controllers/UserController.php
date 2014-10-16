@@ -13,7 +13,7 @@ use yii\filters\VerbFilter;
 /**
  * UserController implements the CRUD actions for User model.
  */
-class User2Controller extends Controller
+class UserController extends Controller
 {
     public $layout = '@hscstudio/heart/views/layouts/column2';
     public function behaviors()

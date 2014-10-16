@@ -19,7 +19,7 @@ use yii\filters\VerbFilter;
 /**
  * PersonController implements the CRUD actions for Person model.
  */
-class Person2Controller extends Controller
+class PersonController extends Controller
 {
     public $layout = '@hscstudio/heart/views/layouts/column2';
     public function behaviors()
