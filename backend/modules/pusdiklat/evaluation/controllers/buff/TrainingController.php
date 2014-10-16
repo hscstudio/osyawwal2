@@ -3,11 +3,20 @@
 namespace backend\modules\pusdiklat\evaluation\controllers;
 
 use Yii;
-use backend\models\Training;
-use backend\models\TrainingSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
+use hscstudio\heart\helpers\Heart;
+
+use backend\models\Training;
+use backend\models\TrainingStudentPlan;
+use backend\models\Activity;
+use backend\models\Program;
+use backend\models\Reference;
+use backend\models\ObjectPerson;
+
+use backend\modules\pusdiklat\evaluation\models\ActivitySearch;
 
 /**
  * Training2Controller implements the CRUD actions for Training model.
@@ -15,7 +24,7 @@ use yii\filters\VerbFilter;
 class TrainingController extends Controller
 {
 
-		public $layout = '@hscstudio/heart/views/layouts/column2';
+	public $layout = '@hscstudio/heart/views/layouts/column2';
 	 
 	
 	public function behaviors()
@@ -34,55 +43,62 @@ class TrainingController extends Controller
      * Lists all Training models.
      * @return mixed
      */
-     public function actionIndex($year='',$status='all')
+    public function actionIndex($year='',$status='nocancel')
     {
-		if(empty($year)) $year = date('Y');
-		$ref_satker_id = (int)Yii::$app->user->identity->employee->ref_satker_id;
-		
-        $searchModel = new TrainingSearch();
+		if(empty($year)) $year=date('Y');
+		$searchModel = new ActivitySearch();
 		$queryParams = Yii::$app->request->getQueryParams();
-		if($status!='all'){
-			if($year!='all'){
-				$queryParams['TrainingSearch']=[
-					'year' => $year,
-					'ref_satker_id'=>$ref_satker_id,
-					'status'=>$status,
+		if($status=='nocancel'){
+			if($year=='all'){
+				$queryParams['ActivitySearch']=[
+					'status'=> [0,1,2],
 				];
 			}
 			else{
-				$queryParams['TrainingSearch']=[
-					'ref_satker_id'=>$ref_satker_id,
-					'status'=>$status,
+				$queryParams['ActivitySearch']=[
+					'year' => $year,
+					'status'=> [0,1,2],
+				];
+			}
+		}
+		else if($status=='all'){
+			if($year=='all'){
+				$queryParams['ActivitySearch']=[
+				];
+			}
+			else{
+				$queryParams['ActivitySearch']=[
+					'year' => $year,
 				];
 			}
 		}
 		else{
-			if($year!='all'){
-				$queryParams['TrainingSearch']=[
-					'year' => $year,
-					'ref_satker_id'=>$ref_satker_id,
+			if($year=='all'){
+				$queryParams['ActivitySearch']=[
+					'status' => $status,
 				];
 			}
 			else{
-				$queryParams['TrainerSearch']=[
-					'ref_satker_id'=>$ref_satker_id,
+				$queryParams['ActivitySearch']=[
+					'year' => $year,
+					'status' => $status,
 				];
 			}
 		}
-		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$queryParams = ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
 		$dataProvider = $searchModel->search($queryParams);
-		$dataProvider->getSort()->defaultOrder = ['start'=>SORT_ASC,'finish'=>SORT_ASC];
+		$dataProvider->getSort()->defaultOrder = ['start'=>SORT_ASC,'end'=>SORT_ASC];
 		
 		// GET ALL TRAINING YEAR
-		$year_training = yii\helpers\ArrayHelper::map(Training::find()
-			->select(['year'=>'YEAR(start)','start','finish'])
+		$year_training = ArrayHelper::map(Activity::find()
+			->select(['year'=>'YEAR(start)','start','end'])
 			->orderBy(['year'=>'DESC'])
 			->groupBy(['year'])
 			->currentSatker()
-			->active()
 			->asArray()
 			->all(), 'year', 'year');
 		$year_training['all']='All'	;
+		
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -156,33 +172,42 @@ class TrainingController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-        $currentFiles=[];
-        
-        if ($model->load(Yii::$app->request->post())) {
-            $files=[];
-			
-            if($model->save()){
-				$idx=0;
-                foreach($files as $file){
-					if(isset($paths[$idx])){
-						$file->saveAs($paths[$idx]);
+        $model = $this->findModelActivity($id);
+		$training = Training::findOne(['activity_id'=>$model->id]);
+		$renders=[];
+		$renders['model'] = $model;
+		$renders['training'] = $training;
+		
+		if (Yii::$app->request->post()){ 
+			$connection=Yii::$app->getDb();
+			$transaction = $connection->beginTransaction();	
+			try{
+				if($model->load(Yii::$app->request->post())){
+					$model->satker = 'current';								
+					if($model->save()) {
+						Yii::$app->getSession()->setFlash('success', 'Activity data have saved.');
+						if($training->load(Yii::$app->request->post())){							
+							$training->activity_id= $model->id;
+							$training->program_revision = (int)\backend\models\ProgramHistory::getRevision($training->program_id);
+							
+							if($training->save()){								 
+								Yii::$app->getSession()->setFlash('success', 'Training & activity data have saved.');
+								$transaction->commit();
+								return $this->redirect(['view', 'id' => $model->id]);
+							}
+						}						
 					}
-					$idx++;
+					else{
+						Yii::$app->getSession()->setFlash('error', 'Data is NOT saved.');
+					}				
 				}
-				Yii::$app->session->setFlash('success', 'Data saved');
-                return $this->redirect(['view', 'id' => $model->id]);
-            } else {
-                // error in saving model
-				Yii::$app->session->setFlash('error', 'There are some errors');
-            }            
-        }
-		else{
-			//return $this->render(['update', 'id' => $model->id]);
-			return $this->render('update', [
-                'model' => $model,
-            ]);
-		}
+			}
+			catch (Exception $e) {
+				Yii::$app->getSession()->setFlash('error', 'Roolback transaction. Data is not saved');
+			}
+        } 
+		
+		return $this->render('update', $renders);
     }
 
     /**
@@ -213,6 +238,19 @@ class TrainingController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+
+
+
+    protected function findModelActivity($id)
+    {
+        if (($model = Activity::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
 	
 	public function actionEditable() {
 		$model = new Training; // your model can be loaded here
@@ -261,7 +299,7 @@ class TrainingController extends Controller
 			$data1[]['col0'] = 'id';			
 			$data1[]['col1'] = 'tb_program_id';			
 			$data1[]['col2'] = 'revision';			
-			$data1[]['col3'] = 'ref_satker_id';			
+			$data1[]['col3'] = 'satker_id';			
 	
 			$OpenTBS->MergeBlock('a', $data1);			
 			$data2 = [];
@@ -270,7 +308,7 @@ class TrainingController extends Controller
 					'col0'=>$training->id,
 					'col1'=>$training->tb_program_id,
 					'col2'=>$training->revision,
-					'col3'=>$training->ref_satker_id,
+					'col3'=>$training->satker_id,
 				];
 			}
 			$OpenTBS->MergeBlock('b', $data2);
@@ -310,7 +348,7 @@ class TrainingController extends Controller
 						$objPHPExcel->getActiveSheet()->setCellValue('A'.$idx, $training->id)
 													  ->setCellValue('B'.$idx, $training->tb_program_id)
 													  ->setCellValue('C'.$idx, $training->revision)
-													  ->setCellValue('D'.$idx, $training->ref_satker_id);
+													  ->setCellValue('D'.$idx, $training->satker_id);
 						$idx++;
 					}		
 					
@@ -341,7 +379,7 @@ class TrainingController extends Controller
 						$objPHPExcel->getActiveSheet()->setCellValue('A'.$idx, $training->id)
 													  ->setCellValue('B'.$idx, $training->tb_program_id)
 													  ->setCellValue('C'.$idx, $training->revision)
-													  ->setCellValue('D'.$idx, $training->ref_satker_id);
+													  ->setCellValue('D'.$idx, $training->satker_id);
 						$idx++;
 					}		
 									
@@ -389,7 +427,7 @@ class TrainingController extends Controller
 							$objPHPExcel->getActiveSheet()->setCellValue('A'.$idx, $training->id)
 														  ->setCellValue('B'.$idx, $training->tb_program_id)
 														  ->setCellValue('C'.$idx, $training->revision)
-														  ->setCellValue('D'.$idx, $training->ref_satker_id);
+														  ->setCellValue('D'.$idx, $training->satker_id);
 							$idx++;
 						}		
 						
@@ -461,7 +499,7 @@ class TrainingController extends Controller
 						//$id=  $sheetData[$baseRow]['A'];
 						$tb_program_id=  $sheetData[$baseRow]['B'];
 						$revision=  $sheetData[$baseRow]['C'];
-						$ref_satker_id=  $sheetData[$baseRow]['D'];
+						$satker_id=  $sheetData[$baseRow]['D'];
 						$name=  $sheetData[$baseRow]['E'];
 						$start=  $sheetData[$baseRow]['F'];
 						$finish=  $sheetData[$baseRow]['G'];
@@ -493,7 +531,7 @@ class TrainingController extends Controller
 						//$model2->id=  $id;
 						$model2->tb_program_id=  $tb_program_id;
 						$model2->revision=  $revision;
-						$model2->ref_satker_id=  $ref_satker_id;
+						$model2->satker_id=  $satker_id;
 						$model2->name=  $name;
 						$model2->start=  $start;
 						$model2->finish=  $finish;
@@ -558,4 +596,57 @@ class TrainingController extends Controller
             'dataProvider' => $dataProvider,
         ]);					
 	}
+
+
+
+
+	public function actionPic($id)
+    {
+        $model = $this->findModelActivity($id);
+		$renders = [];
+		$renders['model'] = $model;
+		$object_people_array = [
+			//1213020200 CEK KD_UNIT_ORG 1213020200 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
+			'organisation_1213020200'=>'PIC TRAINING ACTIVITY [BIDANG KURIKULUM]'
+		];
+		$renders['object_people_array'] = $object_people_array;
+		foreach($object_people_array as $object_person=>$label){
+			$object_people[$object_person] = ObjectPerson::find()
+				->where([
+					'object'=>'activity',
+					'object_id' => $id,
+					'type' => $object_person, 
+				])
+				->one();
+			if($object_people[$object_person]==null){
+				$object_people[$object_person]= new ObjectPerson(
+					[
+						'object'=>'activity',
+						'object_id' => $id,
+						'type' => $object_person, 
+					]
+				);
+			}
+			$renders[$object_person] = $object_people[$object_person];
+		}	
+		
+        if (Yii::$app->request->post()) {
+			foreach($object_people_array as $object_person=>$label){
+				$person_id = (int)Yii::$app->request->post('ObjectPerson')[$object_person]['person_id'];
+				Heart::objectPerson($object_people[$object_person],$person_id,'activity',$id,$object_person);
+			}	
+			Yii::$app->getSession()->setFlash('success', 'Pic have updated.');
+			if (!Yii::$app->request->isAjax) {
+				return $this->redirect(['view', 'id' => $model->id]);	
+			}
+			else{
+				echo 'Pic have updated.';
+			}
+        } else {
+			if (Yii::$app->request->isAjax)
+				return $this->renderAjax('pic', $renders);
+            else
+				return $this->render('pic', $renders);
+        }
+    }
 }
