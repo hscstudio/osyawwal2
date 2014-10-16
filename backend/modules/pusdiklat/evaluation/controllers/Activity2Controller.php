@@ -112,12 +112,12 @@ class Activity2Controller extends Controller
 				];
 			}
 		}
-		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$queryParams=\yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
 		$dataProvider = $searchModel->search($queryParams);
 		$dataProvider->getSort()->defaultOrder = ['start'=>SORT_ASC,'end'=>SORT_ASC];
 		
 		// GET ALL TRAINING YEAR
-		$year_training = yii\helpers\ArrayHelper::map(Activity::find()
+		$year_training = \yii\helpers\ArrayHelper::map(Activity::find()
 			->select(['year'=>'YEAR(start)','start','end'])
 			->orderBy(['year'=>'DESC'])
 			->groupBy(['year'])
@@ -268,12 +268,12 @@ class Activity2Controller extends Controller
 				];
 			}
 		}
-		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$queryParams=\yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
 		$dataProvider = $searchModel->search($queryParams);
 		$dataProvider->getSort()->defaultOrder = ['start'=>SORT_ASC,'end'=>SORT_ASC];
 		
 		// GET ALL TRAINING YEAR
-		$year_training = yii\helpers\ArrayHelper::map(Activity::find()
+		$year_training = \yii\helpers\ArrayHelper::map(Activity::find()
 			->select(['year'=>'YEAR(start)','start','end'])
 			->orderBy(['year'=>'DESC'])
 			->groupBy(['year'])
@@ -620,7 +620,7 @@ class Activity2Controller extends Controller
 			'training_class_id' =>$class_id,
 			'status'=>1,
 		];
-		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$queryParams=\yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
 		$dataProvider = $searchModel->search($queryParams); 
 		
         return $this->render('classSubject', [
@@ -1114,7 +1114,7 @@ class Activity2Controller extends Controller
 			'training_class_id' =>$class_id,
 			'training_class_student.status'=>1,
 		];
-		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$queryParams=\yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
 		$dataProvider = $searchModel->search($queryParams); 
 		/* $dataProvider->getSort()->defaultOrder = ['name'=>SORT_ASC]; */
 		
@@ -1573,7 +1573,7 @@ class Activity2Controller extends Controller
 			'startDate' => date('Y-m-d',strtotime($start)),
 			'endDate'=>date('Y-m-d',strtotime($start)),
 		];		
-		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$queryParams=\yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
         $dataProvider = $searchModel->search($queryParams);
 		$dataProvider->getSort()->defaultOrder = ['start'=>SORT_ASC,'end'=>SORT_ASC];
 

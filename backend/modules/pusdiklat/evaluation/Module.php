@@ -10,7 +10,7 @@ class Module extends \yii\base\Module
     {
         parent::init();
     }
-	
+
 	public function getMenuItems(){
 		return [
 			['icon'=>'fa fa-fw fa-dashboard','label' => 'Dashboard', 'url' => ['/'.$this->uniqueId.'/default']],
