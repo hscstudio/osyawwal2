@@ -11,7 +11,7 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log','heart'],
-	'homeUrl' => '/github/osyawwal/administrator',
+	'homeUrl' => '/github/osyawwal2/administrator',
     'modules' => [
 		'heart' => [
             'class' => 'hscstudio\heart\Module',
@@ -80,6 +80,9 @@ return [
         ],
 		'sekretariat-organisation' => [
             'class' => 'backend\modules\sekretariat\organisation\Module',
+        ],
+		'sekretariat-finance' => [
+            'class' => 'backend\modules\sekretariat\finance\Module',
         ],
 		/* START SEKRETARIAT */
 		/* START PUSDIKLAT */

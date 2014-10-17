@@ -62,8 +62,12 @@ class ReferenceSatkerController extends Controller
     public function actionCreate()
     {
         $model = new Reference();
+		
+		//$model->sort=Reference::find()->select(['id','type','max(sort) as ttl','name'])->where(['type'=>'satker','id'=>17])->one()->sort;
 
         if ($model->load(Yii::$app->request->post())){ 
+			$model->parent_id=0;
+			$model->type='satker';
 			if($model->save()) {
 				Yii::$app->getSession()->setFlash('success', 'New data have saved.');
 			}

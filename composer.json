@@ -18,30 +18,28 @@
         "yiisoft/yii2": "*",
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
-		"hscstudio/yii2-heart": "dev-master"		
+		"hscstudio/yii2-heart": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
         "yiisoft/yii2-debug": "*",
         "yiisoft/yii2-gii": "*",
-        "yiisoft/yii2-faker": "*",
-		"fxp/composer-asset-plugin": "*",
-		"yiisoft/yii2-apidoc": "*"
-    },
-    "config": {
-        "process-timeout": 1800
+        "yiisoft/yii2-faker": "*"
     },
 	"scripts": {
         "post-create-project-cmd": [
             "yii\\composer\\Installer::setPermission"
         ]
     },
+    "config": {
+        "process-timeout": 1800
+    },
     "extra": {
-		"asset-installer-paths": {
+        "asset-installer-paths": {
             "npm-asset-library": "vendor/npm",
             "bower-asset-library": "vendor/bower"
         },
-        "writable": [
+		"writable": [
             "backend/runtime",
             "backend/web/assets",
 
