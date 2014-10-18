@@ -19,9 +19,9 @@ use yii\helpers\Url;
     <?php $form = ActiveForm::begin([
 		'options'=>['enctype'=>'multipart/form-data']
 	]); ?>
-	
+
 	<?= $form->errorSummary($model) ?> <!-- ADDED HERE -->
-	
+
 	<ul class="nav nav-tabs" role="tablist" id="tab_wizard">
 		<li class="active"><a href="#personal_information" role="tab" data-toggle="tab">Personal</a></li>
 		<li class=""><a href="#contact_information" role="tab" data-toggle="tab">Contact</a></li>
@@ -39,14 +39,14 @@ use yii\helpers\Url;
 					->asArray()
 					->all()
 					, 'id', 'name');
-					
+
 			$field[$object_reference] = $form->field(${$object_reference}, '['.$object_reference.']reference_id')->widget(Select2::classname(), [
 				'data' => $data,
 				'options' => ['placeholder' => 'Choose '.$label.' ...'],
 				'pluginOptions' => [
 				'allowClear' => true
 				],
-			])->label($label); 
+			])->label($label);
 		}
 		?>
 		<div class="tab-pane fade-in active" id="personal_information">
@@ -72,9 +72,9 @@ use yii\helpers\Url;
 						'onText' => 'Male',
 						'offText' => 'Female',
 					]
-				]) ?> 
+				]) ?>
 				</div>
-			</div>						
+			</div>
 			<div class="row clearfix">
 				<div class="col-md-3">
 				<?= $form->field($model, 'born')->textInput(['maxlength' => 50]) ?>
@@ -92,13 +92,13 @@ use yii\helpers\Url;
 						'onText' => 'On',
 						'offText' => 'Off',
 					]
-				]) ?> 
+				]) ?>
 				</div>
 				<div class="col-md-3">
 				<?= $form->field($model, 'blood')->textInput(['maxlength' => 25]) ?>
 				</div>
 				<div class="col-md-3">
-				<?= $field['religion'] ?> 
+				<?= $field['religion'] ?>
 				</div>
 			</div>
 			<div class="row clearfix">
@@ -108,17 +108,17 @@ use yii\helpers\Url;
 				<div class="col-md-4">
 				<?= $form->field($model, 'npwp')->textInput(['maxlength' => 100]) ?>
 				</div>
-			</div>						
-			
+			</div>
+
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#contact_information]').tab('show')">
-				Next 
+				Next
 				<i class="fa fa-fw fa-arrow-circle-o-right"></i>
 			</a>
 		</div>
 		<div class="tab-pane fade" id="contact_information">
-			
+
 			<h3>Informasi Kontak</h3>
-			
+
 			<div class="row clearfix">
 				<div class="col-md-4">
 				<?= $form->field($model, 'phone')->textInput(['maxlength' => 50]) ?>
@@ -131,45 +131,45 @@ use yii\helpers\Url;
 			<?= $form->field($model, 'homepage')->textInput(['maxlength' => 255]) ?>
 
 			<?= $form->field($model, 'address')->textInput(['maxlength' => 255]) ?>
-			
+
 			<?= $form->field($model, 'bank_account')->textInput(['maxlength' => 255]) ?>
-			
+
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#personal_information]').tab('show')">
-				Previous 
+				Previous
 				<i class="fa fa-fw fa-arrow-circle-o-left"></i>
 			</a>
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#employee_information]').tab('show')">
-				Next 
+				Next
 				<i class="fa fa-fw fa-arrow-circle-o-right"></i>
 			</a>
-			
+
 		</div>
 		<div class="tab-pane fade" id="employee_information">
-			
+
 			<h3>Informasi Kepegawaian (PNS Only)</h3>
-			
+
 			<div class="row clearfix">
 				<div class="col-md-3">
-				<?= $form->field($model, 'nip')->textInput(['maxlength' => 25])->label('NIP') ?>	
-				</div>		
+				<?= $form->field($model, 'nip')->textInput(['maxlength' => 25])->label('NIP') ?>
+				</div>
 			</div>
-			
-			<?= $field['rank_class'] ?> 
-			
+
+			<?= $field['rank_class'] ?>
+
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#contact_information]').tab('show')">
-				Previous 
+				Previous
 				<i class="fa fa-fw fa-arrow-circle-o-left"></i>
 			</a>
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#office_information]').tab('show')">
-				Next 
+				Next
 				<i class="fa fa-fw fa-arrow-circle-o-right"></i>
 			</a>
-			
+
 		</div>
 		<div class="tab-pane fade" id="office_information">
-		
+
 			<h3>Informasi Kantor</h3>
-			
+
 			<div class="row clearfix">
 				<div class="col-md-4">
 				<?php
@@ -188,7 +188,7 @@ use yii\helpers\Url;
 			</div>
 			<div class="row clearfix">
 				<div class="col-md-4">
-				<?= $field['unit'] ?> 
+				<?= $field['unit'] ?>
 				</div>
 				<div class="col-md-8">
 				<?= $form->field($model, 'organisation')->textInput(['maxlength' => 255]) ?>
@@ -208,43 +208,43 @@ use yii\helpers\Url;
 			</div>
 
 			<?= $form->field($model, 'office_address')->textInput(['maxlength' => 255]) ?>
-			
+
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#employee_information]').tab('show')">
-				Previous 
+				Previous
 				<i class="fa fa-fw fa-arrow-circle-o-left"></i>
 			</a>
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#education_information]').tab('show')">
-				Next 
+				Next
 				<i class="fa fa-fw fa-arrow-circle-o-right"></i>
 			</a>
-			
+
 		</div>
 		<div class="tab-pane fade" id="education_information">
-		
+
 			<h3>Informasi Pendidikan & Pengalaman</h3>
-			
+
 			<div class="row clearfix">
 				<div class="col-md-4">
-				<?= $field['graduate'] ?> 
+				<?= $field['graduate'] ?>
 				</div>
 				<div class="col-md-8">
 				<?= $form->field($model, 'graduate_desc')->textInput(['maxlength' => 255]) ?>
 				</div>
 			</div>
-			
+
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#office_information]').tab('show')">
-				Previous 
+				Previous
 				<i class="fa fa-fw fa-arrow-circle-o-left"></i>
 			</a>
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#photo_document]').tab('show')">
-				Next 
+				Next
 				<i class="fa fa-fw fa-arrow-circle-o-right"></i>
 			</a>
-			
+
 		</div>
 		<div class="tab-pane fade" id="photo_document">
 			<h3>Foto dan Dokumen</h3>
-			
+
 			<table class="table">
 			<?php
 			foreach($object_file_array as $object_file=>$label){
@@ -254,8 +254,8 @@ use yii\helpers\Url;
 						<tr>
 						<td>
 						<div class="file-preview-thumbnails">
-							<div class="file-preview-frame">						
-								<img src="<?= Url::to(['/file/download','file'=>${$object_file}->object.'/'.${$object_file}->object_id.'/thumb_'.${$object_file.'_file'}->file_name]) ?>" class="file-preview-image">						
+							<div class="file-preview-frame">
+								<img src="<?= Url::to(['/file/download','file'=>${$object_file}->object.'/'.${$object_file}->object_id.'/thumb_'.${$object_file.'_file'}->file_name]) ?>" class="file-preview-image">
 							</div>
 						</div>
 						</td>
@@ -266,7 +266,7 @@ use yii\helpers\Url;
 								'previewFileType' => 'any',
 								'showUpload' => false,
 							]
-						])->label($label); 
+						])->label($label);
 						?>
 						</td>
 						</tr>
@@ -289,13 +289,13 @@ use yii\helpers\Url;
 						?>
 						</td>
 						<td>
-						<?php						
+						<?php
 						echo $form->field(${$object_file.'_file'}, 'file_name['.$object_file.']')->widget(FileInput::classname(), [
 							'pluginOptions' => [
 								'previewFileType' => 'any',
 								'showUpload' => false,
 							]
-						])->label($label); 
+						])->label($label);
 						?>
 						</td>
 						</tr>
@@ -303,13 +303,13 @@ use yii\helpers\Url;
 					}
 				}
 			}
-			?>  
+			?>
 			</table>
-			
+
 			<div class="clearfix"></div>
-			
+
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#education_information]').tab('show')">
-				Previous 
+				Previous
 				<i class="fa fa-fw fa-arrow-circle-o-left"></i>
 			</a>
 			<?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary','onclick'=>'if($("#agreement_status").prop("checked")==false){ alert("Anda harus menyetujui Pakta Integritas!"); return false; }']) ?>
@@ -322,7 +322,7 @@ use yii\helpers\Url;
 			'onText' => 'On',
 			'offText' => 'Off',
 		]
-	]) ?> 
+	]) ?>
 
     <?php ActiveForm::end(); ?>
 

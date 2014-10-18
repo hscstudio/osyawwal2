@@ -10,6 +10,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use hscstudio\heart\helpers\Heart;
+use yii\helpers\Json;
 
 /**
  * EmployeeController implements the CRUD actions for Employee model.
@@ -177,5 +178,32 @@ class EmployeeController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    // THE CONTROLLER
+    public function actionOrganisation() {
+        $out = [];
+
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $reference_id = (int)$parents[0];
+                $reference = \backend\models\Reference::findOne($reference_id);
+                if($reference!=null){
+                    $organisations = \backend\models\Organisation::find()
+                        ->select(['ID', 'NM_UNIT_ORG'])
+                        ->where(['JNS_KANTOR'=>$reference->parent_id])
+                        ->all();
+                    $out=[];
+                    foreach($organisations as $organisation){
+                        $out[]=['id'=>$organisation->ID,'name'=>$organisation->NM_UNIT_ORG];
+                    }
+                    echo Json::encode(['output'=>$out, 'selected'=>'']);
+                    return;
+                }
+            }
+        }
+
+        echo Json::encode(['output'=>'', 'selected'=>'']);
     }
 }

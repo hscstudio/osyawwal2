@@ -214,9 +214,10 @@ class ActivityController extends Controller
 					if (isset(Yii::$app->request->post()['create_revision'])){
 						$model->create_revision = true;
 					}
+                    print_r(Yii::$app->request->post());
 					$model->satker = 'current';
-					$model->location = implode('|',$model->location);									
-					if($model->save()) {
+					$model->location = implode('|',$model->location);
+                    if($model->save()) {
 						Yii::$app->getSession()->setFlash('success', 'Activity data have saved.');
 						if($training->load(Yii::$app->request->post())){							
 							$training->activity_id= $model->id;

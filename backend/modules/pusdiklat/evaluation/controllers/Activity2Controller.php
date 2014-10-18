@@ -4,9 +4,9 @@ namespace backend\modules\pusdiklat\evaluation\controllers;
 use Yii;
 use backend\models\Activity;
 use backend\modules\pusdiklat\evaluation\models\TrainingActivitySearch;
-use yii\helpers\Html;
 use backend\models\Person;
 use backend\models\ObjectPerson;
+use backend\models\File;
 use backend\models\ObjectFile;
 use backend\models\Program;
 use backend\models\ProgramSubject;
@@ -23,6 +23,8 @@ use backend\modules\pusdiklat\evaluation\models\TrainingClassSubjectSearch;
 
 use backend\models\TrainingClassStudent;
 use backend\modules\pusdiklat\evaluation\models\TrainingClassStudentSearch;
+
+use backend\models\TrainingClassStudentCertificate;
 
 use backend\models\TrainingStudent;
 use backend\modules\pusdiklat\evaluation\models\TrainingStudentSearch;
@@ -146,54 +148,7 @@ class Activity2Controller extends Controller
         ]);
     }
 
-    /**
-     * Updates an existing Activity model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-		$model->start = date('Y-m-d',strtotime($model->start));
-		$model->end = date('Y-m-d',strtotime($model->end));
-		$training = Training::findOne(['activity_id'=>$model->id]);
-		$renders=[];
-		$renders['model'] = $model;
-		$renders['training'] = $training;
-		
-		if (Yii::$app->request->post()){ 
-			$connection=Yii::$app->getDb();
-			$transaction = $connection->beginTransaction();	
-			try{
-				if($model->load(Yii::$app->request->post())){
-					$model->satker = 'current';
-					$model->location = implode('|',$model->location);							
-					if($model->save()) {
-						Yii::$app->getSession()->setFlash('success', 'Activity data have saved.');
-						if($training->load(Yii::$app->request->post())){							
-							$training->activity_id= $model->id;
-							$training->program_revision = (int)\backend\models\ProgramHistory::getRevision($training->program_id);
-							
-							if($training->save()){								 
-								Yii::$app->getSession()->setFlash('success', 'Training & activity data have saved.');
-								$transaction->commit();
-								return $this->redirect(['index']);
-							}
-						}						
-					}
-					else{
-						Yii::$app->getSession()->setFlash('error', 'Data is NOT saved.');
-					}				
-				}
-			}
-			catch (Exception $e) {
-				Yii::$app->getSession()->setFlash('error', 'Roolback transaction. Data is not saved');
-			}
-        } 
-		
-		return $this->render('update', $renders);
-    }
+
 
    
     /**
@@ -528,67 +483,7 @@ class Activity2Controller extends Controller
         ]);
     }
 	
-	/**
-     * Creates a new TrainingClass model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreateClass($id)
-    {		
-		$model = $this->findModel($id);
-		$classCount1=$model->training->class_count_plan;
-		$classCount2=TrainingClass::find()->where(['training_id' =>$model->id])->count();
-		$createClass = $classCount1 - $classCount2;
-		// x = 1 - 0 = 1
-		// start = 0
-		// finish = 0+x-1
-		if($createClass>0){
-			$start = $classCount2;
-			$finish = $classCount2+$createClass-1;
-			$classes = \hscstudio\heart\helpers\Heart::abjad($start,$finish);
-			$created=0;
-			$failed=0;
-			foreach($classes as $class){
-				echo "<br>".$class;
-				$model = new TrainingClass();
-				$model->training_id = $id;
-				$model->class = $class;
-				$model->status = 1;
-				if($model->save()){
-					$created++;
-				}
-				else{
-					$failed++;
-				}				
-			}
-			
-			if($failed>0){
-				Yii::$app->session->setFlash('warning', $created.' class created but '.$failed.' class failed');
-			}
-			else{
-				Yii::$app->session->setFlash('success', $created.' class created');
-			}
-		}
-		else{
-			Yii::$app->session->setFlash('warning', 'No class created');
-		}
-		
-		return $this->redirect(['class', 'id' => $id]);
-    }
-	
-	/**
-     * Deletes an existing TrainingClass model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDeleteClass($id, $class_id)
-    {
-        $model = $this->findModelClass($class_id);
-		$model->delete();
-		Yii::$app->getSession()->setFlash('success', 'Data have deleted.');
-        return $this->redirect(['class', 'id' => $id]);
-    }
+
 	
     /**
      * Finds the TrainingClass model based on its primary key value.
@@ -1189,23 +1084,279 @@ class Activity2Controller extends Controller
 			'trainingStudentCount' => $trainingStudentCount
         ]);
     }
-	
-	/**
-     * Deletes an existing TrainingClass model.
+
+    /**
+     * Creates a new TrainingClassStudentCertificate model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreateCertificateClassStudent($id, $class_id, $training_class_student_id)
+    {
+        $activity = $this->findModel($id); // Activity
+        $class = $this->findModelClass($class_id); // Class
+        $model = new \backend\models\TrainingClassStudentCertificate([
+            'training_class_student_id'=> $training_class_student_id,
+            'date'=>date('Y-m-d'),
+            'status' => 1,
+        ]);
+
+        if ($model->load(Yii::$app->request->post())){
+            //
+            $trainingClassStudent = \backend\models\TrainingClassStudent::findOne($training_class_student_id);
+            $student = $trainingClassStudent->trainingStudent->student;
+            $person = $student->person;
+            $objectPerson = \backend\models\ObjectPerson::find()
+                ->where([
+                    'object'=>'person',
+                    'object_id'=>$person->id,
+                    'type'=>'graduate',
+                ])
+                ->one();
+            if(null!=$objectPerson) $model->graduate=$objectPerson->reference_id;
+            $model->graduate_desc=$person->graduate_desc;
+            $model->position=$person->position;
+            $model->position_desc=$person->position_desc;
+
+            $model->eselon3=$student->eselon3;
+            $model->eselon4=$student->eselon4;
+            $model->satker=$student->satker;
+            if($model->save()) {
+                Yii::$app->session->setFlash('success', 'Certificate created');
+            }
+            else{
+                //die(print_r($model->errors));
+                Yii::$app->session->setFlash('error', 'Unable create there are some error');
+            }
+            return $this->redirect([
+                'class-student',
+                'id' => $id,
+                'class_id'=>$class_id,
+            ]);
+        } else {
+            return $this->render('createCertificate', [
+                'model' => $model,
+                'activity'=>$activity,
+                'class'=>$class,
+            ]);
+        }
+    }
+
+    /**
+     * Updates an existing TrainingClassStudentCertificate model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionUpdateCertificateClassStudent($id, $class_id, $training_class_student_id)
+    {
+        $activity = $this->findModel($id); // Activity
+        $class = $this->findModelClass($class_id); // Class
+        $model = $this->findModelClassStudentCerificate($training_class_student_id);
+
+        if ($model->load(Yii::$app->request->post())){
+            //
+            $trainingClassStudent = \backend\models\TrainingClassStudent::findOne($training_class_student_id);
+            $student = $trainingClassStudent->trainingStudent->student;
+            $person = $student->person;
+            $objectPerson = \backend\models\ObjectPerson::find()
+                ->where([
+                    'object'=>'person',
+                    'object_id'=>$person->id,
+                    'type'=>'graduate',
+                ])
+                ->one();
+            if(null!=$objectPerson) $model->graduate=$objectPerson->reference_id;
+            $model->graduate_desc=$person->graduate_desc;
+            $model->position=$person->position;
+            $model->position_desc=$person->position_desc;
+
+            $model->eselon3=$student->eselon3;
+            $model->eselon4=$student->eselon4;
+            $model->satker=$student->satker;
+            if($model->save()) {
+                Yii::$app->session->setFlash('success', 'Certificate update');
+            }
+            else{
+                //die(print_r($model->errors));
+                Yii::$app->session->setFlash('error', 'Unable update there are some error');
+            }
+            return $this->redirect([
+                'class-student',
+                'id' => $id,
+                'class_id'=>$class_id,
+            ]);
+        } else {
+            return $this->render('updateCertificate', [
+                'model' => $model,
+                'activity'=>$activity,
+                'class'=>$class,
+            ]);
+        }
+    }
+
+
+    /**
+     * Deletes an existing TrainingClassStudentCertificate model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      */
-    public function actionDeleteClassStudent($id, $class_id, $training_class_student_id)
+    public function actionDeleteCertificateClassStudent($id, $class_id, $training_class_student_id)
     {
-        $model = $this->findModelClassStudent($training_class_student_id);
-		$model->delete();
-		
-		Yii::$app->getSession()->setFlash('success', 'Data have deleted.');
-        return $this->redirect(['class-student', 'id' => $id, 'class_id' => $class_id]);
+        $activity = $this->findModel($id); // Activity
+        $class = $this->findModelClass($class_id); // Class
+        $model = $this->findModelClassStudentCerificate($training_class_student_id);
+
+        if($model->delete()) {
+            Yii::$app->session->setFlash('success', 'Certificate deleted');
+        }
+        else{
+            //die(print_r($model->errors));
+            Yii::$app->session->setFlash('error', 'Unable delete there are some error');
+        }
+        return $this->redirect([
+            'class-student',
+            'id' => $activity->id,
+            'class_id'=>$class->id,
+        ]);
     }
-	
-	protected function findModelClassStudent($id)
+
+    /**
+     * Updates an existing Person model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionUpdateClassStudent($id, $class_id, $training_class_student_id)
+    {
+        $activity = $this->findModel($id); // Activity
+        $class = $this->findModelClass($class_id); // Class
+        $class_student = $this->findModelClassStudent($training_class_student_id);
+        $student = $class_student->trainingStudent->student;
+        $person = $student->person;
+        $renders = [];
+        $renders['activity'] = $activity;
+        $renders['class'] = $class;
+        $renders['class_student'] = $class_student;
+        $renders['person'] = $person;
+        $renders['student'] = $student;
+
+        $object_references_array = [
+            'unit'=>'Unit','religion'=>'Religion','rank_class'=>'Rank Class','graduate'=>'Graduate'];
+        $renders['object_references_array'] = $object_references_array;
+        foreach($object_references_array as $object_reference=>$label){
+            $object_references[$object_reference] = ObjectReference::find()
+                ->where([
+                    'object'=>'person',
+                    'object_id' => $person->id,
+                    'type' => $object_reference,
+                ])
+                ->one();
+            if($object_references[$object_reference]==null){
+                $object_references[$object_reference]= new ObjectReference();
+            }
+            $renders[$object_reference] = $object_references[$object_reference];
+        }
+
+        $currentFiles=[];
+        $object_file_array = [
+            'photo'=>'Photo 4x6','sk_cpns'=>'SK CPNS','sk_pangkat'=>'SK Pangkat'];
+        $renders['object_file_array'] = $object_file_array;
+        foreach($object_file_array as $object_file=>$label){
+            $currentFiles[$object_file] = '';
+            $object_files[$object_file] = ObjectFile::find()
+                ->where([
+                    'object'=>($object_file=='photo')?'person':'person',
+                    'object_id' => $person->id,
+                    'type' => $object_file,
+                ])
+                ->one();
+
+            if($object_files[$object_file]!=null){
+                $files[$object_file] = File::find()
+                    ->where([
+                        'id'=>$object_files[$object_file]->file_id,
+                    ])
+                    ->one();
+                $currentFiles[$object_file]=$files[$object_file]->file_name;
+            }
+            else{
+                $object_files[$object_file]= new ObjectFile();
+                $files[$object_file] = new File();
+            }
+            $renders[$object_file] = $object_files[$object_file];
+            $renders[$object_file.'_file'] = $files[$object_file];
+        }
+
+        if ($person->load(Yii::$app->request->post())) {
+            if($person->save()) {
+                foreach($object_references_array as $object_reference=>$label){
+                    $reference_id = Yii::$app->request->post('ObjectReference')[$object_reference]['reference_id'];
+                    Heart::objectReference($object_references[$object_reference],$reference_id,'person',$person->id,$object_reference);
+                }
+
+                $uploaded_files = [];
+                foreach($object_file_array as $object_file=>$label){
+                    $uploaded_files[$object_file] = \yii\web\UploadedFile::getInstance($files[$object_file], 'file_name['.$object_file.']');
+                    if(null!=$uploaded_files[$object_file]){
+                        //upload(
+                        //$instance_file, $object='person', $object_id, $file, $object_file,
+                        //$type='photo', $resize=false,$current_file='',$thumb = false){
+                        \hscstudio\heart\helpers\Heart::upload(
+                            $uploaded_files[$object_file],
+                            'person',
+                            $person->id,
+                            $files[$object_file],
+                            $object_files[$object_file],
+                            $object_file,
+                            ($object_file=='photo')?true:false,
+                            $currentFiles[$object_file],
+                            ($object_file=='photo')?true:false
+                        );
+                    }
+                }
+                Yii::$app->getSession()->setFlash('success', 'Update Person Success');
+
+                $student->load(Yii::$app->request->post());
+                if(strlen($student->new_password)>3){
+                    $student->password = $student->new_password;
+                }
+                if ($student->save()){
+                    Yii::$app->getSession()->setFlash('success', 'Update Person & Student Success');
+                }
+                return $this->redirect([
+                    'class-student',
+                    'id' => $activity->id,
+                    'class_id'=>$class->id,
+                ]);
+            }
+            else{
+                Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
+                return $this->render('updateClassStudent', $renders);
+            }
+
+        } else {
+            return $this->render('updateClassStudent', $renders);
+        }
+    }
+
+    /**
+     * Finds the TrainingClassStudentCertificate model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return TrainingClassStudentCertificate the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModelClassStudentCerificate($id)
+    {
+        if (($model = TrainingClassStudentCertificate::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    protected function findModelClassStudent($id)
     {
         if (($model = TrainingClassStudent::findOne($id)) !== null) {
             return $model;
@@ -1214,342 +1365,7 @@ class Activity2Controller extends Controller
         }
     }
 	
-	public function actionChangeClassStudent($id, $class_id, $training_class_student_id)
-    {
-        $activity = $this->findModel($id); // Activity
-		$class = $this->findModelClass($class_id); // Class	
-		$model = $this->findModelClassStudent($training_class_student_id);
-		$renders = [];
-		$renders['activity'] = $activity;
-		$renders['class'] = $class;
-		$renders['model'] = $model;
-		$trainingClass = TrainingClass::find()
-				->all();
-		$renders['trainingClass'] = $trainingClass;	
-		if (Yii::$app->request->post()) {			
-			$model->load(Yii::$app->request->post());
-			if($model->save()){
-				Yii::$app->getSession()->setFlash('success', 'Student have moved.');
-				if (!Yii::$app->request->isAjax){
-					return $this->redirect(['class-student', 'id' => $id, 'class_id'=>$class_id]);	
-				}
-				else{
-					echo 'Student have moved.';
-				}
-			}
-			else{
-				Yii::$app->getSession()->setFlash('failed', 'Student have not moved.');
-				if (!Yii::$app->request->isAjax) {
-					return $this->redirect(['class-student', 'id' => $id, 'class_id'=>$class_id]);	
-				}
-				else{
-					echo 'Student have not moved.';
-				}
-			}
-        } else {
-			if (Yii::$app->request->isAjax)
-				return $this->renderAjax('changeClassStudent', $renders);
-            else
-				return $this->render('changeClassStudent', $renders);
-        }
-    }
-	
-	/**
-     * Lists all Room models.
-     * @return mixed
-     */
-    public function actionRoom($id)
-    {
-		$model = $this->findModel($id);
-		
-		$searchModel = new ActivityRoomSearch([
-			'activity_id' => $id,
-		]);
-		
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		
-		$location = explode('|',$model->location);
-		$location = (int)@$location[0];		
-		
-		$searchActivityRoomModel = new ActivityRoomExtensionSearch([
-			'startDateX'=>date('Y-m-d',strtotime($model->start)),
-			'endDateX'=>date('Y-m-d',strtotime($model->end)),
-			'computer'=>0,
-			'hostel'=>0,
-			'capacity'=>20,
-			'location'=>$location,
-		]);
-		
-		// SEARCH ROOM
-		/* $computer = 0;
-		$hostel = 0;
-		$capacity = 20;
-		$satker_id = $location;
-		
-		if (Yii::$app->request->post()) {	
-			$post = Yii::$app->request->post();
-			$computer = $post['computer'];
-			$hostel = $post['hostel'];
-			$capacity = $post['capacity'];
-			$satker_id = $post['location'];
-		}
-		
-		$searchModel2 = new RoomSearch([
-			'computer'=>$computer,
-			'hostel'=>$computer,
-			'capacity'=>$computer,
-			'satker_id'=>$satker_id,
-			'status'=>1
-		]);
-			
-        $dataProvider2 = $searchModel2->search(Yii::$app->request->queryParams); */
-		
-		$satkers['all']='--- All ---';
-		$satkers = ArrayHelper::map(Reference::find()
-			->where([
-				'type'=>'satker',
-			])
-			->asArray()
-			->all(), 'id', 'name');
-			
-        return $this->render('room', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-			/* 'searchModel2' => $searchModel2,
-            'dataProvider2' => $dataProvider2, */
-			'model' => $model,
-			'satkers'=>$satkers,
-			'searchActivityRoomModel' => $searchActivityRoomModel,
-        ]);
-    }
-	
-	/**
-     * Lists all Room models.
-     * @return mixed
-     */
-    public function actionAvailableRoom($id)
-    {
-		$model = $this->findModel($id);
-		
-		if (Yii::$app->request->post()) {
-			$post = Yii::$app->request->post('ActivityRoomExtensionSearch');
-			$wheres = [];
-			if($post['computer']==1) $wheres[] = 'computer=1';
-			if($post['hostel']==1) $wheres[] = 'hostel=1';
-			if($post['capacity']>0) $wheres[] = 'capacity>='.$post['capacity'];
-			if($post['location']!='all') $wheres[] = 'satker_id='.$post['location'];
-			$wheres[] = 'status = 1';
-			$where = implode(' AND ',$wheres);
-			$room = Room::find()->where(
-				$where
-			)->all();
-			
-			$start = date('Y-m-d H:i',strtotime($post['startDateX'].' '.$post['startTimeX'])); 
-			$end = date('Y-m-d H:i',strtotime($post['endDateX'].' '.$post['endTimeX'])); 
-			echo "<label><strong>List of Available Room</strong></label>";
-			echo '<div class="table-responsive">
-			<table class="table table-hover table-bordered table-striped table-condensed">
-			<thead>
-			<tr>
-				<th class="kv-sticky-column kv-align-center kv-align-middle" style="width:60px;">No</th>
-				<th class="kv-sticky-column kv-align-center kv-align-middle">Room</th>
-				<th class="kv-sticky-column kv-align-center kv-align-middle" style="width:60px;">Capa</th>
-				<th class="kv-sticky-column kv-align-center kv-align-middle" style="width:60px;">Comp</th>
-				<th class="kv-sticky-column kv-align-center kv-align-middle" style="width:60px;">Host</th>
-				<th class="kv-sticky-column kv-align-center kv-align-middle" style="width:60px;">Action</th>
-			</th>
-			</thead>
-			<tbody>';
-			$idx=0;
-			$satker_id = (int)Yii::$app->user->identity->employee->satker_id;
-			foreach($room as $data){				
-				// ONLY CHECK AVAILABILITY
-				$activityRoom = ActivityRoom::find()
-						->where('
-							((start between :start AND :end)
-								OR (end between :start AND :end))
-							AND 
-							room_id = :room_id
-							AND
-							status = :status
-						',
-						[
-							':start' => $start,
-							':end' => $end,
-							':room_id' => $data->id,
-							':status' => 2,
-						]);
-						
-				// IS AVAILABLE			
-				if($activityRoom->count()==0){ 
-					$activityRoom2 = ActivityRoom::find()
-							->where('
-								room_id = :room_id 
-								AND
-								activity_id = :activity_id
-								AND
-								status!=3
-							',
-							[
-								':room_id' => $data->id,
-								':activity_id' => $model->id,
-							]);
-					if($activityRoom2->count()==0){ 
-						$idx++;
-						echo '<tr>';
-						echo '<td>'.$idx.'</td>';
-						echo '<td>';
-						echo $data->name;
-						if($data->satker_id!=$satker_id){
-							echo '<br><span class="badge">'.$data->satker->name.'</span>';
-						}
-						echo '</td>';
-						echo '<td class="kv-sticky-column kv-align-center kv-align-middle">'.$data->capacity.'</td>';
-						echo '<td class="kv-sticky-column kv-align-center kv-align-middle">'.$data->computer.'</td>';
-						echo '<td class="kv-sticky-column kv-align-center kv-align-middle">'.$data->hostel.'</td>';
-						echo '<td class="kv-sticky-column kv-align-center kv-align-middle">';
-						echo Html::a('<span class="fa fa-square-o"></span>', 
-							[
-							'set-room',
-							'id'=>$model->id,
-							'room_id'=>$data->id
-							], 
-							[
-							'class' => 'label label-info link-post','data-pjax'=>0,
-							'title'=>'click to set it!',
-							'data-toggle'=>"tooltip",
-							'data-placement'=>"top",
-							]);
-						echo '</td>';
-						echo '</tr>';
-					}
-					else{
-						//echo '<tr>';
-						//echo '<td colspan="6">unavailable.. coming soon :)</td>';
-						//echo '</tr>';
-					}
-				}
-				// IS NOT AVAILABLE	
-				else{
-					echo '<tr>';
-					echo '<td colspan="6">unavailable.. coming soon :)</td>';
-					echo '</tr>';
-				}
-			}
-			echo '
-			</tbody>
-			</table>
-			</div>
-			<hr>';
-			echo '<script>			
-					$( "a.link-post" ).click(function() {
-						if(!confirm("Are you sure set it??")) return false;	
-						$.ajax({
-							url: $(this).attr("href"),
-							type: "post",
-							data: $("#form-available-room").serialize(),
-							success: function(data) {
-								$("#form-available-room").submit();
-								$.pjax.reload({
-									url: "'.\yii\helpers\Url::to(['room','id'=>$model->id]).'",
-									container: "#pjax-gridview-room", 
-									timeout: 3000,
-								});							
-							},
-							error:  function( jqXHR, textStatus, errorThrown ) {
-								$("#available-room").html(jqXHR.responseText);
-							}
-						});	
-						return false;
-					});
-				 </script>';
-		}
-	}
-	/**
-     * Creates a new Meeting model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionSetRoom($id,$room_id)
-    {
-		$model=$this->findModel($id);	
-		$post = Yii::$app->request->post('ActivityRoomExtensionSearch'); 		
-		$room = Room::findOne($room_id);
-		$satker_id = (int)Yii::$app->user->identity->employee->satker_id;		
-		$status = ($room->satker_id==$satker_id)?1:0;
-		$start = date('Y-m-d H:i',strtotime($post['startDateX'].' '.$post['startTimeX'])); 
-		$end = date('Y-m-d H:i',strtotime($post['endDateX'].' '.$post['endTimeX']));
-		
-        $activityRoom = new ActivityRoom();
-		$activityRoom->activity_id = (int)$id;
-		$activityRoom->room_id = (int)$room_id;
-		$activityRoom->start = $start;
-		$activityRoom->end = $end;
-		$activityRoom->status = $status;
-		
-        if($activityRoom->save()) {
-			Yii::$app->session->setFlash('success', 'Room have setted');
-		}
-		else{
-			 Yii::$app->session->setFlash('error', 'Unable set, there are some error');
-		}
-		
-		if (Yii::$app->request->isAjax){	
-			return ('Room have setted');
-		}
-		else{
-			return $this->redirect(['room', 'id' => $id]);
-		} 
-    }
-	
-	public function actionUnsetRoom($id,$room_id)
-    {
-		$model=$this->findModel($id);	
-		$post = Yii::$app->request->post(); 		
-		$room = Room::findOne($room_id);
-		$satker_id = (int)Yii::$app->user->identity->employee->satker_id;		
-		$activityRoom = ActivityRoom::find()->where(
-			'activity_id=:activity_id AND room_id=:room_id',
-			[
-				':activity_id'=>$id,':room_id'=>$room_id
-			])
-			->one();
-		$msg="-";
-		
-		if($room->satker_id==$satker_id and $activityRoom->status!=1){
-			if (Yii::$app->request->isAjax){	
-				$msg = ('You have not privileges to unset this data.');
-			}
-			else{
-				Yii::$app->session->setFlash('error', 'You have not privileges to unset this data.');
-			}
-		}
-		else if($room->satker_id!=$satker_id and $activityRoom->status!=0){
-			if (Yii::$app->request->isAjax){	
-				$msg = ('You have not privileges to unset this data..');
-			}
-			else{
-				Yii::$app->session->setFlash('error', 'You have not privileges to unset this data..');
-			}
-		}
-		else
-		{
-			if($activityRoom->delete()) {
-				Yii::$app->session->setFlash('success', 'Room have unset');
-			}
-			else{
-				 Yii::$app->session->setFlash('error', 'Unable unset there are some error');
-			}
-		}
 
-		if (Yii::$app->request->isAjax){	
-			echo $msg;
-		}
-		else{
-			return $this->redirect(['room', 'id' => $id]);
-		}		
-		
-    } 
 
 	/**
      * Lists all Room models.
@@ -1878,132 +1694,584 @@ class Activity2Controller extends Controller
 		} 
     }
 	
-	 /**
-     * Lists all TrainingClass models.
-     * @return mixed
-     */
-    public function actionHonorarium($id)
-    {
-        $model = $this->findModel($id);
-		$searchModel = new TrainingClassSearch([
-			'training_id' => $id,
-		]);
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        return $this->render('honorarium', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-			'model' => $model,
-        ]);
-    }
-	
-	public function actionPrepareHonorarium($id, $class_id)
-    {				
-		$activity = $this->findModel($id); // Activity
-		$class = $this->findModelClass($class_id); // Class	
-		
-		/* $dataProvider = new \yii\data\ActiveDataProvider([
-			'query' => \backend\models\TrainingScheduleTrainer::find()
-				->joinWith(['trainingSchedule'])
-				->where([
-					'tb_training_schedule_id'=>\backend\models\TrainingSchedule::find()
-						->select('id')
-						->where([
-							'tb_training_class_id'=>$tb_training_class_id,
-							'status'=>1,					
-						])
-						->andWhere('tb_training_class_subject_id>0')
-						->groupBy('tb_training_class_subject_id')
-						->column(),
-					TrainingScheduleTrainer::tableName().'.status'=>1,
-					'ref_trainer_type_id'=>[0], //Only PENGAJAR not ASISTEN & PENCERAMAH
-				])
-				->groupBy('tb_training_class_subject_id,tb_trainer_id'),				
-			'pagination' => [
-				'pageSize' => 20,
-			],
-			'sort'=> ['defaultOrder' => ['tb_training_schedule_id'=>SORT_ASC]]
-		]);
-		$trainingClass=\backend\models\TrainingClass::findOne($tb_training_class_id);
-		$sbu = \backend\models\Sbu::find()->where(['name'=>'honor_persiapan_mengajar','status'=>1])->one();
-        return $this->render('prepare', [
-			'dataProvider' => $dataProvider,
-			'trainingClass' => $trainingClass, 
-			'sbu' => $sbu,
-        ]); */
-    }
-	
-	/* public function actionTransport($tb_training_class_id)
-    {			
-		$ref_satker_id = Yii::$app->user->identity->employee->ref_satker_id;
-		$dataProvider = new ActiveDataProvider([
-			'query' => TrainingScheduleTrainer::find()
-				->select(TrainingScheduleTrainer::tableName().'.*,'.Employee::tableName().'.ref_satker_id')
-				->joinWith(['trainer', 'trainer.employee','trainingSchedule'])
-				->where([
-					'tb_training_schedule_id'=>TrainingSchedule::find()
-						->select('id')
-						->where([
-							'tb_training_class_id'=>$tb_training_class_id,
-							'status'=>1,					
-						])
-						->andWhere('tb_training_class_subject_id>0')
-						//->groupBy('tb_training_class_subject_id')
-						->column(),
-					TrainingScheduleTrainer::tableName().'.status'=>1,
-				])
-				->andWhere(
-					'('.Employee::tableName().'.ref_satker_id IS NOT NULL AND '.Employee::tableName().'.ref_satker_id!='.$ref_satker_id.')'.
-					' OR '.
-					Employee::tableName().'.ref_satker_id IS NULL'
-				)
-				->groupBy('tb_training_class_subject_id,tb_trainer_id')
-				,	
-			'pagination' => [
-				'pageSize' => 20,
-			],
-			'sort'=> ['defaultOrder' => ['tb_training_schedule_id'=>SORT_ASC]]
-		]);
-		$trainingClass=TrainingClass::findOne($tb_training_class_id);
-		$sbu = Sbu::find()->where(['name'=>'honor_transport_dalam_kota','status'=>1])->one();
-        return $this->render('transport', [
-			'dataProvider' => $dataProvider,
-			'trainingClass' => $trainingClass, 
-			'sbu' => $sbu,
-        ]);
-    }
-	
-	public function actionTraining($tb_training_class_id)
-    {			
-		$ref_satker_id = Yii::$app->user->identity->employee->ref_satker_id;
-		$dataProvider = new ActiveDataProvider([
-			'query' => TrainingScheduleTrainer::find()
-				->joinWith(['trainer', 'trainer.employee','trainingSchedule'])
-				->where([
-					'tb_training_schedule_id'=>TrainingSchedule::find()
-						->select('id')
-						->where([
-							'tb_training_class_id'=>$tb_training_class_id,
-							'status'=>1,					
-						])
-						->andWhere('tb_training_class_subject_id>0')
-						//->groupBy('tb_training_class_subject_id')
-						->column(),
-					TrainingScheduleTrainer::tableName().'.status'=>1,
-				])
-				->groupBy('tb_training_class_subject_id,tb_trainer_id')
-				,		
-			'pagination' => [
-				'pageSize' => 20,
-			],
-			'sort'=> ['defaultOrder' => ['tb_training_schedule_id'=>SORT_ASC,'ref_trainer_type_id'=>SORT_ASC]]
-		]);
 
-		$trainingClass=TrainingClass::findOne($tb_training_class_id);
-		$sbus = ArrayHelper::map(Sbu::find()->where(['status'=>1])->all(),'name','value');
-        return $this->render('training', [
-			'dataProvider' => $dataProvider,
-			'trainingClass' => $trainingClass, 
-			'sbus' => $sbus,
+
+    public function actionPrintFrontendCertificate($id,$class_id,$filetype='docx'){
+
+        try {
+            $templates=[
+                'docx'=>'ms-word.docx',
+                'odt'=>'open-document.odt',
+                'xlsx'=>'ms-excel.xlsx'
+            ];
+            // Initalize the TBS instance
+            $OpenTBS = new \hscstudio\heart\extensions\OpenTBS; // new instance of TBS
+            // Change with Your template kaka
+            //$template = Yii::getAlias('@common').'/extensions/opentbs-template/'.$templates[$filetype];
+            $path = '';
+            if(isset(Yii::$app->params['uploadPath'])){
+                $path = Yii::$app->params['uploadPath'].DIRECTORY_SEPARATOR;
+            }
+            else{
+                $path = Yii::getAlias('@file').DIRECTORY_SEPARATOR;
+            }
+            $template_path = $path . 'template'.DIRECTORY_SEPARATOR.'pusdiklat'.DIRECTORY_SEPARATOR.'evaluation'.DIRECTORY_SEPARATOR;
+            $template = $template_path . 'skpp01.docx';
+            $type_certificate = "SERTIFIKAT";
+            $type_certificate_id = Yii::$app->request->post('type_certificate');
+            if($type_certificate_id == 2){
+                $template = $template_path . 'skpp01B.docx';
+            }
+            else if($type_certificate_id == 1){
+                $type_certificate = "Surat Tanda Tamat Pendidikan dan Pelatihan";
+            }
+            $OpenTBS->LoadTemplate($template); // Also merge some [onload] automatic fields (depends of the type of document).
+            //$OpenTBS->VarRef['modelName']= "TrainingClassStudentCertificate";
+
+            $data = [];
+            $idx = 0;
+            $number="";
+            $trainingClassStudentCertificates = \backend\models\TrainingClassStudentCertificate::find()
+                ->where([
+                    'training_class_student_id' => TrainingClassStudent::find()
+                        ->where([
+                            'training_id'=>$id,
+                            'training_class_id'=>$class_id,
+                            'status'=>1,
+                        ])
+                        ->column(),
+                    'status'=>1,
+                ])
+                ->all();
+
+            $name_signer = '';
+            $nip_signer = '';
+            $position_signer = 'Kepala Pusat Pendidikan dan Pelatihan ';
+            $city_signer = '';
+
+            foreach($trainingClassStudentCertificates as $trainingClassStudentCertificate){
+                if($idx==0){
+                    $numbers = explode('-',$trainingClassStudentCertificate->trainingClassStudent->training->number);
+                    // 2014-03-00-2.2.1.0.2 to /2.3.1.2.138/07/00/2014
+                    $number = '';
+                    $seri = '';
+                    if(isset($numbers[3]) and strlen($numbers[3])>3){
+                        $number .= '/'.$numbers[3];
+                        $seri = '/'.$numbers[3];
+                    }
+                    if(isset($numbers[1]) and strlen($numbers[1])==2){
+                        $number .= '/'.$numbers[1];
+                    }
+                    if(isset($numbers[2]) and strlen($numbers[2])==2){
+                        $number .= '/'.$numbers[2];
+                    }
+                    if(isset($numbers[0]) and strlen($numbers[0])==4){
+                        $number .= '/'.$numbers[0];
+                    }
+
+                    $program = \backend\models\ProgramHistory::find()
+                        ->where([
+                            'id'=>$trainingClassStudentCertificate->trainingClassStudent->training->program_id,
+                            'revision'=>$trainingClassStudentCertificate->trainingClassStudent->training->program_revision,
+                        ])
+                        ->one();
+
+                    $type_graduate = "TELAH MENGIKUTI";
+                    if($program->test==1){
+                        $type_graduate = "L U L U S";
+                    }
+
+                    if($program->hours==(int)$program->hours){
+                        $hours_program = (int)$program->hours;
+                    }
+                    else{
+                        $hours_program = str_replace('.',',',$program->hours);
+                    }
+
+                    $name_executor = $trainingClassStudentCertificate->trainingClassStudent->training->satker->name;
+                    $name_training = Yii::$app->request->post('name_training');
+                    $location_training = Yii::$app->request->post('location_training');
+
+                    $signer = (int)Yii::$app->request->post('signer');
+                    $employee = \backend\models\Employee::findOne($signer);
+                    if(!null == $employee){
+                        $name_signer = $employee->person->name;
+                        $nip_signer = $employee->person->nip;
+                        $position_signer = $employee->positionDesc;
+                        $city_signer = Yii::$app->request->post('city_signer');
+                    }
+                    $idx++;
+                }
+
+                $student = $trainingClassStudentCertificate->trainingClassStudent->trainingStudent->student;
+                $instansi = $student->unit->name;
+                if($student->satker>1){
+                    $eselon = 'eselon'.$student->satker;
+                    $instansi =$student->$eselon;
+                }
+
+                if (file_exists($path.'student/'.$student->id.'/'.$student->photo) and strlen($student->photo)>3)
+                    $photo = $path.'student/'.$student->id.'/thumb_'.$student->photo;
+
+                $data[] = [
+                    // CERTIFICATE DATA
+                    'type_certificate'=>$type_certificate,
+                    'type_graduate'=>$type_graduate,
+                    'seri'=>$trainingClassStudentCertificate->seri.$seri,
+                    'number'=>$trainingClassStudentCertificate->number.$number,
+                    'year_training'=>date('Y',strtotime($trainingClassStudentCertificate->trainingClassStudent->training->activity->start)),
+                    'date_training'=>\hscstudio\heart\helpers\Heart::twodate(
+                        date('Y-m-d',strtotime($trainingClassStudentCertificate->trainingClassStudent->training->activity->start)),
+                        date('Y-m-d',strtotime($trainingClassStudentCertificate->trainingClassStudent->training->activity->end)),
+                        0, // month type
+                        0, // year type
+                        ' ', // delimiter
+                        ' sampai dengan '
+                    ),
+                    'hours_training'=>$hours_program,
+                    'name_executor'=>$name_executor,
+                    'name_training'=>$name_training,
+                    'location_training'=>$location_training,
+                    // STUDENT DATA
+                    'name_student'=>$student->name,
+                    'nip_student'=>$student->nip,
+                    'born_student'=>$student->born,
+                    'birthDay_student'=>$student->birthDay,
+                    'rankClass_student'=>$student->rankClass->name,
+                    'position_student'=>$student->positionDesc,
+                    'satker_student'=>$instansi,
+                    'photo_student'=>$photo,
+                    //SIGNER DATA
+                    'city_signer'=>$city_signer,
+                    'date_signer'=>\hscstudio\heart\helpers\Heart::twodate($trainingClassStudentCertificate->date),
+                    'position_signer'=>$position_signer,
+                    'name_signer'=>$name_signer,
+                    'nip_signer'=>$nip_signer,
+                ];
+            }
+            $OpenTBS->MergeBlock('data', $data);
+            // Output the result as a file on the server. You can change output file
+            $OpenTBS->Show(OPENTBS_DOWNLOAD, 'certificate_'.date('YmdHis').'.'.$filetype); // Also merges all [onshow] automatic fields.
+            exit;
+        } catch (\yii\base\ErrorException $e) {
+            Yii::$app->session->setFlash('error', 'Unable export there are some error');
+        }
+
+        return $this->redirect([
+            'class-student',
+            'id'=>$id,
+            'class_id'=>$class_id,
         ]);
-    } */
+    }
+
+    public function actionPrintValueCertificate($tb_training_id,$tb_training_class_id,$filetype='docx'){
+
+        try {
+            // Initalize the TBS instance
+            $OpenTBS = new \hscstudio\heart\extensions\OpenTBS; // new instance of TBS
+            // Change with Your template kaka
+            //$template = Yii::getAlias('@common').'/extensions/opentbs-template/'.$templates[$filetype];
+            $path = '';
+            if(isset(Yii::$app->params['uploadPath'])){
+                $path = Yii::$app->params['uploadPath'].DIRECTORY_SEPARATOR;
+            }
+            else{
+                $path = Yii::getAlias('@common').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR;
+            }
+            $template_path = $path . 'templates'.DIRECTORY_SEPARATOR.'pusdiklat'.DIRECTORY_SEPARATOR.'evaluation'.DIRECTORY_SEPARATOR;
+            $template = $template_path . 'skpp03.docx';
+
+            $OpenTBS->LoadTemplate($template); // Also merge some [onload] automatic fields (depends of the type of document).
+            //$OpenTBS->VarRef['modelName']= "TrainingClassStudentCertificate";
+
+            $idx = 0;
+            $number="";
+            $trainingClassStudentCertificates = \backend\models\TrainingClassStudentCertificate::find()
+                ->where([
+                    'tb_training_class_student_id' => TrainingClassStudent::find()
+                        ->where([
+                            'tb_training_id'=>$tb_training_id,
+                            'tb_training_class_id'=>$tb_training_class_id,
+                            'status'=>1,
+                        ])
+                        ->column(),
+                    'status'=>1,
+                ])
+                ->all();
+
+            $name_signer = '';
+            $nip_signer = '';
+            $position_signer = 'Kepala Pusat Pendidikan dan Pelatihan ';
+            $city_signer = '';
+
+            foreach($trainingClassStudentCertificates as $trainingClassStudentCertificate){
+                if($idx==0){
+                    $numbers = explode('-',$trainingClassStudentCertificate->trainingClassStudent->training->number);
+                    // 2014-03-00-2.2.1.0.2 to /2.3.1.2.138/07/00/2014
+                    $number = '';
+                    $seri = '';
+                    if(isset($numbers[3]) and strlen($numbers[3])>3){
+                        $number .= '/'.$numbers[3];
+                        $seri = '/'.$numbers[3];
+                    }
+                    if(isset($numbers[1]) and strlen($numbers[1])==2){
+                        $number .= '/'.$numbers[1];
+                    }
+                    if(isset($numbers[2]) and strlen($numbers[2])==2){
+                        $number .= '/'.$numbers[2];
+                    }
+                    if(isset($numbers[0]) and strlen($numbers[0])==4){
+                        $number .= '/'.$numbers[0];
+                    }
+                }
+                $idx++;
+                $student = $trainingClassStudentCertificate->trainingClassStudent->trainingStudent->student;
+                $instansi = $student->unit->name;
+                if($student->satker>1){
+                    $eselon = 'eselon'.$student->satker;
+                    $instansi =$student->$eselon;
+                }
+                $data1[] = [
+                    'idx' => $idx,
+                    'number'=>$trainingClassStudentCertificate->number.$number,
+                    'name_student'=>$student->name,
+                    'nip_student'=>$student->nip,
+                    'satker_student'=>$instansi,
+                ];
+            }
+            $OpenTBS->MergeBlock('data1', $data1);
+
+            $training = \backend\models\Training::findOne($tb_training_id);
+
+            $programSubjectHistories = \backend\models\ProgramSubjectHistory::find()
+                ->where([
+                    'tb_program_id' => $training->tb_program_id,
+                    'revision' => $training->tb_program_revision,
+                    'status'=>1,
+                ])
+                ->all();
+            $idx1 = 1;
+            $idx2 = 1;
+            $idx3 = 1;
+            $data2=[];
+            $data3=[];
+            $data4=[];
+            foreach($programSubjectHistories as $programSubjectHistory){
+                if(in_array($programSubjectHistory->ref_subject_type_id,[2,3])){
+                    $data4[] = [
+                        'no' => $idx3++.'.',
+                        'name_subject'=>$programSubjectHistory->name,
+                    ];
+                }
+                else if($programSubjectHistory->test==1){
+                    $data2[] = [
+                        'no' => $idx1++.'.',
+                        'name_subject'=>$programSubjectHistory->name,
+                    ];
+                }
+                else{
+                    $data3[] = [
+                        'no' => $idx2++.'.',
+                        'name_subject'=>$programSubjectHistory->name,
+                    ];
+                }
+            }
+            $OpenTBS->MergeBlock('data2', $data2);
+            $OpenTBS->MergeBlock('data3', $data3);
+            $OpenTBS->MergeBlock('data4', $data4);
+
+            $signer = (int)Yii::$app->request->post('signer');
+            $employee = \backend\models\Employee::findOne($signer);
+            if(!null == $employee){
+                $name_signer = $employee->name;
+                $nip_signer = $employee->nip;
+                $position_signer = $employee->positionDesc;
+                $city_signer = Yii::$app->request->post('city_signer');
+                $date_signer = Yii::$app->request->post('date_signer');
+                $data[] = [
+                    'name_training'=>$training->name,
+                    'year_training'=>substr($training->start,0,4),
+                    'city_signer'=>$city_signer,
+                    'date_signer'=>\hscstudio\heart\helpers\Heart::twodate($date_signer),
+                    'position_signer'=>$position_signer,
+                    'name_signer'=>$name_signer,
+                    'nip_signer'=>$nip_signer,
+                ];
+                $OpenTBS->MergeBlock('data', $data);
+            }
+
+            // Output the result as a file on the server. You can change output file
+            $OpenTBS->Show(OPENTBS_DOWNLOAD, 'certificate_value_'.date('YmdHis').'.'.$filetype); // Also merges all [onshow] automatic fields.
+            exit;
+        } catch (\yii\base\ErrorException $e) {
+            Yii::$app->session->setFlash('error', 'Unable export there are some error');
+        }
+
+        return $this->redirect([
+            'certificate',
+            'tb_training_id'=>$tb_training_id,
+            'tb_training_class_id'=>$tb_training_class_id,
+        ]);
+    }
+
+    public function actionPrintBackendCertificate($tb_training_id,$tb_training_class_id,$filetype='docx'){
+        try {
+            $templates=[
+                'docx'=>'ms-word.docx',
+                'odt'=>'open-document.odt',
+                'xlsx'=>'ms-excel.xlsx'
+            ];
+            // Initalize the TBS instance
+            $OpenTBS = new \hscstudio\heart\extensions\OpenTBS; // new instance of TBS
+            // Change with Your template kaka
+            //$template = Yii::getAlias('@common').'/extensions/opentbs-template/'.$templates[$filetype];
+            $path = '';
+            if(isset(Yii::$app->params['uploadPath'])){
+                $path = Yii::$app->params['uploadPath'].DIRECTORY_SEPARATOR;
+            }
+            else{
+                $path = Yii::getAlias('@common').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR;
+            }
+            $template_path = $path . 'templates'.DIRECTORY_SEPARATOR.'pusdiklat'.DIRECTORY_SEPARATOR.'evaluation'.DIRECTORY_SEPARATOR;
+            $template = $template_path . 'skpp02.docx';
+
+            $OpenTBS->LoadTemplate($template); // Also merge some [onload] automatic fields (depends of the type of document).
+            //$OpenTBS->VarRef['modelName']= "TrainingClassStudentCertificate";
+
+            $data = [];
+            $training = \backend\models\Training::findOne($tb_training_id);
+            $programSubjectHistories = \backend\models\ProgramSubjectHistory::find()
+                ->where([
+                    'tb_program_id' => $training->tb_program_id,
+                    'revision' => $training->tb_program_revision,
+                    'status'=>1,
+                ])
+                ->all();
+            $idx = 1;
+            foreach($programSubjectHistories as $programSubjectHistory){
+                $data[] = [
+                    'no' => $idx++.'.',
+                    'name_subject'=>$programSubjectHistory->name,
+                ];
+            }
+            $OpenTBS->MergeBlock('data', $data);
+
+            $signer = (int)Yii::$app->request->post('signer');
+            $employee = \backend\models\Employee::findOne($signer);
+            if(!null == $employee){
+                $name_signer = $employee->name;
+                $nip_signer = $employee->nip;
+                $position_signer = $employee->positionDesc;
+                $city_signer = Yii::$app->request->post('city_signer');
+                $date_signer = Yii::$app->request->post('date_signer');
+                $data2[] = [
+                    'city_signer'=>$city_signer,
+                    'date_signer'=>\hscstudio\heart\helpers\Heart::twodate($date_signer),
+                    'position_signer'=>$position_signer,
+                    'name_signer'=>$name_signer,
+                    'nip_signer'=>$nip_signer,
+                ];
+                $OpenTBS->MergeBlock('data2', $data2);
+            }
+
+            // Output the result as a file on the server. You can change output file
+            $OpenTBS->Show(OPENTBS_DOWNLOAD, 'certificate_back_'.date('YmdHis').'.'.$filetype); // Also merges all [onshow] automatic fields.
+            exit;
+        } catch (\yii\base\ErrorException $e) {
+            Yii::$app->session->setFlash('error', 'Unable export there are some error');
+        }
+
+        return $this->redirect([
+            'certificate',
+            'tb_training_id'=>$tb_training_id,
+            'tb_training_class_id'=>$tb_training_class_id,
+        ]);
+    }
+
+    public function actionPrintStudentChecklist($tb_training_id,$tb_training_class_id,$filetype='xlsx'){
+
+        try {
+            if(in_array($filetype,['xlsx','xls'])){
+                $types=['xls'=>'Excel5','xlsx'=>'Excel2007'];
+                $objReader = \PHPExcel_IOFactory::createReader($types[$filetype]);
+                $path = '';
+                if(isset(Yii::$app->params['uploadPath'])){
+                    $path = Yii::$app->params['uploadPath'].DIRECTORY_SEPARATOR;
+                }
+                else{
+                    $path = Yii::getAlias('@common').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR;
+                }
+                $template_path = $path . 'templates'.DIRECTORY_SEPARATOR.'pusdiklat'.DIRECTORY_SEPARATOR.'evaluation'.DIRECTORY_SEPARATOR;
+                $template = $template_path . 'student.checklist.'.$filetype;
+                $objPHPExcel = $objReader->load($template);
+                $objPHPExcel->setActiveSheetIndex(0);
+                $activeSheet = $objPHPExcel->getActiveSheet();
+                $activeSheet->getPageSetup()->setOrientation(\PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
+                $activeSheet->getPageSetup()->setPaperSize(\PHPExcel_Worksheet_PageSetup::PAPERSIZE_FOLIO);
+                $objPHPExcel->getProperties()->setTitle("Student Checklist");
+                $training=\backend\models\Training::findOne($tb_training_id);
+
+                $idx=1;
+                $baseRow = 7; // start line 27
+
+                $trainingClassStudents=\backend\models\TrainingClassStudent::find()
+                    ->where([
+                        'tb_training_id' => $tb_training_id,
+                        'tb_training_class_id' => $tb_training_class_id,
+                        'status'=>1,
+                    ])
+                    ->all();
+                foreach($trainingClassStudents as $trainingClassStudent){
+                    if($idx==1){
+                        $activeSheet->setCellValue('A2', $training->name)
+                            ->setCellValue('A3', 'KELAS '. $trainingClassStudent->trainingClass->class)
+                            ->setCellValue('A4', 'TAHUN ANGGARAN '. substr($training->start,0,4));
+                    }
+                    $student = $trainingClassStudent->trainingStudent->student;
+                    $row = ($idx+$baseRow)-1;
+                    $eselon = $student->satker;
+                    $satker = [
+                        '1'=>$student->unit->shortname.' ',
+                        '2'=>$student->eselon2.' ',
+                        '3'=>$student->eselon3.' ',
+                        '4'=>$student->eselon4.' ',
+                    ];
+                    $studentSatker='-';
+                    if (strlen($satker[$eselon])>=3){
+                        $studentSatker = $satker[$eselon];
+                    }
+                    $activeSheet->setCellValue('A'.$row, $idx)
+                        ->setCellValue('B'.$row, $student->name)
+                        ->setCellValue('C'.$row, $student->nip.' ')
+                        ->setCellValue('D'.$row, $student->born.', '.date('d-m-Y',strtotime($student->birthDay)))
+                        ->setCellValue('E'.$row, $student->rankClass->name)
+                        ->setCellValue('F'.$row, $student->positionDesc)
+                        ->setCellValue('G'.$row, $studentSatker)
+                        ->setCellValue('H'.$row, $student->email)
+                        ->setCellValue('I'.$row, $student->phone)
+                    ;
+                    $idx++;
+                }
+
+                // Redirect output to a client?s web browser
+                header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                header('Content-Disposition: attachment;filename="student.checklist.'.$filetype.'"');
+                header('Cache-Control: max-age=0');
+                $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, $types[$filetype]);
+                $objWriter->save('php://output');
+                exit;
+            }
+        } catch (\yii\base\ErrorException $e) {
+            Yii::$app->session->setFlash('error', 'Unable export there are some error');
+        }
+
+        return $this->redirect([
+            'index',
+            'tb_training_id'=>$tb_training_id,
+            'tb_training_class_id'=>$tb_training_class_id,
+        ]);
+    }
+
+    public function actionPrintCertificateReceipt($tb_training_id,$tb_training_class_id,$filetype='xlsx'){
+
+        try {
+            if(in_array($filetype,['xlsx','xls'])){
+                $types=['xls'=>'Excel5','xlsx'=>'Excel2007'];
+                $objReader = \PHPExcel_IOFactory::createReader($types[$filetype]);
+                $path = '';
+                if(isset(Yii::$app->params['uploadPath'])){
+                    $path = Yii::$app->params['uploadPath'].DIRECTORY_SEPARATOR;
+                }
+                else{
+                    $path = Yii::getAlias('@common').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR;
+                }
+                $template_path = $path . 'templates'.DIRECTORY_SEPARATOR.'pusdiklat'.DIRECTORY_SEPARATOR.'evaluation'.DIRECTORY_SEPARATOR;
+                $template = $template_path . 'certificate.receipt.'.$filetype;
+                $objPHPExcel = $objReader->load($template);
+                $objPHPExcel->setActiveSheetIndex(0);
+                $activeSheet = $objPHPExcel->getActiveSheet();
+                $activeSheet->getPageSetup()->setOrientation(\PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
+                $activeSheet->getPageSetup()->setPaperSize(\PHPExcel_Worksheet_PageSetup::PAPERSIZE_FOLIO);
+                $objPHPExcel->getProperties()->setTitle("Tanda Terima Sertifikat");
+                $training=\backend\models\Training::findOne($tb_training_id);
+
+                $idx=0;
+                $baseRow = 12; // start line 12
+                $days = array('Minggu','Senin','Selasa','Rabu','Kamis','Jum\'at','Sabtu');
+                $months = array('Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember');
+                $trainingClassStudents=\backend\models\TrainingClassStudent::find()
+                    ->where([
+                        'tb_training_id' => $tb_training_id,
+                        'tb_training_class_id' => $tb_training_class_id,
+                        'status'=>1,
+                    ])
+                    ->all();
+                foreach($trainingClassStudents as $trainingClassStudent){
+                    $row = $baseRow + $idx;
+                    if($idx==1){
+                        $month=$months[date("n")-1];
+                        $day=$days[date("w")];
+                        $activeSheet->setCellValue('C6', $training->name.' T.A '.
+                            substr($training->start,0,4).
+                            ' Kelas '.$trainingClassStudent->trainingClass->class
+                        )
+                            ->setCellValue('C8',' '.$day.'. '.date('d').' '.$month.' '.date('Y'));
+                        ;
+                        $activeSheet->setCellValue('E18',Yii::$app->user->identity->employee->name);
+                        $activeSheet->setCellValue('E19','NIP '.Yii::$app->user->identity->employee->nip);
+                    }
+                    else{
+                        $activeSheet->insertNewRowBefore($row+1,1);
+                    }
+                    $student = $trainingClassStudent->trainingStudent->student;
+                    $eselon = $student->satker;
+                    $satker = [
+                        '1'=>$student->unit->shortname.' ',
+                        '2'=>$student->eselon2.' ',
+                        '3'=>$student->eselon3.' ',
+                        '4'=>$student->eselon4.' ',
+                    ];
+                    $studentSatker='-';
+                    if (strlen($satker[$eselon])>=3){
+                        $studentSatker = $satker[$eselon];
+                    }
+                    $activeSheet->setCellValue('A'.$row, $idx+1)
+                        ->setCellValue('B'.$row, $student->name)
+                        ->setCellValue('C'.$row, $student->nip.' ')
+                        ->setCellValue('D'.$row, $studentSatker)
+                    ;
+                    if(($idx+1)%2==1){
+                        $activeSheet->setCellValue('E'.$row,'=A'.$row);
+                    }
+                    else{
+                        $activeSheet->mergeCells('E'.($row-1).':E'.($row));
+                        $activeSheet->mergeCells('F'.($row-1).':F'.($row));
+                        $activeSheet->setCellValue('F'.($row-1),'=A'.$row);
+                    }
+                    $idx++;
+                }
+                if(($idx+1)%2<>1){
+                    $row = $baseRow + $idx;
+                    $activeSheet->insertNewRowBefore($row,1);
+                    $activeSheet->mergeCells('E'.($row-1).':E'.($row));
+                    $activeSheet->mergeCells('F'.($row-1).':F'.($row));
+                }
+                // Redirect output to a client?s web browser
+                header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                header('Content-Disposition: attachment;filename="student.checklist.'.$filetype.'"');
+                header('Cache-Control: max-age=0');
+                $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, $types[$filetype]);
+                $objWriter->save('php://output');
+                exit;
+            }
+        } catch (\yii\base\ErrorException $e) {
+            Yii::$app->session->setFlash('error', 'Unable export there are some error');
+        }
+
+        return $this->redirect([
+            'certificate',
+            'tb_training_id'=>$tb_training_id,
+            'tb_training_class_id'=>$tb_training_class_id,
+        ]);
+    }
 }

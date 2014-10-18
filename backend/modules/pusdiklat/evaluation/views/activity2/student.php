@@ -126,23 +126,8 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
             [
 				'class' => 'kartik\grid\ActionColumn',
-				'template' => '{update} {delete}',
+				'template' => '{update}',
 				'buttons' => [
-					'delete' => function ($url, $model) {
-								$icon='<span class="fa fa-fw fa-trash"></span>';
-								return Html::a($icon,
-									[
-										'delete-student','id'=>$model->training_id,'student_id'=>$model->student_id,
-										'training_student_id'=>$model->id
-									],
-									[
-										'class'=>'btn btn-default btn-xs',
-										'data-pjax'=>'0',
-										'data-confirm'=>'Areyou sure you want delete this item!',
-										'data-method'=>'post',
-									]
-								);
-							},
 					'update' => function ($url, $model) {
 								$icon='<span class="fa fa-fw fa-pencil"></span>';
 								return Html::a($icon,
@@ -160,12 +145,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
 		'panel' => [
 			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
-			'before'=> 
-				Html::a('<i class="fa fa-fw fa-plus-circle"></i> Daftarkan Peserta', [
-					'choose-student','id'=>$model->id
-				], [
-					'class' => 'btn btn-success','data-pjax'=>'0'
-				]),
+			'before'=> '',
 			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
@@ -173,47 +153,4 @@ $this->params['breadcrumbs'][] = $this->title;
 		'hover'=>true,
     ]); ?>
 	<?= \hscstudio\heart\widgets\Modal::widget() ?>
-</div>
-
-<div class="panel panel-default">
-	<div class="panel-heading">
-	<i class="glyphicon glyphicon-upload"></i> Batch Upload
-	</div>
-    <div class="panel-body">
-		<div class="row clearfix">
-			<div class="col-md-2">
-			Upload Student
-			</div>
-			<div class="col-md-2">
-			<?php
-			echo Html::a('template',
-						Url::to(['/file/download','file'=>'template/pusdiklat/execution/student_upload.xlsx']),
-						[
-							'class'=>'label label-default',
-							'data-pjax'=>'0',
-						]
-					);
-			?>
-			</div>
-			<div class="col-md-8">
-			<?php
-			echo Html::beginTag('div', ['class'=>'col-md-8']);
-				$form = \yii\bootstrap\ActiveForm::begin([
-					'options'=>['enctype'=>'multipart/form-data'],
-					'action'=>['import-student','id'=>$model->id], 
-				]);
-				echo \kartik\widgets\FileInput::widget([
-					'name' => 'importFile', 
-					//'options' => ['multiple' => true], 
-					'pluginOptions' => [
-						'previewFileType' => 'any',
-						'uploadLabel'=>"Import Excel",
-					]
-				]);
-				\yii\bootstrap\ActiveForm::end();
-			echo Html::endTag('div');
-			?>
-			</div>
-		</div>
-	</div>
 </div>

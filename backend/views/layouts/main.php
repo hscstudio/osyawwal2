@@ -89,10 +89,10 @@ AppAsset::register($this);
 				*/
                 $menuItemsLeft[] =
                     ['icon'=>'fa fa-building fa-fw','label' => 'PUSDIKLAT', 'url' => ['#'], 'items' => [
-                        ['icon'=>'fa fa-joomla fa-fw','label'=>'General', 'url'=> ['/pusdiklat-general/default/index'],'path'=>'pusdiklat-general'],
-						['icon'=>'fa fa-calendar fa-fw','label'=>'Planning', 'url'=> ['/pusdiklat-planning/default/index'],'path'=>'pusdiklat-planning'],
-						['icon'=>'fa fa-paper-plane fa-fw','label'=>'Execution', 'url'=> ['/pusdiklat-execution/default/index'],'path'=>'pusdiklat-execution'],
-						['icon'=>'fa fa-check-square-o fa-fw','label'=>'Evaluation', 'url'=> ['/pusdiklat-evaluation/default/index'],'path'=>'pusdiklat-evaluation'],
+                        ['icon'=>'fa fa-joomla fa-fw','label'=>'Tata Usaha', 'url'=> ['/pusdiklat-general/default/index'],'path'=>'pusdiklat-general'],
+						['icon'=>'fa fa-calendar fa-fw','label'=>'Perencanaan', 'url'=> ['/pusdiklat-planning/default/index'],'path'=>'pusdiklat-planning'],
+						['icon'=>'fa fa-paper-plane fa-fw','label'=>'Penyelenggaraan', 'url'=> ['/pusdiklat-execution/default/index'],'path'=>'pusdiklat-execution'],
+						['icon'=>'fa fa-check-square-o fa-fw','label'=>'Evaluasi', 'url'=> ['/pusdiklat-evaluation/default/index'],'path'=>'pusdiklat-evaluation'],
 						'<li class="divider"></li>',
                        ['icon'=>'fa fa-joomla fa-fw','label'=>'General', 'url'=> ['/pusdiklat2-general/default/index'],'path'=>'pusdiklat2-general' ],
                         ['icon'=>'fa fa-stack-overflow fa-fw','label'=>'Training', 'url'=> ['/pusdiklat2-training/default/index'],'path'=>'pusdiklat2-training' ],

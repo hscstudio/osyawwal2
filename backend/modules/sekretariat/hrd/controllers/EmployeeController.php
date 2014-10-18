@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\admin\controllers;
+namespace backend\modules\sekretariat\hrd\controllers;
 
 use Yii;
 use backend\models\Employee;
@@ -10,6 +10,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use hscstudio\heart\helpers\Heart;
+use yii\helpers\Json;
 
 /**
  * EmployeeController implements the CRUD actions for Employee model.
@@ -64,33 +65,33 @@ class EmployeeController extends Controller
     public function actionCreate($person_id='')
     {
         $model = new Employee();
-		$renders = [];
-		$renders['model'] = $model;
-		$renders['person_id'] = $person_id;
-		
-		$object_references_array = [
-			'unit'=>'Unit','finance_position'=>'Finance Position',
-			'fungsional'=>'Fungsional','widyaiswara'=>'Widyaiswara','pranata_komputer'=>'Pranata Komputer',
-			'pranata_komputer_terampil'=>'Pranata Komputer Terampil','pranata_komputer_ahli'=>'Pranata Komputer Ahli'];
-		$renders['object_references_array'] = $object_references_array;
-		foreach($object_references_array as $object_reference=>$label){
-			$object_references[$object_reference]= new ObjectReference();
-			$renders[$object_reference] = $object_references[$object_reference];
-		}		
-		
-        if ($model->load(Yii::$app->request->post())){ 
-			if($model->save()) {
-				Yii::$app->getSession()->setFlash('success', 'New data have saved.');
-				foreach($object_references_array as $object_reference=>$label){
-					$reference_id = Yii::$app->request->post('ObjectReference')[$object_reference]['reference_id'];
-					Heart::objectReference($object_references[$object_reference],$reference_id,'employee',$model->person_id,$object_reference);
-				}
-				return $this->redirect(['view', 'id' => $model->person_id]);
-			}
-			else{
-				Yii::$app->getSession()->setFlash('error', 'New data is not saved.');
-				return $this->render('create', $renders);
-			}            
+        $renders = [];
+        $renders['model'] = $model;
+        $renders['person_id'] = $person_id;
+
+        $object_references_array = [
+            'unit'=>'Unit','finance_position'=>'Finance Position',
+            'fungsional'=>'Fungsional','widyaiswara'=>'Widyaiswara','pranata_komputer'=>'Pranata Komputer',
+            'pranata_komputer_terampil'=>'Pranata Komputer Terampil','pranata_komputer_ahli'=>'Pranata Komputer Ahli'];
+        $renders['object_references_array'] = $object_references_array;
+        foreach($object_references_array as $object_reference=>$label){
+            $object_references[$object_reference]= new ObjectReference();
+            $renders[$object_reference] = $object_references[$object_reference];
+        }
+
+        if ($model->load(Yii::$app->request->post())){
+            if($model->save()) {
+                Yii::$app->getSession()->setFlash('success', 'New data have saved.');
+                foreach($object_references_array as $object_reference=>$label){
+                    $reference_id = Yii::$app->request->post('ObjectReference')[$object_reference]['reference_id'];
+                    Heart::objectReference($object_references[$object_reference],$reference_id,'employee',$model->person_id,$object_reference);
+                }
+                return $this->redirect(['view', 'id' => $model->person_id]);
+            }
+            else{
+                Yii::$app->getSession()->setFlash('error', 'New data is not saved.');
+                return $this->render('create', $renders);
+            }
         } else {
             return $this->render('create', $renders);
         }
@@ -105,42 +106,41 @@ class EmployeeController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-		
-		$renders = [];
-		$renders['model'] = $model;
-		
-		$object_references_array = [
-			'unit'=>'Unit','finance_position'=>'Finance Position',
-			'fungsional'=>'Fungsional','widyaiswara'=>'Widyaiswara','pranata_komputer'=>'Pranata Komputer',
-			'pranata_komputer_terampil'=>'Pranata Komputer Terampil','pranata_komputer_ahli'=>'Pranata Komputer Ahli'];		
-		$renders['object_references_array'] = $object_references_array;
-		foreach($object_references_array as $object_reference=>$label){
-			$object_references[$object_reference] = ObjectReference::find()
-				->where([
-					'object'=>'employee',
-					'object_id' => $id,
-					'type' => $object_reference, 
-				])
-				->one();
-			if($object_references[$object_reference]==null){
-				$object_references[$object_reference]= new ObjectReference();
-			}
-			$renders[$object_reference] = $object_references[$object_reference];
-		}	
-		
+        $renders = [];
+        $renders['model'] = $model;
+
+        $object_references_array = [
+            'unit'=>'Unit','finance_position'=>'Finance Position',
+            'fungsional'=>'Fungsional','widyaiswara'=>'Widyaiswara','pranata_komputer'=>'Pranata Komputer',
+            'pranata_komputer_terampil'=>'Pranata Komputer Terampil','pranata_komputer_ahli'=>'Pranata Komputer Ahli'];
+        $renders['object_references_array'] = $object_references_array;
+        foreach($object_references_array as $object_reference=>$label){
+            $object_references[$object_reference] = ObjectReference::find()
+                ->where([
+                    'object'=>'employee',
+                    'object_id' => $id,
+                    'type' => $object_reference,
+                ])
+                ->one();
+            if($object_references[$object_reference]==null){
+                $object_references[$object_reference]= new ObjectReference();
+            }
+            $renders[$object_reference] = $object_references[$object_reference];
+        }
+
         if ($model->load(Yii::$app->request->post())) {
             if($model->save()) {
-				Yii::$app->getSession()->setFlash('success', 'Data have updated.');
-				foreach($object_references_array as $object_reference=>$label){
-					$reference_id = Yii::$app->request->post('ObjectReference')[$object_reference]['reference_id'];
-					Heart::objectReference($object_references[$object_reference],$reference_id,'employee',$model->person_id,$object_reference);
-				}
-				return $this->redirect(['view', 'id' => $model->person_id]);
-			}
-			else{
-				Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
-				return $this->render('update', $renders);
-			}			
+                Yii::$app->getSession()->setFlash('success', 'Data have updated.');
+                foreach($object_references_array as $object_reference=>$label){
+                    $reference_id = Yii::$app->request->post('ObjectReference')[$object_reference]['reference_id'];
+                    Heart::objectReference($object_references[$object_reference],$reference_id,'employee',$model->person_id,$object_reference);
+                }
+                return $this->redirect(['view', 'id' => $model->person_id]);
+            }
+            else{
+                Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
+                return $this->render('update', $renders);
+            }
         } else {
             return $this->render('update', $renders);
         }
@@ -154,12 +154,12 @@ class EmployeeController extends Controller
      */
     public function actionDelete($id)
     {
-		if($this->findModel($id)->delete()) {
-			Yii::$app->getSession()->setFlash('success', 'Data have deleted.');
-		}
-		else{
-			Yii::$app->getSession()->setFlash('error', 'Data is not deleted.');
-		}
+        if($this->findModel($id)->delete()) {
+            Yii::$app->getSession()->setFlash('success', 'Data have deleted.');
+        }
+        else{
+            Yii::$app->getSession()->setFlash('error', 'Data is not deleted.');
+        }
         return $this->redirect(['index']);
     }
 
@@ -177,5 +177,32 @@ class EmployeeController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    // THE CONTROLLER
+    public function actionOrganisation() {
+        $out = [];
+
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $reference_id = (int)$parents[0];
+                $reference = \backend\models\Reference::findOne($reference_id);
+                if($reference!=null){
+                    $organisations = \backend\models\Organisation::find()
+                            ->select(['ID', 'NM_UNIT_ORG'])
+                            ->where(['JNS_KANTOR'=>$reference->parent_id])
+                            ->all();
+                    $out=[];
+                    foreach($organisations as $organisation){
+                        $out[]=['id'=>$organisation->ID,'name'=>$organisation->NM_UNIT_ORG];
+                    }
+                    echo Json::encode(['output'=>$out, 'selected'=>'']);
+                    return;
+                }
+            }
+        }
+
+        echo Json::encode(['output'=>'', 'selected'=>'']);
     }
 }

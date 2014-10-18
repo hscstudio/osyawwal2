@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 14, 2014 at 03:57 AM
+-- Generation Time: Oct 18, 2014 at 11:48 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.9
 
@@ -49,8 +49,8 @@ CREATE TABLE IF NOT EXISTS `activity` (
 --
 
 INSERT INTO `activity` (`id`, `satker_id`, `name`, `description`, `start`, `end`, `location`, `hostel`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(6, 23, 'PRANATA KOMPUTER AHLI AKT I', 'Desc', '2014-10-01 00:00:00', '2014-11-03 00:00:00', '23|-', 1, 1, '2014-10-03 05:16:47', 1, '2014-10-11 12:31:15', 1),
-(10, 22, 'Rapat Persiapan Diklat 1', '', '2014-10-15 00:00:00', '2014-10-15 00:00:00', '23|', 0, 1, '2014-10-13 15:51:01', 1, '2014-10-13 17:13:18', 1);
+(6, 23, 'PRANATA KOMPUTER AHLI AKT I', 'Desc', '2014-10-15 00:00:00', '2014-10-16 00:00:00', '23|-', 1, 1, '2014-10-03 05:16:47', 1, '2014-10-16 13:53:55', 1),
+(10, 23, 'Rapat Persiapan Diklat 1', '', '2014-10-15 00:00:00', '2014-10-15 00:00:00', '23|', 0, 1, '2014-10-13 15:51:01', 1, '2014-10-16 11:40:54', 1);
 
 -- --------------------------------------------------------
 
@@ -84,8 +84,9 @@ INSERT INTO `activity_history` (`id`, `revision`, `satker_id`, `name`, `descript
 (6, 0, 23, 'PRANATA KOMPUTER AHLI AKT I', 'Desc', '2014-10-01 00:00:00', '2014-11-03 00:00:00', '23|-', 1, 0, '2014-10-03 05:16:47', 1, '2014-10-11 06:19:13', 1),
 (6, 1, 23, 'PRANATA KOMPUTER AHLI AKT I', 'Desc', '2014-10-01 00:00:00', '2014-11-03 00:00:00', '23|-', 1, 0, '2014-10-03 05:16:47', 1, '2014-10-11 06:31:29', 1),
 (6, 2, 23, 'PRANATA KOMPUTER AHLI AKT I', 'Desc', '2014-10-01 00:00:00', '2014-11-03 00:00:00', '23|-', 1, 0, '2014-10-03 05:16:47', 1, '2014-10-11 12:31:15', 1),
+(6, 3, 23, 'PRANATA KOMPUTER AHLI AKT I', 'Desc', '2014-10-15 00:00:00', '2014-10-16 00:00:00', '23|-', 1, 1, '2014-10-03 05:16:47', 1, '2014-10-16 13:53:56', 1),
 (9, 0, 23, 'Rapat Persiapan Diklat 1', '', '2014-10-23 00:00:00', '2014-10-23 00:00:00', '23|-', 1, 1, '2014-10-13 14:21:07', 1, '2014-10-13 14:35:56', 1),
-(10, 0, 23, 'Rapat Persiapan Diklat 1', '', '2014-10-15 00:00:00', '2014-10-15 00:00:00', '23|', 0, 1, '2014-10-13 15:51:01', 1, '2014-10-13 17:13:18', 1);
+(10, 0, 23, 'Rapat Persiapan Diklat 1', '', '2014-10-15 00:00:00', '2014-10-15 00:00:00', '23|', 0, 1, '2014-10-13 15:51:01', 1, '2014-10-16 11:40:54', 1);
 
 -- --------------------------------------------------------
 
@@ -115,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `activity_room` (
 
 INSERT INTO `activity_room` (`activity_id`, `room_id`, `start`, `end`, `note`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
 (6, 1, '2014-10-01 08:00:00', '2014-11-03 17:00:00', 'Oke', 2, NULL, NULL, NULL, NULL),
-(10, 1, '2014-10-15 00:00:00', '2014-10-15 00:00:00', '', 2, NULL, NULL, NULL, NULL);
+(10, 1, '2014-10-15 00:00:00', '2014-10-15 00:00:00', '', 3, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -203,7 +204,7 @@ INSERT INTO `employee` (`person_id`, `satker_id`, `user_id`, `organisation_id`, 
 (13, 23, 5, 393, 0),
 (18, 23, 10, 394, 0),
 (19, 23, 11, 397, 0),
-(69, 23, 12, 393, 0);
+(69, 23, 12, 397, 0);
 
 -- --------------------------------------------------------
 
@@ -224,7 +225,7 @@ CREATE TABLE IF NOT EXISTS `file` (
   `modified` datetime DEFAULT NULL,
   `modified_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=25 ;
 
 --
 -- Dumping data for table `file`
@@ -235,7 +236,7 @@ INSERT INTO `file` (`id`, `name`, `file_name`, `file_type`, `file_size`, `descri
 (7, '542a8153a85ed.xls', '542a8153a85ed.xls', NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
 (8, '542a831218b3b.png', '542a831218b3b.png', NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
 (9, '542a85b49e638.jpg', '542a85b49e638.jpg', NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(10, '542b578aa3973.jpg', '542b578aa3973.jpg', NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(10, '542b578aa3973.jpg', '543f930c4424f.jpg', NULL, NULL, NULL, 1, NULL, NULL, '2014-10-16 16:42:36', 1),
 (11, '542cc59a5ef7f.jpg', '542cc59a5ef7f.jpg', NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
 (13, '542f2c659d4ad.png', '542f2c659d4ad.png', NULL, NULL, NULL, 1, '2014-10-04 06:08:21', 1, '2014-10-04 06:08:21', 1),
 (15, '542f2cedb662e.png', '542f2cedb662e.png', NULL, NULL, NULL, 0, '2014-10-04 06:10:37', 1, '2014-10-04 07:21:11', 1),
@@ -243,7 +244,11 @@ INSERT INTO `file` (`id`, `name`, `file_name`, `file_type`, `file_size`, `descri
 (17, '542f3595c99ce.png', '542f3595c99ce.png', NULL, NULL, NULL, 0, '2014-10-04 06:47:33', 1, '2014-10-04 06:47:33', 1),
 (18, '542f3ea1eed6b.png', '542f3ea1eed6b.png', NULL, NULL, NULL, 0, '2014-10-04 07:26:09', 1, '2014-10-04 07:26:09', 1),
 (19, '542f6dee465ce.jpg', '542f6dee465ce.jpg', NULL, NULL, NULL, 0, '2014-10-04 10:47:58', 1, '2014-10-04 10:47:58', 1),
-(20, 'OK', '542f6e9881de8.png', NULL, NULL, NULL, 1, '2014-10-04 10:50:48', 1, '2014-10-04 12:44:08', 1);
+(20, 'OK', '542f6e9881de8.png', NULL, NULL, NULL, 1, '2014-10-04 10:50:48', 1, '2014-10-04 12:44:08', 1),
+(21, '543f92c990d99.png', '543f92c990d99.png', NULL, NULL, NULL, 1, '2014-10-16 16:41:29', 1, '2014-10-16 16:41:29', 1),
+(22, '543f93245a741.JPG', '543f93245a741.JPG', NULL, NULL, NULL, 1, '2014-10-16 16:43:00', 1, '2014-10-16 16:43:00', 1),
+(23, '5442105a051fd.jpg', '5442105a051fd.jpg', NULL, NULL, NULL, 1, '2014-10-18 14:01:46', 1, '2014-10-18 14:01:46', 1),
+(24, '5441ca217fee4.jpg', '5441ca217fee4.jpg', NULL, NULL, NULL, 1, '2014-10-18 09:02:09', 1, '2014-10-18 09:02:09', 1);
 
 -- --------------------------------------------------------
 
@@ -355,7 +360,11 @@ INSERT INTO `object_file` (`object`, `object_id`, `type`, `file_id`) VALUES
 ('program', 2, 'gbpp', 17),
 ('program', 2, 'gbpp', 18),
 ('program', 2, 'module', 19),
-('program', 2, 'module', 20);
+('program', 2, 'module', 20),
+('person', 18, 'photo', 21),
+('person', 69, 'photo', 22),
+('person', 22, 'photo', 23),
+('person', 19, 'photo', 24);
 
 -- --------------------------------------------------------
 
@@ -457,6 +466,7 @@ INSERT INTO `object_reference` (`object`, `object_id`, `type`, `reference_id`) V
 ('person', 12, 'rank_class', NULL),
 ('person', 12, 'religion', NULL),
 ('person', 12, 'satker', NULL),
+('person', 12, 'unit', NULL),
 ('person', 13, 'graduate', NULL),
 ('person', 14, 'graduate', NULL),
 ('person', 14, 'rank_class', NULL),
@@ -464,12 +474,17 @@ INSERT INTO `object_reference` (`object`, `object_id`, `type`, `reference_id`) V
 ('person', 18, 'graduate', NULL),
 ('person', 18, 'rank_class', NULL),
 ('person', 18, 'religion', NULL),
+('person', 18, 'unit', NULL),
 ('person', 19, 'graduate', NULL),
 ('person', 19, 'rank_class', NULL),
 ('person', 19, 'religion', NULL),
+('person', 19, 'unit', NULL),
 ('person', 20, 'graduate', NULL),
 ('person', 20, 'rank_class', NULL),
 ('person', 20, 'religion', NULL),
+('person', 22, 'graduate', NULL),
+('person', 22, 'rank_class', NULL),
+('person', 22, 'religion', NULL),
 ('person', 69, 'graduate', NULL),
 ('person', 69, 'rank_class', NULL),
 ('person', 69, 'religion', NULL),
@@ -695,7 +710,7 @@ INSERT INTO `person` (`id`, `nip`, `name`, `nickname`, `front_title`, `back_titl
 (19, '', 'Muhammad Asyrofi', '', '', '', '19890426', '', '', NULL, 0, '', '', '', '', '', '', '', '', '', 0, '', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
 (20, '198606052007011002', 'Ageng Budi Widiarto', '', '', '', '198606052007011002', '', '', '1986-06-05', 1, '', '', '', '', '', '', '', '', '', 0, '-', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
 (21, '197305071993011001', 'Agung Nana Permana', NULL, NULL, NULL, '197305071993011001', NULL, NULL, '1973-05-07', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(22, '198704302008121003', 'Andre Harahap', NULL, NULL, NULL, '198704302008121003', NULL, NULL, '1987-04-30', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(22, '198704302008121003', 'Andre Harahap', '', 'Dr', '', '198704302008121003', '', 'Italy', '1987-04-30', 1, '', '', '', '', '', '', '', '', '', 0, '-', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
 (23, '196501011985032003', 'Anne Akbari N. H. C.', NULL, NULL, NULL, '196501011985032003', NULL, NULL, '1965-01-01', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
 (24, '196712111988021001', 'Armanzah', NULL, NULL, NULL, '196712111988021001', NULL, NULL, '1967-12-11', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
 (25, '197704291998031002', 'Bahrahmat Simamora', NULL, NULL, NULL, '197704291998031002', NULL, NULL, '1977-04-29', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
@@ -786,7 +801,7 @@ CREATE TABLE IF NOT EXISTS `program` (
   `modified` datetime DEFAULT NULL,
   `modified_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `program`
@@ -794,8 +809,9 @@ CREATE TABLE IF NOT EXISTS `program` (
 
 INSERT INTO `program` (`id`, `satker_id`, `number`, `name`, `hours`, `days`, `test`, `note`, `stage`, `category`, `validation_status`, `validation_note`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
 (1, 0, '2.2.0.0', 'PRANATA KOMPUTER AHLI', NULL, NULL, 0, '', 'Komputer|Akuntansi', '', 0, '', 1, NULL, NULL, NULL, NULL),
-(2, 23, '2.2.1.0', 'PRANATA KOMPUTER AHLI M', '300.00', 30, 1, '-', 'Kebijakan Fiskal,Penganggaran', '3', 1, '', 1, NULL, NULL, '2014-10-11 12:55:07', 1),
-(3, 23, '1.0.0.0', 'Apa sih', NULL, NULL, 0, '', '', '', 0, NULL, 1, '2014-10-08 16:24:51', 1, '2014-10-11 05:30:25', 1);
+(2, 23, '2.2.1.0', 'PRANATA KOMPUTER AHLI M', '300.00', 30, 1, '-', 'Kebijakan Fiskal,Penganggaran', '3', 1, '', 1, NULL, NULL, '2014-10-17 17:42:30', 1),
+(3, 23, '1.0.0.0', 'Apa sih', NULL, NULL, 0, '', '', '', 0, NULL, 1, '2014-10-08 16:24:51', 1, '2014-10-17 17:42:37', 1),
+(4, 23, '2.3.2.0', 'NAMA', NULL, NULL, 0, '', '', '', 0, NULL, 1, '2014-10-17 23:39:10', 1, '2014-10-17 23:39:10', 1);
 
 -- --------------------------------------------------------
 
@@ -833,8 +849,9 @@ INSERT INTO `program_history` (`id`, `revision`, `satker_id`, `number`, `name`, 
 (2, 0, 23, '2.2.1.0', 'PRANATA KOMPUTER AHLI', '300.00', 30, 1, '-', 'Kebijakan Fiskal,Penganggaran', '3', 1, '', 1, NULL, NULL, '2014-10-04 10:53:05', 1),
 (2, 1, 23, '2.2.1.0', 'PRANATA KOMPUTER AHLI REV', '300.00', 30, 1, '-', 'Kebijakan Fiskal,Penganggaran', '3', 1, '', 1, NULL, NULL, '2014-10-11 12:50:23', 1),
 (2, 2, 23, '2.2.1.0', 'PRANATA KOMPUTER AHLI', '300.00', 30, 1, '-', 'Kebijakan Fiskal,Penganggaran', '3', 1, '', 1, NULL, NULL, '2014-10-11 12:54:01', 1),
-(2, 3, 23, '2.2.1.0', 'PRANATA KOMPUTER AHLI M', '300.00', 30, 1, '-', 'Kebijakan Fiskal,Penganggaran', '3', 1, '', 1, NULL, NULL, '2014-10-11 12:55:07', 1),
-(3, 0, 23, '1.0.0.0', 'Apa sih', NULL, NULL, 0, '', '', '', 0, NULL, 1, '2014-10-08 16:24:51', 1, '2014-10-11 05:30:25', 1);
+(2, 3, 23, '2.2.1.0', 'PRANATA KOMPUTER AHLI M', '300.00', 30, 1, '-', 'Kebijakan Fiskal,Penganggaran', '3', 1, '', 1, NULL, NULL, '2014-10-17 17:42:30', 1),
+(3, 0, 23, '1.0.0.0', 'Apa sih', NULL, NULL, 0, '', '', '', 0, NULL, 1, '2014-10-08 16:24:51', 1, '2014-10-17 17:42:37', 1),
+(4, 0, 23, '2.3.2.0', 'NAMA', NULL, NULL, 0, '', '', '', NULL, NULL, 1, '2014-10-17 23:39:10', 1, '2014-10-17 23:39:10', 1);
 
 -- --------------------------------------------------------
 
@@ -953,26 +970,26 @@ INSERT INTO `reference` (`id`, `parent_id`, `type`, `name`, `value`, `sort`, `st
 (14, 2, 'program_code', 'UJIAN PENYESUAIN KENAIKAN PANGKAT', '2.5.0.0', 0, 1, NULL, NULL, NULL, NULL),
 (15, 2, 'program_code', 'DIKLAT PENYEGARAN', '2.6.0.0', 0, 1, NULL, NULL, NULL, NULL),
 (16, 0, 'program_code', 'SERTIFIKASI', '3.0.0.0', 0, 1, NULL, NULL, NULL, NULL),
-(17, 0, 'satker', 'Sekretariat Badan', '2', 1, 1, NULL, NULL, NULL, NULL),
-(18, 0, 'satker', 'Pusdiklat PSDM', '2', 2, 1, NULL, NULL, NULL, NULL),
-(19, 0, 'satker', 'Pusdiklat AP', '2', 3, 1, NULL, NULL, NULL, NULL),
-(20, 0, 'satker', 'Pusdiklat Pajak', '2', 4, 1, NULL, NULL, NULL, NULL),
-(21, 0, 'satker', 'Pusdiklat BC', '2', 5, 1, NULL, NULL, NULL, NULL),
-(22, 0, 'satker', 'Pusdiklat KNPK', '2', 6, 1, NULL, NULL, NULL, NULL),
-(23, 0, 'satker', 'Pusdiklat Keuangan Umum', '2', 7, 1, NULL, NULL, NULL, NULL),
-(24, 0, 'satker', 'Sekolah Tinggi Akuntansi Negara', '2', 8, 1, NULL, NULL, NULL, NULL),
-(25, 0, 'satker', 'Balai Diklat Keuangan Medan', '3', 9, 1, NULL, NULL, NULL, NULL),
-(26, 0, 'satker', 'Balai Diklat Keuangan Palembang', '3', 10, 1, NULL, NULL, NULL, NULL),
-(27, 0, 'satker', 'Balai Diklat Keuangan Yogyakarta', '3', 11, 1, NULL, NULL, NULL, NULL),
-(28, 0, 'satker', 'Balai Diklat Keuangan Malang', '3', 12, 1, NULL, NULL, NULL, NULL),
-(29, 0, 'satker', 'BDK Balikpapan', '3', 13, 1, NULL, NULL, NULL, NULL),
-(30, 0, 'satker', 'BDK Makassar', '3', 14, 1, NULL, NULL, NULL, NULL),
-(31, 0, 'satker', 'Balai Diklat Keuangan Cimahi', '3', 15, 1, NULL, NULL, NULL, NULL),
-(32, 0, 'satker', 'Balai Diklat Keuangan Manado', '3', 16, 1, NULL, NULL, NULL, NULL),
-(33, 0, 'satker', 'Balai Diklat Keuangan Pekanbaru', '3', 17, 1, NULL, NULL, NULL, NULL),
-(34, 0, 'satker', 'Balai Diklat Keuangan Pontianak', '3', 18, 1, NULL, NULL, NULL, NULL),
-(35, 0, 'satker', 'Balai Diklat Keuangan Denpasar', '3', 19, 1, NULL, NULL, NULL, NULL),
-(36, 0, 'satker', 'Balai Diklat Keuangan Magelang', '3', 20, 1, NULL, NULL, NULL, NULL),
+(17, 2, 'satker', 'Sekretariat Badan', '2', 1, 1, NULL, NULL, NULL, NULL),
+(18, 3, 'satker', 'Pusdiklat PSDM', '2', 2, 1, NULL, NULL, NULL, NULL),
+(19, 13, 'satker', 'Pusdiklat AP', '2', 3, 1, NULL, NULL, NULL, NULL),
+(20, 13, 'satker', 'Pusdiklat Pajak', '2', 4, 1, NULL, NULL, NULL, NULL),
+(21, 13, 'satker', 'Pusdiklat BC', '2', 5, 1, NULL, NULL, NULL, NULL),
+(22, 13, 'satker', 'Pusdiklat KNPK', '2', 6, 1, NULL, NULL, NULL, NULL),
+(23, 13, 'satker', 'Pusdiklat Keuangan Umum', '2', 7, 1, NULL, NULL, NULL, NULL),
+(24, 9, 'satker', 'Sekolah Tinggi Akuntansi Negara', '2', 8, 1, NULL, NULL, NULL, NULL),
+(25, 10, 'satker', 'Balai Diklat Keuangan Medan', '3', 9, 1, NULL, NULL, NULL, NULL),
+(26, 10, 'satker', 'Balai Diklat Keuangan Palembang', '3', 10, 1, NULL, NULL, NULL, NULL),
+(27, 10, 'satker', 'Balai Diklat Keuangan Yogyakarta', '3', 11, 1, NULL, NULL, NULL, NULL),
+(28, 10, 'satker', 'Balai Diklat Keuangan Malang', '3', 12, 1, NULL, NULL, NULL, NULL),
+(29, 10, 'satker', 'BDK Balikpapan', '3', 13, 1, NULL, NULL, NULL, NULL),
+(30, 10, 'satker', 'BDK Makassar', '3', 14, 1, NULL, NULL, NULL, NULL),
+(31, 10, 'satker', 'Balai Diklat Keuangan Cimahi', '3', 15, 1, NULL, NULL, NULL, NULL),
+(32, 10, 'satker', 'Balai Diklat Keuangan Manado', '3', 16, 1, NULL, NULL, NULL, NULL),
+(33, 10, 'satker', 'Balai Diklat Keuangan Pekanbaru', '3', 17, 1, NULL, NULL, NULL, NULL),
+(34, 10, 'satker', 'Balai Diklat Keuangan Pontianak', '3', 18, 1, NULL, NULL, NULL, NULL),
+(35, 10, 'satker', 'Balai Diklat Keuangan Denpasar', '3', 19, 1, NULL, NULL, NULL, NULL),
+(36, 10, 'satker', 'Balai Diklat Keuangan Magelang', '3', 20, 1, NULL, NULL, NULL, NULL),
 (37, 0, 'graduate', '-', '', 0, 1, NULL, NULL, NULL, NULL),
 (38, 0, 'graduate', 'SD', '', 0, 1, NULL, NULL, NULL, NULL),
 (39, 0, 'graduate', 'SMP', '', 0, 1, NULL, NULL, NULL, NULL),
@@ -1151,6 +1168,32 @@ INSERT INTO `room` (`id`, `satker_id`, `code`, `name`, `capacity`, `owner`, `com
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `satker`
+--
+
+CREATE TABLE IF NOT EXISTS `satker` (
+  `reference_id` int(11) NOT NULL,
+  `letter_number` varchar(10) DEFAULT NULL,
+  `eselon` int(1) DEFAULT NULL,
+  `address` text,
+  `city` varchar(50) DEFAULT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `fax` varchar(50) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `website` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`reference_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `satker`
+--
+
+INSERT INTO `satker` (`reference_id`, `letter_number`, `eselon`, `address`, `city`, `phone`, `fax`, `email`, `website`) VALUES
+(23, '', 0, '', 'Jakarta', '', '', '', '');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `student`
 --
 
@@ -1178,7 +1221,7 @@ CREATE TABLE IF NOT EXISTS `student` (
 INSERT INTO `student` (`person_id`, `username`, `password_hash`, `auth_key`, `password_reset_token`, `eselon2`, `eselon3`, `eselon4`, `satker`, `no_sk`, `tmt_sk`, `status`) VALUES
 (20, '198606052007011002', '$2y$13$6u3NSw0Cugy6.mIfpuEePeGm2YjkhhO6eO7.oTPRipGye89uERP9W', '', NULL, '', '', '', NULL, NULL, NULL, 1),
 (21, '197305071993011001', '$2y$13$EVY1EyleAIqwB1Fd7bWjPe1qYdw4R82FX6Y6BYAcJ8b5kc6xD1wKC', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(22, '198704302008121003', '$2y$13$EVY1EyleAIqwB1Fd7bWjPe1qYdw4R82FX6Y6BYAcJ8b5kc6xD1wKC', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(22, '198704302008121003', '$2y$13$tet81mv5w9jh7S5LAXRVi.Sa/YlbW3tmhzubzaJa72LP2Rzvwf0Mi', '', NULL, '', '', '', NULL, NULL, NULL, 1),
 (23, '196501011985032003', '$2y$13$EVY1EyleAIqwB1Fd7bWjPe1qYdw4R82FX6Y6BYAcJ8b5kc6xD1wKC', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
 (24, '196712111988021001', '$2y$13$EVY1EyleAIqwB1Fd7bWjPe1qYdw4R82FX6Y6BYAcJ8b5kc6xD1wKC', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
 (25, '197704291998031002', '$2y$13$EVY1EyleAIqwB1Fd7bWjPe1qYdw4R82FX6Y6BYAcJ8b5kc6xD1wKC', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
@@ -1286,7 +1329,7 @@ CREATE TABLE IF NOT EXISTS `training` (
 --
 
 INSERT INTO `training` (`activity_id`, `program_id`, `program_revision`, `number`, `note`, `regular`, `stakeholder`, `student_count_plan`, `class_count_plan`, `execution_sk`, `result_sk`, `cost_source`, `cost_plan`, `cost_real`, `approved_status`, `approved_note`, `approved_date`, `approved_by`) VALUES
-(6, 2, 3, '2014-07-00-2.2.1.0.1', '', 1, '', 26, 3, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL);
+(6, 2, 3, '2014-07-00-2.2.1.0.3', '', 1, '', 26, 3, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1344,7 +1387,53 @@ CREATE TABLE IF NOT EXISTS `training_class_student` (
   KEY `fk_tb_training_subject_student_tb_training_assignment1` (`training_class_id`),
   KEY `fk_tb_training_subject_student_tb_student1` (`training_student_id`),
   KEY `tb_training_id` (`training_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=191 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=41 ;
+
+--
+-- Dumping data for table `training_class_student`
+--
+
+INSERT INTO `training_class_student` (`id`, `training_id`, `training_class_id`, `training_student_id`, `number`, `head_class`, `activity`, `presence`, `pre_test`, `post_test`, `test`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
+(1, 6, 8, 148, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(2, 6, 8, 128, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(3, 6, 8, 131, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(4, 6, 8, 112, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(5, 6, 8, 137, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(6, 6, 8, 114, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(7, 6, 8, 149, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(8, 6, 8, 146, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(9, 6, 8, 103, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(10, 6, 8, 109, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(11, 6, 8, 124, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(12, 6, 8, 113, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(13, 6, 8, 135, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(14, 6, 8, 132, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(15, 6, 8, 144, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(16, 6, 8, 133, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(17, 6, 8, 111, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(18, 6, 8, 121, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(19, 6, 8, 123, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(20, 6, 8, 117, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(21, 6, 8, 141, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(22, 6, 8, 127, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(23, 6, 8, 106, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(24, 6, 8, 119, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(25, 6, 8, 118, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(26, 6, 8, 110, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(27, 6, 8, 105, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(28, 6, 8, 145, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(29, 6, 8, 129, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(30, 6, 8, 115, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(31, 6, 8, 143, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(32, 6, 8, 147, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(33, 6, 8, 140, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(34, 6, 8, 139, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(35, 6, 8, 108, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(36, 6, 8, 136, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(37, 6, 8, 104, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(38, 6, 8, 126, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(39, 6, 8, 116, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(40, 6, 8, 107, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1366,7 +1455,93 @@ CREATE TABLE IF NOT EXISTS `training_class_student_attendance` (
   PRIMARY KEY (`id`),
   KEY `tb_training_schedule_id` (`training_schedule_id`),
   KEY `tb_training_class_student_id` (`training_class_student_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=81 ;
+
+--
+-- Dumping data for table `training_class_student_attendance`
+--
+
+INSERT INTO `training_class_student_attendance` (`id`, `training_schedule_id`, `training_class_student_id`, `hours`, `reason`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
+(1, 27, 1, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(2, 27, 2, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(3, 27, 3, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(4, 27, 4, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(5, 27, 5, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(6, 27, 6, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(7, 27, 7, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(8, 27, 8, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(9, 27, 9, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(10, 27, 10, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(11, 27, 11, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(12, 27, 12, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(13, 27, 13, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(14, 27, 14, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(15, 27, 15, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(16, 27, 16, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(17, 27, 17, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(18, 27, 18, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(19, 27, 19, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(20, 27, 20, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(21, 27, 21, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(22, 27, 22, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(23, 27, 23, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(24, 27, 24, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(25, 27, 25, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(26, 27, 26, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(27, 27, 27, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(28, 27, 28, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(29, 27, 29, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(30, 27, 30, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(31, 27, 31, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(32, 27, 32, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(33, 27, 33, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(34, 27, 34, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(35, 27, 35, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(36, 27, 36, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(37, 27, 37, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(38, 27, 38, '1.00', NULL, 1, NULL, NULL, NULL, NULL),
+(39, 27, 39, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(40, 27, 40, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(41, 28, 1, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(42, 28, 2, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(43, 28, 3, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(44, 28, 4, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(45, 28, 5, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(46, 28, 6, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(47, 28, 7, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(48, 28, 8, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(49, 28, 9, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(50, 28, 10, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(51, 28, 11, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(52, 28, 12, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(53, 28, 13, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(54, 28, 14, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(55, 28, 15, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(56, 28, 16, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(57, 28, 17, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(58, 28, 18, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(59, 28, 19, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(60, 28, 20, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(61, 28, 21, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(62, 28, 22, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(63, 28, 23, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(64, 28, 24, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(65, 28, 25, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(66, 28, 26, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(67, 28, 27, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(68, 28, 28, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(69, 28, 29, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(70, 28, 30, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(71, 28, 31, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(72, 28, 32, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(73, 28, 33, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(74, 28, 34, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(75, 28, 35, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(76, 28, 36, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(77, 28, 37, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(78, 28, 38, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(79, 28, 39, '2.00', NULL, 1, NULL, NULL, NULL, NULL),
+(80, 28, 40, '2.00', NULL, 1, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1395,6 +1570,15 @@ CREATE TABLE IF NOT EXISTS `training_class_student_certificate` (
   PRIMARY KEY (`training_class_student_id`),
   KEY `fk_tb_training_certificate_tb_training1` (`training_class_student_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `training_class_student_certificate`
+--
+
+INSERT INTO `training_class_student_certificate` (`training_class_student_id`, `number`, `seri`, `date`, `position`, `position_desc`, `graduate`, `graduate_desc`, `eselon2`, `eselon3`, `eselon4`, `satker`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
+(9, '0001', '0001', '2014-10-18', NULL, '', NULL, '', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(27, '0003', '0003', '2014-10-18', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(37, '0002', '0002', '2014-10-18', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1515,7 +1699,8 @@ INSERT INTO `training_history` (`activity_id`, `revision`, `program_id`, `progra
 (6, 0, 2, 0, '2014-07-00-2.2.1.0.1', '', 1, '', 26, 3, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 1, 2, 0, '2014-07-00-2.2.1.0.1', '', 1, '', 26, 3, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 2, 2, 0, '2014-07-00-2.2.1.0.1', '', 1, '', 26, 3, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(6, 3, 2, 0, '2014-07-00-2.2.1.0.1', '', 1, '', 26, 3, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL);
+(6, 3, 2, 0, '2014-07-00-2.2.1.0.1', '', 1, '', 26, 3, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
+(6, 4, 2, 3, '2014-07-00-2.2.1.0.3', '', 1, '', 26, 3, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1543,7 +1728,7 @@ CREATE TABLE IF NOT EXISTS `training_schedule` (
   KEY `tb_activity_room_id` (`activity_room_id`),
   KEY `tb_training_class_subject_assignment_id` (`training_class_subject_id`),
   KEY `tb_training_class_id` (`training_class_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=29 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=30 ;
 
 --
 -- Dumping data for table `training_schedule`
@@ -1551,7 +1736,8 @@ CREATE TABLE IF NOT EXISTS `training_schedule` (
 
 INSERT INTO `training_schedule` (`id`, `training_class_id`, `training_class_subject_id`, `activity_room_id`, `activity`, `pic`, `hours`, `start`, `end`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
 (27, 8, 10, 1, '', '', '2.00', '2014-10-01 11:00:00', '2014-10-01 12:30:00', 1, NULL, NULL, NULL, NULL),
-(28, 8, 11, 1, '', '', '2.00', '2014-10-01 12:30:00', '2014-10-01 14:00:00', 1, NULL, NULL, NULL, NULL);
+(28, 8, 11, 1, '', '', '2.00', '2014-10-01 12:30:00', '2014-10-01 14:00:00', 1, NULL, NULL, NULL, NULL),
+(29, 8, 10, 1, '', '', '3.00', '2014-10-15 08:00:00', '2014-10-15 10:15:00', 1, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1576,16 +1762,18 @@ CREATE TABLE IF NOT EXISTS `training_schedule_trainer` (
   UNIQUE KEY `tb_training_schedule_id` (`training_schedule_id`,`trainer_id`),
   KEY `tb_training_class_subject_assignment_id` (`trainer_id`),
   KEY `tb_training_class_id` (`training_schedule_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `training_schedule_trainer`
 --
 
 INSERT INTO `training_schedule_trainer` (`id`, `training_schedule_id`, `type`, `trainer_id`, `hours`, `reason`, `cost`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 27, 113, 12, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(2, 28, 113, 1, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(3, 28, 114, 13, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL);
+(1, 27, 113, 12, '1.00', NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(2, 28, 113, 1, '2.00', NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(3, 28, 114, 13, '2.00', NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(4, 29, 113, 12, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(5, 29, 114, 13, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1613,7 +1801,7 @@ CREATE TABLE IF NOT EXISTS `training_student` (
 --
 
 INSERT INTO `training_student` (`id`, `training_id`, `student_id`, `note`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(103, 6, 22, NULL, 1, NULL, NULL, NULL, NULL),
+(103, 6, 22, '', 1, NULL, NULL, NULL, NULL),
 (104, 6, 23, NULL, 1, NULL, NULL, NULL, NULL),
 (105, 6, 24, NULL, 1, NULL, NULL, NULL, NULL),
 (106, 6, 25, NULL, 1, NULL, NULL, NULL, NULL),
@@ -1796,8 +1984,8 @@ ALTER TABLE `employee`
 -- Constraints for table `meeting`
 --
 ALTER TABLE `meeting`
-  ADD CONSTRAINT `meeting_ibfk_2` FOREIGN KEY (`organisation_id`) REFERENCES `organisation` (`ID`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `meeting_ibfk_1` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `meeting_ibfk_1` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `meeting_ibfk_2` FOREIGN KEY (`organisation_id`) REFERENCES `organisation` (`ID`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `menu`
@@ -1828,6 +2016,12 @@ ALTER TABLE `object_reference`
 --
 ALTER TABLE `program_subject`
   ADD CONSTRAINT `program_subject_ibfk_1` FOREIGN KEY (`program_id`) REFERENCES `program` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `satker`
+--
+ALTER TABLE `satker`
+  ADD CONSTRAINT `satker_ibfk_1` FOREIGN KEY (`reference_id`) REFERENCES `reference` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `student`

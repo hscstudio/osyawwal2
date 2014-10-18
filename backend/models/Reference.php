@@ -72,4 +72,12 @@ class Reference extends \yii\db\ActiveRecord
     {
         return $this->hasMany(ObjectReference::className(), ['object_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSatker()
+    {
+        return $this->hasOne(Satker::className(), ['reference_id' => 'id']);
+    }
 }
