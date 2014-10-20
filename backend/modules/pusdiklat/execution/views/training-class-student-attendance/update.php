@@ -177,7 +177,7 @@ echo AlertBlock::widget([
 								'style' => 'margin-right:5px',
 								'data-pjax' => '0'
 							]).
-						Html::a('<i class="fa fa-fw fa-table"></i> Print Attendance Recapitulation', [
+						Html::a('<i class="fa fa-fw fa-table"></i> Print Attendance Recapitulation for This Class', [
 								'recap',
 								'training_schedule_id' => $training_schedule_id
 							],
