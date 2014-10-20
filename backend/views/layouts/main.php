@@ -68,12 +68,15 @@ AppAsset::register($this);
 					];
 				};
 				
-                $menuItemsLeft[] =
-                    ['icon'=>'fa fa-android fa-fw','label' => 'ADMIN', 'url' => ['/administrator/default/index'], 'items' => [
-                        ['icon'=>'fa fa-cog fa-fw fa-spin','label'=>'Generator', 'url'=> ['/gii']],
-                        ['icon'=>'fa fa-warning fa-fw','label'=>'Privileges', 'url'=> ['/privilege/assigment'],'path'=>'privilege'],
-                        ['icon'=>'fa fa-key fa-fw','label'=>'Users', 'url'=> ['/admin/default'],'path'=>'/admin/'],
-                    ]];
+				if(\Yii::$app->user->can('Super Administrator')){
+					$menuItemsLeft[] =
+						['icon'=>'fa fa-android fa-fw','label' => 'ADMIN', 'url' => ['/administrator/default/index'], 'items' => [
+							['icon'=>'fa fa-cog fa-fw fa-spin','label'=>'Generator', 'url'=> ['/gii']],
+							['icon'=>'fa fa-warning fa-fw','label'=>'Privileges', 'url'=> ['/privilege/assigment'],'path'=>'privilege'],
+							['icon'=>'fa fa-key fa-fw','label'=>'Users', 'url'=> ['/admin/default'],'path'=>'/admin/'],
+						]];
+				}
+				
 				$menuItemsLeft[] =
                     ['icon'=>'fa fa-home fa-fw','label' => 'SEKRETARIAT', 'url' => '#', 'items' => [
                         ['icon'=>'fa fa-sitemap fa-fw','label'=>'Organisation', 'url'=> ['/sekretariat-organisation/default/index'],'path'=>'sekretariat-organisation' ],
