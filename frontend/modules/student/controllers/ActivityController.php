@@ -243,6 +243,38 @@ class ActivityController extends Controller
 			'model' => $model,
         ]);
     }
+	
+	public function actionTrainingExecutionEvaluation($training_id)
+    {
+        $id = base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_id));
+		$model = $this->findModel($id);
+		$searchModel = new TrainingStudentSearch([
+			'training_id' => $id,
+		]);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('trainingEvaluation', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+			'model' => $model,
+        ]);
+    }
+	
+	public function actionTrainingClassSubjectTrainerEvaluation($training_id)
+    {
+        $id = base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_id));
+		$model = $this->findModel($id);
+		$searchModel = new TrainingStudentSearch([
+			'training_id' => $id,
+		]);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('student', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+			'model' => $model,
+        ]);
+    }
 
     /**
      * Finds the Activity model based on its primary key value.

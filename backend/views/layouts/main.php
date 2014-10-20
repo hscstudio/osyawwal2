@@ -68,12 +68,15 @@ AppAsset::register($this);
 					];
 				};
 				
-                $menuItemsLeft[] =
-                    ['icon'=>'fa fa-android fa-fw','label' => 'ADMIN', 'url' => ['/administrator/default/index'], 'items' => [
-                        ['icon'=>'fa fa-cog fa-fw fa-spin','label'=>'Generator', 'url'=> ['/gii']],
-                        ['icon'=>'fa fa-warning fa-fw','label'=>'Privileges', 'url'=> ['/privilege/assigment'],'path'=>'privilege'],
-                        ['icon'=>'fa fa-key fa-fw','label'=>'Users', 'url'=> ['/admin/default'],'path'=>'/admin/'],
-                    ]];
+				if(\Yii::$app->user->can('Super Administrator')){
+					$menuItemsLeft[] =
+						['icon'=>'fa fa-android fa-fw','label' => 'ADMIN', 'url' => ['/administrator/default/index'], 'items' => [
+							['icon'=>'fa fa-cog fa-fw fa-spin','label'=>'Generator', 'url'=> ['/gii']],
+							['icon'=>'fa fa-warning fa-fw','label'=>'Privileges', 'url'=> ['/privilege/assigment'],'path'=>'privilege'],
+							['icon'=>'fa fa-key fa-fw','label'=>'Users', 'url'=> ['/admin/default'],'path'=>'/admin/'],
+						]];
+				}
+				
 				$menuItemsLeft[] =
                     ['icon'=>'fa fa-home fa-fw','label' => 'SEKRETARIAT', 'url' => '#', 'items' => [
                         ['icon'=>'fa fa-sitemap fa-fw','label'=>'Organisation', 'url'=> ['/sekretariat-organisation/default/index'],'path'=>'sekretariat-organisation' ],
@@ -89,10 +92,10 @@ AppAsset::register($this);
 				*/
                 $menuItemsLeft[] =
                     ['icon'=>'fa fa-building fa-fw','label' => 'PUSDIKLAT', 'url' => ['#'], 'items' => [
-                        ['icon'=>'fa fa-joomla fa-fw','label'=>'General', 'url'=> ['/pusdiklat-general/default/index'],'path'=>'pusdiklat-general'],
-						['icon'=>'fa fa-calendar fa-fw','label'=>'Planning', 'url'=> ['/pusdiklat-planning/default/index'],'path'=>'pusdiklat-planning'],
-						['icon'=>'fa fa-paper-plane fa-fw','label'=>'Execution', 'url'=> ['/pusdiklat-execution/default/index'],'path'=>'pusdiklat-execution'],
-						['icon'=>'fa fa-check-square-o fa-fw','label'=>'Evaluation', 'url'=> ['/pusdiklat-evaluation/default/index'],'path'=>'pusdiklat-evaluation'],
+                        ['icon'=>'fa fa-joomla fa-fw','label'=>'Tata Usaha', 'url'=> ['/pusdiklat-general/default/index'],'path'=>'pusdiklat-general'],
+						['icon'=>'fa fa-calendar fa-fw','label'=>'Perencanaan', 'url'=> ['/pusdiklat-planning/default/index'],'path'=>'pusdiklat-planning'],
+						['icon'=>'fa fa-paper-plane fa-fw','label'=>'Penyelenggaraan', 'url'=> ['/pusdiklat-execution/default/index'],'path'=>'pusdiklat-execution'],
+						['icon'=>'fa fa-check-square-o fa-fw','label'=>'Evaluasi', 'url'=> ['/pusdiklat-evaluation/default/index'],'path'=>'pusdiklat-evaluation'],
 						'<li class="divider"></li>',
                        ['icon'=>'fa fa-joomla fa-fw','label'=>'General', 'url'=> ['/pusdiklat2-general/default/index'],'path'=>'pusdiklat2-general' ],
                         ['icon'=>'fa fa-stack-overflow fa-fw','label'=>'Training', 'url'=> ['/pusdiklat2-training/default/index'],'path'=>'pusdiklat2-training' ],

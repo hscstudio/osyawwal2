@@ -8,6 +8,7 @@ use backend\models\User;
 use backend\models\Reference;
 use backend\models\Organisation;
 use kartik\widgets\SwitchInput;
+use kartik\widgets\DepDrop;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Employee */
 /* @var $form yii\widgets\ActiveForm */
@@ -42,7 +43,10 @@ use kartik\widgets\SwitchInput;
 
 	echo $form->field($model, 'user_id')->widget(Select2::classname(), [
 		'data' => $data,
-		'options' => ['placeholder' => 'Choose user ...'],
+		'options' => [
+            'placeholder' => 'Choose user ...',
+
+        ],
 		'pluginOptions' => [
 		'allowClear' => true
 		],
@@ -59,7 +63,9 @@ use kartik\widgets\SwitchInput;
 				, 'id', 'name');		
 		echo $form->field($model, 'satker_id')->widget(Select2::classname(), [
 			'data' => $data,
-			'options' => ['placeholder' => 'Choose satker ...'],
+			'options' => [
+                'placeholder' => 'Choose satker ...',
+            ],
 			'pluginOptions' => [
 			'allowClear' => true
 			],
@@ -68,20 +74,30 @@ use kartik\widgets\SwitchInput;
 		</div>
 		<div class="col-md-4">
 			<?php
-			$data = ArrayHelper::map(Organisation::find()
-					->select(['ID', 'NM_UNIT_ORG'])
-					->where(['JNS_KANTOR'=>13])
-					->asArray()
-					->all()
-					, 'ID', 'NM_UNIT_ORG');
+            $reference = \backend\models\Reference::findOne($model->satker_id);
+            $data =[];
+            if(null!=$reference){
+                $data = ArrayHelper::map(Organisation::find()
+                        ->select(['ID', 'NM_UNIT_ORG'])
+                        ->where(['JNS_KANTOR'=>$reference->parent_id])
+                        ->asArray()
+                        ->all()
+                    , 'ID', 'NM_UNIT_ORG');
+            }
 
-			echo $form->field($model, 'organisation_id')->widget(Select2::classname(), [
-				'data' => $data,
-				'options' => ['placeholder' => 'Choose organisation ...'],
-				'pluginOptions' => [
-				'allowClear' => true
-				],
-			]); ?>
+            // Child # 1
+            echo $form->field($model, 'organisation_id')->widget(DepDrop::classname(), [
+                'type'=>DepDrop::TYPE_SELECT2,
+                'data'=>$data,
+                'options'=>['placeholder'=>'Choose organisation ...'],
+                'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
+                'pluginOptions'=>[
+                    'depends'=>['employee-satker_id'],
+                    'placeholder'=>'Choose organisation...',
+                    'url'=>\yii\helpers\Url::to(['organisation'])
+                ]
+            ]);
+            ?>
 		</div>
 		<div class="col-md-4">
 		<?= $form->field($model, 'chairman')->widget(SwitchInput::classname(), [

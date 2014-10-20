@@ -6,6 +6,7 @@ use kartik\grid\GridView;
 use yii\helpers\Url;
 use yii\helpers\Inflector;
 use hscstudio\heart\widgets\Box;
+use kartik\widgets\Select2;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\modules\pusdiklat\execution\models\TrainingClassSearch */

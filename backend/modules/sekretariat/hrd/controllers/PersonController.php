@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\admin\controllers;
+namespace backend\modules\sekretariat\hrd\controllers;
 
 use Yii;
 use backend\models\Person;

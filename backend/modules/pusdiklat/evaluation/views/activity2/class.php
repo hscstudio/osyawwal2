@@ -225,42 +225,10 @@ $this->params['breadcrumbs'][] = $this->title;
 					} */
 				}
 			],
-            [
-				'class' => 'kartik\grid\ActionColumn',
-				'template' => '{delete}',
-				'buttons' => [
-					'delete' => function ($url, $model) {
-								$icon='<span class="fa fa-fw fa-trash"></span>';
-								return Html::a($icon,
-									['delete-class','id'=>$model->training_id,'class_id'=>$model->id],
-									[
-										'class'=>'btn btn-default btn-xs',
-										'data-pjax'=>'0',
-										'data-confirm'=>'Areyou sure you want delete this item!',
-										'data-method'=>'post',
-									]
-								);
-							},
-					/* 'dashboard' => function ($url, $model) {
-								$icon='<span class="fa fa-fw fa-dashboard"></span>';
-								return ($model->status!=2 AND $model->status!=1)?'':Html::a($icon,$url,[
-									'class'=>'btn btn-default btn-xs',
-									'data-pjax'=>'0',
-								]);
-							},
-					'update' => function ($url, $model) {
-								$icon='<span class="fa fa-fw fa-pencil"></span>';
-								return ($model->status!=2 AND $model->status!=1)?'':Html::a($icon,$url,[
-									'class'=>'btn btn-default btn-xs',
-									'data-pjax'=>'0',
-								]);
-							}, */
-				],	
-			],
         ],
 		'panel' => [
 			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
-			'before'=>Html::a('<i class="fa fa-fw fa-plus"></i> Create ', ['create-class','id'=>$model->id], ['class' => 'btn btn-success']),
+			'before'=>'',
 			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
@@ -272,89 +240,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-	<i class="glyphicon glyphicon-upload"></i> Get Random Student
+	<i class="glyphicon glyphicon-upload"></i> Document Generator
 	</div>
     <div class="panel-body">
-		<?php
-		$form = \yii\bootstrap\ActiveForm::begin([
-			'options'=>[
-				'id'=>'myform',
-				'onsubmit'=>'
-					
-				',
-			],
-			'action'=>[
-				'class','id'=>$model->id
-			], 
-		]);
-		?>
-		<div class="row clearfix">
-			<div class="col-md-2">
-			<?php
-			echo Html::beginTag('label',['class'=>'control-label']).'Stock'.Html::endTag('label');
-			echo Html::input('text','',$trainingStudentCount,['class'=>'form-control','disabled'=>'disabled','id'=>'stock']);
-			?>
-			</div>
-			<div class="col-md-2">
-			<?php
-			echo Html::beginTag('label',['class'=>'control-label']).'Jumlah'.Html::endTag('label');
-			echo Html::input('text','student','',['class'=>'form-control','id'=>'count']);
-			?>
-			</div>
-			<div class="col-md-3">
-			<?php
-			echo '<label class="control-label">Berdasarkan</label>';
-			echo Select2::widget([
-				'name' => 'baseon', 
-				'data' => [
-					'person.name' =>'Nama', 
-					'person.gender' => 'Gender', 
-					'object_reference.reference_id' => 'Unit',					
-				],
-				'options' => [
-					'placeholder' => 'Select base on ...', 
-					'class'=>'form-control', 
-					'multiple' => true,
-					'id'=>'baseon',
-				],
-			]);
-			?>
-			</div>
-			<div class="col-md-3">
-			<?php
-			echo Html::beginTag('label',['class'=>'control-label']).' '.Html::endTag('label');
-			echo Html::submitButton('Get', ['class' => 'btn btn-success','style'=>'display:block;']);
-			?>
-			</div>
-		</div>
-		<?php \yii\bootstrap\ActiveForm::end(); ?>
-		<?php
-		$this->registerJs("
-			$('#myform').on('beforeSubmit', function () {
-				var count = parseInt($('#count').val());
-				var stock = parseInt($('#stock').val());
-				var baseon = $('#baseon').val();
-				if(stock<=0 || isNaN(stock)){
-					alert('Tidak ada stock peserta!');
-					return false;
-				}
-				else if(count<=0 || isNaN(count)){
-					alert('Jumlah permintaan peserta tidak boleh nol!');
-					$('#count').select();
-					return false;
-				}
-				else if(stock<count){
-					alert('Jumlah permintaan tidak boleh melebihi stock peserta!'+x+y);
-					$('#count').select();
-					return false;
-				}			
-				else if(baseon==null){
-					alert('Dasar pengacakan harus ditentukan!');
-					$('#baseon').select();	
-					return false;					
-				}	
-			});
-		");
-		?>
+
 	</div>
 </div>

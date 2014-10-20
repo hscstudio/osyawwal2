@@ -62,17 +62,19 @@ use kartik\checkbox\CheckboxX;
 				<div class="col-md-3">
 				<?= $form->field($model, 'start')->widget(DateControl::classname(), [
 						'type' => DateControl::FORMAT_DATE,
-					]); ?>
+				]); ?>
 				</div>
 				<div class="col-md-3">
-				<?= $form->field($model, 'end')->widget(DateControl::classname(), [
+				<?= $form->field($model, 'end')->widget('kartik\datecontrol\DateControl', [
 						'type' => DateControl::FORMAT_DATE,
+
 					]); ?>
 				</div>
 			</div>
 
 			<?php 
-			$model->location=explode('|',$model->location); 
+			$model->location=explode('|',$model->location);
+
 			if(empty($model->location[0]))
 				$model->location = [(int)Yii::$app->user->identity->employee->satker_id];
 			?>

@@ -149,6 +149,19 @@ class Person extends \yii\db\ActiveRecord
     }
 	
 	/**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRankClass()
+    {
+        return $this->hasOne(ObjectReference::className(), [
+				'object_id' => 'id',
+			])
+			->onCondition([
+				'object' => 'person',
+				'type' => 'rank_class',
+			]);
+    }
+	/**
      * @inheritdoc
      * @return ProgramQuery
      */

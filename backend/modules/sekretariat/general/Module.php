@@ -16,14 +16,14 @@ class Module extends \yii\base\Module
 	public function getMenuItems(){
 		return [
 			['icon'=>'fa fa-fw fa-dashboard','label' => 'Dashboard', 'url' => ['/'.$this->uniqueId.'/default']],
-			['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Meeting', 'url' => ['/'.$this->uniqueId.'/meeting/index'],'path'=>[
-				'/meeting/',
+			['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Meeting Activity', 'url' => ['/'.$this->uniqueId.'/activity-meeting-general/index'],'path'=>[
+				'/activity-meeting-general/',
 			]],
 			['icon'=>'fa fa-fw fa-inbox','label' => 'Room', 'url' => ['/'.$this->uniqueId.'/room/index'],'path'=>[
 				'/room/',
 			]],
-			['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Room Request', 'url' => ['/'.$this->uniqueId.'/room-request/index'],'path'=>[
-				'/room-request/',
+			['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Room Request', 'url' => ['/'.$this->uniqueId.'/activity-room/index'],'path'=>[
+				'/activity-room/',
 			]],
 		];
 	}

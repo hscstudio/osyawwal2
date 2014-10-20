@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView as Gridview2;
 use kartik\grid\GridView;
 use yii\helpers\Url;
 use yii\helpers\Inflector;
@@ -84,17 +83,200 @@ $this->params['breadcrumbs'][] = $this->title;
 					]);
 				},
 			],
+            [
+                'label' => 'Check',
+                'format'=>'raw',
+                'vAlign'=>'middle',
+                'hAlign'=>'center',
+                'vAlign'=>'middle',
+                'width' => '25px',
+                'value' => function ($model) {
+                    $icon='<span class="glyphicon glyphicon-check"></span>';
+                    $err = 0;
+                    $student = $model->trainingStudent->student;
+                    if (!(empty($student->person->name))){
+                        $check[] = '<span class="glyphicon glyphicon-check"></span>'.' name';
+                    }
+                    else{
+                        $check[] = '<span class="text-danger glyphicon glyphicon-info-sign"></span>'.' name is empty';
+                        $err++;
+                    }
+
+                    if (!(empty($student->person->nip))){
+                        $check[] = '<span class="glyphicon glyphicon-check"></span>'.' nip';
+                    }
+                    else{
+                        $check[] = '<span class="text-danger glyphicon glyphicon-info-sign"></span>'.' nip is empty';
+                        $err++;
+                    }
+
+                    if (!(empty($student->person->born))){
+                        $check[] = '<span class="glyphicon glyphicon-check"></span>'.' born';
+                    }
+                    else{
+                        $check[] = '<span class="text-danger glyphicon glyphicon-info-sign"></span>'.' born is empty';
+                        $err++;
+                    }
+
+                    if (( date('Y') - substr($student->person->birthday,0,4))>10){
+                        $check[] = '<span class="glyphicon glyphicon-check"></span>'.' birhtday';
+                    }
+                    else{
+                        $check[] = '<span class="text-danger glyphicon glyphicon-info-sign"></span>'.' birhtday is invalid';
+                        $err++;
+                    }
+
+                    $objectReference = \backend\models\ObjectReference::find()
+                        ->where([
+                            'object'=>'person',
+                            'object_id'=>$model->trainingStudent->student->person_id,
+                            'type'=>'rank_class',
+
+                        ])
+                        ->one();
+                    if (null!=$objectReference){
+                        $check[] = '<span class="glyphicon glyphicon-check"></span>'.' rank class';
+                    }
+                    else{
+                        $check[] = '<span class="text-danger glyphicon glyphicon-info-sign"></span>'.' rank class is invalid';
+                        $err++;
+                    }
+
+                    $student = $model->trainingStudent->student;
+                    $unit = $student->person->unit->reference->name;
+
+                    if($student->satker==2){
+                        if(!empty($student->eselon2)){
+                            $unit = $student->eselon2;
+                        }
+                    }
+                    else if($student->satker==3){
+                        if(!empty($student->eselon3)){
+                            $unit = $student->eselon3;
+                        }
+                    }
+                    else if($student->satker==4){
+                        if(!empty($student->eselon4)){
+                            $unit = $student->eselon4;
+                        }
+                    }
+
+                    if (strlen($unit)>=3){
+                        $check[] = '<span class="glyphicon glyphicon-check"></span>'.' unit';
+                    }
+                    else{
+                        $check[] = '<span class="text-danger glyphicon glyphicon-info-sign"></span>'.' unit is invalid';
+                        $err++;
+                    }
+
+                    $path = '';
+                    if(isset(Yii::$app->params['uploadPath'])){
+                        $path = Yii::$app->params['uploadPath'].DIRECTORY_SEPARATOR;
+                    }
+                    else{
+                        $path = Yii::getAlias('@file').DIRECTORY_SEPARATOR;
+                    }
+
+                    $objectFile = \backend\models\ObjectFile::find()
+                        ->where([
+                            'object'=>'person',
+                            'object_id'=>$model->trainingStudent->student->person_id,
+                            'type'=>'photo',
+
+                        ])
+                        ->one();
+                    if (null!=$objectFile){
+                    /*if (file_exists($path.'person'.DIRECTORY_SEPARATOR.$model->trainingStudent->student->person_id.DIRECTORY_SEPARATOR.$objectFile->file->file_name) and strlen($objectFile->file->file_name)>3){*/
+                        $check[] = '<span class="glyphicon glyphicon-check"></span>'.' photo';
+                    }
+                    else{
+                        $check[] = '<span class="text-danger glyphicon glyphicon-info-sign"></span>'.' photo is invalid';
+                        $err++;
+                    }
+
+                    if($err>0) $icon='<span class="text-danger glyphicon glyphicon-info-sign"></span>';
+
+                    $title = implode('<br>',$check);
+                    return Html::a($icon,'#',[
+                        'data-pjax'=>"0",
+                        'data-toggle'=>"tooltip",
+                        'data-html'=>"true",
+                        'title'=>$title
+                    ]);
+
+                }
+            ],
+            [
+                'header'=> 'Certificate',
+                'template'=>'{status} {create} {update} {delete}',
+                'width' => '120px',
+                'class' => 'kartik\grid\ActionColumn',
+                'buttons' => [
+                    'status' => function ($url, $model) use ($activity,$class) {
+                        $certificate = backend\models\TrainingClassStudentCertificate::findOne($model->id);
+                        if (null!=$certificate){
+                            $icon='<span class="glyphicon glyphicon-check"></span>';
+                            $label='label label-success';
+                            $title='Get Certificate';
+                        }
+                        else{
+                            $icon='-';
+                            $label='';
+                            $title='-';
+                        }
+
+                        return Html::tag('span', $icon, ['class'=>$label,'title'=>$title,'data-toggle'=>"tooltip",'data-placement'=>"top",'style'=>'cursor:pointer']);
+                    },
+                    'update' => function ($url, $model) use ($activity,$class) {
+                        $certificate = backend\models\TrainingClassStudentCertificate::findOne($model->id);
+                        if (null!=$certificate){
+                            $icon='<span class="fa fa-fw fa-pencil"></span>';
+                            $url2 = ['update-certificate-class-student','id'=>$activity->id,'class_id'=>$class->id,'training_class_student_id'=>$model->id,];
+                            return Html::a($icon,$url2,[
+                                'data-pjax'=>"0",
+                                'class'=>'btn btn-xs btn-default'
+                            ]);
+                        }
+                    },
+                    'delete' => function ($url, $model) use ($activity,$class) {
+                        $certificate = backend\models\TrainingClassStudentCertificate::findOne($model->id);
+                        if (null!=$certificate){
+                            $icon='<span class="fa fa-fw fa-trash"></span>';
+                            $url2 = ['delete-certificate-class-student','id'=>$activity->id,'class_id'=>$class->id,'training_class_student_id'=>$model->id,];
+                            return Html::a($icon,$url2,[
+                                'title'=>"Delete",'data-confirm'=>"Are you sure to delete this item?",'data-method'=>"post",
+                                'data-pjax'=>"0",
+                                'class'=>'btn btn-xs btn-default'
+                            ]);
+                        }
+                    },
+                    'create' => function ($url, $model)use ($activity,$class) {
+                        $certificate = backend\models\TrainingClassStudentCertificate::findOne($model->id);
+                        if (null!=$certificate){
+                        }
+                        else{
+                            $icon='<span class="fa fa-plus-circle fa-fw"></span>';
+                            $url2 = ['create-certificate-class-student','id'=>$activity->id,'class_id'=>$class->id,'training_class_student_id'=>$model->id,];
+                            return Html::a($icon,$url2,[
+                                'data-pjax'=>"0",
+                                'class'=>'btn btn-xs btn-default'
+                            ]);
+                        }
+                    },
+                ],
+            ],
 			[
 				'class' => 'kartik\grid\ActionColumn',
+                'template'=> '{update}',
 				'buttons' => [
-					'delete' => function ($url, $model) {
-								$icon='<span class="fa fa-fw fa-trash"></span>';
+					'update' => function ($url, $model) use ($activity,$class) {
+								$icon='<span class="fa fa-fw fa-pencil"></span>';
+                                $url = ['update-class-student','id'=>$activity->id,'class_id'=>$class->id,'training_class_student_id'=>$model->id,];
 								return Html::a($icon,
-									['delete-class-student', 'id'=>$model->training_id,'class_id'=>$model->training_class_id,'training_class_student_id'=>$model->id],
+									$url,
 									[
 										'data-pjax'=>'0',
-										'data-confirm'=>'Are you sure you want delete this item!',
-										'data-method'=>'post',
+                                        'class'=>'btn btn-xs btn-info'
 									]
 								);
 							},
@@ -116,74 +298,30 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-	<i class="glyphicon glyphicon-upload"></i> Get Random Student
+	<i class="fa fa-fw fa-file"></i> Document Generator
 	</div>
     <div class="panel-body">
-		<?php
-		$form = \yii\bootstrap\ActiveForm::begin([
-			'options'=>[
-				'id'=>'myform'
-			],
-			'action'=>[
-				'class-student','id'=>$activity->id,
-				'class_id'=>$class->id
-			], 
-		]);
-		?>
-		<div class="row clearfix">
-			<div class="col-md-2">
-			<?php
-			echo Html::beginTag('label',['class'=>'control-label']).'Stock'.Html::endTag('label');
-			echo Html::input('text','',$trainingStudentCount,['class'=>'form-control','disabled'=>'disabled','id'=>'stock']);
-			?>
-			</div>
-			<div class="col-md-2">
-			<?php
-			echo Html::beginTag('label',['class'=>'control-label']).'Jumlah'.Html::endTag('label');
-			echo Html::input('text','student','',['class'=>'form-control','id'=>'count']);
-			?>
-			</div>
-			<div class="col-md-3">
-			<?php
-			echo '<label class="control-label">Berdasarkan</label>';
-			echo Select2::widget([
-				'name' => 'baseon', 
-				'data' => [
-					'person.name' =>'Nama', 
-					'person.gender' => 'Gender', 
-					'object_reference.reference_id' => 'Unit',					
-				],
-				'options' => [
-					'placeholder' => 'Select base on ...', 
-					'class'=>'form-control', 
-					'multiple' => true
-				],
-			]);
-			?>
-			</div>
-			<div class="col-md-3">
-			<?php
-			echo Html::beginTag('label',['class'=>'control-label']).' '.Html::endTag('label');
-			echo Html::submitButton('Get', ['class' => 'btn btn-success','style'=>'display:block;']);
-			?>
-			</div>
-		</div>
-		<?php \yii\bootstrap\ActiveForm::end(); ?>
-		<?php
-		$this->registerJs("
-			$('#myform').on('beforeSubmit', function () {
-				var x = $('#count').val().parseInt();
-				var y = $('#stock').val().parseInt();
-				if(y>=x & x>0){
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active"><a href="#sertifikat" role="tab" data-toggle="tab">Sertifikat</a></li>
+            <li><a href="#document" role="tab" data-toggle="tab">Document</a></li>
+        </ul>
 
-				}				
-				else{
-
-					$('#count').select();	
-					return false;					
-				}	
-			});
-		");
-		?>
-	</div>
+        <!-- Tab panes -->
+        <div class="tab-content" style="border:1px solid #ddd;border-top-width:0">
+            <div class="tab-pane fade in active" id="sertifikat">
+                <?php
+                echo $this->render('_printCertificate', [
+                    'activity' => $activity,
+                    'class' => $class,
+					'max_number' => $max_number,
+					'max_seri' => $max_seri,
+                ]) ?>
+            </div>
+            <div class="tab-pane fade" id="document">
+                <div class="jumbotron">
+                    <h1>Coming soon :)</h1>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -689,18 +689,21 @@ class ActivityController extends Controller
      * Lists all TrainingClass models.
      * @return mixed
      */
-    public function actionStudent($id)
+    public function actionStudent($id,$status=1)
     {
         $model = $this->findModel($id);
-		$searchModel = new TrainingStudentSearch([
+		$searchModel = new TrainingStudentSearch();
+		$queryParams['TrainingStudentSearch']=[
 			'training_id' => $id,
-		]);
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+			'status' => $status
+		]; 
+		$dataProvider = $searchModel->search($queryParams); 
 
         return $this->render('student', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
 			'model' => $model,
+			'status' => $status,
         ]);
     }
 	
