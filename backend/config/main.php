@@ -71,6 +71,9 @@ return [
 		'user' => [
             'class' => 'backend\modules\user\Module',
         ],
+		'student' => [
+            'class' => 'frontend\modules\student\Module',
+        ],
 		/* START SEKRETARIAT */
 		'sekretariat-hrd' => [
 			'class' => 'backend\modules\sekretariat\hrd\Module',

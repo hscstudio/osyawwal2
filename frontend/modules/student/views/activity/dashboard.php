@@ -92,7 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'bgColor'=>'blue', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
 				'bodyOptions' => [],
 				'icon' => 'fa fa-fw fa-graduation-cap',
-				'link' => ['property','training_id'=>\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->id))],
+				'link' => ['./training-schedule-trainer','training_id'=>\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->id))],
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
@@ -112,7 +112,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'bgColor'=>'purple', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
 				'bodyOptions' => [],
 				'icon' => 'fa fa-fw fa-building-o',
-				'link' => ['property','training_id'=>\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->id))],
+				'link' => ['./training-execution-evaluation','training_id'=>\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->id))],
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
