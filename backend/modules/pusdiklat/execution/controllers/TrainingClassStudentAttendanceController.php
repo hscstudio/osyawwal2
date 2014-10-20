@@ -676,6 +676,10 @@ class TrainingClassStudentAttendanceController extends Controller
 					chr($pointerKolomMP).(17 + $j)
 				);
 			}
+			
+			$objPHPExcel->getActiveSheet()->setCellValue(chr($pointerKolomMP).'14', 
+				'Jamlat: '.$modelTrainingSchedule->hours
+			);
 
 			$objPHPExcel->getActiveSheet()->setCellValue(chr($pointerKolomMP).'15', 
 				'Mata Diklat: '.ProgramSubject::findOne($modelTrainingSchedule->trainingClassSubject->program_subject_id)->name
@@ -690,7 +694,7 @@ class TrainingClassStudentAttendanceController extends Controller
 
 		// Finishing
 		for($z = 1; $z <= $jumlahBaris; $z++) {
-			$objPHPExcel->getActiveSheet()->getRowDimension($z + $jumlahBaris)->setRowHeight(30);
+			$objPHPExcel->getActiveSheet()->getRowDimension($z + $jumlahBaris + 1)->setRowHeight(30);
 		}
 
 		$objPHPExcel->getActiveSheet()->getStyle('A17:'.chr($pointerKolomMP).(17 + $jumlahBaris))
