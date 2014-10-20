@@ -22,42 +22,46 @@ return [
                 'gii'=>true, // use false for not use it
                 'privilege'=>[
 					'allowActions' => [
-						/* DEFAULT */
+						// DEFAULT 
 						'debug/*',
 						'site/*',
-						'gii/*',						
-						'privilege/*',
 						'gridview/*',	// add or remove allowed actions to this list
 						'file/*',
-						/* DEFAULT */
-						'user/*',						
-						/* ADMIN */
+						'user/*',		
+						
+						
+						/*
+						'gii/*',						
+						'privilege/*',
+						// DEFAULT 
+										
+						// ADMIN 
 						'admin/*',
-						/* ADMIN */
-						/* START SEKRETARIAT */
+						// ADMIN 
+						// START SEKRETARIAT 
 						'sekretariat-organisation/*',
 						'sekretariat-hrd/*',
 						'sekretariat-finance/*',
 						'sekretariat-it/*',
 						'sekretariat-general/*',
-						/* FINISH SEKRETARIAT */
-						/* START PUSDIKLAT */
+						// FINISH SEKRETARIAT 
+						// START PUSDIKLAT 
 						'pusdiklat-general/*',
 						'pusdiklat-planning/*',
 						'pusdiklat-execution/*',
 						'pusdiklat-evaluation/*',
-						/* FINISH PUSDIKLAT */
-						/* START PUSDIKLAT2 */
+						// FINISH PUSDIKLAT 
+						// START PUSDIKLAT2 
 						'pusdiklat2-general/*',
 						'pusdiklat2-training/*',
 						'pusdiklat2-test/*',
 						'pusdiklat2-scholarship/*',
-						/* FINISH PUSDIKLAT2 */
-						/* START BDK */
+						// FINISH PUSDIKLAT2 
+						// START BDK 
 						'bdk-general/*',
 						'bdk-execution/*' ,
 						'bdk-evaluation/*' ,
-						/* FINISH BDK */
+						// FINISH BDK  */
 					],
 					'authManager' => [
 					  'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\PhpManager'

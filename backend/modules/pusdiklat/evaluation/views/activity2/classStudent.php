@@ -313,6 +313,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 echo $this->render('_printCertificate', [
                     'activity' => $activity,
                     'class' => $class,
+					'max_number' => $max_number,
+					'max_seri' => $max_seri,
                 ]) ?>
             </div>
             <div class="tab-pane fade" id="document">

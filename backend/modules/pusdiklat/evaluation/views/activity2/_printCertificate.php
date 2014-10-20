@@ -8,14 +8,72 @@ use kartik\widgets\DatePicker;
 <div class="row" style="margin:0;">
 	
 	<hr>
-	<div class="col-md-12">
+	<div class="col-md-12 clearfix">
 	<?php
 	echo Html::a('<i class="fa fa-fw fa-print"></i> Checklist Data Peserta', ['print-student-checklist','id'=>$activity->id,'class_id'=>$class->id], ['class' => 'btn btn-default','data-pjax'=>0]);
 	?>
-	</div>
-	
-	<div class="clearfix"></div>
-	<hr>
+    </div>
+    <div class="col-md-12 clearfix"><hr></div>
+    <div class="col-md-12">
+        <strong>  </strong>
+        <?php
+        $training = $activity->training;
+        $numbers = explode('-',$training->number);
+        // 2014-03-00-2.2.1.0.2 to /2.3.1.2.138/07/00/2014
+        $number = '';
+        if(isset($numbers[3]) and strlen($numbers[3])>3){
+            $number .= '/'.$numbers[3];
+        }
+        if(isset($numbers[1]) and strlen($numbers[1])==2){
+            $number .= '/'.$numbers[1];
+        }
+        if(isset($numbers[2]) and strlen($numbers[2])==2){
+            $number .= '/'.$numbers[2];
+        }
+        if(isset($numbers[0]) and strlen($numbers[0])==4){
+            $number .= '/'.$numbers[0];
+        }
+        $form = ActiveForm::begin([
+            'id' => 'login-form',
+            'action' => ['set-certificate-class','id'=>$activity->id,'class_id'=>$class->id],
+            'options' => [
+                'class' => 'form-horizontal',
+            ],
+        ]) ?>
+        <table class="table table-condensed table-striped">
+            <tr>
+                <th colspan="5"><label>Pembuatan Sertifikat Massal</label></th>
+            </tr>
+            <tr>
+                <td colspan="2">Number Awal</td>
+				<td>Seri Awal</td>
+                <td>Tanggal</td>
+                <td>Action</td>
+            </tr>
+            <tr>
+                <td style="width:100px"><?php echo Html::input( 'text', 'number', $max_number, ['class'=>'form-control']) ?></td>
+                <td style="width:200px"><?php echo $number; ?></td>
+                <td style="width:100px"><?php echo Html::input( 'text', 'seri', $max_seri, ['class'=>'form-control']) ?></td>
+                <td style="width:200px">
+				<?php 
+				echo DatePicker::widget([
+					'name' => 'date',
+					'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+					'value' => date('j-M-Y'),
+					'pluginOptions' => [
+					'autoclose'=>true,
+					'format' => 'dd-M-yyyy'
+					]
+					]); 
+				?>
+				</td>
+                <td><?= Html::submitButton('<i class="fa fa-refresh"></i> Set', ['class' => 'btn btn-primary']) ?></td>
+            </tr>
+        </table>
+
+        <?php ActiveForm::end() ?>
+    </div>
+    <div class="col-md-12 clearfix"><hr></div>
 	<div class="col-md-6">
 	<?php $form = ActiveForm::begin([
 		'id' => 'login-form',
@@ -218,12 +276,12 @@ use kartik\widgets\DatePicker;
 			echo DatePicker::widget([
 				'name' => 'date',
 				'type' => DatePicker::TYPE_COMPONENT_PREPEND,
-				//'value' => '23-Feb-1982',
+				'value' => date('j-M-Y'),
 				'pluginOptions' => [
-				'autoclose'=>true,
-				'format' => 'dd-M-yyyy'
+					'autoclose'=>true,
+					'format' => 'dd-M-yyyy'
 				]
-				]); 
+			]); 
 			?>
 			</td>
 		</tr>
@@ -299,12 +357,12 @@ use kartik\widgets\DatePicker;
 			echo DatePicker::widget([
 				'name' => 'date',
 				'type' => DatePicker::TYPE_COMPONENT_PREPEND,
-				//'value' => '23-Feb-1982',
+				'value' => date('j-M-Y'),
 				'pluginOptions' => [
-				'autoclose'=>true,
-				'format' => 'dd-M-yyyy'
+					'autoclose'=>true,
+					'format' => 'dd-M-yyyy'
 				]
-				]); 
+			]); 
 			?>
 			</td>
 		</tr>

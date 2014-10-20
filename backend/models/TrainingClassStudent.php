@@ -119,4 +119,12 @@ class TrainingClassStudent extends \yii\db\ActiveRecord
     {
         return $this->hasMany(TrainingExecutionEvaluation::className(), ['training_class_student_id' => 'id']);
     }
+	
+	 /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTrainingClassStudentCertificate()
+    {
+        return $this->hasOne(TrainingClassStudentCertificate::className(), ['training_class_student_id' => 'id']);
+    }
 }

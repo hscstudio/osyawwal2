@@ -75,4 +75,9 @@ class TrainingClassStudentCertificate extends \yii\db\ActiveRecord
             'modified_by' => Yii::t('app', 'Modified By'),
         ];
     }
+	
+	public function getTrainingClassStudent()
+    {
+        return $this->hasOne(TrainingClassStudent::className(), ['id' => 'training_class_student_id']);
+    }
 }

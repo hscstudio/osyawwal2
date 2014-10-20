@@ -25,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	</div>
 	<div class="panel-body">
 		<div class="row clearfix">
+		
 			<div class="col-md-3">
 			<?php
 			Box::begin([
@@ -45,26 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			Box::end();
 			?>
 			</div>
-			<div class="col-md-3">
-			<?php
-			Box::begin([
-				'type'=>'small', // ,small, solid, tiles
-				'bgColor'=>'yellow', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
-				'bodyOptions' => [],
-				'icon' => 'glyphicon glyphicon-home',
-				'link' => ['class','id'=>$model->id],
-				'footerOptions' => [
-					'class' => 'dashboard-hide',
-				],
-				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
-			]);
-			?>
-			<h3>Class</h3>
-			<p>Class of Training</p>
-			<?php
-			Box::end();
-			?>
-			</div>
+			
 			<div class="col-md-3">
 			<?php
 			Box::begin([
@@ -81,6 +63,27 @@ $this->params['breadcrumbs'][] = $this->title;
 			?>
 			<h3>Student</h3>
 			<p>Student of Training</p>
+			<?php
+			Box::end();
+			?>
+			</div>
+			
+						<div class="col-md-3">
+			<?php
+			Box::begin([
+				'type'=>'small', // ,small, solid, tiles
+				'bgColor'=>'yellow', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+				'bodyOptions' => [],
+				'icon' => 'glyphicon glyphicon-home',
+				'link' => ['class','id'=>$model->id],
+				'footerOptions' => [
+					'class' => 'dashboard-hide',
+				],
+				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+			]);
+			?>
+			<h3>Class</h3>
+			<p>Class of Training</p>
 			<?php
 			Box::end();
 			?>
