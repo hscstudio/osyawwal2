@@ -58,29 +58,29 @@ use kartik\checkbox\CheckboxX;
 			<div class="row clearfix">
 				<div class="col-md-3">
 				<?= $form->field($model, 'start')->widget(DateControl::classname(), [
-						'type' => DateControl::FORMAT_DATE,
-						'displayFormat' => 'php:d-m-Y',
-						'saveFormat' => 'php:Y-m-d',
-						'ajaxConversion' => false,
-						'options' => [
-					        'pluginOptions' => [
-					            'autoclose' => true
-					        ]
-					    ]
+					'type' => DateControl::FORMAT_DATE,
+					'displayFormat' => 'php:d-m-Y',
+					'saveFormat' => 'php:Y-m-d',
+					'ajaxConversion' => false,
+					'options' => [
+				        'pluginOptions' => [
+				            'autoclose' => true
+				        ]
+				    ]
 				]); ?>
 				</div>
 				<div class="col-md-3">
 				<?= $form->field($model, 'end')->widget(DateControl::classname(), [
-						'type' => DateControl::FORMAT_DATE,
-						'displayFormat' => 'php:d-m-Y',
-						'saveFormat' => 'php:Y-m-d',
-						'ajaxConversion' => false,
-						'options' => [
-					        'pluginOptions' => [
-					            'autoclose' => true
-					        ]
-					    ]
-					]); ?>
+					'type' => DateControl::FORMAT_DATE,
+					'displayFormat' => 'php:d-m-Y',
+					'saveFormat' => 'php:Y-m-d',
+					'ajaxConversion' => false,
+					'options' => [
+				        'pluginOptions' => [
+				            'autoclose' => true
+				        ]
+				    ]
+				]); ?>
 				</div>
 			</div>
 
