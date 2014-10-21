@@ -36,25 +36,9 @@ AppAsset::register($this);
                     'class' => 'container-fluid',
                 ]
             ]);
-            /* $menuItems = [
-                ['label' => 'Home', 'url' => ['/site/index']],
-            ];
-            if (Yii::$app->user->isGuest) {
-                $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-            } else {
-                $menuItems[] = [
-                    'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                    'url' => ['/site/logout'],
-                    'linkOptions' => ['data-method' => 'post']
-                ];
-            }
-            echo Nav::widget([
-                'options' => ['class' => 'navbar-nav navbar-right'],
-                'items' => $menuItems,
-            ]); */
 			
 			if (Yii::$app->user->isGuest) {
-				$menuItems[] = ['icon'=>'fa fa-user fa-fw','label' => 'Signup', 'url' => ['/site/signup']];
+				//$menuItems[] = ['icon'=>'fa fa-user fa-fw','label' => 'Signup', 'url' => ['/site/signup']];
 				$menuItems[] = ['icon'=>'fa fa-key fa-fw','label' => 'Login', 'url' => ['/site/login']];
             } else {
 				$callback = function($menuX){
@@ -85,11 +69,6 @@ AppAsset::register($this);
 					}					
 				}
 				
-				/* if(\Yii::$app->user->can('sekretariat-badan-finance') or 
-					\Yii::$app->user->can('sekretariat-badan-hrd') or
-						\Yii::$app->user->can('sekretariat-badan-organisation') or
-							\Yii::$app->user->can('sekretariat-badan-tik') or
-								\Yii::$app->user->can('sekretariat-badan-general')){ */
 				if(checkAccess([
 					'sekretariat-badan-finance',
 					'sekretariat-badan-hrd',
@@ -105,7 +84,7 @@ AppAsset::register($this);
 							['icon'=>'fa fa-desktop fa-fw','label'=>'Information Technology', 'url'=> ['/sekretariat-it/default/index'],'path'=>'sekretariat-it' ],
 							['icon'=>'fa fa-joomla fa-fw','label'=>'General', 'url'=> ['/sekretariat-general/default/index'],'path'=>'sekretariat-general' ],
 						]]; */
-					$menus_sekretariat = \mdm\admin\components\MenuHelper::getAssignedMenu(Yii::$app->user->id,1,$callback,true);
+					$menus_sekretariat = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,1,$callback,true);
 					$menuItemsLeft[] = ['icon'=>'fa fa-home fa-fw','label' => 'Sekretariat', 'url' => ['#'], 'items' => $menus_sekretariat ];
 				}
 				
