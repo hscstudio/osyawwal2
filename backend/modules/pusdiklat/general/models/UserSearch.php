@@ -51,7 +51,9 @@ class UserSearch extends User
 							'satker_id' => $satker_id,
 						])
 						->column(),
-			]);
+			])
+			->andWhere(['>','id',100])
+			;
 			
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

@@ -41,6 +41,7 @@ class TrainingExecutionEvaluationController extends Controller
             'dataProvider' => $dataProvider,
         ]);*/
 		$training_student_id = \frontend\models\TrainingStudent::findOne(['student_id' => Yii::$app->user->identity->id,'training_id'=>base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_id))])->id;
+		
 		$training_class_student_id =\frontend\models\TrainingClassStudent::findOne(['training_id'=>base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_id)),'training_student_id'=>$training_student_id])->id;
 		
 		if (($model = TrainingExecutionEvaluation::findOne(['training_class_student_id'=>$training_class_student_id])) !== null) 

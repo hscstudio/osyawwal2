@@ -31,14 +31,20 @@ class TrainingScheduleTrainerController extends Controller
      * Lists all TrainingScheduleTrainer models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($training_id=NULL,$training_student_id=NULL)
     {
+		$id = base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_id));
+		$id2 = base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_student_id));
+		$training_class_id = \frontend\models\TrainingClassStudent::findOne(['training_id'=>$id,'training_student_id'=>$id2])->training_class_id;
         $searchModel = new TrainingScheduleTrainerSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$training_class_id);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+			'training_id' => $training_id,
+			'training_class_id' => $training_class_id,
+			'training_student_id' => $training_student_id,
         ]);
     }
 
@@ -111,12 +117,12 @@ class TrainingScheduleTrainerController extends Controller
      */
     public function actionDelete($id)
     {
-		if($this->findModel($id)->delete()) {
+		/*if($this->findModel($id)->delete()) {
 			Yii::$app->getSession()->setFlash('success', 'Data have deleted.');
 		}
 		else{
 			Yii::$app->getSession()->setFlash('error', 'Data is not deleted.');
-		}
+		}*/
         return $this->redirect(['index']);
     }
 

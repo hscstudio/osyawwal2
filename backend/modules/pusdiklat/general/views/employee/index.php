@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'value' => function ($data){
 					$person = \backend\models\Person::findOne($data->person_id);
 					if(null!=$person){
-						return Html::a($person->name,['./person2/view','id'=>$person->id],
+						return Html::a($person->name,['./person/view','id'=>$person->id],
 							['class'=>'modal-heart badge','title'=>$person->name,'source'=>'div.panel-body','data-toggle'=>'tooltip']);
 					}							
 				}				
@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'value' => function ($data){
 					$user = \backend\models\User::findOne($data->user_id);
 					if(null!=$user){
-						return Html::a($user->username,['./user2/view','id'=>$user->id],
+						return Html::a($user->username,['./user/view','id'=>$user->id],
 							['class'=>'modal-heart badge','title'=>$user->username,'source'=>'div.panel-body','data-toggle'=>'tooltip']);
 					}
 				}

@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						])
 						->one();
 					if(null!=$employee){
-						return Html::a($employee->person->name,['./employee2/view','id'=>$employee->person_id],
+						return Html::a($employee->person->name,['./employee/view','id'=>$employee->person_id],
 							['class'=>'modal-heart badge','title'=>$employee->person->name,'source'=>'div.panel-body','data-toggle'=>'tooltip']);
 					}							
 				}

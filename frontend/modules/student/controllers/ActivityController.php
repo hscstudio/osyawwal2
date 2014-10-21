@@ -166,13 +166,14 @@ class ActivityController extends Controller
         return $this->redirect(['index']);
     }
 	
-	public function actionDashboard($training_id)
+	public function actionDashboard($training_id,$training_student_id)
     {
 		$id = base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_id));
 		$model = $this->findModel($id);
 		
         return $this->render('dashboard', [
             'model' => $model,
+			'training_student_id' => $training_student_id,
         ]);
     }
 	

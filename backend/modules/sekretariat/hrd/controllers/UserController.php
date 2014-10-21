@@ -4,7 +4,7 @@ namespace backend\modules\sekretariat\hrd\controllers;
 
 use Yii;
 use backend\models\User;
-use backend\models\UserSearch;
+use backend\modules\sekretariat\hrd\models\UserSearch;
 use backend\models\Employee;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -181,10 +181,16 @@ class UserController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = User::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
+		/* special user id<=100 not editable */
+		if ($id>100){
+			if (($model = User::findOne($id)) !== null) {
+				return $model;
+			} else {
+				throw new NotFoundHttpException('The requested page does not exist.');
+			}
+		}
+		else{
+			throw new NotFoundHttpException('You have not privilege to access this data, contact Administratator.');
+		}
     }
 }

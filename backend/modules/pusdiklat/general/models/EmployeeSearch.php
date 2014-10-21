@@ -44,7 +44,8 @@ class EmployeeSearch extends Employee
         $query = Employee::find()
 			->where([
 				'satker_id' => $satker_id,
-			]);
+			])
+			->andWhere(['>','person_id',100]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

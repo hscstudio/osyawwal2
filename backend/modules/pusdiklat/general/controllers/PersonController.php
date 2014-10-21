@@ -330,18 +330,23 @@ class PersonController extends Controller
      */
     protected function findModel($id)
     {
-		
-		$satker_id = (int)Yii::$app->user->identity->employee->satker_id;
-		$employee = Employee::find()
-					->where([
-						'person_id'=>$id,
-						'satker_id'=>$satker_id,
-					])
-					->count();
-        if (($model = Person::findOne($id)) !== null and $employee>0) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
+		/* special user id<=100 not editable */
+		if ($id>100){
+			$satker_id = (int)Yii::$app->user->identity->employee->satker_id;
+			$employee = Employee::find()
+						->where([
+							'person_id'=>$id,
+							'satker_id'=>$satker_id,
+						])
+						->count();
+			if (($model = Person::findOne($id)) !== null and $employee>0) {
+				return $model;
+			} else {
+				throw new NotFoundHttpException('The requested page does not exist.');
+			}
+		}
+		else{
+			throw new NotFoundHttpException('You have not privilege to access this data, contact Administratator.');
+		}
     }
 }

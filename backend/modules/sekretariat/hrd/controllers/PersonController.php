@@ -4,7 +4,7 @@ namespace backend\modules\sekretariat\hrd\controllers;
 
 use Yii;
 use backend\models\Person;
-use backend\models\PersonSearch;
+use backend\modules\sekretariat\hrd\models\PersonSearch;
 use backend\models\ObjectReference;
 use backend\models\ObjectFile;
 use backend\models\File;
@@ -299,10 +299,16 @@ class PersonController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Person::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
+        /* special person id<=100 not editable */
+		if ($id>100){
+			if (($model = Person::findOne($id)) !== null) {
+				return $model;
+			} else {
+				throw new NotFoundHttpException('The requested page does not exist.');
+			}
+		}
+		else{
+			throw new NotFoundHttpException('You have not privilege to access this data, contact Administratator.');
+		}
     }
 }

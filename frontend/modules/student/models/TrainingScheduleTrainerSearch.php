@@ -40,9 +40,11 @@ class TrainingScheduleTrainerSearch extends TrainingScheduleTrainer
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params,$training_class_id=NULL)
     {
-        $query = TrainingScheduleTrainer::find();
+        $query = TrainingScheduleTrainer::find()
+				->leftjoin('training_schedule','training_schedule.id=training_schedule_trainer.training_schedule_id')
+				->where(['training_class_id'=>$training_class_id]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

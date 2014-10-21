@@ -25,20 +25,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'hours') ?>
 
-    <?php // echo $form->field($model, 'reason') ?>
-
-    <?php // echo $form->field($model, 'cost') ?>
-
-    <?php // echo $form->field($model, 'status') ?>
-
-    <?php // echo $form->field($model, 'created') ?>
-
-    <?php // echo $form->field($model, 'created_by') ?>
-
-    <?php // echo $form->field($model, 'modified') ?>
-
-    <?php // echo $form->field($model, 'modified_by') ?>
-
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>

@@ -30,8 +30,8 @@ return [
 						'user/*',		
 						
 						
-						/*
-						'gii/*',						
+						
+						/* 'gii/*',						
 						'privilege/*',
 						// DEFAULT 
 										
@@ -61,7 +61,7 @@ return [
 						'bdk-general/*',
 						'bdk-execution/*' ,
 						'bdk-evaluation/*' ,
-						// FINISH BDK  */
+						// FINISH BDK   */
 					],
 					'authManager' => [
 					  'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\PhpManager'

@@ -12,18 +12,15 @@ use yii\helpers\Url;
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
-$this->title = 'Training Schedule Trainers';
+$this->title = 'Training Evaluation Of Trainers Class '.\frontend\models\TrainingClass::findOne(['id'=>$training_class_id])->class;
+$this->params['breadcrumbs'][] = ['label' => 'Training Activities', 'url' => ['activity/index']];
+$this->params['breadcrumbs'][] = ['label' => 'Dashboard', 'url' => ['activity/dashboard','training_id'=>$training_id,'training_student_id'=>$training_student_id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="training-schedule-trainer-index">
 	
 <!--
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a('Create Training Schedule Trainer', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 -->
 
     <?= GridView::widget([
@@ -32,22 +29,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'kartik\grid\SerialColumn'],
 
-            // 'id',
-            
-				[
-					'attribute' => 'training_schedule_id',
-					'vAlign'=>'middle',
-					'hAlign'=>'center',
-					'headerOptions'=>['class'=>'kv-sticky-column'],
-					'contentOptions'=>['class'=>'kv-sticky-column'],					
-				],
-            
+           
 				[
 					'attribute' => 'type',
 					'vAlign'=>'middle',
 					'hAlign'=>'center',
 					'headerOptions'=>['class'=>'kv-sticky-column'],
-					'contentOptions'=>['class'=>'kv-sticky-column'],					
+					'contentOptions'=>['class'=>'kv-sticky-column'],
+					'value' => function ($data) {
+						return \frontend\models\Reference::findOne(['id'=>$data->type])->name;
+					}
 				],
             
 				[
@@ -56,32 +47,37 @@ $this->params['breadcrumbs'][] = $this->title;
 					'hAlign'=>'center',
 					'headerOptions'=>['class'=>'kv-sticky-column'],
 					'contentOptions'=>['class'=>'kv-sticky-column'],
-					'value'=>
+					'value' => function ($data) {
+						return \frontend\models\Person::findOne(['id'=>$data->trainer_id])->name;
+					}
 				],
             
 				[
-					'attribute' => 'hours',
+					'label' => 'Program Subject ID',
 					'vAlign'=>'middle',
 					'hAlign'=>'center',
 					'headerOptions'=>['class'=>'kv-sticky-column'],
-					'contentOptions'=>['class'=>'kv-sticky-column'],					
+					'contentOptions'=>['class'=>'kv-sticky-column'],
+					'value' => function ($data) {
+						return \frontend\models\ProgramSubject::findOne(['id'=>$data->trainingSchedule->trainingClassSubject->program_subject_id])->name;
+					}
 				],
-            
+            	
 				[
-					'attribute' => 'reason',
-					'vAlign'=>'middle',
-					'hAlign'=>'center',
-					'headerOptions'=>['class'=>'kv-sticky-column'],
-					'contentOptions'=>['class'=>'kv-sticky-column'],					
+				'class' => 'kartik\grid\ActionColumn',
+				'template' => '{questioner}',
+				'buttons' => [
+					'questioner' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-newspaper-o"></span>';
+								return ($model->status!=2 AND $model->status!=1)?'':Html::a($icon,\yii\helpers\Url::to('../training-class-subject-trainer-evaluation/index.aspx?training_class_subject_id='.\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->trainingSchedule->training_class_subject_id)).'&trainer_id='.\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->trainer_id))),[
+									'class'=>'btn btn-default btn-xs',
+									'data-pjax'=>'0',
+								]);
+							},
+					],	
 				],
-            // 'cost',
-            // 'status',
-            // 'created',
-            // 'created_by',
-            // 'modified',
-            // 'modified_by',
 
-            ['class' => 'kartik\grid\ActionColumn'],
+            //['class' => 'kartik\grid\ActionColumn'],
         ],
 		'panel' => [
 			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
