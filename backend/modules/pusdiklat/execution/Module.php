@@ -37,7 +37,7 @@ class Module extends \yii\base\Module
 		if($this->checkAccess([
 			'pusdiklat-execution-1'
 		])){
-			$menus_1 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,1,$callback,true);
+			$menus_1 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,41,$callback,true);
 			if(empty($menus_1)){
 				$menus_1 = [
 					['icon'=>'fa fa-fw fa-stack-overflow', 'label' => 'Training Activity', 'url' => ['activity/index'],'path'=>[
@@ -57,7 +57,7 @@ class Module extends \yii\base\Module
 		if($this->checkAccess([
 			'pusdiklat-execution-2'
 		])){
-			$menus_2 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,1,$callback,true);
+			$menus_2 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,42,$callback,true);
 			if(empty($menus_2)){
 				$menus_2 = [
 					['icon'=>'fa fa-fw fa-stack-overflow', 'label' => 'Training Activity', 'url' => ['activity2/index'],'path'=>[
