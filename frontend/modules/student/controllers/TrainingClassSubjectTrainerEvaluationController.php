@@ -31,15 +31,29 @@ class TrainingClassSubjectTrainerEvaluationController extends Controller
      * Lists all TrainingClassSubjectTrainerEvaluation models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($training_class_subject_id=NULL,$trainer_id=NULL)
     {
-        $searchModel = new TrainingClassSubjectTrainerEvaluationSearch();
+        /*$searchModel = new TrainingClassSubjectTrainerEvaluationSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);
+        ]);*/
+		//$id = TrainingClassSubjectTrainerEvaluation::findOne(['training_class_subject_id'=>$training_class_subject_id,'trainer_id'=>$trainer_id,'student_id'=>Yii::$app->user->identity->id])->id;
+		if(($model=TrainingClassSubjectTrainerEvaluation::findOne(['training_class_subject_id'=>base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_class_subject_id)),'trainer_id'=>base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($trainer_id)),'student_id'=>Yii::$app->user->identity->id]))!=null)
+		{
+			return $this->redirect(['view',
+						'id' => $id,		
+				]);
+		}
+		else
+		{
+			return $this->redirect(['create',
+						'training_class_subject_id' => $training_class_subject_id,
+						'trainer_id' => $trainer_id,
+				]);	
+		}
     }
 
     /**
@@ -59,11 +73,24 @@ class TrainingClassSubjectTrainerEvaluationController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($training_class_subject_id=NULL,$trainer_id=NULL)
     {
-        $model = new TrainingClassSubjectTrainerEvaluation();
+        $id1 = base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_class_subject_id));
+		$id2 = base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($trainer_id));
+		$model = new TrainingClassSubjectTrainerEvaluation();
 
         if ($model->load(Yii::$app->request->post())){ 
+			$model->training_class_subject_id = $id1;
+			$model->trainer_id = $id2;
+			$model->student_id = Yii::$app->user->identity->id;
+			
+			for($x=1;$x<=12;$x++)
+			{
+				$model->value[$x];
+			}
+			$model->value=implode("|",$model->value);
+			$model->status=1;
+			
 			if($model->save()) {
 				Yii::$app->getSession()->setFlash('success', 'New data have saved.');
 			}
@@ -74,6 +101,9 @@ class TrainingClassSubjectTrainerEvaluationController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $model,
+				//'training_id' => base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($tb_training_id)),
+				'training_class_subject_id' => $training_class_subject_id,
+				'trainer_id' => $trainer_id,
             ]);
         }
     }
@@ -86,7 +116,7 @@ class TrainingClassSubjectTrainerEvaluationController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+       /* $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
             if($model->save()) {
@@ -100,7 +130,8 @@ class TrainingClassSubjectTrainerEvaluationController extends Controller
             return $this->render('update', [
                 'model' => $model,
             ]);
-        }
+        }*/
+		return $this->redirect(['index']);
     }
 
     /**
@@ -111,12 +142,12 @@ class TrainingClassSubjectTrainerEvaluationController extends Controller
      */
     public function actionDelete($id)
     {
-		if($this->findModel($id)->delete()) {
+		/*if($this->findModel($id)->delete()) {
 			Yii::$app->getSession()->setFlash('success', 'Data have deleted.');
 		}
 		else{
 			Yii::$app->getSession()->setFlash('error', 'Data is not deleted.');
-		}
+		}*/
         return $this->redirect(['index']);
     }
 

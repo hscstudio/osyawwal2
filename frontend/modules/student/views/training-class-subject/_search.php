@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\modules\student\models\TrainingScheduleTrainerSearch */
+/* @var $model frontend\modules\student\models\TrainingClassSubjectSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="training-schedule-trainer-search">
+<div class="training-class-subject-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -17,13 +17,19 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'training_schedule_id') ?>
+    <?= $form->field($model, 'training_class_id') ?>
 
-    <?= $form->field($model, 'type') ?>
+    <?= $form->field($model, 'program_subject_id') ?>
 
-    <?= $form->field($model, 'trainer_id') ?>
+    <?= $form->field($model, 'status') ?>
 
-    <?= $form->field($model, 'hours') ?>
+    <?= $form->field($model, 'created') ?>
+
+    <?php // echo $form->field($model, 'created_by') ?>
+
+    <?php // echo $form->field($model, 'modified') ?>
+
+    <?php // echo $form->field($model, 'modified_by') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

@@ -5,12 +5,12 @@ namespace frontend\modules\student\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\TrainingScheduleTrainer;
+use frontend\models\TrainingClassSubject;
 
 /**
- * TrainingScheduleTrainerSearch represents the model behind the search form about `frontend\models\TrainingScheduleTrainer`.
+ * TrainingClassSubjectSearch represents the model behind the search form about `frontend\models\TrainingClassSubject`.
  */
-class TrainingScheduleTrainerSearch extends TrainingScheduleTrainer
+class TrainingClassSubjectSearch extends TrainingClassSubject
 {
     /**
      * @inheritdoc
@@ -18,9 +18,8 @@ class TrainingScheduleTrainerSearch extends TrainingScheduleTrainer
     public function rules()
     {
         return [
-            [['id', 'training_schedule_id', 'type', 'trainer_id', 'cost', 'status', 'created_by', 'modified_by'], 'integer'],
-            [['hours'], 'number'],
-            [['reason', 'created', 'modified'], 'safe'],
+            [['id', 'training_class_id', 'program_subject_id', 'status', 'created_by', 'modified_by'], 'integer'],
+            [['created', 'modified'], 'safe'],
         ];
     }
 
@@ -40,11 +39,11 @@ class TrainingScheduleTrainerSearch extends TrainingScheduleTrainer
      *
      * @return ActiveDataProvider
      */
-    public function search($params,$training_class_id=NULL)
+    public function search($params,$training_id,$training_student_id)
     {
-        $query = TrainingScheduleTrainer::find()
-				->leftjoin('training_schedule','training_schedule.id=training_schedule_trainer.training_schedule_id')
-				->where(['training_class_id'=>$training_class_id]);
+        $query = TrainingClassSubject::find()
+				->leftjoin('training_class_student','training_class_student.training_class_id=training_class_subject.training_class_id')
+				->where(['training_id'=>$training_id,'training_student_id'=>$training_student_id]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -56,19 +55,14 @@ class TrainingScheduleTrainerSearch extends TrainingScheduleTrainer
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'training_schedule_id' => $this->training_schedule_id,
-            'type' => $this->type,
-            'trainer_id' => $this->trainer_id,
-            'hours' => $this->hours,
-            'cost' => $this->cost,
+            'training_class_id' => $this->training_class_id,
+            'program_subject_id' => $this->program_subject_id,
             'status' => $this->status,
             'created' => $this->created,
             'created_by' => $this->created_by,
             'modified' => $this->modified,
             'modified_by' => $this->modified_by,
         ]);
-
-        $query->andFilterWhere(['like', 'reason', $this->reason]);
 
         return $dataProvider;
     }

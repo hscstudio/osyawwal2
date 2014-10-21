@@ -92,7 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'bgColor'=>'blue', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
 				'bodyOptions' => [],
 				'icon' => 'fa fa-fw fa-graduation-cap',
-				'link' => ['./training-schedule-trainer','training_id'=>\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->id))],
+				'link' => ['./training-schedule-trainer/index','training_id'=>\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->id)),'training_student_id'=>$training_student_id],
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],

@@ -83,9 +83,9 @@ $this->params['breadcrumbs'][] = $this->title;
 				'class' => 'kartik\grid\ActionColumn',
 				'template' => '{dashboard}',
 				'buttons' => [
-					'dashboard' => function ($url, $model) {
+					'dashboard' => function ($url, $data) {
 								$icon='<span class="fa fa-fw fa-dashboard"></span>';
-								return ($model->status!=2 AND $model->status!=1)?'':Html::a($icon,\yii\helpers\Url::to('dashboard.aspx?training_id='.\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->id))),[
+								return ($data->status!=2 AND $data->status!=1)?'':Html::a($icon,\yii\helpers\Url::to('dashboard.aspx?training_id='.\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($data->id)).'&training_student_id='.\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode(\frontend\models\TrainingStudent::findOne(['student_id'=>Yii::$app->user->identity->id,'training_id'=>$data->id])->id))),[
 									'class'=>'btn btn-default btn-xs',
 									'data-pjax'=>'0',
 								]);

@@ -57,7 +57,7 @@ class TrainingClassSubjectTrainerEvaluation extends \yii\db\ActiveRecord
             'training_class_subject_id' => 'Training Class Subject ID',
             'trainer_id' => 'Trainer ID',
             'student_id' => 'Student ID',
-            'value' => 'Value',
+            'value' => '',
             'comment' => 'Comment',
             'status' => 'Status',
             'created' => 'Created',

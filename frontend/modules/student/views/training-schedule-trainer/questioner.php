@@ -1,18 +1,30 @@
 <?php
+
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use kartik\widgets\ActiveForm;
+use kartik\widgets\Select2;
+use yii\helpers\ArrayHelper;
+use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\TrainingClassSubjectTrainerEvaluation */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
 <div class="training-class-subject-trainer-evaluation-form">
-
-    <?php $form = ActiveForm::begin(); ?>
-	<?= $form->errorSummary($model) ?> <!-- ADDED HERE -->
-    
-    <?php
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<div class="pull-right">
+		</div>
+		<i class="fa fa-fw fa-globe"></i><?php //echo \frontend\models\Training::findOne($tb_training_id)->name; ?> - <?php //echo \frontend\models\TrainingClassSubject::findOne($training_class_subject_id)->programSubject->name; ?> - <?php //echo \frontend\models\Trainer::findOne($trainer_id)->name; ?></div>
+	<div style="margin:10px">
+    <?php $form = ActiveForm::begin([
+		'type' => ActiveForm::TYPE_HORIZONTAL,
+		'options'=>['enctype'=>'multipart/form-data']
+	]); ?>
+	<?= $form->errorSummary($model) ?>
+	
+   
+<?php
    $group_arr=array(
 					0=>"I. Sikap Widyaiswara",
 					1=>"II. Teknik Presentasi dan Komunikasi",
@@ -73,11 +85,16 @@ use yii\widgets\ActiveForm;
 	echo "</tr>";
 	echo "</table>";
 ?>
-
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>
-
+		<label class="col-md-2 control-label"></label>
+		<div class="col-md-10">
+        <?= Html::submitButton(
+			$model->isNewRecord ? '<span class="fa fa-fw fa-save"></span> '.'Create' : '<span class="fa fa-fw fa-save"></span> '.'Update', 
+			['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+		</div>
+	</div>
+	
     <?php ActiveForm::end(); ?>
-
+	</div>
+</div>
 </div>
