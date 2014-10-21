@@ -12,21 +12,11 @@ use yii\helpers\Url;
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
-$this->title = Yii::t('app', 'Users');
+$this->title = Yii::t('app', 'Role Users');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
 	
-<!--
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'User',
-]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
--->
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -63,9 +53,25 @@ $this->params['breadcrumbs'][] = $this->title;
 				}
 			],
 			
-            // 'password_hash',
-            // 'password_reset_token',
-            'email:email',       
+            [
+				'label' => 'Role',
+				'format' => 'raw',
+				'vAlign'=>'middle',
+				'hAlign'=>'center',
+				'headerOptions'=>['class'=>'kv-sticky-column'],
+				'contentOptions'=>['class'=>'kv-sticky-column'],
+				'value' => function ($data){
+					$roles = backend\models\AuthAssignment::find()
+						->where([
+							'user_id' => $data->id
+						])
+						->column();
+					if(!empty($roles)){
+						return Html::tag('span',implode(',',$roles),
+							['class'=>'badge','title'=>'','data-toggle'=>'tooltip']);
+					}							
+				}
+			], 
             
 			[
 				'attribute' => 'status',

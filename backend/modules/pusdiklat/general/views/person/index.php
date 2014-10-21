@@ -59,11 +59,11 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions'=>['class'=>'kv-sticky-column'],	
 				'value' => function ($data){
 					if(!empty($data->employee->person_id)){
-						return Html::a($data->employee->person->name,['./employee2/view','id'=>$data->employee->person_id],
+						return Html::a($data->employee->person->name,['./employee/view','id'=>$data->employee->person_id],
 								['class'=>'modal-heart badge','title'=>$data->employee->person->name,'source'=>'div.panel-body','data-toggle'=>'tooltip']);
 					}
 					else{
-						return Html::a('<i class="fa fa-fw fa-plus"></i>',['./employee2/create','person_id'=>$data->id],
+						return Html::a('<i class="fa fa-fw fa-plus"></i>',['./employee/create','person_id'=>$data->id],
 								['class'=>'badge','title'=>'Create Employee Base On Person','data-toggle'=>'tooltip']);
 					}					
 					

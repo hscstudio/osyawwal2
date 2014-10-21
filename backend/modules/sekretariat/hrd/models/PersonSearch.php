@@ -1,12 +1,11 @@
 <?php
 
-namespace backend\modules\pusdiklat\general\models;
+namespace backend\modules\sekretariat\hrd\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use backend\models\Person;
-use backend\models\Employee;
 
 /**
  * PersonSearch represents the model behind the search form about `backend\models\Person`.
@@ -42,17 +41,7 @@ class PersonSearch extends Person
      */
     public function search($params)
     {
-		$satker_id = (int)Yii::$app->user->identity->employee->satker_id;
-        $query = Person::find()
-			->where([
-				'id'=>Employee::find()
-						->select('person_id')
-						->where([
-							'satker_id' => $satker_id,
-						])
-						->column(),
-			])
-			->andWhere(['>','id',100]);
+        $query = Person::find()->where('id>100');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

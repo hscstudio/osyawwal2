@@ -136,10 +136,16 @@ class EmployeeController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Employee::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
+		/* special user id<=100 not editable */
+		if ($id>100){
+			if (($model = Employee::findOne($id)) !== null) {
+				return $model;
+			} else {
+				throw new NotFoundHttpException('The requested page does not exist.');
+			}
+		}
+		else{
+			throw new NotFoundHttpException('You have not privilege to access this data, contact Administratator.');
+		}
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\pusdiklat\general\models;
+namespace backend\modules\sekretariat\hrd\models;
 
 use Yii;
 use yii\base\Model;
@@ -40,12 +40,7 @@ class EmployeeSearch extends Employee
      */
     public function search($params)
     {
-		$satker_id = (int)Yii::$app->user->identity->employee->satker_id;
-        $query = Employee::find()
-			->where([
-				'satker_id' => $satker_id,
-			])
-			->andWhere(['>','person_id',100]);
+        $query = Employee::find()->where('person_id>100');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -54,11 +49,11 @@ class EmployeeSearch extends Employee
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
-		
+
         $query->andFilterWhere([
             'person_id' => $this->person_id,
             'user_id' => $this->user_id,
-			
+			'satker_id' => $this->satker_id,
         ]);
 
         return $dataProvider;
