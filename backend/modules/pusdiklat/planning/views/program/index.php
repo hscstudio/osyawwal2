@@ -18,17 +18,7 @@ $this->title = Yii::t('app', 'Programs');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="program-index">
-	
-<!--
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Program',
-]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
--->
 	<?php
 	$program_code = ArrayHelper::map(
 		\backend\models\Reference::find()
@@ -140,7 +130,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						'2'=>'<span class="glyphicon glyphicon-check"></span>',
 						'3'=>'<span class="glyphicon glyphicon-remove"></span>'
 					];
-					$validation_classes = ['0'=>'warning','1'=>'info','2'=>'success','4'=>'danger'];
+					$validation_classes = ['0'=>'warning','1'=>'info','2'=>'success','3'=>'danger'];
 					return Html::a(
 						$validation_icons[$data->validation_status],
 						['validation','id'=>$data->id],
