@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		'bgColor'=>'green', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
 		'bodyOptions' => [],
 		'icon' => 'fa fa-user-md',
-		'link' => ['dashboard','training_id'=>\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->id))],
+		'link' => ['dashboard','training_id'=>\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->id)),'training_student_id'=>$training_student_id],
 		'footerOptions' => [
 			'class' => 'dashboard-hide',
 		],
@@ -126,9 +126,9 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
             [
 				'class' => 'kartik\grid\ActionColumn',
-				'template' => '{view}',
+				'template' => '{}',
 				/*'buttons' => [
-					'delete' => function ($url, $model) {
+					'view' => function ($url, $model) {
 								$icon='<span class="fa fa-fw fa-trash"></span>';
 								return Html::a($icon,
 									[

@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		'bgColor'=>'yellow', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
 		'bodyOptions' => [],
 		'icon' => 'glyphicon glyphicon-home',
-		'link' => ['dashboard','training_id'=>\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->id))],
+		'link' => ['dashboard','training_id'=>\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->id)),'training_student_id'=>$training_student_id],
 		'footerOptions' => [
 			'class' => 'dashboard-hide',
 		],
@@ -131,7 +131,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						return Html::a($classStudentCount, 
 							[
 								'class-student',
-								'id'=>$data->training_id,
+								'training_id'=>$data->training_id,
 								'class_id'=>$data->id,
 							], 
 							[
@@ -145,7 +145,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						return Html::a(' <i class="fa fa-fw fa-plus-circle"></i>', 
 								[
 									'student',
-									'id'=>$data->training_id,
+									'training_id'=>$data->training_id,
 								], 
 								[
 									'title'=>'Belum ada peserta yang didaftarkan pada diklat ini',

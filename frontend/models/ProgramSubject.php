@@ -79,4 +79,9 @@ class ProgramSubject extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Program::className(), ['id' => 'program_id']);
     }
+	
+	public function getReference() 
+   { 
+       return $this->hasOne(Reference::className(), ['id' => 'type']); 
+   } 
 }

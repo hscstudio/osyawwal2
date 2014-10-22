@@ -40,11 +40,12 @@ class TrainingClassSubjectTrainerEvaluationController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);*/
-		//$id = TrainingClassSubjectTrainerEvaluation::findOne(['training_class_subject_id'=>$training_class_subject_id,'trainer_id'=>$trainer_id,'student_id'=>Yii::$app->user->identity->id])->id;
+		//$id = TrainingClassSubjectTrainerEvaluation::findOne(['training_class_subject_id'=>base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_class_subject_id)),'trainer_id'=>base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($trainer_id)),'student_id'=>Yii::$app->user->identity->id])->id;
 		if(($model=TrainingClassSubjectTrainerEvaluation::findOne(['training_class_subject_id'=>base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_class_subject_id)),'trainer_id'=>base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($trainer_id)),'student_id'=>Yii::$app->user->identity->id]))!=null)
 		{
 			return $this->redirect(['view',
-						'id' => $id,		
+						'training_class_subject_id' => $training_class_subject_id,
+						'trainer_id' => $trainer_id,		
 				]);
 		}
 		else
@@ -61,10 +62,12 @@ class TrainingClassSubjectTrainerEvaluationController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
+    public function actionView($training_class_subject_id=NULL,$trainer_id=NULL)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => TrainingClassSubjectTrainerEvaluation::findOne(['training_class_subject_id'=>base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_class_subject_id)),'trainer_id'=>base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($trainer_id)),'student_id'=>Yii::$app->user->identity->id]),
+			'training_class_subject_id' => $training_class_subject_id,
+			'trainer_id' => $trainer_id,
         ]);
     }
 
@@ -97,7 +100,7 @@ class TrainingClassSubjectTrainerEvaluationController extends Controller
 			else{
 				Yii::$app->getSession()->setFlash('error', 'New data is not saved.');
 			}
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'training_class_subject_id' => $training_class_subject_id,'trainer_id' => $trainer_id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
