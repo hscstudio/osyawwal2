@@ -27,7 +27,7 @@ use yii\helpers\Url;
 	<div class="row">
 		<div class="col-md-3">
 		<?php
-		$data = ['0'=>'Draft','1'=>'Process','3'=>'Valid','4'=>'Reject'];
+		$data = ['0'=>'Draft','1'=>'Process','2'=>'Valid','3'=>'Reject'];
 		echo $form->field($model, 'validation_status')->widget(Select2::classname(), [
 			'data' => $data,
 			'options' => [

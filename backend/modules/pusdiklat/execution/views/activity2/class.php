@@ -260,7 +260,16 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
 		'panel' => [
 			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
-			'before'=>Html::a('<i class="fa fa-fw fa-plus"></i> Create ', ['create-class','id'=>$model->id], ['class' => 'btn btn-success']),
+			'before'=>Html::a('<i class="fa fa-fw fa-plus"></i> Create ', ['create-class','id'=>$model->id], ['class' => 'btn btn-success']).
+			Html::a('<i class="fa fa-fw fa-table"></i> Print Attendance Recapitulation', [
+				'recap',
+				'id' => $model->id
+			],
+			[
+				'class' => 'btn btn-default pull-right',
+				'style' => 'margin-right:5px',
+				'data-pjax' => '0'
+			]),
 			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],

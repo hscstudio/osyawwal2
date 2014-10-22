@@ -39,7 +39,7 @@ class Module extends \yii\base\Module
 		if($this->checkAccess([
 			'pusdiklat-planning-1'
 		])){
-			$menus_1 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,1,$callback,true);
+			$menus_1 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,28,$callback,true);
 			if(empty($menus_1)){
 				$menus_1 = [
 					['icon'=>'fa fa-fw fa-list','label' => 'Program', 'url' => ['program/index'],'path'=>[
@@ -59,7 +59,7 @@ class Module extends \yii\base\Module
 		if($this->checkAccess([
 			'pusdiklat-planning-2'
 		])){
-			$menus_2 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,1,$callback,true);
+			$menus_2 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,29,$callback,true);
 			if(empty($menus_2)){
 				$menus_2 = [
 					['icon'=>'fa fa-fw fa-list','label' => 'Program', 'url' => ['program2/index'],'path'=>[
@@ -79,7 +79,7 @@ class Module extends \yii\base\Module
 		if($this->checkAccess([
 			'pusdiklat-planning-3'
 		])){
-			$menus_3 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,1,$callback,true);
+			$menus_3 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,30,$callback,true);
 			if(empty($menus_3)){
 				$menus_3 = [
 					['icon'=>'fa fa-fw fa-list','label' => 'Program', 'url' => ['program3/index'],'path'=>[

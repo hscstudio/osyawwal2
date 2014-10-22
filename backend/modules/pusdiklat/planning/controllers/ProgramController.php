@@ -87,11 +87,11 @@ class ProgramController extends Controller
 			$model->satker = 'current';
 			/* $model->stage = implode(',',$model->stage); */
 			if($model->save()) {
-				Yii::$app->getSession()->setFlash('success', 'New data have saved.');
-				return $this->redirect(['view', 'id' => $model->id]);
+				Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>New data have saved.');
+				return $this->redirect(['index']);
 			}
 			else{
-				Yii::$app->getSession()->setFlash('error', 'New data is not saved.');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>New data is not saved.');
 				return $this->render('create', $renders);
 			}            
         } else {
@@ -116,14 +116,13 @@ class ProgramController extends Controller
 		
         if ($model->load(Yii::$app->request->post())) {
 			$model->satker = 'current';
-			/* $model->stage = implode(',',$model->stage); */
             if($model->save()) {
-				Yii::$app->getSession()->setFlash('success', 'Data have updated.');
+				Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Data have updated.');
 				
-				return $this->redirect(['view', 'id' => $model->id]);
+				return $this->redirect(['index']);
 			}
 			else{
-				Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Data is not updated.');
 				return $this->render('update', $renders);
 			}
 			
@@ -179,14 +178,11 @@ class ProgramController extends Controller
         if ($model->load(Yii::$app->request->post())) {
 			$model->satker = 'current';
             if($model->save()) {
-				Yii::$app->getSession()->setFlash('success', 'Data have updated.');
+				Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Data have updated.');
 				$uploaded_files = [];					
 				foreach($object_file_array as $object_file=>$label){
 					$uploaded_files[$object_file] = \yii\web\UploadedFile::getInstance($files[$object_file], 'file_name['.$object_file.']');						
 					if(null!=$uploaded_files[$object_file]){
-						//upload(
-							//$instance_file, $object='person', $object_id, $file, $object_file, 
-							//$type='photo', $resize=false,$current_file='',$thumb = false){
 						Heart::upload(
 							$uploaded_files[$object_file], 
 							'program', 
@@ -200,10 +196,10 @@ class ProgramController extends Controller
 						);					
 					}
 				}
-				return $this->redirect(['view', 'id' => $model->id]);
+				return $this->redirect(['index']);
 			}
 			else{
-				Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Data is not updated.');
 				return $this->render('validation', $renders);
 			}
 			

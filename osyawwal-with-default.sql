@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 21, 2014 at 04:21 AM
+-- Generation Time: Oct 21, 2014 at 07:22 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.9
 
@@ -455,6 +455,13 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/pusdiklat-general/activity3/update', 2, NULL, NULL, NULL, 1413838825, 1413838825),
 ('/pusdiklat-general/activity3/view', 2, NULL, NULL, NULL, 1413838825, 1413838825),
 ('/pusdiklat-general/activity3/view-student-plan', 2, NULL, NULL, NULL, 1413838825, 1413838825),
+('/pusdiklat-general/assignment0/*', 2, NULL, NULL, NULL, 1413864754, 1413864754),
+('/pusdiklat-general/assignment0/block', 2, NULL, NULL, NULL, 1413864754, 1413864754),
+('/pusdiklat-general/assignment0/delete', 2, NULL, NULL, NULL, 1413864754, 1413864754),
+('/pusdiklat-general/assignment0/index', 2, NULL, NULL, NULL, 1413864754, 1413864754),
+('/pusdiklat-general/assignment0/unblock', 2, NULL, NULL, NULL, 1413864754, 1413864754),
+('/pusdiklat-general/assignment0/update', 2, NULL, NULL, NULL, 1413864754, 1413864754),
+('/pusdiklat-general/assignment0/view', 2, NULL, NULL, NULL, 1413864754, 1413864754),
 ('/pusdiklat-general/default/*', 2, NULL, NULL, NULL, 1413838825, 1413838825),
 ('/pusdiklat-general/default/index', 2, NULL, NULL, NULL, 1413838825, 1413838825),
 ('/pusdiklat-general/default/view-employee', 2, NULL, NULL, NULL, 1413838825, 1413838825),
@@ -703,13 +710,13 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/sekretariat-organisation/reference-graduate/delete', 2, NULL, NULL, NULL, 1413838538, 1413838538),
 ('/sekretariat-organisation/reference-graduate/index', 2, NULL, NULL, NULL, 1413838538, 1413838538),
 ('/sekretariat-organisation/reference-graduate/update', 2, NULL, NULL, NULL, 1413838538, 1413838538),
-('/sekretariat-organisation/reference-graduate/view', 2, NULL, NULL, NULL, 1413838538, 1413838538),
+('/sekretariat-organisation/reference-graduate/view', 2, NULL, NULL, NULL, 1413838538, 1413838538);
+INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
 ('/sekretariat-organisation/reference-program-code/*', 2, NULL, NULL, NULL, 1413838538, 1413838538),
 ('/sekretariat-organisation/reference-program-code/create', 2, NULL, NULL, NULL, 1413838538, 1413838538),
 ('/sekretariat-organisation/reference-program-code/delete', 2, NULL, NULL, NULL, 1413838538, 1413838538),
 ('/sekretariat-organisation/reference-program-code/index', 2, NULL, NULL, NULL, 1413838538, 1413838538),
-('/sekretariat-organisation/reference-program-code/update', 2, NULL, NULL, NULL, 1413838538, 1413838538);
-INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
+('/sekretariat-organisation/reference-program-code/update', 2, NULL, NULL, NULL, 1413838538, 1413838538),
 ('/sekretariat-organisation/reference-program-code/view', 2, NULL, NULL, NULL, 1413838538, 1413838538),
 ('/sekretariat-organisation/reference-rank-class/*', 2, NULL, NULL, NULL, 1413838538, 1413838538),
 ('/sekretariat-organisation/reference-rank-class/create', 2, NULL, NULL, NULL, 1413838538, 1413838538),
@@ -1437,6 +1444,13 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('pusdiklat-general-3', '/pusdiklat-general/activity3/view'),
 ('admin-pusdiklat', '/pusdiklat-general/activity3/view-student-plan'),
 ('pusdiklat-general-3', '/pusdiklat-general/activity3/view-student-plan'),
+('admin-pusdiklat', '/pusdiklat-general/assignment0/*'),
+('admin-pusdiklat', '/pusdiklat-general/assignment0/block'),
+('admin-pusdiklat', '/pusdiklat-general/assignment0/delete'),
+('admin-pusdiklat', '/pusdiklat-general/assignment0/index'),
+('admin-pusdiklat', '/pusdiklat-general/assignment0/unblock'),
+('admin-pusdiklat', '/pusdiklat-general/assignment0/update'),
+('admin-pusdiklat', '/pusdiklat-general/assignment0/view'),
 ('admin-pusdiklat', '/pusdiklat-general/default/*'),
 ('pusdiklat-general-1', '/pusdiklat-general/default/*'),
 ('pusdiklat-general-2', '/pusdiklat-general/default/*'),
@@ -1584,15 +1598,15 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('pusdiklat-planning-1', '/pusdiklat-planning/activity/delete'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/index'),
 ('pusdiklat-planning-1', '/pusdiklat-planning/activity/index'),
-('admin-pusdiklat', '/pusdiklat-planning/activity/index-student-plan'),
+('admin-pusdiklat', '/pusdiklat-planning/activity/index-student-plan');
+INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('pusdiklat-planning-1', '/pusdiklat-planning/activity/index-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/pic'),
 ('pusdiklat-planning-1', '/pusdiklat-planning/activity/pic'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/program-name'),
 ('pusdiklat-planning-1', '/pusdiklat-planning/activity/program-name'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/update'),
-('pusdiklat-planning-1', '/pusdiklat-planning/activity/update');
-INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
+('pusdiklat-planning-1', '/pusdiklat-planning/activity/update'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/update-student-plan'),
 ('pusdiklat-planning-1', '/pusdiklat-planning/activity/update-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/view'),
@@ -2127,7 +2141,7 @@ CREATE TABLE IF NOT EXISTS `menu` (
   `data` text,
   PRIMARY KEY (`id`),
   KEY `parent` (`parent`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=58 ;
 
 --
 -- Dumping data for table `menu`
@@ -2144,7 +2158,53 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 (8, 'Bagian Tata Usaha', 7, '/pusdiklat-general/default/index', 1, 'return [''icon''=>''fa fa-joomla fa-fw'',''path''=>''/pusdiklat-general/''];'),
 (9, 'Bidang Perencanaan dan Pengembangan Diklat', 7, '/pusdiklat-planning/default/index', 2, 'return [''icon''=>''fa fa-calendar fa-fw'',''path''=>''/pusdiklat-planning/''];'),
 (10, 'Bidang Penyelenggaraan', 7, '/pusdiklat-execution/default/index', 3, 'return [''icon''=>''fa fa-paper-plane fa-fw'',''path''=>''/pusdiklat-execution/''];'),
-(11, 'Bidang Evaluasi dan Pelaporan Kinerja', 7, '/pusdiklat-evaluation/default/index', 4, 'return [''icon''=>''fa fa-check-square-o fa-fw'',''path''=>''/pusdiklat-evaluation/''];');
+(11, 'Bidang Evaluasi dan Pelaporan Kinerja', 7, '/pusdiklat-evaluation/default/index', 4, 'return [''icon''=>''fa fa-check-square-o fa-fw'',''path''=>''/pusdiklat-evaluation/''];'),
+(12, 'Pusdiklat - General - Administrator', 8, '/pusdiklat-general/assignment0/index', NULL, NULL),
+(13, 'Assignment', 12, '/pusdiklat-general/assignment0/index', 1, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/assignment0/''];'),
+(14, 'Pusdiklat - General - I (Pegawai TU Humas)', 8, '/pusdiklat-general/activity/index', NULL, NULL),
+(15, 'Diklat', 14, '/pusdiklat-general/activity/index', 1, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/activity/''];'),
+(16, 'Rapat', 14, '/pusdiklat-general/meeting-activity/index', 2, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/meeting-activity/''];'),
+(17, 'Manajemen Individu', 14, '/pusdiklat-general/person/index', 3, 'return [''icon''=>''fa fa-user fa-fw'',''path''=>''/person/''];'),
+(18, 'Manajemen Pegawai', 14, '/pusdiklat-general/employee/index', 4, 'return [''icon''=>''fa fa-user-md fa-fw'',''path''=>''/employee/''];'),
+(19, 'Manajemen User', 14, '/pusdiklat-general/user/index', 5, 'return [''icon''=>''fa fa-key fa-fw'',''path''=>''/user/''];'),
+(20, 'Pusdiklat - General - II (Keuangan)', 8, '/pusdiklat-general/activity2/index', NULL, NULL),
+(21, 'Diklat', 20, '/pusdiklat-general/activity2/index', 1, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/activity2/''];'),
+(22, 'Rapat', 20, '/pusdiklat-general/meeting-activity2/index', 2, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/meeting-activity2/''];'),
+(23, 'Pusdiklat - General - III (Pengelolaan Aset)', 8, '/pusdiklat-general/activity3/index', NULL, NULL),
+(24, 'Diklat', 23, '/pusdiklat-general/activity3/index', 1, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/activity3/''];'),
+(25, 'Rapat', 23, '/pusdiklat-general/meeting-activity3/index', 2, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/meeting-activity3/''];'),
+(26, 'Permintaan Ruangan', 23, '/pusdiklat-general/room-request3/index', 3, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/room-request3/''];'),
+(27, 'Manajemen Ruangan', 23, '/pusdiklat-general/room3/index', 4, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/room3/''];'),
+(28, 'Pusdiklat - Planning - I (Program)', 9, '/pusdiklat-planning/program/index', NULL, NULL),
+(29, 'Pusdiklat - Planning - II (Kurikulum)', 9, '/pusdiklat-planning/program2/index', NULL, NULL),
+(30, 'Pusdiklat - Planning - III (Tenaga Pengajar)', 9, '/pusdiklat-planning/program3/index', NULL, NULL),
+(31, 'Program', 28, '/pusdiklat-planning/program/index', 1, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/program/''];'),
+(32, 'Diklat', 28, '/pusdiklat-planning/activity/index', 2, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/activity/''];'),
+(33, 'Rapat', 28, '/pusdiklat-planning/meeting-activity/index', 3, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/meeting-activity/''];'),
+(34, 'Program', 29, '/pusdiklat-planning/program2/index', 1, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/program2/''];'),
+(35, 'Diklat', 29, '/pusdiklat-planning/activity2/index', 2, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/activity2/''];'),
+(36, 'Rapat', 29, '/pusdiklat-planning/meeting-activity2/index', 3, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/meeting-activity2/''];'),
+(37, 'Program', 30, '/pusdiklat-planning/program3/index', 1, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/program3/''];'),
+(38, 'Diklat', 30, '/pusdiklat-planning/activity3/index', 2, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/activity3/''];'),
+(39, 'Rapat', 30, '/pusdiklat-planning/meeting-activity3/index', 3, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/meeting-activity3/''];'),
+(40, 'Manajemen Pengajar', 30, '/pusdiklat-planning/trainer3/index', 4, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/trainer3/''];'),
+(41, 'Pusdiklat - Execution - I', 10, '/pusdiklat-execution/activity/index', NULL, NULL),
+(42, 'Pusdiklat - Execution - II', 10, '/pusdiklat-execution/activity2/index', NULL, NULL),
+(43, 'Pusdiklat - Evaluation - I (Evaluasi Diklat)', 11, '/pusdiklat-evaluation/activity/index', NULL, NULL),
+(44, 'Pusdiklat - Evaluation - II (PHD)', 11, '/pusdiklat-evaluation/activity2/index', NULL, NULL),
+(45, 'Pusdiklat - Evaluation - III (IPK)', 11, '/pusdiklat-evaluation/activity3/index', NULL, NULL),
+(46, 'Diklat', 41, '/pusdiklat-execution/activity/index', 1, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/activity/''];'),
+(47, 'Rapat', 41, '/pusdiklat-execution/meeting-activity/index', 1, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/meeting-activity/''];'),
+(48, 'Manajemen Peserta', 41, '/pusdiklat-execution/student/index', 3, 'return [''icon''=>''fa fa-user-md fa-fw'',''path''=>''/student/''];'),
+(49, 'Diklat', 42, '/pusdiklat-execution/activity2/index', 1, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/activity2/''];'),
+(50, 'Rapat', 42, '/pusdiklat-execution/meeting-activity2/index', 2, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/meeting-activity2/''];'),
+(51, 'Manajemen Peserta', 42, '/pusdiklat-execution/student2/index', 3, 'return [''icon''=>''fa fa-user-md fa-fw'',''path''=>''/student2/''];'),
+(52, 'Diklat', 43, '/pusdiklat-evaluation/activity/index', 1, 'return [''icon''=>''fa fa-link fa-fw'',''path''=>''/activity/''];'),
+(53, 'Diklat', 44, '/pusdiklat-evaluation/activity2/index', 1, 'return [''icon''=>''fa fa-link fa-fw'',''path''=>''/activity2/''];'),
+(54, 'Diklat', 45, '/pusdiklat-evaluation/activity3/index', 1, 'return [''icon''=>''fa fa-link fa-fw'',''path''=>''/activity3/''];'),
+(55, 'Rapat', 43, '/pusdiklat-evaluation/meeting-activity/index', 2, 'return [''icon''=>''fa fa-link fa-fw'',''path''=>''/meeting-activity/''];'),
+(56, 'Rapat', 44, '/pusdiklat-evaluation/meeting-activity2/index', 2, 'return [''icon''=>''fa fa-link fa-fw'',''path''=>''/meeting-activity2/''];'),
+(57, 'Rapat', 45, '/pusdiklat-evaluation/meeting-activity3/index', 2, 'return [''icon''=>''fa fa-link fa-fw'',''path''=>''/meeting-activity3/''];');
 
 -- --------------------------------------------------------
 

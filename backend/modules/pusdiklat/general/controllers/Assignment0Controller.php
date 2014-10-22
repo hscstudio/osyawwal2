@@ -75,17 +75,17 @@ class Assignment0Controller extends Controller
 			$model->role = 1;
             if($model->save()) {
 				Yii::$app->getSession()->setFlash('success', 'Data have updated.');
-				foreach($roles as $role){
-					$AuthAssignment = \backend\models\AuthAssignment::find()
-						->where([
+				$AuthAssignment = \backend\models\AuthAssignment::deleteAll('user_id='.$id);
+				
+				if(!empty($roles)){
+					foreach($roles as $role){
+						$AuthAssignment = new \backend\models\AuthAssignment([
 							'user_id' => $id
-						])
-						->one();
-					if(empty($AuthAssignment)) $AuthAssignment = new \backend\models\AuthAssignment([
-						'user_id' => $id
-					]);
-					
-					$AuthAssignment->item_name = $role;
+						]);
+						
+						$AuthAssignment->item_name = $role;
+						$AuthAssignment->save();
+					}
 				}
 			}
 			else{
