@@ -903,16 +903,23 @@ class ActivityController extends Controller
 							}
 							
 							$object_reference_id = 0;
-							$object_reference = ObjectReference::find()
-								->where([
-									'object' => 'person',
-									'object_id' => $person->id,
-									'type' => 'unit',
-								])
-								->one();
-							if(null!=$object_reference){
-								$object_reference_id = 1;
+							
+							if ($person != null) {
+								
+								$object_reference = ObjectReference::find()
+									->where([
+										'object' => 'person',
+										'object_id' => $person->id,
+										'type' => 'unit',
+									])
+									->one();
+
+								if(null!=$object_reference){
+									$object_reference_id = 1;
+								}
+								
 							}
+							
 						
 							
 							$data[$row]=[

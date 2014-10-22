@@ -80,6 +80,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 			'type'=>DateControl::FORMAT_DATE,
 			'displayFormat' => 'php:d-m-Y',
 			'saveFormat' => 'php:Y-m-d',
+			'ajaxConversion' => false,
 			'options'=>[  // this will now become the widget options for DatePicker
 				'pluginOptions'=>[
 					'autoclose'=>true,
@@ -94,6 +95,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 		echo "<div style='width:100px;' class='pull-right'>";
 		echo $form->field($searchActivityRoomModel, 'startTimeX')->widget(DateControl::classname(), [
 			'type'=>DateControl::FORMAT_TIME,
+			'ajaxConversion' => false,
 			'options'=>[  // this will now become the widget options for DatePicker
 				'pluginOptions'=>[
 					'autoclose'=>true,
@@ -116,6 +118,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 			'type'=>DateControl::FORMAT_DATE,
 			'displayFormat' => 'php:d-m-Y',
 			'saveFormat' => 'php:Y-m-d',
+			'ajaxConversion' => false,
 			'options'=>[  // this will now become the widget options for DatePicker
 				'pluginOptions'=>[
 					'autoclose'=>true,
@@ -130,6 +133,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 		echo "<div style='width:100px;' class='pull-right'>";
 		echo $form->field($searchActivityRoomModel, 'endTimeX')->widget(DateControl::classname(), [
 			'type'=>DateControl::FORMAT_TIME,
+			'ajaxConversion' => false,
 			'options'=>[  // this will now become the widget options for DatePicker
 				'pluginOptions'=>[
 					'autoclose'=>true,

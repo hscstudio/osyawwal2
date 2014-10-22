@@ -162,7 +162,6 @@ $this->params['breadcrumbs'][] = $this->title;
 					else{
 						return Html::tag('span',
 							$class,
-							$link,
 							$options
 						);
 					}
