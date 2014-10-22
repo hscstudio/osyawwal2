@@ -211,10 +211,10 @@ class StudentController extends Controller
 					'col2'=>strtoupper($student->born),
 					'col3'=>$tgllahir[2].'-'.$tgllahir[1].'-'.$tgllahir[0],
 					'col4'=>'KEMENTERIAN KEUANGAN',
-					'col5'=>strtoupper(\frontend\models\Unit::findOne($student->ref_unit_id)->name),
-					//'col6'=>strtoupper(\frontend\models\RankClass::findOne($student->ref_rank_class_id)->name),
-					//'col7'=>strtoupper($student->position),
-					//'col8'=>$student->status=0?'BARU':'MENGULANG',
+					'col5'=> strtoupper(\frontend\models\ObjectReference::findOne(['object'=>'person','object_id'=>$student->id,'type'=>'unit'])->reference->name),
+					'col6'=>strtoupper(\frontend\models\ObjectReference::findOne(['object'=>'person','object_id'=>$student->id,'type'=>'rank_class'])->reference->name),
+					'col7'=>strtoupper($student->position_desc),
+					'col8'=>$student->status=0?'MENGULANG':'BARU',
 				];
 			}
 			$OpenTBS->MergeBlock('b', $data2);

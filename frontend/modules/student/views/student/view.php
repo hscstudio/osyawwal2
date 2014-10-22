@@ -54,16 +54,16 @@ $tgllahir = explode('-',$data->birthday);
     	<td>KEMENTERIAN</td><td>:</td><td>KEMENTERIAN KEUANGAN</td>
     </tr>
     <tr>
-    	<td>UNIT ORGANISASI</td><td>:</td><td><?php //echo strtoupper(\frontend\models\Unit::findOne($data->ref_unit_id)->name);?></td>
+    	<td>UNIT ORGANISASI</td><td>:</td><td><?php echo strtoupper(\frontend\models\ObjectReference::findOne(['object'=>'person','object_id'=>$data->id,'type'=>'unit'])->reference->name);?></td>
     </tr>
     <tr>
-    	<td>PANGKAT / GOLONGAN</td><td>:</td><td><?php //echo strtoupper(\frontend\models\RankClass::findOne($data->ref_rank_class_id)->name);?></td>
+    	<td>PANGKAT / GOLONGAN</td><td>:</td><td><?php echo strtoupper(\frontend\models\ObjectReference::findOne(['object'=>'person','object_id'=>$data->id,'type'=>'rank_class'])->reference->name);?></td>
     </tr>
     <tr>
-    	<td>JABATAN</td><td>:</td><td><?php //echo strtoupper($data->position);?></td>
+    	<td>JABATAN</td><td>:</td><td><?php echo strtoupper($data->position_desc);?></td>
     </tr>
     <tr>
-    	<td>STATUS PESERTA</td><td>:</td><td>BARU</td>
+    	<td>STATUS PESERTA</td><td>:</td><td><?php echo $data->status=0?'MENGULANG':'BARU';?></td>
     </tr>
     
 </table>
