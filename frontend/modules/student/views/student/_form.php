@@ -81,6 +81,14 @@ use yii\helpers\Url;
 				<div class="col-md-3">
 				<?= $form->field($person, 'birthday')->widget(DateControl::classname(), [
 						'type' => DateControl::FORMAT_DATE,
+						'ajaxConversion' => false,
+						'displayFormat' => 'php:d-m-Y',
+						'saveFormat' => 'php:Y-m-d',
+						'options' => [
+							   'pluginOptions' => [
+								   'autoclose' => true
+							   ]
+						   ],
 					]); ?>
 				</div>
 			</div>
@@ -101,11 +109,19 @@ use yii\helpers\Url;
 				</div>
 			</div>
 			<div class="row clearfix">
-				<div class="col-md-4">
+				<div class="col-md-3">
 				<?= $form->field($person, 'nid')->textInput(['maxlength' => 100]) ?>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-3">
 				<?= $form->field($person, 'npwp')->textInput(['maxlength' => 100]) ?>
+				</div>
+                <div class="col-md-3">
+				<?= $form->field($model, 'status')->widget(\kartik\widgets\SwitchInput::classname(), [
+					'pluginOptions' => [
+						'onText' => 'Baru',
+						'offText' => 'Mengulang',
+						]
+					]) ?>
 				</div>
 			</div>						
 			

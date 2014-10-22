@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'bgColor'=>'red', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
 				'bodyOptions' => [],
 				'icon' => 'fa fa-fw fa-cutlery',
-				'link' => ['property','training_id'=>\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->id))],
+				'link' => ['property','training_id'=>\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->id)),'training_student_id'=>$training_student_id],
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'bgColor'=>'yellow', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
 				'bodyOptions' => [],
 				'icon' => 'glyphicon glyphicon-home',
-				'link' => ['class','training_id'=>\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->id))],
+				'link' => ['class','training_id'=>\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->id)),'training_student_id'=>$training_student_id],
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
@@ -72,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'bgColor'=>'green', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
 				'bodyOptions' => [],
 				'icon' => 'fa fa-fw fa-user-md',
-				'link' => ['student','training_id'=>\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->id))],
+				'link' => ['student','training_id'=>\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->id)),'training_student_id'=>$training_student_id],
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
@@ -112,7 +112,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'bgColor'=>'purple', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
 				'bodyOptions' => [],
 				'icon' => 'fa fa-fw fa-building-o',
-				'link' => ['./training-execution-evaluation','training_id'=>\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->id))],
+				'link' => ['./training-execution-evaluation','training_id'=>\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->id)),'training_student_id'=>$training_student_id],
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],

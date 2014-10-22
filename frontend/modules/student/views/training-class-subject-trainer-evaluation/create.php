@@ -10,7 +10,7 @@ $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 
-$this->title = 'Form Training Class Subject Trainer Evaluation';
+$this->title = 'Form Training Class Subject Trainer Evaluation # '.\frontend\models\Person::findOne(['id'=>base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($trainer_id))])->name;
 $this->params['breadcrumbs'][] = ['label' => 'Training Class Subject Trainer Evaluations', 'url' => ['../training-schedule-trainer/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

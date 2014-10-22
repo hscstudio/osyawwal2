@@ -148,6 +148,7 @@ class RoomController extends Controller
         $model = new Room();
 
         if ($model->load(Yii::$app->request->post())){ 
+		$model->satker_id = (int)Yii::$app->user->identity->employee->satker_id;
 			if($model->save()) {
 				Yii::$app->getSession()->setFlash('success', 'New data have saved.');
 			}

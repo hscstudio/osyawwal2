@@ -27,7 +27,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Activity', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 -->
-
+	<?php \yii\widgets\Pjax::begin([
+		'id'=>'pjax-gridview',
+	]); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -235,7 +237,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 			],
 
-            ['class' => 'kartik\grid\ActionColumn'],
+            //['class' => 'kartik\grid\ActionColumn'],
         ],
 		'panel' => [
 			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
@@ -299,5 +301,9 @@ $this->params['breadcrumbs'][] = $this->title;
 		'responsive'=>true,
 		'hover'=>true,
     ]); ?>
-
+	<?= \hscstudio\heart\widgets\Modal::widget() ?>
+	<?php $this->registerCss('
+		#div_organisation_id .select2-container{ width:350px !important; }
+	'); ?>
+	<?php \yii\widgets\Pjax::end(); ?>
 </div>

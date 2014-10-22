@@ -15,6 +15,7 @@ use backend\models\ObjectReference;
 use backend\models\ObjectFile;
 use backend\models\File;
 use hscstudio\heart\helpers\Heart;
+use yii\data\ActiveDataProvider;
 /**
  * StudentController implements the CRUD actions for Student model.
  */
@@ -130,7 +131,7 @@ class StudentController extends Controller
 						}
 					}					
 				}
-				return $this->redirect(['profile']);
+				return $this->redirect(['view']);
 			}
 			else{
 				Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
@@ -170,6 +171,63 @@ class StudentController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+	
+	public function actionView()
+    {
+        $id = Yii::$app->user->identity->id;
+		return $this->render('view', [
+            'model' => \frontend\models\Person::findOne(['id'=>$id]),
+			//$this->findModel($id),
+        ]);
+    }
+	
+	public function actionPrint($filetype='docx') {
+		$dataProvider = new ActiveDataProvider([
+            'query' => \frontend\models\Person::find()->where(['id'=>Yii::$app->user->identity->id]),
+        ]);
+		
+		try {
+			$templates=[
+				'docx'=>'ms-word.docx',
+				'odt'=>'open-document.odt',
+				'xlsx'=>'ms-excel.xlsx'
+			];
+			// Initalize the TBS instance
+			$OpenTBS = new \hscstudio\heart\extensions\OpenTBS; // new instance of TBS
+			// Change with Your template kaka
+			$template = Yii::getAlias('@frontend').'/template_ereg/print_ereg.docx';
+			$OpenTBS->LoadTemplate($template); // Also merge some [onload] automatic fields (depends of the type of document).
+			$OpenTBS->VarRef['modelName']= "Student";
+			$data1[]['col0'] = date('M Y');								
+	
+			$OpenTBS->MergeBlock('a', $data1);			
+			$data2 = [];
+			foreach($dataProvider->getModels() as $student){
+				$tgllahir = explode('-',$student->birthday);
+				$data2[] = [
+					'col0'=>strtoupper($student->name),
+					'col1'=>$student->nip,
+					'col2'=>strtoupper($student->born),
+					'col3'=>$tgllahir[2].'-'.$tgllahir[1].'-'.$tgllahir[0],
+					'col4'=>'KEMENTERIAN KEUANGAN',
+					'col5'=> strtoupper(\frontend\models\ObjectReference::findOne(['object'=>'person','object_id'=>$student->id,'type'=>'unit'])->reference->name),
+					'col6'=>strtoupper(\frontend\models\ObjectReference::findOne(['object'=>'person','object_id'=>$student->id,'type'=>'rank_class'])->reference->name),
+					'col7'=>strtoupper($student->position_desc),
+					'col8'=>$student->status=0?'MENGULANG':'BARU',
+				];
+			}
+			$OpenTBS->MergeBlock('b', $data2);
+			// Output the result as a file on the server. You can change output file
+			$OpenTBS->Show(OPENTBS_DOWNLOAD, 'result.'.$filetype); // Also merges all [onshow] automatic fields.			
+			exit;
+		} catch (\yii\base\ErrorException $e) {
+			 Yii::$app->session->setFlash('error', 'Unable export there are some error');
+		}	
+		
+        /*return $this->render('index', [
+            'dataProvider' => $dataProvider,
+        ]);		*/
     }
     /**
      * Finds the Student model based on its primary key value.

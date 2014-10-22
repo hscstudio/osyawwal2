@@ -31,7 +31,7 @@ class TrainingExecutionEvaluationController extends Controller
      * Lists all TrainingExecutionEvaluation models.
      * @return mixed
      */
-    public function actionIndex($training_id)
+    public function actionIndex($training_id=NULL,$training_student_id=NULL)
     {
         /*$searchModel = new TrainingExecutionEvaluationSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -40,19 +40,21 @@ class TrainingExecutionEvaluationController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);*/
-		$training_student_id = \frontend\models\TrainingStudent::findOne(['student_id' => Yii::$app->user->identity->id,'training_id'=>base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_id))])->id;
+		//$training_student_id = \frontend\models\TrainingStudent::findOne(['student_id' => Yii::$app->user->identity->id,'training_id'=>base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_id))])->id;
 		
-		$training_class_student_id =\frontend\models\TrainingClassStudent::findOne(['training_id'=>base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_id)),'training_student_id'=>$training_student_id])->id;
+		$training_class_student_id =\frontend\models\TrainingClassStudent::findOne(['training_id'=>base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_id)),'training_student_id'=>base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_student_id))])->id;
 		
 		if (($model = TrainingExecutionEvaluation::findOne(['training_class_student_id'=>$training_class_student_id])) !== null) 
 		{
 				return $this->redirect(['view',
-						'training_id' => $training_id,		
+						'training_id' => $training_id,	
+						'training_student_id' => $training_student_id,
 				]);
 		}
 		else
 		{		return $this->redirect(['create',
-						'training_id' => $training_id,		
+						'training_id' => $training_id,	
+						'training_student_id' => $training_student_id,
 				]);
 		}
     }
@@ -62,19 +64,20 @@ class TrainingExecutionEvaluationController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($training_id)
+    public function actionView($training_id=NULL,$training_student_id=NULL)
     {
         /*return $this->render('view', [
             'model' => $this->findModel($id),
         ]);*/
 		$id = base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_id));
-		$training_student_id = \frontend\models\TrainingStudent::findOne(['student_id' => Yii::$app->user->identity->id,'training_id'=>$id])->id;
+		$id2 = base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_student_id));
 			
-		$training_class_student_id = \frontend\models\TrainingClassStudent::findOne(['training_id'=>$id,'training_student_id'=>$training_student_id])->id;
+		$training_class_student_id = \frontend\models\TrainingClassStudent::findOne(['training_id'=>$id,'training_student_id'=>$id2])->id;
 		
 		return $this->render('view', [
             'model' => $this->findModel($training_class_student_id),
 			'training_id' => base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_id)),
+			'training_student_id' => \hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($id2)),
         ]);
     }
 
