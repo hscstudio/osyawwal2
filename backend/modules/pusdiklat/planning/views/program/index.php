@@ -225,11 +225,16 @@ $this->params['breadcrumbs'][] = $this->title;
 				'buttons' => [
 					'view' => function ($url, $model) {
 						$icon='<span class="glyphicon glyphicon-eye-open"></span>';
-						return Html::a($icon,$url,['class'=>'modal-heart','data-pjax'=>"0",'title'=>$model->name,'modal-size'=>'modal-lg']);
+						return Html::a($icon,$url,[
+							'class'=>'modal-heart',
+							'data-pjax'=>"0",
+							'modal-size'=>'modal-lg',
+							'modal-title' => '<i class="fa fa-fw fa-eye"></i> '.$model->name
+						]);
 					},
 					'update' => function ($url, $model) {
 						$icon='<span class="glyphicon glyphicon-pencil"></span>';
-						return Html::a($icon,$url,['class'=>'modal-heart','data-pjax'=>"0",'title'=>$model->name,'modal-size'=>'modal-lg']);
+						return Html::a($icon,$url,['class'=>'modal-heart','data-pjax'=>"0",'modal-title'=>'<i class="fa fa-fw fa-pencil-square"></i> '.$model->name,'modal-size'=>'modal-lg']);
 					},
 				],
 			],
