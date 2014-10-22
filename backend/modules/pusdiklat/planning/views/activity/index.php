@@ -109,16 +109,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'value' => function ($data){
 					// CEK AUTHORISE ACCESS
-					$permit = \hscstudio\heart\helpers\Heart::OrganisationAuthorized(
-						[
-							'1213020100', // CEK KD_UNIT_ORG 1213020100 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
-							'1213020000', // BIDANG RENBANG
-							'1213000000', // PUSDIKLAT
-						],
-						[
-							1, // 1= HEAD OF KD_UNIT_ORG
-						]
-					);
+					$permit = \Yii::$app->user->can('Subbidang Program');
 					$object_person=\backend\models\ObjectPerson::find()
 						->where([
 							'object'=>'activity',
@@ -165,17 +156,6 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'format'=>'raw',
 				'value' => function ($data){
-					// CEK AUTHORISE ACCESS
-					$permit = \hscstudio\heart\helpers\Heart::OrganisationAuthorized(
-						[
-							'1213020200', // CEK KD_UNIT_ORG 1213020200 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
-							'1213020000', // BIDANG RENBANG
-							'1213000000', // PUSDIKLAT
-						],
-						[
-							1, // 1= HEAD OF KD_UNIT_ORG
-						]
-					);
 					$status_icons = [
 						'0'=>'<span class="glyphicon glyphicon-fire"></span>',
 						'1'=>'<span class="glyphicon glyphicon-refresh"></span>',
@@ -184,32 +164,16 @@ $this->params['breadcrumbs'][] = $this->title;
 					];
 					$status_classes = ['0'=>'warning','1'=>'info','2'=>'success','3'=>'danger'];
 					$status_title = ['0'=>'Plan','1'=>'Ready','2'=>'Execution','3'=>'Cancel'];
-					if($permit){
-						return Html::a(
-							$status_icons[$data->status],
-							['status','id'=>$data->id],
-							[
-								'class'=>' modal-heart label label-'.$status_classes[$data->status],
-								'data-toggle'=>'tooltip',
-								'data-pjax'=>'0',
-								'title'=>$status_title[$data->status],
-								'modal-title'=>'Form Validation',
-								'modal-size'=>'modal-lg',
-							]
-						);
-					}
-					else{
-						return Html::tag(
-							'span',
-							$status_icons[$data->status],
-							[
-								'class'=>'label label-'.$status_classes[$data->status],
-								'data-toggle'=>'tooltip',
-								'data-pjax'=>'0',
-								'title'=>$status_title[$data->status],
-							]
-						);
-					}
+					return Html::tag(
+						'span',
+						$status_icons[$data->status],
+						[
+							'class'=>'label label-'.$status_classes[$data->status],
+							'data-toggle'=>'tooltip',
+							'data-pjax'=>'0',
+							'title'=>$status_title[$data->status],
+						]
+					);
 				},
 			],
 			

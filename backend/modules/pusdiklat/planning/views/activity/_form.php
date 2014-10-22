@@ -109,9 +109,11 @@ use kartik\checkbox\CheckboxX;
 				]
 			])->label('Diasramakan?') ?>
 
-			<?php if(!$model->isNewRecord){ ?>
+			<?php 
+			$permit = \Yii::$app->user->can('Subbidang Program');
+			if(!$model->isNewRecord and $permit){ ?>
 			<div class='row'>
-				<div class='col-md-6'>				
+				<div class='col-md-3'>				
 				<?php
 				$data = [
 						'0'=>'PLAN',
@@ -190,11 +192,13 @@ use kartik\checkbox\CheckboxX;
 				<?= Html::submitButton('<i class="fa fa-fw fa-save"></i> '. Yii::t('app', 'Update as Revision'), ['class' => 'btn btn-warning', 'name' => 'create_revision',]) ?>
 				<?php } ?>
 			</div>
-			<div class="well">
-				Update as Revision artinya jika Anda menginginkan agar data lama tetap tersimpan dalam history. Fungsi ini sebaiknya Anda gunakan 
-				apabila perubahan yang Anda lakukan memang sangat mendasar atau signifikan. Adapun perubahan kecil seperti salah penulisan atau ejaan, maka 
-				cukup gunakan fungsi Update saja.
-			</div>
+			<?php if (!$model->isNewRecord){ ?>
+				<div class="well">
+					Update as Revision artinya jika Anda menginginkan agar data lama tetap tersimpan dalam history. Fungsi ini sebaiknya Anda gunakan 
+					apabila perubahan yang Anda lakukan memang sangat mendasar atau signifikan. Adapun perubahan kecil seperti salah penulisan atau ejaan, maka 
+					cukup gunakan fungsi Update saja.
+				</div>
+			<?php } ?>
 			<?php // PENYELENGGARAAN ONLY ?>
 			<?php // $form->field($training, 'execution_sk')->textInput(['maxlength' => 255]) ?>
 			<?php // $form->field($training, 'cost_real')->textInput(['maxlength' => 15]) ?>

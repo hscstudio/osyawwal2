@@ -27,12 +27,17 @@ use yii\helpers\Url;
 	<div class="row">
 		<div class="col-md-3">
 		<?php
+		$permit = \Yii::$app->user->can('Subbidang Program');
 		$data = ['0'=>'Draft','1'=>'Process','3'=>'Valid','4'=>'Reject'];
+		if($permit){	
+			$options['placeholder']='Choose validation status ...';
+		}
+		else{
+			$options['disabled']='disabled';
+		}
 		echo $form->field($model, 'validation_status')->widget(Select2::classname(), [
 			'data' => $data,
-			'options' => [
-				'placeholder' => 'Choose validation status ...',
-			],
+			'options' => $options,
 			'pluginOptions' => [
 				'allowClear' => true,
 			],

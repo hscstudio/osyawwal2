@@ -866,7 +866,7 @@ class Activity2Controller extends Controller
 										->where(['nip' => $nip])
 										->orWhere(['nid' => $nip])
 										->one();
-							if(null!=$person){
+							if(!empty($person)){
 								$person_id = $person->id;
 							}
 							
@@ -899,7 +899,7 @@ class Activity2Controller extends Controller
 							$object_reference = ObjectReference::find()
 								->where([
 									'object' => 'person',
-									'object_id' => $person->id,
+									'object_id' => $person_id,
 									'type' => 'unit',
 								])
 								->one();
@@ -907,7 +907,7 @@ class Activity2Controller extends Controller
 								$object_reference_id = 1;
 							}
 						
-							
+							$password = Yii::$app->security->generatePasswordHash($nip,0);
 							$data[$row]=[
 								'row'	=>	$row,
 								'nip'	=>	$nip,

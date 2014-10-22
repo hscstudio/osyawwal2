@@ -91,4 +91,9 @@ class ProgramSubjectHistory extends \yii\db\ActiveRecord
    { 
        return $this->hasOne(Reference::className(), ['id' => 'type']); 
    } 
+   
+   public function getSubjectType() 
+   { 
+       return $this->hasOne(Reference::className(), ['id' => 'type']); 
+   }
 }

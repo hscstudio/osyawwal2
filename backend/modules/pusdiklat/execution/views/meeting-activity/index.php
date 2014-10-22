@@ -110,16 +110,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'value' => function ($data){
 					// CEK AUTHORISE ACCESS
-					$permit = \hscstudio\heart\helpers\Heart::OrganisationAuthorized(
-						[
-							'1213030100', // CEK KD_UNIT_ORG 1213020200 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
-							'1213030000', // BIDANG RENBANG
-							'1213000000', // PUSDIKLAT
-						],
-						[
-							1, // 1= HEAD OF KD_UNIT_ORG
-						]
-					);
+					$permit = \Yii::$app->user->can('Subbidang Penyelenggaraan I');
 					$object_person=\backend\models\ObjectPerson::find()
 						->where([
 							'object'=>'activity',
@@ -171,9 +162,9 @@ $this->params['breadcrumbs'][] = $this->title;
 									':activity_id' => $data->id
 								]);		
 					if($activityRoom->count()==0){ 
-						return Html::a('SET', ['room','activity_id'=>$data->id], 
+						return Html::a('View', ['room','activity_id'=>$data->id], 
 							[							
-							'class' => 'label label-warning modal-heart',
+							'class' => 'label label-warning ',
 							'data-pjax'=>0,
 							'source'=>'',
 							'modal-size'=>'modal-lg',
@@ -194,7 +185,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						}
 						$rooms = implode('<br>',$rooms);
 						return Html::a($activityRoom->count(), ['room','activity_id'=>$data->id], [
-							'class' => 'label label-info modal-heart ',
+							'class' => 'label label-info ',
 							'data-pjax'=>0,
 							'source'=>'',
 							'modal-size'=>'modal-lg',

@@ -165,36 +165,42 @@ $this->params['breadcrumbs'][] = $this->title;
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'value' => function ($data){
-					$object_person=\backend\models\ObjectPerson::find()
-						->where([
-							'object'=>'program',
-							'object_id'=>$data->id,
-							'type'=>'organisation_393', // CEK ID 393 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
-						])
-						->one();
-					if($object_person!=null){						
-						return Html::a(substr($object_person->person->name,0,5).'.',['pic','id'=>$data->id],
-							[
-								'class'=>'label label-info modal-heart',
-								'data-toggle'=>'tooltip',
-								'data-pjax'=>'0',
-								'data-html'=>'true',
-								'title'=>'Current PIC Program : '.$object_person->person->name.'.<br> Click to change pic program',
-								'modal-title'=>'Change PIC',
-								'modal-size'=>'modal-md',
-							]);								
+					$permit = \Yii::$app->user->can('Subbidang Program');
+					if($permit){
+						$object_person=\backend\models\ObjectPerson::find()
+							->where([
+								'object'=>'program',
+								'object_id'=>$data->id,
+								'type'=>'organisation_393', // CEK ID 393 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
+							])
+							->one();
+						if($object_person!=null){						
+							return Html::a(substr($object_person->person->name,0,5).'.',['pic','id'=>$data->id],
+								[
+									'class'=>'label label-info modal-heart',
+									'data-toggle'=>'tooltip',
+									'data-pjax'=>'0',
+									'data-html'=>'true',
+									'title'=>'Current PIC Program : '.$object_person->person->name.'.<br> Click to change pic program',
+									'modal-title'=>'Change PIC',
+									'modal-size'=>'modal-md',
+								]);								
+						}
+						else{
+							return Html::a('-',['pic','id'=>$data->id],
+								[
+									'class'=>'label label-warning modal-heart',
+									'data-toggle'=>'tooltip',
+									'data-pjax'=>'0',
+									'data-html'=>'true',
+									'title'=>'Click to set PIC program',
+									'modal-title'=>'Set PIC',
+									'modal-size'=>'modal-md'
+								]);
+						}
 					}
 					else{
-						return Html::a('-',['pic','id'=>$data->id],
-							[
-								'class'=>'label label-warning modal-heart',
-								'data-toggle'=>'tooltip',
-								'data-pjax'=>'0',
-								'data-html'=>'true',
-								'title'=>'Click to set PIC program',
-								'modal-title'=>'Set PIC',
-								'modal-size'=>'modal-md'
-							]);
+						return '-';
 					}
 				}
 			],
@@ -208,15 +214,20 @@ $this->params['breadcrumbs'][] = $this->title;
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'value' => function ($data){
-					$icon = ($data->status==1)?'<span class="glyphicon glyphicon-ok"></span>':'<span class="glyphicon glyphicon-remove"></span>';
-					return Html::a($icon, ['status','status'=>$data->status, 'id'=>$data->id], [
-						'onclick'=>'
-							$.pjax.reload({url: "'.\yii\helpers\Url::to(['status','status'=>$data->status, 'id'=>$data->id]).'", container: "#pjax-gridview", timeout: 3000});
-							return false;
-						',
-						'class'=>($data->status==1)?'label label-info':'label label-warning',
-					]);
-					
+					$permit = \Yii::$app->user->can('Subbidang Program');
+					if($permit){
+						$icon = ($data->status==1)?'<span class="glyphicon glyphicon-ok"></span>':'<span class="glyphicon glyphicon-remove"></span>';
+						return Html::a($icon, ['status','status'=>$data->status, 'id'=>$data->id], [
+							'onclick'=>'
+								$.pjax.reload({url: "'.\yii\helpers\Url::to(['status','status'=>$data->status, 'id'=>$data->id]).'", container: "#pjax-gridview", timeout: 3000});
+								return false;
+							',
+							'class'=>($data->status==1)?'label label-info':'label label-warning',
+						]);
+					}
+					else{
+						return '-';
+					}
 				}
 			],
 			

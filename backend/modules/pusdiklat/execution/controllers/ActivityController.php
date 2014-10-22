@@ -30,6 +30,7 @@ use backend\modules\pusdiklat\execution\models\TrainingStudentSearch;
 use backend\models\TrainingSchedule;
 use backend\modules\pusdiklat\execution\models\TrainingScheduleSearch;
 use backend\modules\pusdiklat\execution\models\TrainingScheduleExtSearch;
+use backend\models\TrainingScheduleTrainer;
 
 use backend\models\Student;
 use backend\modules\pusdiklat\execution\models\StudentSearch;
@@ -697,14 +698,104 @@ class ActivityController extends Controller
 			'training_id' => $id,
 			'status' => $status
 		]; 
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
 		$dataProvider = $searchModel->search($queryParams); 
-
+		$dataProvider->getSort()->defaultOrder = [
+			'status'=>SORT_DESC,		
+		];
+		
         return $this->render('student', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
 			'model' => $model,
 			'status' => $status,
         ]);
+    }
+	
+	/**
+     * Lists all TrainingClass models.
+     * @return mixed
+     */
+    public function actionExportStudent($id,$status=1,$filetype='xlsx')
+    {
+        $model = $this->findModel($id);
+		$searchModel = new TrainingStudentSearch();
+		$queryParams['TrainingStudentSearch']=[
+			'training_id' => $id,
+			'status' => $status
+		]; 
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$dataProvider = $searchModel->search($queryParams); 
+		$dataProvider->getSort()->defaultOrder = [
+			'status'=>SORT_DESC,		
+		];
+		$dataProvider->setPagination(false);
+		
+		$types=['xls'=>'Excel5','xlsx'=>'Excel2007'];
+		$objReader = \PHPExcel_IOFactory::createReader($types[$filetype]);
+		$template = Yii::getAlias('@file').DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'pusdiklat'.DIRECTORY_SEPARATOR.'execution'.
+			DIRECTORY_SEPARATOR.'training.student.'.$filetype;
+		$objPHPExcel = $objReader->load($template);
+		$objPHPExcel->getProperties()->setTitle("PHPExcel in Yii2Heart");
+		$objPHPExcel->setActiveSheetIndex(0);
+		$activeSheet = $objPHPExcel->getActiveSheet();
+		$activeSheet->setCellValue('A2', $model->name)
+					->setCellValue('A3', 'TAHUN ANGGARAN '. substr($model->start,0,4));
+		$idx=7; // line 7
+		foreach($dataProvider->getModels() as $data){
+			$unit = "-";
+			$object_reference = \backend\models\ObjectReference::find()
+				->where([
+					'object' => 'person',
+					'object_id' => $data->student->person->id,
+					'type' => 'unit',
+				])
+				->one();
+			if(!empty($object_reference)){
+				$unit = $object_reference->reference->name;
+			}
+			if($data->student->satker==2){
+				if(!empty($data->student->eselon2)){
+					$unit = $data->student->eselon2;
+				}
+			}
+			else if($data->student->satker==3){
+				if(!empty($data->student->eselon3)){
+					$unit = $data->student->eselon3;
+				}
+			}
+			else if($data->student->satker==4){
+				if(!empty($data->student->eselon4)){
+					$unit = $data->student->eselon4;
+				}
+			}
+					
+			$trainingClassStudent = \backend\models\TrainingClassStudent::find()
+				->where([
+					'training_student_id'=>$data->id
+				])
+				->one();
+			$class = '-';
+			if(!empty($trainingClassStudent)) $class = $trainingClassStudent->class;
+			$activeSheet->insertNewRowBefore($idx+1,1);
+			$activeSheet->setCellValue('A'.$idx, $idx-6)
+					    ->setCellValue('B'.$idx, $data->student->person->name)
+					    ->setCellValue('C'.$idx, $data->student->person->nip.' ')
+						->setCellValue('D'.$idx, $unit)
+						->setCellValue('E'.$idx, $class)
+					    ->setCellValue('F'.$idx, ($data->status==1?'Aktif':'-'))
+						->setCellValue('G'.$idx, $data->note);
+			$idx++;
+		}		
+		
+		// Redirect output to a client’s web browser
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="training.student.'.date('YmdHis').'.'.$filetype.'"');
+		header('Cache-Control: max-age=0');
+		$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, $types[$filetype]);
+		$objWriter->save('php://output');
+		exit;
+		/* return $this->redirect(['student', 'id' => $id, 'status'=>$status]);	 */
     }
 	
 	/**
@@ -849,7 +940,6 @@ class ActivityController extends Controller
 					$baseRow = 4;
 					$err=[];
 					$data = [];	
-					$password = Yii::$app->security->generatePasswordHash('aku cinta bppk');
 					$row=0;
 					while(!empty($sheetData[$baseRow]['B'])){
 						// GET DATA FROM EXCEL
@@ -873,7 +963,7 @@ class ActivityController extends Controller
 										->where(['nip' => $nip])
 										->orWhere(['nid' => $nip])
 										->one();
-							if(null!=$person){
+							if(!empty($person)){
 								$person_id = $person->id;
 							}
 							
@@ -906,7 +996,7 @@ class ActivityController extends Controller
 							$object_reference = ObjectReference::find()
 								->where([
 									'object' => 'person',
-									'object_id' => $person->id,
+									'object_id' => $person_id,
 									'type' => 'unit',
 								])
 								->one();
@@ -914,7 +1004,7 @@ class ActivityController extends Controller
 								$object_reference_id = 1;
 							}
 						
-							
+							$password = Yii::$app->security->generatePasswordHash($nip,4);
 							$data[$row]=[
 								'row'	=>	$row,
 								'nip'	=>	$nip,
@@ -1026,7 +1116,7 @@ class ActivityController extends Controller
 					}
 					
 					if($unit_id>0){
-						/* if($object_reference_id==1){
+						if($object_reference_id==1){
 							$object_reference = ObjectReference::find()
 								->where([
 									'object' => 'person',
@@ -1043,41 +1133,14 @@ class ActivityController extends Controller
 								'reference_id' => $unit_id,
 							]);
 						}
-						$object_reference->save(); */
+						$object_reference->save(); 
 					}
 				} 
 			}
 			
 			unset($session['data']);
-			
-			/*
-			if(count($person_values)>0)
-				Yii::$app->getDb()->createCommand()
-					->batchInsert('person', ['name', 'nip', 'nid','status'], $person_values)
-					->execute();
-			
-			if(count($student_values)>0)
-				Yii::$app->getDb()->createCommand()
-					->batchInsert('student', ['person_id','username','password_hash','status'], $student_values)
-					->execute();
-			 Yii::$app->getDb()->createCommand()
-				->batchInsert('training_student', ['nip'], $person_values);
-				->execute(); */	
-			/* Yii::$app->getDb()->createCommand()
-				->batchInsert('tbl_user', ['name', 'status'],
-					[],
-					[],
-					
-				])
-				->execute(); */
 
 		}
-		/* 
-		Please read guide of upload https://github.com/yiisoft/yii2/blob/master/docs/guide/input-file-upload.md
-		maybe I do mistake :)
-		*/	
-		
-
 		
 		if ($session->has('data')) {
 			$data = $session['data'];
@@ -1610,6 +1673,203 @@ class ActivityController extends Controller
 		}
     }
 	
+	/**
+     * Lists all Room models.
+     * @return mixed
+     */
+    public function actionExportClassSchedule($id, $class_id,$start="",$end="",$filetype="xlsx")
+    {
+		$activity = $this->findModel($id); // Activity
+		$class = $this->findModelClass($class_id); // Class	
+
+		if(empty($start)){
+			$start = $class->training->activity->start;
+		}
+		
+		if(empty($end) or $end<$start){
+			$end = $start;
+		}
+		$searchModel = new TrainingScheduleSearch();
+		$queryParams['TrainingScheduleSearch']=[				
+			'training_class_id'=>$class_id,
+			/* 'startDate' => date('Y-m-d',strtotime($start)),
+			'endDate'=>date('Y-m-d',strtotime($start)), */
+		];		
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+        $dataProvider = $searchModel->search($queryParams);
+		$dataProvider->getSort()->defaultOrder = ['start'=>SORT_ASC,'end'=>SORT_ASC];
+		
+		$dataProvider->setPagination(false);
+		
+		$types=['xls'=>'Excel5','xlsx'=>'Excel2007'];
+		$objReader = \PHPExcel_IOFactory::createReader($types[$filetype]);
+		$template = Yii::getAlias('@file').DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'pusdiklat'.DIRECTORY_SEPARATOR.'execution'.
+			DIRECTORY_SEPARATOR.'training.class.schedule.'.$filetype;
+		$objPHPExcel = $objReader->load($template);
+		$objPHPExcel->getProperties()->setTitle("PHPExcel in Yii2Heart");
+		$objPHPExcel->setActiveSheetIndex(0);
+		$activeSheet = $objPHPExcel->getActiveSheet();
+		$activeSheet->setCellValue('A2', $activity->name)
+					->setCellValue('A3', 'TAHUN ANGGARAN '. substr($activity->start,0,4))
+					->setCellValue('A4', 'KELAS '. $class->class);
+		$idx=7; // line 7
+		$last_date='';
+		foreach($dataProvider->getModels() as $data){
+			/* $unit = "-";
+			$object_reference = \backend\models\ObjectReference::find()
+				->where([
+					'object' => 'person',
+					'object_id' => $data->student->person->id,
+					'type' => 'unit',
+				])
+				->one();
+			if(!empty($object_reference)){
+				$unit = $object_reference->reference->name;
+			}
+			if($data->student->satker==2){
+				if(!empty($data->student->eselon2)){
+					$unit = $data->student->eselon2;
+				}
+			}
+			else if($data->student->satker==3){
+				if(!empty($data->student->eselon3)){
+					$unit = $data->student->eselon3;
+				}
+			}
+			else if($data->student->satker==4){
+				if(!empty($data->student->eselon4)){
+					$unit = $data->student->eselon4;
+				}
+			}
+					
+			$trainingClassStudent = \backend\models\TrainingClassStudent::find()
+				->where([
+					'training_student_id'=>$data->id
+				])
+				->one();
+			$class = '-';*/
+			
+			if(!empty($trainingClassStudent)) $class = $trainingClassStudent->class;			
+			
+			$start = date('d-M-Y H:i',strtotime($data->start));
+			$finish = date('d-M-Y H:i',strtotime($data->end));
+			$startDate = date('d-M-Y',strtotime($data->start));
+			$finishDate = date('d-M-Y',strtotime($data->end));
+			$startTime = date('H:i',strtotime($data->start));
+			$finishTime = date('H:i',strtotime($data->end));
+			
+			$weeks = ['','Senin','Selasa','Rabu','Kamis',"Jum'at",'Sabtu','Minggu'];
+			$week = $weeks[date('N',strtotime($data->start))];
+			$months = ['','Januari','Februari','Maret','April','Mei','Juni','July','Agustus','September','Oktober','November','Desember'];
+			$month = $months[date('n',strtotime($data->start))];
+			$date = $week.', '.date('j',strtotime($data->start)).' '.$month.' '.date('Y',strtotime($data->start));
+			if($date!=$last_date){				
+				$last_date = $date;
+			}
+			else{
+				$date = '';
+			}
+			
+			$time = '-';
+			if($start==$finish){
+				$time_start = $startTime;				
+				$time_end = $startTime;				
+			}
+			else{
+				$time_start = $startTime;				
+				$time_end = $finishTime;	
+			}
+			
+			$activity_name = '-';
+			if($data->training_class_subject_id>0){
+				$trainingClassSubject = \backend\models\TrainingClassSubject::findOne($data->training_class_subject_id);
+				if($trainingClassSubject!==null){					
+					$program_subject_id = $trainingClassSubject->program_subject_id;
+					$program_id = $activity->training->program_id;
+					$program_revision =  $activity->training->program_revision;
+					$programSubjectHistory = \backend\models\ProgramSubjectHistory::find()
+						->where([
+							'id'=>$program_subject_id,
+							'program_id'=>$program_id,
+							'revision'=>$program_revision,
+							'status'=>1
+						])
+						->one();
+					if(!empty($programSubjectHistory)){
+						$name = $programSubjectHistory->subjectType->name.' '.$programSubjectHistory->name;
+						$activity_name =  $name;
+					}
+					else{
+						$activity_name =  "Undefined??? hello??";
+					}
+					
+				}
+				else{
+					$activity_name =  "Undefined??? hello??";
+				}
+			}
+			else{
+				$activity_name =  $data->activity;
+			}
+			
+			if($data->training_class_subject_id>0){
+				$hours = $data->hours;
+			}
+			else{
+				$hours = '';
+			}
+			
+			$pic = '';
+			if($data->training_class_subject_id>0){				
+				$trainingScheduleTrainer = \backend\models\TrainingScheduleTrainer::find()
+					->where([
+						'training_schedule_id'=>$data->id,
+						'status'=>1,
+					])
+					->orderBy('type ASC')
+					->all();
+				$type= "-1";	
+				$idx2 = 1;
+				foreach($trainingScheduleTrainer as $trainer){
+					$pic .= $trainer->trainer->person->name.' ('.$trainer->trainer->person->organisation.')
+					';
+					/* if($type!=$trainer->type){
+						$content .="<hr style='margin:2px 0'>";
+						$content .="<strong>".$trainer->trainerType->name."</strong>";
+						$content .="<hr style='margin:2px 0'>";
+						$type=$trainer->type;
+						$idx=1;
+					}
+					
+					$content .="<div>";
+					$content .="<span  class='label label-default' data-toggle='tooltip' title='".$trainer->trainer->person->organisation." - ".$trainer->trainer->person->phone."'>".$idx++.". ".$trainer->trainer->person->name."</span> ";							 */
+				}
+			}
+			else{
+				$pic = $data->pic;
+			}
+			
+			$activeSheet->insertNewRowBefore($idx+1,1);
+			$activeSheet->setCellValue('A'.$idx, $idx-6)
+					    ->setCellValue('B'.$idx, $date)
+					    ->setCellValue('C'.$idx, $time_start)
+						->setCellValue('D'.$idx, $time_end)
+						->setCellValue('E'.$idx, $activity_name) 
+						->setCellValue('F'.$idx, $hours) 
+						->setCellValue('G'.$idx, $pic) 
+						;
+			$idx++;
+		}		
+		
+		// Redirect output to a client’s web browser
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="training.class.schedule.'.date('YmdHis').'.'.$filetype.'"');
+		header('Cache-Control: max-age=0');
+		$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, $types[$filetype]);
+		$objWriter->save('php://output');
+		exit;
+    }
+	
 	public function actionClassScheduleMaxTime($id, $class_id,$start=""){
 		$activity = $this->findModel($id); // Activity
 		$class = $this->findModelClass($class_id); // Class	
@@ -1829,7 +2089,8 @@ class ActivityController extends Controller
 				'status'=>1,
 			])
 			->groupBy('type')
-			->all();
+			->all();			
+			
 			if ($model->load(Yii::$app->request->post())) {
 				$trainer_id_array = Yii::$app->request->post('trainer_id_array');
 				
@@ -1880,6 +2141,22 @@ class ActivityController extends Controller
 			return $this->redirect(['class-schedule', 'id' => $id, 'class_id' => $class_id]);
 		} 
     }
+	
+	public function actionDeleteTrainerClassSchedule($id, $class_id, $schedule_id, $trainer_id) 
+    {
+        $activity = $this->findModel($id); // Activity
+		$class = $this->findModelClass($class_id); // Class	
+		$trainingSchedule = TrainingSchedule::findOne($schedule_id);
+		$trainingScheduleTrainer = TrainingScheduleTrainer::find()
+			->where([
+				'training_schedule_id'=>$schedule_id,
+				'trainer_id'=>$trainer_id
+			])
+			->one();
+		$trainingScheduleTrainer->delete();
+		Yii::$app->session->setFlash('success', 'Trainer have deleted');
+		die('|1|Trainer have deeted|'.date('Y-m-d',strtotime($trainingSchedule->start)).'|'.date('H:i',strtotime($trainingSchedule->end)));
+	}
 	
 	 /**
      * Lists all TrainingClass models.

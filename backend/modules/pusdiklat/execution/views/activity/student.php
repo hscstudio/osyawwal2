@@ -48,6 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'kartik\grid\SerialColumn'],		
 			[
+				'attribute'=>'name',
 				'header' => '<div style="text-align:center">Name</div>',
 				'vAlign'=>'middle',
 				'hAlign'=>'left',
@@ -66,6 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 			],
 			[
+				'attribute'=>'nip',
 				'header' => '<div style="text-align:center">NIP</div>',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
@@ -100,7 +102,7 @@ $this->params['breadcrumbs'][] = $this->title;
 							'type' => 'unit',
 						])
 						->one();
-					if(null!=$object_reference){
+					if(!empty($object_reference)){
 						$unit = $object_reference->reference->name;
 					}
 					if($data->student->satker==2){
@@ -162,7 +164,6 @@ $this->params['breadcrumbs'][] = $this->title;
 					else{
 						return Html::tag('span',
 							$class,
-							$link,
 							$options
 						);
 					}
@@ -236,6 +237,28 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 	<?= \hscstudio\heart\widgets\Modal::widget() ?>
 	<?php \yii\widgets\Pjax::end(); ?>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+	<i class="fa fa-fw fa-refresh upload"></i> Document Generator
+	</div>
+    <div class="panel-body">
+		<div class="row clearfix">
+			<div class="col-md-2">
+			<?php
+			echo Html::a('<i class="fa fa-fw fa-file"></i> Data Peserta Diklat',
+						Url::to(['export-student','id'=>$model->id,'status'=>$status]),
+						[
+							'class'=>'btn btn-default',
+							'data-pjax'=>'0',
+						]
+					);
+			?>
+			</div>			
+			
+		</div>
+	</div>
 </div>
 
 <div class="panel panel-default">

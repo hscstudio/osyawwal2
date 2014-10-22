@@ -91,4 +91,9 @@ class TrainingScheduleTrainer extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Reference::className(), ['id' => 'type']);
     }
+	
+	public function getTrainerType() 
+   { 
+       return $this->hasOne(Reference::className(), ['id' => 'type']); 
+   }
 }

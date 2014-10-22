@@ -162,16 +162,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 				'buttons' => [
 					'update' => function ($url, $data) {
 						// CEK AUTHORISE ACCESS
-						$permit = \hscstudio\heart\helpers\Heart::OrganisationAuthorized(
-							[
-								'1213020300', // CEK KD_UNIT_ORG 1213020300 IN TABLE ORGANISATION IS SUBBIDANG TP
-								'1213020000', // BIDANG RENBANG
-								'1213000000', // PUSDIKLAT
-							],
-							[
-								1, // 1= HEAD OF KD_UNIT_ORG
-							]							
-						);
+						$permit = \Yii::$app->user->can('Subbidang Tenaga Pengajar');
 						if($permit){
 							$icon='<span class="fa fa-fw fa-pencil"></span>';
 							return Html::a($icon,['subject','id'=>$data->program_id,'action'=>'update','subject_id'=>$data->id],[

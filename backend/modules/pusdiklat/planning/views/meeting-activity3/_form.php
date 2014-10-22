@@ -81,7 +81,9 @@ use kartik\checkbox\CheckboxX;
 				]
 			])->label('Diasramakan?') ?>
 
-			<?php if(!$model->isNewRecord){ ?>
+			<?php 
+			$permit = \Yii::$app->user->can('Subbidang Tenaga Pengajar');
+			if(!$model->isNewRecord and $permit){ ?>
 			<div class='row'>
 				<div class='col-md-6'>				
 				<?php
@@ -145,18 +147,6 @@ use kartik\checkbox\CheckboxX;
 			<div class="form-group">
 				<?= Html::submitButton('<i class="fa fa-fw fa-save"></i> '. ($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update')), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 			</div>
-			<?php // PENYELENGGARAAN ONLY ?>
-			<?php // $form->field($meeting, 'execution_sk')->textInput(['maxlength' => 255]) ?>
-			<?php // $form->field($meeting, 'cost_real')->textInput(['maxlength' => 15]) ?>
-			
-			<?php // EVALUASI ONLY ?>
-			<?php // $form->field($meeting, 'result_sk')->textInput(['maxlength' => 255]) ?>		
-			
-			<?php // BDK ONLY ?>
-			<?php // $form->field($meeting, 'approved_status')->textInput() ?>
-			<?php // $form->field($meeting, 'approved_note')->textInput(['maxlength' => 255]) ?>
-			<?php // $form->field($meeting, 'approved_date')->textInput() ?>
-			<?php // $form->field($meeting, 'approved_by')->textInput() ?>
 		</div>
 	</div>
 	 

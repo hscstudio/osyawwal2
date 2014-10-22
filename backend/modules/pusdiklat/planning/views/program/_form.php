@@ -74,12 +74,18 @@ use backend\models\Reference;
 	?>
 	
 	<?php if(!$model->isNewRecord){ ?>
-		<?= $form->field($model, 'status')->widget(SwitchInput::classname(), [
-			'pluginOptions' => [
-				'onText' => 'On',
-				'offText' => 'Off',
-			]
-		]) ?>
+		<?php
+		$permit = \Yii::$app->user->can('Subbidang Program');
+		if($permit){			
+			$form->field($model, 'status')->widget(SwitchInput::classname(), [
+				'options' => $options,
+				'pluginOptions' => [
+					'onText' => 'On',
+					'offText' => 'Off',
+				]
+			]) 
+		}
+		?>
 	<?php } ?>
 	
     <div class="form-group">

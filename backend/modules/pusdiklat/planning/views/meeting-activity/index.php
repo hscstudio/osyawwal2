@@ -110,16 +110,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'value' => function ($data){
 					// CEK AUTHORISE ACCESS
-					$permit = \hscstudio\heart\helpers\Heart::OrganisationAuthorized(
-						[
-							'1213020100', // CEK KD_UNIT_ORG 1213020200 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
-							'1213020000', // BIDANG RENBANG
-							'1213000000', // PUSDIKLAT
-						],
-						[
-							1, // 1= HEAD OF KD_UNIT_ORG
-						]
-					);
+					$permit = \Yii::$app->user->can('Subbidang Program');
 					$object_person=\backend\models\ObjectPerson::find()
 						->where([
 							'object'=>'activity',
@@ -134,7 +125,7 @@ $this->params['breadcrumbs'][] = $this->title;
 									'data-toggle'=>'tooltip',
 									'data-pjax'=>'0',
 									'data-html'=>'true',
-									'title'=>($object_person!=null)?'CURRENT PIC PROGRAM <br> '.$object_person->person->name.'.<br> CLICK HERE TO CHANGE PIC':'CLICK HERE TO SET PIC',
+									'title'=>($object_person!=null)?'CURRENT PIC  <br> '.$object_person->person->name.'.<br> CLICK HERE TO CHANGE PIC':'CLICK HERE TO SET PIC',
 									'modal-title'=>($object_person!=null)?'CHANGE PIC':'SET PIC',
 									'modal-size'=>'modal-md',
 								];
@@ -147,7 +138,7 @@ $this->params['breadcrumbs'][] = $this->title;
 									'data-toggle'=>'tooltip',
 									'data-pjax'=>'0',
 									'data-html'=>'true',
-									'title'=>($object_person!=null)?'CURRENT PIC PROGRAM <br> '.$object_person->person->name.'':'PIC IS UNAVAILABLE',
+									'title'=>($object_person!=null)?'CURRENT PIC  <br> '.$object_person->person->name.'':'PIC IS UNAVAILABLE',
 								];
 						$person_name = ($object_person!=null)?substr($object_person->person->name,0,5).'.':'-';
 						return Html::tag('span',$person_name,$options);
@@ -171,9 +162,9 @@ $this->params['breadcrumbs'][] = $this->title;
 									':activity_id' => $data->id
 								]);		
 					if($activityRoom->count()==0){ 
-						return Html::a('SET', ['room','activity_id'=>$data->id], 
+						return Html::a('View', ['room','activity_id'=>$data->id], 
 							[							
-							'class' => 'label label-warning modal-heart',
+							'class' => 'label label-warning',
 							'data-pjax'=>0,
 							'source'=>'',
 							'modal-size'=>'modal-lg',
@@ -194,7 +185,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						}
 						$rooms = implode('<br>',$rooms);
 						return Html::a($activityRoom->count(), ['room','activity_id'=>$data->id], [
-							'class' => 'label label-info modal-heart ',
+							'class' => 'label label-info ',
 							'data-pjax'=>0,
 							'source'=>'',
 							'modal-size'=>'modal-lg',

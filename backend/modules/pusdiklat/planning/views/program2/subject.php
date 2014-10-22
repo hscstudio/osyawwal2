@@ -216,19 +216,10 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 				'buttons' => [
 					'delete' => function ($url, $data) {
 						// CEK AUTHORISE ACCESS
-						$permit = \hscstudio\heart\helpers\Heart::OrganisationAuthorized(
-							[
-								'1213020200', // CEK KD_UNIT_ORG 1213020200 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
-								'1213020000', // BIDANG RENBANG
-								'1213000000', // PUSDIKLAT
-							],
-							[
-								1, // 1= HEAD OF KD_UNIT_ORG
-							]							
-						);
+						$permit = \Yii::$app->user->can('Subbidang Kurikulum');
 						if($permit){
 							$icon='<span class="fa fa-fw fa-trash"></span>';
-							return ($data->status==1)?'':Html::a($icon,['subject-delete','id'=>$data->program_id,'subject_id'=>$data->id],[
+							return Html::a($icon,['subject-delete','id'=>$data->program_id,'subject_id'=>$data->id],[
 								'data-method'=>'post',
 								'class'=>'btn btn-default btn-xs',
 								'data-pjax'=>'0',
@@ -237,21 +228,12 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 							]);
 						}
 						else{
-							return '';
+							return 'd';
 						}
 					},
 					'update' => function ($url, $data) {
 						// CEK AUTHORISE ACCESS
-						$permit = \hscstudio\heart\helpers\Heart::OrganisationAuthorized(
-							[
-								'1213020200', // CEK KD_UNIT_ORG 1213020200 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
-								'1213020000', // BIDANG RENBANG
-								'1213000000', // PUSDIKLAT
-							],
-							[
-								1, // 1= HEAD OF KD_UNIT_ORG
-							]							
-						);
+						$permit = \Yii::$app->user->can('Subbidang Kurikulum');
 						if($permit){
 							$icon='<span class="fa fa-fw fa-pencil"></span>';
 							return Html::a($icon,['subject','id'=>$data->program_id,'action'=>'update','subject_id'=>$data->id],[

@@ -35,6 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			->asArray()
 			->all()
 			, 'id', 'name');
+		echo "<div style='text-align:center'>";
 		echo $form->field($recommendation, 'type')->widget(Select2::classname(), [
 			'data' => $data,
 			'options' => [
@@ -45,6 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'allowClear' => true,
 			],
 		])->label(false);
+		echo "</div>";
 		?>  		
 		<p>
 		<?= Html::submitButton(Yii::t('app', 'Ya saya yakin!'), ['class' => 'btn btn-success btn-md']) ?>

@@ -344,32 +344,33 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				'value'=>function($data) use ($activity) {
 					if($data->training_class_subject_id>0){
 						$trainingClassSubject = \backend\models\TrainingClassSubject::findOne($data->training_class_subject_id);
-						if($trainingClassSubject!=null){
-							$programSubject = \backend\models\ProgramSubject::find()
+						if($trainingClassSubject!==null){
+							/* $programSubject = \backend\models\ProgramSubject::find()
 							->where([
 								'id'=>$trainingClassSubject->program_subject_id,
 								'status'=>1
 							])
 							->one();
-							return $programSubject->name;
-							/* $program_subject_id = $trainingClassSubject->program_subject_id;
-							$program_id = $activity->program_id;
-							$program_revision =  $activity->program_revision;
+							return $programSubject->name; */
+							
+							$program_subject_id = $trainingClassSubject->program_subject_id;
+							$program_id = $activity->training->program_id;
+							$program_revision =  $activity->training->program_revision;
 							$programSubjectHistory = \backend\models\ProgramSubjectHistory::find()
-							->where([
-								'tb_program_subject_id'=>$tb_program_subject_id,
-								'tb_program_id'=>$tb_program_id,
-								'revision'=>$tb_program_revision,
-								'status'=>1
-							])
-							->one();
-							if(null!=$programSubjectHistory){
+								->where([
+									'id'=>$program_subject_id,
+									'program_id'=>$program_id,
+									'revision'=>$program_revision,
+									'status'=>1
+								])
+								->one();
+							if(!empty($programSubjectHistory)){
 								$name = $programSubjectHistory->subjectType->name.' '.$programSubjectHistory->name;
 								return $name;
 							}
 							else{
 								return "Undefined??? hello??";
-							} */
+							}
 							
 						}
 						else{
@@ -436,7 +437,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 						foreach($trainingScheduleTrainer as $trainer){
 							if($type!=$trainer->type){
 								$content .="<hr style='margin:2px 0'>";
-								/* $content .="<strong>".$trainer->trainerType->name."</strong>"; */
+								$content .="<strong>".$trainer->trainerType->name."</strong>";
 								$content .="<hr style='margin:2px 0'>";
 								$type=$trainer->type;
 								$idx=1;
@@ -446,9 +447,11 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 							$content .="<span  class='label label-default' data-toggle='tooltip' title='".$trainer->trainer->person->organisation." - ".$trainer->trainer->person->phone."'>".$idx++.". ".$trainer->trainer->person->name."</span> ";
 							$content .=Html::a('<span class="glyphicon glyphicon-trash"></span>', 
 							[
-							'delete-trainer',
-							'id'=>$data->id,
-							'tb_trainer_id'=>$trainer->trainer_id,
+							'delete-trainer-class-schedule',
+							'id'=>$activity->id,
+							'class_id'=>$class->id,
+							'schedule_id'=>$data->id,
+							'trainer_id'=>$trainer->trainer_id,
 							], 
 							[
 							'class' => 'label label-danger link-post',
@@ -722,4 +725,25 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 	'); 			
 	?>
 	<?= \hscstudio\heart\widgets\Modal::widget(['registerAsset'=>true]) ?>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">
+	<i class="fa fa-fw fa-refresh upload"></i> Document Generator
+	</div>
+    <div class="panel-body">
+		<div class="row clearfix">
+			<div class="col-md-2">
+			<?php
+			echo Html::a('<i class="fa fa-fw fa-file"></i> Jadwal Diklat',
+						Url::to(['export-class-schedule','id'=>$activity->id,'class_id'=>$class->id]),
+						[
+							'class'=>'btn btn-default',
+							'data-pjax'=>'0',
+						]
+					);
+			?>
+			</div>			
+			
+		</div>
+	</div>
 </div>
