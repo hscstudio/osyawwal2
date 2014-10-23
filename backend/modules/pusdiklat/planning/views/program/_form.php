@@ -78,7 +78,9 @@ use backend\models\Reference;
 		$permit = \Yii::$app->user->can('Subbidang Program');
 		if($permit){			
 			$form->field($model, 'status')->widget(SwitchInput::classname(), [
-				'options' => $options,
+				'options' => [
+					'placeholder' => 'Choose status ...',
+				],
 				'pluginOptions' => [
 					'onText' => 'On',
 					'offText' => 'Off',

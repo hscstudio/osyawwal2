@@ -56,7 +56,7 @@ AppAsset::register($this);
 					$menuItemsLeft[] =
 						['icon'=>'fa fa-android fa-fw','label' => 'Admin', 'url' => ['/administrator/default/index'], 'items' => [
 							['icon'=>'fa fa-cog fa-fw fa-spin','label'=>'Generator', 'url'=> ['/gii']],
-							['icon'=>'fa fa-warning fa-fw','label'=>'Privileges', 'url'=> ['/privilege/assigment'],'path'=>'privilege'],
+							['icon'=>'fa fa-warning fa-fw','label'=>'Privileges', 'url'=> ['/privilege/assignment'],'path'=>'privilege'],
 							['icon'=>'fa fa-key fa-fw','label'=>'Users', 'url'=> ['/admin/default'],'path'=>'/admin/'],
 						]];
 				}
