@@ -144,25 +144,45 @@ class ActivityController extends Controller
 		$renders=[];
 		$renders['model'] = $model;
 		$renders['training'] = $training;
+
         if (Yii::$app->request->post()){ 
+
 			$connection=Yii::$app->getDb();
 			$transaction = $connection->beginTransaction();	
+
 			try{
+
 				if($model->load(Yii::$app->request->post())){
+
 					$model->satker = 'current';
 					$model->location = implode('|',$model->location);
-					$model->status =0;									
+					$model->status =0;
+
+					// Fix date
+					// Why? Tgl dari javascriptnya kartik aneh, padahal secara tampilan udah bener
+					// Untungnya, tgl yg bener ini ada di post 
+					// Jadi, tinggal di format ulang buat disimpan di database
+					$model->start = date('Y-m-d H:i:s', strtotime(Yii::$app->request->post('start-activity-start')));
+					$model->end = date('Y-m-d H:i:s', strtotime(Yii::$app->request->post('end-activity-end')));
+					// dah
+
 					if($model->save()) {
-						Yii::$app->getSession()->setFlash('success', 'Activity data have saved.');
+
+						Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Activity data have saved.');
+
 						if($training->load(Yii::$app->request->post())){							
+
 							$training->activity_id= $model->id;
 							$training->program_revision = (int)\backend\models\ProgramHistory::getRevision($training->program_id);
+
 							// GENERATE TRAINING NUMBER
 							$year = date('Y',strtotime($model->start));
 							$program = Program::find()->where(['id'=>$training->program_id])->currentSatker()->active()->one();
 							$program_owner = sprintf("%02s", $program->satker->sort);
-							$activity_owner = sprintf("%02s", $model->satker->sort);							
+							$activity_owner = sprintf("%02s", $model->satker->sort);
+
 							if($program_owner==$activity_owner) $activity_owner='00';
+
 							$program_number = $program->number;
 							$training_of_program_this_year = Activity::find()
 								->where('start<=:start and YEAR(start)=:this_year',[':start'=>$model->start,':this_year'=>$year])			
@@ -170,10 +190,13 @@ class ActivityController extends Controller
 								->active()
 								->count()+1;
 							$training->number = $year.'-'.$program_owner.'-'.$activity_owner.'-'.$program_number.'.'.$training_of_program_this_year;
+
 							if($training->save()){								 
-								Yii::$app->getSession()->setFlash('success', 'Training & activity data have saved.');
+
+								Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Training & activity data have saved.');
 								$transaction->commit();
-								return $this->redirect(['view', 'id' => $model->id]);
+								return $this->redirect(['index']);
+
 							}
 						}						
 					}
@@ -183,7 +206,7 @@ class ActivityController extends Controller
 				}
 			}
 			catch (Exception $e) {
-				Yii::$app->getSession()->setFlash('error', 'Roolback transaction. Data is not saved');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Roolback transaction. Data is not saved');
 			}
         } 
 		
@@ -206,26 +229,34 @@ class ActivityController extends Controller
 		$renders['model'] = $model;
 		$renders['training'] = $training;
 		
-		if (Yii::$app->request->post()){ 
+		if (Yii::$app->request->post()) { 
 			$connection=Yii::$app->getDb();
 			$transaction = $connection->beginTransaction();	
 			try{
+
 				if($model->load(Yii::$app->request->post())){
 					if (isset(Yii::$app->request->post()['create_revision'])){
 						$model->create_revision = true;
 					}
-                    print_r(Yii::$app->request->post());
 					$model->satker = 'current';
 					$model->location = implode('|',$model->location);
+
+					// Fix date
+					// Why? Tgl dari javascriptnya kartik aneh, padahal secara tampilan udah bener
+					// Untungnya, tgl yg bener ini ada di post 
+					// Jadi, tinggal di format ulang buat disimpan di database
+					$model->start = date('Y-m-d H:i:s', strtotime(Yii::$app->request->post('start-activity-start')));
+					$model->end = date('Y-m-d H:i:s', strtotime(Yii::$app->request->post('end-activity-end')));
+					// dah
+
                     if($model->save()) {
-						Yii::$app->getSession()->setFlash('success', 'Activity data have saved.');
+						Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Activity data have saved.');
 						if($training->load(Yii::$app->request->post())){							
 							$training->activity_id= $model->id;
 							if (isset(Yii::$app->request->post()['create_revision'])){
 								$training->create_revision = true;
 								
 							}
-							/* $training->program_revision = (int)\backend\models\ProgramHistory::getRevision($training->program_id); */
 							// GENERATE TRAINING NUMBER
 							if(Yii::$app->request->post('generate_number')){
 								$year = date('Y',strtotime($model->start));
@@ -243,21 +274,21 @@ class ActivityController extends Controller
 							}
 							
 							if($training->save()){								 
-								Yii::$app->getSession()->setFlash('success', 'Training & activity data have saved.');
+								Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Training & activity data have saved.');
 								$transaction->commit();
-								return $this->redirect(['view', 'id' => $model->id]);
+								return $this->redirect(['index']);
 							}
 						}						
 					}
 					else{
-						Yii::$app->getSession()->setFlash('error', 'Data is NOT saved.');
+						Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Data is NOT saved.');
 					}				
 				}
 			}
 			catch (Exception $e) {
-				Yii::$app->getSession()->setFlash('error', 'Roolback transaction. Data is not saved');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Roolback transaction. Data is not saved');
 			}
-        } 
+        }
 		
 		return $this->render('update', $renders);
     }

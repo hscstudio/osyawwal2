@@ -18,17 +18,7 @@ $this->title = Yii::t('app', 'Programs');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="program-index">
-	
-<!--
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Program',
-]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
--->
 	<?php
 	$program_code = ArrayHelper::map(
 		\backend\models\Reference::find()
@@ -140,7 +130,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						'2'=>'<span class="glyphicon glyphicon-check"></span>',
 						'3'=>'<span class="glyphicon glyphicon-remove"></span>'
 					];
-					$validation_classes = ['0'=>'warning','1'=>'info','2'=>'success','4'=>'danger'];
+					$validation_classes = ['0'=>'warning','1'=>'info','2'=>'success','3'=>'danger'];
 					return Html::a(
 						$validation_icons[$data->validation_status],
 						['validation','id'=>$data->id],
@@ -246,11 +236,16 @@ $this->params['breadcrumbs'][] = $this->title;
 				'buttons' => [
 					'view' => function ($url, $model) {
 						$icon='<span class="glyphicon glyphicon-eye-open"></span>';
-						return Html::a($icon,$url,['class'=>'modal-heart','data-pjax'=>"0",'title'=>$model->name,'modal-size'=>'modal-lg']);
+						return Html::a($icon,$url,[
+							'class'=>'modal-heart',
+							'data-pjax'=>"0",
+							'modal-size'=>'modal-lg',
+							'modal-title' => '<i class="fa fa-fw fa-eye"></i> '.$model->name
+						]);
 					},
 					'update' => function ($url, $model) {
 						$icon='<span class="glyphicon glyphicon-pencil"></span>';
-						return Html::a($icon,$url,['class'=>'modal-heart','data-pjax'=>"0",'title'=>$model->name,'modal-size'=>'modal-lg']);
+						return Html::a($icon,$url,['class'=>'modal-heart','data-pjax'=>"0",'modal-title'=>'<i class="fa fa-fw fa-pencil-square"></i> '.$model->name,'modal-size'=>'modal-lg']);
 					},
 				],
 			],

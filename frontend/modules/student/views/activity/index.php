@@ -28,7 +28,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 -->
-
+<?php \yii\widgets\Pjax::begin([
+		'id'=>'pjax-gridview',
+	]); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -125,7 +127,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						'class'=>'form-control', 
 						'onchange'=>'
 							$.pjax.reload({
-								url: "'.\yii\helpers\Url::to(['index']).'?year='.$year.'&satker="+$(this).val(), 
+								url: "'.\yii\helpers\Url::to(['index']).'?year='.$year.'&satker_id="+$(this).val(), 
 								container: "#pjax-gridview", 
 								timeout: 1000,
 							});
@@ -139,5 +141,5 @@ $this->params['breadcrumbs'][] = $this->title;
 		'responsive'=>true,
 		'hover'=>true,
     ]); ?>
-
+<?php \yii\widgets\Pjax::end(); ?>
 </div>

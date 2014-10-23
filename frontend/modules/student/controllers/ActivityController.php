@@ -11,14 +11,14 @@ use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 
 use backend\models\Program;
-use backend\models\ProgramSubject;
+use frontend\models\ProgramSubject;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use backend\models\ObjectFile;
-use backend\models\TrainingClass;
+use frontend\models\TrainingClass;
 use backend\modules\pusdiklat\execution\models\TrainingClassSearch;
-use backend\models\TrainingStudent;
-use backend\modules\pusdiklat\execution\models\TrainingStudentSearch;
+use frontend\models\TrainingStudent;
+use frontend\modules\student\models\TrainingStudentSearch;
 
 
 /**
@@ -43,14 +43,14 @@ class ActivityController extends Controller
      * Lists all Activity models.
      * @return mixed
      */
-    public function actionIndex($satker_id=null,$year='',$status='nocancel')
+    public function actionIndex($year=NULL,$satker_id=NULL,$status='nocancel')
     {
 		$satker = ArrayHelper::map(\frontend\models\Reference::find()->select(['id','name'])->where(['type'=>'satker'])->asArray()->all(), 'id', 'name');
 		//if(empty($year)) 
 		$year=date('Y');
 		$searchModel = new ActivitySearch();
 		$queryParams = Yii::$app->request->getQueryParams();
-		/*if($status=='nocancel'){
+		if($status=='nocancel'){
 			if($year=='all'){
 				$queryParams['ActivitySearch']=[
 					'status'=> [0,1,2],
@@ -62,10 +62,14 @@ class ActivityController extends Controller
 					'status'=> [0,1,2],
 				];
 			}
-		}*/
+		}
+		if(!empty($satker_id))
+		{$id_satker=$satker_id;}
+		else
+		{$id_satker=0;}
 		
 		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
-		$dataProvider = $searchModel->search($queryParams);
+		$dataProvider = $searchModel->search($queryParams,$id_satker,$year);
 		$dataProvider->getSort()->defaultOrder = ['start'=>SORT_ASC,'end'=>SORT_ASC];
 		
 		// GET ALL TRAINING YEAR
@@ -177,7 +181,7 @@ class ActivityController extends Controller
         ]);
     }
 	
-	public function actionProperty($training_id)
+	public function actionProperty($training_id,$training_student_id)
     {
         $id = base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_id));
 		$model = $this->findModel($id);
@@ -206,6 +210,7 @@ class ActivityController extends Controller
 			'program' =>$program,
 			'subject' =>$subject,
 			'document' =>$document,
+			'training_student_id' => $training_student_id,
         ]);
     }
 	
@@ -213,7 +218,7 @@ class ActivityController extends Controller
      * Lists all TrainingClass models.
      * @return mixed
      */
-    public function actionClass($training_id)
+    public function actionClass($training_id,$training_student_id)
     {
         $id = base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_id));
 		$model = $this->findModel($id);
@@ -226,10 +231,11 @@ class ActivityController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
 			'model' => $model,
+			'training_student_id' => $training_student_id,
         ]);
     }
 	
-	public function actionStudent($training_id)
+	public function actionStudent($training_id,$training_student_id)
     {
         $id = base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_id));
 		$model = $this->findModel($id);
@@ -242,10 +248,11 @@ class ActivityController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
 			'model' => $model,
+			'training_student_id' => $training_student_id,
         ]);
     }
 	
-	public function actionTrainingExecutionEvaluation($training_id)
+	public function actionTrainingExecutionEvaluation($training_id,$training_student_id)
     {
         $id = base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_id));
 		$model = $this->findModel($id);
@@ -258,6 +265,7 @@ class ActivityController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
 			'model' => $model,
+			'training_student_id' => $training_student_id,
         ]);
     }
 	
@@ -274,6 +282,92 @@ class ActivityController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
 			'model' => $model,
+        ]);
+    }
+	
+	public function actionClassStudent($id, $class_id)
+    {
+        $activity = $this->findModel($id); // Activity
+		$class = $this->findModelClass($class_id); // Class		
+			
+		$searchModel = new TrainingClassStudentSearch();
+		$queryParams['TrainingClassStudentSearch']=[				
+			'training_class_id' =>$class_id,
+			'training_class_student.status'=>1,
+		];
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$dataProvider = $searchModel->search($queryParams); 
+		/* $dataProvider->getSort()->defaultOrder = ['name'=>SORT_ASC]; */
+		
+		$subquery = TrainingClassStudent::find()
+			->select('training_student_id')
+			->where(['training_id' => $id]);
+		 
+		// fetch orders that are placed by customers who are older than 30  
+		$trainingStudentCount = TrainingStudent::find()
+			->where(['status'=>1])
+			->andWhere([
+				'not in', 'id', $subquery
+			])
+			->count();
+		
+		if (Yii::$app->request->post()){ 
+			$student = Yii::$app->request->post()['student'];
+			$baseon = 0;
+			if(isset(Yii::$app->request->post()['baseon'])) $baseon = Yii::$app->request->post()['baseon'];
+			if($student>$trainingStudentCount){
+				Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Your request more than stock!');
+			}
+			else if($baseon==0 or count($baseon)==0){
+				Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Select base on random!');
+			}
+			else{				
+				$baseon = implode(',',$baseon);
+				// select name, gender from person group by name, gender order by rand();
+				$trainingStudents = TrainingStudent::find()
+					->joinWith('student')
+					->joinWith('student.person')
+					->joinWith('student.person.unit')
+					->where(['training_student.status'=>'1'])
+					->andWhere([
+						'not in', 'training_student.id', $subquery
+					])
+					->groupBy($baseon)
+					->orderBy('rand()')
+					->limit($student)
+					->asArray()
+					->all();
+				foreach ($trainingStudents as $trainingStudent){
+					$trainingClassStudent = new TrainingClassStudent([
+						'training_id'=>$id,
+						'training_class_id'=>$class_id,
+						'training_student_id'=>$trainingStudent['id'],
+						'status'=>1
+					]);
+					$trainingClassStudent->save();
+				}
+				Yii::$app->session->setFlash('success', $student.' student added!');
+				
+				$subquery = TrainingClassStudent::find()
+					->select('training_student_id')
+					->where(['training_id' => $id]);
+				 
+				// fetch orders that are placed by customers who are older than 30  
+				$trainingStudentCount = TrainingStudent::find()
+					->where(['status'=>'1'])
+					->andWhere([
+						'not in', 'id', $subquery
+					])
+					->count();
+			}
+		}
+		
+        return $this->render('classStudent', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+			'activity' => $activity, 
+			'class' => $class, 
+			'trainingStudentCount' => $trainingStudentCount
         ]);
     }
 

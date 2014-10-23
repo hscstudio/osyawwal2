@@ -28,7 +28,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 -->
-
+	<?php \yii\widgets\Pjax::begin([
+		'id'=>'pjax-gridview',
+	]); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -180,5 +182,9 @@ $this->params['breadcrumbs'][] = $this->title;
 		'responsive'=>true,
 		'hover'=>true,
     ]); ?>
-
+    <?= \hscstudio\heart\widgets\Modal::widget(['modalSize'=>'modal-lg']); ?>
+	<?php 
+	$this->registerCss('#div-select2-satker .select2-container { width: 275px !important; }');
+	?>
+<?php \yii\widgets\Pjax::end(); ?>
 </div>

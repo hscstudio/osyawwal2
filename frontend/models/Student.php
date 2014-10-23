@@ -63,7 +63,7 @@ class Student extends \yii\db\ActiveRecord  implements IdentityInterface
     {
         $scenarios = parent::scenarios();
         $scenarios['password'] = ['old_password','new_password'];
-		$scenarios['profile'] = ['satker', 'no_sk', 'tmt_sk','eselon2', 'eselon3', 'eselon4'];
+		$scenarios['profile'] = ['satker', 'no_sk', 'tmt_sk','eselon2', 'eselon3', 'eselon4', 'status'];
         return $scenarios;
     }
 	

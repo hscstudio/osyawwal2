@@ -28,7 +28,7 @@ use yii\helpers\Url;
 		<div class="col-md-3">
 		<?php
 		$permit = \Yii::$app->user->can('Subbidang Program');
-		$data = ['0'=>'Draft','1'=>'Process','3'=>'Valid','4'=>'Reject'];
+		$data = ['0'=>'Draft','1'=>'Process','2'=>'Valid','3'=>'Reject'];
 		if($permit){	
 			$options['placeholder']='Choose validation status ...';
 		}

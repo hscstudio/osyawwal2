@@ -10,7 +10,7 @@ use kartik\detail\DetailView;
 
 $this->title = 'Training Execution Evaluation';
 $this->params['breadcrumbs'][] = ['label'=>'Trainings Activity','url'=>['../student/activity/index']];
-$this->params['breadcrumbs'][] = ['label' => 'Dashboard', 'url' => ['/student/activity/dashboard.aspx?training_id='.\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($training_id))]];
+$this->params['breadcrumbs'][] = ['label' => 'Dashboard', 'url' => ['activity/dashboard','training_id'=>\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($training_id)),'training_student_id'=>$training_student_id]];
 $this->params['breadcrumbs'][] = $this->title;
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();

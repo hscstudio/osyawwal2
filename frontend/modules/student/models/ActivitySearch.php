@@ -39,11 +39,11 @@ class ActivitySearch extends Activity
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params,$satker_id=NULL,$year=NULL)
     {
         $query = Activity::find()
 				->leftjoin('training_student','training_student.training_id=activity.id')
-				->where(['training_student.student_id'=>Yii::$app->user->identity->id,'YEAR(start)' => date('Y')]);
+				->where(['training_student.student_id'=>Yii::$app->user->identity->id,'YEAR(activity.start)' => $year,'satker_id'=>$satker_id]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
