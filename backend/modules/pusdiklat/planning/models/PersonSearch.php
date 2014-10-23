@@ -41,7 +41,10 @@ class PersonSearch extends Person
      */
     public function search($params)
     {
-        $query = Person::find();
+        $query = Person::find()
+            ->where([
+                '>','id',100
+            ]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

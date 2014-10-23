@@ -76,38 +76,7 @@ class Program3Controller extends Controller
 
     
 
-    /**
-     * Updates an existing Program model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-		$renders = [];
-		$renders['model'] = $model;
-		
-        if ($model->load(Yii::$app->request->post())) {
-			$model->satker = 'current';
-			/* $model->stage = implode(',',$model->stage); */
-            if($model->save()) {
-				Yii::$app->getSession()->setFlash('success', 'Data have updated.');
-				
-				return $this->redirect(['view', 'id' => $model->id]);
-			}
-			else{
-				Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
-				return $this->render('update', $renders);
-			}
-			
-        } else {
-			if (Yii::$app->request->isAjax)
-				return $this->renderAjax('update', $renders);
-			else
-				return $this->render('update', $renders);
-        }
-    }
+    
 
 	
 	
