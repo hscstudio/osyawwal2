@@ -537,20 +537,18 @@ class ActivityController extends Controller
     public function actionCreateClass($id)
     {		
 		$model = $this->findModel($id);
-		$classCount1=$model->training->class_count_plan;
-		$classCount2=TrainingClass::find()->where(['training_id' =>$model->id])->count();
+		$classCount1 = $model->training->class_count_plan;
+		$classCount2 = TrainingClass::find()->where(['training_id' =>$model->id])->count();
 		$createClass = $classCount1 - $classCount2;
-		// x = 1 - 0 = 1
-		// start = 0
-		// finish = 0+x-1
-		if($createClass>0){
+
+		if($createClass > 0){
 			$start = $classCount2;
 			$finish = $classCount2+$createClass-1;
 			$classes = \hscstudio\heart\helpers\Heart::abjad($start,$finish);
-			$created=0;
-			$failed=0;
+			$created = 0;
+			$failed = 0;
+
 			foreach($classes as $class){
-				echo "<br>".$class;
 				$model = new TrainingClass();
 				$model->training_id = $id;
 				$model->class = $class;
@@ -564,14 +562,14 @@ class ActivityController extends Controller
 			}
 			
 			if($failed>0){
-				Yii::$app->session->setFlash('warning', $created.' class created but '.$failed.' class failed');
+				Yii::$app->session->setFlash('warning', '<i class="fa fa-fw fa-times-circle"></i>'.$created.' class created but '.$failed.' class failed');
 			}
 			else{
-				Yii::$app->session->setFlash('success', $created.' class created');
+				Yii::$app->session->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>'.$created.' class created');
 			}
 		}
 		else{
-			Yii::$app->session->setFlash('warning', 'No class created');
+			Yii::$app->session->setFlash('warning', '<i class="fa fa-fw fa-times-circle"></i>No class created');
 		}
 		
 		return $this->redirect(['class', 'id' => $id]);
