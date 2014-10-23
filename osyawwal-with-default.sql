@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.6
+-- version 4.2.9.1
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Oct 21, 2014 at 07:22 AM
--- Server version: 5.6.16
--- PHP Version: 5.5.9
+-- Host: localhost
+-- Generation Time: Oct 23, 2014 at 04:43 PM
+-- Server version: 5.5.39-MariaDB
+-- PHP Version: 5.5.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `activity` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `satker_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` text,
@@ -39,10 +39,8 @@ CREATE TABLE IF NOT EXISTS `activity` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -64,8 +62,7 @@ CREATE TABLE IF NOT EXISTS `activity_history` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`,`revision`)
+  `modified_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -84,10 +81,7 @@ CREATE TABLE IF NOT EXISTS `activity_room` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`activity_id`,`room_id`),
-  KEY `tb_room_id` (`room_id`),
-  KEY `tb_training_id` (`activity_id`)
+  `modified_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -99,8 +93,7 @@ CREATE TABLE IF NOT EXISTS `activity_room` (
 CREATE TABLE IF NOT EXISTS `auth_assignment` (
   `item_name` varchar(64) NOT NULL,
   `user_id` varchar(64) NOT NULL,
-  `created_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`item_name`,`user_id`)
+  `created_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -118,12 +111,13 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('Bagian Umum', '2', 1413841857),
 ('Bagian Umum', '26', 1413844349),
 ('BPPK', '1', 1413761860),
-('Pusdiklat', '101', NULL),
 ('Pusdiklat', '4', 1413841938),
 ('Pusdiklat', '5', 1413841943),
 ('Pusdiklat', '6', 1413841954),
 ('Pusdiklat', '7', 1413841960),
-('Pusdiklat', '8', 1413841928);
+('Pusdiklat', '8', 1413841928),
+('Subbagian Tata Usaha, Kepegawaian , Dan Humas ', '101', NULL),
+('Subbidang Program ', '101', NULL);
 
 -- --------------------------------------------------------
 
@@ -138,10 +132,7 @@ CREATE TABLE IF NOT EXISTS `auth_item` (
   `rule_name` varchar(64) DEFAULT NULL,
   `data` text,
   `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`name`),
-  KEY `rule_name` (`rule_name`),
-  KEY `idx-auth_item-type` (`type`)
+  `updated_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -842,9 +833,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 
 CREATE TABLE IF NOT EXISTS `auth_item_child` (
   `parent` varchar(64) NOT NULL,
-  `child` varchar(64) NOT NULL,
-  PRIMARY KEY (`parent`,`child`),
-  KEY `child` (`child`)
+  `child` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -852,598 +841,286 @@ CREATE TABLE IF NOT EXISTS `auth_item_child` (
 --
 
 INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
-('superadmin', '/admin/*'),
-('superadmin', '/admin/default/*'),
-('superadmin', '/admin/default/index'),
-('superadmin', '/admin/employee/*'),
-('superadmin', '/admin/employee/create'),
-('superadmin', '/admin/employee/delete'),
-('superadmin', '/admin/employee/index'),
-('superadmin', '/admin/employee/organisation'),
-('superadmin', '/admin/employee/update'),
-('superadmin', '/admin/employee/view'),
-('superadmin', '/admin/person/*'),
-('superadmin', '/admin/person/create'),
-('superadmin', '/admin/person/delete'),
-('superadmin', '/admin/person/index'),
-('superadmin', '/admin/person/update'),
-('superadmin', '/admin/person/view'),
-('superadmin', '/admin/user/*'),
-('superadmin', '/admin/user/block'),
-('superadmin', '/admin/user/create'),
-('superadmin', '/admin/user/delete'),
-('superadmin', '/admin/user/index'),
-('superadmin', '/admin/user/unblock'),
-('superadmin', '/admin/user/update'),
-('superadmin', '/admin/user/view'),
-('superadmin', '/gii/*'),
-('superadmin', '/privilege/*'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/*'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/*'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/*'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/add-activity-class-schedule'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/add-activity-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/available-room'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/available-room'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/change-class-student'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/change-class-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/choose-student'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/choose-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/class'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/class'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/class-schedule'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/class-schedule-max-time'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/class-schedule-max-time'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/class-student'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/class-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/class-subject'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/class-subject'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/create-class'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/create-class'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/create-class-subject'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/create-class-subject'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/dashboard'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/dashboard'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/delete-activity-class-schedule'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/delete-activity-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/delete-class'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/delete-class'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/delete-class-student'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/delete-class-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/delete-student'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/delete-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/honorarium'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/honorarium'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/import-student'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/import-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/index'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/index'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/index-student-plan'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/index-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/pic'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/pic'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/prepare-honorarium'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/prepare-honorarium'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/program-name'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/program-name'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/property'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/property'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/room'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/room'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/room-class-schedule'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/room-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/set-room'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/set-room'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/set-student'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/set-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/student'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/trainer-class-schedule'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/trainer-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/unset-room'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/unset-room'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/update'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/update'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/update-student'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/update-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/view'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/view'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/view-student-plan'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/view-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/*'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/*'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/class'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/class'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/class-schedule'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/class-schedule-max-time'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/class-schedule-max-time'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/class-student'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/class-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/class-subject'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/class-subject'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/create-certificate-class-student'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/create-certificate-class-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/dashboard'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/dashboard'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/delete-certificate-class-student'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/delete-certificate-class-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/index'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/index'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/index-student-plan'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/index-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/pic'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/pic'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/print-backend-certificate'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/print-backend-certificate'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/print-certificate-receipt'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/print-certificate-receipt'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/print-frontend-certificate'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/print-frontend-certificate'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/print-student-checklist'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/print-student-checklist'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/print-value-certificate'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/print-value-certificate'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/program-name'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/program-name'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/property'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/property'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/set-certificate-class'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/set-certificate-class'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/student'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/update-certificate-class-student'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/update-certificate-class-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/update-class-student'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/update-class-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/view'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/view'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/view-student-plan'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/view-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/*'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/*'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/add-activity-class-schedule'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/add-activity-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/available-room'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/available-room'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/change-class-student'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/change-class-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/choose-student'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/choose-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/class'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/class'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/class-schedule'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/class-schedule-max-time'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/class-schedule-max-time'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/class-student'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/class-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/class-subject'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/class-subject'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/create-class'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/create-class'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/create-class-subject'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/create-class-subject'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/dashboard'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/dashboard'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/delete-activity-class-schedule'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/delete-activity-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/delete-class'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/delete-class'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/delete-class-student'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/delete-class-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/delete-student'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/delete-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/honorarium'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/honorarium'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/import-student'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/import-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/index'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/index'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/index-student-plan'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/index-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/pic'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/pic'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/prepare-honorarium'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/prepare-honorarium'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/program-name'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/program-name'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/property'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/property'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/room'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/room'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/room-class-schedule'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/room-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/set-room'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/set-room'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/set-student'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/set-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/student'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/trainer-class-schedule'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/trainer-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/unset-room'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/unset-room'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/update'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/update'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/update-student'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/update-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/view'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/view'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/view-student-plan'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/view-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/default/*'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/default/*'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/default/*'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/default/*'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/default/index'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/default/index'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/default/index'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/default/index'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/default/view-employee'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/default/view-employee'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/default/view-employee'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/default/view-employee'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity/*'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/*'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity/create'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/create'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity/delete'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/delete'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity/index'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/index'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity/pic'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/pic'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity/program-name'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/program-name'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity/room'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/room'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity/update'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/update'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity/view'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/view'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity2/*'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/*'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity2/create'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/create'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity2/delete'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/delete'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity2/index'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/index'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity2/pic'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/pic'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity2/program-name'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/program-name'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity2/room'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/room'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity2/update'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/update'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity2/view'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/view'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity3/*'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/*'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity3/create'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/create'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity3/delete'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/delete'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity3/index'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/index'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity3/pic'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/pic'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity3/program-name'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/program-name'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity3/room'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/room'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity3/update'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/update'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity3/view'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/view'),
 ('admin-pusdiklat', '/pusdiklat-execution/*'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity-room/*'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity-room/*'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity-room/create'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity-room/create'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity-room/delete'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity-room/delete'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity-room/index'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity-room/index'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity-room/update'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity-room/update'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity-room/view'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity-room/view'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/*'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/*'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/add-activity-class-schedule'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/add-activity-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/available-room'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/available-room'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/change-class-student'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/change-class-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/choose-student'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/choose-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/class'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/class'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/class-schedule'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/class-schedule-max-time'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/class-schedule-max-time'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/class-student'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/class-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/class-subject'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/class-subject'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/create-class'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/create-class'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/create-class-subject'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/create-class-subject'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/dashboard'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/dashboard'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/delete-activity-class-schedule'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/delete-activity-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/delete-class'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/delete-class'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/delete-class-student'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/delete-class-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/delete-student'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/delete-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/honorarium'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/honorarium'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/import-student'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/import-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/index'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/index'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/index-student-plan'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/index-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/pic'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/pic'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/prepare-honorarium'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/prepare-honorarium'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/program-name'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/program-name'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/property'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/property'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/room'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/room'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/room-class-schedule'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/room-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/set-room'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/set-room'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/set-student'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/set-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/student'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/trainer-class-schedule'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/trainer-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/unset-room'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/unset-room'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/update'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/update'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/update-student'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/update-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/view'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/view'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/view-student-plan'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/view-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/*'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/*'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/add-activity'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/add-activity'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/attendance'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/attendance'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/choose-student'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/choose-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/class'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/class'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/class-student'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/class-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/class-subject'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/class-subject'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/create-class'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/create-class'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/create-class-subject'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/create-class-subject'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/dashboard'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/dashboard'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/delete-activity'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/delete-activity'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/delete-class'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/delete-class'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/delete-class-student'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/delete-class-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/delete-student'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/delete-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/get-max-time'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/get-max-time'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/import-student'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/import-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/index'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/index'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/index-student-plan'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/index-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/pic'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/pic'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/program-name'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/program-name'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/property'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/property'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/schedule'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/schedule'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/set-student'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/set-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/student'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/trainer-class-schedule'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/trainer-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/update'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/update'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/update-student'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/update-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/view'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/view'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/view-student-plan'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/view-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-execution/default/*'),
-('pusdiklat-execution-1', '/pusdiklat-execution/default/*'),
-('pusdiklat-execution-2', '/pusdiklat-execution/default/*'),
 ('admin-pusdiklat', '/pusdiklat-execution/default/index'),
-('pusdiklat-execution-1', '/pusdiklat-execution/default/index'),
-('pusdiklat-execution-2', '/pusdiklat-execution/default/index'),
 ('admin-pusdiklat', '/pusdiklat-execution/default/view-employee'),
-('pusdiklat-execution-1', '/pusdiklat-execution/default/view-employee'),
-('pusdiklat-execution-2', '/pusdiklat-execution/default/view-employee'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity/*'),
-('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/*'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity/create'),
-('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/create'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity/delete'),
-('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/delete'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity/index'),
-('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/index'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity/pic'),
-('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/pic'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity/program-name'),
-('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/program-name'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity/room'),
-('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/room'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity/update'),
-('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/update'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity/view'),
-('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/view'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity2/*'),
-('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/*'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity2/create'),
-('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/create'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity2/delete'),
-('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/delete'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity2/index'),
-('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/index'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity2/pic'),
-('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/pic'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity2/program-name'),
-('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/program-name'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity2/room'),
-('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/room'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity2/update'),
-('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/update'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity2/view'),
-('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/view'),
 ('admin-pusdiklat', '/pusdiklat-execution/room/*'),
-('pusdiklat-execution-1', '/pusdiklat-execution/room/*'),
 ('admin-pusdiklat', '/pusdiklat-execution/room/create'),
-('pusdiklat-execution-1', '/pusdiklat-execution/room/create'),
 ('admin-pusdiklat', '/pusdiklat-execution/room/delete'),
-('pusdiklat-execution-1', '/pusdiklat-execution/room/delete'),
 ('admin-pusdiklat', '/pusdiklat-execution/room/index'),
-('pusdiklat-execution-1', '/pusdiklat-execution/room/index'),
 ('admin-pusdiklat', '/pusdiklat-execution/room/update'),
-('pusdiklat-execution-1', '/pusdiklat-execution/room/update'),
 ('admin-pusdiklat', '/pusdiklat-execution/room/view'),
-('pusdiklat-execution-1', '/pusdiklat-execution/room/view'),
 ('admin-pusdiklat', '/pusdiklat-execution/student/*'),
-('pusdiklat-execution-1', '/pusdiklat-execution/student/*'),
 ('admin-pusdiklat', '/pusdiklat-execution/student/create'),
-('pusdiklat-execution-1', '/pusdiklat-execution/student/create'),
 ('admin-pusdiklat', '/pusdiklat-execution/student/delete'),
-('pusdiklat-execution-1', '/pusdiklat-execution/student/delete'),
 ('admin-pusdiklat', '/pusdiklat-execution/student/index'),
-('pusdiklat-execution-1', '/pusdiklat-execution/student/index'),
 ('admin-pusdiklat', '/pusdiklat-execution/student/person'),
-('pusdiklat-execution-1', '/pusdiklat-execution/student/person'),
 ('admin-pusdiklat', '/pusdiklat-execution/student/update'),
-('pusdiklat-execution-1', '/pusdiklat-execution/student/update'),
 ('admin-pusdiklat', '/pusdiklat-execution/student/view'),
-('pusdiklat-execution-1', '/pusdiklat-execution/student/view'),
 ('admin-pusdiklat', '/pusdiklat-execution/student2/*'),
-('pusdiklat-execution-2', '/pusdiklat-execution/student2/*'),
 ('admin-pusdiklat', '/pusdiklat-execution/student2/create'),
-('pusdiklat-execution-2', '/pusdiklat-execution/student2/create'),
 ('admin-pusdiklat', '/pusdiklat-execution/student2/delete'),
-('pusdiklat-execution-2', '/pusdiklat-execution/student2/delete'),
 ('admin-pusdiklat', '/pusdiklat-execution/student2/index'),
-('pusdiklat-execution-2', '/pusdiklat-execution/student2/index'),
 ('admin-pusdiklat', '/pusdiklat-execution/student2/person'),
-('pusdiklat-execution-2', '/pusdiklat-execution/student2/person'),
 ('admin-pusdiklat', '/pusdiklat-execution/student2/update'),
-('pusdiklat-execution-2', '/pusdiklat-execution/student2/update'),
 ('admin-pusdiklat', '/pusdiklat-execution/student2/view'),
-('pusdiklat-execution-2', '/pusdiklat-execution/student2/view'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-class-student-attendance/*'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/*'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-class-student-attendance/editable'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/editable'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-class-student-attendance/import'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/import'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-class-student-attendance/open-tbs'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/open-tbs'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-class-student-attendance/php-excel'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/php-excel'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-class-student-attendance/print'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/print'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-class-student-attendance/recap'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/recap'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-class-student-attendance/update'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/update'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-schedule-trainer-attendance/*'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/*'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-schedule-trainer-attendance/editab'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/editab'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-schedule-trainer-attendance/import'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/import'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-schedule-trainer-attendance/open-t'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/open-t'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-schedule-trainer-attendance/php-ex'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/php-ex'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-schedule-trainer-attendance/print'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/print'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-schedule-trainer-attendance/update'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/update'),
 ('admin-pusdiklat', '/pusdiklat-general/*'),
 ('admin-pusdiklat', '/pusdiklat-general/activity/*'),
-('pusdiklat-general-1', '/pusdiklat-general/activity/*'),
 ('admin-pusdiklat', '/pusdiklat-general/activity/index'),
-('pusdiklat-general-1', '/pusdiklat-general/activity/index'),
 ('admin-pusdiklat', '/pusdiklat-general/activity/index-student-plan'),
-('pusdiklat-general-1', '/pusdiklat-general/activity/index-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-general/activity/pic'),
-('pusdiklat-general-1', '/pusdiklat-general/activity/pic'),
 ('admin-pusdiklat', '/pusdiklat-general/activity/program-name'),
-('pusdiklat-general-1', '/pusdiklat-general/activity/program-name'),
 ('admin-pusdiklat', '/pusdiklat-general/activity/view'),
-('pusdiklat-general-1', '/pusdiklat-general/activity/view'),
 ('admin-pusdiklat', '/pusdiklat-general/activity/view-student-plan'),
-('pusdiklat-general-1', '/pusdiklat-general/activity/view-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-general/activity2/*'),
-('pusdiklat-general-2', '/pusdiklat-general/activity2/*'),
 ('admin-pusdiklat', '/pusdiklat-general/activity2/index'),
-('pusdiklat-general-2', '/pusdiklat-general/activity2/index'),
 ('admin-pusdiklat', '/pusdiklat-general/activity2/index-student-plan'),
-('pusdiklat-general-2', '/pusdiklat-general/activity2/index-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-general/activity2/pic'),
-('pusdiklat-general-2', '/pusdiklat-general/activity2/pic'),
 ('admin-pusdiklat', '/pusdiklat-general/activity2/program-name'),
-('pusdiklat-general-2', '/pusdiklat-general/activity2/program-name'),
 ('admin-pusdiklat', '/pusdiklat-general/activity2/update'),
-('pusdiklat-general-2', '/pusdiklat-general/activity2/update'),
 ('admin-pusdiklat', '/pusdiklat-general/activity2/view'),
-('pusdiklat-general-2', '/pusdiklat-general/activity2/view'),
 ('admin-pusdiklat', '/pusdiklat-general/activity2/view-student-plan'),
-('pusdiklat-general-2', '/pusdiklat-general/activity2/view-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-general/activity3/*'),
-('pusdiklat-general-3', '/pusdiklat-general/activity3/*'),
 ('admin-pusdiklat', '/pusdiklat-general/activity3/index'),
-('pusdiklat-general-3', '/pusdiklat-general/activity3/index'),
 ('admin-pusdiklat', '/pusdiklat-general/activity3/index-student-plan'),
-('pusdiklat-general-3', '/pusdiklat-general/activity3/index-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-general/activity3/pic'),
-('pusdiklat-general-3', '/pusdiklat-general/activity3/pic'),
 ('admin-pusdiklat', '/pusdiklat-general/activity3/program-name'),
-('pusdiklat-general-3', '/pusdiklat-general/activity3/program-name'),
 ('admin-pusdiklat', '/pusdiklat-general/activity3/update'),
-('pusdiklat-general-3', '/pusdiklat-general/activity3/update'),
 ('admin-pusdiklat', '/pusdiklat-general/activity3/view'),
-('pusdiklat-general-3', '/pusdiklat-general/activity3/view'),
 ('admin-pusdiklat', '/pusdiklat-general/activity3/view-student-plan'),
-('pusdiklat-general-3', '/pusdiklat-general/activity3/view-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-general/assignment0/*'),
 ('admin-pusdiklat', '/pusdiklat-general/assignment0/block'),
 ('admin-pusdiklat', '/pusdiklat-general/assignment0/delete'),
@@ -1452,375 +1129,732 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('admin-pusdiklat', '/pusdiklat-general/assignment0/update'),
 ('admin-pusdiklat', '/pusdiklat-general/assignment0/view'),
 ('admin-pusdiklat', '/pusdiklat-general/default/*'),
-('pusdiklat-general-1', '/pusdiklat-general/default/*'),
-('pusdiklat-general-2', '/pusdiklat-general/default/*'),
-('pusdiklat-general-3', '/pusdiklat-general/default/*'),
 ('admin-pusdiklat', '/pusdiklat-general/default/index'),
-('pusdiklat-general-1', '/pusdiklat-general/default/index'),
-('pusdiklat-general-2', '/pusdiklat-general/default/index'),
-('pusdiklat-general-3', '/pusdiklat-general/default/index'),
 ('admin-pusdiklat', '/pusdiklat-general/default/view-employee'),
-('pusdiklat-general-1', '/pusdiklat-general/default/view-employee'),
-('pusdiklat-general-2', '/pusdiklat-general/default/view-employee'),
-('pusdiklat-general-3', '/pusdiklat-general/default/view-employee'),
 ('admin-pusdiklat', '/pusdiklat-general/employee/*'),
-('pusdiklat-general-1', '/pusdiklat-general/employee/*'),
 ('admin-pusdiklat', '/pusdiklat-general/employee/delete'),
-('pusdiklat-general-1', '/pusdiklat-general/employee/delete'),
 ('admin-pusdiklat', '/pusdiklat-general/employee/index'),
-('pusdiklat-general-1', '/pusdiklat-general/employee/index'),
 ('admin-pusdiklat', '/pusdiklat-general/employee/update'),
-('pusdiklat-general-1', '/pusdiklat-general/employee/update'),
 ('admin-pusdiklat', '/pusdiklat-general/employee/view'),
-('pusdiklat-general-1', '/pusdiklat-general/employee/view'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity/*'),
-('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/*'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity/create'),
-('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/create'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity/delete'),
-('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/delete'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity/index'),
-('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/index'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity/pic'),
-('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/pic'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity/program-name'),
-('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/program-name'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity/room'),
-('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/room'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity/update'),
-('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/update'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity/view'),
-('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/view'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity2/*'),
-('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/*'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity2/create'),
-('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/create'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity2/delete'),
-('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/delete'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity2/index'),
-('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/index'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity2/pic'),
-('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/pic'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity2/program-name'),
-('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/program-name'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity2/room'),
-('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/room'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity2/update'),
-('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/update'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity2/view'),
-('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/view'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity3/*'),
-('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/*'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity3/create'),
-('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/create'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity3/delete'),
-('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/delete'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity3/index'),
-('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/index'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity3/pic'),
-('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/pic'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity3/program-name'),
-('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/program-name'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity3/room'),
-('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/room'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity3/update'),
-('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/update'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity3/view'),
-('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/view'),
 ('admin-pusdiklat', '/pusdiklat-general/person/*'),
-('pusdiklat-general-1', '/pusdiklat-general/person/*'),
 ('admin-pusdiklat', '/pusdiklat-general/person/create'),
-('pusdiklat-general-1', '/pusdiklat-general/person/create'),
 ('admin-pusdiklat', '/pusdiklat-general/person/delete'),
-('pusdiklat-general-1', '/pusdiklat-general/person/delete'),
 ('admin-pusdiklat', '/pusdiklat-general/person/index'),
-('pusdiklat-general-1', '/pusdiklat-general/person/index'),
 ('admin-pusdiklat', '/pusdiklat-general/person/update'),
-('pusdiklat-general-1', '/pusdiklat-general/person/update'),
 ('admin-pusdiklat', '/pusdiklat-general/person/view'),
-('pusdiklat-general-1', '/pusdiklat-general/person/view'),
 ('admin-pusdiklat', '/pusdiklat-general/room-request3/*'),
-('pusdiklat-general-3', '/pusdiklat-general/room-request3/*'),
 ('admin-pusdiklat', '/pusdiklat-general/room-request3/index'),
-('pusdiklat-general-3', '/pusdiklat-general/room-request3/index'),
 ('admin-pusdiklat', '/pusdiklat-general/room-request3/pic'),
-('pusdiklat-general-3', '/pusdiklat-general/room-request3/pic'),
 ('admin-pusdiklat', '/pusdiklat-general/room-request3/program-name'),
-('pusdiklat-general-3', '/pusdiklat-general/room-request3/program-name'),
 ('admin-pusdiklat', '/pusdiklat-general/room-request3/room'),
-('pusdiklat-general-3', '/pusdiklat-general/room-request3/room'),
 ('admin-pusdiklat', '/pusdiklat-general/room-request3/set-room'),
-('pusdiklat-general-3', '/pusdiklat-general/room-request3/set-room'),
 ('admin-pusdiklat', '/pusdiklat-general/room-request3/unset-room'),
-('pusdiklat-general-3', '/pusdiklat-general/room-request3/unset-room'),
 ('admin-pusdiklat', '/pusdiklat-general/room-request3/view'),
-('pusdiklat-general-3', '/pusdiklat-general/room-request3/view'),
 ('admin-pusdiklat', '/pusdiklat-general/room3/*'),
-('pusdiklat-general-3', '/pusdiklat-general/room3/*'),
 ('admin-pusdiklat', '/pusdiklat-general/room3/activity-room'),
-('pusdiklat-general-3', '/pusdiklat-general/room3/activity-room'),
 ('admin-pusdiklat', '/pusdiklat-general/room3/calendar-activity-room'),
-('pusdiklat-general-3', '/pusdiklat-general/room3/calendar-activity-room'),
 ('admin-pusdiklat', '/pusdiklat-general/room3/create'),
-('pusdiklat-general-3', '/pusdiklat-general/room3/create'),
 ('admin-pusdiklat', '/pusdiklat-general/room3/delete'),
-('pusdiklat-general-3', '/pusdiklat-general/room3/delete'),
 ('admin-pusdiklat', '/pusdiklat-general/room3/event-activity-room'),
-('pusdiklat-general-3', '/pusdiklat-general/room3/event-activity-room'),
 ('admin-pusdiklat', '/pusdiklat-general/room3/index'),
-('pusdiklat-general-3', '/pusdiklat-general/room3/index'),
 ('admin-pusdiklat', '/pusdiklat-general/room3/update'),
-('pusdiklat-general-3', '/pusdiklat-general/room3/update'),
 ('admin-pusdiklat', '/pusdiklat-general/room3/update-activity-room'),
-('pusdiklat-general-3', '/pusdiklat-general/room3/update-activity-room'),
 ('admin-pusdiklat', '/pusdiklat-general/room3/view'),
-('pusdiklat-general-3', '/pusdiklat-general/room3/view'),
 ('admin-pusdiklat', '/pusdiklat-general/user/*'),
-('pusdiklat-general-1', '/pusdiklat-general/user/*'),
 ('admin-pusdiklat', '/pusdiklat-general/user/block'),
-('pusdiklat-general-1', '/pusdiklat-general/user/block'),
 ('admin-pusdiklat', '/pusdiklat-general/user/delete'),
-('pusdiklat-general-1', '/pusdiklat-general/user/delete'),
 ('admin-pusdiklat', '/pusdiklat-general/user/index'),
-('pusdiklat-general-1', '/pusdiklat-general/user/index'),
 ('admin-pusdiklat', '/pusdiklat-general/user/unblock'),
-('pusdiklat-general-1', '/pusdiklat-general/user/unblock'),
 ('admin-pusdiklat', '/pusdiklat-general/user/update'),
-('pusdiklat-general-1', '/pusdiklat-general/user/update'),
 ('admin-pusdiklat', '/pusdiklat-general/user/view'),
-('pusdiklat-general-1', '/pusdiklat-general/user/view'),
 ('admin-pusdiklat', '/pusdiklat-planning/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/*'),
-('pusdiklat-planning-1', '/pusdiklat-planning/activity/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/create'),
-('pusdiklat-planning-1', '/pusdiklat-planning/activity/create'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/delete'),
-('pusdiklat-planning-1', '/pusdiklat-planning/activity/delete'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/index'),
-('pusdiklat-planning-1', '/pusdiklat-planning/activity/index'),
-('admin-pusdiklat', '/pusdiklat-planning/activity/index-student-plan');
-INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
-('pusdiklat-planning-1', '/pusdiklat-planning/activity/index-student-plan'),
+('admin-pusdiklat', '/pusdiklat-planning/activity/index-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/pic'),
-('pusdiklat-planning-1', '/pusdiklat-planning/activity/pic'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/program-name'),
-('pusdiklat-planning-1', '/pusdiklat-planning/activity/program-name'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/update'),
-('pusdiklat-planning-1', '/pusdiklat-planning/activity/update'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/update-student-plan'),
-('pusdiklat-planning-1', '/pusdiklat-planning/activity/update-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/view'),
-('pusdiklat-planning-1', '/pusdiklat-planning/activity/view'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/view-student-plan'),
-('pusdiklat-planning-1', '/pusdiklat-planning/activity/view-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity2/*'),
-('pusdiklat-planning-2', '/pusdiklat-planning/activity2/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity2/index'),
-('pusdiklat-planning-2', '/pusdiklat-planning/activity2/index'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity2/index-student-plan'),
-('pusdiklat-planning-2', '/pusdiklat-planning/activity2/index-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity2/pic'),
-('pusdiklat-planning-2', '/pusdiklat-planning/activity2/pic'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity2/program-name'),
-('pusdiklat-planning-2', '/pusdiklat-planning/activity2/program-name'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity2/update'),
-('pusdiklat-planning-2', '/pusdiklat-planning/activity2/update'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity2/view'),
-('pusdiklat-planning-2', '/pusdiklat-planning/activity2/view'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity2/view-student-plan'),
-('pusdiklat-planning-2', '/pusdiklat-planning/activity2/view-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/*'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/choose-trainer'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/choose-trainer'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/delete-subject-trainer'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/delete-subject-trainer'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/index'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/index'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/index-student-plan'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/index-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/pic'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/pic'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/program-name'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/program-name'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/set-trainer'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/set-trainer'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/subject'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/subject'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/subject-trainer'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/subject-trainer'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/update-subject-trainer'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/update-subject-trainer'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/view'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/view'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/view-student-plan'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/view-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/view-subject-trainer'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/view-subject-trainer'),
 ('admin-pusdiklat', '/pusdiklat-planning/default/*'),
-('pusdiklat-planning-1', '/pusdiklat-planning/default/*'),
-('pusdiklat-planning-2', '/pusdiklat-planning/default/*'),
-('pusdiklat-planning-3', '/pusdiklat-planning/default/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/default/index'),
-('pusdiklat-planning-1', '/pusdiklat-planning/default/index'),
-('pusdiklat-planning-2', '/pusdiklat-planning/default/index'),
-('pusdiklat-planning-3', '/pusdiklat-planning/default/index'),
 ('admin-pusdiklat', '/pusdiklat-planning/default/view-employee'),
-('pusdiklat-planning-1', '/pusdiklat-planning/default/view-employee'),
-('pusdiklat-planning-2', '/pusdiklat-planning/default/view-employee'),
-('pusdiklat-planning-3', '/pusdiklat-planning/default/view-employee'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity/*'),
-('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity/create'),
-('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/create'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity/delete'),
-('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/delete'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity/index'),
-('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/index'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity/pic'),
-('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/pic'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity/program-name'),
-('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/program-name'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity/room'),
-('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/room'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity/update'),
-('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/update'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity/view'),
-('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/view'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity2/*'),
-('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity2/create'),
-('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/create'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity2/delete'),
-('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/delete'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity2/index'),
-('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/index'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity2/pic'),
-('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/pic'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity2/program-name'),
-('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/program-name'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity2/room'),
-('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/room'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity2/update'),
-('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/update'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity2/view'),
-('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/view'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity3/*'),
-('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity3/create'),
-('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/create'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity3/delete'),
-('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/delete'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity3/index'),
-('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/index'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity3/pic'),
-('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/pic'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity3/program-name'),
-('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/program-name'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity3/room'),
-('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/room'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity3/update'),
-('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/update'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity3/view'),
-('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/view'),
 ('admin-pusdiklat', '/pusdiklat-planning/program/*'),
-('pusdiklat-planning-1', '/pusdiklat-planning/program/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/program/create'),
-('pusdiklat-planning-1', '/pusdiklat-planning/program/create'),
 ('admin-pusdiklat', '/pusdiklat-planning/program/delete'),
-('pusdiklat-planning-1', '/pusdiklat-planning/program/delete'),
 ('admin-pusdiklat', '/pusdiklat-planning/program/index'),
-('pusdiklat-planning-1', '/pusdiklat-planning/program/index'),
 ('admin-pusdiklat', '/pusdiklat-planning/program/pic'),
-('pusdiklat-planning-1', '/pusdiklat-planning/program/pic'),
 ('admin-pusdiklat', '/pusdiklat-planning/program/status'),
-('pusdiklat-planning-1', '/pusdiklat-planning/program/status'),
 ('admin-pusdiklat', '/pusdiklat-planning/program/update'),
-('pusdiklat-planning-1', '/pusdiklat-planning/program/update'),
 ('admin-pusdiklat', '/pusdiklat-planning/program/validation'),
-('pusdiklat-planning-1', '/pusdiklat-planning/program/validation'),
 ('admin-pusdiklat', '/pusdiklat-planning/program/view'),
-('pusdiklat-planning-1', '/pusdiklat-planning/program/view'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/*'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/document'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/document'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/document-delete'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/document-delete'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/document-history'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/document-history'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/document-status'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/document-status'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/history'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/history'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/index'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/index'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/pic'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/pic'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/subject'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/subject'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/subject-delete'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/subject-delete'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/subject-history'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/subject-history'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/subject-status'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/subject-status'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/update'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/update'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/view'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/view'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/view-history'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/view-history'),
 ('admin-pusdiklat', '/pusdiklat-planning/program3/*'),
-('pusdiklat-planning-3', '/pusdiklat-planning/program3/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/program3/index'),
-('pusdiklat-planning-3', '/pusdiklat-planning/program3/index'),
 ('admin-pusdiklat', '/pusdiklat-planning/program3/pic'),
-('pusdiklat-planning-3', '/pusdiklat-planning/program3/pic'),
 ('admin-pusdiklat', '/pusdiklat-planning/program3/subject'),
-('pusdiklat-planning-3', '/pusdiklat-planning/program3/subject'),
 ('admin-pusdiklat', '/pusdiklat-planning/program3/subject-delete'),
-('pusdiklat-planning-3', '/pusdiklat-planning/program3/subject-delete'),
 ('admin-pusdiklat', '/pusdiklat-planning/program3/subject-status'),
-('pusdiklat-planning-3', '/pusdiklat-planning/program3/subject-status'),
 ('admin-pusdiklat', '/pusdiklat-planning/program3/update'),
-('pusdiklat-planning-3', '/pusdiklat-planning/program3/update'),
 ('admin-pusdiklat', '/pusdiklat-planning/program3/view'),
-('pusdiklat-planning-3', '/pusdiklat-planning/program3/view'),
 ('admin-pusdiklat', '/pusdiklat-planning/trainer3/*'),
-('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/trainer3/create'),
-('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/create'),
 ('admin-pusdiklat', '/pusdiklat-planning/trainer3/create-person'),
-('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/create-person'),
 ('admin-pusdiklat', '/pusdiklat-planning/trainer3/delete'),
-('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/delete'),
 ('admin-pusdiklat', '/pusdiklat-planning/trainer3/delete-person'),
-('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/delete-person'),
 ('admin-pusdiklat', '/pusdiklat-planning/trainer3/index'),
-('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/index'),
 ('admin-pusdiklat', '/pusdiklat-planning/trainer3/person'),
-('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/person'),
 ('admin-pusdiklat', '/pusdiklat-planning/trainer3/update'),
-('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/update'),
 ('admin-pusdiklat', '/pusdiklat-planning/trainer3/update-person'),
-('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/update-person'),
 ('admin-pusdiklat', '/pusdiklat-planning/trainer3/view'),
-('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/view'),
 ('admin-pusdiklat', '/pusdiklat-planning/trainer3/view-person'),
-('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/view-person'),
 ('admin-pusdiklat', '/pusdiklat-planning/training-subject-trainer-recommendation/*'),
-('pusdiklat-planning-1', '/pusdiklat-planning/training-subject-trainer-recommendation/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/training-subject-trainer-recommendation/crea'),
-('pusdiklat-planning-1', '/pusdiklat-planning/training-subject-trainer-recommendation/crea'),
 ('admin-pusdiklat', '/pusdiklat-planning/training-subject-trainer-recommendation/dele'),
-('pusdiklat-planning-1', '/pusdiklat-planning/training-subject-trainer-recommendation/dele'),
 ('admin-pusdiklat', '/pusdiklat-planning/training-subject-trainer-recommendation/inde'),
-('pusdiklat-planning-1', '/pusdiklat-planning/training-subject-trainer-recommendation/inde'),
 ('admin-pusdiklat', '/pusdiklat-planning/training-subject-trainer-recommendation/upda'),
-('pusdiklat-planning-1', '/pusdiklat-planning/training-subject-trainer-recommendation/upda'),
 ('admin-pusdiklat', '/pusdiklat-planning/training-subject-trainer-recommendation/view'),
+('admin-pusdiklat', 'pusdiklat-evaluation-1'),
+('admin-pusdiklat', 'pusdiklat-evaluation-2'),
+('admin-pusdiklat', 'pusdiklat-evaluation-3'),
+('admin-pusdiklat', 'pusdiklat-execution-1'),
+('admin-pusdiklat', 'pusdiklat-execution-2'),
+('admin-pusdiklat', 'pusdiklat-general-1'),
+('admin-pusdiklat', 'pusdiklat-general-2'),
+('admin-pusdiklat', 'pusdiklat-general-3'),
+('admin-pusdiklat', 'pusdiklat-planning-1'),
+('admin-pusdiklat', 'pusdiklat-planning-2'),
+('admin-pusdiklat', 'pusdiklat-planning-3'),
+('Bagian Kepegawaian', 'Pelaksana Bagian Kepegawaian'),
+('Bagian Keuangan', 'Pelaksana Bagian Keuangan'),
+('Bagian Otl', 'Pelaksana Bagian Otl'),
+('Bagian Tata Usaha', 'Subbagian Perencanaan Dan Keuangan'),
+('Bagian Tata Usaha', 'Subbagian Rumah Tangga Dan Pengelolaan Aset '),
+('Bagian Tata Usaha', 'Subbagian Tata Usaha, Kepegawaian , Dan Humas '),
+('Bagian Tata Usaha [PSDM]', 'Subbagian Perencanaan Dan Keuangan  [PSDM]'),
+('Bagian Tata Usaha [PSDM]', 'Subbagian Rumah Tangga Dan Pengelolaan Aset  [PSDM]'),
+('Bagian Tata Usaha [PSDM]', 'Subbagian Tata Usaha, Kepegawaian, Dan Humas  [PSDM]'),
+('Bagian Tik', 'Pelaksana Bagian Tik'),
+('Bagian Umum', 'Pelaksana Bagian Umum'),
+('BDK', 'Seksi Evaluasi Dan Informasi'),
+('BDK', 'Seksi Penyelenggaraan'),
+('BDK', 'Subbag Tata Usaha'),
+('Bidang Evaluasi Dan Pelaporan Kinerja', 'Subbidang Evaluasi Diklat '),
+('Bidang Evaluasi Dan Pelaporan Kinerja', 'Subbidang Informasi Dan Pelaporan Kinerja '),
+('Bidang Evaluasi Dan Pelaporan Kinerja', 'Subbidang Pengolahan Hasil Diklat '),
+('Bidang Penjenjangan Dan Peningkatan Kompetensi', 'Subbidang Perencanaan Dan Pengembangan'),
+('Bidang Penjenjangan Dan Peningkatan Kompetensi', 'Subbidang Program '),
+('Bidang Penjenjangan Dan Peningkatan Kompetensi', 'Subbidang Tenaga Pengajar '),
+('Bidang Penyelenggaraan', 'Pelaksana Subbidang Penyelenggaraan I'),
+('Bidang Penyelenggaraan', 'Pelaksana Subbidang Penyelenggaraan II'),
+('Bidang Penyelenggaraan', 'Subbidang Penyelenggaraan I  '),
+('Bidang Penyelenggaraan', 'Subbidang Penyelenggaraan II'),
+('Bidang Perencanaan Dan Pengembangan Diklat', 'Subbidang Kurikulum'),
+('Bidang Perencanaan Dan Pengembangan Diklat', 'Subbidang Program '),
+('Bidang Perencanaan Dan Pengembangan Diklat', 'Subbidang Tenaga Pengajar '),
+('BPPK', 'BDK'),
+('BPPK', 'Pusdiklat'),
+('BPPK', 'Pusdiklat PSDM'),
+('BPPK', 'Sekretariat Badan'),
+('BPPK', 'superadmin'),
+('Pelaksana Bagian Kepegawaian', 'sekretariat-badan-hrd'),
+('Pelaksana Bagian Keuangan', 'sekretariat-badan-finance'),
+('Pelaksana Bagian Otl', 'sekretariat-badan-organisation'),
+('Pelaksana Bagian Tik', 'sekretariat-badan-it'),
+('Pelaksana Bagian Umum', 'sekretariat-badan-general'),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', 'pusdiklat-general-2'),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', 'pusdiklat-general-3'),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', 'pusdiklat-general-1'),
+('Pelaksana Subbidang Evaluasi Diklat', 'pusdiklat-evaluation-1'),
+('Pelaksana Subbidang Informasi Dan Pelaporan Kinerja', 'pusdiklat-evaluation-3'),
+('Pelaksana Subbidang Kurikulum', 'pusdiklat-planning-2'),
+('Pelaksana Subbidang Pengolahan Hasil Diklat', 'pusdiklat-evaluation-2'),
+('Pelaksana Subbidang Penyelenggaraan I', 'pusdiklat-execution-1'),
+('Pelaksana Subbidang Penyelenggaraan II', 'pusdiklat-execution-2'),
+('Pelaksana Subbidang Program', 'pusdiklat-planning-1'),
+('Pelaksana Subbidang Tenaga Pengajar', 'pusdiklat-planning-3'),
+('Pusdiklat', 'admin-pusdiklat'),
+('Pusdiklat', 'Bagian Tata Usaha'),
+('Pusdiklat', 'Bidang Evaluasi Dan Pelaporan Kinerja'),
+('Pusdiklat', 'Bidang Penyelenggaraan'),
+('Pusdiklat', 'Bidang Perencanaan Dan Pengembangan Diklat'),
+('Pusdiklat PSDM', 'Bagian Tata Usaha [PSDM]'),
+('Pusdiklat PSDM', 'Bidang Penjenjangan Dan Peningkatan Kompetensi'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/*'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/add-activity-class-schedule'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/available-room'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/change-class-student'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/choose-student'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/class'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/class-schedule'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/class-schedule-max-time'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/class-student'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/class-subject'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/create-class'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/create-class-subject'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/dashboard'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/delete-activity-class-schedule'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/delete-class'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/delete-class-student'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/delete-student'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/honorarium'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/import-student'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/index'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/index-student-plan'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/pic'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/prepare-honorarium'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/program-name'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/property'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/room'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/room-class-schedule'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/set-room'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/set-student'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/student'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/trainer-class-schedule'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/unset-room'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/update'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/update-student'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/view'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/view-student-plan'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/default/*'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/default/index'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/default/view-employee'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/*'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/create'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/delete'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/index'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/pic'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/program-name'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/room'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/update'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/view'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/*'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/class'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/class-schedule'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/class-schedule-max-time'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/class-student'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/class-subject'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/create-certificate-class-student'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/dashboard'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/delete-certificate-class-student'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/index'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/index-student-plan'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/pic'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/print-backend-certificate'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/print-certificate-receipt'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/print-frontend-certificate'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/print-student-checklist'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/print-value-certificate'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/program-name'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/property'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/set-certificate-class'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/student'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/update-certificate-class-student'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/update-class-student'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/view'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/view-student-plan'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/default/*'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/default/index'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/default/view-employee'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/*'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/create'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/delete'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/index'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/pic'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/program-name'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/room'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/update'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/view'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/*'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/add-activity-class-schedule'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/available-room'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/change-class-student'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/choose-student'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/class'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/class-schedule'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/class-schedule-max-time'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/class-student'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/class-subject'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/create-class'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/create-class-subject'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/dashboard'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/delete-activity-class-schedule'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/delete-class'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/delete-class-student'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/delete-student'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/honorarium'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/import-student'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/index'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/index-student-plan'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/pic'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/prepare-honorarium'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/program-name'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/property'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/room'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/room-class-schedule'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/set-room'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/set-student'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/student'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/trainer-class-schedule'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/unset-room'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/update'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/update-student'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/view'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/view-student-plan'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/default/*'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/default/index'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/default/view-employee'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/*'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/create'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/delete'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/index'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/pic'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/program-name'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/room'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/update'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/view'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity-room/*'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity-room/create'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity-room/delete'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity-room/index'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity-room/update'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity-room/view'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/*'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/add-activity-class-schedule'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/available-room'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/change-class-student'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/choose-student'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/class'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/class-schedule'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/class-schedule-max-time'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/class-student'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/class-subject'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/create-class'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/create-class-subject'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/dashboard'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/delete-activity-class-schedule'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/delete-class'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/delete-class-student'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/delete-student'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/honorarium'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/import-student'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/index'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/index-student-plan'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/pic'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/prepare-honorarium'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/program-name'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/property'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/room'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/room-class-schedule'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/set-room'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/set-student'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/student'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/trainer-class-schedule'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/unset-room'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/update'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/update-student'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/view'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/view-student-plan'),
+('pusdiklat-execution-1', '/pusdiklat-execution/default/*'),
+('pusdiklat-execution-1', '/pusdiklat-execution/default/index'),
+('pusdiklat-execution-1', '/pusdiklat-execution/default/view-employee'),
+('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/*'),
+('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/create'),
+('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/delete'),
+('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/index'),
+('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/pic'),
+('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/program-name'),
+('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/room'),
+('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/update'),
+('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/view'),
+('pusdiklat-execution-1', '/pusdiklat-execution/room/*'),
+('pusdiklat-execution-1', '/pusdiklat-execution/room/create'),
+('pusdiklat-execution-1', '/pusdiklat-execution/room/delete'),
+('pusdiklat-execution-1', '/pusdiklat-execution/room/index'),
+('pusdiklat-execution-1', '/pusdiklat-execution/room/update'),
+('pusdiklat-execution-1', '/pusdiklat-execution/room/view'),
+('pusdiklat-execution-1', '/pusdiklat-execution/student/*'),
+('pusdiklat-execution-1', '/pusdiklat-execution/student/create'),
+('pusdiklat-execution-1', '/pusdiklat-execution/student/delete'),
+('pusdiklat-execution-1', '/pusdiklat-execution/student/index'),
+('pusdiklat-execution-1', '/pusdiklat-execution/student/person'),
+('pusdiklat-execution-1', '/pusdiklat-execution/student/update'),
+('pusdiklat-execution-1', '/pusdiklat-execution/student/view'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/*'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/editable'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/import'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/open-tbs'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/php-excel'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/print'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/recap'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/update'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/*'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/editab'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/import'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/open-t'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/php-ex'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/print'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/update'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/*'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/add-activity');
+INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/attendance'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/choose-student'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/class'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/class-student'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/class-subject'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/create-class'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/create-class-subject'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/dashboard'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/delete-activity'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/delete-class'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/delete-class-student'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/delete-student'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/get-max-time'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/import-student'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/index'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/index-student-plan'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/pic'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/program-name'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/property'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/schedule'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/set-student'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/student'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/trainer-class-schedule'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/update'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/update-student'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/view'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/view-student-plan'),
+('pusdiklat-execution-2', '/pusdiklat-execution/default/*'),
+('pusdiklat-execution-2', '/pusdiklat-execution/default/index'),
+('pusdiklat-execution-2', '/pusdiklat-execution/default/view-employee'),
+('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/*'),
+('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/create'),
+('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/delete'),
+('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/index'),
+('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/pic'),
+('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/program-name'),
+('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/room'),
+('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/update'),
+('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/view'),
+('pusdiklat-execution-2', '/pusdiklat-execution/student2/*'),
+('pusdiklat-execution-2', '/pusdiklat-execution/student2/create'),
+('pusdiklat-execution-2', '/pusdiklat-execution/student2/delete'),
+('pusdiklat-execution-2', '/pusdiklat-execution/student2/index'),
+('pusdiklat-execution-2', '/pusdiklat-execution/student2/person'),
+('pusdiklat-execution-2', '/pusdiklat-execution/student2/update'),
+('pusdiklat-execution-2', '/pusdiklat-execution/student2/view'),
+('pusdiklat-general-1', '/pusdiklat-general/activity/*'),
+('pusdiklat-general-1', '/pusdiklat-general/activity/index'),
+('pusdiklat-general-1', '/pusdiklat-general/activity/index-student-plan'),
+('pusdiklat-general-1', '/pusdiklat-general/activity/pic'),
+('pusdiklat-general-1', '/pusdiklat-general/activity/program-name'),
+('pusdiklat-general-1', '/pusdiklat-general/activity/view'),
+('pusdiklat-general-1', '/pusdiklat-general/activity/view-student-plan'),
+('pusdiklat-general-1', '/pusdiklat-general/default/*'),
+('pusdiklat-general-1', '/pusdiklat-general/default/index'),
+('pusdiklat-general-1', '/pusdiklat-general/default/view-employee'),
+('pusdiklat-general-1', '/pusdiklat-general/employee/*'),
+('pusdiklat-general-1', '/pusdiklat-general/employee/delete'),
+('pusdiklat-general-1', '/pusdiklat-general/employee/index'),
+('pusdiklat-general-1', '/pusdiklat-general/employee/update'),
+('pusdiklat-general-1', '/pusdiklat-general/employee/view'),
+('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/*'),
+('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/create'),
+('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/delete'),
+('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/index'),
+('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/pic'),
+('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/program-name'),
+('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/room'),
+('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/update'),
+('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/view'),
+('pusdiklat-general-1', '/pusdiklat-general/person/*'),
+('pusdiklat-general-1', '/pusdiklat-general/person/create'),
+('pusdiklat-general-1', '/pusdiklat-general/person/delete'),
+('pusdiklat-general-1', '/pusdiklat-general/person/index'),
+('pusdiklat-general-1', '/pusdiklat-general/person/update'),
+('pusdiklat-general-1', '/pusdiklat-general/person/view'),
+('pusdiklat-general-1', '/pusdiklat-general/user/*'),
+('pusdiklat-general-1', '/pusdiklat-general/user/block'),
+('pusdiklat-general-1', '/pusdiklat-general/user/delete'),
+('pusdiklat-general-1', '/pusdiklat-general/user/index'),
+('pusdiklat-general-1', '/pusdiklat-general/user/unblock'),
+('pusdiklat-general-1', '/pusdiklat-general/user/update'),
+('pusdiklat-general-1', '/pusdiklat-general/user/view'),
+('pusdiklat-general-2', '/pusdiklat-general/activity2/*'),
+('pusdiklat-general-2', '/pusdiklat-general/activity2/index'),
+('pusdiklat-general-2', '/pusdiklat-general/activity2/index-student-plan'),
+('pusdiklat-general-2', '/pusdiklat-general/activity2/pic'),
+('pusdiklat-general-2', '/pusdiklat-general/activity2/program-name'),
+('pusdiklat-general-2', '/pusdiklat-general/activity2/update'),
+('pusdiklat-general-2', '/pusdiklat-general/activity2/view'),
+('pusdiklat-general-2', '/pusdiklat-general/activity2/view-student-plan'),
+('pusdiklat-general-2', '/pusdiklat-general/default/*'),
+('pusdiklat-general-2', '/pusdiklat-general/default/index'),
+('pusdiklat-general-2', '/pusdiklat-general/default/view-employee'),
+('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/*'),
+('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/create'),
+('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/delete'),
+('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/index'),
+('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/pic'),
+('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/program-name'),
+('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/room'),
+('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/update'),
+('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/view'),
+('pusdiklat-general-3', '/pusdiklat-general/activity3/*'),
+('pusdiklat-general-3', '/pusdiklat-general/activity3/index'),
+('pusdiklat-general-3', '/pusdiklat-general/activity3/index-student-plan'),
+('pusdiklat-general-3', '/pusdiklat-general/activity3/pic'),
+('pusdiklat-general-3', '/pusdiklat-general/activity3/program-name'),
+('pusdiklat-general-3', '/pusdiklat-general/activity3/update'),
+('pusdiklat-general-3', '/pusdiklat-general/activity3/view'),
+('pusdiklat-general-3', '/pusdiklat-general/activity3/view-student-plan'),
+('pusdiklat-general-3', '/pusdiklat-general/default/*'),
+('pusdiklat-general-3', '/pusdiklat-general/default/index'),
+('pusdiklat-general-3', '/pusdiklat-general/default/view-employee'),
+('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/*'),
+('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/create'),
+('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/delete'),
+('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/index'),
+('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/pic'),
+('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/program-name'),
+('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/room'),
+('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/update'),
+('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/view'),
+('pusdiklat-general-3', '/pusdiklat-general/room-request3/*'),
+('pusdiklat-general-3', '/pusdiklat-general/room-request3/index'),
+('pusdiklat-general-3', '/pusdiklat-general/room-request3/pic'),
+('pusdiklat-general-3', '/pusdiklat-general/room-request3/program-name'),
+('pusdiklat-general-3', '/pusdiklat-general/room-request3/room'),
+('pusdiklat-general-3', '/pusdiklat-general/room-request3/set-room'),
+('pusdiklat-general-3', '/pusdiklat-general/room-request3/unset-room'),
+('pusdiklat-general-3', '/pusdiklat-general/room-request3/view'),
+('pusdiklat-general-3', '/pusdiklat-general/room3/*'),
+('pusdiklat-general-3', '/pusdiklat-general/room3/activity-room'),
+('pusdiklat-general-3', '/pusdiklat-general/room3/calendar-activity-room'),
+('pusdiklat-general-3', '/pusdiklat-general/room3/create'),
+('pusdiklat-general-3', '/pusdiklat-general/room3/delete'),
+('pusdiklat-general-3', '/pusdiklat-general/room3/event-activity-room'),
+('pusdiklat-general-3', '/pusdiklat-general/room3/index'),
+('pusdiklat-general-3', '/pusdiklat-general/room3/update'),
+('pusdiklat-general-3', '/pusdiklat-general/room3/update-activity-room'),
+('pusdiklat-general-3', '/pusdiklat-general/room3/view'),
+('pusdiklat-planning-1', '/pusdiklat-planning/activity/*'),
+('pusdiklat-planning-1', '/pusdiklat-planning/activity/create'),
+('pusdiklat-planning-1', '/pusdiklat-planning/activity/delete'),
+('pusdiklat-planning-1', '/pusdiklat-planning/activity/index'),
+('pusdiklat-planning-1', '/pusdiklat-planning/activity/index-student-plan'),
+('pusdiklat-planning-1', '/pusdiklat-planning/activity/pic'),
+('pusdiklat-planning-1', '/pusdiklat-planning/activity/program-name'),
+('pusdiklat-planning-1', '/pusdiklat-planning/activity/update'),
+('pusdiklat-planning-1', '/pusdiklat-planning/activity/update-student-plan'),
+('pusdiklat-planning-1', '/pusdiklat-planning/activity/view'),
+('pusdiklat-planning-1', '/pusdiklat-planning/activity/view-student-plan'),
+('pusdiklat-planning-1', '/pusdiklat-planning/default/*'),
+('pusdiklat-planning-1', '/pusdiklat-planning/default/index'),
+('pusdiklat-planning-1', '/pusdiklat-planning/default/view-employee'),
+('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/*'),
+('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/create'),
+('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/delete'),
+('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/index'),
+('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/pic'),
+('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/program-name'),
+('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/room'),
+('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/update'),
+('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/view'),
+('pusdiklat-planning-1', '/pusdiklat-planning/program/*'),
+('pusdiklat-planning-1', '/pusdiklat-planning/program/create'),
+('pusdiklat-planning-1', '/pusdiklat-planning/program/delete'),
+('pusdiklat-planning-1', '/pusdiklat-planning/program/index'),
+('pusdiklat-planning-1', '/pusdiklat-planning/program/pic'),
+('pusdiklat-planning-1', '/pusdiklat-planning/program/status'),
+('pusdiklat-planning-1', '/pusdiklat-planning/program/update'),
+('pusdiklat-planning-1', '/pusdiklat-planning/program/validation'),
+('pusdiklat-planning-1', '/pusdiklat-planning/program/view'),
+('pusdiklat-planning-1', '/pusdiklat-planning/training-subject-trainer-recommendation/*'),
+('pusdiklat-planning-1', '/pusdiklat-planning/training-subject-trainer-recommendation/crea'),
+('pusdiklat-planning-1', '/pusdiklat-planning/training-subject-trainer-recommendation/dele'),
+('pusdiklat-planning-1', '/pusdiklat-planning/training-subject-trainer-recommendation/inde'),
+('pusdiklat-planning-1', '/pusdiklat-planning/training-subject-trainer-recommendation/upda'),
 ('pusdiklat-planning-1', '/pusdiklat-planning/training-subject-trainer-recommendation/view'),
+('pusdiklat-planning-2', '/pusdiklat-planning/activity2/*'),
+('pusdiklat-planning-2', '/pusdiklat-planning/activity2/index'),
+('pusdiklat-planning-2', '/pusdiklat-planning/activity2/index-student-plan'),
+('pusdiklat-planning-2', '/pusdiklat-planning/activity2/pic'),
+('pusdiklat-planning-2', '/pusdiklat-planning/activity2/program-name'),
+('pusdiklat-planning-2', '/pusdiklat-planning/activity2/update'),
+('pusdiklat-planning-2', '/pusdiklat-planning/activity2/view'),
+('pusdiklat-planning-2', '/pusdiklat-planning/activity2/view-student-plan'),
+('pusdiklat-planning-2', '/pusdiklat-planning/default/*'),
+('pusdiklat-planning-2', '/pusdiklat-planning/default/index'),
+('pusdiklat-planning-2', '/pusdiklat-planning/default/view-employee'),
+('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/*'),
+('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/create'),
+('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/delete'),
+('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/index'),
+('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/pic'),
+('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/program-name'),
+('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/room'),
+('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/update'),
+('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/view'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/*'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/document'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/document-delete'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/document-history'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/document-status'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/history'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/index'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/pic'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/subject'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/subject-delete'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/subject-history'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/subject-status'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/update'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/view'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/view-history'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/*'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/choose-trainer'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/delete-subject-trainer'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/index'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/index-student-plan'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/pic'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/program-name'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/set-trainer'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/subject'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/subject-trainer'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/update-subject-trainer'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/view'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/view-student-plan'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/view-subject-trainer'),
+('pusdiklat-planning-3', '/pusdiklat-planning/default/*'),
+('pusdiklat-planning-3', '/pusdiklat-planning/default/index'),
+('pusdiklat-planning-3', '/pusdiklat-planning/default/view-employee'),
+('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/*'),
+('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/create'),
+('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/delete'),
+('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/index'),
+('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/pic'),
+('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/program-name'),
+('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/room'),
+('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/update'),
+('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/view'),
+('pusdiklat-planning-3', '/pusdiklat-planning/program3/*'),
+('pusdiklat-planning-3', '/pusdiklat-planning/program3/index'),
+('pusdiklat-planning-3', '/pusdiklat-planning/program3/pic'),
+('pusdiklat-planning-3', '/pusdiklat-planning/program3/subject'),
+('pusdiklat-planning-3', '/pusdiklat-planning/program3/subject-delete'),
+('pusdiklat-planning-3', '/pusdiklat-planning/program3/subject-status'),
+('pusdiklat-planning-3', '/pusdiklat-planning/program3/update'),
+('pusdiklat-planning-3', '/pusdiklat-planning/program3/view'),
+('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/*'),
+('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/create'),
+('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/create-person'),
+('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/delete'),
+('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/delete-person'),
+('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/index'),
+('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/person'),
+('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/update'),
+('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/update-person'),
+('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/view'),
+('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/view-person'),
+('Sekretariat Badan', 'Bagian Kepegawaian'),
+('Sekretariat Badan', 'Bagian Keuangan'),
+('Sekretariat Badan', 'Bagian Otl'),
+('Sekretariat Badan', 'Bagian Tik'),
+('Sekretariat Badan', 'Bagian Umum'),
 ('sekretariat-badan-finance', '/sekretariat-finance/*'),
 ('sekretariat-badan-finance', '/sekretariat-finance/default/*'),
 ('sekretariat-badan-finance', '/sekretariat-finance/default/index'),
@@ -1933,24 +1967,6 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('sekretariat-badan-organisation', '/sekretariat-organisation/reference-unit/index'),
 ('sekretariat-badan-organisation', '/sekretariat-organisation/reference-unit/update'),
 ('sekretariat-badan-organisation', '/sekretariat-organisation/reference-unit/view'),
-('Pusdiklat', 'admin-pusdiklat'),
-('Sekretariat Badan', 'Bagian Kepegawaian'),
-('Sekretariat Badan', 'Bagian Keuangan'),
-('Sekretariat Badan', 'Bagian Otl'),
-('Pusdiklat', 'Bagian Tata Usaha'),
-('Pusdiklat PSDM', 'Bagian Tata Usaha [PSDM]'),
-('Sekretariat Badan', 'Bagian Tik'),
-('Sekretariat Badan', 'Bagian Umum'),
-('BPPK', 'BDK'),
-('Pusdiklat', 'Bidang Evaluasi Dan Pelaporan Kinerja'),
-('Pusdiklat PSDM', 'Bidang Penjenjangan Dan Peningkatan Kompetensi'),
-('Pusdiklat', 'Bidang Penyelenggaraan'),
-('Pusdiklat', 'Bidang Perencanaan Dan Pengembangan Diklat'),
-('Bagian Kepegawaian', 'Pelaksana Bagian Kepegawaian'),
-('Bagian Keuangan', 'Pelaksana Bagian Keuangan'),
-('Bagian Otl', 'Pelaksana Bagian Otl'),
-('Bagian Tik', 'Pelaksana Bagian Tik'),
-('Bagian Umum', 'Pelaksana Bagian Umum'),
 ('Seksi Evaluasi Dan Informasi', 'Pelaksana Seksi Evaluasi Dan Informasi'),
 ('Seksi Penyelenggaraan', 'Pelaksana Seksi Penyelenggaraan'),
 ('Subbag Tata Usaha', 'Pelaksana Subbag Tata Usaha'),
@@ -1963,62 +1979,35 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Subbidang Evaluasi Dan Pelaporan Kinerja', 'Pelaksana Subbidang Evaluasi Dan Pelaporan Kinerja'),
 ('Subbidang Kurikulum', 'Pelaksana Subbidang Kurikulum'),
 ('Subbidang Penyelenggaraan', 'Pelaksana Subbidang Penyelenggaraan'),
-('Bidang Penyelenggaraan', 'Pelaksana Subbidang Penyelenggaraan I'),
-('Bidang Penyelenggaraan', 'Pelaksana Subbidang Penyelenggaraan II'),
 ('Subbidang Perencanaan Dan Pengembangan', 'Pelaksana Subbidang Perencanaan Dan Pengembangan'),
 ('Subbidang Program ', 'Pelaksana Subbidang Program'),
 ('Subbidang Tenaga Pengajar ', 'Pelaksana Subbidang Tenaga Pengajar'),
-('BPPK', 'Pusdiklat'),
-('BPPK', 'Pusdiklat PSDM'),
-('admin-pusdiklat', 'pusdiklat-evaluation-1'),
-('Pelaksana Subbidang Evaluasi Diklat', 'pusdiklat-evaluation-1'),
-('admin-pusdiklat', 'pusdiklat-evaluation-2'),
-('Pelaksana Subbidang Pengolahan Hasil Diklat', 'pusdiklat-evaluation-2'),
-('admin-pusdiklat', 'pusdiklat-evaluation-3'),
-('Pelaksana Subbidang Informasi Dan Pelaporan Kinerja', 'pusdiklat-evaluation-3'),
-('admin-pusdiklat', 'pusdiklat-execution-1'),
-('Pelaksana Subbidang Penyelenggaraan I', 'pusdiklat-execution-1'),
-('admin-pusdiklat', 'pusdiklat-execution-2'),
-('Pelaksana Subbidang Penyelenggaraan II', 'pusdiklat-execution-2'),
-('admin-pusdiklat', 'pusdiklat-general-1'),
-('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', 'pusdiklat-general-1'),
-('admin-pusdiklat', 'pusdiklat-general-2'),
-('Pelaksana Subbagian Perencanaan Dan Keuangan', 'pusdiklat-general-2'),
-('admin-pusdiklat', 'pusdiklat-general-3'),
-('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', 'pusdiklat-general-3'),
-('admin-pusdiklat', 'pusdiklat-planning-1'),
-('Pelaksana Subbidang Program', 'pusdiklat-planning-1'),
-('admin-pusdiklat', 'pusdiklat-planning-2'),
-('Pelaksana Subbidang Kurikulum', 'pusdiklat-planning-2'),
-('admin-pusdiklat', 'pusdiklat-planning-3'),
-('Pelaksana Subbidang Tenaga Pengajar', 'pusdiklat-planning-3'),
-('BPPK', 'Sekretariat Badan'),
-('Pelaksana Bagian Keuangan', 'sekretariat-badan-finance'),
-('Pelaksana Bagian Umum', 'sekretariat-badan-general'),
-('Pelaksana Bagian Kepegawaian', 'sekretariat-badan-hrd'),
-('Pelaksana Bagian Tik', 'sekretariat-badan-it'),
-('Pelaksana Bagian Otl', 'sekretariat-badan-organisation'),
-('BDK', 'Seksi Evaluasi Dan Informasi'),
-('BDK', 'Seksi Penyelenggaraan'),
-('BDK', 'Subbag Tata Usaha'),
-('Bagian Tata Usaha', 'Subbagian Perencanaan Dan Keuangan'),
-('Bagian Tata Usaha [PSDM]', 'Subbagian Perencanaan Dan Keuangan  [PSDM]'),
-('Bagian Tata Usaha', 'Subbagian Rumah Tangga Dan Pengelolaan Aset '),
-('Bagian Tata Usaha [PSDM]', 'Subbagian Rumah Tangga Dan Pengelolaan Aset  [PSDM]'),
-('Bagian Tata Usaha', 'Subbagian Tata Usaha, Kepegawaian , Dan Humas '),
-('Bagian Tata Usaha [PSDM]', 'Subbagian Tata Usaha, Kepegawaian, Dan Humas  [PSDM]'),
-('Bidang Evaluasi Dan Pelaporan Kinerja', 'Subbidang Evaluasi Diklat '),
-('Bidang Evaluasi Dan Pelaporan Kinerja', 'Subbidang Informasi Dan Pelaporan Kinerja '),
-('Bidang Perencanaan Dan Pengembangan Diklat', 'Subbidang Kurikulum'),
-('Bidang Evaluasi Dan Pelaporan Kinerja', 'Subbidang Pengolahan Hasil Diklat '),
-('Bidang Penyelenggaraan', 'Subbidang Penyelenggaraan I  '),
-('Bidang Penyelenggaraan', 'Subbidang Penyelenggaraan II'),
-('Bidang Penjenjangan Dan Peningkatan Kompetensi', 'Subbidang Perencanaan Dan Pengembangan'),
-('Bidang Penjenjangan Dan Peningkatan Kompetensi', 'Subbidang Program '),
-('Bidang Perencanaan Dan Pengembangan Diklat', 'Subbidang Program '),
-('Bidang Penjenjangan Dan Peningkatan Kompetensi', 'Subbidang Tenaga Pengajar '),
-('Bidang Perencanaan Dan Pengembangan Diklat', 'Subbidang Tenaga Pengajar '),
-('BPPK', 'superadmin');
+('superadmin', '/admin/*'),
+('superadmin', '/admin/default/*'),
+('superadmin', '/admin/default/index'),
+('superadmin', '/admin/employee/*'),
+('superadmin', '/admin/employee/create'),
+('superadmin', '/admin/employee/delete'),
+('superadmin', '/admin/employee/index'),
+('superadmin', '/admin/employee/organisation'),
+('superadmin', '/admin/employee/update'),
+('superadmin', '/admin/employee/view'),
+('superadmin', '/admin/person/*'),
+('superadmin', '/admin/person/create'),
+('superadmin', '/admin/person/delete'),
+('superadmin', '/admin/person/index'),
+('superadmin', '/admin/person/update'),
+('superadmin', '/admin/person/view'),
+('superadmin', '/admin/user/*'),
+('superadmin', '/admin/user/block'),
+('superadmin', '/admin/user/create'),
+('superadmin', '/admin/user/delete'),
+('superadmin', '/admin/user/index'),
+('superadmin', '/admin/user/unblock'),
+('superadmin', '/admin/user/update'),
+('superadmin', '/admin/user/view'),
+('superadmin', '/gii/*'),
+('superadmin', '/privilege/*');
 
 -- --------------------------------------------------------
 
@@ -2030,8 +2019,7 @@ CREATE TABLE IF NOT EXISTS `auth_rule` (
   `name` varchar(64) NOT NULL,
   `data` text,
   `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`name`)
+  `updated_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2045,10 +2033,7 @@ CREATE TABLE IF NOT EXISTS `employee` (
   `satker_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `organisation_id` int(11) DEFAULT NULL,
-  `chairman` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`person_id`),
-  KEY `user_id` (`user_id`),
-  KEY `organisation_id` (`organisation_id`)
+  `chairman` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -2081,8 +2066,7 @@ INSERT INTO `employee` (`person_id`, `satker_id`, `user_id`, `organisation_id`, 
 (23, 17, 23, NULL, NULL),
 (24, 17, 24, NULL, NULL),
 (25, 17, 25, NULL, NULL),
-(26, 17, 26, NULL, NULL),
-(101, 17, 101, NULL, NULL);
+(26, 17, 26, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2091,7 +2075,7 @@ INSERT INTO `employee` (`person_id`, `satker_id`, `user_id`, `organisation_id`, 
 --
 
 CREATE TABLE IF NOT EXISTS `file` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `file_name` varchar(255) NOT NULL,
   `file_type` varchar(255) DEFAULT NULL,
@@ -2101,16 +2085,8 @@ CREATE TABLE IF NOT EXISTS `file` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `file`
---
-
-INSERT INTO `file` (`id`, `name`, `file_name`, `file_type`, `file_size`, `description`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, '5445ad5231266.jpg', '5445ad5231266.jpg', NULL, NULL, NULL, 1, '2014-10-21 07:48:18', 1, '2014-10-21 07:48:18', 1);
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2121,9 +2097,7 @@ INSERT INTO `file` (`id`, `name`, `file_name`, `file_type`, `file_size`, `descri
 CREATE TABLE IF NOT EXISTS `meeting` (
   `activity_id` int(11) NOT NULL,
   `attendance_count_plan` int(11) DEFAULT NULL,
-  `organisation_id` int(11) NOT NULL,
-  PRIMARY KEY (`activity_id`),
-  KEY `organisation_id` (`organisation_id`)
+  `organisation_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2133,15 +2107,13 @@ CREATE TABLE IF NOT EXISTS `meeting` (
 --
 
 CREATE TABLE IF NOT EXISTS `menu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL,
   `parent` int(11) DEFAULT NULL,
   `route` varchar(256) DEFAULT NULL,
   `order` int(11) DEFAULT NULL,
-  `data` text,
-  PRIMARY KEY (`id`),
-  KEY `parent` (`parent`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=58 ;
+  `data` text
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `menu`
@@ -2213,7 +2185,7 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `message` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `type` int(3) NOT NULL,
   `category` int(3) NOT NULL,
   `author` int(11) NOT NULL,
@@ -2222,10 +2194,8 @@ CREATE TABLE IF NOT EXISTS `message` (
   `content` text NOT NULL,
   `status` int(3) NOT NULL DEFAULT '1',
   `created` datetime DEFAULT NULL,
-  `created_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name_UNIQUE` (`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `created_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2235,8 +2205,7 @@ CREATE TABLE IF NOT EXISTS `message` (
 
 CREATE TABLE IF NOT EXISTS `migration` (
   `version` varchar(180) NOT NULL,
-  `apply_time` int(11) DEFAULT NULL,
-  PRIMARY KEY (`version`)
+  `apply_time` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -2257,17 +2226,8 @@ CREATE TABLE IF NOT EXISTS `object_file` (
   `object` varchar(100) NOT NULL,
   `object_id` int(11) NOT NULL,
   `type` varchar(50) NOT NULL DEFAULT '',
-  `file_id` int(11) NOT NULL,
-  PRIMARY KEY (`object`,`object_id`,`type`,`file_id`),
-  KEY `file_id` (`file_id`)
+  `file_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `object_file`
---
-
-INSERT INTO `object_file` (`object`, `object_id`, `type`, `file_id`) VALUES
-('person', 101, 'photo', 1);
 
 -- --------------------------------------------------------
 
@@ -2279,9 +2239,7 @@ CREATE TABLE IF NOT EXISTS `object_person` (
   `object` varchar(100) NOT NULL,
   `object_id` int(11) NOT NULL,
   `type` varchar(50) NOT NULL DEFAULT '',
-  `person_id` int(11) NOT NULL,
-  PRIMARY KEY (`object`,`object_id`,`type`),
-  KEY `person_id` (`person_id`)
+  `person_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2294,9 +2252,7 @@ CREATE TABLE IF NOT EXISTS `object_reference` (
   `object` varchar(100) NOT NULL,
   `object_id` int(11) NOT NULL,
   `type` varchar(50) NOT NULL DEFAULT '' COMMENT 'graduate,rank_class,religion,satker,finance_position',
-  `reference_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`object`,`object_id`,`type`),
-  KEY `reference_id` (`reference_id`)
+  `reference_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -2537,6 +2493,55 @@ INSERT INTO `object_reference` (`object`, `object_id`, `type`, `reference_id`) V
 ('person', 101, 'graduate', 45),
 ('person', 101, 'rank_class', 75),
 ('person', 101, 'religion', 91),
+('person', 102, 'unit', 121),
+('person', 103, 'unit', 121),
+('person', 104, 'unit', 121),
+('person', 105, 'unit', 121),
+('person', 106, 'unit', 121),
+('person', 107, 'unit', 121),
+('person', 108, 'unit', 121),
+('person', 109, 'unit', 121),
+('person', 110, 'unit', 121),
+('person', 111, 'unit', 121),
+('person', 112, 'unit', 121),
+('person', 113, 'unit', 121),
+('person', 114, 'unit', 121),
+('person', 115, 'unit', 121),
+('person', 116, 'unit', 121),
+('person', 117, 'unit', 121),
+('person', 118, 'unit', 121),
+('person', 119, 'unit', 121),
+('person', 120, 'unit', 121),
+('person', 121, 'unit', 121),
+('person', 122, 'unit', 121),
+('person', 123, 'unit', 121),
+('person', 124, 'unit', 121),
+('person', 125, 'unit', 121),
+('person', 126, 'unit', 121),
+('person', 127, 'unit', 121),
+('person', 128, 'unit', 121),
+('person', 129, 'unit', 121),
+('person', 130, 'unit', 121),
+('person', 131, 'unit', 121),
+('person', 132, 'unit', 121),
+('person', 133, 'unit', 121),
+('person', 134, 'unit', 121),
+('person', 135, 'unit', 121),
+('person', 136, 'unit', 121),
+('person', 137, 'unit', 121),
+('person', 138, 'unit', 121),
+('person', 139, 'unit', 121),
+('person', 140, 'unit', 121),
+('person', 141, 'unit', 121),
+('person', 142, 'unit', 121),
+('person', 143, 'unit', 121),
+('person', 144, 'unit', 121),
+('person', 145, 'unit', 121),
+('person', 146, 'unit', 121),
+('person', 147, 'unit', 121),
+('person', 148, 'unit', 121),
+('person', 149, 'unit', 121),
+('person', 150, 'unit', 121),
 ('person', 101, 'unit', 132);
 
 -- --------------------------------------------------------
@@ -2546,7 +2551,7 @@ INSERT INTO `object_reference` (`object`, `object_id`, `type`, `reference_id`) V
 --
 
 CREATE TABLE IF NOT EXISTS `organisation` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+`ID` int(11) NOT NULL,
   `KD_UNIT_ORG` char(10) NOT NULL,
   `KD_UNIT_ES1` char(2) NOT NULL,
   `KD_UNIT_ES2` char(2) NOT NULL,
@@ -2557,9 +2562,8 @@ CREATE TABLE IF NOT EXISTS `organisation` (
   `NM_UNIT_ORG` varchar(100) NOT NULL,
   `KD_ESELON` char(2) NOT NULL,
   `KD_SURAT_ORG` varchar(100) NOT NULL,
-  `TKT_ESELON` char(2) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=403 ;
+  `TKT_ESELON` char(2) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=403 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `organisation`
@@ -2652,7 +2656,7 @@ INSERT INTO `organisation` (`ID`, `KD_UNIT_ORG`, `KD_UNIT_ES1`, `KD_UNIT_ES2`, `
 --
 
 CREATE TABLE IF NOT EXISTS `person` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `nip` varchar(25) DEFAULT NULL,
   `name` varchar(100) NOT NULL,
   `nickname` varchar(25) DEFAULT NULL,
@@ -2682,10 +2686,8 @@ CREATE TABLE IF NOT EXISTS `person` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `nid` (`nid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=102 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `person`
@@ -2717,8 +2719,7 @@ INSERT INTO `person` (`id`, `nip`, `name`, `nickname`, `front_title`, `back_titl
 (23, '', 'Admin Sekretariat Badan - Kepegawaian', '', '', '', 'admin_sekretariat_hrd', '', '', NULL, 0, '', '', '', '', '', '', '', '', '', 0, '', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
 (24, '', 'Admin Sekretariat Badan - Keuangan', '', '', '', 'admin_sekretariat_finance', '', '', NULL, 0, '', '', '', '', '', '', '', '', '', 0, '', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
 (25, '', 'Admin Sekretariat Badan - TIK', '', '', '', 'admin_sekretariat_it', '', '', NULL, 0, '', '', '', '', '', '', '', '', '', 0, '', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
-(26, '', 'Admin Sekretariat Badan - Umum', '', '', '', 'admin_sekretariat_general', '', '', NULL, 0, '', '', '', '', '', '', '', '', '', 0, '', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
-(101, '198604302009011002', 'Hafid Mukhlasin', 'Hafid', '', 'S.Kom', '198604302009011002', '', 'Jember', '1986-04-30', 1, '081559915720', 'hafid.mukhlasin@depkeu.go.id', 'http://www.hafidmukhlasin.com', 'Perum. Nuansa Madinatul Quran Jl Cepit Raya No 12 Kav 19 Jatimulya - Cilodong - Depok - Jawa Barat', '', '', '', 'Jl Pancoran Timur 2 No 1 Pancoran Jakarta Selatan', 'Bank Mandiri 126 000 545 4839 an Hafid Mukhlasin', 1, '', 'Teknik Informatika - Universitas Teknologi Yogyakarta', 5, 'Pranata Komputer Pertama', 'BPPK', 1, NULL, NULL, NULL, NULL);
+(26, '', 'Admin Sekretariat Badan - Umum', '', '', '', 'admin_sekretariat_general', '', '', NULL, 0, '', '', '', '', '', '', '', '', '', 0, '', '', NULL, '', '', 1, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2733,8 +2734,7 @@ CREATE TABLE IF NOT EXISTS `person_activity` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  UNIQUE KEY `name_UNIQUE` (`activity_id`)
+  `modified_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2744,7 +2744,7 @@ CREATE TABLE IF NOT EXISTS `person_activity` (
 --
 
 CREATE TABLE IF NOT EXISTS `program` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `satker_id` int(11) NOT NULL,
   `number` varchar(15) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
@@ -2760,9 +2760,8 @@ CREATE TABLE IF NOT EXISTS `program` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2788,8 +2787,7 @@ CREATE TABLE IF NOT EXISTS `program_history` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`,`revision`)
+  `modified_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2799,7 +2797,7 @@ CREATE TABLE IF NOT EXISTS `program_history` (
 --
 
 CREATE TABLE IF NOT EXISTS `program_subject` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `program_id` int(11) NOT NULL,
   `program_revision` int(11) DEFAULT NULL,
   `type` int(11) NOT NULL,
@@ -2812,10 +2810,8 @@ CREATE TABLE IF NOT EXISTS `program_subject` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_tb_program_subject_tb_program1` (`program_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2824,7 +2820,7 @@ CREATE TABLE IF NOT EXISTS `program_subject` (
 --
 
 CREATE TABLE IF NOT EXISTS `program_subject_history` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `revision` int(11) NOT NULL,
   `program_id` int(11) NOT NULL,
   `program_revision` int(11) DEFAULT NULL,
@@ -2838,10 +2834,8 @@ CREATE TABLE IF NOT EXISTS `program_subject_history` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_tb_program_subject_tb_program1` (`program_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2850,7 +2844,7 @@ CREATE TABLE IF NOT EXISTS `program_subject_history` (
 --
 
 CREATE TABLE IF NOT EXISTS `reference` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `parent_id` int(11) DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
@@ -2860,9 +2854,8 @@ CREATE TABLE IF NOT EXISTS `reference` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=204 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=204 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `reference`
@@ -3055,15 +3048,12 @@ INSERT INTO `reference` (`id`, `parent_id`, `type`, `name`, `value`, `sort`, `st
 --
 
 CREATE TABLE IF NOT EXISTS `role` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `parent_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `eselon` int(11) NOT NULL,
-  `organisation_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`),
-  KEY `organisation_id` (`organisation_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=62 ;
+  `organisation_id` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `role`
@@ -3139,7 +3129,7 @@ INSERT INTO `role` (`id`, `parent_id`, `name`, `eselon`, `organisation_id`) VALU
 --
 
 CREATE TABLE IF NOT EXISTS `room` (
-  `id` int(3) NOT NULL AUTO_INCREMENT,
+`id` int(3) NOT NULL,
   `satker_id` int(11) NOT NULL,
   `code` varchar(25) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -3152,17 +3142,8 @@ CREATE TABLE IF NOT EXISTS `room` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `code_UNIQUE` (`code`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `room`
---
-
-INSERT INTO `room` (`id`, `satker_id`, `code`, `name`, `capacity`, `owner`, `computer`, `hostel`, `address`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 23, 'A01', 'Gedung A Ruang 1', 30, 1, 0, 0, '', 1, NULL, NULL, '2014-10-09 12:01:25', 1);
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3172,16 +3153,15 @@ INSERT INTO `room` (`id`, `satker_id`, `code`, `name`, `capacity`, `owner`, `com
 
 CREATE TABLE IF NOT EXISTS `satker` (
   `reference_id` int(11) NOT NULL,
-  `letter_number` varchar(10) DEFAULT NULL,
+  `letter_number` varchar(10) CHARACTER SET latin1 DEFAULT NULL,
   `eselon` int(1) DEFAULT NULL,
-  `address` text,
-  `city` varchar(50) DEFAULT NULL,
-  `phone` varchar(50) DEFAULT NULL,
-  `fax` varchar(50) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `website` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`reference_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `address` text CHARACTER SET latin1,
+  `city` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
+  `phone` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
+  `fax` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
+  `email` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
+  `website` varchar(255) CHARACTER SET latin1 DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `satker`
@@ -3208,9 +3188,7 @@ CREATE TABLE IF NOT EXISTS `student` (
   `satker` int(3) DEFAULT NULL,
   `no_sk` int(11) DEFAULT NULL COMMENT 'SK Pangkat',
   `tmt_sk` int(11) DEFAULT NULL,
-  `status` int(3) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`person_id`),
-  UNIQUE KEY `username` (`username`)
+  `status` int(3) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -3224,8 +3202,7 @@ CREATE TABLE IF NOT EXISTS `trainer` (
   `category` varchar(255) DEFAULT NULL,
   `education_history` text,
   `training_history` text,
-  `experience_history` text,
-  PRIMARY KEY (`person_id`)
+  `experience_history` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -3252,10 +3229,7 @@ CREATE TABLE IF NOT EXISTS `training` (
   `approved_status` int(3) DEFAULT NULL,
   `approved_note` varchar(255) DEFAULT NULL,
   `approved_date` datetime DEFAULT NULL,
-  `approved_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`activity_id`),
-  KEY `activity_id` (`activity_id`,`program_id`),
-  KEY `program_id` (`program_id`)
+  `approved_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -3265,17 +3239,15 @@ CREATE TABLE IF NOT EXISTS `training` (
 --
 
 CREATE TABLE IF NOT EXISTS `training_class` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `training_id` int(11) NOT NULL,
   `class` varchar(5) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '1',
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_tb_training_assignment_tb_training_subject1` (`training_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3284,7 +3256,7 @@ CREATE TABLE IF NOT EXISTS `training_class` (
 --
 
 CREATE TABLE IF NOT EXISTS `training_class_student` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `training_id` int(11) NOT NULL,
   `training_class_id` int(11) NOT NULL,
   `training_student_id` int(11) NOT NULL,
@@ -3299,13 +3271,8 @@ CREATE TABLE IF NOT EXISTS `training_class_student` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `tb_training_id_2` (`training_id`,`training_student_id`),
-  KEY `fk_tb_training_subject_student_tb_training_assignment1` (`training_class_id`),
-  KEY `fk_tb_training_subject_student_tb_student1` (`training_student_id`),
-  KEY `tb_training_id` (`training_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3314,7 +3281,7 @@ CREATE TABLE IF NOT EXISTS `training_class_student` (
 --
 
 CREATE TABLE IF NOT EXISTS `training_class_student_attendance` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `training_schedule_id` int(11) NOT NULL,
   `training_class_student_id` int(11) NOT NULL,
   `hours` decimal(5,2) DEFAULT NULL,
@@ -3323,11 +3290,8 @@ CREATE TABLE IF NOT EXISTS `training_class_student_attendance` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `tb_training_schedule_id` (`training_schedule_id`),
-  KEY `tb_training_class_student_id` (`training_class_student_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=81 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3352,9 +3316,7 @@ CREATE TABLE IF NOT EXISTS `training_class_student_certificate` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`training_class_student_id`),
-  KEY `fk_tb_training_certificate_tb_training1` (`training_class_student_id`)
+  `modified_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -3364,18 +3326,15 @@ CREATE TABLE IF NOT EXISTS `training_class_student_certificate` (
 --
 
 CREATE TABLE IF NOT EXISTS `training_class_subject` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `training_class_id` int(11) NOT NULL,
   `program_subject_id` int(11) NOT NULL,
   `status` int(3) NOT NULL DEFAULT '1',
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_tb_training_assignment_tb_training_subject1` (`training_class_id`),
-  KEY `fk_tb_training_assignment_tb_trainer1` (`program_subject_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3384,7 +3343,7 @@ CREATE TABLE IF NOT EXISTS `training_class_subject` (
 --
 
 CREATE TABLE IF NOT EXISTS `training_class_subject_trainer_evaluation` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `training_class_subject_id` int(11) NOT NULL,
   `trainer_id` int(11) NOT NULL,
   `student_id` int(11) NOT NULL,
@@ -3394,12 +3353,8 @@ CREATE TABLE IF NOT EXISTS `training_class_subject_trainer_evaluation` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_tb_training_trainer_evaluation_tb_student1` (`student_id`),
-  KEY `tb_training_class_subject_id` (`training_class_subject_id`),
-  KEY `trainer_id` (`trainer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3408,7 +3363,7 @@ CREATE TABLE IF NOT EXISTS `training_class_subject_trainer_evaluation` (
 --
 
 CREATE TABLE IF NOT EXISTS `training_execution_evaluation` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `training_class_student_id` int(11) NOT NULL,
   `value` varchar(255) DEFAULT NULL,
   `text1` varchar(500) DEFAULT NULL,
@@ -3422,10 +3377,8 @@ CREATE TABLE IF NOT EXISTS `training_execution_evaluation` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_tb_training_execution_evaluation_tb_training_student1` (`training_class_student_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3452,8 +3405,7 @@ CREATE TABLE IF NOT EXISTS `training_history` (
   `approved_status` int(3) DEFAULT NULL,
   `approved_note` varchar(255) DEFAULT NULL,
   `approved_date` datetime DEFAULT NULL,
-  `approved_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`activity_id`,`revision`)
+  `approved_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -3463,7 +3415,7 @@ CREATE TABLE IF NOT EXISTS `training_history` (
 --
 
 CREATE TABLE IF NOT EXISTS `training_schedule` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `training_class_id` int(11) NOT NULL,
   `training_class_subject_id` int(11) NOT NULL,
   `activity_room_id` int(11) NOT NULL,
@@ -3476,13 +3428,8 @@ CREATE TABLE IF NOT EXISTS `training_schedule` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_tb_training_schedule_tb_room1` (`activity_room_id`),
-  KEY `tb_activity_room_id` (`activity_room_id`),
-  KEY `tb_training_class_subject_assignment_id` (`training_class_subject_id`),
-  KEY `tb_training_class_id` (`training_class_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3491,7 +3438,7 @@ CREATE TABLE IF NOT EXISTS `training_schedule` (
 --
 
 CREATE TABLE IF NOT EXISTS `training_schedule_trainer` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `training_schedule_id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
   `trainer_id` int(11) NOT NULL,
@@ -3502,12 +3449,8 @@ CREATE TABLE IF NOT EXISTS `training_schedule_trainer` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `tb_training_schedule_id` (`training_schedule_id`,`trainer_id`),
-  KEY `tb_training_class_subject_assignment_id` (`trainer_id`),
-  KEY `tb_training_class_id` (`training_schedule_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3516,7 +3459,7 @@ CREATE TABLE IF NOT EXISTS `training_schedule_trainer` (
 --
 
 CREATE TABLE IF NOT EXISTS `training_student` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `training_id` int(11) NOT NULL,
   `student_id` int(11) NOT NULL,
   `note` varchar(255) DEFAULT NULL,
@@ -3524,11 +3467,8 @@ CREATE TABLE IF NOT EXISTS `training_student` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_tb_training_assignment_tb_training_subject1` (`training_id`),
-  KEY `tb_student_id` (`student_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3543,8 +3483,7 @@ CREATE TABLE IF NOT EXISTS `training_student_plan` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`training_id`)
+  `modified_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -3554,7 +3493,7 @@ CREATE TABLE IF NOT EXISTS `training_student_plan` (
 --
 
 CREATE TABLE IF NOT EXISTS `training_subject_trainer_recommendation` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `training_id` int(11) NOT NULL,
   `program_subject_id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
@@ -3565,12 +3504,8 @@ CREATE TABLE IF NOT EXISTS `training_subject_trainer_recommendation` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_tb_training_subject_trainer_recommendation_tb_training_sub1` (`program_subject_id`),
-  KEY `fk_tb_training_subject_trainer_recommendation_tb_trainer1` (`trainer_id`),
-  KEY `tb_training_id` (`training_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3579,7 +3514,7 @@ CREATE TABLE IF NOT EXISTS `training_subject_trainer_recommendation` (
 --
 
 CREATE TABLE IF NOT EXISTS `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `auth_key` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -3588,9 +3523,8 @@ CREATE TABLE IF NOT EXISTS `user` (
   `role` smallint(6) NOT NULL DEFAULT '10',
   `status` smallint(6) NOT NULL DEFAULT '10',
   `created_at` int(11) NOT NULL,
-  `updated_at` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=102 ;
+  `updated_at` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `user`
@@ -3623,8 +3557,390 @@ INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_res
 (24, 'admin_sekretariat_finance', '', '$2y$13$bvGxy1TfI2HFwZs4vYVI2eqVxiOuS7TZEub/KvArQXmMriQA0FQnK', NULL, 'admin_sekretariat_finance@gmail.com', 1, 1, 1413843775, 1413843775),
 (25, 'admin_sekretariat_it', '', '$2y$13$X8nh/TXpBMUhmRfB7Hg/uOPjh63mm8hgnlyBOWe8vRSjLHPIVBd2K', NULL, 'admin_sekretariat_it@gmail.com', 1, 1, 1413843832, 1413843832),
 (26, 'admin_sekretariat_general', '', '$2y$13$0RWmtv7pTfpX0g88C8Tm6umWLsHAw8OiPTRCW8IvW0b7OikOfKyES', NULL, 'admin_sekretariat_general@gmail.com', 1, 1, 1413843871, 1413843871),
-(101, '198604302009011002', '', '$2y$13$TBX6tJ9xfO7981OgRCRIxeiTzyyc5iSFiTh3Y2Uu8Kb1VOjuWKQci', NULL, '198604302009011002@gmail.com', 1, 1, 1413852500, 1413857499);
+(101, '198604302009011002', '', '$2y$13$TBX6tJ9xfO7981OgRCRIxeiTzyyc5iSFiTh3Y2Uu8Kb1VOjuWKQci', NULL, '198604302009011002@gmail.com', 1, 1, 1413852500, 1413869879);
 
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `activity`
+--
+ALTER TABLE `activity`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indexes for table `activity_history`
+--
+ALTER TABLE `activity_history`
+ ADD PRIMARY KEY (`id`,`revision`);
+
+--
+-- Indexes for table `activity_room`
+--
+ALTER TABLE `activity_room`
+ ADD PRIMARY KEY (`activity_id`,`room_id`), ADD KEY `tb_room_id` (`room_id`), ADD KEY `tb_training_id` (`activity_id`);
+
+--
+-- Indexes for table `auth_assignment`
+--
+ALTER TABLE `auth_assignment`
+ ADD PRIMARY KEY (`item_name`,`user_id`);
+
+--
+-- Indexes for table `auth_item`
+--
+ALTER TABLE `auth_item`
+ ADD PRIMARY KEY (`name`), ADD KEY `rule_name` (`rule_name`), ADD KEY `idx-auth_item-type` (`type`);
+
+--
+-- Indexes for table `auth_item_child`
+--
+ALTER TABLE `auth_item_child`
+ ADD PRIMARY KEY (`parent`,`child`), ADD KEY `child` (`child`);
+
+--
+-- Indexes for table `auth_rule`
+--
+ALTER TABLE `auth_rule`
+ ADD PRIMARY KEY (`name`);
+
+--
+-- Indexes for table `employee`
+--
+ALTER TABLE `employee`
+ ADD PRIMARY KEY (`person_id`), ADD KEY `user_id` (`user_id`), ADD KEY `organisation_id` (`organisation_id`);
+
+--
+-- Indexes for table `file`
+--
+ALTER TABLE `file`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `meeting`
+--
+ALTER TABLE `meeting`
+ ADD PRIMARY KEY (`activity_id`), ADD KEY `organisation_id` (`organisation_id`);
+
+--
+-- Indexes for table `menu`
+--
+ALTER TABLE `menu`
+ ADD PRIMARY KEY (`id`), ADD KEY `parent` (`parent`);
+
+--
+-- Indexes for table `message`
+--
+ALTER TABLE `message`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `name_UNIQUE` (`type`);
+
+--
+-- Indexes for table `migration`
+--
+ALTER TABLE `migration`
+ ADD PRIMARY KEY (`version`);
+
+--
+-- Indexes for table `object_file`
+--
+ALTER TABLE `object_file`
+ ADD PRIMARY KEY (`object`,`object_id`,`type`,`file_id`), ADD KEY `file_id` (`file_id`);
+
+--
+-- Indexes for table `object_person`
+--
+ALTER TABLE `object_person`
+ ADD PRIMARY KEY (`object`,`object_id`,`type`), ADD KEY `person_id` (`person_id`);
+
+--
+-- Indexes for table `object_reference`
+--
+ALTER TABLE `object_reference`
+ ADD PRIMARY KEY (`object`,`object_id`,`type`), ADD KEY `reference_id` (`reference_id`);
+
+--
+-- Indexes for table `organisation`
+--
+ALTER TABLE `organisation`
+ ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `person`
+--
+ALTER TABLE `person`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `nid` (`nid`);
+
+--
+-- Indexes for table `person_activity`
+--
+ALTER TABLE `person_activity`
+ ADD UNIQUE KEY `name_UNIQUE` (`activity_id`);
+
+--
+-- Indexes for table `program`
+--
+ALTER TABLE `program`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `program_history`
+--
+ALTER TABLE `program_history`
+ ADD PRIMARY KEY (`id`,`revision`);
+
+--
+-- Indexes for table `program_subject`
+--
+ALTER TABLE `program_subject`
+ ADD PRIMARY KEY (`id`), ADD KEY `fk_tb_program_subject_tb_program1` (`program_id`);
+
+--
+-- Indexes for table `program_subject_history`
+--
+ALTER TABLE `program_subject_history`
+ ADD PRIMARY KEY (`id`), ADD KEY `fk_tb_program_subject_tb_program1` (`program_id`);
+
+--
+-- Indexes for table `reference`
+--
+ALTER TABLE `reference`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `role`
+--
+ALTER TABLE `role`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `name` (`name`), ADD KEY `organisation_id` (`organisation_id`);
+
+--
+-- Indexes for table `room`
+--
+ALTER TABLE `room`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `code_UNIQUE` (`code`);
+
+--
+-- Indexes for table `satker`
+--
+ALTER TABLE `satker`
+ ADD PRIMARY KEY (`reference_id`);
+
+--
+-- Indexes for table `student`
+--
+ALTER TABLE `student`
+ ADD PRIMARY KEY (`person_id`), ADD UNIQUE KEY `username` (`username`);
+
+--
+-- Indexes for table `trainer`
+--
+ALTER TABLE `trainer`
+ ADD PRIMARY KEY (`person_id`);
+
+--
+-- Indexes for table `training`
+--
+ALTER TABLE `training`
+ ADD PRIMARY KEY (`activity_id`), ADD KEY `activity_id` (`activity_id`,`program_id`), ADD KEY `program_id` (`program_id`);
+
+--
+-- Indexes for table `training_class`
+--
+ALTER TABLE `training_class`
+ ADD PRIMARY KEY (`id`), ADD KEY `fk_tb_training_assignment_tb_training_subject1` (`training_id`);
+
+--
+-- Indexes for table `training_class_student`
+--
+ALTER TABLE `training_class_student`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `tb_training_id_2` (`training_id`,`training_student_id`), ADD KEY `fk_tb_training_subject_student_tb_training_assignment1` (`training_class_id`), ADD KEY `fk_tb_training_subject_student_tb_student1` (`training_student_id`), ADD KEY `tb_training_id` (`training_id`);
+
+--
+-- Indexes for table `training_class_student_attendance`
+--
+ALTER TABLE `training_class_student_attendance`
+ ADD PRIMARY KEY (`id`), ADD KEY `tb_training_schedule_id` (`training_schedule_id`), ADD KEY `tb_training_class_student_id` (`training_class_student_id`);
+
+--
+-- Indexes for table `training_class_student_certificate`
+--
+ALTER TABLE `training_class_student_certificate`
+ ADD PRIMARY KEY (`training_class_student_id`), ADD KEY `fk_tb_training_certificate_tb_training1` (`training_class_student_id`);
+
+--
+-- Indexes for table `training_class_subject`
+--
+ALTER TABLE `training_class_subject`
+ ADD PRIMARY KEY (`id`), ADD KEY `fk_tb_training_assignment_tb_training_subject1` (`training_class_id`), ADD KEY `fk_tb_training_assignment_tb_trainer1` (`program_subject_id`);
+
+--
+-- Indexes for table `training_class_subject_trainer_evaluation`
+--
+ALTER TABLE `training_class_subject_trainer_evaluation`
+ ADD PRIMARY KEY (`id`), ADD KEY `fk_tb_training_trainer_evaluation_tb_student1` (`student_id`), ADD KEY `tb_training_class_subject_id` (`training_class_subject_id`), ADD KEY `trainer_id` (`trainer_id`);
+
+--
+-- Indexes for table `training_execution_evaluation`
+--
+ALTER TABLE `training_execution_evaluation`
+ ADD PRIMARY KEY (`id`), ADD KEY `fk_tb_training_execution_evaluation_tb_training_student1` (`training_class_student_id`);
+
+--
+-- Indexes for table `training_history`
+--
+ALTER TABLE `training_history`
+ ADD PRIMARY KEY (`activity_id`,`revision`);
+
+--
+-- Indexes for table `training_schedule`
+--
+ALTER TABLE `training_schedule`
+ ADD PRIMARY KEY (`id`), ADD KEY `fk_tb_training_schedule_tb_room1` (`activity_room_id`), ADD KEY `tb_activity_room_id` (`activity_room_id`), ADD KEY `tb_training_class_subject_assignment_id` (`training_class_subject_id`), ADD KEY `tb_training_class_id` (`training_class_id`);
+
+--
+-- Indexes for table `training_schedule_trainer`
+--
+ALTER TABLE `training_schedule_trainer`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `tb_training_schedule_id` (`training_schedule_id`,`trainer_id`), ADD KEY `tb_training_class_subject_assignment_id` (`trainer_id`), ADD KEY `tb_training_class_id` (`training_schedule_id`);
+
+--
+-- Indexes for table `training_student`
+--
+ALTER TABLE `training_student`
+ ADD PRIMARY KEY (`id`), ADD KEY `fk_tb_training_assignment_tb_training_subject1` (`training_id`), ADD KEY `tb_student_id` (`student_id`);
+
+--
+-- Indexes for table `training_student_plan`
+--
+ALTER TABLE `training_student_plan`
+ ADD PRIMARY KEY (`training_id`);
+
+--
+-- Indexes for table `training_subject_trainer_recommendation`
+--
+ALTER TABLE `training_subject_trainer_recommendation`
+ ADD PRIMARY KEY (`id`), ADD KEY `fk_tb_training_subject_trainer_recommendation_tb_training_sub1` (`program_subject_id`), ADD KEY `fk_tb_training_subject_trainer_recommendation_tb_trainer1` (`trainer_id`), ADD KEY `tb_training_id` (`training_id`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `activity`
+--
+ALTER TABLE `activity`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `file`
+--
+ALTER TABLE `file`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `menu`
+--
+ALTER TABLE `menu`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=58;
+--
+-- AUTO_INCREMENT for table `message`
+--
+ALTER TABLE `message`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `organisation`
+--
+ALTER TABLE `organisation`
+MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=403;
+--
+-- AUTO_INCREMENT for table `person`
+--
+ALTER TABLE `person`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=151;
+--
+-- AUTO_INCREMENT for table `program`
+--
+ALTER TABLE `program`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `program_subject`
+--
+ALTER TABLE `program_subject`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `reference`
+--
+ALTER TABLE `reference`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=204;
+--
+-- AUTO_INCREMENT for table `role`
+--
+ALTER TABLE `role`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=62;
+--
+-- AUTO_INCREMENT for table `room`
+--
+ALTER TABLE `room`
+MODIFY `id` int(3) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `training_class`
+--
+ALTER TABLE `training_class`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `training_class_student`
+--
+ALTER TABLE `training_class_student`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `training_class_student_attendance`
+--
+ALTER TABLE `training_class_student_attendance`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `training_class_subject`
+--
+ALTER TABLE `training_class_subject`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `training_class_subject_trainer_evaluation`
+--
+ALTER TABLE `training_class_subject_trainer_evaluation`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `training_execution_evaluation`
+--
+ALTER TABLE `training_execution_evaluation`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `training_schedule`
+--
+ALTER TABLE `training_schedule`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `training_schedule_trainer`
+--
+ALTER TABLE `training_schedule_trainer`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `training_student`
+--
+ALTER TABLE `training_student`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `training_subject_trainer_recommendation`
+--
+ALTER TABLE `training_subject_trainer_recommendation`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=102;
 --
 -- Constraints for dumped tables
 --
@@ -3633,182 +3949,181 @@ INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_res
 -- Constraints for table `activity_room`
 --
 ALTER TABLE `activity_room`
-  ADD CONSTRAINT `activity_room_ibfk_1` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `activity_room_ibfk_2` FOREIGN KEY (`room_id`) REFERENCES `room` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `activity_room_ibfk_1` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`) ON UPDATE CASCADE,
+ADD CONSTRAINT `activity_room_ibfk_2` FOREIGN KEY (`room_id`) REFERENCES `room` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `auth_assignment`
 --
 ALTER TABLE `auth_assignment`
-  ADD CONSTRAINT `auth_assignment_ibfk_1` FOREIGN KEY (`item_name`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `auth_assignment_ibfk_1` FOREIGN KEY (`item_name`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `auth_item`
 --
 ALTER TABLE `auth_item`
-  ADD CONSTRAINT `auth_item_ibfk_1` FOREIGN KEY (`rule_name`) REFERENCES `auth_rule` (`name`) ON DELETE SET NULL ON UPDATE CASCADE;
+ADD CONSTRAINT `auth_item_ibfk_1` FOREIGN KEY (`rule_name`) REFERENCES `auth_rule` (`name`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `auth_item_child`
 --
 ALTER TABLE `auth_item_child`
-  ADD CONSTRAINT `auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `employee`
 --
 ALTER TABLE `employee`
-  ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `employee_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `employee_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `meeting`
 --
 ALTER TABLE `meeting`
-  ADD CONSTRAINT `meeting_ibfk_1` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `meeting_ibfk_2` FOREIGN KEY (`organisation_id`) REFERENCES `organisation` (`ID`) ON UPDATE CASCADE;
+ADD CONSTRAINT `meeting_ibfk_1` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `meeting_ibfk_2` FOREIGN KEY (`organisation_id`) REFERENCES `organisation` (`ID`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `menu`
 --
 ALTER TABLE `menu`
-  ADD CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `menu` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ADD CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `menu` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `object_file`
 --
 ALTER TABLE `object_file`
-  ADD CONSTRAINT `object_file_ibfk_1` FOREIGN KEY (`file_id`) REFERENCES `file` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `object_file_ibfk_1` FOREIGN KEY (`file_id`) REFERENCES `file` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `object_person`
 --
 ALTER TABLE `object_person`
-  ADD CONSTRAINT `object_person_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `object_person_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `object_reference`
 --
 ALTER TABLE `object_reference`
-  ADD CONSTRAINT `object_reference_ibfk_1` FOREIGN KEY (`reference_id`) REFERENCES `reference` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `object_reference_ibfk_1` FOREIGN KEY (`reference_id`) REFERENCES `reference` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `program_subject`
 --
 ALTER TABLE `program_subject`
-  ADD CONSTRAINT `program_subject_ibfk_1` FOREIGN KEY (`program_id`) REFERENCES `program` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `program_subject_ibfk_1` FOREIGN KEY (`program_id`) REFERENCES `program` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `role`
 --
 ALTER TABLE `role`
-  ADD CONSTRAINT `role_ibfk_1` FOREIGN KEY (`organisation_id`) REFERENCES `organisation` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `role_ibfk_1` FOREIGN KEY (`organisation_id`) REFERENCES `organisation` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `satker`
 --
 ALTER TABLE `satker`
-  ADD CONSTRAINT `satker_ibfk_1` FOREIGN KEY (`reference_id`) REFERENCES `reference` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `satker_ibfk_1` FOREIGN KEY (`reference_id`) REFERENCES `reference` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `student`
 --
 ALTER TABLE `student`
-  ADD CONSTRAINT `student_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `student_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `trainer`
 --
 ALTER TABLE `trainer`
-  ADD CONSTRAINT `trainer_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `trainer_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training`
 --
 ALTER TABLE `training`
-  ADD CONSTRAINT `training_ibfk_2` FOREIGN KEY (`program_id`) REFERENCES `program` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `training_ibfk_3` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `training_ibfk_2` FOREIGN KEY (`program_id`) REFERENCES `program` (`id`) ON UPDATE CASCADE,
+ADD CONSTRAINT `training_ibfk_3` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training_class`
 --
 ALTER TABLE `training_class`
-  ADD CONSTRAINT `training_class_ibfk_1` FOREIGN KEY (`training_id`) REFERENCES `training` (`activity_id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `training_class_ibfk_1` FOREIGN KEY (`training_id`) REFERENCES `training` (`activity_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training_class_student`
 --
 ALTER TABLE `training_class_student`
-  ADD CONSTRAINT `training_class_student_ibfk_1` FOREIGN KEY (`training_id`) REFERENCES `training` (`activity_id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `training_class_student_ibfk_2` FOREIGN KEY (`training_class_id`) REFERENCES `training_class` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `training_class_student_ibfk_3` FOREIGN KEY (`training_student_id`) REFERENCES `training_student` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `training_class_student_ibfk_1` FOREIGN KEY (`training_id`) REFERENCES `training` (`activity_id`) ON UPDATE CASCADE,
+ADD CONSTRAINT `training_class_student_ibfk_2` FOREIGN KEY (`training_class_id`) REFERENCES `training_class` (`id`) ON UPDATE CASCADE,
+ADD CONSTRAINT `training_class_student_ibfk_3` FOREIGN KEY (`training_student_id`) REFERENCES `training_student` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training_class_student_attendance`
 --
 ALTER TABLE `training_class_student_attendance`
-  ADD CONSTRAINT `training_class_student_attendance_ibfk_1` FOREIGN KEY (`training_class_student_id`) REFERENCES `training_class_student` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `training_class_student_attendance_ibfk_1` FOREIGN KEY (`training_class_student_id`) REFERENCES `training_class_student` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training_class_student_certificate`
 --
 ALTER TABLE `training_class_student_certificate`
-  ADD CONSTRAINT `training_class_student_certificate_ibfk_1` FOREIGN KEY (`training_class_student_id`) REFERENCES `training_class_student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `training_class_student_certificate_ibfk_1` FOREIGN KEY (`training_class_student_id`) REFERENCES `training_class_student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training_class_subject`
 --
 ALTER TABLE `training_class_subject`
-  ADD CONSTRAINT `training_class_subject_ibfk_1` FOREIGN KEY (`training_class_id`) REFERENCES `training_class` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `training_class_subject_ibfk_1` FOREIGN KEY (`training_class_id`) REFERENCES `training_class` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training_class_subject_trainer_evaluation`
 --
 ALTER TABLE `training_class_subject_trainer_evaluation`
-  ADD CONSTRAINT `training_class_subject_trainer_evaluation_ibfk_1` FOREIGN KEY (`training_class_subject_id`) REFERENCES `training_class_subject` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `training_class_subject_trainer_evaluation_ibfk_2` FOREIGN KEY (`student_id`) REFERENCES `student` (`person_id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `training_class_subject_trainer_evaluation_ibfk_3` FOREIGN KEY (`trainer_id`) REFERENCES `trainer` (`person_id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `training_class_subject_trainer_evaluation_ibfk_1` FOREIGN KEY (`training_class_subject_id`) REFERENCES `training_class_subject` (`id`) ON UPDATE CASCADE,
+ADD CONSTRAINT `training_class_subject_trainer_evaluation_ibfk_2` FOREIGN KEY (`student_id`) REFERENCES `student` (`person_id`) ON UPDATE CASCADE,
+ADD CONSTRAINT `training_class_subject_trainer_evaluation_ibfk_3` FOREIGN KEY (`trainer_id`) REFERENCES `trainer` (`person_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training_execution_evaluation`
 --
 ALTER TABLE `training_execution_evaluation`
-  ADD CONSTRAINT `training_execution_evaluation_ibfk_1` FOREIGN KEY (`training_class_student_id`) REFERENCES `training_class_student` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `training_execution_evaluation_ibfk_1` FOREIGN KEY (`training_class_student_id`) REFERENCES `training_class_student` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training_schedule`
 --
 ALTER TABLE `training_schedule`
-  ADD CONSTRAINT `training_schedule_ibfk_1` FOREIGN KEY (`training_class_id`) REFERENCES `training_class` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `training_schedule_ibfk_2` FOREIGN KEY (`training_class_subject_id`) REFERENCES `training_class_subject` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `training_schedule_ibfk_1` FOREIGN KEY (`training_class_id`) REFERENCES `training_class` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training_schedule_trainer`
 --
 ALTER TABLE `training_schedule_trainer`
-  ADD CONSTRAINT `training_schedule_trainer_ibfk_1` FOREIGN KEY (`training_schedule_id`) REFERENCES `training_schedule` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `training_schedule_trainer_ibfk_2` FOREIGN KEY (`trainer_id`) REFERENCES `trainer` (`person_id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `training_schedule_trainer_ibfk_1` FOREIGN KEY (`training_schedule_id`) REFERENCES `training_schedule` (`id`) ON UPDATE CASCADE,
+ADD CONSTRAINT `training_schedule_trainer_ibfk_2` FOREIGN KEY (`trainer_id`) REFERENCES `trainer` (`person_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training_student`
 --
 ALTER TABLE `training_student`
-  ADD CONSTRAINT `training_student_ibfk_1` FOREIGN KEY (`training_id`) REFERENCES `training` (`activity_id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `training_student_ibfk_2` FOREIGN KEY (`student_id`) REFERENCES `student` (`person_id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `training_student_ibfk_1` FOREIGN KEY (`training_id`) REFERENCES `training` (`activity_id`) ON UPDATE CASCADE,
+ADD CONSTRAINT `training_student_ibfk_2` FOREIGN KEY (`student_id`) REFERENCES `student` (`person_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training_student_plan`
 --
 ALTER TABLE `training_student_plan`
-  ADD CONSTRAINT `training_student_plan_ibfk_1` FOREIGN KEY (`training_id`) REFERENCES `training` (`activity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `training_student_plan_ibfk_1` FOREIGN KEY (`training_id`) REFERENCES `training` (`activity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training_subject_trainer_recommendation`
 --
 ALTER TABLE `training_subject_trainer_recommendation`
-  ADD CONSTRAINT `training_subject_trainer_recommendation_ibfk_1` FOREIGN KEY (`training_id`) REFERENCES `training` (`activity_id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `training_subject_trainer_recommendation_ibfk_2` FOREIGN KEY (`trainer_id`) REFERENCES `trainer` (`person_id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `training_subject_trainer_recommendation_ibfk_1` FOREIGN KEY (`training_id`) REFERENCES `training` (`activity_id`) ON UPDATE CASCADE,
+ADD CONSTRAINT `training_subject_trainer_recommendation_ibfk_2` FOREIGN KEY (`trainer_id`) REFERENCES `trainer` (`person_id`) ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
