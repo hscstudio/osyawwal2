@@ -83,7 +83,7 @@ use backend\models\Reference;
 					'onText' => 'On',
 					'offText' => 'Off',
 				]
-			]) 
+			]);
 		}
 		?>
 	<?php } ?>

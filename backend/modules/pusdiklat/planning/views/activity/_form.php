@@ -1,15 +1,8 @@
-<?php
-use yii\helpers\Html;
-use kartik\widgets\ActiveForm;
-use kartik\widgets\Select2;
-use yii\helpers\ArrayHelper;
-use kartik\datecontrol\DateControl;
-use kartik\widgets\SwitchInput;
-use backend\models\Reference;
-use backend\models\Program;
-use kartik\widgets\FileInput;
-use yii\helpers\Url;
-use kartik\checkbox\CheckboxX;
+<?php use yii\helpers\Html; use kartik\widgets\ActiveForm; use
+kartik\widgets\Select2; use yii\helpers\ArrayHelper; use
+kartik\datecontrol\DateControl; use kartik\widgets\SwitchInput; use
+backend\models\Reference; use backend\models\Program; use
+kartik\widgets\FileInput; use yii\helpers\Url; use kartik\checkbox\CheckboxX;
 
 ?>
 
