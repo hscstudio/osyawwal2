@@ -25,12 +25,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 ?>
 <div class="program-update panel panel-default">
 	
-    <div class="panel-heading">		
-		<div class="pull-right">
-        <?= (Yii::$app->request->isAjax)?'':Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back', ['index'], ['class' => 'btn btn-xs btn-primary']) ?>
-		</div>
-		<h1 class="panel-title"><?= Html::encode($this->title) ?></h1>
-	</div>
+
 	<div class="panel-body">
 		<div id="div_form">
 		<?php $form = ActiveForm::begin([
@@ -250,7 +245,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 			],
 		],
 		'panel' => [
-			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
+			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).' ('.$model->hours.' JP) '.'</h3>',
 			'before'=>
 				Html::a('<i class="fa fa-fw fa-arrow-circle-left"></i> Back', Url::to(['index']), ['class' => 'btn btn-warning','data-pjax'=>'0']).' '.
 				Html::a('<i class="fa fa-fw fa-arrow-circle-up"></i> Create', ['subject','id'=>$model->id,'action'=>'create'], ['class' => 'btn btn-success','data-pjax'=>'0','onclick'=>"$('#div_formX').slideToggle('slow');return true;"]).' '.

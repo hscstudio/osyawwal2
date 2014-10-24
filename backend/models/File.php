@@ -59,6 +59,7 @@ class File extends \yii\db\ActiveRecord
         ];
     }
 	
+	
     /**
      * @inheritdoc
      */
@@ -67,10 +68,66 @@ class File extends \yii\db\ActiveRecord
         return [
             [['file_size', 'status', 'created_by', 'modified_by'], 'integer'],
             [['created', 'modified'], 'safe'],
-            [['name', 'file_name', 'file_type', 'description'], 'string', 'max' => 255]
+            [['name', 'file_name', 'file_type', 'description'], 'string', 'max' => 255],
+			
+			// DEFAULT
+			[['file_name'], 'file', 'extensions' => 'jpg, png, gif', 
+				'mimeTypes' => 'image/jpeg, image/png, image/gif'],
+			// IMAGE
+			[['file_name'], 'file', 'extensions' => 'jpg, png, gif', 
+				'mimeTypes' => 'image/jpeg, image/png, image/gif','on' => 'filetype-image'],
+			
+			// DOCUMENT
+			[['file_name'], 'file', 
+				'extensions' => 'pdf, xls, xlsx, doc, docx, ppt, pptx, txt, rtf,
+								odt, ods, odp', 
+				'mimeTypes' => '				 
+					application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, text/rtf,
+					application/vnd.openxmlformats-officedocument.wordprocessingml.document, 
+					application/vnd.openxmlformats-officedocument.presentationml.presentation, 
+					application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+					application/vnd.oasis.opendocument.presentation, 
+					application/vnd.oasis.opendocument.spreadsheet, 
+					application/vnd.oasis.opendocument.text,
+					application/pdf
+				','on' => 'filetype-document'],
+				
+			[['file_name'], 'file', 
+				'extensions' => 'zip, rar, 7z', 
+				'mimeTypes' => '
+					application/x-7z-compressed,
+					application/x-rar-compressed,
+					application/zip
+				','on' => 'filetype-compressed'],
+				
+			[['file_name'], 'file', 
+				'extensions' => 'pdf, xls, xlsx, doc, docx, ppt, pptx, txt, rtf,
+								odt, ods, odp, zip, rar, 7z', 
+				'mimeTypes' => '
+					application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, text/rtf,
+					application/vnd.openxmlformats-officedocument.wordprocessingml.document, 
+					application/vnd.openxmlformats-officedocument.presentationml.presentation, 
+					application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+					application/vnd.oasis.opendocument.presentation, 
+					application/vnd.oasis.opendocument.spreadsheet, 
+					application/vnd.oasis.opendocument.text,
+					application/x-7z-compressed,
+					application/x-rar-compressed,
+					application/zip
+				','on' => 'filetype-document-compresed'],	
         ];
     }
 
+	public function scenarios()
+    {
+        /* $scenarios = parent::scenarios(); */
+        $scenarios['filetype-document-compressed'] = ['file_name'];
+        $scenarios['filetype-document'] = ['file_name'];
+        $scenarios['filetype-compressed'] = ['file_name'];
+        $scenarios['filetype-image'] = ['file_name'];
+        return $scenarios;
+    }
+	
     /**
      * @inheritdoc
      */
