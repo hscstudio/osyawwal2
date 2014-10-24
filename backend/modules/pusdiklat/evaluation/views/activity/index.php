@@ -109,16 +109,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'value' => function ($data){
 					// CEK AUTHORISE ACCESS
-					$permit = \hscstudio\heart\helpers\Heart::OrganisationAuthorized(
-						[
-							'1213040100', // CEK KD_UNIT_ORG 1213040100 IN TABLE ORGANISATION IS SUBBIDANG PENYEL I
-							'1213040000', // BIDANG PENYEL
-							'1213000000', // PUSDIKLAT
-						],
-						[
-							1, // 1= HEAD OF KD_UNIT_ORG
-						]
-					);
+					$permit = \Yii::$app->user->can('Subbidang Evaluasi Diklat');
 					$object_person=\backend\models\ObjectPerson::find()
 						->where([
 							'object'=>'activity',
