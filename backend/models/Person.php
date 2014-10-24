@@ -64,6 +64,7 @@ class Person extends \yii\db\ActiveRecord
             [['birthday', 'created', 'modified'], 'safe'],
             [['gender', 'married', 'position', 'status', 'created_by', 'modified_by'], 'integer'],
             [['nip', 'nickname', 'front_title', 'back_title', 'blood'], 'string', 'max' => 25],
+			[['nip'], 'string', 'max' => 18, 'min'=>9],
             [['name', 'nid', 'npwp', 'email', 'office_email'], 'string', 'max' => 100],
             [['born', 'phone', 'office_phone', 'office_fax'], 'string', 'max' => 50],			
             [['homepage', 'address', 'office_address', 'bank_account', 'graduate_desc', 'position_desc', 'organisation'], 'string', 'max' => 255]

@@ -328,7 +328,8 @@ class Program2Controller extends Controller
 		
 		$object_file = new ObjectFile();
 		$renders['object_file'] = $object_file;
-		$file = new File();		
+		$file = new File();	
+		$file->scenario = 'filetype-document-compressed';		
 		$renders['file'] = $file;
 		
         if (Yii::$app->request->post()) {
@@ -454,15 +455,33 @@ class Program2Controller extends Controller
 		$renders['program_subject'] = $program_subject;
 		
         if (Yii::$app->request->post()) {
+			// CHECKING TOTAL JP
+			$program_hours = $model->hours;
+			$ps = ProgramSubject::find()
+				->select('sum(hours) as sum_hours')
+				->where([
+					'program_id' => $model->id,
+				])
+				->asArray()
+				->one();
+			$program_subject_hours = 0;
+			if(!empty($ps)) $program_subject_hours= $ps['sum_hours'];
+			$max_hours = $program_hours - $program_subject_hours;
+			
 			$program_subject->load(Yii::$app->request->post());	
-			if(!empty($program_subject->stage)){
-				$program_subject->stage = implode('|',$program_subject->stage);
-			}
-			if($program_subject->save()){
-				Yii::$app->getSession()->setFlash('success', 'Subject have saved.');					
+			if($program_subject->hours>$max_hours){
+				Yii::$app->getSession()->setFlash('error', 'Total jamlat melebihi maksimal jamlat pada program.');
 			}
 			else{
-				Yii::$app->getSession()->setFlash('error', 'Subject is not saved.');
+				if(!empty($program_subject->stage)){
+					$program_subject->stage = implode('|',$program_subject->stage);
+				}
+				if($program_subject->save()){
+					Yii::$app->getSession()->setFlash('success', 'Subject have saved.');					
+				}
+				else{
+					Yii::$app->getSession()->setFlash('error', 'Subject is not saved.');
+				}
 			}				
         }
 		

@@ -105,6 +105,20 @@ $this->params['breadcrumbs'][] = $this->title;
 		'contentOptions'=>['class'=>'kv-sticky-column'],
 		'format'=>'raw',
 		'value' => function ($data){
+			return '<div class="label label-primary row-sum">-</div>';
+		},
+	];	
+	
+	$grid_columns[] = [
+		'label' => 'Total',
+		'vAlign'=>'left',
+		'hAlign'=>'center',
+		'width' => '30px',
+		'headerOptions'=>['class'=>'kv-sticky-column'],
+		'header' => '<div class="rotate" style="width:25px;">Total Acuan</div>',
+		'contentOptions'=>['class'=>'kv-sticky-column'],
+		'format'=>'raw',
+		'value' => function ($data){
 			return '<div class="label label-primary">'.$data->training->student_count_plan.'</div>';
 		},
 	];	
@@ -231,3 +245,16 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?= \hscstudio\heart\widgets\Modal::widget() ?>
 	<?php \yii\widgets\Pjax::end(); ?>
 </div>
+
+<?php
+$this->registerJs(
+"
+	
+	$('#w2-container').find('tbody').find('tr').each(function() {
+		var sum = 0;
+		$(this).find('td div.label-success').each(function() {
+			sum += parseInt($(this).text());
+		});
+		$(this).find('td div.row-sum').text(sum);
+	});
+");
