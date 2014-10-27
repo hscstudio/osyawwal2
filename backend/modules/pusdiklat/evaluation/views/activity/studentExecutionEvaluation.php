@@ -98,8 +98,8 @@ $this->params['breadcrumbs'][] = $this->title;
 		'panel' => [
 			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
 			'before'=> 
-				Html::a('<i class="fa fa-fw fa-plus-circle"></i> Rekap Evaluasi Penyelenggara', [
-					'choose-student','id'=>$model->id
+				Html::a('<i class="fa fa-fw fa-download"></i> Download Rekap Evaluasi Penyelenggara', [
+					'rekap-execution-evaluation','id'=>2
 				], [
 					'class' => 'btn btn-success','data-pjax'=>'0'
 				]),

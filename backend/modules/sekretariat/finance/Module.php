@@ -21,6 +21,9 @@ class Module extends \yii\base\Module
 				'/reference-sbu/',
 			]],
 			]],
+			['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Meeting Activity', 'url' => ['/'.$this->uniqueId.'/activity-meeting-general/index'],'path'=>[
+				'/activity-meeting-general/',
+			]],
 		];
 	}
 }

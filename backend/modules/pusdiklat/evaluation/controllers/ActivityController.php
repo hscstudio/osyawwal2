@@ -40,6 +40,8 @@ use backend\modules\pusdiklat\evaluation\models\ActivityRoomSearch;
 use backend\modules\pusdiklat\evaluation\models\ActivityRoomExtensionSearch;
 use backend\modules\pusdiklat\evaluation\models\RoomSearch;
 
+use backend\modules\pusdiklat\evaluation\models\TrainingExecutionEvaluationSearch;
+
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -2063,5 +2065,144 @@ class ActivityController extends Controller
             'dataProvider' => $dataProvider,
 			'model' => $model,
         ]);
+    }
+	
+	public function actionRekapExecutionEvaluation($id=NULL,$year='',$status='nocancel',$filetype='xlsx')
+    {
+		$searchModel = new TrainingExecutionEvaluationSearch();
+		$queryParams = Yii::$app->request->getQueryParams();
+		if($status!='all'){
+			$queryParams['TrainingExecutionEvaluationSearch']=[
+				'status'=>$status,
+			];
+		}
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+        $dataProvider = $searchModel->search($queryParams,$id);        
+		$dataProvider->getSort()->defaultOrder = [
+			'status'=>SORT_DESC,		
+		];
+		$dataProvider->setPagination(false);
+		
+		
+		$types=['xls'=>'Excel5','xlsx'=>'Excel2007'];
+		$objReader = \PHPExcel_IOFactory::createReader($types[$filetype]);
+		$template = Yii::getAlias('@file').DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'pusdiklat'.
+			DIRECTORY_SEPARATOR.'evaluation'.DIRECTORY_SEPARATOR.'rekap.evaluasi.penyelenggaraan.new.'.$filetype;
+		$objPHPExcel = $objReader->load($template);
+		//$objPHPExcel->getProperties()->setTitle("Daftar Program");
+		$objPHPExcel->setActiveSheetIndex(0);
+		////////////Mulai//////////
+		$objPHPExcel->getProperties()->setCreator("Hafid Mukhlasin")
+							 ->setLastModifiedBy("Hafid Mukhlasin")
+							 ->setTitle("Rekap Evaluasi Penyelenggaraan ")
+							 ->setSubject("-")
+							 ->setDescription("-")
+							 ->setKeywords("-")
+							 ->setCategory("-");
+		$sheet = $objPHPExcel->getActiveSheet();
+		$sheet->setCellValueByColumnAndRow(4, 3, 'Nama Eselon Dua');
+										   //$name_eselon_2);							 
+		$idx=0;
+		//$idx2=0;
+		$baseCol = 17;
+		foreach($dataProvider->getModels() as $data){
+			$col=$baseCol+$idx;	
+			if($idx==0){
+				$sheet->setCellValue('A6', $data->trainingClassStudent->training->activity->name)
+					  ->setCellValue('A7', strtoupper("Tahun Anggaran ".$data->trainingClassStudent->training->activity->start));
+			}
+			$sheet->setCellValueByColumnAndRow($col, 9, $idx+1);
+			$idx++;
+		}
+		$idx1=0;
+		foreach($dataProvider->getModels() as $data2){			
+			//while($show2=$exe2->fetch_array()){
+				$value_evaluation=explode("|",$data2->value);		
+				$col=$baseCol+$idx1;	
+				$baseRow=22;
+				$idx2=0;
+				foreach($value_evaluation as $valueku){
+					if($idx2==0) $row = $baseRow;
+					else if($idx2==7) $row = 43;
+					else if($idx2==9) $row = 54;
+					else if($idx2==13) $row = 69;
+					else if($idx2==17) $row = 87;
+					else if($idx2==22) $row = 104;
+					else if($idx2==29) $row = 125;
+					else $row = $row + 2;
+					$sheet->setCellValueByColumnAndRow($col, $row, $valueku);
+					$idx2++;
+				}			
+		
+				$sheet->setCellValueByColumnAndRow($col, 161, $data2->text1)
+					  ->setCellValueByColumnAndRow($col, 168, $data2->text2)
+					  ->setCellValueByColumnAndRow($col, 175, $data2->text3)
+					  ->setCellValueByColumnAndRow($col, 182, $data2->text4)
+					  ->setCellValueByColumnAndRow($col, 189, $data2->text5)		
+					  ->setCellValueByColumnAndRow($col, 197, $data2->comment);
+		
+				$idx1++;
+			
+		}
+		/*$qry2="SELECT value_evaluation,text1_evaluation,text2_evaluation,
+					text3_evaluation, text4_evaluation, text5_evaluation,
+					comment_evaluation 
+			   FROM tb_execution_evaluation WHERE id_training=".$id_training;
+		$exe2=$mysqli->query($qry2);
+		if($exe2->num_rows>=1){
+			$idx=0;
+			while($show2=$exe2->fetch_array()){
+				$value_evaluation=explode("|",$show2['value_evaluation']);		
+				$col=$baseCol+$idx;	
+				$baseRow=22;
+				$idx2=0;
+				foreach($value_evaluation as $value){
+					if($idx2==0) $row = $baseRow;
+					else if($idx2==7) $row = 43;
+					else if($idx2==9) $row = 54;
+					else if($idx2==13) $row = 69;
+					else if($idx2==17) $row = 87;
+					else if($idx2==22) $row = 104;
+					else if($idx2==29) $row = 125;
+					else $row = $row + 2;
+					$sheet->setCellValueByColumnAndRow($col, $row, $value);
+					$idx2++;
+				}			
+		
+				$sheet->setCellValueByColumnAndRow($col, 161, $show2['text1_evaluation'])
+					  ->setCellValueByColumnAndRow($col, 168, $show2['text2_evaluation'])
+					  ->setCellValueByColumnAndRow($col, 175, $show2['text3_evaluation'])
+					  ->setCellValueByColumnAndRow($col, 182, $show2['text4_evaluation'])
+					  ->setCellValueByColumnAndRow($col, 189, $show2['text5_evaluation'])		
+					  ->setCellValueByColumnAndRow($col, 197, $show2['comment_evaluation']);
+		
+				$idx++;
+			}	
+			
+		}
+		
+		$qry3="SELECT name_subject FROM tb_subject_training WHERE id_training=".$id_training;
+		$exe3=$mysqli->query($qry3);
+		if($exe3->num_rows>=1){
+			$idx=0;
+			$baseRow=212;
+			while($show3=$exe3->fetch_array()){
+				$row=$baseRow+$idx;
+				//if($idx!==0) $objPHPExcel->getActiveSheet()->insertNewRowBefore($row,1);
+				$sheet->setCellValueByColumnAndRow(3, $row, $show3['name_subject']);		
+				$idx++;
+			}
+		}*/
+		
+		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
+		//$objPHPExcel->setActiveSheetIndex(0);
+		// Redirect output to a client’s web browser (Excel2007)
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="data_rekap_evaluasi_penyelenggaraan.xlsx"');
+		header('Cache-Control: max-age=0');
+		$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, $types[$filetype]);
+		$objWriter->save('php://output');
+		exit;
+		
     }
 }
