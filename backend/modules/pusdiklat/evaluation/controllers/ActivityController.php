@@ -40,6 +40,8 @@ use backend\modules\pusdiklat\evaluation\models\ActivityRoomSearch;
 use backend\modules\pusdiklat\evaluation\models\ActivityRoomExtensionSearch;
 use backend\modules\pusdiklat\evaluation\models\RoomSearch;
 
+use backend\modules\pusdiklat\evaluation\models\TrainingExecutionEvaluationSearch;
+
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -2161,6 +2163,5 @@ class ActivityController extends Controller
 		$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, $types[$filetype]);
 		$objWriter->save('php://output');
 		exit;
-		/* return $this->redirect(['student', 'id' => $id, 'status'=>$status]);	 */
     }
 }
