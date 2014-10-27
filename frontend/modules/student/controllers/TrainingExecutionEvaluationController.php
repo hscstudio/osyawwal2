@@ -86,9 +86,10 @@ class TrainingExecutionEvaluationController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($training_id)
+    public function actionCreate($training_id,$training_student_id)
     {
         $id = base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_id));
+		$id2 = base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_student_id));
 		$model = new TrainingExecutionEvaluation();
 
         /*if ($model->load(Yii::$app->request->post())){ 
@@ -112,9 +113,9 @@ class TrainingExecutionEvaluationController extends Controller
 			}
 			$model->value=implode("|",$model->value);
 			
-			$training_student_id = \frontend\models\TrainingStudent::findOne(['student_id' => Yii::$app->user->identity->id,'training_id'=>$id])->id;
+			//$training_student_id = \frontend\models\TrainingStudent::findOne(['student_id' => Yii::$app->user->identity->id,'training_id'=>$id])->id;
 			
-			$model->training_class_student_id = \frontend\models\TrainingClassStudent::findOne(['training_id'=>$id,'training_student_id'=>$training_student_id])->id;
+			$model->training_class_student_id = \frontend\models\TrainingClassStudent::findOne(['training_id'=>$id,'training_student_id'=>$id2])->id;
 			
 			$model->status=1;
 			if($model->save()) {
@@ -123,11 +124,12 @@ class TrainingExecutionEvaluationController extends Controller
 			else{
 				 Yii::$app->session->setFlash('error', 'Unable create there are some error');
 			}
-            return $this->redirect(['view', 'training_id' => $training_id]);
+            return $this->redirect(['view', 'training_id' => $training_id,'training_student_id'=>$training_student_id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
 				'training_id' => $training_id,
+				'training_student_id' => $training_student_id,
             ]);
         }
     }
