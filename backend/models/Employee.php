@@ -75,6 +75,16 @@ class Employee extends \yii\db\ActiveRecord
     }
 	
 	/**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSatker()
+    {
+        return $this->hasOne(Reference::className(), ['id' => 'satker_id'])->onCondition([
+			'type'=>'satker',
+		]);
+    }
+	
+	/**
      * @inheritdoc
      * @return ProgramQuery
      */

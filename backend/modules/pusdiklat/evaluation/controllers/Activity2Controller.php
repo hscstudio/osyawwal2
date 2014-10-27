@@ -1547,14 +1547,24 @@ class Activity2Controller extends Controller
                 $idx=1;
                 $baseRow = 7; // start line 27
 
-                $trainingClassStudents=\backend\models\TrainingClassStudent::find()
+                $searchModel = new TrainingClassStudentSearch();
+				$queryParams['TrainingClassStudentSearch']=[				
+					'training_class_id' =>$class_id,
+					'training_class_student.status'=>1,
+				];
+				$queryParams=\yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+				$dataProvider = $searchModel->search($queryParams); 
+				/* $dataProvider->getSort()->defaultOrder = ['name'=>SORT_ASC]; */
+				$dataProvider->setPagination(false);
+				
+                /* $trainingClassStudents=\backend\models\TrainingClassStudent::find()
                     ->where([
                         'training_id' => $activity->id,
                         'training_class_id' => $class->id,
                         'status'=>1,
                     ])
-                    ->all();
-                foreach($trainingClassStudents as $trainingClassStudent){
+                    ->all(); */
+				foreach($dataProvider->getModels() as $trainingClassStudent){	
 					$row = ($idx+$baseRow)-1;
                     if($idx==1){
                         $activeSheet->setCellValue('A2', $activity->name)
@@ -1625,6 +1635,156 @@ class Activity2Controller extends Controller
             'class_id'=>$class_id,
         ]);
     }
+	
+	public function actionPrintStudentChecklistPhoto($id,$class_id,$filetype='xlsx'){
+		$activity = $this->findModel($id); // Activity
+        $class = $this->findModelClass($class_id); // Class
+        try {
+            if(in_array($filetype,['xlsx','xls'])){
+                $types=['xls'=>'Excel5','xlsx'=>'Excel2007'];
+                $objReader = \PHPExcel_IOFactory::createReader($types[$filetype]);
+                $path = '';
+                if(isset(Yii::$app->params['uploadPath'])){
+                    $path = Yii::$app->params['uploadPath'].DIRECTORY_SEPARATOR;
+                }
+                else{
+                    $path = Yii::getAlias('@file').DIRECTORY_SEPARATOR;
+                }
+                $template_path = $path . 'template'.DIRECTORY_SEPARATOR.'pusdiklat'.DIRECTORY_SEPARATOR.'evaluation'.DIRECTORY_SEPARATOR;
+                $template = $template_path . 'student.checklist.photo.'.$filetype;
+                $objPHPExcel = $objReader->load($template);
+                $objPHPExcel->setActiveSheetIndex(0);
+                $activeSheet = $objPHPExcel->getActiveSheet();
+                $activeSheet->getPageSetup()->setOrientation(\PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
+                $activeSheet->getPageSetup()->setPaperSize(\PHPExcel_Worksheet_PageSetup::PAPERSIZE_FOLIO);
+                $objPHPExcel->getProperties()->setTitle("Student Checklist");
+                $training=$activity->training;
+
+                $idx=1;
+                $baseRow = 7; // start line 27
+				
+				$searchModel = new TrainingClassStudentSearch();
+				$queryParams['TrainingClassStudentSearch']=[				
+					'training_class_id' =>$class_id,
+					'training_class_student.status'=>1,
+				];
+				$queryParams=\yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+				$dataProvider = $searchModel->search($queryParams); 
+				/* $dataProvider->getSort()->defaultOrder = ['name'=>SORT_ASC]; */
+				$dataProvider->setPagination(false);
+				
+                /* $trainingClassStudents=\backend\models\TrainingClassStudent::find()
+                    ->where([
+                        'training_id' => $activity->id,
+                        'training_class_id' => $class->id,
+                        'status'=>1,
+                    ])
+                    ->all(); */
+				foreach($dataProvider->getModels() as $trainingClassStudent){	
+					$row = ($idx+$baseRow)-1;
+                    if($idx==1){
+                        $activeSheet->setCellValue('A2', $activity->name)
+                            ->setCellValue('A3', 'KELAS '. $trainingClassStudent->trainingClass->class)
+                            ->setCellValue('A4', 'TAHUN ANGGARAN '. substr($activity->start,0,4));
+                    }
+					else{
+						$activeSheet->insertNewRowBefore($row,1);
+					}
+                    $student = $trainingClassStudent->trainingStudent->student;
+					$person = $student->person;
+                    
+                    $eselon = $student->satker;
+					if(empty($eselon)) $eselon=1;
+                    $satker = [
+                        '1'=>$person->unit->reference->name.' ',
+                        '2'=>$student->eselon2.' ',
+                        '3'=>$student->eselon3.' ',
+                        '4'=>$student->eselon4.' ',
+                    ];
+					
+                    $studentSatker='-';
+                    if (strlen($satker[$eselon])>=3){
+                        $studentSatker = $satker[$eselon];
+                    }
+					
+					$rank_class = '';
+					if(!empty($person->rankClass->reference)){
+						$rank_class = $person->rankClass->reference->name;
+					} 
+                    $activeSheet->setCellValue('A'.$row, $idx)
+                        ->setCellValue('B'.$row, $person->name)
+                        ->setCellValue('C'.$row, $person->nip.' ')
+                        ->setCellValue('D'.$row, $person->born.', '.date('d-m-Y',strtotime($person->birthday)))
+                        ->setCellValue('E'.$row, $rank_class)
+                        ->setCellValue('F'.$row, $person->position_desc)
+                        ->setCellValue('G'.$row, $studentSatker)
+                        ->setCellValue('H'.$row, $person->email)
+                        ->setCellValue('I'.$row, $person->phone)
+                    ;
+					
+					$object_file = ObjectFile::find()
+						->where([
+							'object'=>'person',
+							'object_id'=>$person->id,
+							'type'=>'photo',
+						])
+						->one();
+					
+					$photo='';
+					if(!empty($object_file)){
+						$photo = $path.'person'.DIRECTORY_SEPARATOR.$person->id.DIRECTORY_SEPARATOR.$object_file->file->file_name;
+						if (file_exists($photo) or strlen($object_file->file->file_name)>=3){
+							$gdImage = imagecreatefromjpeg($photo);
+							// Add a drawing to the worksheetecho date('H:i:s') . " Add a drawing to the worksheet\n";
+							$objDrawing = new \PHPExcel_Worksheet_MemoryDrawing();
+							$objDrawing->setName('Sample image');
+							$objDrawing->setDescription('Sample image');
+							$objDrawing->setImageResource($gdImage);
+							$objDrawing->setRenderingFunction(\PHPExcel_Worksheet_MemoryDrawing::RENDERING_JPEG);
+							$objDrawing->setMimeType(\PHPExcel_Worksheet_MemoryDrawing::MIMETYPE_DEFAULT);
+							$objDrawing->setHeight(120);
+							if(($idx)%2==1){
+								$objDrawing->setCoordinates('L'.$row);
+							}
+							else{
+								$objDrawing->setCoordinates('M'.$row);
+							}
+							$objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+						}
+					}
+					
+
+					if(($idx)%2==1){
+						$activeSheet->setCellValue('J'.$row,'=A'.$row);
+					}
+					else{
+						
+						$activeSheet->mergeCells('J'.($row-1).':J'.($row))
+									->mergeCells('K'.($row-1).':K'.($row))
+									->setCellValue('K'.($row-1),'=A'.$row)
+									;
+					}
+                    $idx++;
+                }
+
+                // Redirect output to a client?s web browser
+                header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                header('Content-Disposition: attachment;filename="student.checklist.'.date('YmdHis').'.'.$filetype.'"');
+                header('Cache-Control: max-age=0');
+                $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, $types[$filetype]);
+                $objWriter->save('php://output');
+                exit;
+            }
+        } catch (\yii\base\ErrorException $e) {
+            Yii::$app->session->setFlash('error', 'Unable export there are some error');
+        }
+
+        return $this->redirect([
+            'class-student',
+            'id'=>$id,
+            'class_id'=>$class_id,
+        ]);
+    }
 
 	public function actionPrintCertificateReceipt($id,$class_id,$filetype='xlsx'){
         $activity = $this->findModel($id); // Activity
@@ -1654,14 +1814,24 @@ class Activity2Controller extends Controller
                 $baseRow = 12; // start line 12
                 $days = array('Minggu','Senin','Selasa','Rabu','Kamis','Jum\'at','Sabtu');
                 $months = array('Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember');
-                $trainingClassStudents=\backend\models\TrainingClassStudent::find()
+                $searchModel = new TrainingClassStudentSearch();
+				$queryParams['TrainingClassStudentSearch']=[				
+					'training_class_id' =>$class_id,
+					'training_class_student.status'=>1,
+				];
+				$queryParams=\yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+				$dataProvider = $searchModel->search($queryParams); 
+				/* $dataProvider->getSort()->defaultOrder = ['name'=>SORT_ASC]; */
+				$dataProvider->setPagination(false);
+				
+                /* $trainingClassStudents=\backend\models\TrainingClassStudent::find()
                     ->where([
                         'training_id' => $activity->id,
                         'training_class_id' => $class->id,
                         'status'=>1,
                     ])
-                    ->all();
-                foreach($trainingClassStudents as $trainingClassStudent){
+                    ->all(); */
+				foreach($dataProvider->getModels() as $trainingClassStudent){	
 					$row = ($idx+$baseRow)-1;
                     if($idx==1){
 						$month=$months[date("n")-1];

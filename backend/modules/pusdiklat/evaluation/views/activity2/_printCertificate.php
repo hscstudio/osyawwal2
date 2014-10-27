@@ -12,6 +12,9 @@ use kartik\widgets\DatePicker;
 	<?php
 	echo Html::a('<i class="fa fa-fw fa-print"></i> Checklist Data Peserta', ['print-student-checklist','id'=>$activity->id,'class_id'=>$class->id], ['class' => 'btn btn-default','data-pjax'=>0]);
 	?>
+	<?php
+	echo Html::a('<i class="fa fa-fw fa-print"></i> Checklist Data Peserta + Photo', ['print-student-checklist-photo','id'=>$activity->id,'class_id'=>$class->id], ['class' => 'btn btn-default','data-pjax'=>0]);
+	?>
     </div>
     <div class="col-md-12 clearfix"><hr></div>
     <div class="col-md-12">

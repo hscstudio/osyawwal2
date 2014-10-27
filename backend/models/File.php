@@ -120,7 +120,7 @@ class File extends \yii\db\ActiveRecord
 
 	public function scenarios()
     {
-        /* $scenarios = parent::scenarios(); */
+        $scenarios = parent::scenarios(); 
         $scenarios['filetype-document-compressed'] = ['file_name'];
         $scenarios['filetype-document'] = ['file_name'];
         $scenarios['filetype-compressed'] = ['file_name'];
