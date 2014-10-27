@@ -2006,4 +2006,62 @@ class ActivityController extends Controller
 			'sbus' => $sbus,
         ]);
     } */
+	
+	public function actionExecutionEvaluation($id)
+    {
+		$model = $this->findModel($id);
+		$searchModel = new TrainingClassSearch([
+			'training_id' => $id,
+		]);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('executionEvaluation', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+			'model' => $model,
+        ]);
+    }
+	
+	public function actionStudentExecutionEvaluation($training_id=NULL,$training_class_id=NULL)
+    {
+		$model = $this->findModel($training_id);
+		$searchModel = new TrainingClassStudentSearch([
+			'training_id' => $training_id,
+			'training_class_id' => $training_class_id,
+		]);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('studentExecutionEvaluation', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+			'model' => $model,
+        ]);
+    }
+	
+	public function actionTrainerTrainingEvaluation($id)
+    {
+		$model = $this->findModel($id);
+		$searchModel = new TrainingClassSearch([
+			'training_id' => $id,
+		]);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('trainerTrainingEvaluation', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+			'model' => $model,
+        ]);
+    }
+	
+	public function actionTrainerExecutionEvaluation($training_id=NULL,$training_class_id=NULL)
+    {
+		$model = $this->findModel($training_id);
+		$searchModel = new TrainingClassStudentSearch([
+			'training_id' => $training_id,
+			'training_class_id' => $training_class_id,
+		]);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('trainerExecutionEvaluation', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+			'model' => $model,
+        ]);
+    }
 }

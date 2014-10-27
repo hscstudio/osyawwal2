@@ -694,7 +694,7 @@ class TrainingClassStudentAttendanceController extends Controller
 
 		// Finishing
 		for($z = 1; $z <= $jumlahBaris; $z++) {
-			$objPHPExcel->getActiveSheet()->getRowDimension($z + $jumlahBaris + 1)->setRowHeight(30);
+			$objPHPExcel->getActiveSheet()->getRowDimension($z + $jumlahBaris)->setRowHeight(30);
 		}
 
 		$objPHPExcel->getActiveSheet()->getStyle('A17:'.chr($pointerKolomMP).(17 + $jumlahBaris))
