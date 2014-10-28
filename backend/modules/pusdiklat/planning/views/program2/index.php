@@ -324,3 +324,18 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?php \yii\widgets\Pjax::end(); ?>
 	
 </div>
+<div class="panel panel-default">
+	<div class="panel-heading">
+	<i class="fa fa-fw fa-refresh"></i> Document Generator
+	</div>
+    <div class="panel-body">
+		<?php
+		$form = \yii\bootstrap\ActiveForm::begin([
+			'method'=>'get',
+			'action'=>['export-program','status'=>$status],
+		]);
+		echo Html::submitButton('<i class="fa fa-fw fa-download"></i> Download Data Program', ['class' => 'btn btn-default','style'=>'display:block;']);
+		\yii\bootstrap\ActiveForm::end(); 
+		?>
+	</div>
+</div>

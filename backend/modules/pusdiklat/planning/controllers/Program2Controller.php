@@ -561,4 +561,62 @@ class Program2Controller extends Controller
 		else
 			return $this->render('documentHistory', $renders);
     } 
+	
+	/**
+     * Lists all TrainingClass models.
+     * @return mixed
+     */
+    public function actionExportProgram($status=1,$filetype='xlsx')
+    {
+		$searchModel = new ProgramSearch();
+		$queryParams = Yii::$app->request->getQueryParams();
+		if($status!='all'){
+			$queryParams['ProgramSearch']=[
+				'status'=>$status,
+			];
+		}
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+        $dataProvider = $searchModel->search($queryParams);        
+		$dataProvider->getSort()->defaultOrder = [
+			'status'=>SORT_DESC,		
+		];
+		$dataProvider->setPagination(false);
+		
+		$types=['xls'=>'Excel5','xlsx'=>'Excel2007'];
+		$objReader = \PHPExcel_IOFactory::createReader($types[$filetype]);
+		$template = Yii::getAlias('@file').DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'pusdiklat'.
+			DIRECTORY_SEPARATOR.'planning'.DIRECTORY_SEPARATOR.'program.list.'.$filetype;
+		$objPHPExcel = $objReader->load($template);
+		$objPHPExcel->getProperties()->setTitle("Daftar Program");
+		$objPHPExcel->setActiveSheetIndex(0);
+		$activeSheet = $objPHPExcel->getActiveSheet();
+		$activeSheet->setCellValue('A3', strtoupper(\Yii::$app->user->identity->employee->satker->name));
+		$idx=7; // line 7
+		$categories = ['','1'=>'Dasar','2'=>'Lanjutan','3'=>'Menengah','4'=>'Tinggi'];
+		foreach($dataProvider->getModels() as $data){		
+			
+			$activeSheet->insertNewRowBefore($idx+1,1);
+			$activeSheet->setCellValue('A'.$idx, $idx-6)
+					    ->setCellValue('B'.$idx, $data->number)
+					    ->setCellValue('C'.$idx, $data->name)
+					    ->setCellValue('D'.$idx, $data->hours)
+					    ->setCellValue('E'.$idx, $data->days)
+					    ->setCellValue('F'.$idx, ($data->test==1)?'Ya':'Tidak')
+						->setCellValue('G'.$idx, $data->stage)
+						->setCellValue('H'.$idx, ($categories[$data->category]))
+						->setCellValue('I'.$idx, (($data->validation_status==1)?'Sudah':'Belum').', ',$data->validation_note)
+						->setCellValue('J'.$idx, ($data->status==1)?'Publish':'Draft')
+						;
+			$idx++;
+		} 	
+		
+		// Redirect output to a client’s web browser
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="program.list.'.date('YmdHis').'.'.$filetype.'"');
+		header('Cache-Control: max-age=0');
+		$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, $types[$filetype]);
+		$objWriter->save('php://output');
+		exit;
+		/* return $this->redirect(['student', 'id' => $id, 'status'=>$status]);	 */
+    }
 }

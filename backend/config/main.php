@@ -91,6 +91,9 @@ return [
 		'sekretariat-finance' => [
             'class' => 'backend\modules\sekretariat\finance\Module',
         ],
+		'sekretariat-it' => [
+            'class' => 'backend\modules\sekretariat\it\Module',
+        ],
 		/* START SEKRETARIAT */
 		/* START PUSDIKLAT */
 		'pusdiklat-general' => [
