@@ -5,12 +5,12 @@ namespace backend\modules\pusdiklat\evaluation\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\TrainingExecutionEvaluation;
+use backend\models\TrainingClassSubjectTrainerEvaluation;
 
 /**
- * TrainingExecutionEvaluationSearch represents the model behind the search form about `backend\models\TrainingExecutionEvaluation`.
+ * TrainingClassSubjectTrainerEvaluationSearch represents the model behind the search form about `backend\models\TrainingClassSubjectTrainerEvaluation`.
  */
-class TrainingExecutionEvaluationSearch extends TrainingExecutionEvaluation
+class TrainingClassSubjectTrainerEvaluationSearch extends TrainingClassSubjectTrainerEvaluation
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class TrainingExecutionEvaluationSearch extends TrainingExecutionEvaluation
     public function rules()
     {
         return [
-            [['id', 'training_class_student_id', 'overall', 'status', 'created_by', 'modified_by'], 'integer'],
-            [['value', 'text1', 'text2', 'text3', 'text4', 'text5', 'comment', 'created', 'modified'], 'safe'],
+            [['id', 'training_class_subject_id', 'trainer_id', 'student_id', 'status', 'created_by', 'modified_by'], 'integer'],
+            [['value', 'comment', 'created', 'modified'], 'safe'],
         ];
     }
 
@@ -39,11 +39,11 @@ class TrainingExecutionEvaluationSearch extends TrainingExecutionEvaluation
      *
      * @return ActiveDataProvider
      */
-    public function search($params,$id=NULL)
+    public function search($params)
     {
-        $query = TrainingExecutionEvaluation::find()
-				->joinWith('trainingClassStudent')
-				->joinWith('trainingClassStudent.trainingClass');
+        $query = TrainingClassSubjectTrainerEvaluation::find()
+				->joinWith('trainingClassSubject')
+				->joinWith('trainingClassSubject.trainingClass');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -55,8 +55,9 @@ class TrainingExecutionEvaluationSearch extends TrainingExecutionEvaluation
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'training_class_student_id' => $this->training_class_student_id,
-            'overall' => $this->overall,
+            'training_class_subject_id' => $this->training_class_subject_id,
+            'trainer_id' => $this->trainer_id,
+            'student_id' => $this->student_id,
             'status' => $this->status,
             'created' => $this->created,
             'created_by' => $this->created_by,
@@ -65,11 +66,6 @@ class TrainingExecutionEvaluationSearch extends TrainingExecutionEvaluation
         ]);
 
         $query->andFilterWhere(['like', 'value', $this->value])
-            ->andFilterWhere(['like', 'text1', $this->text1])
-            ->andFilterWhere(['like', 'text2', $this->text2])
-            ->andFilterWhere(['like', 'text3', $this->text3])
-            ->andFilterWhere(['like', 'text4', $this->text4])
-            ->andFilterWhere(['like', 'text5', $this->text5])
             ->andFilterWhere(['like', 'comment', $this->comment]);
 
         return $dataProvider;
