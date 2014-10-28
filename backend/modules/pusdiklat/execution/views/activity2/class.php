@@ -56,11 +56,15 @@ $this->params['breadcrumbs'][] = $this->title;
 				'width'=>'80px',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
-				'value' => function ($data) {
-					return Html::a('<i class="fa fa-fw fa-tasks"></i>', Url::to(['attendance', 'training_class_id' => $data->id]), [
+				'value' => function ($data) use ($model){
+					return '<div class="btn btn-group">'.Html::a('<i class="fa fa-fw fa-tasks"></i>', Url::to(['attendance', 'training_class_id' => $data->id]), [
 							'class' => 'btn btn-default btn-xs',
 							'data-pjax' => '0'
-						]);
+						]).Html::a('<i class="fa fa-fw fa-print"></i>', Url::to(['recap-class', 'training_class_id' => $data->id, 'id' => $model->id]), [
+							'class' => 'btn btn-default btn-xs',
+							'data-pjax' => '0',
+							'title' => 'Print report attendance for this class only'
+						]).'</div>';
 				}
 			],
 			
@@ -241,27 +245,13 @@ $this->params['breadcrumbs'][] = $this->title;
 									]
 								);
 							},
-					/* 'dashboard' => function ($url, $model) {
-								$icon='<span class="fa fa-fw fa-dashboard"></span>';
-								return ($model->status!=2 AND $model->status!=1)?'':Html::a($icon,$url,[
-									'class'=>'btn btn-default btn-xs',
-									'data-pjax'=>'0',
-								]);
-							},
-					'update' => function ($url, $model) {
-								$icon='<span class="fa fa-fw fa-pencil"></span>';
-								return ($model->status!=2 AND $model->status!=1)?'':Html::a($icon,$url,[
-									'class'=>'btn btn-default btn-xs',
-									'data-pjax'=>'0',
-								]);
-							}, */
 				],	
 			],
         ],
 		'panel' => [
 			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
 			'before'=>Html::a('<i class="fa fa-fw fa-plus"></i> Create ', ['create-class','id'=>$model->id], ['class' => 'btn btn-success']).
-			Html::a('<i class="fa fa-fw fa-table"></i> Print Attendance Recapitulation', [
+			Html::a('<i class="fa fa-fw fa-print"></i> Print Aggregate Attendance Recapitulation', [
 				'recap',
 				'id' => $model->id
 			],
