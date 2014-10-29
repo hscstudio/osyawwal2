@@ -106,13 +106,18 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				'buttons'=>[
 					'update' => function($url, $data){
 						$satker_id = (int)Yii::$app->user->identity->employee->satker_id;
-						$icon='<span class="fa fa-pencil"></span>';
-						$url = \yii\helpers\Url::to([
-							'update-activity-room',
-							'id'=>$data->room_id,
-							'activity_id' => $data->activity_id,
-						]);
-						return Html::a($icon,$url,['class'=>'btn btn-default btn-xs','data-pjax'=>'0',]);							
+						if(in_array($data->status,[0,2,3])){
+						
+						}
+						else{
+							$icon='<span class="fa fa-pencil"></span>';
+							$url = \yii\helpers\Url::to([
+								'update-activity-room',
+								'id'=>$data->room_id,
+								'activity_id' => $data->activity_id,
+							]);
+							return Html::a($icon,$url,['class'=>'btn btn-default btn-xs','data-pjax'=>'0',]);
+						}
 					},
 				]
 			],

@@ -271,14 +271,14 @@ class RoomRequest3Controller extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionSetRoom($activity_id,$room_id,$status)
+    public function actionSetRoom($activity_id,$room_id)
     {
         $satker_id = (int)Yii::$app->user->identity->employee->satker_id;
 		$activity=$this->findModel($activity_id);		
 		$meeting = Meeting::findOne($activity->id);
 		$room = Room::findOne($room_id);
-		/* $status = 0;
-		if($room->satker_id == $satker_id) $status = 1; */
+		$status = 0;
+		if($room->satker_id == $satker_id) $status = 1;
 		$model = new ActivityRoom([
 			'activity_id'=>$meeting->activity_id,
 			'room_id'=>$room->id,

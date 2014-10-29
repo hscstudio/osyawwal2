@@ -88,6 +88,16 @@ use backend\models\Reference;
 			]);
 		}
 		?>
+		<?php
+		$countTraining = \backend\models\Training::find()
+			->where([
+				'program_id'=>$model->id,
+			])
+			->count();
+		if($countTraining>0){
+			echo "<div class='well'><blockquote>Program ini telah digunakan oleh diklat</blockquote></div>";
+		}
+		?>
 	<?php } ?>
 	
     <div class="form-group">
@@ -95,6 +105,6 @@ use backend\models\Reference;
     </div>
 
     <?php ActiveForm::end(); ?>
-	
+						
 	<?php $this->registerCss('label{display:block !important;}'); ?>
 </div>

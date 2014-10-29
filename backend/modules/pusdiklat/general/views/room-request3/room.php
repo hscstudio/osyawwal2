@@ -9,7 +9,7 @@ use kartik\widgets\AlertBlock;
 /* @var $searchModel backend\models\RoomSearch */
 
 $this->title = $activity->name;
-$this->params['breadcrumbs'][] = ['label' => 'Meetings', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Meeting Request', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 $controller = $this->context;
@@ -133,7 +133,11 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 							$modelActivityRoom2 = $activityRoom2->one();
 							$status = $modelActivityRoom2->status;
 							$text_status = "<span class='label label-warning'>Waiting</span>";
-							if($status==1) $text_status = "<span class='label label-info'>Process</span>".Html::a('<span class="fa fa-times"></span>', ['unset-room','activity_id'=>$activity->id,'room_id'=>$data->id], ['class' => 'label label-danger link-post','data-pjax'=>0]);
+							if($status==1) $text_status = "<span class='label label-info'>Process</span>";
+							
+							if(in_array($status,[0,1])){
+								$text_status .= Html::a('<span class="fa fa-times"></span>', ['unset-room','activity_id'=>$activity->id,'room_id'=>$data->id], ['class' => 'label label-danger link-post','data-pjax'=>0]);
+							}
 							else if($status==2) $text_status = "<span class='label label-success'>Approved</span>";
 							else if($status==3) $text_status = "<span class='label label-danger'>Rejected</span>";
 							return $text_status;								
@@ -182,7 +186,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 							$.pjax.reload({
 								url: "'.\yii\helpers\Url::to(['room','activity_id'=>$activity_id]).'&satker_id="+$(this).val(), 
 								container: "#pjax-gridview-room", 
-								timeout: 1000,
+								timeout: 3000,
 							});
 						',	
 					],
@@ -210,7 +214,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 						$.pjax.reload({
 							url: "'.\yii\helpers\Url::to(['room','activity_id'=>$activity_id,'satker_id'=>$satker_id]).'", 
 							container: "#pjax-gridview-room",
-							timeout: 1000,
+							timeout: 3000,
 						});
 						$.growl(data, {	type: "success"	});
 					},

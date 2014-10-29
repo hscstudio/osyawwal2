@@ -82,32 +82,20 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'format' => 'raw',
 				'value' => function ($data){
-					return Html::tag('span',($data->status==1)?'Active':'Blocked',['class'=>($data->status==1)?'label label-info':'label label-warning']);
-				}
-			],
-			[
-				'label' => 'Block',
-				'vAlign'=>'middle',
-				'hAlign'=>'center',
-				'width' => '100px',
-				'headerOptions'=>['class'=>'kv-sticky-column'],
-				'contentOptions'=>['class'=>'kv-sticky-column'],
-				'format' => 'raw',
-				'value' => function ($data){
 					if($data->status==1){
-						return Html::a('block',['block','id'=>$data->id],[
+						return Html::a('Active',['block','id'=>$data->id],[
 							'data-method'=>'post',
 							'data-confirm'=>'Do You sure block this user?',
-							'class'=>'label label-danger',
+							'class'=>'label label-success',
 							'title'=>'Click to block',
 							'data-toggle'=>'tooltip',
 						]);
 					}
 					else{
-						return Html::a('unblock',['unblock','id'=>$data->id],[
+						return Html::a('Block',['unblock','id'=>$data->id],[
 							'data-method'=>'post',
 							'data-confirm'=>'Do You sure unblock this user?',
-							'class'=>'label label-success',
+							'class'=>'label label-warning',
 							'title'=>'Click to unblock',
 							'data-toggle'=>'tooltip',
 						]);

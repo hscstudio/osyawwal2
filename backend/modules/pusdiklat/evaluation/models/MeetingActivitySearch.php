@@ -45,7 +45,10 @@ class MeetingActivitySearch extends Activity
 		$satker_id = (int)Yii::$app->user->identity->employee->satker_id;
 		/* die($this->organisation_id); */
         $query = Activity::find()
-			->joinWith('meeting',false,'RIGHT JOIN');
+			->joinWith('meeting',false,'RIGHT JOIN')
+			->where([
+				'satker_id' => $satker_id,
+			]);
 			
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -66,7 +69,6 @@ class MeetingActivitySearch extends Activity
             'created_by' => $this->created_by,
             'modified' => $this->modified,
             'modified_by' => $this->modified_by,
-			'satker_id' => $satker_id,				
 			'YEAR(start)' => $this->year,
 			'organisation_id' => $this->organisation_id,
         ]);

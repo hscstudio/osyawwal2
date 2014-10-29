@@ -1661,7 +1661,7 @@ class Activity2Controller extends Controller
 		    			'namaMP' => ProgramSubject::findOne($trainingSchedule->trainingClassSubject->program_subject_id)->name
 		    		];
 
-		    		$kolomTertinggi = '';
+		    		$kolomTertinggi = 0;
 
 		    		ksort($this->daftarMPperTanggal);
 
@@ -1680,15 +1680,15 @@ class Activity2Controller extends Controller
 		    			}
 		    		}
 
-		    		$kolomTertinggi += 1;
+		    		$kolomTertinggi +=1;
 
-		    		if ($kolomTertinggi == '') {
+		    		/* if ($kolomTertinggi == 0) {
 			    		die('error..a2c actrecap');
 		    		}
-		    		else {
+		    		else { */
 		    			$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kolom'] = chr($kolomTertinggi);
-		    		}
-
+		    		/* } */
+					die(chr($kolomTertinggi));
 		    		$objPHPExcel->getActiveSheet()->insertNewColumnBefore(chr($kolomTertinggi), 1);
 
 					$objPHPExcel->getActiveSheet()->setCellValue(chr($kolomTertinggi).'8', 
@@ -2519,6 +2519,7 @@ class Activity2Controller extends Controller
      */
     public function actionExportTraining($year='',$status='nocancel',$filetype='xlsx')
     {
+		
 		if(empty($year)) $year=date('Y');
 		$searchModel = new TrainingActivitySearch();
 		$queryParams = Yii::$app->request->getQueryParams();

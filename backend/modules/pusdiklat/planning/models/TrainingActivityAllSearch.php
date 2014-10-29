@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\pusdiklat\execution\models;
+namespace backend\modules\pusdiklat\planning\models;
 
 use Yii;
 use yii\base\Model;
@@ -10,7 +10,7 @@ use backend\models\Activity;
 /**
  * ActivitySearch represents the model behind the search form about `backend\models\Activity`.
  */
-class TrainingActivitySearch extends Activity
+class TrainingActivityAllSearch extends Activity
 {
     public $year;
 	/**
@@ -43,13 +43,9 @@ class TrainingActivitySearch extends Activity
      */
     public function search($params)
     {
-		$satker_id = (int)Yii::$app->user->identity->employee->satker_id;
 		
         $query = Activity::find()
-			->joinWith('training',false,'RIGHT JOIN')
-			->where([
-				'satker_id' => $satker_id,
-			]);
+			->joinWith('training',false,'RIGHT JOIN');
 			
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -61,7 +57,6 @@ class TrainingActivitySearch extends Activity
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'satker_id' => $this->satker_id,
             'start' => $this->start,
             'end' => $this->end,
             'hostel' => $this->hostel,

@@ -46,7 +46,10 @@ class TrainingActivitySearch extends Activity
 		$satker_id = (int)Yii::$app->user->identity->employee->satker_id;
 		
         $query = Activity::find()
-			->joinWith('training',false,'RIGHT JOIN');
+			->joinWith('training',false,'RIGHT JOIN')
+			->where([
+				'satker_id' => $satker_id,
+			]);
 			
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -66,8 +69,7 @@ class TrainingActivitySearch extends Activity
             'created' => $this->created,
             'created_by' => $this->created_by,
             'modified' => $this->modified,
-            'modified_by' => $this->modified_by,
-			'satker_id' => $satker_id,
+            'modified_by' => $this->modified_by,			
 			'YEAR(start)' => $this->year,
         ]);
 

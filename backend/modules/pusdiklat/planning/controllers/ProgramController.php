@@ -5,6 +5,7 @@ namespace backend\modules\pusdiklat\planning\controllers;
 use Yii;
 use backend\models\Program;
 use backend\modules\pusdiklat\planning\models\ProgramSearch;
+use backend\modules\pusdiklat\planning\models\TrainingActivityAllSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -46,7 +47,8 @@ class ProgramController extends Controller
 		}
 		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
         $dataProvider = $searchModel->search($queryParams);
-
+		
+		
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -54,6 +56,35 @@ class ProgramController extends Controller
         ]);
     }
 
+	/**
+     * Lists all Program models.
+     * @return mixed
+     */
+    public function actionTraining($id)
+    {
+		$model = $this->findModel($id);
+		$renders = [];
+		$renders['model'] = $model;
+		
+		$searchModel = new TrainingActivityAllSearch();
+		$queryParams = Yii::$app->request->getQueryParams();
+		$queryParams['TrainingActivityAllSearch']=[
+			'program_id'=>$id,
+		];
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+        $dataProvider = $searchModel->search($queryParams);
+		$dataProvider->getSort()->defaultOrder = [
+			'start'=>SORT_DESC,		
+			'end'=>SORT_DESC,
+		];
+		$renders['searchModel'] = $searchModel;
+		$renders['dataProvider'] = $dataProvider;	
+        
+		if (Yii::$app->request->isAjax)
+			return $this->renderAjax('training', $renders);		
+		else
+			return $this->render('training', $renders);
+    }
     /**
      * Displays a single Program model.
      * @param integer $id
