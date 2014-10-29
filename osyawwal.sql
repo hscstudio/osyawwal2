@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 24, 2014 at 06:07 PM
+-- Generation Time: Oct 29, 2014 at 11:19 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.9
 
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `activity` (
   `modified_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `activity`
@@ -50,7 +50,8 @@ CREATE TABLE IF NOT EXISTS `activity` (
 
 INSERT INTO `activity` (`id`, `satker_id`, `name`, `description`, `start`, `end`, `location`, `hostel`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
 (1, 17, 'Pranata Komputer Terampil ', '', '2014-02-11 00:00:00', '2014-03-17 00:00:00', '23|Lab Lantai 8', 0, 1, '2014-10-22 06:11:40', 1, '2014-10-22 17:00:22', 1),
-(2, 17, 'Pemantapan Kurikulum Pranata Komputer Terampil', '', '2014-10-01 00:00:00', '2014-10-01 00:00:00', '23|-', 0, 1, '2014-10-22 07:50:11', 1, '2014-10-22 07:52:47', 1);
+(2, 17, 'Pemantapan Kurikulum Pranata Komputer Terampil', '', '2014-10-01 00:00:00', '2014-10-01 00:00:00', '23|-', 0, 1, '2014-10-22 07:50:11', 1, '2014-10-22 07:52:47', 1),
+(3, 23, 'Intelejen Tingkat Dasar Angkatan I', 'Intelejen Tingkat Dasar Angkatan I', '2014-11-03 00:00:00', '2014-11-05 00:00:00', '23|Aula', 0, 2, '2014-10-29 10:20:19', 8, '2014-10-30 05:03:39', 8);
 
 -- --------------------------------------------------------
 
@@ -82,7 +83,8 @@ CREATE TABLE IF NOT EXISTS `activity_history` (
 
 INSERT INTO `activity_history` (`id`, `revision`, `satker_id`, `name`, `description`, `start`, `end`, `location`, `hostel`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
 (1, 0, 17, 'Pranata Komputer Terampil ', '', '2014-02-11 00:00:00', '2014-03-17 00:00:00', '23|Lab Lantai 8', 0, 1, '2014-10-22 06:11:40', 1, '2014-10-22 17:00:23', 1),
-(2, 0, 17, 'Pemantapan Kurikulum Pranata Komputer Terampil', '', '2014-10-01 00:00:00', '2014-10-01 00:00:00', '23|-', 0, 1, '2014-10-22 07:50:11', 1, '2014-10-22 07:52:47', 1);
+(2, 0, 17, 'Pemantapan Kurikulum Pranata Komputer Terampil', '', '2014-10-01 00:00:00', '2014-10-01 00:00:00', '23|-', 0, 1, '2014-10-22 07:50:11', 1, '2014-10-22 07:52:47', 1),
+(3, 0, 23, 'Intelejen Tingkat Dasar Angkatan I', 'Intelejen Tingkat Dasar Angkatan I', '2014-11-03 00:00:00', '2014-11-05 00:00:00', '23|Aula', 0, 2, '2014-10-29 10:20:19', 8, '2014-10-30 05:03:39', 8);
 
 -- --------------------------------------------------------
 
@@ -111,7 +113,8 @@ CREATE TABLE IF NOT EXISTS `activity_room` (
 --
 
 INSERT INTO `activity_room` (`activity_id`, `room_id`, `start`, `end`, `note`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 1, '2014-02-11 08:00:00', '2014-03-17 17:00:00', NULL, 2, NULL, NULL, NULL, NULL);
+(1, 1, '2014-02-11 08:00:00', '2014-03-17 17:00:00', NULL, 0, NULL, NULL, NULL, NULL),
+(2, 1, '2014-10-01 00:00:00', '2014-10-01 00:00:00', '', 3, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2127,7 +2130,7 @@ CREATE TABLE IF NOT EXISTS `file` (
   `modified` datetime DEFAULT NULL,
   `modified_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `file`
@@ -2136,7 +2139,10 @@ CREATE TABLE IF NOT EXISTS `file` (
 INSERT INTO `file` (`id`, `name`, `file_name`, `file_type`, `file_size`, `description`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
 (1, '5445ad5231266.jpg', '5445ad5231266.jpg', NULL, NULL, NULL, 1, '2014-10-21 07:48:18', 1, '2014-10-21 07:48:18', 1),
 (2, '', '5448d7a485381.pdf', NULL, NULL, NULL, 1, '2014-10-23 17:25:40', 1, '2014-10-23 17:25:49', 1),
-(3, '5448e10e0b1a8.png', '5448e10e0b1a8.png', NULL, NULL, NULL, 0, '2014-10-23 18:05:50', 1, '2014-10-23 18:05:50', 1);
+(3, '5448e10e0b1a8.png', '5448e10e0b1a8.png', NULL, NULL, NULL, 0, '2014-10-23 18:05:50', 1, '2014-10-23 18:05:50', 1),
+(4, '544b248691175.jpg', '544b248691175.jpg', NULL, NULL, NULL, 1, '2014-10-25 11:18:14', 1, '2014-10-25 11:18:14', 1),
+(5, '544b24a97bd9a.JPG', '544b24a97bd9a.JPG', NULL, NULL, NULL, 1, '2014-10-25 11:18:49', 1, '2014-10-25 11:18:49', 1),
+(6, '544b28f5d9d44.jpg', '544b28f5d9d44.jpg', NULL, NULL, NULL, 1, '2014-10-25 11:37:09', 1, '2014-10-25 11:37:09', 1);
 
 -- --------------------------------------------------------
 
@@ -2302,7 +2308,10 @@ CREATE TABLE IF NOT EXISTS `object_file` (
 INSERT INTO `object_file` (`object`, `object_id`, `type`, `file_id`) VALUES
 ('person', 101, 'photo', 1),
 ('program', 1, 'kap', 2),
-('program', 1, 'kap', 3);
+('program', 1, 'kap', 3),
+('person', 103, 'photo', 4),
+('person', 104, 'photo', 5),
+('person', 105, 'photo', 6);
 
 -- --------------------------------------------------------
 
@@ -2569,6 +2578,15 @@ INSERT INTO `object_reference` (`object`, `object_id`, `type`, `reference_id`) V
 ('person', 26, 'rank_class', NULL),
 ('person', 26, 'religion', NULL),
 ('person', 26, 'unit', NULL),
+('person', 103, 'graduate', NULL),
+('person', 103, 'rank_class', NULL),
+('person', 103, 'religion', NULL),
+('person', 104, 'graduate', NULL),
+('person', 104, 'rank_class', NULL),
+('person', 104, 'religion', NULL),
+('person', 105, 'graduate', NULL),
+('person', 105, 'rank_class', NULL),
+('person', 105, 'religion', NULL),
 ('person', 101, 'graduate', 45),
 ('person', 101, 'rank_class', 75),
 ('person', 101, 'religion', 91),
@@ -2804,9 +2822,9 @@ INSERT INTO `person` (`id`, `nip`, `name`, `nickname`, `front_title`, `back_titl
 (26, '', 'Admin Sekretariat Badan - Umum', '', '', '', 'admin_sekretariat_general', '', '', NULL, 0, '', '', '', '', '', '', '', '', '', 0, '', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
 (101, '', 'Hafid Mukhlasin', 'Hafid', '', 'S.Kom', '198604302009011002', '', 'Jember', '1986-04-30', 1, '081559915720', 'hafid.mukhlasin@depkeu.go.id', 'http://www.hafidmukhlasin.com', 'Perum. Nuansa Madinatul Quran Jl Cepit Raya No 12 Kav 19 Jatimulya - Cilodong - Depok - Jawa Barat', '', '', '', 'Jl Pancoran Timur 2 No 1 Pancoran Jakarta Selatan', 'Bank Mandiri 126 000 545 4839 an Hafid Mukhlasin', 1, '', 'Teknik Informatika - Universitas Teknologi Yogyakarta', 5, 'Pranata Komputer Pertama', 'BPPK', 1, NULL, NULL, NULL, NULL),
 (102, '198606052007011002', 'Ageng Budi Widiarto', NULL, NULL, NULL, '198606052007011002', NULL, NULL, '1986-06-05', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(103, '197305071993011001', 'Agung Nana Permana', NULL, NULL, NULL, '197305071993011001', NULL, NULL, '1973-05-07', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(104, '198704302008121003', 'Andre Harahap', NULL, NULL, NULL, '198704302008121003', NULL, NULL, '1987-04-30', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(105, '196501011985032003', 'Anne Akbari N. H. C.', NULL, NULL, NULL, '196501011985032003', NULL, NULL, '1965-01-01', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(103, '197305071993011001', 'Agung Nana Permana', '', '', '', '197305071993011001', '', '', '1973-05-07', 1, '', '', '', '', '', '', '', '', '', 0, '-', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
+(104, '198704302008121003', 'Andre Harahap', '', '', '', '198704302008121003', '', '', '1987-04-30', 1, '', '', '', '', '', '', '', '', '', 0, '-', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
+(105, '196501011985032003', 'Anne Akbari N. H. C.', '', '', '', '196501011985032003', '', '', '1965-01-01', 0, '', '', '', '', '', '', '', '', '', 0, '-', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
 (106, '196712111988021001', 'Armanzah', NULL, NULL, NULL, '196712111988021001', NULL, NULL, '1967-12-11', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
 (107, '197704291998031002', 'Bahrahmat Simamora', NULL, NULL, NULL, '197704291998031002', NULL, NULL, '1977-04-29', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
 (108, '196312281985031001', 'Dedyn Budi Prayoga', NULL, NULL, NULL, '196312281985031001', NULL, NULL, '1963-12-28', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
@@ -2895,14 +2913,15 @@ CREATE TABLE IF NOT EXISTS `program` (
   `modified` datetime DEFAULT NULL,
   `modified_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `program`
 --
 
 INSERT INTO `program` (`id`, `satker_id`, `number`, `name`, `hours`, `days`, `test`, `note`, `stage`, `category`, `validation_status`, `validation_note`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 17, '2.2.2.0', 'Pranata Komputer Terampil', '300.00', 30, 1, '', 'komputer', '1', 0, NULL, 1, '2014-10-22 06:09:02', 1, '2014-10-23 16:27:17', 1);
+(1, 17, '2.2.2.0', 'Pranata Komputer Terampil New', '300.00', 30, 1, '', 'komputer', '1', 0, NULL, 1, '2014-10-22 06:09:02', 1, '2014-10-28 23:15:11', 1),
+(2, 23, '2.3.1.0', 'Intelejen Tingkat Dasar', '30.00', 3, 1, '', '', '1', 0, NULL, 1, '2014-10-29 13:04:51', 8, '2014-10-29 13:04:51', 8);
 
 -- --------------------------------------------------------
 
@@ -2937,7 +2956,12 @@ CREATE TABLE IF NOT EXISTS `program_history` (
 --
 
 INSERT INTO `program_history` (`id`, `revision`, `satker_id`, `number`, `name`, `hours`, `days`, `test`, `note`, `stage`, `category`, `validation_status`, `validation_note`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 0, 17, '2.2.2.0', 'Pranata Komputer Terampil', '300.00', 30, 1, '', 'komputer', '1', 0, NULL, 1, '2014-10-22 06:09:02', 1, '2014-10-23 16:27:17', 1);
+(1, 0, 17, '2.2.2.0', 'Pranata Komputer Terampil', '300.00', 30, 1, '', 'komputer', '1', 0, NULL, 1, '2014-10-22 06:09:02', 1, '2014-10-23 16:27:17', 1),
+(1, 1, 17, '2.2.2.0', 'Pranata Komputer Terampil New', '300.00', 30, 1, '', 'komputer', '1', 0, NULL, 1, '2014-10-22 06:09:02', 1, '2014-10-28 22:36:44', 1),
+(1, 2, 17, '2.2.2.0', 'Pranata Komputer Terampil New', '300.00', 30, 1, '', 'komputer', '1', 0, NULL, 1, '2014-10-22 06:09:02', 1, '2014-10-28 22:37:33', 1),
+(1, 3, 17, '2.2.2.0', 'Pranata Komputer Terampil New', '300.00', 30, 1, '', 'komputer', '1', 0, NULL, 1, '2014-10-22 06:09:02', 1, '2014-10-28 22:37:41', 1),
+(1, 4, 17, '2.2.2.0', 'Pranata Komputer Terampil New', '300.00', 30, 1, '', 'komputer', '1', 0, NULL, 1, '2014-10-22 06:09:02', 1, '2014-10-28 23:15:11', 1),
+(2, 0, 23, '2.3.1.0', 'Intelejen Tingkat Dasar', '30.00', 3, 1, '', '', '1', NULL, NULL, 1, '2014-10-29 13:04:51', 8, '2014-10-29 13:04:51', 8);
 
 -- --------------------------------------------------------
 
@@ -2969,9 +2993,8 @@ CREATE TABLE IF NOT EXISTS `program_subject` (
 --
 
 INSERT INTO `program_subject` (`id`, `program_id`, `program_revision`, `type`, `name`, `hours`, `sort`, `test`, `stage`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(5, 1, 0, 109, 'PHP', '72.00', 1, 1, 'Pranata Komputer', 1, '2014-10-23 03:58:38', 1, '2014-10-23 04:50:32', 1),
-(6, 1, 0, 109, 'Aplikasi Pranata Komputer', '36.00', 2, 1, 'Pranata Komputer', 1, '2014-10-23 03:59:37', 1, '2014-10-24 05:18:26', 1),
-(7, 1, 0, 109, 'Database Analisis', '30.00', 3, 1, '', 1, '2014-10-24 05:18:01', 1, '2014-10-24 05:18:16', 1);
+(5, 1, 4, 109, 'PHP', '70.00', 1, 1, 'Pranata Komputer', 1, '2014-10-23 03:58:38', 1, '2014-10-28 22:53:09', 1),
+(6, 1, 4, 109, 'Aplikasi Pranata Komputer', '36.00', 2, 1, 'Pranata Komputer', 1, '2014-10-23 03:59:37', 1, '2014-10-28 22:47:38', 1);
 
 -- --------------------------------------------------------
 
@@ -2995,7 +3018,7 @@ CREATE TABLE IF NOT EXISTS `program_subject_history` (
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`,`revision`),
   KEY `fk_tb_program_subject_tb_program1` (`program_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3004,9 +3027,13 @@ CREATE TABLE IF NOT EXISTS `program_subject_history` (
 --
 
 INSERT INTO `program_subject_history` (`id`, `revision`, `program_id`, `program_revision`, `type`, `name`, `hours`, `sort`, `test`, `stage`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
+(0, 1, 1, 1, 109, 'PHP', '72.00', 1, 1, 'Pranata Komputer', 1, '2014-10-23 03:58:38', 1, '2014-10-28 22:36:44', 1),
 (5, 0, 1, 0, 109, 'PHP', '72.00', 1, 1, 'Pranata Komputer', 1, '2014-10-23 03:58:38', 1, '2014-10-23 04:50:32', 1),
+(5, 1, 1, 4, 109, 'PHP', '70.00', 1, 1, 'Pranata Komputer', 1, '2014-10-23 03:58:38', 1, '2014-10-28 22:53:09', 1),
 (6, 0, 1, 0, 109, 'Aplikasi Pranata Komputer', '36.00', 2, 1, 'Pranata Komputer', 1, '2014-10-23 03:59:37', 1, '2014-10-24 05:18:26', 1),
-(7, 0, 1, 0, 109, 'Database Analisis', '30.00', 3, 1, '', 1, '2014-10-24 05:18:01', 1, '2014-10-24 05:18:17', 1);
+(6, 1, 1, 4, 109, 'Aplikasi Pranata Komputer', '36.00', 2, 1, 'Pranata Komputer', 1, '2014-10-23 03:59:37', 1, '2014-10-28 22:47:38', 1),
+(7, 0, 1, 0, 109, 'Database Analisis', '30.00', 3, 1, '', 1, '2014-10-24 05:18:01', 1, '2014-10-24 05:18:17', 1),
+(7, 1, 1, 4, 109, 'Database Analisis', '30.00', 3, 1, '', 1, '2014-10-24 05:18:01', 1, '2014-10-28 22:47:38', 1);
 
 -- --------------------------------------------------------
 
@@ -3403,9 +3430,9 @@ CREATE TABLE IF NOT EXISTS `student` (
 
 INSERT INTO `student` (`person_id`, `username`, `password_hash`, `auth_key`, `password_reset_token`, `eselon2`, `eselon3`, `eselon4`, `satker`, `no_sk`, `tmt_sk`, `status`) VALUES
 (102, '198606052007011002', '$2y$04$ef5jWuVTbdWOhkv1LwcCnOHV8HvZoCClbsOOwPlHys./NdS.kXd9m', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(103, '197305071993011001', '$2y$04$a39NTJWEMC0h.imuEIXmWOLErBZ8VDxhWwwbA7765lHzSfIlddpqS', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(104, '198704302008121003', '$2y$04$g1hfdK5zCs0x3Gdj9A7SNOnJtbBJC5t0to4fcLQ4tIMAGAwhisEy2', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(105, '196501011985032003', '$2y$04$u6RccEww9/Sq.v23TDuxW.UBZV7NNyaCsG79wBXbO6DwMw8OW/7HW', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(103, '197305071993011001', '$2y$04$a39NTJWEMC0h.imuEIXmWOLErBZ8VDxhWwwbA7765lHzSfIlddpqS', '', NULL, '', '', '', NULL, NULL, NULL, 1),
+(104, '198704302008121003', '$2y$04$g1hfdK5zCs0x3Gdj9A7SNOnJtbBJC5t0to4fcLQ4tIMAGAwhisEy2', '', NULL, '', '', '', NULL, NULL, NULL, 1),
+(105, '196501011985032003', '$2y$04$u6RccEww9/Sq.v23TDuxW.UBZV7NNyaCsG79wBXbO6DwMw8OW/7HW', '', NULL, '', '', '', NULL, NULL, NULL, 1),
 (106, '196712111988021001', '$2y$04$t/TYa2WKuUd5KSLSS5zkL.SPR/ydoVSlo7iRDRHxyc/LLHP.rJsSW', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
 (107, '197704291998031002', '$2y$04$FYrSjglcqD9f5xHiJMT3gua8TQ3sH8i1ai11hu2FXRWwOpfxvVJnm', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
 (108, '196312281985031001', '$2y$04$uhbzXhUIQ7ah/xsMFzKcXe/2YvhIpsM6d4.DMtYG3MuHCL.1lUZHq', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
@@ -3509,7 +3536,8 @@ CREATE TABLE IF NOT EXISTS `training` (
 --
 
 INSERT INTO `training` (`activity_id`, `program_id`, `program_revision`, `number`, `note`, `regular`, `stakeholder`, `student_count_plan`, `class_count_plan`, `execution_sk`, `result_sk`, `cost_source`, `cost_plan`, `cost_real`, `approved_status`, `approved_note`, `approved_date`, `approved_by`) VALUES
-(1, 1, 0, '2014-01-00-2.2.2.0.2', '', 1, '', 5, 1, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL);
+(1, 1, 0, '2014-01-00-2.2.2.0.2', '', 1, '', 5, 1, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
+(3, 2, 0, '2014-07-00-2.3.1.0.2', '', 1, '', 30, 1, '', '', '', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -3689,7 +3717,7 @@ CREATE TABLE IF NOT EXISTS `training_class_subject` (
   PRIMARY KEY (`id`),
   KEY `fk_tb_training_assignment_tb_training_subject1` (`training_class_id`),
   KEY `fk_tb_training_assignment_tb_trainer1` (`program_subject_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `training_class_subject`
@@ -3697,7 +3725,8 @@ CREATE TABLE IF NOT EXISTS `training_class_subject` (
 
 INSERT INTO `training_class_subject` (`id`, `training_class_id`, `program_subject_id`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
 (1, 1, 5, 1, NULL, NULL, NULL, NULL),
-(2, 1, 6, 1, NULL, NULL, NULL, NULL);
+(2, 1, 6, 1, NULL, NULL, NULL, NULL),
+(3, 1, 7, 1, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -3783,7 +3812,8 @@ CREATE TABLE IF NOT EXISTS `training_history` (
 --
 
 INSERT INTO `training_history` (`activity_id`, `revision`, `program_id`, `program_revision`, `number`, `note`, `regular`, `stakeholder`, `student_count_plan`, `class_count_plan`, `execution_sk`, `result_sk`, `cost_source`, `cost_plan`, `cost_real`, `approved_status`, `approved_note`, `approved_date`, `approved_by`) VALUES
-(1, 0, 1, 0, '2014-01-00-2.2.2.0.2', '', 1, '', 5, 1, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL);
+(1, 0, 1, 0, '2014-01-00-2.2.2.0.2', '', 1, '', 5, 1, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
+(3, 0, 2, 0, '2014-07-00-2.3.1.0.2', '', 1, '', 30, 1, '', '', '', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -4045,7 +4075,7 @@ INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_res
 (24, 'admin_sekretariat_finance', '', '$2y$13$bvGxy1TfI2HFwZs4vYVI2eqVxiOuS7TZEub/KvArQXmMriQA0FQnK', NULL, 'admin_sekretariat_finance@gmail.com', 1, 1, 1413843775, 1413843775),
 (25, 'admin_sekretariat_it', '', '$2y$13$X8nh/TXpBMUhmRfB7Hg/uOPjh63mm8hgnlyBOWe8vRSjLHPIVBd2K', NULL, 'admin_sekretariat_it@gmail.com', 1, 1, 1413843832, 1413843832),
 (26, 'admin_sekretariat_general', '', '$2y$13$0RWmtv7pTfpX0g88C8Tm6umWLsHAw8OiPTRCW8IvW0b7OikOfKyES', NULL, 'admin_sekretariat_general@gmail.com', 1, 1, 1413843871, 1413843871),
-(101, '198604302009011002', '', '$2y$13$TBX6tJ9xfO7981OgRCRIxeiTzyyc5iSFiTh3Y2Uu8Kb1VOjuWKQci', NULL, '198604302009011002@gmail.com', 1, 1, 1413852500, 1413869879);
+(101, '198604302009011002', '', '$2y$13$TBX6tJ9xfO7981OgRCRIxeiTzyyc5iSFiTh3Y2Uu8Kb1VOjuWKQci', NULL, '198604302009011002@gmail.com', 1, 0, 1413852500, 1414555330);
 
 --
 -- Constraints for dumped tables
