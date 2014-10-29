@@ -60,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					return '<div class="btn btn-group">'.Html::a('<i class="fa fa-fw fa-tasks"></i>', Url::to(['attendance', 'training_class_id' => $data->id]), [
 							'class' => 'btn btn-default btn-xs',
 							'data-pjax' => '0'
-						]).Html::a('<i class="fa fa-fw fa-print"></i>', Url::to(['recap-class', 'training_class_id' => $data->id, 'id' => $model->id]), [
+						]).Html::a('<i class="fa fa-fw fa-print"></i>', Url::to(['recap', 'training_class_id' => $data->id, 'id' => $model->id]), [
 							'class' => 'btn btn-default btn-xs',
 							'data-pjax' => '0',
 							'title' => 'Print report attendance for this class only'
