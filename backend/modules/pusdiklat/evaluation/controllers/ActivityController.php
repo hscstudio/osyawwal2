@@ -2208,9 +2208,38 @@ class ActivityController extends Controller
 		$idx=1;
 		$baseRow = 4;
 		$no_p=1;
+		$mp=1;
+		$col_p=1;
+		$p=1;
+		
 		foreach($dataProvider->getModels() as $data){			
 			$row = $baseRow + $idx;
+			if($idx==1)
+			{
+			$col_mp=$col_p;
+			$sheet->setCellValueByColumnAndRow($col_mp-1, ($row-4), "MP".$mp++)
+														->setCellValueByColumnAndRow($col_mp, ($row-4), $data->trainer->person->name)
+														->setCellValueByColumnAndRow($col_mp, ($row-3), $data->trainingClassSubject->programSubject->name)
+														->setCellValueByColumnAndRow($col_mp, ($row-2), $data->trainingClassSubject->programSubject->hours);
+			}
 			
+			$value_evaluation=explode("|",$data->value);
+			$col=$col_p;
+			$sheet->setCellValueByColumnAndRow($col, $row, '=A'.$row.'');
+								foreach($value_evaluation as $value){
+									$sheet->setCellValueByColumnAndRow($col, $row, $value);
+									$col++;
+								}
+					/*if(strlen($data->comment)>0){						
+									if($sheet->getCell($abjadX[$col_p].(50+$baseRow+10))->getValue()=='-')
+										$comment = $data->comment;
+									else 
+										$comment = $sheet->getCell($abjadX[$col_p].(50+$baseRow+10))->getValue().",".$data->comment;	
+									$sheet->setCellValueByColumnAndRow($col_p, 50+$baseRow+10, $comment);						
+								}*/
+							
+							$p++;
+							$col_p=$col_p+16;
 			$idx++;
 		}
 		/*$idx=1;
