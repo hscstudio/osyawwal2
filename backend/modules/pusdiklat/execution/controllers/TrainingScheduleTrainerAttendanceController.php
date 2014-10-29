@@ -83,6 +83,23 @@ class TrainingScheduleTrainerAttendanceController extends Controller
 		}
 		// dah
 
+		// Input tabel attendance dg schedule_id dan student_id
+		for ($i = 0; $i < count($idSchedule); $i++) {						// Ngeloop dulu, siapa tau schedule_id nya lebih dari 1
+			$inspektor = TrainingScheduleTrainer::find()
+				->where([
+					'training_schedule_id' => $idSchedule[$i]
+				])
+				->all();
+			foreach ($inspektor as $baris) {
+				if ($baris->hours === null) {
+					$baris->hours = $modelTrainingSchedule[$i]->hours;
+					$baris->status = 1;
+					$baris->save();
+				}
+			}
+		}
+		// dah
+
 		// Bikin data provider schedule_trainer 
 		$dataProvider = new ActiveDataProvider([
 			'query' => TrainingScheduleTrainer::find()
