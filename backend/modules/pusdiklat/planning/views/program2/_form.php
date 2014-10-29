@@ -129,7 +129,7 @@ use backend\models\Reference;
 		<?= Html::submitButton('<i class="fa fa-fw fa-save"></i> '. Yii::t('app', 'Update as Revision'), ['class' => 'btn btn-warning', 'name' => 'create_revision',]) ?>
 		<?php } ?>
 	</div>
-	<div class="well">
+	<div class="">
 		<?php
 		$countTraining = \backend\models\Training::find()
 			->where([

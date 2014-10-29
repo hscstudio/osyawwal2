@@ -148,7 +148,54 @@ class Activity2Controller extends Controller
         ]);
     }
 
-
+	/**
+     * Updates an existing Activity model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+		$model->start = date('Y-m-d',strtotime($model->start));
+		$model->end = date('Y-m-d',strtotime($model->end));
+		$training = Training::findOne(['activity_id'=>$model->id]);
+		$renders=[];
+		$renders['model'] = $model;
+		$renders['training'] = $training;
+		
+		if (Yii::$app->request->post()){ 
+			$connection=Yii::$app->getDb();
+			$transaction = $connection->beginTransaction();	
+			try{
+				if($model->load(Yii::$app->request->post())){
+					$model->satker = 'current';
+					$model->location = implode('|',$model->location);							
+					if($model->save()) {
+						Yii::$app->getSession()->setFlash('success', 'Activity data have saved.');
+						if($training->load(Yii::$app->request->post())){							
+							$training->activity_id= $model->id;
+							$training->program_revision = (int)\backend\models\ProgramHistory::getRevision($training->program_id);
+							
+							if($training->save()){								 
+								Yii::$app->getSession()->setFlash('success', 'Training & activity data have saved.');
+								$transaction->commit();
+								return $this->redirect(['index']);
+							}
+						}						
+					}
+					else{
+						Yii::$app->getSession()->setFlash('error', 'Data is NOT saved.');
+					}				
+				}
+			}
+			catch (Exception $e) {
+				Yii::$app->getSession()->setFlash('error', 'Roolback transaction. Data is not saved');
+			}
+        } 
+		
+		return $this->render('update', $renders);
+    }
 
    
     /**
