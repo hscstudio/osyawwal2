@@ -26,7 +26,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Activity', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 -->
-
+	<?php \yii\widgets\Pjax::begin([
+		'id'=>'pjax-gridview',
+	]); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -58,162 +60,163 @@ $this->params['breadcrumbs'][] = $this->title;
 				],
 				
 				[
-				'label' => 'Peserta',
-				
-				'vAlign'=>'left',
-				'hAlign'=>'center',
-				'width' => '75px',
-				'headerOptions'=>['class'=>'kv-sticky-column'],
-				'contentOptions'=>['class'=>'kv-sticky-column'],
-				'format'=>'raw',
-				'value' => function ($data){
-					return Html::tag('span', $data->meeting->attendance_count_plan,
-						[
-							'class'=>'label label-primary',
-							'data-pjax'=>'0',
-							'data-toggle'=>'tooltip',
-							'title' => 'Rencana jumlah  peserta',
-						]); 
-				},
-            ],
+					'label' => 'Peserta',				
+					'vAlign'=>'middle',
+					'hAlign'=>'center',
+					'width' => '75px',
+					'headerOptions'=>['class'=>'kv-sticky-column'],
+					'contentOptions'=>['class'=>'kv-sticky-column'],
+					'format'=>'raw',
+					'value' => function ($data){
+						return Html::tag('span', $data->meeting->attendance_count_plan,
+							[
+								'class'=>'label label-primary',
+								'data-pjax'=>'0',
+								'data-toggle'=>'tooltip',
+								'title' => 'Rencana jumlah  peserta',
+							]); 
+					},
+				],
 			
-			[
-				'format' => 'raw',
-				'label' => 'PIC',
-				'vAlign'=>'middle',
-				'hAlign'=>'center',
-				'width'=>'70px',
-				'headerOptions'=>['class'=>'kv-sticky-column'],
-				'contentOptions'=>['class'=>'kv-sticky-column'],
-				'value' => function ($data){
-					// CEK AUTHORISE ACCESS
-					$permit = \hscstudio\heart\helpers\Heart::OrganisationAuthorized(
-						[
-							'1213020100', // CEK KD_UNIT_ORG 1213020100 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
-							'1213020000', // BIDANG RENBANG
-							'1213000000', // PUSDIKLAT
-						],
-						[
-							1, // 1= HEAD OF KD_UNIT_ORG
-						]
-					);
-					$object_person=\backend\models\ObjectPerson::find()
-						->where([
-							'object'=>'activity',
-							'object_id'=>$data->id,
-							'type'=>'organisation_1213020100', // CEK KD_UNIT_ORG 1213020100 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
-						])
-						->one();
-					
-					if($permit){
-						$options = [
-									'class'=>'label label-info modal-heart',
-									'data-toggle'=>'tooltip',
-									'data-pjax'=>'0',
-									'data-html'=>'true',
-									'title'=>($object_person!=null)?'CURRENT PIC PROGRAM <br> '.$object_person->person->name.'.<br> CLICK HERE TO CHANGE PIC':'CLICK HERE TO SET PIC',
-									'modal-title'=>($object_person!=null)?'CHANGE PIC':'SET PIC',
-									'modal-size'=>'modal-md',
-								];
-						$person_name = ($object_person!=null)?substr($object_person->person->name,0,5).'.':'-';
-						return Html::a($person_name,['pic','id'=>$data->id],$options);
-					}
-					else{
-						$options = [
-									'class'=>'label label-info',
-									'data-toggle'=>'tooltip',
-									'data-pjax'=>'0',
-									'data-html'=>'true',
-									'title'=>($object_person!=null)?'CURRENT PIC PROGRAM <br> '.$object_person->person->name.'':'PIC IS UNAVAILABLE',
-								];
-						$person_name = ($object_person!=null)?substr($object_person->person->name,0,5).'.':'-';
-						return Html::tag('span',$person_name,$options);
-					}
-				}
-			],
-			
-			[
-				//'attribute' => 'classCount',
-				'format'=>'raw',
-				'label'=>'Room',
-				'vAlign'=>'middle',
-				'hAlign'=>'center',
-				'width'=>'100px',
-				'headerOptions'=>['class'=>'kv-sticky-column'],
-				'contentOptions'=>['class'=>'kv-sticky-column'],
-				'value' => function ($data) {
-					$activityRoom = \backend\models\ActivityRoom::find()
-								->where('activity_id=:activity_id',
-								[
-									':activity_id' => $data->id
-								]);		
-					if($activityRoom->count()==0){ 
-						return Html::a('SET', ['room','activity_id'=>$data->id], 
-							[							
-							'class' => 'label label-warning modal-heart',
-							'data-pjax'=>0,
-							'source'=>'',
-							'modal-size'=>'modal-lg',
-							]);
-					}		
-					else{
-						$statuss = [
-							'0' => 'Waiting',
-							'1' => 'Process',
-							'2' => 'Approved',
-							'3' => 'Rejected',
-						];
+				[
+					'format' => 'raw',
+					'label' => 'PIC',
+					'vAlign'=>'middle',
+					'hAlign'=>'center',
+					'width'=>'70px',
+					'headerOptions'=>['class'=>'kv-sticky-column'],
+					'contentOptions'=>['class'=>'kv-sticky-column'],
+					'value' => function ($data){
+						// CEK AUTHORISE ACCESS
+						/*$permit = \hscstudio\heart\helpers\Heart::OrganisationAuthorized(
+							[
+								'1201050302',
+								'1201050202', // CEK KD_UNIT_ORG 1213020100 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
+								'1201050101', // BIDANG RENBANG
+								'1201050000', // BAGIAN UMUM
+							],
+							[
+								1, // 1= HEAD OF KD_UNIT_ORG
+							]
+						);*/
+						$permit = \Yii::$app->user->can('Subbagian Rumah Tangga Dan Pengelolaan Aset');
+						$object_person=\backend\models\ObjectPerson::find()
+							->where([
+								'object'=>'activity',
+								'object_id'=>$data->id,														
+								'type'=>'organisation_1201050000' //1213010100 CEK KD_UNIT_ORG 1213010100 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
+							])
+							->one();
 						
-						$ars = $activityRoom->all();
-						$rooms = [];
-						foreach($ars as $ar){
-							$rooms[] = $ar->room->name.'=>'.$statuss[$ar->status];
+						if($permit){
+							$options = [
+										'class'=>'label label-info modal-heart',
+										'data-toggle'=>'tooltip',
+										'data-pjax'=>'0',
+										'data-html'=>'true',
+										'title'=>($object_person!=null)?'CURRENT PIC PROGRAM <br> '.$object_person->person->name.'.<br> CLICK HERE TO CHANGE PIC':'CLICK HERE TO SET PIC',
+										'modal-title'=>($object_person!=null)?'CHANGE PIC':'SET PIC',
+										'modal-size'=>'modal-md',
+									];
+							$person_name = ($object_person!=null)?substr($object_person->person->name,0,5).'.':'-';
+							return Html::a($person_name,['pic','id'=>$data->id],$options);
 						}
-						$rooms = implode('<br>',$rooms);
-						return Html::a($activityRoom->count(), ['room','activity_id'=>$data->id], [
-							'class' => 'label label-info modal-heart ',
-							'data-pjax'=>0,
-							'source'=>'',
-							'modal-size'=>'modal-lg',
-							'data-html'=>true,
-							'title'=>$rooms,
-							'data-toggle'=>'tooltip',
-						]);
+						else{
+							$options = [
+										'class'=>'label label-info',
+										'data-toggle'=>'tooltip',
+										'data-pjax'=>'0',
+										'data-html'=>'true',
+										'title'=>($object_person!=null)?'CURRENT PIC PROGRAM <br> '.$object_person->person->name.'':'PIC IS UNAVAILABLE',
+									];
+							$person_name = ($object_person!=null)?substr($object_person->person->name,0,5).'.':'-';
+							return Html::tag('span',$person_name,$options);
+						}
 					}
-				}
-			],
+				],
+				
+				[
+					//'attribute' => 'classCount',
+					'format'=>'raw',
+					'label'=>'Room',
+					'vAlign'=>'middle',
+					'hAlign'=>'center',
+					'width'=>'100px',
+					'headerOptions'=>['class'=>'kv-sticky-column'],
+					'contentOptions'=>['class'=>'kv-sticky-column'],
+					'value' => function ($data) {
+						$activityRoom = \backend\models\ActivityRoom::find()
+									->where('activity_id=:activity_id',
+									[
+										':activity_id' => $data->id
+									]);		
+						if($activityRoom->count()==0){ 
+							return Html::a('SET', ['room','activity_id'=>$data->id], 
+								[							
+								'class' => 'label label-warning modal-heart',
+								'data-pjax'=>0,
+								'source'=>'',
+								'modal-size'=>'modal-lg',
+								]);
+						}		
+						else{
+							$statuss = [
+								'0' => 'Waiting',
+								'1' => 'Process',
+								'2' => 'Approved',
+								'3' => 'Rejected',
+							];
+							
+							$ars = $activityRoom->all();
+							$rooms = [];
+							foreach($ars as $ar){
+								$rooms[] = $ar->room->name.'=>'.$statuss[$ar->status];
+							}
+							$rooms = implode('<br>',$rooms);
+							return Html::a($activityRoom->count(), ['room','activity_id'=>$data->id], [
+								'class' => 'label label-info modal-heart ',
+								'data-pjax'=>0,
+								'source'=>'',
+								'modal-size'=>'modal-lg',
+								'data-html'=>true,
+								'title'=>$rooms,
+								'data-toggle'=>'tooltip',
+							]);
+						}
+					}
+				],
+				
+				[
+					'attribute' => 'status',
+					'filter' => false,
+					'label' => 'Status',
+					'vAlign'=>'middle',
+					'hAlign'=>'center',
+					'width'=>'75px',
+					'headerOptions'=>['class'=>'kv-sticky-column'],
+					'contentOptions'=>['class'=>'kv-sticky-column'],
+					'format'=>'raw',
+					'value' => function ($data){
+						$status_icons = [
+							'0'=>'<span class="glyphicon glyphicon-fire"></span>',
+							'1'=>'<span class="glyphicon glyphicon-check"></span>'
+						];
+						$status_classes = ['0'=>'warning','1'=>'info'];
+						$status_title = ['0'=>'Draft','1'=>'Ready'];
+						return Html::tag(
+							'span',
+							$status_icons[$data->status],
+							[
+								'class'=>'label label-'.$status_classes[$data->status],
+								'data-toggle'=>'tooltip',
+								'data-pjax'=>'0',
+								'title'=>$status_title[$data->status],
+							]
+						);
+					},
+				],
 			
-			[
-				'attribute' => 'status',
-				'filter' => false,
-				'label' => 'Status',
-				'vAlign'=>'middle',
-				'hAlign'=>'center',
-				'width'=>'75px',
-				'headerOptions'=>['class'=>'kv-sticky-column'],
-				'contentOptions'=>['class'=>'kv-sticky-column'],
-				'format'=>'raw',
-				'value' => function ($data){
-					$status_icons = [
-						'0'=>'<span class="glyphicon glyphicon-fire"></span>',
-						'1'=>'<span class="glyphicon glyphicon-check"></span>'
-					];
-					$status_classes = ['0'=>'warning','1'=>'info'];
-					$status_title = ['0'=>'Draft','1'=>'Ready'];
-					return Html::tag(
-						'span',
-						$status_icons[$data->status],
-						[
-							'class'=>'label label-'.$status_classes[$data->status],
-							'data-toggle'=>'tooltip',
-							'data-pjax'=>'0',
-							'title'=>$status_title[$data->status],
-						]
-					);
-				},
-			],
-        
-            ['class' => 'kartik\grid\ActionColumn'],
+				['class' => 'kartik\grid\ActionColumn'],
         ],
 		'panel' => [
 			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
@@ -260,5 +263,22 @@ $this->params['breadcrumbs'][] = $this->title;
 		'responsive'=>true,
 		'hover'=>true,
     ]); ?>
-
+    <?= \hscstudio\heart\widgets\Modal::widget() ?>
+	<?php $this->registerCss('#div-select2-status .select2-container{width:125px !important;}');  ?>
+<?php \yii\widgets\Pjax::end(); ?>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">
+	<i class="fa fa-fw fa-refresh"></i> Document Generator
+	</div>
+    <div class="panel-body">
+		<?php
+		$form = \yii\bootstrap\ActiveForm::begin([
+			'method'=>'get',
+			'action'=>['export-meeting','year'=>$year,'status'=>$status],
+		]);
+		echo Html::submitButton('<i class="fa fa-fw fa-download"></i> Download Daftar Rapat', ['class' => 'btn btn-default','style'=>'display:block;']);
+		\yii\bootstrap\ActiveForm::end(); 
+		?>
+	</div>
 </div>

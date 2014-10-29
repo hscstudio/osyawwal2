@@ -79,10 +79,27 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 			]);  */
 			echo $form->field($model, 'start')->widget(\kartik\datecontrol\DateControl::classname(), [
 						'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
+						//'type' => DateControl::FORMAT_DATE,
+						'ajaxConversion' => false,
+						'displayFormat' => 'php:d-m-Y H:i:s',
+						'saveFormat' => 'php:Y-m-d H:i:s',
+						'options' => [
+							   'pluginOptions' => [
+								   'autoclose' => true
+							   ]
+						   ],
 					]);
 
 			echo $form->field($model, 'end')->widget(\kartik\datecontrol\DateControl::classname(), [
 						'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
+						'ajaxConversion' => false,
+						'displayFormat' => 'php:d-m-Y H:i:s',
+						'saveFormat' => 'php:Y-m-d H:i:s',
+						'options' => [
+							   'pluginOptions' => [
+								   'autoclose' => true
+							   ]
+						   ],
 					]); 
 		}
 		?>

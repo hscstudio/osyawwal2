@@ -43,7 +43,7 @@ class ActivityMeetingGeneralSearch extends Activity
     {
         $query = Activity::find()
 				->joinWith('meeting',false,'RIGHT JOIN')
-				->where(['satker_id'=>17]);
+				->where(['organisation_id'=>44]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
