@@ -42,7 +42,8 @@ class TrainingExecutionEvaluationSearch extends TrainingExecutionEvaluation
     public function search($params,$id=NULL)
     {
         $query = TrainingExecutionEvaluation::find()
-				->where(['id'=>$id]);
+				->joinWith('trainingClassStudent')
+				->joinWith('trainingClassStudent.trainingClass');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

@@ -73,7 +73,11 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions'=>['class'=>'kv-sticky-column'],	
 				'format'=>'raw',
 				'value' => function ($data){
-					return Html::a($data->name,'#',['title'=>$data->note,'data-toggle'=>"tooltip",'data-placement'=>"top"]);
+					$rev = \backend\models\ProgramHistory::getRevision($data->id);
+					$rev_text = '';
+					if ($rev>0)
+						$rev_text = Html::tag('span',$rev,['class'=>'label label-info','data-toggle'=>'tooltip','title'=>'Revision']);
+					return Html::a($data->name,'#',['title'=>$data->note,'data-toggle'=>"tooltip",'data-placement'=>"top"]).' '.$rev_text;
 				},
 			],
 			

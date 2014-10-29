@@ -41,6 +41,7 @@ use backend\modules\pusdiklat\evaluation\models\ActivityRoomExtensionSearch;
 use backend\modules\pusdiklat\evaluation\models\RoomSearch;
 
 use backend\modules\pusdiklat\evaluation\models\TrainingExecutionEvaluationSearch;
+use backend\modules\pusdiklat\evaluation\models\TrainingClassSubjectTrainerEvaluationSearch;
 
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -2035,6 +2036,8 @@ class ActivityController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
 			'model' => $model,
+			'training_id' => $training_id,
+			'training_class_id' => $training_class_id,
         ]);
     }
 	
@@ -2064,104 +2067,257 @@ class ActivityController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
 			'model' => $model,
+			'training_id' => $training_id,
+			'training_class_id' => $training_class_id,
         ]);
     }
 	
-	/**
-     * Lists all TrainingClass models.
-     * @return mixed
-     */
-    public function actionExportTraining($year='',$status='nocancel',$filetype='xlsx')
+	public function actionRekapExecutionEvaluation($training_id=NULL,$training_class_id=NULL,$year='',$status='nocancel',$filetype='xlsx')
     {
 		if(empty($year)) $year=date('Y');
-		$searchModel = new TrainingActivitySearch();
+		$searchModel = new TrainingExecutionEvaluationSearch();
 		$queryParams = Yii::$app->request->getQueryParams();
-		if($status=='nocancel'){
-			if($year=='all'){
-				$queryParams['TrainingActivitySearch']=[
-					'status'=> [0,1,2],
-				];
-			}
-			else{
-				$queryParams['TrainingActivitySearch']=[
-					'year' => $year,
-					'status'=> [0,1,2],
-				];
-			}
+		if($status!='all'){
+			$queryParams['TrainingExecutionEvaluationSearch']=[
+				'status'=>$status,
+				'training_class_id' => $training_class_id,
+			];
 		}
-		else if($status=='all'){
-			if($year=='all'){
-				$queryParams['TrainingActivitySearch']=[
-				];
-			}
-			else{
-				$queryParams['TrainingActivitySearch']=[
-					'year' => $year,
-				];
-			}
-		}
-		else{
-			if($year=='all'){
-				$queryParams['TrainingActivitySearch']=[
-					'status' => $status,
-				];
-			}
-			else{
-				$queryParams['TrainingActivitySearch']=[
-					'year' => $year,
-					'status' => $status,
-				];
-			}
+		else
+		{
+			$queryParams['TrainingExecutionEvaluationSearch']=[
+				'training_class_id' => $training_class_id,
+			];
 		}
 		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
-		$dataProvider = $searchModel->search($queryParams);
-		$dataProvider->getSort()->defaultOrder = ['start'=>SORT_ASC,'end'=>SORT_ASC];    
+        $dataProvider = $searchModel->search($queryParams);        
+		$dataProvider->getSort()->defaultOrder = [
+			'status'=>SORT_DESC,		
+		];
+
 		$dataProvider->setPagination(false);
 		
 		$types=['xls'=>'Excel5','xlsx'=>'Excel2007'];
 		$objReader = \PHPExcel_IOFactory::createReader($types[$filetype]);
 		$template = Yii::getAlias('@file').DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'pusdiklat'.
-			DIRECTORY_SEPARATOR.'evaluation'.DIRECTORY_SEPARATOR.'training.list.'.$filetype;
+			DIRECTORY_SEPARATOR.'evaluation'.DIRECTORY_SEPARATOR.'rekap.evaluasi.penyelenggaraan.new.'.$filetype;
 		$objPHPExcel = $objReader->load($template);
-		$objPHPExcel->getProperties()->setTitle("Kalender Diklat");
+		//$objPHPExcel->getProperties()->setTitle("Kalender Diklat");
 		$objPHPExcel->setActiveSheetIndex(0);
-		$activeSheet = $objPHPExcel->getActiveSheet();
-		$activeSheet->setCellValue('A3', strtoupper(\Yii::$app->user->identity->employee->satker->name));
-		$idx=7; // line 7
-		$status_arr = ['0'=>'Planning','1'=>'Ready','2'=>'Execute','3'=>'Cancel'];
-		foreach($dataProvider->getModels() as $data){		
-			if($idx==7){
-				$activeSheet->setCellValue('A4', date('Y',strtotime($data->start)));
-			}
-			$activeSheet->insertNewRowBefore($idx+1,1);
-			$locations = explode('|',$data->location);
-			$location = '';
-			if(Yii::$app->user->identity->employee->satker_id==$locations[0]){
-				$location = $locations[1];
-			}
-			$activeSheet->setCellValue('A'.$idx, $idx-6)
-					    ->setCellValue('B'.$idx, $data->training->number)
-					    ->setCellValue('C'.$idx, $data->name)
-					    ->setCellValue('D'.$idx, date('d M y',strtotime($data->start)))
-					    ->setCellValue('E'.$idx, date('d M y',strtotime($data->end)))
-						->setCellValue('F'.$idx, $data->training->program->days)
-						->setCellValue('G'.$idx, $data->training->program->hours)
-						->setCellValue('H'.$idx, $data->training->student_count_plan)
-						->setCellValue('I'.$idx, $data->training->class_count_plan)
-						->setCellValue('J'.$idx, ($data->hostel==1)?'Ya':'Tidak')
-						->setCellValue('K'.$idx, $location)
-					    ->setCellValue('L'.$idx, $status_arr[$data->status])
-					    
-						;
-			$idx++;
-		} 	
+		////////////Mulai//////////
+		$objPHPExcel->getProperties()->setCreator("Hafid Mukhlasin")
+							 ->setLastModifiedBy("Hafid Mukhlasin")
+							 ->setTitle("Rekap Evaluasi Penyelenggaraan ")
+							 ->setSubject("-")
+							 ->setDescription("-")
+							 ->setKeywords("-")
+							 ->setCategory("-");
+		$sheet = $objPHPExcel->getActiveSheet();	
+										   		
+		$data_training = Activity::findOne(['id'=>$training_id]);
+		$sheet->setCellValueByColumnAndRow(4, 3, $data_training->satker->name);
+		$sheet->setCellValue('A6', $data_training->name)
+					  ->setCellValue('A7', strtoupper("Tahun Anggaran ".date('Y',strtotime($data_training->start))));
+					  
+		$idx1=0;
+		$baseCol = 17;
+		foreach($dataProvider->getModels() as $data2){			
+			//while($show2=$exe2->fetch_array()){
+				$value_evaluation=explode("|",$data2->value);		
+				$col=$baseCol+$idx1;	
+				$baseRow=22;
+				$idx2=0;
+				foreach($value_evaluation as $valueku){
+					if($idx2==0) $row = $baseRow;
+					else if($idx2==7) $row = 43;
+					else if($idx2==9) $row = 54;
+					else if($idx2==13) $row = 69;
+					else if($idx2==17) $row = 87;
+					else if($idx2==22) $row = 104;
+					else if($idx2==29) $row = 125;
+					else $row = $row + 2;
+					$sheet->setCellValueByColumnAndRow($col, $row, $valueku);
+					$idx2++;
+				}			
 		
+				$sheet->setCellValueByColumnAndRow($col, 161, $data2->text1)
+					  ->setCellValueByColumnAndRow($col, 168, $data2->text2)
+					  ->setCellValueByColumnAndRow($col, 175, $data2->text3)
+					  ->setCellValueByColumnAndRow($col, 182, $data2->text4)
+					  ->setCellValueByColumnAndRow($col, 189, $data2->text5)		
+					  ->setCellValueByColumnAndRow($col, 197, $data2->comment);
+		
+				$idx1++;
+			
+		}
+				
 		// Redirect output to a client’s web browser
 		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-		header('Content-Disposition: attachment;filename="training.list.'.date('YmdHis').'.'.$filetype.'"');
+		header('Content-Disposition: attachment;filename="data.rekap.evaluasi.penyelenggaraan.'.date('YmdHis').'.'.$filetype.'"');
 		header('Cache-Control: max-age=0');
 		$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, $types[$filetype]);
 		$objWriter->save('php://output');
 		exit;
+    }
+	
+	public function actionRekapTrainerEvaluation($training_id=NULL,$training_class_id=NULL,$year='',$status='nocancel',$filetype='xlsx')
+    {
+		$searchModel = new TrainingClassSubjectTrainerEvaluationSearch();
+		$queryParams = Yii::$app->request->getQueryParams();
+		if($status!='all'){
+			$queryParams['TrainingClassSubjectTrainerEvaluationSearch']=[
+				'status'=>$status,
+				'training_class_id' => $training_class_id,
+			];
+		}
+		else
+		{
+			$queryParams['TrainingClassSubjectTrainerEvaluationSearch']=[
+				'training_class_id' => $training_class_id,
+			];
+		}
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+        $dataProvider = $searchModel->search($queryParams);        
+		$dataProvider->getSort()->defaultOrder = [
+			'status'=>SORT_DESC,		
+		];
+		$dataProvider->setPagination(false);
+		
+		
+		$types=['xls'=>'Excel5','xlsx'=>'Excel2007'];
+		$objReader = \PHPExcel_IOFactory::createReader($types[$filetype]);
+		$template = Yii::getAlias('@file').DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'pusdiklat'.
+			DIRECTORY_SEPARATOR.'evaluation'.DIRECTORY_SEPARATOR.'rekap.evaluasi.pengajar.new.'.$filetype;
+		$objPHPExcel = $objReader->load($template);
+		//$objPHPExcel->getProperties()->setTitle("Daftar Program");
+		$objPHPExcel->setActiveSheetIndex(0);
+		////////////Mulai//////////
+		$objPHPExcel->getProperties()->setCreator("Hafid Mukhlasin")
+							 ->setLastModifiedBy("Hafid Mukhlasin")
+							 ->setTitle("Rekap Evaluasi Penyelenggaraan ")
+							 ->setSubject("-")
+							 ->setDescription("-")
+							 ->setKeywords("-")
+							 ->setCategory("-");
+		$sheet = $objPHPExcel->getActiveSheet();	
+										   		
+		$data_training = Activity::findOne(['id'=>$training_id]);
+		$sheet->setCellValueByColumnAndRow(3, 70, $data_training->name);
+		$sheet->setCellValueByColumnAndRow(3, 71, date('d-m-Y',strtotime($data_training->start)).' s.d. '.date('d-m-Y',strtotime($data_training->end)));
+					  
+		$idx=1;
+		$baseRow = 4;
+		$no_p=1;
+		$mp=1;
+		$col_p=1;
+		$p=1;
+		
+		foreach($dataProvider->getModels() as $data){			
+			$row = $baseRow + $idx;
+			if($idx==1)
+			{
+			$col_mp=$col_p;
+			$sheet->setCellValueByColumnAndRow($col_mp-1, ($row-4), "MP".$mp++)
+														->setCellValueByColumnAndRow($col_mp, ($row-4), $data->trainer->person->name)
+														->setCellValueByColumnAndRow($col_mp, ($row-3), $data->trainingClassSubject->programSubject->name)
+														->setCellValueByColumnAndRow($col_mp, ($row-2), $data->trainingClassSubject->programSubject->hours);
+			}
+			
+			$value_evaluation=explode("|",$data->value);
+			$col=$col_p;
+			$sheet->setCellValueByColumnAndRow($col, $row, '=A'.$row.'');
+								foreach($value_evaluation as $value){
+									$sheet->setCellValueByColumnAndRow($col, $row, $value);
+									$col++;
+								}
+					/*if(strlen($data->comment)>0){						
+									if($sheet->getCell($abjadX[$col_p].(50+$baseRow+10))->getValue()=='-')
+										$comment = $data->comment;
+									else 
+										$comment = $sheet->getCell($abjadX[$col_p].(50+$baseRow+10))->getValue().",".$data->comment;	
+									$sheet->setCellValueByColumnAndRow($col_p, 50+$baseRow+10, $comment);						
+								}*/
+							
+							$p++;
+							$col_p=$col_p+16;
+			$idx++;
+		}
+		/*$idx=1;
+		$baseRow = 4;
+		$no_p=1;
+		while ( $aRow = $rResult->fetch_array() ){
+			$row = $baseRow + $idx;
+			if($idx==1){
+				$sheet->setCellValueByColumnAndRow(3, 70, @$aRow['name_training']);
+				$sheet->setCellValueByColumnAndRow(3, 71, @twodate($aRow['start_trainingku'],$aRow['finish_trainingku'],'L','Y'));
+			}
+			$qry="SELECT * FROM tb_subject_training
+					WHERE id_training=".$id_training." AND type_subject=2 AND !(name_subject LIKE '%ceramah%') 
+					ORDER BY type_subject ASC, order_subject ASC";
+			$exe=$mysqli->query($qry);
+			//echo $qry;
+			if($exe->num_rows>0){
+				$mp=1;
+				$col_p=1;
+				while($show=$exe->fetch_array()){
+					$qry2="SELECT * FROM tb_trainer_subject 
+						LEFT JOIN tb_trainer ON tb_trainer.id_trainer=tb_trainer_subject.id_trainer
+						WHERE id_subject_training=".$show['id_subject_training']." AND type_trainer=1
+						ORDER BY type_trainer ASC";
+					$exe2=$mysqli->query($qry2);	
+					if($exe2->num_rows>0){
+						$p=1;
+						while($show2=$exe2->fetch_array()){
+							$qry3="SELECT * FROM tb_trainer_evaluation 
+								WHERE id_trainer=".$show2['id_trainer']." 
+									AND id_subject_training=".$show['id_subject_training']." 
+									AND id_student=".$aRow['real_id_student'];
+							$exe3=$mysqli->query($qry3);
+							if($idx==1){
+								$col_mp=$col_p;					
+								$sheet->setCellValueByColumnAndRow($col_mp-1, ($row-4), "MP".$mp++)
+														->setCellValueByColumnAndRow($col_mp, ($row-4), $show2['name_trainer'])
+														->setCellValueByColumnAndRow($col_mp, ($row-3), $show['name_subject'])
+														->setCellValueByColumnAndRow($col_mp, ($row-2), $show['hours_subject']);
+							}
+							
+							if($exe3->num_rows>=1){
+								$show3=$exe3->fetch_array();
+								$value_evaluation=explode("|",$show3['value_evaluation']);
+								$col=$col_p;
+								$sheet->setCellValueByColumnAndRow($col, $row, '=A'.$row.'');
+								foreach($value_evaluation as $value){
+									$sheet->setCellValueByColumnAndRow($col, $row, $value);
+									$col++;
+								}		
+								
+								if(strlen($show3['comment_evaluation'])>0){						
+									if($sheet->getCell($abjadX[$col_p].(50+$baseRow+10))->getValue()=='-')
+										$comment = $show3['comment_evaluation'];
+									else 
+										$comment = $sheet->getCell($abjadX[$col_p].(50+$baseRow+10))->getValue().",".$show3['comment_evaluation'];	
+									$sheet->setCellValueByColumnAndRow($col_p, 50+$baseRow+10, $comment);						
+								}
+							}
+							$p++;
+							$col_p=$col_p+16;	
+						}	
+					}	
+				}
+			}
+		
+			$idx++;	
+		}*/
+		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
+		$objPHPExcel->setActiveSheetIndex(0);
+
+		// Redirect output to a client’s web browser (Excel2007)
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="data_rekap_evaluasi_pengajar.xlsx"');
+		header('Cache-Control: max-age=0');
+		$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, $types[$filetype]);
+		$objWriter->save('php://output');
+		exit;
+		
     }
 }

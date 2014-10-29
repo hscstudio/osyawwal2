@@ -83,5 +83,9 @@ class TrainingClassSubject extends \yii\db\ActiveRecord
         return $this->hasMany(TrainingSchedule::className(), ['training_class_subject_id' => 'id']);
     }
 	
+	public function getProgramSubject()
+    {
+        return $this->hasOne(ProgramSubject::className(), ['id' => 'program_subject_id']);
+    }
 	
 }

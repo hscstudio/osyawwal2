@@ -98,15 +98,49 @@ use backend\models\Reference;
 	?>
 	
     <div class="form-group">
-        <?= Html::submitButton('<i class="fa fa-fw fa-save"></i> '.($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update')), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?php
+		$countTrainingSubject = \backend\models\TrainingClassSubject::find()
+			->where([
+				'program_subject_id'=>\backend\models\ProgramSubjectHistory::find()
+					->select('id')
+					->where([
+						'program_id'=>$model->id,
+					])
+					->column(),
+				'training_class_id'=>\backend\models\TrainingClass::find()
+					->select('id')
+					->where([
+						'training_id'=>\backend\models\Training::find()
+							->select('activity_id')
+							->where([
+								'program_id'=>$model->id,
+								'program_revision'=>\backend\models\ProgramHistory::getRevision($model->id)
+							])
+							->column(),
+					])
+					->column(),
+			])
+			->count();
+		if($countTrainingSubject==0){
+			echo Html::submitButton('<i class="fa fa-fw fa-save"></i> '.Yii::t('app', 'Update'), ['class' => 'btn btn-primary']);
+		}
+		?>
 		<?php if (!$model->isNewRecord){ ?>
 		<?= Html::submitButton('<i class="fa fa-fw fa-save"></i> '. Yii::t('app', 'Update as Revision'), ['class' => 'btn btn-warning', 'name' => 'create_revision',]) ?>
 		<?php } ?>
 	</div>
 	<div class="well">
-		Update as Revision artinya jika Anda menginginkan agar data lama tetap tersimpan dalam history. Fungsi ini sebaiknya Anda gunakan 
-		apabila perubahan yang Anda lakukan memang sangat mendasar atau signifikan. Adapun perubahan kecil seperti salah penulisan atau ejaan, maka 
-		cukup gunakan fungsi Update saja.
+		<?php
+		$countTraining = \backend\models\Training::find()
+			->where([
+				'program_id'=>$model->id,
+			])
+			->count();
+		if($countTraining>0){
+			echo "<blockquote>Program ini telah digunakan oleh diklat</blockquote>";
+		}
+		?>
+		<blockquote>Update as Revision artinya jika Anda menginginkan agar data lama tetap tersimpan dalam history. Fungsi ini sebaiknya Anda gunakan apabila perubahan yang Anda lakukan memang sangat mendasar atau signifikan. Adapun perubahan kecil seperti salah penulisan atau ejaan, maka cukup gunakan fungsi Update saja.</blockquote>
 	</div>
 
     <?php ActiveForm::end(); ?>

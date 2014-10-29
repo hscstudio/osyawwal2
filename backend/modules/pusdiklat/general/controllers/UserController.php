@@ -118,14 +118,15 @@ class UserController extends Controller
      */
     public function actionBlock($id)
     {
-		$model = $this->findModel($id);
+		Yii::$app->getSession()->setFlash('error', 'You have not privilege, contact Administrator.');
+		/* $model = $this->findModel($id);
 		$model->status = 0;
         if($model->save()) {
 			Yii::$app->getSession()->setFlash('success', 'User have blocked.');
 		}
 		else{
 			Yii::$app->getSession()->setFlash('error', 'User is not blocked.');
-		}
+		} */
         return $this->redirect(['index']);
     }
 	
@@ -137,14 +138,15 @@ class UserController extends Controller
      */
     public function actionUnblock($id)
     {
-		$model = $this->findModel($id);
-		$model->status = 1;
-        if($model->save()) {
-			Yii::$app->getSession()->setFlash('success', 'User have unblocked.');
-		}
-		else{
-			Yii::$app->getSession()->setFlash('error', 'User is not unblocked.');
-		}
+		Yii::$app->getSession()->setFlash('error', 'You have not privilege, contact Administrator.');
+		// $model = $this->findModel($id);
+		// $model->status = 1;
+        // if($model->save()) {
+			// Yii::$app->getSession()->setFlash('success', 'User have unblocked.');
+		// }
+		// else{
+			// Yii::$app->getSession()->setFlash('error', 'User is not unblocked.');
+		// }
         return $this->redirect(['index']);
     }
 	

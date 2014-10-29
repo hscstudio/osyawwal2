@@ -145,7 +145,34 @@ $this->params['breadcrumbs'][] = $this->title;
 					);
 				},
 			],
-			
+			[
+				'label' => 'Training',
+				'vAlign'=>'middle',
+				'hAlign'=>'center',
+				'width'=>'70px',
+				'headerOptions'=>['class'=>'kv-sticky-column'],
+				'contentOptions'=>['class'=>'kv-sticky-column'],
+				'format'=>'raw',
+				'value' => function ($data){
+					$training = \backend\models\Training::find()
+						->where([
+							'program_id'=>$data->id
+						])
+						->count();
+					return Html::a(
+						$training,
+						['training','id'=>$data->id],
+						[
+							'class'=>' modal-heart label label-info',
+							'data-toggle'=>'tooltip',
+							'data-pjax'=>"0",
+							'title'=>'Diklat '.($data->name),
+							'modal-title'=>'Diklat '.($data->name),
+							'modal-size'=>'modal-lg',
+						]
+					);
+				},
+			],
 			[
 				'format' => 'raw',
 				'label' => 'PIC',
@@ -233,19 +260,51 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
 				'class' => 'kartik\grid\ActionColumn',
+				'width' => '120px',
 				'buttons' => [
 					'view' => function ($url, $model) {
-						$icon='<span class="glyphicon glyphicon-eye-open"></span>';
+						$icon='<span class="fa fa-fw fa-eye"></span>';
 						return Html::a($icon,$url,[
-							'class'=>'modal-heart',
+							'class'=>'modal-heart btn btn-default btn-xs',
 							'data-pjax'=>"0",
 							'modal-size'=>'modal-lg',
 							'modal-title' => '<i class="fa fa-fw fa-eye"></i> '.$model->name
 						]);
 					},
 					'update' => function ($url, $model) {
-						$icon='<span class="glyphicon glyphicon-pencil"></span>';
-						return Html::a($icon,$url,['class'=>'modal-heart','data-pjax'=>"0",'modal-title'=>'<i class="fa fa-fw fa-pencil-square"></i> '.$model->name,'modal-size'=>'modal-lg']);
+						$icon='<span class="fa fa-fw fa-pencil"></span>';
+						$countTraining = \backend\models\Training::find()
+							->where([
+								'program_id'=>$model->id,
+							])
+							->count();
+						$msg = '';
+						if ($countTraining>0) $msg ='. This program have used by '.$countTraining.' training';
+						return Html::a($icon,$url,[
+							'class'=>'modal-heart btn btn-default btn-xs',
+							'data-pjax'=>"0",
+							'modal-title'=>'<i class="fa fa-fw fa-pencil-square"></i> '.$model->name,
+							'modal-size'=>'modal-lg',
+							/* 'data-confirm'=>"Are you sure to update this item? ".$msg, */
+							]
+						);
+					},
+					'delete' => function ($url, $model) {
+						$icon='<span class="fa fa-fw fa-trash"></span>';
+						$countTraining = \backend\models\Training::find()
+							->where([
+								'program_id'=>$model->id,
+							])
+							->count();
+						if($countTraining==0){
+							return Html::a($icon,$url,[
+								'data-method'=>'post',
+								'class'=>'btn btn-default btn-xs',
+								'data-pjax'=>'0',
+								'data-confirm'=>"Are you sure to delete this item?",
+								'title'=>'Click to delete'
+							]);
+						}
 					},
 				],
 			],

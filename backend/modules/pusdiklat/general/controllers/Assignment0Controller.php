@@ -74,10 +74,9 @@ class Assignment0Controller extends Controller
 			$roles = $model->role;
 			$model->role = 1;
             if($model->save()) {
-				Yii::$app->getSession()->setFlash('success', 'Data have updated.');
-				$AuthAssignment = \backend\models\AuthAssignment::deleteAll('user_id='.$id);
-				
+				Yii::$app->getSession()->setFlash('success', 'Data have updated.');						
 				if(!empty($roles)){
+					$AuthAssignment = \backend\models\AuthAssignment::deleteAll('user_id='.$id);
 					foreach($roles as $role){
 						$AuthAssignment = new \backend\models\AuthAssignment([
 							'user_id' => $id
@@ -86,6 +85,11 @@ class Assignment0Controller extends Controller
 						$AuthAssignment->item_name = $role;
 						$AuthAssignment->save();
 					}
+				}
+				else{
+					$model->status = 0;
+					$model->save();
+					Yii::$app->getSession()->setFlash('error', 'User should assigned to role (min one role).');
 				}
 			}
 			else{
