@@ -35,12 +35,12 @@ $this->params['breadcrumbs'][] = $this->title;
 			->asArray()
 			->all()
 			, 'id', 'name');
-		echo "<div style='text-align:center'>";
+		echo "<div>";
 		echo $form->field($recommendation, 'type')->widget(Select2::classname(), [
 			'data' => $data,
 			'options' => [
 				'placeholder' => 'Choose type ...',
-				'style'=>'width:300px;',
+				'style'=>'width:300px;margin:auto;',
 			],
 			'pluginOptions' => [
 				'allowClear' => true,

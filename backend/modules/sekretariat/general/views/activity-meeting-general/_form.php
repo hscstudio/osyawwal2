@@ -131,21 +131,7 @@ use kartik\checkbox\CheckboxX;
 				<?php echo $form->field($meeting, 'attendance_count_plan')->textInput(); ?>
 				</div>
 				<div class="col-md-3">
-				<?php
-				/* $data = ArrayHelper::map(Organisation::find()
-						->select(['ID', 'NM_UNIT_ORG'])
-						->where(['JNS_KANTOR'=>13])
-						->asArray()
-						->all()
-						, 'ID', 'NM_UNIT_ORG');
-
-				echo $form->field($meeting, 'organisation_id')->widget(Select2::classname(), [
-					'data' => $data,
-					'options' => ['placeholder' => 'Choose organisation ...'],
-					'pluginOptions' => [
-					'allowClear' => true
-					],
-				]);  */?>
+		
 				</div>
 			</div>			
 			

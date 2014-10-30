@@ -4,7 +4,7 @@ namespace backend\modules\sekretariat\organisation\controllers;
 
 use Yii;
 use backend\models\Activity;
-use backend\modules\sekretariat\organisation\models\ActivityMeetingOrganisationSearch;
+use backend\modules\sekretariat\organisation\models\ActivityMeetingOrganisationSearch as ActivitySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -31,14 +31,61 @@ class ActivityMeetingOrganisationController extends Controller
      * Lists all Activity models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($year='',$status='all')
     {
-        $searchModel = new ActivityMeetingOrganisationSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        if(empty($year)) $year=date('Y');
+		$searchModel = new ActivitySearch();
+		$queryParams = Yii::$app->request->getQueryParams();
+		$organisation_id = 391;
+		if($status=='all'){
+			if($year=='all'){
+				$queryParams['ActivitySearch']=[
+					'organisation_id' => $organisation_id
+				];
+			}
+			else{
+				$queryParams['ActivitySearch']=[
+					'year' => $year,
+					'organisation_id' => $organisation_id
+				];
+			}
+		}
+		else{
+			if($year=='all'){
+				$queryParams['ActivitySearch']=[
+					'status' => $status,
+					'organisation_id' => $organisation_id
+				];
+			}
+			else{
+				$queryParams['ActivitySearch']=[
+					'year' => $year,
+					'status' => $status,
+					'organisation_id' => $organisation_id
+				];
+			}
+		}
+		
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$dataProvider = $searchModel->search($queryParams);
+		$dataProvider->getSort()->defaultOrder = ['start'=>SORT_ASC,'end'=>SORT_ASC];
+		
+		// GET ALL TRAINING YEAR
+		$year_meeting = yii\helpers\ArrayHelper::map(Activity::find()
+			->select(['year'=>'YEAR(start)','start','end'])
+			->orderBy(['year'=>'DESC'])
+			->groupBy(['year'])
+			->currentSatker()
+			->asArray()
+			->all(), 'year', 'year');
+		$year_meeting['all']='All'	;
+		
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+			'year' => $year,
+			'status' => $status,
+			'year_meeting' => $year_meeting,
         ]);
     }
 

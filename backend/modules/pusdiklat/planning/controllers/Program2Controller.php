@@ -442,8 +442,10 @@ class Program2Controller extends Controller
 		//$dataProvider->getSort()->defaultOrder = ['type'=>SORT_ASC];		
 		$renders['dataProvider'] = $dataProvider;
 		
+		$current_program_hours=0;
 		if($action=='update'){
 			$program_subject = ProgramSubject::findOne($subject_id);
+			$current_program_hours=$program_subject->hours;
 		}
 		
 		if(!isset($program_subject) or null==$program_subject){
@@ -456,7 +458,6 @@ class Program2Controller extends Controller
 		
         if (Yii::$app->request->post()) {
 			// CHECKING TOTAL JP
-			$program_hours = $model->hours;
 			$ps = ProgramSubject::find()
 				->select('sum(hours) as sum_hours')
 				->where([
@@ -466,7 +467,7 @@ class Program2Controller extends Controller
 				->one();
 			$program_subject_hours = 0;
 			if(!empty($ps)) $program_subject_hours= $ps['sum_hours'];
-			$max_hours = $program_hours - $program_subject_hours;
+			$max_hours = $program_subject_hours - $current_program_hours;
 			
 			$program_subject->load(Yii::$app->request->post());	
 			if($program_subject->hours>$max_hours){
@@ -477,7 +478,8 @@ class Program2Controller extends Controller
 					$program_subject->stage = implode('|',$program_subject->stage);
 				}
 				if($program_subject->save()){
-					Yii::$app->getSession()->setFlash('success', 'Subject have saved.');					
+					Yii::$app->getSession()->setFlash('success', 'Subject have saved.');	
+					return $this->redirect(['subject','id'=>$model->id]);					
 				}
 				else{
 					Yii::$app->getSession()->setFlash('error', 'Subject is not saved.');

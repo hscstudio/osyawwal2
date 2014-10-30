@@ -130,14 +130,14 @@ class Activity2Controller extends Controller
 		$renders['training'] = $training;
 		
 		$program_revisions = yii\helpers\ArrayHelper::map(ProgramHistory::find()
-			->select(['revision'])
+			->select(['revision', 'concat(revision ," => last update ", modified) as rev_mod'])
 			->where([
 				'id' => $training->program_id
 			])
 			->orderBy(['revision'=>'DESC'])
 			->groupBy(['revision'])
 			->asArray()
-			->all(), 'revision', 'revision');
+			->all(), 'revision', 'rev_mod');
 		$renders['program_revisions'] = $program_revisions;
 		
 		if (Yii::$app->request->post()){ 

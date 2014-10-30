@@ -14,6 +14,24 @@ use kartik\checkbox\CheckboxX;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Activity */
 /* @var $form yii\widgets\ActiveForm */
+
+$edited = 1; // permit
+if($model->status==2){
+	$edited = 2; // permit with warning
+}
+	
+$countTrainingSubject = \backend\models\TrainingClassSubject::find()
+	->where([
+		'training_class_id'=>\backend\models\TrainingClass::find()
+			->where([
+				'training_id' => $model->id
+			])
+			->column(),		
+	])
+	->count();
+if($countTrainingSubject>0){
+	$edited = 3; // refused
+}
 ?>
 
 <div class="activity-form">
@@ -47,7 +65,8 @@ use kartik\checkbox\CheckboxX;
 						  $( "input#activity-name" ).val( data + " ");
 						  $( "input#activity-name" ).focus();
 						});
-					'
+					',
+					'disabled' => (in_array($edited,[2,3]))?true:false,
 				],
 				'pluginOptions' => [
 					'allowClear' => true,
@@ -61,6 +80,7 @@ use kartik\checkbox\CheckboxX;
 					'data' => $program_revisions, 
 					'options' => [
 						'placeholder' => 'Choose revision ...',
+						'disabled' => (in_array($edited,[2,3]))?true:false,
 					],
 					'pluginOptions' => [
 						'allowClear' => true,
@@ -69,7 +89,10 @@ use kartik\checkbox\CheckboxX;
 			}
 			?>
 			
-			<?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
+			<?= $form->field($model, 'name')->textInput([
+				'maxlength' => 255,
+				'disabled' => (in_array($edited,[2,3]))?true:false,])
+			?>
 
 			<?= $form->field($model, 'description')->textarea(['rows' => 3]) ?>
 			

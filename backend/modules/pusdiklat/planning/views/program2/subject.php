@@ -27,94 +27,128 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 	
 
 	<div class="panel-body">
-		<div id="div_form">
-		<?php $form = ActiveForm::begin([
-		]); ?>
-			<div class="row clearfix">
-				<div class="col-md-4">
-				<?php
-				$data = ArrayHelper::map(Reference::find()
-					->select(['id', 'name'])
-					->where(['type'=>'subject_type'])
-					->asArray()
-					->all()
-					, 'id', 'name');
-				echo $form->field($program_subject, 'type')->widget(Select2::classname(), [
-					'data' => $data,
-					'options' => [
-						'placeholder' => 'Choose type ...',
-					],
-					'pluginOptions' => [
-						'allowClear' => true,
-					],
-				]);
-				?>
-				</div>
-				<div class="col-md-8">
-				<?php
-				echo $form->field($program_subject, 'name');
-				?>
-				</div>
-			</div>
-			
-			<div class="row clearfix">
-				<div class="col-md-2">
-				<?php
-				echo $form->field($program_subject, 'hours');
-				?>
-				</div>
-				<div class="col-md-2">
-					<?= $form->field($program_subject, 'test')->widget(SwitchInput::classname(), [
-						'pluginOptions' => [
-							'onText' => 'On',
-							'offText' => 'Off',
-						]
-					]) ?>
-				</div>				
-				<div class="col-md-8">
-				<?php		
-				$data = ArrayHelper::map(Reference::find()
+		<?php		
+		$program_revision = (int) \backend\models\ProgramHistory::getRevision($model->id);
+		$countTraining = \backend\models\Training::find()
+			->joinWith(['activity','program'])
+			->where([
+				'program_id'=>$model->id,
+				'program_revision'=> $program_revision,
+				'activity.status' => [2], // Status Ready
+			])
+			->count();
+		
+		$disabled = false;
+		if(!$program_subject->isNewRecord){
+			if($countTraining>0) $disabled = true;
+		}
+		
+		
+		if($program_subject->isNewRecord and $countTraining>0){
+			echo '<div class="alert alert-warning">';
+			echo '<blockquote>Program pada revisi ini sudah digunakan oleh diklat dan status execute</blockquote>';
+			echo '</div>';
+		}
+		else{
+		?>
+			<div id="div_form">
+			<?php $form = ActiveForm::begin([
+			]); ?>
+				<div class="row clearfix">
+					<div class="col-md-4">
+					<?php
+					$data = ArrayHelper::map(Reference::find()
 						->select(['id', 'name'])
-						->where(['type'=>'stage'])
+						->where(['type'=>'subject_type'])
 						->asArray()
 						->all()
-						, 'name', 'name');
-				
-				$program_subject->stage = explode('|',$program_subject->stage); 
-				echo $form->field($program_subject, 'stage')->widget(Select2::classname(), [
-					'data' => $data,
-					'options' => [
-						'placeholder' => 'Choose stage ...',
-						'multiple' => true,
-					],
-					'pluginOptions' => [
-						'allowClear' => true,
-					],
-				]);
-				?>
-				</div>
-			</div>	
-			<div class="row clearfix">
-				<div class="col-md-2">
-				<?php
-				echo $form->field($program_subject, 'sort');
-				?>
-				</div>
-				<div class="col-md-2">
-					<?= $form->field($program_subject, 'status')->widget(SwitchInput::classname(), [
+						, 'id', 'name');
+					echo $form->field($program_subject, 'type')->widget(Select2::classname(), [
+						'data' => $data,
+						'options' => [
+							'placeholder' => 'Choose type ...',
+							'disabled' => $disabled,
+						],
 						'pluginOptions' => [
-							'onText' => 'On',
-							'offText' => 'Off',
-						]
-					]) ?>
+							'allowClear' => true,
+						],
+					]);
+					?>
+					</div>
+					<div class="col-md-8">
+					<?php
+					echo $form->field($program_subject, 'name')->textInput(['disabled'=>$disabled,]);
+					?>
+					</div>
 				</div>
-				<div class="col-md-2">
-					<label class="control-label" style="display:block">&nbsp;</label>
-					<?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
+				
+				<div class="row clearfix">
+					<div class="col-md-2">
+					<?php
+					echo $form->field($program_subject, 'hours')->textInput(['disabled'=>$disabled,]);
+					?>
+					</div>
+					<div class="col-md-2">
+						<?= $form->field($program_subject, 'test')->widget(SwitchInput::classname(), [
+							'options'=>[
+								'disabled' => $disabled,
+							],
+							'pluginOptions' => [
+								'onText' => 'On',
+								'offText' => 'Off',
+							]
+						]) ?>
+					</div>				
+					<div class="col-md-8">
+					<?php		
+					$data = ArrayHelper::map(Reference::find()
+							->select(['id', 'name'])
+							->where(['type'=>'stage'])
+							->asArray()
+							->all()
+							, 'name', 'name');
+					
+					$program_subject->stage = explode('|',$program_subject->stage); 
+					echo $form->field($program_subject, 'stage')->widget(Select2::classname(), [
+						'data' => $data,
+						'options' => [
+							'placeholder' => 'Choose stage ...',
+							'multiple' => true,
+						],
+						'pluginOptions' => [
+							'allowClear' => true,
+						],
+					]);
+					?>
+					</div>
+				</div>	
+				<div class="row clearfix">
+					<div class="col-md-2">
+					<?php
+					echo $form->field($program_subject, 'sort')->textInput(['disabled'=>$disabled,]);
+					?>
+					</div>
+					<div class="col-md-2">
+						<?= $form->field($program_subject, 'status')->widget(SwitchInput::classname(), [
+							'options'=>[
+								'disabled' => $disabled,
+							],
+							'pluginOptions' => [
+								'onText' => 'On',
+								'offText' => 'Off',
+							]
+						]) ?>
+					</div>
+					<div class="col-md-2">
+						<label class="control-label" style="display:block">&nbsp;</label>
+						<?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
+					</div>
 				</div>
+			<?php ActiveForm::end(); ?>
 			</div>
-		<?php ActiveForm::end(); ?>
-		</div>
+		<?php 
+		}
+		?>
 		<hr>
 		<?php \yii\widgets\Pjax::begin([
 			'id'=>'pjax-gridview',
@@ -138,12 +172,11 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 					]);
 				},
 			],
-			'name',
 			[
-				'attribute' => 'hours',
+				'attribute' => 'name',
 				'vAlign'=>'middle',
-				'hAlign'=>'center',
-				'width'=>'75px',
+				'hAlign'=>'left',
+				'pageSummary' => 'Total',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'format'=>'raw',
@@ -151,6 +184,29 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 					return Html::tag('span',$data->hours,[
 						'class'=>'label label-default','data-toggle'=>'tooltip','title'=>''
 					]);
+				},
+			],			
+			
+			[
+				'attribute' => 'hours',
+				'vAlign'=>'middle',
+				'hAlign'=>'right',
+				'pageSummary' => function ($summary, $data, $widget) {  
+					return Html::tag('span',$summary,[
+						'class'=>'label label-default','data-toggle'=>'tooltip','title'=>''
+					]);
+				},
+				'format'=>['decimal', 2],
+				'pageSummaryFunc' => GridView::F_SUM,
+				'width'=>'75px',
+				'headerOptions'=>['class'=>'kv-sticky-column'],
+				'contentOptions'=>['class'=>'kv-sticky-column bg-warning'],
+				'format'=>'raw',
+				'value' => function ($data){
+					return $data->hours;
+					/* return Html::tag('span',$data->hours,[
+						'class'=>'label label-default','data-toggle'=>'tooltip','title'=>''
+					]); */
 				},
 			],
 			
@@ -209,10 +265,10 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 				'class' => 'kartik\grid\ActionColumn',
 				'template' => '{update} {delete}',
 				'buttons' => [
-					'delete' => function ($url, $data) {
+					'delete' => function ($url, $data) use ($countTraining) {
 						// CEK AUTHORISE ACCESS
 						$permit = \Yii::$app->user->can('Subbidang Kurikulum');
-						if($permit){
+						if($permit and $countTraining==0){
 							$icon='<span class="fa fa-fw fa-trash"></span>';
 							return Html::a($icon,['subject-delete','id'=>$data->program_id,'subject_id'=>$data->id],[
 								'data-method'=>'post',
@@ -223,7 +279,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 							]);
 						}
 						else{
-							return 'd';
+							return '';
 						}
 					},
 					'update' => function ($url, $data) {
@@ -269,6 +325,10 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 				'</div>',
 			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
+		],
+		'showPageSummary' => true,
+		'pageSummaryRowOptions'=>[
+			'class' => 'kv-page-summary warning',
 		],
 		'responsive'=>true,
 		'hover'=>true,

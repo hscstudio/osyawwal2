@@ -47,9 +47,10 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'format'=>'raw',
 				'value' => function ($data){
-					$programSubject= \backend\models\ProgramSubject::find()
+					$programSubject= \backend\models\ProgramSubjectHistory::find()
 					->where([
 						'id' => $data->program_subject_id,
+						'revision' => $data->trainingClass->training->program_revision,
 						'status'=>1
 					])
 					->one();

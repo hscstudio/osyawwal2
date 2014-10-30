@@ -172,14 +172,25 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
 				'class' => 'kartik\grid\ActionColumn',
-				'template' => '{dashboard}',
+				'template' => '{dashboard} {update}',
 				'buttons' => [
 					'dashboard' => function ($url, $model) {
 								$icon='<span class="fa fa-fw fa-dashboard"></span>';
-								return ($model->status!=2 AND $model->status!=1)?'':Html::a($icon,$url,[
-									'class'=>'btn btn-default btn-xs',
-									'data-pjax'=>'0',
-								]);
+								if (in_array($model->status,[2])){
+									return Html::a($icon,$url,[
+										'class'=>'btn btn-default btn-xs',
+										'data-pjax'=>'0',
+									]);
+								}
+							},
+					'update' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-pencil"></span>';
+								if (in_array($model->status,[2])){
+									return Html::a($icon,$url,[
+										'class'=>'btn btn-default btn-xs',
+										'data-pjax'=>'0',
+									]);
+								}
 							},
 				],		
 			],

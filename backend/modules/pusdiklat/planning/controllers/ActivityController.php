@@ -253,16 +253,8 @@ class ActivityController extends Controller
 				if($model->load(Yii::$app->request->post())){
 
 					$model->satker = 'current';
-					$model->location = implode('|',$model->location);
+					if(!empty($model->location)) $model->location = implode('|',$model->location);
 					$model->status =0;
-
-					// Fix date
-					// Why? Tgl dari javascriptnya kartik aneh, padahal secara tampilan udah bener
-					// Untungnya, tgl yg bener ini ada di post 
-					// Jadi, tinggal di format ulang buat disimpan di database
-					$model->start = date('Y-m-d H:i:s', strtotime(Yii::$app->request->post('start-activity-start')));
-					$model->end = date('Y-m-d H:i:s', strtotime(Yii::$app->request->post('end-activity-end')));
-					// dah
 
 					if($model->save()) {
 
@@ -331,21 +323,16 @@ class ActivityController extends Controller
 			$connection=Yii::$app->getDb();
 			$transaction = $connection->beginTransaction();	
 			try{
-
 				if($model->load(Yii::$app->request->post())){
 					if (isset(Yii::$app->request->post()['create_revision'])){
 						$model->create_revision = true;
 					}
 					$model->satker = 'current';
-					$model->location = implode('|',$model->location);
-
-					// Fix date
-					// Why? Tgl dari javascriptnya kartik aneh, padahal secara tampilan udah bener
-					// Untungnya, tgl yg bener ini ada di post 
-					// Jadi, tinggal di format ulang buat disimpan di database
-					$model->start = date('Y-m-d H:i:s', strtotime(Yii::$app->request->post('start-activity-start')));
-					$model->end = date('Y-m-d H:i:s', strtotime(Yii::$app->request->post('end-activity-end')));
-					// dah
+					
+					$post = Yii::$app->request->post('Activity');
+					if(!empty($post['location'])) {
+						$model->location = implode('|',$model->location);
+					}
 
                     if($model->save()) {
 						Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Activity data have saved.');
