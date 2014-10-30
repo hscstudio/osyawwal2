@@ -83,11 +83,11 @@ $this->params['breadcrumbs'][] = $this->title;
 							'training_class_id' => $data->id
 						])
 						->count();
-					$subjectCount = \backend\models\ProgramSubject::find()
+					$subjectCount = \backend\models\ProgramSubjectHistory::find()
 						->where([
 							'program_id' => $data->training->program_id,
-							/* DIPIKIRIN NANTI.. PUYENG AKU 'revision'=> $data->training->tb_program_revision, */
-							'status'=>1,
+							'program_revision' => $data->training->program_revision,
+							'status'=>1
 						])
 						->count();
 					
