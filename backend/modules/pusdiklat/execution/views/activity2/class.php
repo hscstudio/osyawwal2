@@ -53,17 +53,21 @@ $this->params['breadcrumbs'][] = $this->title;
 				'label' => 'Attendance',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
-				'width'=>'80px',
+				'width'=>'180px',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'value' => function ($data) use ($model){
 					return '<div class="btn btn-group">'.Html::a('<i class="fa fa-fw fa-tasks"></i>', Url::to(['attendance', 'training_class_id' => $data->id]), [
 							'class' => 'btn btn-default btn-xs',
 							'data-pjax' => '0'
-						]).Html::a('<i class="fa fa-fw fa-print"></i>', Url::to(['recap', 'training_class_id' => $data->id, 'id' => $model->id]), [
+						]).Html::a('<i class="fa fa-fw fa-print"></i><i class="fa fa-fw fa-child"></i>', Url::to(['recap', 'training_class_id' => $data->id, 'id' => $model->id]), [
 							'class' => 'btn btn-default btn-xs',
 							'data-pjax' => '0',
-							'title' => 'Print report attendance for this class only'
+							'title' => 'Print student report attendance for this class only'
+						]).Html::a('<i class="fa fa-fw fa-print"></i><i class="fa fa-fw fa-user-md"></i>', Url::to(['recap-trainer', 'training_class_id' => $data->id, 'id' => $model->id]), [
+							'class' => 'btn btn-default btn-xs',
+							'data-pjax' => '0',
+							'title' => 'Print trainer report attendance for this class only'
 						]).'</div>';
 				}
 			],
@@ -251,15 +255,31 @@ $this->params['breadcrumbs'][] = $this->title;
 		'panel' => [
 			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
 			'before'=>Html::a('<i class="fa fa-fw fa-plus"></i> Create ', ['create-class','id'=>$model->id], ['class' => 'btn btn-success']).
-			Html::a('<i class="fa fa-fw fa-print"></i> Print Aggregate Attendance Recapitulation', [
-				'recap',
-				'id' => $model->id
-			],
-			[
-				'class' => 'btn btn-default pull-right',
-				'style' => 'margin-right:5px',
-				'data-pjax' => '0'
-			]),
+			'<div class="btn-group pull-right" style="margin-right:5px">'.
+				Html::a('<i class="fa fa-fw fa-print"></i> Print Aggregate Attendance Recapitulation', null,
+				[
+					'class' => 'btn btn-default',
+					'data-pjax' => '0'
+				]).
+			  '<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+			    <span class="fa fa-caret-down"></span></a>
+			  <ul class="dropdown-menu">
+			    <li>'.Html::a('<i class="fa fa-fw fa-child"></i> Student', [
+					'recap',
+					'id' => $model->id
+				],
+				[
+					'data-pjax' => '0'
+				]).'</li>
+				<li>'.Html::a('<i class="fa fa-fw fa-user-md"></i> Trainer', [
+					'recap-trainer',
+					'id' => $model->id
+				],
+				[
+					'data-pjax' => '0'
+				]).'</li>
+			  </ul>
+			</div> ',
 			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
