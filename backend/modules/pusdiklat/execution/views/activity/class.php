@@ -156,43 +156,7 @@ $this->params['breadcrumbs'][] = $this->title;
 								]);
 					}
 					
-					/* $subjectCount = \backend\models\ProgramSubject::find()
-						->where([
-							'program_id' => $data->training->program_id,
-							DIPIKIRIN NANTI.. PUYENG AKU 'revision'=> $data->training->tb_program_revision, 
-							'status'=>1,
-						])
-						->count();
 					
-					if($subjectCount>$classSubjectCount){
-						return Html::a($classSubjectCount.' <i class="fa fa-fw fa-plus-circle"></i>', 
-								[
-									'create-class-subject',
-									'id'=>$data->training_id,
-									'class_id'=>$data->id,
-								], 
-								[
-									'title'=>$subjectCount,
-									'class' => 'label label-info',
-									'data-pjax'=>0,
-									'data-toggle'=>'tooltip',
-									'data-confirm'=>'Mata pelajaran akan digenerate, menyesuaikan dengan program diklatnya!'
-								]);
-					}
-					else{
-						return Html::a($classSubjectCount, 
-								[
-									'class-subject',
-									'id'=>$data->training_id,
-									'class_id'=>$data->id,
-								], 
-								[
-									'title'=>$subjectCount,
-									'class' => 'label label-info',
-									'data-pjax'=>0,
-									'data-toggle'=>'tooltip',
-								]);
-					} */
 				}
 			],
 			[

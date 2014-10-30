@@ -132,15 +132,22 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 			->all();
 		$data=[];
 		foreach($trainingClassSubject as $tcs){
-			// History Subject Ntar Dulu
 			$program_subject_id = $tcs->program_subject_id;
-			$programSubject = \backend\models\ProgramSubject::find()
+			$programSubject= \backend\models\ProgramSubjectHistory::find()
+				->where([
+					'id' => $program_subject_id,
+					'program_id'=>$class->training->program_id,
+					'revision' => $class->training->program_revision,
+					'status'=>1
+				])
+				->one();
+			/* $programSubject = \backend\models\ProgramSubject::find()
 			->where([
 				'id'=>$program_subject_id,
 				'program_id'=>$class->training->program_id,
 				'status'=>1
 			])
-			->one();
+			->one(); */
 			if(null!=$programSubject){
 				$ts =  \backend\models\TrainingSchedule::find()
 					->select(['used_hours'=>'sum(hours)'])

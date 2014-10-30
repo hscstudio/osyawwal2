@@ -107,8 +107,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 							->asArray()
 							->all()
 							, 'name', 'name');
-					
-					$program_subject->stage = explode('|',$program_subject->stage); 
+					/* if(!empty($program_subject->stage)) $program_subject->stage = explode('|',$program_subject->stage);  */
 					echo $form->field($program_subject, 'stage')->widget(Select2::classname(), [
 						'data' => $data,
 						'options' => [
@@ -181,8 +180,8 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'format'=>'raw',
 				'value' => function ($data){
-					return Html::tag('span',$data->hours,[
-						'class'=>'label label-default','data-toggle'=>'tooltip','title'=>''
+					return Html::tag('span',$data->name,[
+						'class'=>'','data-toggle'=>'tooltip','title'=>''
 					]);
 				},
 			],			

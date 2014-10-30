@@ -174,7 +174,7 @@ class ActivityController extends Controller
 						Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Activity data have saved.');
 						if($training->load(Yii::$app->request->post())){							
 							$training->activity_id= $model->id;
-							$training->program_revision = (int)\backend\models\ProgramHistory::getRevision($training->program_id);
+							/* $training->program_revision = (int)\backend\models\ProgramHistory::getRevision($training->program_id); */
 							
 							if($training->save()){								 
 								Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Training & activity data have saved.');
@@ -2092,7 +2092,7 @@ class ActivityController extends Controller
 				'program_subject_id'=>$trainingSchedule->trainingClassSubject->program_subject_id,
 				'status'=>1,
 			])
-			->groupBy('type')
+			->orderBy('type')
 			->all();			
 			
 			if ($model->load(Yii::$app->request->post())) {

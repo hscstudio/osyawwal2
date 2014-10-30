@@ -466,11 +466,11 @@ class Program2Controller extends Controller
 				->asArray()
 				->one();
 			$program_subject_hours = 0;
-			if(!empty($ps)) $program_subject_hours= $ps['sum_hours'];
-			$max_hours = $program_subject_hours - $current_program_hours;
+			if(!empty($ps)) $program_subject_hours= $ps['sum_hours'];			
 			
-			$program_subject->load(Yii::$app->request->post());	
-			if($program_subject->hours>$max_hours){
+			$program_subject->load(Yii::$app->request->post());
+			$sum_hours = $program_subject_hours + $program_subject->hours - $current_program_hours;
+			if($model->hours<$sum_hours){
 				Yii::$app->getSession()->setFlash('error', 'Total jamlat melebihi maksimal jamlat pada program.');
 			}
 			else{

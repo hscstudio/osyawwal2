@@ -113,9 +113,11 @@ $this->params['breadcrumbs'][] = $this->title;
 			Box::begin([
 				'type'=>'small', // ,small, solid, tiles
 				'bgColor'=>'purple', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
-				'bodyOptions' => [],
+				'bodyOptions' => [
+					'onclick'=>'alert()',
+				],
 				'icon' => 'fa fa-fw fa-money',
-				'link' => ['honorarium','id'=>$model->id],
+				/* 'link' => ['honorarium','id'=>$model->id], */
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
