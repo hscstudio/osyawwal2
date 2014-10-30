@@ -9,6 +9,21 @@ use backend\models\Reference;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Program */
 /* @var $form yii\widgets\ActiveForm */
+
+$disabled = false;
+
+if(!$model->isNewRecord){
+	$program_revision = (int) \backend\models\ProgramHistory::getRevision($model->id);
+	$countTraining = \backend\models\Training::find()
+		->joinWith(['activity','program'])
+		->where([
+			'program_id'=>$model->id,
+			'program_revision'=> $program_revision,
+			'activity.status' => [2], // Status Ready
+		])
+		->count();
+	if($countTraining>0) $disabled = true;
+}
 ?>
 
 <div class="program-form">
@@ -30,7 +45,7 @@ use backend\models\Reference;
 	
 	echo $form->field($model, 'number')->widget(Select2::classname(), [
 		'data' => $data,
-		'options' => ['placeholder' => 'Choose code ...'],
+		'options' => ['placeholder' => 'Choose code ...','disabled'=>$disabled,],
 		'pluginOptions' => [
 			'allowClear' => true
 		],
@@ -39,19 +54,22 @@ use backend\models\Reference;
 
 	
 	
-    <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => 255,'disabled'=>$disabled,]) ?>
     
-    <?= $form->field($model, 'note')->textInput(['maxlength' => 255]) ?>	
+    <?= $form->field($model, 'note')->textInput(['maxlength' => 255,]) ?>	
 	
 	<div class="row">
 		<div class="col-md-3">
-			<?= $form->field($model, 'hours')->textInput(['maxlength' => 5]) ?>
+			<?= $form->field($model, 'hours')->textInput(['maxlength' => 5,'disabled'=>$disabled,]) ?>
 		</div>
 		<div class="col-md-3">
-			<?= $form->field($model, 'days')->textInput() ?>
+			<?= $form->field($model, 'days')->textInput(['disabled'=>$disabled,]) ?>
 		</div>
 		<div class="col-md-3">
 			<?= $form->field($model, 'test')->widget(SwitchInput::classname(), [
+				'options'=>[
+					'disabled'=>$disabled
+				],
 				'pluginOptions' => [
 					'onText' => 'On',
 					'offText' => 'Off',
