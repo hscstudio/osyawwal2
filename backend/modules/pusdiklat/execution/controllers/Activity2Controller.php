@@ -15,6 +15,7 @@ use backend\models\ObjectReference;
 use backend\models\Training;
 use backend\models\TrainingStudentPlan;
 use backend\models\Employee;
+use backend\models\Trainer;
 
 use backend\models\TrainingClass;
 use backend\modules\pusdiklat\execution\models\TrainingClassSearch;
@@ -1579,7 +1580,6 @@ class Activity2Controller extends Controller
     	// dah
 
     	// Ambil template
-    	// $template = Yii::getAlias('@backend').'/../file/template/pusdiklat/execution/STANDAR_REKAPITULASI_KEHADIRAN_PESERTA_DIKLAT.xlsx';
     	$template = Yii::getAlias('@backend').'/../file/template/pusdiklat/execution/STANDAR_REKAPITULASI_KEHADIRAN_PESERTA_DIKLAT.xls';
 		$objPHPExcel = PHPExcel_IOFactory::load($template);
 		// dah
@@ -2054,7 +2054,7 @@ class Activity2Controller extends Controller
 		// Redirect output to a client’s web browser
 		header('Content-Type: application/vnd.ms-excel');
 
-		header('Content-Disposition: attachment;filename="recapitulation_aggregate_attendance_'.$modelTraining->activity->name.'.xls"');
+		header('Content-Disposition: attachment;filename="recapitulation_student_attendance_'.$modelTraining->activity->name.'.xls"');
 		header('Cache-Control: max-age=0');
 		// If you're serving to IE 9, then the following may be needed
 		header('Cache-Control: max-age=1');
@@ -2172,6 +2172,498 @@ class Activity2Controller extends Controller
 		$objWriter->save('php://output');
 		exit;
 		/* return $this->redirect(['student', 'id' => $id, 'status'=>$status]);	 */
+    }
+
+
+
+
+
+    public function actionRecapTrainer($id, $training_class_id = null) {
+    	// Ngambil training 
+    	$modelTraining = Training::findOne($id);
+    	// dah
+
+    	// Ambil template
+    	$template = Yii::getAlias('@backend').'/../file/template/pusdiklat/execution/STANDAR_REKAPITULASI_KEHADIRAN_PENGAJAR_DIKLAT.xls';
+		$objPHPExcel = PHPExcel_IOFactory::load($template);
+		// dah
+
+		// Ngisi konten
+		$objPHPExcel->getActiveSheet()->setCellValue('A2', strtoupper($modelTraining->activity->name));
+		$objPHPExcel->getActiveSheet()->setCellValue('A3', 'TAHUN ANGGARAN '.date('Y', strtotime($modelTraining->activity->start)));
+
+		$pointerKolomMP = ord('E');
+
+		$pointerKolomHadir = ord('F');
+
+		$pointerKolomTTD = ord('F');
+
+		$pointerBaris = 9;
+
+		$jumlahBaris = 0;
+
+		$namaHari = [
+			'Mon' => 'Senin',
+			'Tue' => 'Selasa',
+			'Wed' => 'Rabu',
+			'Thu' => 'Kami',
+			'Fri' => 'Jumat',
+			'Sat' => 'Sabtu',
+			'Sun' => 'Minggu'
+		];
+
+		$namaBulan = [
+			'January' => 'Januari',
+			'February' => 'Febuari',
+			'March' => 'Maret',
+			'April' => 'April',
+			'May' => 'Mei',
+			'June' => 'Juni',
+			'July' => 'Juli',
+			'August' => 'Agustus',
+			'September' => 'September',
+			'October' => 'Oktober',
+			'November' => 'November',
+			'December' => 'Desember'
+		];
+
+		foreach ($modelTraining->trainingClasses as $trainingClass) {
+
+			// Nah, kita filter disini, jadi cuma bikin report buat class yg di variable $training_class_id
+			if ($trainingClass->id != $training_class_id and $training_class_id != null) {
+				continue;
+			}
+			// dah
+
+			$kolomAwal = $pointerKolomMP;
+			$kolomAkhir = $pointerKolomMP;
+			$pointerTanggal = '';
+			$nomorMPTerbesar = 1;
+			$daftarPengajar = [];
+
+			// Bikin kolom MP
+			foreach ($trainingClass->trainingSchedules as $trainingSchedule) {
+				
+				// Klo ketemu Ishoma, coffe break dll lewati
+				if ($trainingSchedule->training_class_subject_id <= 0) {
+					continue;
+				}
+				// dah
+
+				// Nyatet pengajar yang distinct
+				foreach ($trainingSchedule->trainingScheduleTrainers as $baris) {
+					$ketemu = array_search($baris->trainer_id, $daftarPengajar);
+					if ($ketemu === false) {
+						$daftarPengajar[] = $baris->trainer_id;
+					}
+				}
+				// dah
+
+				// Ngecek apakah MP pada hari schedule sekarang udah ada
+				$pointerTanggal = date('d-m-Y', strtotime($trainingSchedule->start));
+
+				// MP ketemu, artinya MP yg sama di tanggal yg sama uda ada, so lewati
+				if ( isset($this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]) ) {
+					continue;
+		    	}
+	    		// Pointer tanggal ketemu, tapi MP belum ada, berarti bikin baru
+		    	elseif ( isset($this->daftarMPperTanggal[$pointerTanggal]) ) {
+
+		    		$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id] = [];
+
+					$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id] = [
+		    			'kodeMP' => 'MP'.$nomorMPTerbesar,
+		    			'kolom' => '',
+		    			'namaMP' => ProgramSubject::findOne($trainingSchedule->trainingClassSubject->program_subject_id)->name
+		    		];
+
+		    		// koreksi kodeMP
+		    		ksort($this->daftarMPperTanggal);
+		    		foreach ($this->daftarMPperTanggal as $tanggal => $dataTanggal) {
+		    			
+		    			if ($tanggal != $pointerTanggal) {
+
+		    				foreach ($dataTanggal as $subjectId => $dataSubject) {
+
+			    				if ($subjectId == $trainingSchedule->trainingClassSubject->program_subject_id) {
+		    						$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kodeMP'] = $dataSubject['kodeMP'];
+			    				}
+		    				}
+		    			}
+		    			else {
+		    				break;
+		    			}
+		    		}
+		    		// dah
+
+		    		// Benerin urutan kolom
+		    		$kolomTertinggi = ord('E');
+
+		    		ksort($this->daftarMPperTanggal);
+
+		    		foreach ($this->daftarMPperTanggal as $k => $v) {
+	    				foreach ($v as $baris) {
+	    					if (ord($baris['kolom']) != '') {
+    							$kolomTertinggi = ord($baris['kolom']);
+    						}
+	    				}
+		    		}
+		    		$kolomTertinggi += 1;
+
+		    		$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kolom'] = chr($kolomTertinggi);
+		    		// dah
+
+
+		    		$objPHPExcel->getActiveSheet()->insertNewColumnBefore(chr($kolomTertinggi), 1);
+
+					$objPHPExcel->getActiveSheet()->setCellValue(chr($kolomTertinggi).'8', 
+						$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kodeMP']
+					);
+
+					$nomorMPTerbesar += 1;
+
+		    	}
+	    		// Artinya pointer tanggal ga ada sama sekali
+		    	else {
+
+		    		$this->daftarMPperTanggal[$pointerTanggal] = [];
+
+		    		$this->daftarMPperTanggal[$pointerTanggal] = [
+		    			$trainingSchedule->trainingClassSubject->program_subject_id => []
+		    		];
+
+		    		$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id] = [
+		    			'kodeMP' => 'MP'.$nomorMPTerbesar,
+		    			'kolom' => '',
+		    			'namaMP' => ProgramSubject::findOne($trainingSchedule->trainingClassSubject->program_subject_id)->name
+		    		];
+
+		    		// Koreksi kodeMP
+		    		ksort($this->daftarMPperTanggal);
+		    		foreach ($this->daftarMPperTanggal as $tanggal => $dataTanggal) {
+		    			
+		    			if ($tanggal != $pointerTanggal) {
+
+		    				foreach ($dataTanggal as $subjectId => $dataSubject) {
+
+			    				if ($subjectId == $trainingSchedule->trainingClassSubject->program_subject_id) {
+		    						$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kodeMP'] = $dataSubject['kodeMP'];
+		    						$nomorMPTerbesar -= 1; // Perlu dikurang 1 sebab dibawah nanti MP nya pasti naik 1, padahal kode diatas cm ngopi kodeMP karena uda sama
+			    				}
+		    				}
+		    			}
+		    			else {
+		    				break;
+		    			}
+		    		}
+		    		// dah
+
+		    		// Koreksi kolom
+		    		$kolomTertinggi = ord('E');
+
+		    		ksort($this->daftarMPperTanggal);
+
+		    		foreach ($this->daftarMPperTanggal as $k => $v) {
+	    				foreach ($v as $baris) {
+	    					if (ord($baris['kolom']) != '') {
+    							$kolomTertinggi = ord($baris['kolom']);
+    						}
+	    				}
+		    		}
+		    		// dah
+
+		    		if ($kolomTertinggi == ord('E')) {
+		    			$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kolom'] = 'E';
+		    		}
+		    		else {
+		    			$kolomTertinggi += 1;
+		    			$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kolom'] = chr($kolomTertinggi);
+			    		$objPHPExcel->getActiveSheet()->insertNewColumnBefore(chr($kolomTertinggi), 1);
+		    		}
+
+		    		$kordinatMP = $kolomTertinggi;
+
+					$objPHPExcel->getActiveSheet()->setCellValue(
+						$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kolom'].'8', 
+						$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kodeMP']
+					);
+
+					$nomorMPTerbesar += 1;
+
+					unset($kolomTertinggi);
+
+		    	}
+				// dah
+
+			}
+			// dah
+
+			// Ngeset ulang pointerKolomHadir
+			foreach ($this->daftarMPperTanggal as $MPperTanggal) {
+				foreach ($MPperTanggal as $baris) {
+					if (ord($baris['kolom']) > $pointerKolomHadir) {
+						$pointerKolomHadir = ord($baris['kolom']);
+					}
+				}
+			}
+			$pointerKolomHadir += 1;
+			// dah
+
+			// Ngambil data trainer
+			$modelTrainer = Trainer::find()
+				->where([
+					'person_id' => $daftarPengajar
+				])
+				->all();
+			// dah
+			
+			// Ngisi data semua kolom, ngeloopnya per trainer
+			foreach ($modelTrainer as $trainer) {
+				
+				// Insert row
+				$objPHPExcel->getActiveSheet()->insertNewRowBefore($pointerBaris + 1, 1);
+				// dah
+
+				// Ngisi nomer urut
+				$objPHPExcel->getActiveSheet()->setCellValue('A'.$pointerBaris, $pointerBaris-8);
+				// dah
+
+				// Ngisi nama
+				$objPHPExcel->getActiveSheet()->setCellValue('B'.$pointerBaris, 
+					$trainer->person->name
+				);
+				// dah
+
+				// Ngisi nip
+				$objPHPExcel->getActiveSheet()->setCellValueExplicit('C'.$pointerBaris, 
+					$trainer->person->nid, 
+					PHPExcel_Cell_DataType::TYPE_STRING
+				);
+				// dah
+
+				// Ngisi unit				
+				$objPHPExcel->getActiveSheet()->setCellValue('D'.$pointerBaris, 
+					$trainer->person->organisation
+				);
+				// dah
+
+				// Ngisi kehadiran
+				$pointerMP = 0;
+				$pointerTanggal = '';
+				$jumlahJPKehadiranMax = 0;
+				foreach ($trainer->trainingScheduleTrainers as $trainerAttendance) {
+					
+					foreach ($trainingClass->trainingSchedules as $trainingSchedule) {
+
+						$pointerTanggal = date('d-m-Y', strtotime($trainingSchedule->start));
+					
+						if ($trainerAttendance->training_schedule_id == $trainingSchedule->id) {
+
+							// Ngambil JP ideal dari schedule lalu di tambahkan ke $jumlahJPKehadiranMax, nanti dipake buat ngitung total hadir, bolos, dan %
+							$jumlahJPKehadiranMax += $trainingSchedule->hours;
+							// dah
+
+							// Ngisi keterangan
+							$keteranganSebelumnya = $objPHPExcel->getActiveSheet()->getCell(chr($pointerKolomHadir + 3).$pointerBaris)->getValue();
+							if ($trainerAttendance->reason != null or $trainerAttendance->reason != '') {
+								if ($keteranganSebelumnya != '') {
+									$keteranganSebelumnya .= ', '.$trainerAttendance->reason;
+								}
+								else {
+									$keteranganSebelumnya = $trainerAttendance->reason;
+								}
+								$objPHPExcel->getActiveSheet()->setCellValue(
+									chr($pointerKolomHadir + 3).$pointerBaris, 
+									$keteranganSebelumnya
+								);
+							}
+							// dah
+					
+							if ($pointerMP == $trainingSchedule->trainingClassSubject->program_subject_id) {
+								
+								$nilai = $objPHPExcel->getActiveSheet()->getCell(
+									$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kolom'].$pointerBaris
+								)->getValue();
+
+								$nilai += $trainerAttendance->hours;
+								
+								$objPHPExcel->getActiveSheet()->setCellValue(
+									$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kolom'].$pointerBaris, 
+									$nilai
+								);
+							}
+							else {
+								$objPHPExcel->getActiveSheet()->setCellValue(
+									$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kolom'].$pointerBaris, 
+									$trainerAttendance->hours
+								);
+								$pointerMP = $trainingSchedule->trainingClassSubject->program_subject_id;
+							}
+						}
+					}
+				}
+				// dah
+
+				// Ngisi rumus total hadir, bolos, %, dan keterangan
+				$objPHPExcel->getActiveSheet()->setCellValue(
+					chr($pointerKolomHadir).$pointerBaris, 
+					'=SUM(E'.$pointerBaris.':'.chr($pointerKolomHadir - 1).$pointerBaris.')'
+				);
+
+				$objPHPExcel->getActiveSheet()->setCellValue(
+					chr($pointerKolomHadir + 1).$pointerBaris, 
+					'='.$jumlahJPKehadiranMax.' - '.chr($pointerKolomHadir).$pointerBaris
+				);
+
+				$kolomHadir = chr($pointerKolomHadir).$pointerBaris;
+				$objPHPExcel->getActiveSheet()->setCellValue(
+					chr($pointerKolomHadir + 2).$pointerBaris, 
+					'='.$kolomHadir.'/'.$jumlahJPKehadiranMax
+				);
+				// dah
+
+				$pointerBaris += 1;
+
+				$jumlahBaris += 1;
+
+			}
+			// dah
+
+			if ($pointerKolomTTD < $pointerKolomHadir) {
+				$pointerKolomTTD = $pointerKolomHadir;
+			}
+
+			// Balik ke posisi kolom awal
+			$pointerKolomMP = ord('E');
+			$pointerKolomHadir = ord('F');
+			// dah
+
+		}
+		// dah
+
+		// Bikin legend
+		$pointerBarisLegend = $pointerBaris + 4;
+		$catat = [];
+		foreach ($this->daftarMPperTanggal as $tanggal) {
+			foreach ($tanggal as $baris) {
+				$lewati = false;
+				foreach ($catat as $kodeMP) {
+					if ($baris['kodeMP'] == $kodeMP) {
+						$lewati = true;
+					}
+				}
+				if ($lewati == true) {
+					continue;
+				}
+				$barisSebelumnya = $pointerBarisLegend -1 ;
+				$objPHPExcel->getActiveSheet()->setCellValue('A'.$pointerBarisLegend, $baris['kodeMP']);
+				$objPHPExcel->getActiveSheet()->duplicateStyle($objPHPExcel->getActiveSheet()->getStyle('A'.$barisSebelumnya), 'A'.$pointerBarisLegend);
+				$objPHPExcel->getActiveSheet()->setCellValue('B'.$pointerBarisLegend, $baris['namaMP']);
+				$objPHPExcel->getActiveSheet()->duplicateStyle($objPHPExcel->getActiveSheet()->getStyle('B'.$barisSebelumnya), 'B'.$pointerBarisLegend);
+				$catat[] = $baris['kodeMP'];
+				$pointerBarisLegend += 1;
+			}
+		}
+		$pointerBarisLegend = $pointerBaris + 2;
+		// dah
+
+		// Bikin kolom tanda tangan
+		$objPHPExcel->getActiveSheet()->setCellValue(
+			chr($pointerKolomTTD).$pointerBarisLegend,
+			'Jakarta,   '.date('F Y', strtotime($modelTraining->activity->end))
+		);
+
+		$modelEmployeeSigner = Employee::find()
+			->where([
+				'satker_id' => Yii::$app->user->identity->employee->satker_id,
+				'organisation_id' => 396,
+				'chairman' => 1
+			])
+			->one();
+
+		if (!empty($modelEmployeeSigner)) {
+			$objPHPExcel->getActiveSheet()->setCellValue(
+				chr($pointerKolomTTD).($pointerBarisLegend + 5),
+				$modelEmployeeSigner->person->name
+			);
+			$objPHPExcel->getActiveSheet()->setCellValue(
+				chr($pointerKolomTTD).($pointerBarisLegend + 6),
+				'NIP '.$modelEmployeeSigner->person->nip
+			);
+		}
+		// dah
+
+		// Ngeset lebar kolom
+		$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
+		for ($i=ord('E'); $i < $pointerKolomTTD; $i++) { 
+			$objPHPExcel->getActiveSheet()->getColumnDimension(chr($i))->setWidth(7);
+		}
+		// dah
+
+		// Finishing
+		$kolomAwal = 'E';
+		$kolomAkhir = 'E';
+		foreach ($this->daftarMPperTanggal as $MPperTanggal => $data) {
+			foreach ($data as $baris) {
+				if (ord($baris['kolom']) > ord($kolomAkhir)) {
+					$kolomAkhir = $baris['kolom'];
+				}
+			}
+			$objPHPExcel->getActiveSheet()->setCellValue($kolomAwal.'6', $namaHari[date('D', strtotime($MPperTanggal))]);
+			$objPHPExcel->getActiveSheet()->setCellValue($kolomAwal.'7', date('d M', strtotime($MPperTanggal)));
+			$objPHPExcel->getActiveSheet()->mergeCells($kolomAwal.'6:'.$kolomAkhir.'6');
+			$objPHPExcel->getActiveSheet()->mergeCells($kolomAwal.'7:'.$kolomAkhir.'7');
+			$kolomAwal = chr(ord($kolomAkhir) + 1);
+		}
+
+		$kolomAwal = '';
+		$kolomAkhir = 'E';
+		$bulanAcuan = 0;
+		$jumlahBulanDistinct = 0;
+		foreach ($this->daftarMPperTanggal as $MPperTanggal => $data) {
+			foreach ($data as $baris) {
+				if ($kolomAwal == '') {
+					$bulanAcuan = date('m', strtotime($MPperTanggal));
+					$kolomAwal = $baris['kolom'];
+				}
+				else {
+					if (date('m', strtotime($MPperTanggal)) > $bulanAcuan) {
+						$bulanAcuan = date('m', strtotime($MPperTanggal));
+						$objPHPExcel->getActiveSheet()->setCellValue($kolomAwal.'5', $namaBulan[date('F', strtotime($MPperTanggal))]);
+						$objPHPExcel->getActiveSheet()->mergeCells($kolomAwal.'5:'.$kolomAkhir.'5');
+						$kolomAwal = chr(ord($kolomAkhir) + 1);
+						$jumlahBulanDistinct += 1;
+					}
+					else {
+						$kolomAkhir = $baris['kolom'];
+					}
+				}
+			}
+		}
+		if ($jumlahBulanDistinct == 0) {
+			$objPHPExcel->getActiveSheet()->setCellValue($kolomAwal.'5', date('F', strtotime($MPperTanggal)));
+			$objPHPExcel->getActiveSheet()->mergeCells($kolomAwal.'5:'.$kolomAkhir.'5');
+		}
+		// dah
+		
+		// Redirect output to a client’s web browser
+		header('Content-Type: application/vnd.ms-excel');
+
+		header('Content-Disposition: attachment;filename="recapitulation_pengajar_attendance_'.$modelTraining->activity->name.'.xls"');
+		header('Cache-Control: max-age=0');
+		// If you're serving to IE 9, then the following may be needed
+		header('Cache-Control: max-age=1');
+
+		// If you're serving to IE over SSL, then the following may be needed
+		header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+		header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+		header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+		header ('Pragma: public'); // HTTP/1.0
+		
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+		$objWriter->save('php://output');
+		exit;
+
     }
 
 }
