@@ -45,6 +45,8 @@ $this->params['breadcrumbs'][] = $this->title;
 			Box::end();
 			?>
 			</div>
+			
+			<!--
 			<div class="col-md-3">
 			<?php
 			Box::begin([
@@ -85,6 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			Box::end();
 			?>
 			</div>
+			-->
 		</div>		
 	</div>
 </div>
