@@ -16,6 +16,7 @@ use backend\models\TrainingScheduleTrainer;
 use backend\models\TrainingScheduleTrainerAttendance;
 use backend\models\TrainingScheduleTrainerAttendanceSearch;
 use backend\models\ProgramSubject;
+use backend\models\ProgramSubjectHistory;
 use backend\models\ObjectReference;
 use backend\models\Reference;
 
@@ -565,11 +566,18 @@ class TrainingScheduleTrainerAttendanceController extends Controller
 
 			// Ngisi nomer urut
 			foreach ($modelTrainingScheduleTrainer as $baris) {
-				
+				$modelTrainingSchedule = $baris->trainingSchedule;
 				// Ngeset Mata Pelajaran
+				$programSubject = \backend\models\ProgramSubjectHistory::find()
+				->where([
+					'id'=>$modelTrainingSchedule->trainingClassSubject->program_subject_id,
+					'program_id'=>$modelTrainingSchedule->trainingClassSubject->trainingClass->training->program_id,
+					'program_revision'=>$modelTrainingSchedule->trainingClassSubject->trainingClass->training->program_revision,
+					'status'=>1
+				])
+				->one();
 				$objPHPExcel->getActiveSheet()->setCellValue('A12', 'Mata Diklat: '.
-					ProgramSubject::findOne($baris->trainingSchedule->trainingClassSubject->program_subject_id)
-					->name
+					$programSubject->name
 				);
 				// dah
 				

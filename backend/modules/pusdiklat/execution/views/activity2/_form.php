@@ -19,11 +19,13 @@ use kartik\checkbox\CheckboxX;
 	<?= $form->errorSummary($model) ?> <!-- ADDED HERE -->
 	
 	<ul class="nav nav-tabs" role="tablist" id="tab_wizard">
-		<li class="active"><a href="#activity" role="tab" data-toggle="tab">Activity <span class='label label-info'>1</span></a></li>
-		<li class=""><a href="#training" role="tab" data-toggle="tab">Training <span class='label label-warning'>2</span></a></li>
+		<!--
+		<li class=""><a href="#activity" role="tab" data-toggle="tab">Activity <span class='label label-info'>1</span></a></li>
+		-->
+		<li class="active"><a href="#training" role="tab" data-toggle="tab">Training <span class='label label-warning'>2</span></a></li>
 	</ul>
 	<div class="tab-content" style="border: 1px solid #ddd; border-top-color: transparent; padding:10px; background-color: #fff;">
-		<div class="tab-pane fade-in active" id="activity">
+		<div class="tab-pane fade" id="activity">
 			<div class="row clearfix">
 				<div class="col-md-3">
 				<?= $form->field($model, 'start')->widget(DateControl::classname(), [
@@ -94,7 +96,7 @@ use kartik\checkbox\CheckboxX;
 				<i class="fa fa-fw fa-arrow-circle-o-right"></i>
 			</a>
 		</div>
-		<div class="tab-pane fade" id="training">				
+		<div class="tab-pane fade-in active" id="training">				
 			<div class="row clearfix">
 				<div class="col-md-2">
 				<?= $form->field($training, 'regular')->widget(SwitchInput::classname(), [
@@ -116,12 +118,12 @@ use kartik\checkbox\CheckboxX;
 			<?= $form->field($training, 'execution_sk')->textInput(['maxlength' => 255]) ?>
 			
 			<?= $form->field($training, 'cost_real')->textInput(['maxlength' => 15]) ?>
-			
+			<!--
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#activity]').tab('show')">
 				Previous 
 				<i class="fa fa-fw fa-arrow-circle-o-left"></i>
 			</a>
-			
+			-->
 			<div class="clearfix"><hr></div>  
 			
 			<div class="form-group">

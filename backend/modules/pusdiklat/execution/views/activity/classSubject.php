@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView as Gridview2;
 use kartik\grid\GridView;
 use yii\helpers\Url;
 use yii\helpers\Inflector;
@@ -47,9 +46,10 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'format'=>'raw',
 				'value' => function ($data){
-					$programSubject= \backend\models\ProgramSubject::find()
+					$programSubject= \backend\models\ProgramSubjectHistory::find()
 					->where([
 						'id' => $data->program_subject_id,
+						'program_revision' => $data->trainingClass->training->program_revision,
 						'status'=>1
 					])
 					->one();
@@ -68,9 +68,10 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'format'=>'raw',
 				'value' => function ($data){
-					$programSubject= \backend\models\ProgramSubject::find()
+					$programSubject= \backend\models\ProgramSubjectHistory::find()
 					->where([
 						'id' => $data->program_subject_id,
+						'program_revision' => $data->trainingClass->training->program_revision,
 						'status'=>1
 					])
 					->one();
@@ -90,9 +91,10 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'format'=>'raw',
 				'value' => function ($data){
-					$programSubject= \backend\models\ProgramSubject::find()
+					$programSubject= \backend\models\ProgramSubjectHistory::find()
 					->where([
 						'id' => $data->program_subject_id,
+						'program_revision' => $data->trainingClass->training->program_revision,
 						'status'=>1
 					])
 					->one();
@@ -113,12 +115,13 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'format'=>'raw',
 				'value' => function ($data){
-					$programSubject= \backend\models\ProgramSubject::find()
-					->where([
-						'id' => $data->program_subject_id,
-						'status'=>1
-					])
-					->one();
+					$programSubject= \backend\models\ProgramSubjectHistory::find()
+						->where([
+							'id' => $data->program_subject_id,
+							'program_revision' => $data->trainingClass->training->program_revision,
+							'status'=>1
+						])
+						->one();
 					if(null!=$programSubject){						
 						$icon = ($programSubject->test==1)?'<span class="glyphicon glyphicon-ok"></span>':'<span class="glyphicon glyphicon-remove"></span>';		
 						return Html::tag('span', $icon, [

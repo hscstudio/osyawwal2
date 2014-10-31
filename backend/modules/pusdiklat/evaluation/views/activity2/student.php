@@ -143,18 +143,29 @@ $this->params['breadcrumbs'][] = $this->title;
 							'training_student_id'=>$data->id
 						])
 						->one();
-					$class = '';
-					if(!empty($trainingClassStudent)){
-						$class = $trainingClassStudent->trainingClass->class;
-					}
-					return Html::tag('span',
-						$class,
-						[
+					$class = '-';
+					$options = [
 							'class'=>'label label-info',
 							'data-toggle'=>'tooltip',
 							'data-html'=>'true',
-						]
-					);
+						];
+					if(!empty($trainingClassStudent)){
+						$class = $trainingClassStudent->trainingClass->class;
+						return Html::a(
+							$class,
+							[
+								'class',
+								'id'=>$trainingClassStudent->training_id
+							],
+							$options
+						);
+					}
+					else{
+						return Html::tag('span',
+							$class,
+							$options
+						);
+					}
 				},
 			],
         ],

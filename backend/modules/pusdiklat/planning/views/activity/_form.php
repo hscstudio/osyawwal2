@@ -4,6 +4,25 @@ kartik\datecontrol\DateControl; use kartik\widgets\SwitchInput; use
 backend\models\Reference; use backend\models\Program; use
 kartik\widgets\FileInput; use yii\helpers\Url; use kartik\checkbox\CheckboxX;
 
+$edited = 1; // permit
+if(!$model->isNewRecord){
+	if($model->status==2){
+		$edited = 2; // permit with warning
+	}
+		
+	$countTrainingSubject = \backend\models\TrainingClassSubject::find()
+		->where([
+			'training_class_id'=>\backend\models\TrainingClass::find()
+				->where([
+					'training_id' => $model->id
+				])
+				->column(),		
+		])
+		->count();
+	if($countTrainingSubject>0){
+		$edited = 3; // refused
+	}
+}
 ?>
 
 <div class="activity-form">
@@ -37,28 +56,30 @@ kartik\widgets\FileInput; use yii\helpers\Url; use kartik\checkbox\CheckboxX;
 						  $( "input#activity-name" ).val( data + " ");
 						  $( "input#activity-name" ).focus();
 						});
-					'
+					',
+					'disabled' => (in_array($edited,[2,3]))?true:false,
 				],
 				'pluginOptions' => [
 					'allowClear' => true,
 				],
 			]); ?>
 
-			<?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
+			<?= $form->field($model, 'name')->textInput(['maxlength' => 255,'disabled' => (in_array($edited,[2,3]))?true:false,]) ?>
 
 			<?= $form->field($model, 'description')->textarea(['rows' => 3]) ?>
-
+			
+			<?php if(!in_array($edited,[2,3])){ ?>
 			<div class="row clearfix">
 				<div class="col-md-3">
 				<?= $form->field($model, 'start')->widget(DateControl::classname(), [
 					'type' => DateControl::FORMAT_DATE,
 					'displayFormat' => 'php:d-m-Y',
 					'saveFormat' => 'php:Y-m-d',
-					'ajaxConversion' => false,
+					'ajaxConversion' => false,					
 					'options' => [
 				        'pluginOptions' => [
-				            'autoclose' => true
-				        ]
+				            'autoclose' => true,							
+				        ],
 				    ]
 				]); ?>
 				</div>
@@ -71,11 +92,15 @@ kartik\widgets\FileInput; use yii\helpers\Url; use kartik\checkbox\CheckboxX;
 					'options' => [
 				        'pluginOptions' => [
 				            'autoclose' => true
-				        ]
+				        ],
+						/* 'htmlOptions'=> [
+							'disabled' => (in_array($edited,[2,3]))?true:false,
+						] */
 				    ]
 				]); ?>
 				</div>
 			</div>
+			<?php } ?>
 
 			<?php 
 			$model->location=explode('|',$model->location);
@@ -99,11 +124,14 @@ kartik\widgets\FileInput; use yii\helpers\Url; use kartik\checkbox\CheckboxX;
 					'pluginOptions' => [
 						'allowClear' => true
 					],
+					'options'=>[
+						'disabled' => (in_array($edited,[2,3]))?true:false,
+					]
 				]);
 				?>
 				</div>
 				<div class="col-md-9">		
-				<?= $form->field($model, 'location[1]')->textInput(['maxlength' => 250])->label('Catatan Terkait Lokasi'); ?>
+				<?= $form->field($model, 'location[1]')->textInput(['maxlength' => 250,'disabled' => (in_array($edited,[2,3]))?true:false,])->label('Catatan Terkait Lokasi'); ?>
 				</div>
 			</div>
 			
@@ -111,34 +139,42 @@ kartik\widgets\FileInput; use yii\helpers\Url; use kartik\checkbox\CheckboxX;
 				'pluginOptions' => [
 					'onText' => 'Ya',
 					'offText' => 'Tidak',
+				],
+				'options'=>[
+					'disabled' => (in_array($edited,[2,3]))?true:false,
 				]
 			])->label('Diasramakan?') ?>
 
 			<?php 
 			$permit = \Yii::$app->user->can('Subbidang Program');
+			
+			if(!in_array($edited,[2,3])){
 			if(!$model->isNewRecord and $permit){ ?>
-			<div class='row'>
-				<div class='col-md-3'>				
-				<?php
-				$data = [
-						'0'=>'PLAN',
-						'1'=>'READY',
-						//'2'=>'EXECUTE',
-						'3'=>'CANCEL'
-				];
-				echo $form->field($model, 'status')->widget(Select2::classname(), [
-					'data' => $data,
-					'options' => ['placeholder' => 'Choose Status ...'],
-					'pluginOptions' => [
-						'allowClear' => true,
-					],
-				]); ?>
-				</div>
-				<div class='col-md-6'>
+				<div class='row'>
+					<div class='col-md-3'>				
+					<?php
+					$data = [
+							'0'=>'PLAN',
+							'1'=>'READY',
+							//'2'=>'EXECUTE',
+							'3'=>'CANCEL'
+					];
+					echo $form->field($model, 'status')->widget(Select2::classname(), [
+						'data' => $data,
+						'options' => ['placeholder' => 'Choose Status ...'],
+						'pluginOptions' => [
+							'allowClear' => true,
+						],
+					]); ?>
+					</div>
+					<div class='col-md-6'>
 
-				</div>	
-			</div>
-			<?php } ?>
+					</div>	
+				</div>
+			<?php
+				}
+			}
+			?>
 			
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#training]').tab('show')">
 				Next 
@@ -150,9 +186,14 @@ kartik\widgets\FileInput; use yii\helpers\Url; use kartik\checkbox\CheckboxX;
 				<?= $form->field($training, 'number', [
 						'addon' => ['prepend' => ['content'=>'Generate Number '.CheckboxX::widget([
 											'name'=>'generate_number','value'=>1,
+											'options'=>[
+												'disabled' => (in_array($edited,[2,3]))?true:false,
+											],
 											'pluginOptions'=>['threeState'=>false,'size'=>'xs']
 						])]]
-					])->textInput() ?>
+					])->textInput([
+						'disabled' => (in_array($edited,[2,3]))?true:false,
+					]) ?>
 			<?php } ?>
 			
 			<div class="row clearfix">

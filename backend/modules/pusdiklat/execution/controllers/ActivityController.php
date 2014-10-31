@@ -10,6 +10,7 @@ use backend\models\ObjectPerson;
 use backend\models\ObjectFile;
 use backend\models\Program;
 use backend\models\ProgramSubject;
+use backend\models\ProgramSubjectHistory;
 use backend\models\Reference;
 use backend\models\ObjectReference;
 use backend\models\Training;
@@ -174,7 +175,7 @@ class ActivityController extends Controller
 						Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Activity data have saved.');
 						if($training->load(Yii::$app->request->post())){							
 							$training->activity_id= $model->id;
-							$training->program_revision = (int)\backend\models\ProgramHistory::getRevision($training->program_id);
+							/* $training->program_revision = (int)\backend\models\ProgramHistory::getRevision($training->program_id); */
 							
 							if($training->save()){								 
 								Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Training & activity data have saved.');
@@ -398,10 +399,11 @@ class ActivityController extends Controller
         $model = $this->findModel($id);
 		$program = Program::findOne($model->training->program_id);
 		$subject = new ActiveDataProvider([
-            'query' => ProgramSubject::find()
+            'query' => \backend\models\ProgramSubjectHistory::find()
 						->where([
-							'program_id' => $model->training->program_id,
-							'status'=>1,
+							'program_id'=>$model->training->program_id,
+							'program_revision'=>$model->training->program_revision,
+							'status'=>1
 						])
 						->orderBy(['sort'=>SORT_ASC,]),
         ]);
@@ -434,7 +436,12 @@ class ActivityController extends Controller
 		$searchModel = new TrainingClassSearch([
 			'training_id' => $id,
 		]);
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		/* $queryParams['TrainingClassSearch']=[
+			'training_id' => $id,
+		]; */
+		$queryParams = [];
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+        $dataProvider = $searchModel->search($queryParams);
 		
 		$subquery = TrainingClassStudent::find()
 			->select('training_student_id')
@@ -640,12 +647,14 @@ class ActivityController extends Controller
         $activity = $this->findModel($id); // Activity
 		$class = $this->findModelClass($class_id); // Class
 		
-		$programSubjects= ProgramSubject::find()
+		$programSubjects= ProgramSubjectHistory::find()
 			->where([
-				'program_id' => $activity->training->program_id,
+				'program_id'=>$activity->training->program_id,
+				'program_revision'=>$activity->training->program_revision,
 				'status'=>1
 			])
 			->all();
+		
 		$created=0;
 		$failed=0;
 		foreach($programSubjects as $programSubject){
@@ -974,8 +983,8 @@ class ActivityController extends Controller
 										->orWhere(['nid' => $nip])
 										->column(),
 								])
-								->one();					
-							if(null!=$student){
+								->one();		
+							if(!empty($student)){
 								$student_id = $student->person_id;
 							}
 							
@@ -986,7 +995,7 @@ class ActivityController extends Controller
 									'value'=>$unit
 								])
 								->one();
-							if(null!=$reference){
+							if(!empty($reference)){
 								$reference_id = $reference->id;
 							}
 							
@@ -998,7 +1007,7 @@ class ActivityController extends Controller
 									'type' => 'unit',
 								])
 								->one();
-							if(null!=$object_reference){
+							if(!empty($object_reference)){
 								$object_reference_id = 1;
 							}
 							
@@ -1115,14 +1124,15 @@ class ActivityController extends Controller
 					}
 					
 					if($unit_id>0){
-						if($object_reference_id==1){
+						if($object_reference_id>=1){
 							$object_reference = ObjectReference::find()
 								->where([
 									'object' => 'person',
 									'object_id' => $person_id,
 									'type' => 'unit',
-									'reference_id' => $unit_id,
-								]);
+								])
+								->one();
+							$object_reference->reference_id = $unit_id;
 						}
 						else{
 							$object_reference = new ObjectReference([
@@ -1132,7 +1142,7 @@ class ActivityController extends Controller
 								'reference_id' => $unit_id,
 							]);
 						}
-						$object_reference->save(); 
+						$object_reference->save(); 						
 					}
 				} 
 			}
@@ -1289,7 +1299,10 @@ class ActivityController extends Controller
 		$renders['class'] = $class;
 		$renders['model'] = $model;
 		$trainingClass = TrainingClass::find()
-				->all();
+			->where([
+				'training_id' => $activity->id
+			])
+			->all();
 		$renders['trainingClass'] = $trainingClass;	
 		if (Yii::$app->request->post()) {			
 			$model->load(Yii::$app->request->post());
@@ -1790,7 +1803,7 @@ class ActivityController extends Controller
 						->where([
 							'id'=>$program_subject_id,
 							'program_id'=>$program_id,
-							'revision'=>$program_revision,
+							'program_revision'=>$program_revision,
 							'status'=>1
 						])
 						->one();
@@ -2087,7 +2100,7 @@ class ActivityController extends Controller
 				'program_subject_id'=>$trainingSchedule->trainingClassSubject->program_subject_id,
 				'status'=>1,
 			])
-			->groupBy('type')
+			->orderBy('type')
 			->all();			
 			
 			if ($model->load(Yii::$app->request->post())) {
@@ -2157,134 +2170,6 @@ class ActivityController extends Controller
 		die('|1|Trainer have deeted|'.date('Y-m-d',strtotime($trainingSchedule->start)).'|'.date('H:i',strtotime($trainingSchedule->end)));
 	}
 	
-	 /**
-     * Lists all TrainingClass models.
-     * @return mixed
-     */
-    public function actionHonorarium($id)
-    {
-        $model = $this->findModel($id);
-		$searchModel = new TrainingClassSearch([
-			'training_id' => $id,
-		]);
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        return $this->render('honorarium', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-			'model' => $model,
-        ]);
-    }
-	
-	public function actionPrepareHonorarium($id, $class_id)
-    {				
-		$activity = $this->findModel($id); // Activity
-		$class = $this->findModelClass($class_id); // Class	
-		
-		/* $dataProvider = new \yii\data\ActiveDataProvider([
-			'query' => \backend\models\TrainingScheduleTrainer::find()
-				->joinWith(['trainingSchedule'])
-				->where([
-					'tb_training_schedule_id'=>\backend\models\TrainingSchedule::find()
-						->select('id')
-						->where([
-							'tb_training_class_id'=>$tb_training_class_id,
-							'status'=>1,					
-						])
-						->andWhere('tb_training_class_subject_id>0')
-						->groupBy('tb_training_class_subject_id')
-						->column(),
-					TrainingScheduleTrainer::tableName().'.status'=>1,
-					'ref_trainer_type_id'=>[0], //Only PENGAJAR not ASISTEN & PENCERAMAH
-				])
-				->groupBy('tb_training_class_subject_id,tb_trainer_id'),				
-			'pagination' => [
-				'pageSize' => 20,
-			],
-			'sort'=> ['defaultOrder' => ['tb_training_schedule_id'=>SORT_ASC]]
-		]);
-		$trainingClass=\backend\models\TrainingClass::findOne($tb_training_class_id);
-		$sbu = \backend\models\Sbu::find()->where(['name'=>'honor_persiapan_mengajar','status'=>1])->one();
-        return $this->render('prepare', [
-			'dataProvider' => $dataProvider,
-			'trainingClass' => $trainingClass, 
-			'sbu' => $sbu,
-        ]); */
-    }
-	
-	/* public function actionTransport($tb_training_class_id)
-    {			
-		$ref_satker_id = Yii::$app->user->identity->employee->ref_satker_id;
-		$dataProvider = new ActiveDataProvider([
-			'query' => TrainingScheduleTrainer::find()
-				->select(TrainingScheduleTrainer::tableName().'.*,'.Employee::tableName().'.ref_satker_id')
-				->joinWith(['trainer', 'trainer.employee','trainingSchedule'])
-				->where([
-					'tb_training_schedule_id'=>TrainingSchedule::find()
-						->select('id')
-						->where([
-							'tb_training_class_id'=>$tb_training_class_id,
-							'status'=>1,					
-						])
-						->andWhere('tb_training_class_subject_id>0')
-						//->groupBy('tb_training_class_subject_id')
-						->column(),
-					TrainingScheduleTrainer::tableName().'.status'=>1,
-				])
-				->andWhere(
-					'('.Employee::tableName().'.ref_satker_id IS NOT NULL AND '.Employee::tableName().'.ref_satker_id!='.$ref_satker_id.')'.
-					' OR '.
-					Employee::tableName().'.ref_satker_id IS NULL'
-				)
-				->groupBy('tb_training_class_subject_id,tb_trainer_id')
-				,	
-			'pagination' => [
-				'pageSize' => 20,
-			],
-			'sort'=> ['defaultOrder' => ['tb_training_schedule_id'=>SORT_ASC]]
-		]);
-		$trainingClass=TrainingClass::findOne($tb_training_class_id);
-		$sbu = Sbu::find()->where(['name'=>'honor_transport_dalam_kota','status'=>1])->one();
-        return $this->render('transport', [
-			'dataProvider' => $dataProvider,
-			'trainingClass' => $trainingClass, 
-			'sbu' => $sbu,
-        ]);
-    }
-	
-	public function actionTraining($tb_training_class_id)
-    {			
-		$ref_satker_id = Yii::$app->user->identity->employee->ref_satker_id;
-		$dataProvider = new ActiveDataProvider([
-			'query' => TrainingScheduleTrainer::find()
-				->joinWith(['trainer', 'trainer.employee','trainingSchedule'])
-				->where([
-					'tb_training_schedule_id'=>TrainingSchedule::find()
-						->select('id')
-						->where([
-							'tb_training_class_id'=>$tb_training_class_id,
-							'status'=>1,					
-						])
-						->andWhere('tb_training_class_subject_id>0')
-						//->groupBy('tb_training_class_subject_id')
-						->column(),
-					TrainingScheduleTrainer::tableName().'.status'=>1,
-				])
-				->groupBy('tb_training_class_subject_id,tb_trainer_id')
-				,		
-			'pagination' => [
-				'pageSize' => 20,
-			],
-			'sort'=> ['defaultOrder' => ['tb_training_schedule_id'=>SORT_ASC,'ref_trainer_type_id'=>SORT_ASC]]
-		]);
-
-		$trainingClass=TrainingClass::findOne($tb_training_class_id);
-		$sbus = ArrayHelper::map(Sbu::find()->where(['status'=>1])->all(),'name','value');
-        return $this->render('training', [
-			'dataProvider' => $dataProvider,
-			'trainingClass' => $trainingClass, 
-			'sbus' => $sbus,
-        ]);
-    } */
 	
 	/**
      * Lists all TrainingClass models.

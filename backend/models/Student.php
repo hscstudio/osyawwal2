@@ -41,11 +41,19 @@ class Student extends \yii\db\ActiveRecord
         return [
             [['person_id'], 'required'],
             [['person_id', 'satker', 'no_sk', 'tmt_sk'], 'integer'],
-            [['username'], 'string', 'max' => 25],
+
             [['password_hash'], 'string', 'max' => 60],
             [['auth_key'], 'string', 'max' => 32],
-			['new_password', 'string', 'min' => 6],
-            [['eselon2', 'eselon3', 'eselon4'], 'string', 'max' => 255]
+            [['eselon2', 'eselon3', 'eselon4'], 'string', 'max' => 255],
+			
+			['username', 'filter', 'filter' => 'trim'],
+            ['username', 'required'],
+            ['username', 'unique', 'targetClass' => '\backend\models\Student', 'message' => 'This username has already been taken.'],
+            ['username', 'string', 'min' => 6, 'max' => 25],
+			
+			['new_password', 'required'],
+            ['new_password', 'string', 'min' => 6],			
+                       
         ];
     }
 

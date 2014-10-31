@@ -8,6 +8,7 @@ use kartik\widgets\AlertBlock;
 use kartik\widgets\Growl;
 use kartik\grid\GridView;
 use backend\models\ProgramSubject;
+use backend\models\ProgramSubjectHistory;
 use backend\models\TrainingSchedule;
 use backend\models\TrainingScheduleTrainer;
 
@@ -67,9 +68,11 @@ echo AlertBlock::widget([
     	for ($i = 0; $i < count($idSchedule); $i++) {
     		$currentSchedule = $idSchedule[$i];
     		$modelTrainingSchedule = TrainingSchedule::findOne($idSchedule[$i]);
-    		$programSubjectName = ProgramSubject::find()
+    		$programSubjectName = ProgramSubjectHistory::find()
     			->where([
     				'id' => $modelTrainingSchedule->trainingClassSubject->program_subject_id,
+					'program_id' => $modelTrainingSchedule->trainingClassSubject->trainingClass->training->program_id,
+					'program_revision' => $modelTrainingSchedule->trainingClassSubject->trainingClass->training->program_revision,
     				'status' => 1
     			])
     			->one()

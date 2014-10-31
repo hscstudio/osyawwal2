@@ -185,8 +185,64 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'modified',
             // 'modified_by',
 
-            ['class' => 'kartik\grid\ActionColumn'],
-        ],
+            [
+				'class' => 'kartik\grid\ActionColumn',
+				'width'=>'150px',
+				'template' => '{history} {view} {update} {delete}',
+				'buttons' => [
+					'history'=> function ($url, $model) {
+						$icon='<span class="fa fa-fw fa-h-square"></span>';
+						return Html::a($icon,'#',[
+							'class'=>'btn btn-default btn-xs',
+							'data-pjax'=>'0',
+							'onclick' => 'alert("This function is not available now, coming soon ")',
+						]);
+					},
+					'view' => function ($url, $model) {
+						$icon='<span class="fa fa-fw fa-eye"></span>';
+						return Html::a($icon,$url,[
+							'class'=>'btn btn-default btn-xs',
+							'data-pjax'=>'0',
+						]);
+					},
+					'update' => function ($url, $model) {
+						$icon='<span class="fa fa-fw fa-pencil"></span>';
+						return Html::a($icon,$url,[
+							'class'=>'btn btn-default btn-xs',
+							'data-pjax'=>'0',
+						]);
+					},
+					'delete' => function ($url, $model) {
+						$icon='<span class="fa fa-fw fa-trash"></span>';
+						if (!in_array($model->status,[2])){
+							return Html::a($icon,$url,[
+								'class'=>'btn btn-default btn-xs',
+								'data-pjax'=>'0',
+								'data-confirm'=>'Are you sure delete!',
+								'data-method' => 'post',
+							]);
+						}
+					},
+				]
+			],
+			
+			/* if($model->status==2){
+				$edited = 2; // permit with warning
+			}
+				
+			$countTrainingSubject = \backend\models\TrainingClassSubject::find()
+				->where([
+					'training_class_id'=>\backend\models\TrainingClass::find()
+						->where([
+							'training_id' => $model->id
+						])
+						->column(),		
+				])
+				->count();
+			if($countTrainingSubject>0){
+				$edited = 3; // refused
+			} */
+		],
 		'panel' => [
 			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
 			'before'=>
