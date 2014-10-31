@@ -72,7 +72,7 @@ class File extends \yii\db\ActiveRecord
 			
 			// DEFAULT
 			[['file_name'], 'file', 'extensions' => 'jpg, png, gif', 
-				'mimeTypes' => 'image/jpeg, image/png, image/gif'],
+				'mimeTypes' => 'image/jpeg, image/png, image/gif','on' => 'default'],
 			// IMAGE
 			[['file_name'], 'file', 'extensions' => 'jpg, png, gif', 
 				'mimeTypes' => 'image/jpeg, image/png, image/gif','on' => 'filetype-image'],
@@ -114,13 +114,13 @@ class File extends \yii\db\ActiveRecord
 					application/x-7z-compressed,
 					application/x-rar-compressed,
 					application/zip
-				','on' => 'filetype-document-compresed'],	
+				','on' => 'filetype-document-compressed'],	
         ];
     }
 
 	public function scenarios()
     {
-        $scenarios = parent::scenarios(); 
+       /*  $scenarios = parent::scenarios(); */
         $scenarios['filetype-document-compressed'] = ['file_name'];
         $scenarios['filetype-document'] = ['file_name'];
         $scenarios['filetype-compressed'] = ['file_name'];

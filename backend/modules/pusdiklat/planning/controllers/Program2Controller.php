@@ -329,7 +329,7 @@ class Program2Controller extends Controller
 		$object_file = new ObjectFile();
 		$renders['object_file'] = $object_file;
 		$file = new File();	
-		$file->scenario = 'filetype-document-compressed';		
+		$file->scenario = 'filetype-document-compressed';
 		$renders['file'] = $file;
 		
         if (Yii::$app->request->post()) {
