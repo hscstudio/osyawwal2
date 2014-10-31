@@ -99,7 +99,7 @@ $this->params['breadcrumbs'][] = $this->title;
 								1, // 1= HEAD OF KD_UNIT_ORG
 							]
 						);*/
-						$permit = \Yii::$app->user->can('Subbagian Rumah Tangga Dan Pengelolaan Aset');
+						$permit = \Yii::$app->user->can('Bagian Umum');
 						$object_person=\backend\models\ObjectPerson::find()
 							->where([
 								'object'=>'activity',
