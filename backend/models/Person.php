@@ -67,7 +67,13 @@ class Person extends \yii\db\ActiveRecord
 			[['nip'], 'string', 'max' => 18, 'min'=>9],
             [['name', 'nid', 'npwp', 'email', 'office_email'], 'string', 'max' => 100],
             [['born', 'phone', 'office_phone', 'office_fax'], 'string', 'max' => 50],			
-            [['homepage', 'address', 'office_address', 'bank_account', 'graduate_desc', 'position_desc', 'organisation'], 'string', 'max' => 255]
+            [['homepage', 'address', 'office_address', 'bank_account', 'graduate_desc', 'position_desc', 'organisation'], 'string', 'max' => 255],
+			
+			['nid', 'filter', 'filter' => 'trim'],
+            ['nid', 'unique', 'targetClass' => '\backend\models\Person', 'message' => 'This NID has already been taken.'],
+			['nip', 'filter', 'filter' => 'trim'],
+            ['nip', 'unique', 'targetClass' => '\backend\models\Person', 'message' => 'This NIP has already been taken.'],
+            
         ];
     }
 

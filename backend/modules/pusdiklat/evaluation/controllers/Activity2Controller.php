@@ -587,7 +587,12 @@ class Activity2Controller extends Controller
 			'training_id' => $id,
 			'status' => $status
 		]; 
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
 		$dataProvider = $searchModel->search($queryParams); 
+		$dataProvider->getSort()->defaultOrder = [
+			'status'=>SORT_DESC,		
+		];
+		
         return $this->render('student', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

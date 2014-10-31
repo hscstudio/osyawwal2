@@ -59,6 +59,9 @@ class User extends \yii\db\ActiveRecord  implements IdentityInterface
 			['status', 'default', 'value' => self::STATUS_ACTIVE],
 			['new_password', 'string', 'min' => 6],
 			[['old_password', 'new_password'], 'required', 'on' => 'password'],
+			
+			['username', 'filter', 'filter' => 'trim'],
+            ['username', 'unique', 'targetClass' => '\backend\models\User', 'message' => 'This username has already been taken.'],
         ];
     }
 
