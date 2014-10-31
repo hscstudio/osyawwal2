@@ -36,11 +36,27 @@ use kartik\checkbox\CheckboxX;
 				<div class="col-md-3">
 				<?= $form->field($model, 'start')->widget(DateControl::classname(), [
 						'type' => DateControl::FORMAT_DATE,
+						'displayFormat' => 'php:d-m-Y',
+						'saveFormat' => 'php:Y-m-d',
+						'ajaxConversion' => false,
+						'options' => [
+							   'pluginOptions' => [
+								   'autoclose' => true
+							   ]
+						   ]
 					]); ?>
 				</div>
 				<div class="col-md-3">
 				<?= $form->field($model, 'end')->widget(DateControl::classname(), [
 						'type' => DateControl::FORMAT_DATE,
+						'displayFormat' => 'php:d-m-Y',
+						'saveFormat' => 'php:Y-m-d',
+						'ajaxConversion' => false,
+						'options' => [
+							   'pluginOptions' => [
+								   'autoclose' => true
+							   ]
+						   ]
 					]); ?>
 				</div>
 			</div>
@@ -81,9 +97,7 @@ use kartik\checkbox\CheckboxX;
 				]
 			])->label('Diasramakan?') ?>
 
-			<?php
-			$permit = \Yii::$app->user->can('Subbidang Kurikulum');
-			if(!$model->isNewRecord and $permit){ ?>
+			<?php if(!$model->isNewRecord){ ?>
 			<div class='row'>
 				<div class='col-md-6'>				
 				<?php
@@ -114,24 +128,10 @@ use kartik\checkbox\CheckboxX;
 			
 			<div class="row clearfix">
 				<div class="col-md-3">
-				<?php echo $form->field($meeting, 'attendance_count_plan')->textInput() ?>
+				<?php echo $form->field($meeting, 'attendance_count_plan')->textInput(); ?>
 				</div>
 				<div class="col-md-3">
-				<?php
-				/* $data = ArrayHelper::map(Organisation::find()
-						->select(['ID', 'NM_UNIT_ORG'])
-						->where(['JNS_KANTOR'=>13])
-						->asArray()
-						->all()
-						, 'ID', 'NM_UNIT_ORG');
-
-				echo $form->field($meeting, 'organisation_id')->widget(Select2::classname(), [
-					'data' => $data,
-					'options' => ['placeholder' => 'Choose organisation ...'],
-					'pluginOptions' => [
-					'allowClear' => true
-					],
-				]);  */?>
+		
 				</div>
 			</div>			
 			
@@ -147,6 +147,18 @@ use kartik\checkbox\CheckboxX;
 			<div class="form-group">
 				<?= Html::submitButton('<i class="fa fa-fw fa-save"></i> '. ($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update')), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 			</div>
+			<?php // PENYELENGGARAAN ONLY ?>
+			<?php // $form->field($meeting, 'execution_sk')->textInput(['maxlength' => 255]) ?>
+			<?php // $form->field($meeting, 'cost_real')->textInput(['maxlength' => 15]) ?>
+			
+			<?php // EVALUASI ONLY ?>
+			<?php // $form->field($meeting, 'result_sk')->textInput(['maxlength' => 255]) ?>		
+			
+			<?php // BDK ONLY ?>
+			<?php // $form->field($meeting, 'approved_status')->textInput() ?>
+			<?php // $form->field($meeting, 'approved_note')->textInput(['maxlength' => 255]) ?>
+			<?php // $form->field($meeting, 'approved_date')->textInput() ?>
+			<?php // $form->field($meeting, 'approved_by')->textInput() ?>
 		</div>
 	</div>
 	 

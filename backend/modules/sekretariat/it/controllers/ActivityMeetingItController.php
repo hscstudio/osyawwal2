@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\sekretariat\general\controllers;
+namespace backend\modules\sekretariat\it\controllers;
 
 use Yii;
 use backend\models\Activity;
@@ -10,8 +10,8 @@ use backend\models\Room;
 use backend\models\Meeting;
 use backend\models\Reference;
 use backend\models\ObjectPerson;
-use backend\modules\sekretariat\general\models\ActivityMeetingGeneralSearch;
-use backend\modules\sekretariat\general\models\RoomSearch;
+use backend\modules\sekretariat\it\models\ActivityMeetingItSearch;
+use backend\modules\sekretariat\it\models\RoomSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -20,9 +20,9 @@ use yii\helpers\ArrayHelper;
 use yii\data\ActiveDataProvider;
 
 /**
- * ActivityMeetingGeneralController implements the CRUD actions for Activity model.
+ * ActivityMeetingItController implements the CRUD actions for Activity model.
  */
-class ActivityMeetingGeneralController extends Controller
+class ActivityMeetingItController extends Controller
 {
     public $layout = '@hscstudio/heart/views/layouts/column2';
     public function behaviors()
@@ -44,17 +44,17 @@ class ActivityMeetingGeneralController extends Controller
     public function actionIndex($year='',$status='all')
     {
 		if(empty($year)) $year=date('Y');
-		$searchModel = new ActivityMeetingGeneralSearch();
+		$searchModel = new ActivityMeetingItSearch();
 		$queryParams = Yii::$app->request->getQueryParams();
-		$organisation_id = 44;
+		$organisation_id = 29;
 		if($status=='all'){
 			if($year=='all'){
-				$queryParams['ActivityMeetingGeneralSearch']=[
+				$queryParams['ActivityMeetingItSearch']=[
 					'organisation_id' => $organisation_id
 				];
 			}
 			else{
-				$queryParams['ActivityMeetingGeneralSearch']=[
+				$queryParams['ActivityMeetingItSearch']=[
 					'year' => $year,
 					'organisation_id' => $organisation_id
 				];
@@ -62,13 +62,13 @@ class ActivityMeetingGeneralController extends Controller
 		}
 		else{
 			if($year=='all'){
-				$queryParams['ActivityMeetingGeneralSearch']=[
+				$queryParams['ActivityMeetingItSearch']=[
 					'status' => $status,
 					'organisation_id' => $organisation_id
 				];
 			}
 			else{
-				$queryParams['ActivityMeetingGeneralSearch']=[
+				$queryParams['ActivityMeetingItSearch']=[
 					'year' => $year,
 					'status' => $status,
 					'organisation_id' => $organisation_id
@@ -105,14 +105,14 @@ class ActivityMeetingGeneralController extends Controller
      * @return mixed
      */
     public function actionView($id,$organisation_id=NULL)
-    {	
-		$satker_id = (int)Yii::$app->user->identity->employee->satker_id;
+    {
+        $satker_id = (int)Yii::$app->user->identity->employee->satker_id;
 		
         $query = ActivityHistory::find()
 			->joinWith('meeting')
 			->where([
 				'satker_id' => $satker_id,
-				'id' => $id,				
+				'id' => $id,
 			]);
 			
         $dataProvider = new ActiveDataProvider([
@@ -133,7 +133,7 @@ class ActivityMeetingGeneralController extends Controller
      */
     public function actionCreate()
     {
-		$model = new Activity();		
+        $model = new Activity();		
 		$meeting = new Meeting();
 		$renders=[];
 		$renders['model'] = $model;
@@ -150,7 +150,7 @@ class ActivityMeetingGeneralController extends Controller
 						Yii::$app->getSession()->setFlash('success', 'Activity data have saved.');
 						if($meeting->load(Yii::$app->request->post())){							
 							$meeting->activity_id= $model->id;	
-							$meeting->organisation_id = 44;							
+							$meeting->organisation_id = 29;							
 							if($meeting->save()){								 
 								Yii::$app->getSession()->setFlash('success', 'Meeting & activity data have saved.');
 								$transaction->commit();
@@ -179,27 +179,12 @@ class ActivityMeetingGeneralController extends Controller
      */
     public function actionUpdate($id)
     {
-        /*$model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post())) {
-            if($model->save()) {
-				Yii::$app->getSession()->setFlash('success', 'Data have updated.');
-			}
-			else{
-				Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
-			}
-			return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }*/
-		$model = $this->findModel($id);
+        $model = $this->findModel($id);
 		$model->start = date('Y-m-d',strtotime($model->start));
 		$model->end = date('Y-m-d',strtotime($model->end));
 		$meeting = Meeting::findOne([
 			'activity_id'=>$model->id,
-			'organisation_id'=>44
+			'organisation_id'=>29
 		]);
 		$renders=[];
 		$renders['model'] = $model;
@@ -393,53 +378,5 @@ class ActivityMeetingGeneralController extends Controller
             else
 				return $this->render('pic', $renders);
         }
-    }
-	
-	public function actionSetRoom($activity_id,$room_id,$status)
-    {
-        $satker_id = (int)Yii::$app->user->identity->employee->satker_id;
-		$activity=$this->findModel($activity_id);		
-		$meeting = Meeting::findOne($activity->id);
-		$room = Room::findOne($room_id);
-		/* $status = 0;
-		if($room->satker_id == $satker_id) $status = 1; */
-		$model = new ActivityRoom([
-			'activity_id'=>$meeting->activity_id,
-			'room_id'=>$room->id,
-			'start'=>$activity->start,
-			'end'=>$activity->end,
-			'status'=>$status,
-		]);
-		
-        if($model->save()) {
-			Yii::$app->session->setFlash('success', 'Data saved');
-		}
-		else{
-			 Yii::$app->session->setFlash('error', 'Unable create there are some error');
-		}
-		if (Yii::$app->request->isAjax){	
-			return ('Room have set');
-		}
-		else{
-			return $this->redirect(['room', 'activity_id' => $activity_id]);
-		}
-    }
-	
-	 public function actionUnsetRoom($activity_id,$room_id)
-    {
-        $model = ActivityRoom::find()->where(
-			'activity_id=:activity_id AND room_id=:room_id',[':activity_id'=>$activity_id,':room_id'=>$room_id])->one();
-		if($model->delete()) {
-			Yii::$app->session->setFlash('success', 'Data saved');
-		}
-		else{
-			 Yii::$app->session->setFlash('error', 'Unable create there are some error');
-		}
-		if (Yii::$app->request->isAjax){	
-			return ('Room have unset');
-		}
-		else{
-			return $this->redirect(['room', 'activity_id' => $activity_id]);
-		}
     }
 }

@@ -1,16 +1,16 @@
 <?php
 
-namespace backend\modules\sekretariat\organisation\models;
+namespace backend\modules\sekretariat\finance\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Activity;
+use backend\models\Room;
 
 /**
- * ActivityMeetingOrganisationSearch represents the model behind the search form about `backend\models\Activity`.
+ * RoomSearch represents the model behind the search form about `backend\models\Room`.
  */
-class ActivityMeetingOrganisationSearch extends Activity
+class RoomSearch extends Room
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class ActivityMeetingOrganisationSearch extends Activity
     public function rules()
     {
         return [
-            [['id', 'satker_id', 'hostel', 'status', 'created_by', 'modified_by'], 'integer'],
-            [['name', 'description', 'start', 'end', 'location', 'created', 'modified'], 'safe'],
+            [['id', 'satker_id', 'capacity', 'owner', 'computer', 'hostel', 'status', 'created_by', 'modified_by'], 'integer'],
+            [['code', 'name', 'address', 'created', 'modified'], 'safe'],
         ];
     }
 
@@ -41,10 +41,7 @@ class ActivityMeetingOrganisationSearch extends Activity
      */
     public function search($params)
     {
-       $satker_id = (int)Yii::$app->user->identity->employee->satker_id;
-	   $query = Activity::find()
-				->joinWith('meeting',false,'RIGHT JOIN')
-				->where(['satker_id'=>$satker_id,'organisation_id'=>10]);
+        $query = Room::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -57,8 +54,9 @@ class ActivityMeetingOrganisationSearch extends Activity
         $query->andFilterWhere([
             'id' => $this->id,
             'satker_id' => $this->satker_id,
-            'start' => $this->start,
-            'end' => $this->end,
+            'capacity' => $this->capacity,
+            'owner' => $this->owner,
+            'computer' => $this->computer,
             'hostel' => $this->hostel,
             'status' => $this->status,
             'created' => $this->created,
@@ -67,9 +65,9 @@ class ActivityMeetingOrganisationSearch extends Activity
             'modified_by' => $this->modified_by,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'location', $this->location]);
+        $query->andFilterWhere(['like', 'code', $this->code])
+            ->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'address', $this->address]);
 
         return $dataProvider;
     }

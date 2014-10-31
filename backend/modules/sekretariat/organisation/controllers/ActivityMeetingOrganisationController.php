@@ -4,10 +4,20 @@ namespace backend\modules\sekretariat\organisation\controllers;
 
 use Yii;
 use backend\models\Activity;
+use backend\models\ActivityHistory;
+use backend\models\ActivityRoom;
+use backend\models\Room;
+use backend\models\Meeting;
+use backend\models\Reference;
+use backend\models\ObjectPerson;
 use backend\modules\sekretariat\organisation\models\ActivityMeetingOrganisationSearch as ActivitySearch;
+use backend\modules\sekretariat\organisation\models\RoomSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use hscstudio\heart\helpers\Heart;
+use yii\helpers\ArrayHelper;
+use yii\data\ActiveDataProvider;
 
 /**
  * ActivityMeetingOrganisationController implements the CRUD actions for Activity model.
@@ -108,21 +118,42 @@ class ActivityMeetingOrganisationController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Activity();
-
-        if ($model->load(Yii::$app->request->post())){ 
-			if($model->save()) {
-				Yii::$app->getSession()->setFlash('success', 'New data have saved.');
+        $model = new Activity();		
+		$meeting = new Meeting();
+		$renders=[];
+		$renders['model'] = $model;
+		$renders['meeting'] = $meeting;
+        if (Yii::$app->request->post()){ 
+			$connection=Yii::$app->getDb();
+			$transaction = $connection->beginTransaction();	
+			try{
+				if($model->load(Yii::$app->request->post())){					
+					$model->satker = 'current';
+					$model->location = implode('|',$model->location);
+					$model->status =0;									
+					if($model->save()) {
+						Yii::$app->getSession()->setFlash('success', 'Activity data have saved.');
+						if($meeting->load(Yii::$app->request->post())){							
+							$meeting->activity_id= $model->id;	
+							$meeting->organisation_id = 10;							
+							if($meeting->save()){								 
+								Yii::$app->getSession()->setFlash('success', 'Meeting & activity data have saved.');
+								$transaction->commit();
+								return $this->redirect(['view', 'id' => $model->id]);
+							}
+						}						
+					}
+					else{
+						Yii::$app->getSession()->setFlash('error', 'Data is NOT saved.');
+					}				
+				}
 			}
-			else{
-				Yii::$app->getSession()->setFlash('error', 'New data is not saved.');
+			catch (Exception $e) {
+				Yii::$app->getSession()->setFlash('error', 'Roolback transaction. Data is not saved');
 			}
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+        } 
+		
+		return $this->render('create', $renders);
     }
 
     /**
@@ -134,20 +165,69 @@ class ActivityMeetingOrganisationController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post())) {
-            if($model->save()) {
-				Yii::$app->getSession()->setFlash('success', 'Data have updated.');
+		$model->start = date('Y-m-d',strtotime($model->start));
+		$model->end = date('Y-m-d',strtotime($model->end));
+		$meeting = Meeting::findOne([
+			'activity_id'=>$model->id,
+			'organisation_id'=>10
+		]);
+		$renders=[];
+		$renders['model'] = $model;
+		$renders['meeting'] = $meeting;
+		
+		if (Yii::$app->request->post()){ 
+			$connection=Yii::$app->getDb();
+			$transaction = $connection->beginTransaction();	
+			try{
+				if($model->load(Yii::$app->request->post())){
+					if (isset(Yii::$app->request->post()['create_revision'])){
+						$model->create_revision = true;
+					}
+					$model->satker = 'current';
+					$model->location = implode('|',$model->location);									
+					if($model->save()) {
+						Yii::$app->getSession()->setFlash('success', 'Activity data have saved.');
+						if($meeting->load(Yii::$app->request->post())){							
+							$meeting->activity_id= $model->id;
+							if (isset(Yii::$app->request->post()['create_revision'])){
+								$meeting->create_revision = true;
+								
+							}
+							/* $meeting->program_revision = (int)\backend\models\ProgramHistory::getRevision($meeting->program_id); */
+							// GENERATE TRAINING NUMBER
+							if(Yii::$app->request->post('generate_number')){
+								$year = date('Y',strtotime($model->start));
+								$program = Program::find()->where(['id'=>$meeting->program_id])->currentSatker()->active()->one();
+								$program_owner = sprintf("%02s", $program->satker->sort);
+								$activity_owner = sprintf("%02s", $model->satker->sort);							
+								if($program_owner==$activity_owner) $activity_owner='00';
+								$program_number = $program->number;
+								$meeting_of_program_this_year = Activity::find()
+									->where('start<=:start and YEAR(start)=:this_year',[':start'=>$model->start,':this_year'=>$year])			
+									->currentSatker()
+									->active()
+									->count()+1;
+								$meeting->number = $year.'-'.$program_owner.'-'.$activity_owner.'-'.$program_number.'.'.$meeting_of_program_this_year;
+							}
+							
+							if($meeting->save()){								 
+								Yii::$app->getSession()->setFlash('success', 'Meeting & activity data have saved.');
+								$transaction->commit();
+								return $this->redirect(['view', 'id' => $model->id]);
+							}
+						}						
+					}
+					else{
+						Yii::$app->getSession()->setFlash('error', 'Data is NOT saved.');
+					}				
+				}
 			}
-			else{
-				Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
+			catch (Exception $e) {
+				Yii::$app->getSession()->setFlash('error', 'Roolback transaction. Data is not saved');
 			}
-			return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+        } 
+		
+		return $this->render('update', $renders);
     }
 
     /**
@@ -180,6 +260,108 @@ class ActivityMeetingOrganisationController extends Controller
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+	
+	public function actionRoom($activity_id, $satker_id=0)
+    {
+		$activity=$this->findModel($activity_id);
+		
+        $searchModel = new RoomSearch();
+		if($satker_id===0) $satker_id = (int)$activity->location;
+		if($satker_id<0) $satker_id = (int)Yii::$app->user->identity->employee->satker_id;
+		if($satker_id=='all'){
+			$queryParams['RoomSearch']=[
+				'status'=>1,
+			];
+		}
+		else{
+			$queryParams['RoomSearch']=[
+				'satker_id'=>$satker_id,
+				'status'=>1,
+			];
+		}	
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+        $dataProvider = $searchModel->search($queryParams);
+
+		// GET ALL TRAINING YEAR
+		$satkers['all']='- All -';
+		$satkers = yii\helpers\ArrayHelper::map(\backend\models\Reference::find()
+			->where(['type'=>'satker'])
+			//->orderBy(['eselon'=>'ASC',])
+			//->active()
+			->asArray()
+			->all(), 'id', 'name');
+		
+		if (Yii::$app->request->isAjax){
+			return $this->renderAjax('room', [
+				'searchModel' => $searchModel,
+				'dataProvider' => $dataProvider,
+				'activity_id'=>$activity_id,
+				'activity'=>$activity,
+				'satker_id'=>$satker_id,
+				'satkers'=>$satkers,
+			]);
+		}
+		else{
+			return $this->render('room', [
+				'searchModel' => $searchModel,
+				'dataProvider' => $dataProvider,
+				'activity_id'=>$activity_id,
+				'activity'=>$activity,
+				'satker_id'=>$satker_id,
+				'satkers'=>$satkers,
+			]);
+		}
+    }
+	
+	public function actionPic($id)
+    {
+        $model = $this->findModel($id);
+		$renders = [];
+		$renders['model'] = $model;
+		$object_people_array = [
+			// CEK ID 1213010300 IN TABLE ORGANISATION
+			'organisation_1201050000'=>'PIC Meeting'
+		];
+		$renders['object_people_array'] = $object_people_array;
+		foreach($object_people_array as $object_person=>$label){
+			$object_people[$object_person] = ObjectPerson::find()
+				->where([
+					'object'=>'activity',
+					'object_id' => $id,
+					'type' => $object_person, 
+				])
+				->one();
+			if($object_people[$object_person]==null){
+				$object_people[$object_person]= new ObjectPerson(
+					[
+						'object'=>'activity',
+						'object_id' => $id,
+						'type' => $object_person, 
+					]
+				);
+			}
+			$renders[$object_person] = $object_people[$object_person];
+		}	
+		
+        if (Yii::$app->request->post()) {
+			foreach($object_people_array as $object_person=>$label){
+				$person_id = (int)Yii::$app->request->post('ObjectPerson')[$object_person]['person_id'];
+				Heart::objectPerson($object_people[$object_person],$person_id,'activity',$id,$object_person);
+			}	
+			Yii::$app->getSession()->setFlash('success', 'Pic have updated.');
+			if (!Yii::$app->request->isAjax) {
+				return $this->redirect(['view', 'id' => $model->id]);	
+			}
+			else{
+				echo 'Pic have updated.';
+			}
+        } else {
+			if (Yii::$app->request->isAjax)
+				return $this->renderAjax('pic', $renders);
+            else
+				return $this->render('pic', $renders);
         }
     }
 }

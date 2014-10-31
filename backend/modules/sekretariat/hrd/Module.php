@@ -25,8 +25,8 @@ class Module extends \yii\base\Module
 			['icon'=>'fa fa-fw fa-key','label' => 'Manage User', 'url' => ['user/index'],'path'=>[
 				'/user/',
 			]],
-			['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Meeting Activity', 'url' => ['/'.$this->uniqueId.'/activity-meeting-general/index'],'path'=>[
-				'/activity-meeting-general/',
+			['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Rapat', 'url' => ['/'.$this->uniqueId.'/activity-meeting-hrd/index'],'path'=>[
+				'/activity-meeting-hrd/',
 			]],
 		];
 	}

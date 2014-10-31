@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\sekretariat\organisation\models;
+namespace backend\modules\sekretariat\finance\models;
 
 use Yii;
 use yii\base\Model;
@@ -8,9 +8,9 @@ use yii\data\ActiveDataProvider;
 use backend\models\Activity;
 
 /**
- * ActivityMeetingOrganisationSearch represents the model behind the search form about `backend\models\Activity`.
+ * ActivityMeetingFinanceSearch represents the model behind the search form about `backend\models\Activity`.
  */
-class ActivityMeetingOrganisationSearch extends Activity
+class ActivityMeetingFinanceSearch extends Activity
 {
     /**
      * @inheritdoc
@@ -41,11 +41,9 @@ class ActivityMeetingOrganisationSearch extends Activity
      */
     public function search($params)
     {
-       $satker_id = (int)Yii::$app->user->identity->employee->satker_id;
-	   $query = Activity::find()
+        $query = Activity::find()
 				->joinWith('meeting',false,'RIGHT JOIN')
-				->where(['satker_id'=>$satker_id,'organisation_id'=>10]);
-
+				->where(['organisation_id'=>22]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
