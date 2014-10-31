@@ -49,10 +49,7 @@ class Student extends \yii\db\ActiveRecord
 			['username', 'filter', 'filter' => 'trim'],
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => '\backend\models\Student', 'message' => 'This username has already been taken.'],
-            ['username', 'string', 'min' => 6, 'max' => 25],
-			
-			['new_password', 'required'],
-            ['new_password', 'string', 'min' => 6],			
+            ['username', 'string', 'min' => 6, 'max' => 25],		
                        
         ];
     }
