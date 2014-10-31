@@ -42,13 +42,13 @@ class RoomRequest3Controller extends Controller
      * Lists all Activity models.
      * @return mixed
      */
-    public function actionIndex($year='',$status='all', $organisation_id='387')
+    public function actionIndex($year='',$status=1, $organisation_id='387')
     {
 		if(empty($year)) $year=date('Y');
 		$searchModel = new ActivitySearch();
 		$queryParams = Yii::$app->request->getQueryParams();		
 		if($status!='all'){
-			$queryParams['ActivitySearch']['status'] = $status;
+			$queryParams['MeetingActivitySearch']['status'] = $status;
 		}
 		
 		$org = Organisation::findOne($organisation_id);
@@ -56,11 +56,11 @@ class RoomRequest3Controller extends Controller
 		
 		}
 		else {
-			$queryParams['ActivitySearch']['organisation_id'] = $organisation_id;
+			$queryParams['MeetingActivitySearch']['organisation_id'] = $organisation_id;
 		}
 		
 		if($year!='all'){
-			$queryParams['ActivitySearch']['year'] = $year;
+			$queryParams['MeetingActivitySearch']['year'] = $year;
 		}
 				
 		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);

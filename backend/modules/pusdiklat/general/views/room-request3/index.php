@@ -220,7 +220,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			[
 				'attribute' => 'status',
-				'filter' => false,
+				'filter' => true,
 				'label' => 'Status',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
@@ -271,7 +271,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				]).
 				'</div>'.
 				'<div class="pull-right" style="margin-right:5px;">'.
-				Select2::widget([
+				/* Select2::widget([
 					'name' => 'status', 
 					'data' => ['all'=>'- All -','0'=>'Draft','1'=>'Publish'],
 					'value' => $status,
@@ -286,7 +286,7 @@ $this->params['breadcrumbs'][] = $this->title;
 							});
 						',	
 					],
-				]).
+				]). */
 				'</div>'.
 				'<div class="pull-right" style="margin-right:5px;" id="div_organisation_id">'.
 				Select2::widget([

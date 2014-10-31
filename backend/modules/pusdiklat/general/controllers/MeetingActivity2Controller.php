@@ -49,12 +49,12 @@ class MeetingActivity2Controller extends Controller
 		$organisation_id =  390;
 		if($status=='all'){
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
+				$queryParams['MeetingActivitySearch']=[
 					'organisation_id' => $organisation_id
 				];
 			}
 			else{
-				$queryParams['ActivitySearch']=[
+				$queryParams['MeetingActivitySearch']=[
 					'year' => $year,
 					'organisation_id' => $organisation_id
 				];
@@ -62,13 +62,13 @@ class MeetingActivity2Controller extends Controller
 		}
 		else{
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
+				$queryParams['MeetingActivitySearch']=[
 					'status' => $status,
 					'organisation_id' => $organisation_id
 				];
 			}
 			else{
-				$queryParams['ActivitySearch']=[
+				$queryParams['MeetingActivitySearch']=[
 					'year' => $year,
 					'status' => $status,
 					'organisation_id' => $organisation_id
