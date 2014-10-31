@@ -10,11 +10,14 @@ use \kartik\widgets\DatePicker;
 use \kartik\widgets\TimePicker;
 use \kartik\datecontrol\DateControl;
 use kartik\checkbox\CheckboxX;
+use yii\helpers\Inflector;
+use yii\helpers\Url;
+
 /* @var $searchModel backend\models\RoomSearch */
 
-$this->title = 'Schedule : Class '.$trainingClass->class;
-$this->params['breadcrumbs'][] = ['label' => 'Trainings', 'url' => \yii\helpers\Url::to(['/'.$this->context->module->uniqueId.'/training/index'])];
-$this->params['breadcrumbs'][] = ['label' => 'Training Classes', 'url' => ['index','tb_training_id'=>$trainingClass->tb_training_id]];
+$this->title = 'Schedule Class #'. $class->class;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Activities'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Inflector::camel2words($activity->name), 'url' => ['class','id'=>$activity->id]];
 $this->params['breadcrumbs'][] = $this->title;
 
 $controller = $this->context;
@@ -32,20 +35,19 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 	<div class="kv-panel-before">
 	
 	<?php 
-	$model = new \backend\models\TrainingScheduleExtSearch();
-	
-	if (!isset($start) or empty($start)) {
-		$start = $trainingClass->training->start;
-	}
-	
-	$model->startDate=$start;
-	$url = \yii\helpers\Url::to(['activity-lists','tb_training_class_id'=>$trainingClass->id]);
+	$url = Url::to(['activity-lists','id'=>$activity->id,'class_id'=>$class->id]);
 	$form = ActiveForm::begin([
-		'action' => ['add-activity','tb_training_class_id'=>$trainingClass->id],
+		'action' => [
+			'add-activity-class-schedule',
+			'id'=>$activity->id,
+			'class_id'=>$class->id
+		],
 		'enableAjaxValidation' => false,
 		'enableClientValidation' => false,
 		'options'=>[
 			'onsubmit'=>"
+				var form = $(this);
+				form.find('button[type=submit]').attr('disabled',true);
 				$.ajax({
 					url: $(this).attr('action'),
 					type: 'post',
@@ -55,27 +57,29 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 						if(datas[1]==1){
 							//SUCCESS
 							$.pjax.reload({
-								url: '".\yii\helpers\Url::to(['schedule',
-									'tb_training_class_id'=>$trainingClass->id])."&start='+datas[3],
+								url: '".Url::to(['class-schedule',
+									'id'=>$activity->id,'class_id'=>$class->id])."&start='+datas[3],
 								container: '#pjax-gridview-schedule', 
 								timeout: 3000,
 							});				
 							
-							$('#trainingscheduleextsearch-starttime').val(datas[4])
-							$('#trainingscheduleextsearch-starttime-disp').val(datas[4])
+							$('#trainingscheduleextsearch-starttime').val(datas[4]);
+							$('#trainingscheduleextsearch-starttime-disp').val(datas[4]);
 						}
-						else{
+						else{							
 							alert(datas[2]);
 						}
+						form.find('button[type=submit]').removeAttr('disabled');
 					},
 					error:  function( jqXHR, textStatus, errorThrown ) {
 						alert(jqXHR.responseText);
+						form.find('button[type=submit]').removeAttr('disabled');
 					}
 				});	
 				return false;
 			",
 		],
-	]);
+	]); 
 	?>
 	<table class="table table-striped table-condensed table-hover">
 	<tr>
@@ -86,24 +90,23 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 	</tr>
 	<tr>
 		<td>
-		<?php
-		//echo '<label class="control-label">StartTime</label>';		
+		<?php		
 		echo "<div class='clearfix' style='width:275px;'>";
 		echo "<div style='width:150px;' class='pull-left'>";
-		echo $form->field($model, 'startDate')->widget(DateControl::classname(), [
+		echo $form->field($trainingScheduleExtSearch, 'startDate')->widget(DateControl::classname(), [
 			'type'=>DateControl::FORMAT_DATE,
 			'options'=>[  // this will now become the widget options for DatePicker
 				'pluginOptions'=>[
 					'autoclose'=>true,
-					'startDate'=>date('d-m-Y',strtotime($trainingClass->training->start)),
-					'endDate'=>date('d-m-Y',strtotime($trainingClass->training->finish)),
+					'startDate'=>date('d-m-Y',strtotime($activity->start)),
+					'endDate'=>date('d-m-Y',strtotime($activity->end)),
 				],// datepicker plugin options
 				'convertFormat'=>true, // autoconvert PHP date to JS date format,				
 			]
 		])->label(false);
 		echo "</div>";
 		echo "<div style='width:100px;' class='pull-right'>";
-		echo $form->field($model, 'startTime')->widget(DateControl::classname(), [
+		echo $form->field($trainingScheduleExtSearch, 'startTime')->widget(DateControl::classname(), [
 			'type'=>DateControl::FORMAT_TIME,
 			'options'=>[  // this will now become the widget options for DatePicker
 				'pluginOptions'=>[
@@ -116,7 +119,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 			]
 		])->label(false);
 		echo "</div>";
-		echo "</div>";
+		echo "</div>"; 
 		?>
 		</td>
 		<td>
@@ -125,32 +128,29 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 		]); ?>
 		<?php
 		$trainingClassSubject = \backend\models\TrainingClassSubject::find()
-			->where(['tb_training_class_id'=>$trainingClass->id,'status'=>1])
+			->where(['training_class_id'=>$class->id,'status'=>1])
 			->all();
 		$data=[];
 		foreach($trainingClassSubject as $tcs){
-			//$tcs['tb_training_class_subject_id']
-			$tb_program_subject_id = $tcs->tb_program_subject_id;
-			$tb_program_id = $tcs->trainingClass->training->tb_program_id;
-			$tb_program_revision = $tcs->trainingClass->training->tb_program_revision;
-			$programSubjectHistory = \backend\models\ProgramSubjectHistory::find()
-			->where([
-				'tb_program_subject_id'=>$tb_program_subject_id,
-				'tb_program_id'=>$tb_program_id,
-				'revision'=>$tb_program_revision,
-				'status'=>1
-			])
-			->one();
-			if(null!=$programSubjectHistory){
-				$ts = \backend\models\TrainingSchedule::find()
+			$program_subject_id = $tcs->program_subject_id;
+			$programSubject= \backend\models\ProgramSubjectHistory::find()
+				->where([
+					'id' => $program_subject_id,
+					'program_id'=>$class->training->program_id,
+					'program_revision' => $class->training->program_revision,
+					'status'=>1
+				])
+				->one();
+			if(null!=$programSubject){
+				$ts =  \backend\models\TrainingSchedule::find()
 					->select(['used_hours'=>'sum(hours)'])
-					->where(['tb_training_class_subject_id'=>$tcs->id,'status'=>1])
-					->groupBy('tb_training_class_subject_id')
+					->where(['training_class_subject_id'=>$tcs->id,'status'=>1])
+					->groupBy('training_class_subject_id')
 					->asArray()
 					->one();
-				$available_hours = $programSubjectHistory->hours - $ts['used_hours'];
+				$available_hours = $programSubject->hours - $ts['used_hours'];
 				if($available_hours>0){
-					$name = $programSubjectHistory->subjectType->name.' '.$programSubjectHistory->name.' '.$available_hours.' JP';
+					$name = $programSubject->name.' '.$available_hours.' JP';
 					$data[$tcs->id]=$name;
 				}
 				else{
@@ -165,7 +165,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 		
 		
 		// The controller action that will render the list
-		$url = \yii\helpers\Url::to(['activity-lists','tb_training_class_id'=>$trainingClass->id]);
+		$url = Url::to(['activity-lists','id'=>$activity->id,'class_id'=>$class->id]);
 		 
 		// Script to initialize the selection based on the value of the select2 element
 		$initScript = "
@@ -181,7 +181,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 			}
 		";
 		//$this->registerJs('$.ajax("'.$url.'", {dataType: "json"}).done(function(data) { alert(data.results.text); callback(data.results);});');
-		echo $form->field($model, 'tb_training_class_subject_id')->widget(Select2::classname(), [
+		echo $form->field($trainingScheduleExtSearch, 'training_class_subject_id')->widget(Select2::classname(), [
 			'data' => $data,
 			'options' => [
 				'placeholder' => 'Choose Training Class Subject ...',
@@ -226,11 +226,11 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 			'pluginOptions' => [
 				'allowClear' => true,
 			],
-		])->label(false); ?>
+		])->label(false);  ?>
 		<?php 
 		if(isset($_GET['s2I'])){
 			$this->registerJs('
-				$("#trainingscheduleextsearch-tb_training_class_subject_id").select2().select2("val", '.$_GET['s2I'].');
+				$("#trainingscheduleextsearch-training_class_subject_id").select2().select2("val", '.$_GET['s2I'].');
 			');
 		}
 		?>
@@ -238,7 +238,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 		<?php \yii\widgets\Pjax::end(); ?>
 		</td>
 		<td>
-		<?= $form->field($model, 'hours')->textInput(['placeholder' => 'In JP',])->label(false) ?>
+		<?php echo $form->field($trainingScheduleExtSearch, 'hours')->textInput(['placeholder' => 'In JP',])->label(false)  ?>
 		</td>
 		<td rowspan="2">
 			<?= Html::submitButton(
@@ -251,20 +251,18 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 		<?php
 		$activityRoom = \backend\models\ActivityRoom::find()
 			->where([
-				'type'=>0,
-				'activity_id'=>$trainingClass->tb_training_id,
+				'activity_id'=>$class->training_id,
 				'status'=>2
 			])
 			->all();
 		$dataRoom=[];	
-		$firstAR = '';
 		foreach ($activityRoom as $ar){
-			$dataRoom[$ar->id] = $ar->room->name;
+			$dataRoom[$ar->room_id] = $ar->room->name;
 			if(empty($firstAR)){
-				$firstAR = $ar->id;
+				$trainingScheduleExtSearch->activity_room_id = $ar->room_id;
 			}
 		}
-		echo $form->field($model, 'tb_activity_room_id')->widget(Select2::classname(), [
+		echo $form->field($trainingScheduleExtSearch, 'activity_room_id')->widget(Select2::classname(), [
 			'data' => $dataRoom,
 			'options' => [
 				'placeholder' => 'Choose Activity Room ...',
@@ -275,22 +273,17 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				'allowClear' => true,
 			],
 		])->label(false); 
-		$this->registerCss('#s2id_trainingscheduleextsearch-tb_activity_room_id { width: 275px !important; }');
-		if(!empty($firstAR)){
-			$this->registerJs('
-				$("#trainingscheduleextsearch-tb_activity_room_id").select2().select2("val", '.$firstAR.');
-			');
-		}
+		$this->registerCss('#s2id_trainingscheduleextsearch-activity_room_id { width: 275px !important; }');
 		?>
 		</td>
 		<td>
 		<div id="other-activity">
-			<?= $form->field($model, 'activity')->textInput(['placeholder' => 'Other Activity',])->label(false) ?>			
-			<?= $form->field($model, 'pic')->textInput(['placeholder' => 'PIC Activity',])->label(false) ?>
+			<?php echo $form->field($trainingScheduleExtSearch, 'activity')->textInput(['placeholder' => 'Other Activity',])->label(false) ?>			
+			<?php echo $form->field($trainingScheduleExtSearch, 'pic')->textInput(['placeholder' => 'PIC Activity',])->label(false) ?>
 		</div>
 		</td>
 		<td>
-			<?= $form->field($model, 'minutes')->textInput(['placeholder' => 'In Minute',])->label(false) ?>
+			<?php echo $form->field($trainingScheduleExtSearch, 'minutes')->textInput(['placeholder' => 'In Minute',])->label(false) ?>
 		</td>
 	</table>
 	<?php ActiveForm::end(); ?>
@@ -308,11 +301,6 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 			'type' => AlertBlock::TYPE_ALERT
 		]); 
 	}
-	
-	if (!isset($start) or empty($start)) {
-		$start = $trainingClass->training->start;
-	}
-	$model->scheduleDate=$start;
 	?>	
 	
     <?= GridView::widget([
@@ -328,13 +316,13 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'format'=>'raw',
-				'value'=>function($model){
-					$start = date('d-M-Y H:i',strtotime($model->startTime));
-					$finish = date('d-M-Y H:i',strtotime($model->finishTime));
-					$startDate = date('d-M-Y',strtotime($model->startTime));
-					$finishDate = date('d-M-Y',strtotime($model->finishTime));
-					$startTime = date('H:i',strtotime($model->startTime));
-					$finishTime = date('H:i',strtotime($model->finishTime));
+				'value'=>function($data){
+					$start = date('d-M-Y H:i',strtotime($data->start));
+					$finish = date('d-M-Y H:i',strtotime($data->end));
+					$startDate = date('d-M-Y',strtotime($data->start));
+					$finishDate = date('d-M-Y',strtotime($data->end));
+					$startTime = date('H:i',strtotime($data->start));
+					$finishTime = date('H:i',strtotime($data->end));
 					
 					if($start==$finish){
 						return $start;
@@ -353,22 +341,22 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'format'=>'raw',
-				'value'=>function($model){
-					if($model->tb_training_class_subject_id>0){
-						$trainingClassSubject = \backend\models\TrainingClassSubject::findOne($model->tb_training_class_subject_id);
-						if($trainingClassSubject!=null){
-							$tb_program_subject_id = $trainingClassSubject->tb_program_subject_id;
-							$tb_program_id = $trainingClassSubject->trainingClass->training->tb_program_id;
-							$tb_program_revision = $trainingClassSubject->trainingClass->training->tb_program_revision;
+				'value'=>function($data) use ($activity) {
+					if($data->training_class_subject_id>0){
+						$trainingClassSubject = \backend\models\TrainingClassSubject::findOne($data->training_class_subject_id);
+						if($trainingClassSubject!==null){							
+							$program_subject_id = $trainingClassSubject->program_subject_id;
+							$program_id = $activity->training->program_id;
+							$program_revision =  $activity->training->program_revision;
 							$programSubjectHistory = \backend\models\ProgramSubjectHistory::find()
-							->where([
-								'tb_program_subject_id'=>$tb_program_subject_id,
-								'tb_program_id'=>$tb_program_id,
-								'revision'=>$tb_program_revision,
-								'status'=>1
-							])
-							->one();
-							if(null!=$programSubjectHistory){
+								->where([
+									'id'=>$program_subject_id,
+									'program_id'=>$program_id,
+									'program_revision'=>$program_revision,
+									'status'=>1
+								])
+								->one();
+							if(!empty($programSubjectHistory)){
 								$name = $programSubjectHistory->subjectType->name.' '.$programSubjectHistory->name;
 								return $name;
 							}
@@ -382,7 +370,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 						}
 					}
 					else{
-						return $model->activity;
+						return $data->activity;
 					}
 				}
 			],
@@ -394,9 +382,9 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'format'=>'raw',
-				'value'=>function($model){
-					if($model->tb_training_class_subject_id>0){
-						return $model->hours;
+				'value'=>function($data){
+					if($data->training_class_subject_id>0){
+						return $data->hours;
 					}
 					else{
 						return '';
@@ -410,42 +398,52 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'format'=>'raw',
-				'value'=>function($model){
-					if($model->tb_training_class_subject_id>0){
+				'value'=>function($data)use ($activity, $class){
+					if($data->training_class_subject_id>0){
 						// FIND PENGAJAR pada tb_training_schedule_trainer (id, tb_training_schedule_id, tb_trainer_id, status);
-						$content = Html::a('<i class="fa fa-plus"></i> Add',['trainer','id'=>$model->id],[
+						$content = Html::a('<i class="fa fa-plus"></i> Add',
+						[
+						'trainer-class-schedule',
+						'id'=>$activity->id,
+						'class_id'=>$class->id,
+						'schedule_id'=>$data->id,
+						],
+						[
 							'class' => 'label label-success modal-heart',
 							'data-pjax'=>0,
 							'title'=>'Click to add trainer!',
 							'data-toggle'=>"tooltip",
 							'data-placement'=>"top",
+							'modal-size' => 'modal-lg',
 						]);
 						
 						$trainingScheduleTrainer = \backend\models\TrainingScheduleTrainer::find()
 							->where([
-								'tb_training_schedule_id'=>$model->id,
+								'training_schedule_id'=>$data->id,
 								'status'=>1,
 							])
-							->orderBy('ref_trainer_type_id ASC')
+							->orderBy('type ASC')
 							->all();
-						$ref_trainer_type_id= "-1";	
+						$type= "-1";	
 						$idx = 1;
 						foreach($trainingScheduleTrainer as $trainer){
-							if($ref_trainer_type_id!=$trainer->ref_trainer_type_id){
+							if($type!=$trainer->type){
 								$content .="<hr style='margin:2px 0'>";
 								$content .="<strong>".$trainer->trainerType->name."</strong>";
 								$content .="<hr style='margin:2px 0'>";
-								$ref_trainer_type_id=$trainer->ref_trainer_type_id;
+								$type=$trainer->type;
 								$idx=1;
 							}
 							
 							$content .="<div>";
-							$content .="<span  class='label label-default' data-toggle='tooltip' title='".$trainer->trainer->organization." - ".$trainer->trainer->phone."'>".$idx++.". ".$trainer->trainer->name."</span> ";
+							$content .="<span  class='label label-default' data-toggle='tooltip' title='".$trainer->trainer->person->organisation." - ".$trainer->trainer->person->phone."'>".$idx++.". ".$trainer->trainer->person->name."</span> ";
 							$content .=Html::a('<span class="glyphicon glyphicon-trash"></span>', 
 							[
-							'delete-trainer',
-							'id'=>$model->id,
-							'tb_trainer_id'=>$trainer->tb_trainer_id,
+							'delete-trainer-class-schedule',
+							'id'=>$activity->id,
+							'class_id'=>$class->id,
+							'schedule_id'=>$data->id,
+							'trainer_id'=>$trainer->trainer_id,
 							], 
 							[
 							'class' => 'label label-danger link-post',
@@ -459,7 +457,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 						}
 					}
 					else{
-						$content = $model->pic;
+						$content = $data->pic;
 					}
 					
 					
@@ -474,24 +472,44 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'format'=>'raw',
-				'value'=>function($model){
-					if($model->tb_activity_room_id>0){
-						$ar = \backend\models\ActivityRoom::findOne($model->tb_activity_room_id);
+				'value'=>function($data) use ($activity, $class){
+					if($data->activity_room_id>0){
+						$ar = \backend\models\ActivityRoom::find()
+							->where([
+								'activity_id'=>$activity->id,
+								'room_id' => $data->activity_room_id,
+							])
+							->one();
 						$room = $ar->room->name;
-						$ref_satker_id = (int)Yii::$app->user->identity->employee->ref_satker_id;
-						if($ar->room->ref_satker_id!=$ref_satker_id){
+						$satker_id = (int)Yii::$app->user->identity->employee->satker_id;
+						if($ar->room->satker_id!=$satker_id){
 							$room .= ' ['.$ar->room->satker->name.'] ';
 						} 
-						return Html::a($ar->id,['room','id'=>$model->id],[
+						return Html::a($ar->room_id,
+							[
+							'room-class-schedule',
+							'id'=>$activity->id,
+							'class_id'=>$class->id,
+							'schedule_id'=>$data->id,
+							],
+							[
 							'class' => 'label label-warning modal-heart',
 							'data-pjax'=>0,
 							'title'=>$room,
 							'data-toggle'=>"tooltip",
 							'data-placement'=>"top",
+							'modal-title'=>'Set Room',
 						]);
 					}
 					else{
-						return Html::a('-',['room','id'=>$model->id],[
+						return Html::a('-',
+						[
+						'room-class-schedule',
+						'id'=>$activity->id,
+						'class_id'=>$class->id,
+						'schedule_id'=>$data->id,
+						],
+						[
 							'class' => 'label label-warning modal-heart',
 							'data-pjax'=>0,
 							'title'=>'Click to set room!',
@@ -501,35 +519,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 					}
 				}
 			],
-			/*[
-				'label' => 'S',
-				'vAlign'=>'middle',
-				'hAlign'=>'center',
-				'width'=>'10px;',
-				'headerOptions'=>['class'=>'kv-sticky-column'],
-				'contentOptions'=>['class'=>'kv-sticky-column'],
-				'format'=>'raw',
-				'value'=>function($model){
-					if($model->tb_training_class_subject_id>0){
-						return Html::a($model->session,['session','id'=>$model->id],[
-							'class' => 'label label-primary modal-heart',
-							'data-pjax'=>0,
-							'title'=>'Click to set session!',
-							'data-toggle'=>"tooltip",
-							'data-placement'=>"top",
-						]);
-					}
-					else{
-						return Html::a('-',['session','id'=>$model->id],[
-							'class' => 'label label-primary modal-heart',
-							'data-pjax'=>0,
-							'title'=>'Click to set session!',
-							'data-toggle'=>"tooltip",
-							'data-placement'=>"top",
-						]);
-					}
-				}
-			],*/
+			
 			[
 				'format' => 'raw',
 				'label' => 'Action',
@@ -538,25 +528,25 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				'width'=>'80px',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
-				'value' => function ($model) use($trainingClass){
-					$ref_satker_id = (int)Yii::$app->user->identity->employee->ref_satker_id;
+				'value' => function ($data) use($activity, $class){
+					$satker_id = (int)Yii::$app->user->identity->employee->satker_id;
 					$delete = false;
-					if($model->trainingClass->training->ref_satker_id==$ref_satker_id){
+					if($data->trainingClass->training->activity->satker_id==$satker_id){
 						$delete=true;
 					}
 					
 					if($delete){
 						return Html::a('<span class="fa fa-times"></span>', 
 							[
-							'delete-activity',
-							'id'=>$model->id,
-							'tb_training_class_id'=>$trainingClass->id,
+							'delete-activity-class-schedule',
+							'id'=>$activity->id,
+							'class_id'=>$class->id,
+							'schedule_id'=>$data->id,
 							], 
 							[
 							'class' => 'label label-danger link-post',
 							'data-pjax'=>0,
 							'title'=>'click to delete it!',
-							//'data-confirm'=>'Are sure delete it!',
 							'data-toggle'=>"tooltip",
 							'data-placement'=>"top",
 							]);
@@ -568,16 +558,16 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 		'panel' => [
 			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> Schedule</h3>',
 			'before'=>
-				Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back To Training Class', ['index','tb_training_id'=>$trainingClass->tb_training_id], ['class' => 'btn btn-warning']).' '.
+				Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back', ['class','id'=>$activity->id], ['class' => 'btn btn-warning']).' '.
 				Html::a('<i class="fa fa-fw fa-plus"></i> Add Activity', '#', ['class' => 'btn btn-success','onclick'=>"$('#booking-schedule').slideToggle('slow');return false;",'pjax'=>0]).' '.
 				'<div class="pull-right" style="margin-right:5px; width:150px;">'.
-				$form->field($model, 'scheduleDate')->widget(DateControl::classname(), [
+				$form->field($trainingScheduleExtSearch, 'scheduleDate')->widget(DateControl::classname(), [
 					'type'=>DateControl::FORMAT_DATE,
 					'options'=>[  // this will now become the widget options for DatePicker
 						'pluginOptions'=>[
 							'autoclose'=>true,
-							'startDate'=>date('d-m-Y',strtotime($trainingClass->training->start)),
-							'endDate'=>date('d-m-Y',strtotime($trainingClass->training->finish)),
+							'startDate'=>date('d-m-Y',strtotime($activity->start)),
+							'endDate'=>date('d-m-Y',strtotime($activity->end)),
 							
 						],
 						'pluginEvents' => [
@@ -591,7 +581,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 								day = date.getDate(); 
 								var start = year+'-'+month+'-'+day;
 								$.pjax.reload({
-									url: '".\yii\helpers\Url::to(['schedule','tb_training_class_id'=>$trainingClass->id])."&start='+start,
+									url: '".\yii\helpers\Url::to(['class-schedule','id'=>$activity->id,'class_id'=>$class->id])."&start='+start,
 									container: '#pjax-gridview-schedule', 
 									timeout: 3000,
 								});	
@@ -611,7 +601,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 					]
 				])->label(false).
 				'</div>',
-			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', ['schedule','tb_training_class_id'=>$trainingClass->id], ['class' => 'btn btn-info']),
+			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', ['class-schedule','id'=>$activity->id,'class_id'=>$class->id], ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'responsive'=>true,
@@ -619,11 +609,12 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
     ]); ?>
 	<?php
 	$this->registerJs('
-			if($("#trainingscheduleextsearch-tb_training_class_subject_id").val()>0){
-				var select2Index = $("#trainingscheduleextsearch-tb_training_class_subject_id").val();
+			if($("#trainingscheduleextsearch-training_class_subject_id").val()>0){
+				var select2Index = $("#trainingscheduleextsearch-training_class_subject_id").val();
 				$.pjax.reload({
-					url: "'.\yii\helpers\Url::to(['schedule',
-						'tb_training_class_id'=>$trainingClass->id,
+					url: "'.\yii\helpers\Url::to(['class-schedule',
+						'id'=>$activity->id,
+						'class_id'=>$class->id,
 						'start'=>$start,
 					]).'&s2I="+select2Index,
 					container: "#pjax-select-activity", 
@@ -634,8 +625,9 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 		
 			$( "a.link-post" ).click(function() {	
 				if(!confirm("Are you sure delete it??")) return false;	
+				var link = $(this)
 				$.ajax({
-					url: $(this).attr("href"),
+					url: link.attr("href"),
 					type: "post",
 					//data: $("#form-available-room").serialize(),
 					success: function(data) {
@@ -647,7 +639,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 							$("#trainingscheduleextsearch-starttime").val(datas[4]);
 							$("#trainingscheduleextsearch-starttime-disp").val(datas[4]);
 							$.pjax.reload({
-								url: "'.\yii\helpers\Url::to(['schedule','tb_training_class_id'=>$trainingClass->id]).'&start="+datas[3],
+								url: "'.Url::to(['class-schedule','id'=>$activity->id,'class_id'=>$class->id]).'&start="+datas[3],
 								container: "#pjax-gridview-schedule", 
 								timeout: 3000,
 							});					
@@ -661,7 +653,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 			});
 			
 			$.ajax({
-				url: "'.yii\helpers\Url::to(['get-max-time','tb_training_class_id'=>$trainingClass->id,'start'=>$start]).'",
+				url: "'.Url::to(['class-schedule-max-time','id'=>$activity->id,'class_id'=>$class->id,'start'=>$start]).'",
 				type: "post",
 				//data: $("#form-available-room").serialize(),
 				success: function(data) {
@@ -716,40 +708,6 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 	<?php \yii\widgets\Pjax::end(); ?>
 	
 	<?php 
-	if (Yii::$app->request->isAjax){	
-	
-	}
-	else{
-		echo Html::beginTag('div', ['class'=>'row']);
-			echo Html::beginTag('div', ['class'=>'col-md-2']);
-				echo Html::beginTag('div', ['class'=>'dropdown']);
-					echo Html::button('PHPExcel <span class="caret"></span></button>', 
-						['type'=>'button', 'class'=>'btn btn-default', 'data-toggle'=>'dropdown']);
-					echo Dropdown::widget([
-						'items' => [
-							['label' => 'EXport XLSX', 'url' => ['php-excel?filetype=xlsx&template=yes']],
-							['label' => 'EXport XLS', 'url' => ['php-excel?filetype=xls&template=yes']],
-							['label' => 'Export PDF', 'url' => ['php-excel?filetype=pdf&template=no']],
-						],
-					]); 
-				echo Html::endTag('div');
-			echo Html::endTag('div');	
-			echo Html::beginTag('div', ['class'=>'col-md-2']);
-				echo Html::beginTag('div', ['class'=>'dropdown']);
-					echo Html::button('OpenTBS <span class="caret"></span></button>', 
-						['type'=>'button', 'class'=>'btn btn-default', 'data-toggle'=>'dropdown']);
-					echo Dropdown::widget([
-						'items' => [
-							['label' => 'EXport DOCX', 'url' => ['open-tbs?filetype=docx']],
-							['label' => 'EXport ODT', 'url' => ['open-tbs?filetype=odt']],
-							['label' => 'EXport XLSX', 'url' => ['open-tbs?filetype=xlsx']],
-						],
-					]); 
-				echo Html::endTag('div');
-			echo Html::endTag('div');	
-		echo Html::endTag('div');
-	}
-	
 	$this->registerJs('
 		$("#booking-schedule").slideToggle("slow");
 		$("#trainingscheduleextsearch-activity").prop("disabled",true);
@@ -758,5 +716,26 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 		$("#trainingscheduleextsearch-hours").prop("disabled",false);
 	'); 			
 	?>
-	<?= \hscstudio\heart\widgets\Modal::widget(['modalSize'=>'','registerAsset'=>false]) ?>
+	<?= \hscstudio\heart\widgets\Modal::widget(['registerAsset'=>true]) ?>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">
+	<i class="fa fa-fw fa-refresh upload"></i> Document Generator
+	</div>
+    <div class="panel-body">
+		<div class="row clearfix">
+			<div class="col-md-2">
+			<?php
+			echo Html::a('<i class="fa fa-fw fa-file"></i> Jadwal Diklat',
+						Url::to(['export-class-schedule','id'=>$activity->id,'class_id'=>$class->id]),
+						[
+							'class'=>'btn btn-default',
+							'data-pjax'=>'0',
+						]
+					);
+			?>
+			</div>			
+			
+		</div>
+	</div>
 </div>

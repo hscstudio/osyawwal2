@@ -135,7 +135,7 @@ $this->params['breadcrumbs'][] = $this->title;
 								'class_id'=>$data->id,
 							], 
 							[
-								'title'=>$classStudentCount,
+								'title'=>$classStudentCount.' peserta',
 								'class' => 'label label-info',
 								'data-pjax'=>'0',
 								'data-toggle'=>'tooltip',
@@ -176,11 +176,11 @@ $this->params['breadcrumbs'][] = $this->title;
 								'class_id'=>$data->id,
 							], 
 							[
-								'title'=>'Klik to set schedule',
+								'title'=>'Click to view schedule',
 								'class' => 'label label-info',
 								'data-pjax'=>0,
 								'data-toggle'=>'tooltip',
-								'data-confirm'=>'Process!'
+								/* 'data-confirm'=>'Process!' */
 							]);							
 				}
 			],

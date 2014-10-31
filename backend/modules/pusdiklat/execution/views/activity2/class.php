@@ -57,22 +57,37 @@ $this->params['breadcrumbs'][] = $this->title;
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'value' => function ($data) use ($model){
-					return '<div class="btn btn-group">'.Html::a('<i class="fa fa-fw fa-tasks"></i>', Url::to(['attendance', 'training_class_id' => $data->id]), [
-							'class' => 'btn btn-default btn-xs',
-							'data-pjax' => '0'
-						]).Html::a('<i class="fa fa-fw fa-print"></i><i class="fa fa-fw fa-child"></i>', Url::to(['recap', 'training_class_id' => $data->id, 'id' => $model->id]), [
-							'class' => 'btn btn-default btn-xs',
-							'data-pjax' => '0',
-							'title' => 'Print student report attendance for this class only'
-						]).Html::a('<i class="fa fa-fw fa-print"></i><i class="fa fa-fw fa-user-md"></i>', Url::to(['recap-trainer', 'training_class_id' => $data->id, 'id' => $model->id]), [
+					return '<div class="btn btn-group">'.
+					
+						Html::a('<i class="fa fa-fw fa-pencil"></i><i class="fa fa-fw fa-tasks"></i>', Url::to(['attendance', 'training_class_id' => $data->id]), [
 							'class' => 'btn btn-default btn-xs',
 							'data-pjax' => '0',
-							'title' => 'Print trainer report attendance for this class only'
-						]).'</div>';
+							'title'=>'Input Data Kehadiran <br>Peserta dan Pengajar',
+							'data-toggle'=>'tooltip',
+							'data-html'=>'true',
+						]).
+						
+						Html::a('<i class="fa fa-fw fa-print"></i><i class="fa fa-fw fa-child"></i>', Url::to(['recap', 'training_class_id' => $data->id, 'id' => $model->id]), [
+							'class' => 'btn btn-default btn-xs',
+							'data-pjax' => '0',
+							'title' => 'Cetak Rekap Kehadiran Peserta <br>Pada Kelas Ini',
+							'data-toggle'=>'tooltip',
+							'data-html'=>'true',
+						]).
+						
+						Html::a('<i class="fa fa-fw fa-print"></i><i class="fa fa-fw fa-user-md"></i>', Url::to(['recap-trainer', 'training_class_id' => $data->id, 'id' => $model->id]), [
+							'class' => 'btn btn-default btn-xs',
+							'data-pjax' => '0',
+							'title' => 'Cetak Rekap Kehadiran Pengajar <br>Pada Kelas Ini',
+							'data-toggle'=>'tooltip',
+							'data-html'=>'true',
+						]).
+						
+						'</div>';
 				}
 			],
 			
-			[
+			/* [
 				'format' => 'raw',
 				'label' => 'Subject',
 				'vAlign'=>'middle',
@@ -125,7 +140,7 @@ $this->params['breadcrumbs'][] = $this->title;
 								]);
 					}
 				}
-			],
+			], */
 
 			[
 				'format' => 'raw',
@@ -135,10 +150,20 @@ $this->params['breadcrumbs'][] = $this->title;
 				'width'=>'80px',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
-				'value' => function ($model){
-					return Html::a('SET',
-						Url::to(['schedule','training_class_id'=>$model->id]),
-						['class'=>'label label-default', 'data-pjax' => '0']);
+				'value' => function ($data){
+					return Html::a(' <i class="fa fa-fw fa-table"></i>', 
+							[
+								'class-schedule',
+								'id'=>$data->training_id,
+								'class_id'=>$data->id,
+							], 
+							[
+								'title'=>'Click to view schedule',
+								'class' => 'label label-info',
+								'data-pjax'=>0,
+								'data-toggle'=>'tooltip',
+								/* 'data-confirm'=>'Process!' */
+							]);			
 				}
 			],
 
@@ -173,7 +198,7 @@ $this->params['breadcrumbs'][] = $this->title;
 								'class_id'=>$data->id,
 							], 
 							[
-								'title'=>$classStudentCount,
+								'title'=>$classStudentCount.' peserta',
 								'class' => 'label label-info',
 								'data-pjax'=>'0',
 								'data-toggle'=>'tooltip',
@@ -192,45 +217,8 @@ $this->params['breadcrumbs'][] = $this->title;
 									'data-toggle'=>'tooltip',
 									'data-confirm'=>'Process!'
 								]);
-					}
+					}				
 					
-					/* $subjectCount = \backend\models\ProgramSubject::find()
-						->where([
-							'program_id' => $data->training->program_id,
-							DIPIKIRIN NANTI.. PUYENG AKU 'revision'=> $data->training->tb_program_revision, 
-							'status'=>1,
-						])
-						->count();
-					
-					if($subjectCount>$classSubjectCount){
-						return Html::a($classSubjectCount.' <i class="fa fa-fw fa-plus-circle"></i>', 
-								[
-									'create-class-subject',
-									'id'=>$data->training_id,
-									'class_id'=>$data->id,
-								], 
-								[
-									'title'=>$subjectCount,
-									'class' => 'label label-info',
-									'data-pjax'=>0,
-									'data-toggle'=>'tooltip',
-									'data-confirm'=>'Mata pelajaran akan digenerate, menyesuaikan dengan program diklatnya!'
-								]);
-					}
-					else{
-						return Html::a($classSubjectCount, 
-								[
-									'class-subject',
-									'id'=>$data->training_id,
-									'class_id'=>$data->id,
-								], 
-								[
-									'title'=>$subjectCount,
-									'class' => 'label label-info',
-									'data-pjax'=>0,
-									'data-toggle'=>'tooltip',
-								]);
-					} */
 				}
 			],
             [

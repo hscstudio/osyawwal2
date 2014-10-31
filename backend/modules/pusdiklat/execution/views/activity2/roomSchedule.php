@@ -12,11 +12,11 @@ use yii\helpers\ArrayHelper;
 <div class="training-class-form">
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<strong>Set Session</strong>
+		<strong>Set Room</strong>
 	</div>
 	<div style="margin:10px">
     <?php $form = ActiveForm::begin([
-		'action' => ['session','id'=>$model->id],
+		'action' => ['room-class-schedule','id'=>$activity->id,'class_id'=>$class->id,'schedule_id'=>$model->id],
 		'enableAjaxValidation' => false,
 		'enableClientValidation' => false,
 		'options'=>[
@@ -28,11 +28,10 @@ use yii\helpers\ArrayHelper;
 					success: function(data) {
 						var datas = data.split('|');						
 						if(datas[1]==1){
-							$('#modal-heart').modal('hide');
 							//SUCCESS
+							alert(datas[2])
 							$.pjax.reload({
-								url: '".\yii\helpers\Url::to(['schedule',
-									'tb_training_class_id'=>$model->tb_training_class_id])."&start='+datas[3],
+								url: '".\yii\helpers\Url::to(['class-schedule','id'=>$activity->id,'class_id'=>$class->id])."&start='+datas[3],
 								container: '#pjax-gridview-schedule', 
 								timeout: 3000,
 							});				
@@ -54,25 +53,21 @@ use yii\helpers\ArrayHelper;
 	]); ?>
 	<?= $form->errorSummary($model) ?>
 	
-    <?php
-	/* $data = ArrayHelper::map(\backend\models\Training::find()->select(['id','name'])->asArray()->all(), 'id', 'name');*/
-	echo $form->field($model, 'session')->widget(Select2::classname(), [
-		'data' => ['','1'=>'Session I','2'=>'Session II','3'=>'Session III','4'=>'Session IV','5'=>'Session V'],
-		'options' => ['placeholder' => 'Choose Session ...'],
+    <?php	
+	
+	echo $form->field($model, 'activity_room_id')->widget(Select2::classname(), [
+		'data' => $dataRoom,
+		'options' => ['placeholder' => 'Choose Room ...'],
 		'pluginOptions' => [
 		'allowClear' => true
 		],
-	]); ?>
+	])->label('Room'); ?>
 	
 	<hr>
 	
 	Ket: <br>
-	Sesi / session menunjukkan waktu absensi peserta, normalnya satu hari ada 4 sesi untuk diklat tanpa asrama 
-	atau 5 sesi untuk diklat yang diasramakan. Sebagai gambaran, sesi 1 adalah waktu antara awal waktu hingga coffe break pertama,
-	kira-kira pukul 08:00 - 10:00, sedangkan sesi 5 adalah sesi malam yaitu kira-kira pukul 19:00 - 21:00. Sesuaikan dengan kebutuhan Anda.
-	
+	Data diatas adalah data ruangan yang telah dibooking dan disetujui oleh pemilik ruangan	
     <hr>
-	<?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
     <?= Html::submitButton(
 		'<span class="fa fa-fw fa-save"></span> Update', 
 		['class' => 'btn btn-success']) ?>

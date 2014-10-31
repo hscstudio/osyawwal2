@@ -185,7 +185,7 @@ $this->params['breadcrumbs'][] = $this->title;
 							},
 					'update' => function ($url, $model) {
 								$icon='<span class="fa fa-fw fa-pencil"></span>';
-								if (in_array($model->status,[1,2])){
+								if (in_array($model->status,[2])){
 									return Html::a($icon,$url,[
 										'class'=>'btn btn-default btn-xs',
 										'data-pjax'=>'0',

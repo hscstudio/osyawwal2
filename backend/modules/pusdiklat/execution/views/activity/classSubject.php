@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView as Gridview2;
 use kartik\grid\GridView;
 use yii\helpers\Url;
 use yii\helpers\Inflector;
@@ -50,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					$programSubject= \backend\models\ProgramSubjectHistory::find()
 					->where([
 						'id' => $data->program_subject_id,
-						'revision' => $data->trainingClass->training->program_revision,
+						'program_revision' => $data->trainingClass->training->program_revision,
 						'status'=>1
 					])
 					->one();
@@ -72,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					$programSubject= \backend\models\ProgramSubjectHistory::find()
 					->where([
 						'id' => $data->program_subject_id,
-						'revision' => $data->trainingClass->training->program_revision,
+						'program_revision' => $data->trainingClass->training->program_revision,
 						'status'=>1
 					])
 					->one();
@@ -95,7 +94,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					$programSubject= \backend\models\ProgramSubjectHistory::find()
 					->where([
 						'id' => $data->program_subject_id,
-						'revision' => $data->trainingClass->training->program_revision,
+						'program_revision' => $data->trainingClass->training->program_revision,
 						'status'=>1
 					])
 					->one();
@@ -119,7 +118,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					$programSubject= \backend\models\ProgramSubjectHistory::find()
 						->where([
 							'id' => $data->program_subject_id,
-							'revision' => $data->trainingClass->training->program_revision,
+							'program_revision' => $data->trainingClass->training->program_revision,
 							'status'=>1
 						])
 						->one();
