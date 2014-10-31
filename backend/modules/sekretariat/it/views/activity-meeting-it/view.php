@@ -117,7 +117,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						],
 						[
 							'label' => 'Attendance',
-							'vAlign'=>'left',
+							'vAlign'=>'middle',
 							'hAlign'=>'center',
 							'width' => '75px',
 							'headerOptions'=>['class'=>'kv-sticky-column'],
@@ -129,7 +129,7 @@ $this->params['breadcrumbs'][] = $this->title;
 										'class'=>'label label-primary',
 										'data-pjax'=>'0',
 										'data-toggle'=>'tooltip',
-										'title' => 'Click to view student spread plan',
+										'title' => 'Click to view attendance spread plan',
 									]);
 							},
 						],

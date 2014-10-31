@@ -229,8 +229,7 @@
                     ".travis.yml",
                     "test/"
                 ]
-            },
-            "time": "2014-10-10 13:44:50"
+            }
         },
         {
             "name": "cebe/markdown",
@@ -629,12 +628,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-star-rating.git",
-                "reference": "4de4d2aa6fcc3df56bc1366f72fcde7f71082438"
+                "reference": "c691670f5346239f0f7166b383687b78ed3d6dfa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-star-rating/zipball/4de4d2aa6fcc3df56bc1366f72fcde7f71082438",
-                "reference": "4de4d2aa6fcc3df56bc1366f72fcde7f71082438",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-star-rating/zipball/c691670f5346239f0f7166b383687b78ed3d6dfa",
+                "reference": "c691670f5346239f0f7166b383687b78ed3d6dfa",
                 "shasum": ""
             },
             "type": "library",
@@ -662,7 +661,7 @@
                 "jquery",
                 "star"
             ],
-            "time": "2014-10-27 07:40:53"
+            "time": "2014-10-30 17:46:04"
         },
         {
             "name": "kartik-v/dependent-dropdown",
@@ -949,12 +948,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-editable.git",
-                "reference": "8c777a27ebbfa105e3c19325c71085afa250f55e"
+                "reference": "3304f18ffac52d18da209be014b19011cb4cbb0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-editable/zipball/8c777a27ebbfa105e3c19325c71085afa250f55e",
-                "reference": "8c777a27ebbfa105e3c19325c71085afa250f55e",
+                "url": "https://api.github.com/repos/kartik-v/yii2-editable/zipball/3304f18ffac52d18da209be014b19011cb4cbb0e",
+                "reference": "3304f18ffac52d18da209be014b19011cb4cbb0e",
                 "shasum": ""
             },
             "require": {
@@ -989,7 +988,7 @@
                 "popover-x",
                 "widget"
             ],
-            "time": "2014-10-22 15:36:02"
+            "time": "2014-10-30 10:38:37"
         },
         {
             "name": "kartik-v/yii2-grid",
@@ -1330,12 +1329,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mdmsoft/yii2-admin.git",
-                "reference": "70607bda47c192763e7bd2cc4ad39d0c7561186f"
+                "reference": "1ae1518baf644c34b369ff69fe47fd5c5b2de26e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mdmsoft/yii2-admin/zipball/70607bda47c192763e7bd2cc4ad39d0c7561186f",
-                "reference": "70607bda47c192763e7bd2cc4ad39d0c7561186f",
+                "url": "https://api.github.com/repos/mdmsoft/yii2-admin/zipball/1ae1518baf644c34b369ff69fe47fd5c5b2de26e",
+                "reference": "1ae1518baf644c34b369ff69fe47fd5c5b2de26e",
                 "shasum": ""
             },
             "require": {
@@ -1367,7 +1366,7 @@
                 "auth",
                 "yii"
             ],
-            "time": "2014-10-28 10:36:56"
+            "time": "2014-10-30 10:37:52"
         },
         {
             "name": "miloschuman/yii2-highcharts-widget",
@@ -1477,12 +1476,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "613354e08fbddce0943646932b007be9873c658f"
+                "reference": "d0f361d88e5de851bbb8c542d3b6aa46d61a9ffc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/613354e08fbddce0943646932b007be9873c658f",
-                "reference": "613354e08fbddce0943646932b007be9873c658f",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/d0f361d88e5de851bbb8c542d3b6aa46d61a9ffc",
+                "reference": "d0f361d88e5de851bbb8c542d3b6aa46d61a9ffc",
                 "shasum": ""
             },
             "require": {
@@ -1521,7 +1520,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2014-10-05 19:53:07"
+            "time": "2014-10-30 13:41:35"
         },
         {
             "name": "yiisoft/yii2",
@@ -1529,12 +1528,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "6c040790282103d656fe405addd9fdff38e46ce1"
+                "reference": "155801d82e966b1b87cfe7d201fad76078b0d235"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/6c040790282103d656fe405addd9fdff38e46ce1",
-                "reference": "6c040790282103d656fe405addd9fdff38e46ce1",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/155801d82e966b1b87cfe7d201fad76078b0d235",
+                "reference": "155801d82e966b1b87cfe7d201fad76078b0d235",
                 "shasum": ""
             },
             "require": {
@@ -1609,7 +1608,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2014-10-29 14:50:00"
+            "time": "2014-10-30 20:50:05"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -1936,12 +1935,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "0cc304ac4870fed7ea61d9b32b0c954f25d4ce37"
+                "reference": "9e5f46406d071d18238642287c5578b0fdc50348"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/0cc304ac4870fed7ea61d9b32b0c954f25d4ce37",
-                "reference": "0cc304ac4870fed7ea61d9b32b0c954f25d4ce37",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/9e5f46406d071d18238642287c5578b0fdc50348",
+                "reference": "9e5f46406d071d18238642287c5578b0fdc50348",
                 "shasum": ""
             },
             "require": {
@@ -1978,7 +1977,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2014-10-29 09:35:45"
+            "time": "2014-10-30 10:55:26"
         },
         {
             "name": "mikevanriel/text-to-latex",
