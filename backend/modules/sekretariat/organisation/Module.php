@@ -26,7 +26,7 @@ class Module extends \yii\base\Module
 			['icon'=>'fa fa-fw fa-fax', 'label' => 'Subject Type', 'url' => ['/'.$this->uniqueId.'/reference-subject-type/index'],'path'=>'reference-subject-type/'],
 			['icon'=>'fa fa-fw fa-child', 'label' => 'Trainer Type', 'url' => ['/'.$this->uniqueId.'/reference-trainer-type/index'],'path'=>'reference-trainer-type/']],
 			 ],
-			['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Meeting Activity', 'url' => ['/'.$this->uniqueId.'/activity-meeting-organisation/index'],'path'=>[
+			['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Rapat', 'url' => ['/'.$this->uniqueId.'/activity-meeting-organisation/index'],'path'=>[
 				'/activity-meeting-organisation/',
 			]],
 		];

@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				[
 				'label' => 'Peserta',
 				
-				'vAlign'=>'left',
+				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width' => '75px',
 				'headerOptions'=>['class'=>'kv-sticky-column'],

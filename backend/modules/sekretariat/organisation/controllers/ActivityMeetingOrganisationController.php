@@ -36,7 +36,7 @@ class ActivityMeetingOrganisationController extends Controller
         if(empty($year)) $year=date('Y');
 		$searchModel = new ActivitySearch();
 		$queryParams = Yii::$app->request->getQueryParams();
-		$organisation_id = 391;
+		$organisation_id = 10;
 		if($status=='all'){
 			if($year=='all'){
 				$queryParams['ActivitySearch']=[

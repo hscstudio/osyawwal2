@@ -4,10 +4,11 @@ namespace backend\modules\sekretariat\general\controllers;
 
 use Yii;
 use backend\models\Room;
-use backend\modules\pusdiklat\general\models\RoomSearch;
+use backend\modules\sekretariat\general\models\RoomSearch;
 use backend\models\Activity;
 use backend\models\ActivityRoom;
-use backend\modules\pusdiklat\general\models\ActivityRoomSearch;
+use backend\modules\sekretariat\general\models\ActivityRoomSearch;
+use backend\modules\sekretariat\general\models\ActivityRoom2Search;
 use backend\models\Reference;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -214,14 +215,14 @@ class RoomController extends Controller
 			->one();
 		
 		$satker_id = (int)Yii::$app->user->identity->employee->satker_id;
-		$searchModel = new ActivityRoomSearch();
+		$searchModel = new ActivityRoom2Search();
         $queryParams = Yii::$app->request->getQueryParams();
 		$params = [];
 		if($status=='all') 
 			$params = ['room_id' => $id];
 		else 
 			$params = ['room_id' => $id,'status' => $status];
-		$queryParams['ActivityRoomSearch']=$params;
+		$queryParams['ActivityRoom2Search']=$params;
 		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
 		$dataProvider = $searchModel->search($queryParams);
 		$dataProvider->getSort()->defaultOrder = ['start'=>SORT_DESC,'end'=>SORT_DESC];

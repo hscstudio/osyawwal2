@@ -152,6 +152,4 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 	<?php 
 	$this->registerCss('.select2-container { width: 200px !important; }');
 	?>
-	
-
 </div>
