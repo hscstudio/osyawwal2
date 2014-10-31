@@ -214,6 +214,8 @@ class Trainer3Controller extends Controller
         if ($model->load(Yii::$app->request->post())){ 
 			$model->status = 1;
 			if($model->save()) {
+				$trainer->person_id = $model->id;
+				$trainer->save();
 				Yii::$app->getSession()->setFlash('success', 'New data have saved.');
 				foreach($object_references_array as $object_reference=>$label){
 					$reference_id = Yii::$app->request->post('ObjectReference')[$object_reference]['reference_id'];
