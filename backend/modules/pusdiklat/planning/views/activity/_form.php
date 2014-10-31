@@ -146,7 +146,7 @@ if(!$model->isNewRecord){
 			])->label('Diasramakan?') ?>
 
 			<?php 
-			$permit = \Yii::$app->user->can('Subbidang Program');
+			$permit = \Yii::$app->user->can('pusdiklat-planning-1');
 			
 			if(!in_array($edited,[2,3])){
 			if(!$model->isNewRecord and $permit){ ?>

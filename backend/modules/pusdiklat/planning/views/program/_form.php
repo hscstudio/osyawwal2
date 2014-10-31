@@ -96,7 +96,7 @@ if(!$model->isNewRecord){
 	
 	<?php if(!$model->isNewRecord){ ?>
 		<?php
-		$permit = \Yii::$app->user->can('Subbidang Program');
+		$permit = \Yii::$app->user->can('pusdiklat-planning-1');
 		if($permit){			
 			$form->field($model, 'status')->widget(SwitchInput::classname(), [
 				'options' => [

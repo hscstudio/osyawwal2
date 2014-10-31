@@ -110,7 +110,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'value' => function ($data){
 					// CEK AUTHORISE ACCESS
-					$permit = \Yii::$app->user->can('Subbidang Kurikulum');
+					$permit = \Yii::$app->user->can('pusdiklat-planning-2');
 					$object_person=\backend\models\ObjectPerson::find()
 						->where([
 							'object'=>'activity',

@@ -162,7 +162,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 				'buttons' => [
 					'update' => function ($url, $data) {
 						// CEK AUTHORISE ACCESS
-						$permit = \Yii::$app->user->can('Subbidang Tenaga Pengajar');
+						$permit = \Yii::$app->user->can('pusdiklat-planning-3');
 						if($permit){
 							$icon='<span class="fa fa-fw fa-pencil"></span>';
 							return Html::a($icon,['subject','id'=>$data->program_id,'action'=>'update','subject_id'=>$data->id],[

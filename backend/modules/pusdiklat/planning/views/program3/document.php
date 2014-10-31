@@ -131,7 +131,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Document');
 				'format'=>'raw',
 				'value' => function ($data){
 					// CEK AUTHORISE ACCESS
-					$permit = \Yii::$app->user->can('Subbidang Tenaga Pengajar');
+					$permit = \Yii::$app->user->can('pusdiklat-planning-3');
 						
 					$icon = ($data->file->status==1)?'<span class="glyphicon glyphicon-ok"></span>':'<span class="glyphicon glyphicon-remove"></span>';
 					if($permit){
@@ -160,7 +160,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Document');
 				'buttons' => [
 					'delete' => function ($url, $data) {
 						// CEK AUTHORISE ACCESS
-						$permit = \Yii::$app->user->can('Subbidang Tenaga Pengajar');
+						$permit = \Yii::$app->user->can('pusdiklat-planning-3');
 						if($permit){
 							$icon='<span class="fa fa-fw fa-trash"></span>';
 							return ($data->file->status==1)?'-':Html::a($icon,['document-delete','id'=>$data->object_id,'type'=>$data->type,'file_id'=>$data->file_id],[

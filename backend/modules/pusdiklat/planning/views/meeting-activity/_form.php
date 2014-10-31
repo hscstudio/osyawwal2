@@ -82,7 +82,7 @@ use kartik\checkbox\CheckboxX;
 			])->label('Diasramakan?') ?>
 
 			<?php 
-			$permit = \Yii::$app->user->can('Subbidang Program');
+			$permit = \Yii::$app->user->can('pusdiklat-planning-1');
 			if(!$model->isNewRecord and $permit){ ?>
 			<div class='row'>
 				<div class='col-md-3'>				
