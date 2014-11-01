@@ -15,7 +15,7 @@ use hscstudio\heart\helpers\Heart;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\data\ArrayDataProvider;
 /**
  * PersonController implements the CRUD actions for Person model.
  */
@@ -130,7 +130,7 @@ class PersonController extends Controller
 					$user = new User();
 					$user->username = $model->nid;
 					$user->password = $model->nid;
-					$user->email = $model->nid.'@gmail.com';
+					$user->email = $model->nid.'@abc.def';
 					$user->role = 1;				
 					$user->status = 0;
 					if($user->save()){
@@ -349,4 +349,229 @@ class PersonController extends Controller
 			throw new NotFoundHttpException('You have not privilege to access this data, contact Administratator.');
 		}
     }
+	
+	public function actionImportEmployee(){	
+
+		$session = Yii::$app->session;
+		$session->open();
+		
+		$start = time();
+		if (!empty($_FILES)) {
+			$importFile = \yii\web\UploadedFile::getInstanceByName('importFile');			
+			if(!empty($importFile)){
+				$fileTypes = ['xls','xlsx']; 
+				$ext=$importFile->extension;
+				if(in_array($ext,$fileTypes)){
+					$inputFileType = \PHPExcel_IOFactory::identify($importFile->tempName );
+					$objReader = \PHPExcel_IOFactory::createReader($inputFileType);
+					$objPHPExcel = $objReader->load($importFile->tempName );
+					$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
+					$baseRow = 4;
+					$err=[];
+					$data = [];	
+					$row=0;
+					while(!empty($sheetData[$baseRow]['B'])){
+						// GET DATA FROM EXCEL
+						$nip = str_replace(' ','',trim($sheetData[$baseRow]['B']));
+						$name = trim($sheetData[$baseRow]['C']);	
+						$jabatan_id = (int)trim($sheetData[$baseRow]['D']);
+						$organisation_id = (int)trim($sheetData[$baseRow]['F']);
+						
+						$person_id = 0;
+						$employee_id = 0;
+						$user_id = 0;
+						$person = Person::find()
+									->where(['nip' => $nip])
+									->orWhere(['nid' => $nip])
+									->one();
+						if(!empty($person)){
+							$person_id = $person->id;
+							$employee = Employee::find()
+								->where([ 
+									'person_id' => $person_id,
+								])
+								->one();
+								
+							if(!empty($employee)){
+								$employee_id = $employee->person_id;
+								$user = User::find()
+									->where([ 
+										'id' => $employee->user_id,
+									])
+									->one();
+									
+								if(!empty($user)){
+									$user_id = $user->id;									
+								}
+							}
+							
+							if($user_id==0){
+								$user = User::find()
+									->where(['username' => $nip])
+									->one();
+									
+								if(!empty($user)){
+									$user_id = $user->id;									
+								}
+							}
+						}
+						
+						$password = Yii::$app->security->generatePasswordHash($nip,4);
+						$data[$row]=[
+							'row'	=>	$row,
+							'nip'	=>	$nip,
+							'name'	=>	$name,
+							'jabatan_id' =>	$jabatan_id,
+							'organisation_id' =>	$organisation_id,
+							'person_id' => $person_id,
+							'employee_id'=>	$employee_id,
+							'user_id'=>	$user_id,
+							'password' => $password,
+						];
+						$row++;
+						$baseRow++;
+					}	
+					
+					// SESSION BUG MAYBE :)
+					$data[$row+1]=[];
+					$session['data'] = $data;						
+					Yii::$app->session->setFlash('success', ($row).' row affected');	
+				}
+				else{
+					Yii::$app->session->setFlash('error', 'Filetype allowed only xls and xlsx');
+					return $this->redirect([
+						'index'
+					]);
+				}				
+			}
+			else{
+				Yii::$app->session->setFlash('error', 'File import empty!');
+				return $this->redirect([
+					'index'
+				]);
+			}
+		}
+		
+		if (Yii::$app->request->post() and isset(Yii::$app->request->post()['selection'])){ 
+			$selections = Yii::$app->request->post()['selection'];
+			$names = Yii::$app->request->post()['name'];
+			$nips = Yii::$app->request->post()['nip'];
+			$jabatan_ids = Yii::$app->request->post()['jabatan_id'];
+			$organisation_ids = Yii::$app->request->post()['organisation_id'];
+			$user_ids = Yii::$app->request->post()['user_id'];
+			$employee_ids = Yii::$app->request->post()['employee_id'];
+			$person_ids = Yii::$app->request->post()['person_id'];
+			$passwords = Yii::$app->request->post()['password'];
+			
+			/* $person_values = [];
+			$student_values = [];
+			$training_student_values = []; */
+			$satker_id = (int)Yii::$app->user->identity->employee->satker_id;
+			foreach($selections as $selection){	
+				/* if($persons[$selection]==0)
+					$person_values[] = [$names[$selection],$nips[$selection],$nips[$selection],1];
+				if($students[$selection]==0)
+					$student_values[] = [$nips[$selection]]; */	
+				$person_id = $person_ids[$selection];
+				$name = $names[$selection];
+				$nip = $nips[$selection];
+				$jabatan_id = $jabatan_ids[$selection];
+				$organisation_id = $organisation_ids[$selection];
+				$user_id = $user_ids[$selection];
+				$employee_id = $employee_ids[$selection];
+				$person_id = $person_ids[$selection];
+				$password = $passwords[$selection];
+				// PROVIDE DATA FROM NIP
+				$birthday = '';
+				$gender = '';
+				$status = 1;				
+				if(strlen($nip)==18){
+					$birthday = substr($nip,0,4) .'-'. substr($nip,4,2) .'-'. substr($nip,6,2);
+					$gender = substr($nip,14,1);
+				}
+				
+				if($person_id==0){
+					$person = new Person([
+						'name' => $name,
+						'nid' => $nip,
+						'nip' => $nip,
+						'birthday' => $birthday,
+						'gender' => $gender,
+						'status' => 1,
+					]);
+					if($person->save()){
+						$person_id = $person->id;
+					}
+				}
+				
+				if($person_id>0){	
+					if($user_id==0){
+						$user = new User([
+							'username'=>$nip,
+							'password_hash'=>$password,
+							'email'=>$nip.'@abc.def',
+							'role'=>1,
+							'status' => 1,
+						]);
+						$user->save();
+					}
+					
+					if($user_id>0){		
+						if($employee_id==0){
+							$employee = new Employee([
+								'person_id' => $person_id,
+								'user_id' => $user_id,	
+								'satker_id' => $satker_id,
+								'organisation_id' => ($organisation_id>0)?$organisation_id:NULL,
+								'chairman' => ($jabatan_id==2)?1:0,
+							]);
+							
+							if($employee->save()){							
+								$employee_id = $employee->person_id;
+							}
+						}
+					}
+				}
+
+				if($user_id>0){				
+					/* $organisation = \backend\models\Organisation::findOne($organisation_id);
+					if(!empty($organisation)){
+						\backend\models\Organisation::find
+						
+						\backend\models\AuthItem::find()
+							->where([
+								'type'=>1,
+								'description'=>[4,5]
+							])
+					} */
+				}
+			}
+			Yii::$app->session->setFlash('success', 'done');	
+			unset($session['data']);
+
+		}
+		
+		if ($session->has('data')) {
+			$data = $session['data'];
+			$dataProvider = new ArrayDataProvider([
+				'allModels' => $data,
+				/* 'sort' => [
+					'attributes' => ['row', 'nip', 'name', 'unit', 'exists'],
+				], */
+				'pagination' => [
+					'pageSize' => 'all',
+				],
+			]);
+			
+			return $this->render('importEmployee', [
+				'dataProvider' => $dataProvider,
+			]);
+		}
+		else{
+			return $this->redirect([
+				'index'
+			]);
+		}
+	}
+	
 }
