@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 use kartik\widgets\ActiveForm; // Pake activeform kartik, yg yii tak hapus, biar ada addon nya
 
 $this->title = 'Login';
@@ -10,8 +11,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="site-login">
 	<div class="beta" data-text="Beta Version 0.7.33">Beta Version 0.7.33</div> 
 	<div class="logo">
-		<div class="ikon"><i class="fa fa-line-chart"></i></div>
-		<div class="judul">Selamat datang di<span>SIM BPPK</span></div>
+		<div class="ikon"><img src="<?php echo Yii::$app->homeUrl.'/logo_simbppk_pelangi.png'; ?>"></div>
+		<div class="judul apl">SIM BPPK</div>
+		<div class="judul">Selamat datang. Silahkan login</div>
 	</div>
 	<div class="panel panel-default">
 		<div class="panel-body">
@@ -30,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						<?= $form->field($model, 'rememberMe')->checkbox(); ?>
 						<div class="form-group">
 							<?= Html::submitButton('Masuk <i class="fa fa-fw fa-sign-in"></i>', [
-								'class' => 'btn btn-primary btn-block btn-lg', 
+								'class' => 'btn btn-info btn-block btn-lg', 
 								'name' => 'login-button'
 							]) // fajar?>
 						</div>
@@ -43,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	</div>
 </div>
 <div class="hc">
-	<p>Hakcipta &copy; Badan Pendidikan dan Pelatihan Keuangan</p>
+	<p>Hakcipta &copy; <?php echo (date('Y') == '2014' ? '2014': '2014-'.date('Y')); ?> Badan Pendidikan dan Pelatihan Keuangan</p>
 </div>
 <?php
 	// Bikin css khusus buat halaman login
@@ -87,10 +89,11 @@ $this->params['breadcrumbs'][] = $this->title;
 	
 	$this->registerCss('
 		body {
-			background-color: rgb(29, 101, 178); 
+			background-color: rgb(38, 152, 222);
+			font-weight: 100;
 		}
 		.lupasandi {
-			font-size: 120%;
+			font-size: 100%;
 			text-align: center;
 		}
 		.right-side {
@@ -103,7 +106,6 @@ $this->params['breadcrumbs'][] = $this->title;
 		.site-login .panel {
 			box-shadow:none;
 			border-width:0px;
-			margin-top: 60px;
 			padding: 10px;
 			background-color: rgb(238, 239, 241);
 		}
@@ -116,7 +118,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 		.input-group {
 			width: 100%;
-			letter-spacing: -1px;
 		}
 		.has-success .control-label {
 			color: white;
@@ -128,7 +129,6 @@ $this->params['breadcrumbs'][] = $this->title;
 			font-size: 130%;
 			color: grey;
 			font-weight: normal;
-			letter-spacing: -1px;
 		}
 		a {
 			color: grey;
@@ -138,7 +138,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		}
 		.control-label {
 			position: absolute;
-			background-color: #428bca;
+			background-color: #5bc0de;
 			font-size: 130%;
 			padding: 10px 10px;
 			width: 100px;
@@ -161,7 +161,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		    right: 0;
 		    bottom: 0;
 		    left: 0;
-			background-color: #428bca;
+			background-color: #5bc0de;
 			transform-origin: left bottom;
 	    	transition: all .4s ease-in-out;
 	    	pointer-events: none;
@@ -176,7 +176,6 @@ $this->params['breadcrumbs'][] = $this->title;
 	    .form-control {
 	    	text-indent: 90px;
 	    	font-weight: 300;
-	    	letter-spacing: -1px;
 	    	transition: all .4s ease-in-out;
 	    }
 	    .form-control:focus, .form-control:active {
@@ -192,22 +191,35 @@ $this->params['breadcrumbs'][] = $this->title;
 		}
 
 		.logo {
-			position: absolute;
-			width: 200px;
-			height: 200px;
-			top: 100px;
-			margin-left: -200px;
 			color: white;
 		}
 		.logo .ikon {
-			font-size: 1000%;
-			text-align: left;
-			color: rgb(26, 76, 128);
-			text-shadow: 0px 1px 0px rgb(92, 130, 169);
+			border-radius: 120px;
+			border-width: 0px;
+			border-color: rgb(88, 183, 240);
+			border-style: solid;
+			padding: 3px;
+			width: 112px;
+			height: 112px;
+			margin: 0px auto;
+			/*background: linear-gradient(rgb(58, 164, 229), rgb(42, 150, 216));
+			box-shadow: 0px 3px 0px rgb(27, 100, 145);*/
 		}
-		.logo .judul span {
-			font-weight: bold;
-			display: block;
+		.logo .ikon img {
+			width: 80px;
+			margin-top: 10px;
+			margin-left: 10px;
+			transform: rotate(29deg);
+		}
+		.logo .judul.apl {
+			font-size: 300%;
+			font-weight: 100;
+			text-align:center;
+			padding: 10px 0px 0px;
+		}
+		.logo .judul {
+			font-size: 120%;
+			padding: 10px 0px;
 		}
 		.hc {
 			text-align: center;
@@ -251,4 +263,17 @@ $this->params['breadcrumbs'][] = $this->title;
 		  animation: noise-anim-2 3s infinite linear alternate-reverse;
 		}
 
+		@media (max-width: 768px) {
+			.wrap {
+				padding-top: 0px!important;
+			}
+			.beta {
+			  color: white;
+			  font-size: 160%;
+			  position: relative;
+			  top: 700px;
+			  left: 0;
+			  width: 400px;
+			}
+		}
 	');
