@@ -18,7 +18,7 @@ AppAsset::register($this);
 <head>
     <meta charset="<?= Yii::$app->charset ?>"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="<?php echo Url::to('favicon.ico');?>" rel="shortcut icon"> <!-- fajar -->
+    <link href="<?php echo Yii::$app->homeUrl;?>/favicon.ico" rel="shortcut icon"> <!-- fajar -->
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title); ?> - SIMBPPK</title> <!-- fajar -->
     <?php $this->head() ?>
