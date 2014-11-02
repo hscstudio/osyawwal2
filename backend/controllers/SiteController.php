@@ -8,12 +8,16 @@ use yii\filters\VerbFilter;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\helpers\Url;
+use yii\helpers\Html;
+
 use backend\models\LoginForm;
 use backend\models\User;
 use backend\models\PasswordResetRequestForm;
 use backend\models\ResetPasswordForm;
 use backend\models\SignupForm;
-use yii\helpers\Html;
+use backend\models\Activity;
+use backend\models\Training;
+
 /**
  * Site controller
  */
@@ -72,7 +76,69 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        // Ngambil data
+        $data = Activity::find()
+            ->where(
+                'start > \''.date('Y').'-01-01 00:00:00\''
+            )
+            ->andWhere(
+                'start < \''.date('Y').'-12-31 00:00:00\''
+            )
+            ->joinWith('training')
+            ->all();
+
+        $dataAnggaran = [0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00];
+        $dataRealisasi = [0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00];
+        
+        foreach ($data as $baris) {
+            $angkaBulan = date('m', strtotime($baris->start)) - 1;
+            $dataAnggaran[$angkaBulan] = $dataAnggaran[$angkaBulan] + $baris->training->cost_plan;
+            $dataRealisasi[$angkaBulan] = $dataRealisasi[$angkaBulan] + $baris->training->cost_real;
+        }
+        
+        $dataSeries = [
+            [
+                'name' => 'Anggaran',
+                'type' => 'area',
+                'data' => $dataAnggaran
+            ],
+            [
+                'name' => 'Realisasi',
+                'type' => 'area',
+                'data' => $dataRealisasi
+            ]
+        ];
+        // dah
+
+        // Ngambil jumlah total anggaran
+        $totalAnggaran = Activity::find()
+            ->where(
+                'start > \''.date('Y').'-01-01 00:00:00\''
+            )
+            ->andWhere(
+                'start < \''.date('Y').'-12-31 00:00:00\''
+            )
+            ->joinWith('training')
+            ->sum('training.cost_plan');
+        // dah
+
+        // Ngambil jumlah total realisasi
+        $totalRealisasi = Activity::find()
+            ->where(
+                'start > \''.date('Y').'-01-01 00:00:00\''
+            )
+            ->andWhere(
+                'start < \''.date('Y').'-12-31 00:00:00\''
+            )
+            ->joinWith('training')
+            ->sum('training.cost_real');
+        // dah
+
+        return $this->render('index', [
+            'totalAnggaran' => $totalAnggaran,
+            'totalRealisasi' => $totalRealisasi,
+            'dataSeries' => $dataSeries
+        ]);
     }
 
     public function actionLogin($previous="")
