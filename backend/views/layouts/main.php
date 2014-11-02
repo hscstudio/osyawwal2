@@ -30,7 +30,7 @@ AppAsset::register($this);
         <?php
         	if (Yii::$app->user->isGuest === false) { // kalau guest, artinya belum login, so ga usah munculin menu
 	            NavBar::begin([
-	                'brandLabel' => '<i class="fa fa-th-large"></i> SIM BPPK',
+	                'brandLabel' => '<img src="'.Yii::$app->homeUrl.'/logo_simbppk_pelangi.png"> SIM BPPK',
 	                'brandUrl' => Yii::$app->homeUrl,
 	                'options' => [
 	                    'class' => 'navbar-inverse navbar-fixed-top',
