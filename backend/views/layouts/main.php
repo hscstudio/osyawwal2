@@ -8,8 +8,7 @@ use yii\widgets\Breadcrumbs;
 use hscstudio\heart\widgets\Nav;
 use hscstudio\heart\widgets\NavBar;
 
-/* @var $this \yii\web\View */
-/* @var $content string */
+use backend\models\Person;
 
 AppAsset::register($this);
 ?>
@@ -146,15 +145,20 @@ AppAsset::register($this);
 	                ]);
 
 	                $menuItems[] =  
-	                    ['icon'=>'fa fa-user','label'=>'', 'url'=> '', 'items'=>[
-							['icon'=>'fa fa-user','label' => 'Profile','url' => ['/user/user/profile'],],
-	                        '<li class="divider"></li>',
-	                        [
-	                            'icon'=>'fa fa-power-off',
-	                            'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-	                            'url' => ['/site/logout'],
-	                            'linkOptions' => ['data-method' => 'post']
-	                        ]
+	                    [
+	                    	'icon'=>'fa fa-fw fa-user',
+	                    	'label'=> Person::findOne(Yii::$app->user->identity->id)->name, 
+	                    	'url'=> '', 
+	                    	'items'=>[
+	                    		'<li class="kartu-profil">
+	                    			<img src="'.Yii::$app->homeUrl.'/logo_simbppk_pelangi.png">
+	                    			<p class="nama-nid">'.Person::findOne(Yii::$app->user->identity->id)->name
+	                    			.' 
+	                    			</p>
+	                    			<p class="tanggal-terdaftar">'.Person::findOne(Yii::$app->user->identity->id)->nid.'<br>Terdaftar sejak '.date('D, d F Y', Yii::$app->user->identity->created_at).'</p>
+	                    			'.Html::a('<i class="fa fa-fw fa-user"></i> Profil', ['/user/user/profile'], ['class' => 'btn btn-default pull-left']).'
+	                    			'.Html::a('<i class="fa fa-fw fa-sign-out"></i> Keluar', ['/site/logout'], ['class' => 'btn btn-default pull-right', 'data-method'=>'post']).'
+	                    		</li>',
 	                    ]                        
 	                ];
 	            }
@@ -218,6 +222,49 @@ AppAsset::register($this);
 					
 			}
 		");
+
+		// Ngatur css buat semua file yang manggil main.php
+		$this->registerCss('
+			.kartu-profil {
+				margin-top:-5px;
+				text-align: center;
+				padding: 10px;
+				width: 300px;
+				background-color: rgb(38, 152, 222);
+			}
+			.kartu-profil p {
+				text-align: center;
+				color: rgba(255, 255, 255, 0.8);
+				text-shadow: 2px 2px 3px #333333;
+			}
+			.kartu-profil p.nama-nid {
+				font-size: 110%;
+			}
+			.kartu-profil p.tanggal-terdaftar {
+				font-size: 90%;
+			}
+			.kartu-profil img {
+				width: 80px;
+				height: 80px;
+				padding: 3px;
+				margin: 0px 0px 10px 0px;
+				border-radius: 50%;
+				border-style: solid;
+				border-color: #5eb4e7;
+				border-width: 9px;
+				background-color: #daebf5;
+			}
+			.kartu-profil .btn {
+				width: 40%;
+			}
+			.kartu-profil .pull-left {
+				margin-top: 22px;
+			}
+			.kartu-profil .pull-right {
+				margin-top: -30px;
+				margin-bottom: 7px;
+			}
+		');
 	}
 	?>
 
