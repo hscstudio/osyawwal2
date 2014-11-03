@@ -195,7 +195,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			color: white;
 		}
 		.logo .ikon {
-			border-radius: 120px;
+			border-radius: 50%;
 			border-width: 0px;
 			border-color: rgb(88, 183, 240);
 			border-style: solid;
@@ -203,8 +203,6 @@ $this->params['breadcrumbs'][] = $this->title;
 			width: 112px;
 			height: 112px;
 			margin: 0px auto;
-			/*background: linear-gradient(rgb(58, 164, 229), rgb(42, 150, 216));
-			box-shadow: 0px 3px 0px rgb(27, 100, 145);*/
 		}
 		.logo .ikon img {
 			width: 80px;

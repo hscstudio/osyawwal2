@@ -47,6 +47,9 @@ else
                                             'themes/grid-light',
                                         ],
                                         'options' => [
+                                            'chart' => [
+                                                'backgroundColor' => 'transparent'
+                                            ],
                                             'title' => [
                                                 'text' => '<h3>Capaian Anggaran</h3>',
                                                 'align' => 'left',
@@ -120,6 +123,38 @@ else
                 
                     <div class="col-md-12">
                         <h4 class="margin-top-large no-bold">Pegawai Online</h4>
+                        <?php
+                            foreach ($userOnline as $user) {
+                                echo '<div class="row margin-bottom-small">';
+                                
+                                echo    '<div class="col-md-3 padding-right-medium">';
+                                echo        '<div class="image-frame-small">';
+                                echo            '<img class="image-small" src="'.Yii::$app->homeUrl.'/logo_simbppk_pelangi.png">';
+                                echo        '</div>';
+                                echo    '</div>';
+                                
+                                echo    '<div class="col-md-9 padding-left-medium">';
+                                $waktuPertamaInception = new DateTime($user->time);
+                                $waktuSekarang = new DateTime(date('Y-m-d H:i:s'));
+                                $bedaWaktu = '';
+                                if ( $waktuPertamaInception->diff($waktuSekarang)->format('%H') != '00' ) {
+                                    $bedaWaktu .= $waktuPertamaInception->diff($waktuSekarang)->format('%H').' jam '.$waktuPertamaInception->diff($waktuSekarang)->format('%I').' menit yang lalu';
+                                }
+                                elseif ( $waktuPertamaInception->diff($waktuSekarang)->format('%I') == '00' ) {
+                                    $bedaWaktu .= 'Baru saja';
+                                }
+                                else {
+                                    $bedaWaktu .= $waktuPertamaInception->diff($waktuSekarang)->format('%I').' menit yang lalu';
+                                }
+                                echo        '<p class="text-small open-sans"><strong>'.$user->person->name.'</strong>';
+                                echo            '<span class="text-small open-sans block text-muted">'.$bedaWaktu;
+                                echo            '</span>';
+                                echo        '</p>';
+                                echo    '</div>';
+                                
+                                echo '</div>';
+                            }
+                        ?>
                     </div>
 
                 </div>
@@ -139,6 +174,10 @@ else
         .site-index .container-fluid {
             padding:17px;
         }
+        .site-index .container-fluid > .row {
+            margin-left: -17px;
+            margin-right: -17px;
+        }
         .site-index h2, .site-index h3 {
             letter-spacing: -1px;
             margin:0px;
@@ -156,6 +195,10 @@ else
             50% {
                 color: #676a6c;
             }
+        }
+        .panel-kanan {
+            margin-top: -18px;
+            min-height: 500px;
         }
     ');
 ?>

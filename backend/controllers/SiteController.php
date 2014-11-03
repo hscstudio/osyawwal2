@@ -17,6 +17,8 @@ use backend\models\ResetPasswordForm;
 use backend\models\SignupForm;
 use backend\models\Activity;
 use backend\models\Training;
+use backend\models\Person;
+use backend\models\Online;
 
 /**
  * Site controller
@@ -134,10 +136,14 @@ class SiteController extends Controller
             ->sum('training.cost_real');
         // dah
 
+        // Ngambil user yang online
+        $userOnline = Online::find()->orderBy(['time' => 'ASC'])->all();
+
         return $this->render('index', [
             'totalAnggaran' => $totalAnggaran,
             'totalRealisasi' => $totalRealisasi,
-            'dataSeries' => $dataSeries
+            'dataSeries' => $dataSeries,
+            'userOnline' => $userOnline
         ]);
     }
 
@@ -149,6 +155,27 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            
+            // Abis login, kita log ke tabel online,
+            $online = Online::findOne(Person::findOne(Yii::$app->user->identity->id)->id);
+            if (!empty($online)) {
+                // bisa dikembangin lagi, ke arah yg lebih strict, 
+                // jadi klo ada 2 user yg sama login di tempat yang berbeda, maka di blok, 
+                // karena artinya akun user itu dipake orang lain
+                $online->ip = Yii::$app->request->getUserIP();
+                $online->time = date('Y-m-d H:i:s');
+            }
+            else {
+                $online = new Online();
+                $online->person_id = Person::findOne(Yii::$app->user->identity->id)->id;
+                $online->ip = Yii::$app->request->getUserIP();
+                $online->time = date('Y-m-d H:i:s');
+            }
+            if (!$online->save()) {
+                die('error, log user online status'.var_dump($online->errors));
+            }
+            // dah
+
 			if(!empty($previous)){
 				return $this->redirect($previous);
 			}
@@ -164,6 +191,14 @@ class SiteController extends Controller
 
     public function actionLogout()
     {
+        // Hapus log online nya
+        $online = Online::findOne(Person::findOne(Yii::$app->user->identity->id)->id);
+        if (!empty($online)) {
+            // Klo kosong ya uda biarin, klo ada aja baru hapus
+            $online->delete();
+        }
+        // dah
+
         Yii::$app->user->logout();
 
         return $this->goHome();
