@@ -208,7 +208,6 @@ $this->params['breadcrumbs'][] = $this->title;
 			width: 80px;
 			margin-top: 10px;
 			margin-left: 10px;
-			transform: rotate(29deg);
 		}
 		.logo .judul.apl {
 			font-size: 300%;
