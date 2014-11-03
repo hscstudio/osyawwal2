@@ -43,6 +43,24 @@ CREATE TABLE IF NOT EXISTS `activity` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+--
+-- Dumping data for table `activity`
+--
+
+INSERT INTO `activity` (`id`, `satker_id`, `name`, `description`, `start`, `end`, `location`, `hostel`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
+(1, 23, 'Diklat Fedora Administrator Angkatan 1', '', '2014-01-07 00:00:00', '2014-01-22 00:00:00', '23|', 0, 0, '2014-11-02 15:37:17', 8, '2014-11-02 22:24:20', 8),
+(2, 23, 'Diklat Fedora Administrator Angkatan 2', '', '2014-02-12 00:00:00', '2014-02-20 00:00:00', '23|', 0, 0, '2014-11-02 15:37:35', 8, '2014-11-02 15:37:35', 8),
+(3, 23, 'Diklat Fedora Administrator Angkatan 3', '', '2014-03-12 00:00:00', '2014-03-21 00:00:00', '23|', 0, 0, '2014-11-02 15:37:55', 8, '2014-11-02 15:37:55', 8),
+(4, 23, 'Diklat Fedora Administrator Angkatan 4', '', '2014-04-17 00:00:00', '2014-04-24 00:00:00', '23|', 0, 0, '2014-11-02 15:38:17', 8, '2014-11-02 15:38:17', 8),
+(5, 23, 'Diklat Fedora Administrator Angkatan 5', '', '2014-05-27 00:00:00', '2014-09-17 00:00:00', '23|', 0, 0, '2014-11-02 15:38:41', 8, '2014-11-02 15:38:41', 8),
+(6, 23, 'Diklat Fedora Administrator Angkatan Resembool', '', '2015-01-08 00:00:00', '2015-01-15 00:00:00', '23|', 0, 0, '2014-11-02 16:14:42', 8, '2014-11-02 22:26:25', 8),
+(7, 23, 'Diklat Fedora Administrator Angkatan 6', '', '2014-06-10 00:00:00', '2014-06-18 00:00:00', '23|', 0, 0, '2014-11-02 22:26:49', 8, '2014-11-02 22:26:49', 8),
+(8, 23, 'Diklat Fedora Administrator Angkatan 7', '', '2014-07-17 00:00:00', '2014-07-30 00:00:00', '23|', 0, 0, '2014-11-02 22:27:17', 8, '2014-11-02 22:46:07', 8),
+(9, 23, 'Diklat Fedora Administrator Angkatan 8', '', '2014-08-05 00:00:00', '2014-08-07 00:00:00', '23|', 0, 0, '2014-11-02 22:27:42', 8, '2014-11-02 22:27:42', 8),
+(10, 23, 'Diklat Fedora Administrator Angkatan 9', '', '2014-09-09 00:00:00', '2014-09-18 00:00:00', '23|', 0, 0, '2014-11-02 22:28:11', 8, '2014-11-02 22:28:11', 8),
+(11, 23, 'Diklat Fedora Administrator Angkatan 10', '', '2014-10-08 00:00:00', '2014-10-30 00:00:00', '23|', 0, 0, '2014-11-02 22:28:40', 8, '2014-11-02 22:46:29', 8),
+(12, 23, 'Diklat Fedora Administrator Angkatan 11', '', '2014-11-18 00:00:00', '2014-11-28 00:00:00', '23|', 0, 0, '2014-11-02 22:29:03', 8, '2014-11-02 22:29:03', 8),
+(13, 23, 'Diklat Fedora Administrator ', '', '2014-12-10 00:00:00', '2014-12-25 00:00:00', '23|', 0, 0, '2014-11-02 22:29:49', 8, '2014-11-02 22:29:49', 8);
 
 -- --------------------------------------------------------
 
@@ -67,6 +85,25 @@ CREATE TABLE IF NOT EXISTS `activity_history` (
   `modified_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`,`revision`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `activity_history`
+--
+
+INSERT INTO `activity_history` (`id`, `revision`, `satker_id`, `name`, `description`, `start`, `end`, `location`, `hostel`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
+(1, 0, 23, 'Diklat Fedora Administrator Angkatan 1', '', '2014-01-07 00:00:00', '2014-01-22 00:00:00', '23|', 0, 0, '2014-11-02 15:37:17', 8, '2014-11-02 22:24:20', 8),
+(2, 0, 23, 'Diklat Fedora Administrator Angkatan 2', '', '2014-02-12 00:00:00', '2014-02-20 00:00:00', '23|', 0, 0, '2014-11-02 15:37:35', 8, '2014-11-02 15:37:35', 8),
+(3, 0, 23, 'Diklat Fedora Administrator Angkatan 3', '', '2014-03-12 00:00:00', '2014-03-21 00:00:00', '23|', 0, 0, '2014-11-02 15:37:55', 8, '2014-11-02 15:37:55', 8),
+(4, 0, 23, 'Diklat Fedora Administrator Angkatan 4', '', '2014-04-17 00:00:00', '2014-04-24 00:00:00', '23|', 0, 0, '2014-11-02 15:38:17', 8, '2014-11-02 15:38:17', 8),
+(5, 0, 23, 'Diklat Fedora Administrator Angkatan 5', '', '2014-05-27 00:00:00', '2014-09-17 00:00:00', '23|', 0, 0, '2014-11-02 15:38:41', 8, '2014-11-02 15:38:41', 8),
+(6, 0, 23, 'Diklat Fedora Administrator Angkatan Resembool', '', '2015-01-08 00:00:00', '2015-01-15 00:00:00', '23|', 0, 0, '2014-11-02 16:14:42', 8, '2014-11-02 22:26:25', 8),
+(7, 0, 23, 'Diklat Fedora Administrator Angkatan 6', '', '2014-06-10 00:00:00', '2014-06-18 00:00:00', '23|', 0, 0, '2014-11-02 22:26:49', 8, '2014-11-02 22:26:49', 8),
+(8, 0, 23, 'Diklat Fedora Administrator Angkatan 7', '', '2014-07-17 00:00:00', '2014-07-30 00:00:00', '23|', 0, 0, '2014-11-02 22:27:17', 8, '2014-11-02 22:46:07', 8),
+(9, 0, 23, 'Diklat Fedora Administrator Angkatan 8', '', '2014-08-05 00:00:00', '2014-08-07 00:00:00', '23|', 0, 0, '2014-11-02 22:27:42', 8, '2014-11-02 22:27:42', 8),
+(10, 0, 23, 'Diklat Fedora Administrator Angkatan 9', '', '2014-09-09 00:00:00', '2014-09-18 00:00:00', '23|', 0, 0, '2014-11-02 22:28:11', 8, '2014-11-02 22:28:11', 8),
+(11, 0, 23, 'Diklat Fedora Administrator Angkatan 10', '', '2014-10-08 00:00:00', '2014-10-30 00:00:00', '23|', 0, 0, '2014-11-02 22:28:40', 8, '2014-11-02 22:46:29', 8),
+(12, 0, 23, 'Diklat Fedora Administrator Angkatan 11', '', '2014-11-18 00:00:00', '2014-11-28 00:00:00', '23|', 0, 0, '2014-11-02 22:29:03', 8, '2014-11-02 22:29:03', 8),
+(13, 0, 23, 'Diklat Fedora Administrator ', '', '2014-12-10 00:00:00', '2014-12-25 00:00:00', '23|', 0, 0, '2014-11-02 22:29:49', 8, '2014-11-02 22:29:49', 8);
 
 -- --------------------------------------------------------
 
@@ -2524,6 +2561,18 @@ INSERT INTO `object_reference` (`object`, `object_id`, `type`, `reference_id`) V
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `online`
+--
+
+CREATE TABLE IF NOT EXISTS `online` (
+  `person_id` int(11) NOT NULL,
+  `ip` varchar(15) CHARACTER SET utf8 NOT NULL,
+  `time` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `organisation`
 --
 
@@ -2667,7 +2716,7 @@ CREATE TABLE IF NOT EXISTS `person` (
   `modified_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nid` (`nid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=101 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
 
 --
 -- Dumping data for table `person`
@@ -2743,7 +2792,14 @@ CREATE TABLE IF NOT EXISTS `program` (
   `modified` datetime DEFAULT NULL,
   `modified_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `program`
+--
+
+INSERT INTO `program` (`id`, `satker_id`, `number`, `name`, `hours`, `days`, `test`, `note`, `stage`, `category`, `validation_status`, `validation_note`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
+(1, 23, '2.3.2.0', 'Diklat Fedora Administrator', NULL, NULL, 0, '', '', '', 0, NULL, 1, '2014-11-02 15:36:46', 8, '2014-11-02 15:36:46', 8);
 
 -- --------------------------------------------------------
 
@@ -2772,6 +2828,13 @@ CREATE TABLE IF NOT EXISTS `program_history` (
   `modified_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`,`revision`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `program_history`
+--
+
+INSERT INTO `program_history` (`id`, `revision`, `satker_id`, `number`, `name`, `hours`, `days`, `test`, `note`, `stage`, `category`, `validation_status`, `validation_note`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
+(1, 0, 23, '2.3.2.0', 'Diklat Fedora Administrator', NULL, NULL, 0, '', '', '', NULL, NULL, 1, '2014-11-02 15:36:46', 8, '2014-11-02 15:36:46', 8);
 
 -- --------------------------------------------------------
 
@@ -3225,6 +3288,25 @@ CREATE TABLE IF NOT EXISTS `training` (
   KEY `program_id` (`program_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `training`
+--
+
+INSERT INTO `training` (`activity_id`, `program_id`, `program_revision`, `number`, `note`, `regular`, `stakeholder`, `student_count_plan`, `class_count_plan`, `execution_sk`, `result_sk`, `cost_source`, `cost_plan`, `cost_real`, `approved_status`, `approved_note`, `approved_date`, `approved_by`) VALUES
+(1, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '52097000.00', '21000000.00', NULL, NULL, NULL, NULL),
+(2, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '21000000.00', '2100000.00', NULL, NULL, NULL, NULL),
+(3, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '52097000.00', '5207000.00', NULL, NULL, NULL, NULL),
+(4, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '52097000.00', '20900000.00', NULL, NULL, NULL, NULL),
+(5, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '20900000.00', '5209000.00', NULL, NULL, NULL, NULL),
+(6, 1, 0, '2015-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '1000000000.00', '74867000.00', NULL, NULL, NULL, NULL),
+(7, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '54867000.00', '2090000.00', NULL, NULL, NULL, NULL),
+(8, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '75699780.00', '65937000.00', NULL, NULL, NULL, NULL),
+(9, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '65937000.00', '12387600.00', NULL, NULL, NULL, NULL),
+(10, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '12387600.00', '574980.00', NULL, NULL, NULL, NULL),
+(11, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '57499887.00', '20900000.00', NULL, NULL, NULL, NULL),
+(12, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '20900000.00', '21000000.00', NULL, NULL, NULL, NULL),
+(13, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '21000000.00', '12387600.00', NULL, NULL, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -3423,6 +3505,25 @@ CREATE TABLE IF NOT EXISTS `training_history` (
   PRIMARY KEY (`activity_id`,`revision`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `training_history`
+--
+
+INSERT INTO `training_history` (`activity_id`, `revision`, `program_id`, `program_revision`, `number`, `note`, `regular`, `stakeholder`, `student_count_plan`, `class_count_plan`, `execution_sk`, `result_sk`, `cost_source`, `cost_plan`, `cost_real`, `approved_status`, `approved_note`, `approved_date`, `approved_by`) VALUES
+(1, 0, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '52097000.00', NULL, NULL, NULL, NULL, NULL),
+(2, 0, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '21000000.00', NULL, NULL, NULL, NULL, NULL),
+(3, 0, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '52097000.00', NULL, NULL, NULL, NULL, NULL),
+(4, 0, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '52097000.00', NULL, NULL, NULL, NULL, NULL),
+(5, 0, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '20900000.00', NULL, NULL, NULL, NULL, NULL),
+(6, 0, 1, 0, '2015-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '1000000000.00', NULL, NULL, NULL, NULL, NULL),
+(7, 0, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '74867000.00', NULL, NULL, NULL, NULL, NULL),
+(8, 0, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '75699780.00', NULL, NULL, NULL, NULL, NULL),
+(9, 0, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '65937000.00', NULL, NULL, NULL, NULL, NULL),
+(10, 0, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '12387600.00', NULL, NULL, NULL, NULL, NULL),
+(11, 0, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '57499887.00', NULL, NULL, NULL, NULL, NULL),
+(12, 0, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '20900000.00', NULL, NULL, NULL, NULL, NULL),
+(13, 0, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '21000000.00', NULL, NULL, NULL, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -3557,7 +3658,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=101 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=27 ;
 
 --
 -- Dumping data for table `user`
@@ -3594,6 +3695,12 @@ INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_res
 --
 -- Constraints for dumped tables
 --
+--
+-- Indexes for table `online`
+--
+ALTER TABLE `online`
+ ADD UNIQUE KEY `person_id` (`person_id`), ADD KEY `person_id_2` (`person_id`);
+
 
 --
 -- Constraints for table `activity_room`
@@ -3657,7 +3764,13 @@ ALTER TABLE `object_person`
 -- Constraints for table `object_reference`
 --
 ALTER TABLE `object_reference`
-  ADD CONSTRAINT `object_reference_ibfk_1` FOREIGN KEY (`reference_id`) REFERENCES `reference` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `object_reference_ibfk_1` FOREIGN KEY (`reference_id`) REFERENCES `reference` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `online`
+--
+ALTER TABLE `online`
+ADD CONSTRAINT `online_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`);
 
 --
 -- Constraints for table `program_subject`
