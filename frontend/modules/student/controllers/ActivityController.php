@@ -52,24 +52,32 @@ class ActivityController extends Controller
 		$queryParams = Yii::$app->request->getQueryParams();
 		if($status=='nocancel'){
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
-					'status'=> [0,1,2],
-				];
+				if(!empty($satker_id))
+				{
+					$queryParams['ActivitySearch']=[
+						'status'=> [0,1,2],
+						'satker_id'=>$satker_id,
+					];
+				}
 			}
 			else{
-				$queryParams['ActivitySearch']=[
-					'year' => $year,
-					'status'=> [0,1,2],
-				];
+				if(!empty($satker_id))
+				{
+					$queryParams['ActivitySearch']=[
+						'year' => $year,
+						'status'=> [0,1,2],
+						'satker_id'=>$satker_id,
+					];
+				}
 			}
 		}
-		if(!empty($satker_id))
+		/*if(!empty($satker_id))
 		{$id_satker=$satker_id;}
 		else
-		{$id_satker=0;}
+		{$id_satker=0;}*/
 		
 		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
-		$dataProvider = $searchModel->search($queryParams,$id_satker,$year);
+		$dataProvider = $searchModel->search($queryParams);
 		$dataProvider->getSort()->defaultOrder = ['start'=>SORT_ASC,'end'=>SORT_ASC];
 		
 		// GET ALL TRAINING YEAR
@@ -384,6 +392,56 @@ class ActivityController extends Controller
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+	
+	public function actionTrainingStatus($id)
+    {
+        $model = TrainingStudent::findOne(['status'=>$id]);
+		$renders = [];
+		$renders['model'] = $model;
+		$object_people_array = [
+			// CEK ID 1213010300 IN TABLE ORGANISATION
+			'organisation_1201050000'=>'PIC Meeting'
+		];
+		$renders['object_people_array'] = $object_people_array;
+		foreach($object_people_array as $object_person=>$label){
+			$object_people[$object_person] = ObjectPerson::find()
+				->where([
+					'object'=>'activity',
+					'object_id' => $id,
+					'type' => $object_person, 
+				])
+				->one();
+			if($object_people[$object_person]==null){
+				$object_people[$object_person]= new ObjectPerson(
+					[
+						'object'=>'activity',
+						'object_id' => $id,
+						'type' => $object_person, 
+					]
+				);
+			}
+			$renders[$object_person] = $object_people[$object_person];
+		}	
+		
+        if (Yii::$app->request->post()) {
+			foreach($object_people_array as $object_person=>$label){
+				$person_id = (int)Yii::$app->request->post('ObjectPerson')[$object_person]['person_id'];
+				Heart::objectPerson($object_people[$object_person],$person_id,'activity',$id,$object_person);
+			}	
+			Yii::$app->getSession()->setFlash('success', 'Pic have updated.');
+			if (!Yii::$app->request->isAjax) {
+				return $this->redirect(['view', 'id' => $model->id]);	
+			}
+			else{
+				echo 'Pic have updated.';
+			}
+        } else {
+			if (Yii::$app->request->isAjax)
+				return $this->renderAjax('pic', $renders);
+            else
+				return $this->render('pic', $renders);
         }
     }
 }

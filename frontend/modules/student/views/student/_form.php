@@ -116,12 +116,6 @@ use yii\helpers\Url;
 				<?= $form->field($person, 'npwp')->textInput(['maxlength' => 100]) ?>
 				</div>
                 <div class="col-md-3">
-				<?= $form->field($model, 'status')->widget(\kartik\widgets\SwitchInput::classname(), [
-					'pluginOptions' => [
-						'onText' => 'Baru',
-						'offText' => 'Mengulang',
-						]
-					]) ?>
 				</div>
 			</div>						
 			
