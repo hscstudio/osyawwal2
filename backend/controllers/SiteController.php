@@ -8,12 +8,18 @@ use yii\filters\VerbFilter;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\helpers\Url;
+use yii\helpers\Html;
+
 use backend\models\LoginForm;
 use backend\models\User;
 use backend\models\PasswordResetRequestForm;
 use backend\models\ResetPasswordForm;
 use backend\models\SignupForm;
-use yii\helpers\Html;
+use backend\models\Activity;
+use backend\models\Training;
+use backend\models\Person;
+use backend\models\Online;
+
 /**
  * Site controller
  */
@@ -72,7 +78,73 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        // Ngambil data
+        $data = Activity::find()
+            ->where(
+                'start > \''.date('Y').'-01-01 00:00:00\''
+            )
+            ->andWhere(
+                'start < \''.date('Y').'-12-31 00:00:00\''
+            )
+            ->joinWith('training')
+            ->all();
+
+        $dataAnggaran = [0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00];
+        $dataRealisasi = [0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00];
+        
+        foreach ($data as $baris) {
+            $angkaBulan = date('m', strtotime($baris->start)) - 1;
+            $dataAnggaran[$angkaBulan] = $dataAnggaran[$angkaBulan] + $baris->training->cost_plan;
+            $dataRealisasi[$angkaBulan] = $dataRealisasi[$angkaBulan] + $baris->training->cost_real;
+        }
+        
+        $dataSeries = [
+            [
+                'name' => 'Anggaran',
+                'type' => 'area',
+                'data' => $dataAnggaran
+            ],
+            [
+                'name' => 'Realisasi',
+                'type' => 'area',
+                'data' => $dataRealisasi
+            ]
+        ];
+        // dah
+
+        // Ngambil jumlah total anggaran
+        $totalAnggaran = Activity::find()
+            ->where(
+                'start > \''.date('Y').'-01-01 00:00:00\''
+            )
+            ->andWhere(
+                'start < \''.date('Y').'-12-31 00:00:00\''
+            )
+            ->joinWith('training')
+            ->sum('training.cost_plan');
+        // dah
+
+        // Ngambil jumlah total realisasi
+        $totalRealisasi = Activity::find()
+            ->where(
+                'start > \''.date('Y').'-01-01 00:00:00\''
+            )
+            ->andWhere(
+                'start < \''.date('Y').'-12-31 00:00:00\''
+            )
+            ->joinWith('training')
+            ->sum('training.cost_real');
+        // dah
+
+        // Ngambil user yang online
+        $userOnline = Online::find()->orderBy(['time' => 'ASC'])->all();
+
+        return $this->render('index', [
+            'totalAnggaran' => $totalAnggaran,
+            'totalRealisasi' => $totalRealisasi,
+            'dataSeries' => $dataSeries,
+            'userOnline' => $userOnline
+        ]);
     }
 
     public function actionLogin($previous="")
@@ -83,6 +155,27 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            
+            // Abis login, kita log ke tabel online,
+            $online = Online::findOne(Person::findOne(Yii::$app->user->identity->id)->id);
+            if (!empty($online)) {
+                // bisa dikembangin lagi, ke arah yg lebih strict, 
+                // jadi klo ada 2 user yg sama login di tempat yang berbeda, maka di blok, 
+                // karena artinya akun user itu dipake orang lain
+                $online->ip = Yii::$app->request->getUserIP();
+                $online->time = date('Y-m-d H:i:s');
+            }
+            else {
+                $online = new Online();
+                $online->person_id = Person::findOne(Yii::$app->user->identity->id)->id;
+                $online->ip = Yii::$app->request->getUserIP();
+                $online->time = date('Y-m-d H:i:s');
+            }
+            if (!$online->save()) {
+                die('error, log user online status'.var_dump($online->errors));
+            }
+            // dah
+
 			if(!empty($previous)){
 				return $this->redirect($previous);
 			}
@@ -98,6 +191,14 @@ class SiteController extends Controller
 
     public function actionLogout()
     {
+        // Hapus log online nya
+        $online = Online::findOne(Person::findOne(Yii::$app->user->identity->id)->id);
+        if (!empty($online)) {
+            // Klo kosong ya uda biarin, klo ada aja baru hapus
+            $online->delete();
+        }
+        // dah
+
         Yii::$app->user->logout();
 
         return $this->goHome();
