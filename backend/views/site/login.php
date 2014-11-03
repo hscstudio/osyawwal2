@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						<?= $form->field($model, 'rememberMe')->checkbox(); ?>
 						<div class="form-group">
 							<?= Html::submitButton('Masuk <i class="fa fa-fw fa-sign-in"></i>', [
-								'class' => 'btn btn-info btn-block btn-lg', 
+								'class' => 'btn btn-block btn-lg bg-cyan-pucat', 
 								'name' => 'login-button'
 							]) // fajar?>
 						</div>
@@ -102,6 +102,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		.site-login {
 			margin: 0px auto;
 			width: 400px;
+			margin-top: -51px;
 		}
 		.site-login .panel {
 			box-shadow:none;
@@ -275,5 +276,24 @@ $this->params['breadcrumbs'][] = $this->title;
 			  left: 0;
 			  width: 400px;
 			}
+		}
+
+		.bg-cyan-pucat {
+			background-color: #5bc0de;
+			color: white;
+			border-color: #438EA5;
+			border-top-width: 0px;
+			border-left-width: 0px;
+			border-right-width: 0px;
+		}
+		.bg-cyan-pucat:hover {
+			color:white;
+			background-color: #64CFEF;
+			border-top-width: 1px;
+			border-top-color: #5bc0de;
+			border-bottom-width: 2px;
+		}
+		.bg-cyan-pucat:focus {
+			color: white;
 		}
 	');
