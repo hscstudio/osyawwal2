@@ -5,6 +5,7 @@ use Yii;
 use backend\models\Activity;
 use backend\modules\pusdiklat\evaluation\models\TrainingActivitySearch;
 use yii\helpers\Html;
+use yii\helpers\Json;
 use backend\models\Person;
 use backend\models\ObjectPerson;
 use backend\models\ObjectFile;
@@ -155,7 +156,7 @@ class ActivityController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionCostReal($id)
     {
         $model = $this->findModel($id);
 		$model->start = date('Y-m-d',strtotime($model->start));
@@ -179,19 +180,19 @@ class ActivityController extends Controller
 							$training->program_revision = (int)\backend\models\ProgramHistory::getRevision($training->program_id);
 							
 							if($training->save()){								 
-								Yii::$app->getSession()->setFlash('success', 'Training & activity data have saved.');
+								Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Training & activity data have saved.');
 								$transaction->commit();
 								return $this->redirect(['index']);
 							}
 						}						
 					}
 					else{
-						Yii::$app->getSession()->setFlash('error', 'Data is NOT saved.');
+						Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Data is NOT saved.');
 					}				
 				}
 			}
 			catch (Exception $e) {
-				Yii::$app->getSession()->setFlash('error', 'Roolback transaction. Data is not saved');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Roolback transaction. Data is not saved');
 			}
         } 
 		
@@ -2320,4 +2321,78 @@ class ActivityController extends Controller
 		exit;
 		
     }
+
+
+
+
+
+    public function actionPreTest($id) {
+    	// Bikin data provider student dari class schedule
+		$searchModel = new TrainingClassStudentSearch(); 
+
+		$queryParams['TrainingClassStudentSearch'] = [
+			'training_class_student.training_id' => $id
+		];
+
+		$queryParams = ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+
+		$dataProvider = $searchModel->search($queryParams);
+		// dah
+
+		// Ngambil model training
+		$modelTraining = Training::find()
+			->where([
+				'activity_id' => $id
+			])
+			->one();
+		// dah
+
+		return $this->render('pretest', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+            'modelTraining' => $modelTraining
+        ]);
+    }
+
+
+
+
+    public function actionEditable() {
+
+		// Cuma ajax yg boleh manggil fungsi ni
+		if (Yii::$app->request->isAjax == false) {
+			Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Forbidden!');
+			return $this->redirect(['activity/index']);
+		}
+		// dah
+
+		$modelTrainingClassStudent = TrainingClassStudent::find()
+			->where([
+				'id' => Yii::$app->request->post('training_class_student_id'),
+			])
+			->one();
+
+		if (!empty($modelTrainingClassStudent)) {
+
+			$modelTrainingClassStudent->pre_test = Yii::$app->request->post('pre_test');
+
+			if ($modelTrainingClassStudent->save()) {
+
+				echo Json::encode(['pre_test' => $modelTrainingClassStudent->pre_test, 'error' => '']);
+
+			}
+			else {
+
+				echo Json::encode(['pre_test' => $modelTrainingClassStudent->errors['pre_test'], 'error' => 'error']);
+
+			}
+			
+		}
+		else {
+			echo Json::encode(['pre_test' => 'Peserta diklat tidak ada!', 'error' => 'error']);
+		}
+
+		//dah
+
+	}
 }

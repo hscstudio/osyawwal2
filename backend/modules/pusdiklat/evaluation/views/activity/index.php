@@ -5,10 +5,6 @@ use kartik\grid\GridView;
 use yii\helpers\Url;
 use kartik\widgets\Select2;
 
-/* @var $this yii\web\View */
-/* @var $searchModel backend\modules\pusdiklat\planning\models\ActivitySearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
@@ -16,17 +12,7 @@ $this->title = Yii::t('app', 'Training Activities');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="activity-index">
-	
-<!--
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Activity',
-]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
--->
 	<?php \yii\widgets\Pjax::begin([
 		'id'=>'pjax-gridview',
 	]); ?>
@@ -186,7 +172,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
 				'class' => 'kartik\grid\ActionColumn',
-				'template' => '{dashboard} {update}',
+				'width' => '140px',
+				'template' => '<div class="btn-group">{dashboard} {cost-real}</div> <div class="btn-group">{pre-test} {post-test}</div>',
 				'buttons' => [
 					'dashboard' => function ($url, $model) {
 								$icon='<span class="fa fa-fw fa-dashboard"></span>';
@@ -197,11 +184,41 @@ $this->params['breadcrumbs'][] = $this->title;
 									]);
 								}
 							},
-					'update' => function ($url, $model) {
-								$icon='<span class="fa fa-fw fa-pencil"></span>';
+					'cost-real' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-money"></span>';
 								if (in_array($model->status,[2])){
 									return Html::a($icon,$url,[
 										'class'=>'btn btn-default btn-xs',
+										'title' => 'Input Realisasi Biaya',
+										'data-toggle' => 'tooltip',
+										'data-placement' => 'top',
+										'data-container' => 'body',
+										'data-pjax'=>'0',
+									]);
+								}
+							},
+					'pre-test' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-file-text-o"></span>';
+								if (in_array($model->status,[2])){
+									return Html::a($icon,$url,[
+										'class'=>'btn btn-default btn-xs',
+										'title' => 'Input Nilai Pre-Test',
+										'data-toggle' => 'tooltip',
+										'data-placement' => 'top',
+										'data-container' => 'body',
+										'data-pjax'=>'0',
+									]);
+								}
+							},
+					'post-test' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-file-text"></span>';
+								if (in_array($model->status,[2])){
+									return Html::a($icon,$url,[
+										'class'=>'btn btn-default btn-xs',
+										'title' => 'Input Nilai Post-Test',
+										'data-toggle' => 'tooltip',
+										'data-placement' => 'top',
+										'data-container' => 'body',
 										'data-pjax'=>'0',
 									]);
 								}
