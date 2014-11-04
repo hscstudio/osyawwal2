@@ -23,6 +23,7 @@ use backend\modules\pusdiklat\evaluation\models\TrainingClassSubjectSearch;
 
 use backend\models\TrainingClassStudent;
 use backend\modules\pusdiklat\evaluation\models\TrainingClassStudentSearch;
+use backend\modules\pusdiklat\evaluation\models\TrainingClassStudentPureSearch;
 
 use backend\models\TrainingClassStudentCertificate;
 
@@ -46,6 +47,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 use yii\data\ActiveDataProvider;
 
 use hscstudio\heart\helpers\Heart;
@@ -2051,4 +2053,80 @@ class Activity2Controller extends Controller
 		exit;
 		/* return $this->redirect(['student', 'id' => $id, 'status'=>$status]);	 */
     }
+
+
+
+
+
+
+    public function actionNilaiAkhir($id) {
+    	// Bikin data provider student dari class schedule
+		$searchModel = new TrainingClassStudentPureSearch(); 
+
+		$queryParams['TrainingClassStudentPureSearch'] = [
+			'training_id' => $id
+		];
+
+		$queryParams = ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+
+		$dataProvider = $searchModel->search($queryParams);
+		// dah
+
+		// Ngambil model training
+		$modelTraining = Training::find()
+			->where([
+				'activity_id' => $id
+			])
+			->one();
+		// dah
+
+		return $this->render('finalscore', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+            'modelTraining' => $modelTraining
+        ]);
+    }
+
+
+
+
+
+    public function actionEditableNilaiAkhir() {
+
+		// Cuma ajax yg boleh manggil fungsi ni
+		if (Yii::$app->request->isAjax == false) {
+			Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Forbidden!');
+			return $this->redirect(['activity/index']);
+		}
+		// dah
+
+		$modelTrainingClassStudent = TrainingClassStudent::find()
+			->where([
+				'id' => Yii::$app->request->post('training_class_student_id'),
+			])
+			->one();
+
+		if (!empty($modelTrainingClassStudent)) {
+
+			$modelTrainingClassStudent->test = Yii::$app->request->post('test');
+
+			if ($modelTrainingClassStudent->save()) {
+
+				echo Json::encode(['test' => $modelTrainingClassStudent->test, 'error' => '']);
+
+			}
+			else {
+
+				echo Json::encode(['test' => 'Tidak bisa menyimpan nilai!', 'error' => 'error']);
+
+			}
+			
+		}
+		else {
+			
+			echo Json::encode(['test' => 'Peserta diklat tidak ada!'.Yii::$app->request->post('training_class_student_id'), 'error' => 'error']);
+
+		}
+
+	}
 }

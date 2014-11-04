@@ -9,6 +9,7 @@ use hscstudio\heart\widgets\Nav;
 use hscstudio\heart\widgets\NavBar;
 
 use backend\models\Person;
+use backend\models\ObjectFile;
 
 AppAsset::register($this);
 ?>
@@ -143,6 +144,25 @@ AppAsset::register($this);
 	                    'position'=>'left',
 	                    'items' => $menuItemsLeft,
 	                ]);
+					
+					// Ngambil foto
+					$objectFile = ObjectFile::find()
+                        ->where([
+                            'object' => 'person',
+                            'object_id' => Yii::$app->user->identity->id,
+                            'type' => 'photo'
+                        ])
+                        ->joinWith('file')
+                        ->one();
+                    // dah
+
+                    if (empty($objectFile)) {
+                        // foto ga ada, so pake gambar default
+                        $pathFoto = Yii::$app->homeUrl.'/logo_simbppk_pelangi.png">';
+                    }
+                    else {
+                        $pathFoto = Url::to(['/file/download','file'=>$objectFile->object.'/'.$objectFile->object_id.'/thumb_'.$objectFile->file->file_name]);
+                    }
 
 	                $menuItems[] =  
 	                    [
@@ -151,7 +171,7 @@ AppAsset::register($this);
 	                    	'url'=> '', 
 	                    	'items'=>[
 	                    		'<li class="kartu-profil">
-	                    			<img src="'.Yii::$app->homeUrl.'/logo_simbppk_pelangi.png">
+	                    			<img class="image-corner" src="'.$pathFoto.'">
 	                    			<p class="nama-nid">'.Person::findOne(Yii::$app->user->identity->id)->name
 	                    			.' 
 	                    			</p>
@@ -246,7 +266,6 @@ AppAsset::register($this);
 			.kartu-profil img {
 				width: 80px;
 				height: 80px;
-				padding: 3px;
 				margin: 0px 0px 10px 0px;
 				border-radius: 50%;
 				border-style: solid;

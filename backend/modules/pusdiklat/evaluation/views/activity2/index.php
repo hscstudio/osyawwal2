@@ -172,7 +172,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
 				'class' => 'kartik\grid\ActionColumn',
-				'template' => '{dashboard} {update}',
+				'width' => '140px',
+				'template' => '<div class="btn-group">{dashboard} {update}</div> <div class="btn-group">{nilai-akhir}</div>',
 				'buttons' => [
 					'dashboard' => function ($url, $model) {
 								$icon='<span class="fa fa-fw fa-dashboard"></span>';
@@ -184,10 +185,27 @@ $this->params['breadcrumbs'][] = $this->title;
 								}
 							},
 					'update' => function ($url, $model) {
-								$icon='<span class="fa fa-fw fa-pencil"></span>';
+								$icon='<span class="fa fa-fw fa-money"></span>';
 								if (in_array($model->status,[2])){
 									return Html::a($icon,$url,[
 										'class'=>'btn btn-default btn-xs',
+										'title' => 'Input Realisasi Biaya',
+										'data-toggle' => 'tooltip',
+										'data-placement' => 'top',
+										'data-container' => 'body',
+										'data-pjax'=>'0',
+									]);
+								}
+							},
+					'nilai-akhir' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-flag-checkered"></span>';
+								if (in_array($model->status,[2])){
+									return Html::a($icon,$url,[
+										'class'=>'btn btn-default btn-xs',
+										'title' => 'Input Nilai Akhir',
+										'data-toggle' => 'tooltip',
+										'data-placement' => 'top',
+										'data-container' => 'body',
 										'data-pjax'=>'0',
 									]);
 								}

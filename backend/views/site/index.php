@@ -1,7 +1,9 @@
 <?php
 use backend\models\Person;
+use backend\models\ObjectFile;
 use miloschuman\highcharts\Highcharts;
 use yii\web\JsExpression;
+use yii\helpers\Url;
 
 $this->title = 'Sistem Informasi Manajemen Badan Pendidikan dan Pelatihan Keuangan';
 
@@ -126,12 +128,32 @@ else
                         <?php
                             foreach ($userOnline as $user) {
                                 echo '<div class="row margin-bottom-small">';
-                                
+
+                                // Ngambil foto
+                                $objectFile = ObjectFile::find()
+                                    ->where([
+                                        'object' => 'person',
+                                        'object_id' => $user->person_id,
+                                        'type' => 'photo'
+                                    ])
+                                    ->joinWith('file')
+                                    ->one();
+                                // dah
+
                                 echo    '<div class="col-md-3 padding-right-medium">';
                                 echo        '<div class="image-frame-small">';
-                                echo            '<img class="image-small" src="'.Yii::$app->homeUrl.'/logo_simbppk_pelangi.png">';
+                                
+                                if (empty($objectFile)) {
+                                    // foto ga ada, so pake gambar default
+                                    echo        '<img class="image-small" src="'.Yii::$app->homeUrl.'/logo_simbppk_pelangi.png">';
+                                }
+                                else {
+                                    echo        '<img class="image-medium image-corner" src="'.Url::to(['/file/download','file'=>$objectFile->object.'/'.$objectFile->object_id.'/thumb_'.$objectFile->file->file_name]).'">';
+                                }
+                                
                                 echo        '</div>';
                                 echo    '</div>';
+                                
                                 
                                 echo    '<div class="col-md-9 padding-left-medium">';
                                 $waktuPertamaInception = new DateTime($user->time);
