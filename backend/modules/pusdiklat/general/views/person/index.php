@@ -110,3 +110,45 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 	<?= \hscstudio\heart\widgets\Modal::widget(['modalSize'=>'modal-lg']) ?>
 </div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+	<i class="glyphicon glyphicon-upload"></i> Batch Upload
+	</div>
+    <div class="panel-body">
+		<div class="row clearfix">
+			<div class="col-md-2">
+			Upload Pegawai
+			</div>
+			<div class="col-md-2">
+			<?php
+			echo Html::a('template',
+						Url::to(['/file/download','file'=>'template/pusdiklat/general/employee_upload.xlsx']),
+						[
+							'class'=>'label label-default',
+							'data-pjax'=>'0',
+						]
+					);
+			?>
+			</div>
+			<div class="col-md-8">
+			<?php
+			$form = \yii\bootstrap\ActiveForm::begin([
+				'options'=>['enctype'=>'multipart/form-data'],
+				'action'=>['import-employee'], 
+			]);
+			echo \kartik\widgets\FileInput::widget([
+				'name' => 'importFile', 
+				//'options' => ['multiple' => true], 
+				'pluginOptions' => [
+					'previewFileType' => 'any',
+					'uploadLabel'=>"Import Excel",
+				]
+			]);
+			\yii\bootstrap\ActiveForm::end();
+			?>
+			</div>
+			
+		</div>
+	</div>
+</div>

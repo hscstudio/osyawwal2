@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 29, 2014 at 11:19 PM
+-- Generation Time: Oct 31, 2014 at 10:28 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.9
 
@@ -42,16 +42,7 @@ CREATE TABLE IF NOT EXISTS `activity` (
   `modified_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
-
---
--- Dumping data for table `activity`
---
-
-INSERT INTO `activity` (`id`, `satker_id`, `name`, `description`, `start`, `end`, `location`, `hostel`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 17, 'Pranata Komputer Terampil ', '', '2014-02-11 00:00:00', '2014-03-17 00:00:00', '23|Lab Lantai 8', 0, 1, '2014-10-22 06:11:40', 1, '2014-10-22 17:00:22', 1),
-(2, 17, 'Pemantapan Kurikulum Pranata Komputer Terampil', '', '2014-10-01 00:00:00', '2014-10-01 00:00:00', '23|-', 0, 1, '2014-10-22 07:50:11', 1, '2014-10-22 07:52:47', 1),
-(3, 23, 'Intelejen Tingkat Dasar Angkatan I', 'Intelejen Tingkat Dasar Angkatan I', '2014-11-03 00:00:00', '2014-11-05 00:00:00', '23|Aula', 0, 2, '2014-10-29 10:20:19', 8, '2014-10-30 05:03:39', 8);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -77,15 +68,6 @@ CREATE TABLE IF NOT EXISTS `activity_history` (
   PRIMARY KEY (`id`,`revision`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `activity_history`
---
-
-INSERT INTO `activity_history` (`id`, `revision`, `satker_id`, `name`, `description`, `start`, `end`, `location`, `hostel`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 0, 17, 'Pranata Komputer Terampil ', '', '2014-02-11 00:00:00', '2014-03-17 00:00:00', '23|Lab Lantai 8', 0, 1, '2014-10-22 06:11:40', 1, '2014-10-22 17:00:23', 1),
-(2, 0, 17, 'Pemantapan Kurikulum Pranata Komputer Terampil', '', '2014-10-01 00:00:00', '2014-10-01 00:00:00', '23|-', 0, 1, '2014-10-22 07:50:11', 1, '2014-10-22 07:52:47', 1),
-(3, 0, 23, 'Intelejen Tingkat Dasar Angkatan I', 'Intelejen Tingkat Dasar Angkatan I', '2014-11-03 00:00:00', '2014-11-05 00:00:00', '23|Aula', 0, 2, '2014-10-29 10:20:19', 8, '2014-10-30 05:03:39', 8);
-
 -- --------------------------------------------------------
 
 --
@@ -107,14 +89,6 @@ CREATE TABLE IF NOT EXISTS `activity_room` (
   KEY `tb_room_id` (`room_id`),
   KEY `tb_training_id` (`activity_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `activity_room`
---
-
-INSERT INTO `activity_room` (`activity_id`, `room_id`, `start`, `end`, `note`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 1, '2014-02-11 08:00:00', '2014-03-17 17:00:00', NULL, 0, NULL, NULL, NULL, NULL),
-(2, 1, '2014-10-01 00:00:00', '2014-10-01 00:00:00', '', 3, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2108,8 +2082,7 @@ INSERT INTO `employee` (`person_id`, `satker_id`, `user_id`, `organisation_id`, 
 (23, 17, 23, NULL, NULL),
 (24, 17, 24, NULL, NULL),
 (25, 17, 25, NULL, NULL),
-(26, 17, 26, NULL, NULL),
-(101, 17, 101, NULL, NULL);
+(26, 17, 26, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2130,19 +2103,7 @@ CREATE TABLE IF NOT EXISTS `file` (
   `modified` datetime DEFAULT NULL,
   `modified_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
-
---
--- Dumping data for table `file`
---
-
-INSERT INTO `file` (`id`, `name`, `file_name`, `file_type`, `file_size`, `description`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, '5445ad5231266.jpg', '5445ad5231266.jpg', NULL, NULL, NULL, 1, '2014-10-21 07:48:18', 1, '2014-10-21 07:48:18', 1),
-(2, '', '5448d7a485381.pdf', NULL, NULL, NULL, 1, '2014-10-23 17:25:40', 1, '2014-10-23 17:25:49', 1),
-(3, '5448e10e0b1a8.png', '5448e10e0b1a8.png', NULL, NULL, NULL, 0, '2014-10-23 18:05:50', 1, '2014-10-23 18:05:50', 1),
-(4, '544b248691175.jpg', '544b248691175.jpg', NULL, NULL, NULL, 1, '2014-10-25 11:18:14', 1, '2014-10-25 11:18:14', 1),
-(5, '544b24a97bd9a.JPG', '544b24a97bd9a.JPG', NULL, NULL, NULL, 1, '2014-10-25 11:18:49', 1, '2014-10-25 11:18:49', 1),
-(6, '544b28f5d9d44.jpg', '544b28f5d9d44.jpg', NULL, NULL, NULL, 1, '2014-10-25 11:37:09', 1, '2014-10-25 11:37:09', 1);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -2157,13 +2118,6 @@ CREATE TABLE IF NOT EXISTS `meeting` (
   PRIMARY KEY (`activity_id`),
   KEY `organisation_id` (`organisation_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `meeting`
---
-
-INSERT INTO `meeting` (`activity_id`, `attendance_count_plan`, `organisation_id`) VALUES
-(2, 15, 392);
 
 -- --------------------------------------------------------
 
@@ -2300,18 +2254,6 @@ CREATE TABLE IF NOT EXISTS `object_file` (
   PRIMARY KEY (`object`,`object_id`,`type`,`file_id`),
   KEY `file_id` (`file_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `object_file`
---
-
-INSERT INTO `object_file` (`object`, `object_id`, `type`, `file_id`) VALUES
-('person', 101, 'photo', 1),
-('program', 1, 'kap', 2),
-('program', 1, 'kap', 3),
-('person', 103, 'photo', 4),
-('person', 104, 'photo', 5),
-('person', 105, 'photo', 6);
 
 -- --------------------------------------------------------
 
@@ -2577,69 +2519,7 @@ INSERT INTO `object_reference` (`object`, `object_id`, `type`, `reference_id`) V
 ('person', 26, 'graduate', NULL),
 ('person', 26, 'rank_class', NULL),
 ('person', 26, 'religion', NULL),
-('person', 26, 'unit', NULL),
-('person', 103, 'graduate', NULL),
-('person', 103, 'rank_class', NULL),
-('person', 103, 'religion', NULL),
-('person', 104, 'graduate', NULL),
-('person', 104, 'rank_class', NULL),
-('person', 104, 'religion', NULL),
-('person', 105, 'graduate', NULL),
-('person', 105, 'rank_class', NULL),
-('person', 105, 'religion', NULL),
-('person', 101, 'graduate', 45),
-('person', 101, 'rank_class', 75),
-('person', 101, 'religion', 91),
-('person', 102, 'unit', 121),
-('person', 103, 'unit', 121),
-('person', 104, 'unit', 121),
-('person', 105, 'unit', 121),
-('person', 106, 'unit', 121),
-('person', 107, 'unit', 121),
-('person', 108, 'unit', 121),
-('person', 109, 'unit', 121),
-('person', 110, 'unit', 121),
-('person', 111, 'unit', 121),
-('person', 112, 'unit', 121),
-('person', 113, 'unit', 121),
-('person', 114, 'unit', 121),
-('person', 115, 'unit', 121),
-('person', 116, 'unit', 121),
-('person', 117, 'unit', 121),
-('person', 118, 'unit', 121),
-('person', 119, 'unit', 121),
-('person', 120, 'unit', 121),
-('person', 121, 'unit', 121),
-('person', 122, 'unit', 121),
-('person', 123, 'unit', 121),
-('person', 124, 'unit', 121),
-('person', 125, 'unit', 121),
-('person', 126, 'unit', 121),
-('person', 127, 'unit', 121),
-('person', 128, 'unit', 121),
-('person', 129, 'unit', 121),
-('person', 130, 'unit', 121),
-('person', 131, 'unit', 121),
-('person', 132, 'unit', 121),
-('person', 133, 'unit', 121),
-('person', 134, 'unit', 121),
-('person', 135, 'unit', 121),
-('person', 136, 'unit', 121),
-('person', 137, 'unit', 121),
-('person', 138, 'unit', 121),
-('person', 139, 'unit', 121),
-('person', 140, 'unit', 121),
-('person', 141, 'unit', 121),
-('person', 142, 'unit', 121),
-('person', 143, 'unit', 121),
-('person', 144, 'unit', 121),
-('person', 145, 'unit', 121),
-('person', 146, 'unit', 121),
-('person', 147, 'unit', 121),
-('person', 148, 'unit', 121),
-('person', 149, 'unit', 121),
-('person', 150, 'unit', 121),
-('person', 101, 'unit', 132);
+('person', 26, 'unit', NULL);
 
 -- --------------------------------------------------------
 
@@ -2787,7 +2667,7 @@ CREATE TABLE IF NOT EXISTS `person` (
   `modified_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nid` (`nid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=151 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=101 ;
 
 --
 -- Dumping data for table `person`
@@ -2819,57 +2699,7 @@ INSERT INTO `person` (`id`, `nip`, `name`, `nickname`, `front_title`, `back_titl
 (23, '', 'Admin Sekretariat Badan - Kepegawaian', '', '', '', 'admin_sekretariat_hrd', '', '', NULL, 0, '', '', '', '', '', '', '', '', '', 0, '', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
 (24, '', 'Admin Sekretariat Badan - Keuangan', '', '', '', 'admin_sekretariat_finance', '', '', NULL, 0, '', '', '', '', '', '', '', '', '', 0, '', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
 (25, '', 'Admin Sekretariat Badan - TIK', '', '', '', 'admin_sekretariat_it', '', '', NULL, 0, '', '', '', '', '', '', '', '', '', 0, '', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
-(26, '', 'Admin Sekretariat Badan - Umum', '', '', '', 'admin_sekretariat_general', '', '', NULL, 0, '', '', '', '', '', '', '', '', '', 0, '', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
-(101, '', 'Hafid Mukhlasin', 'Hafid', '', 'S.Kom', '198604302009011002', '', 'Jember', '1986-04-30', 1, '081559915720', 'hafid.mukhlasin@depkeu.go.id', 'http://www.hafidmukhlasin.com', 'Perum. Nuansa Madinatul Quran Jl Cepit Raya No 12 Kav 19 Jatimulya - Cilodong - Depok - Jawa Barat', '', '', '', 'Jl Pancoran Timur 2 No 1 Pancoran Jakarta Selatan', 'Bank Mandiri 126 000 545 4839 an Hafid Mukhlasin', 1, '', 'Teknik Informatika - Universitas Teknologi Yogyakarta', 5, 'Pranata Komputer Pertama', 'BPPK', 1, NULL, NULL, NULL, NULL),
-(102, '198606052007011002', 'Ageng Budi Widiarto', NULL, NULL, NULL, '198606052007011002', NULL, NULL, '1986-06-05', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(103, '197305071993011001', 'Agung Nana Permana', '', '', '', '197305071993011001', '', '', '1973-05-07', 1, '', '', '', '', '', '', '', '', '', 0, '-', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
-(104, '198704302008121003', 'Andre Harahap', '', '', '', '198704302008121003', '', '', '1987-04-30', 1, '', '', '', '', '', '', '', '', '', 0, '-', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
-(105, '196501011985032003', 'Anne Akbari N. H. C.', '', '', '', '196501011985032003', '', '', '1965-01-01', 0, '', '', '', '', '', '', '', '', '', 0, '-', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
-(106, '196712111988021001', 'Armanzah', NULL, NULL, NULL, '196712111988021001', NULL, NULL, '1967-12-11', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(107, '197704291998031002', 'Bahrahmat Simamora', NULL, NULL, NULL, '197704291998031002', NULL, NULL, '1977-04-29', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(108, '196312281985031001', 'Dedyn Budi Prayoga', NULL, NULL, NULL, '196312281985031001', NULL, NULL, '1963-12-28', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(109, '197404131994031002', 'Didy Supriyadi', NULL, NULL, NULL, '197404131994031002', NULL, NULL, '1974-04-13', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(110, '198201062009011008', 'Dody Widayanto', NULL, NULL, NULL, '198201062009011008', NULL, NULL, '1982-01-06', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(111, '196704121992012001', 'Dwian Widyati Haristyani', NULL, NULL, NULL, '196704121992012001', NULL, NULL, '1967-04-12', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(112, '197802272000011003', 'Edy Setiawan', NULL, NULL, NULL, '197802272000011003', NULL, NULL, '1978-02-27', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(113, '197406011998031001', 'Edy Susanto', NULL, NULL, NULL, '197406011998031001', NULL, NULL, '1974-06-01', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(114, '197307021998032001', 'Fathonatan Dewi Nastiti', NULL, NULL, NULL, '197307021998032001', NULL, NULL, '1973-07-02', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(115, '196911291996031002', 'Ferdy Alfonsus Sihotang', NULL, NULL, NULL, '196911291996031002', NULL, NULL, '1969-11-29', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(116, '197903152000121006', 'Hadi Setiawan', NULL, NULL, NULL, '197903152000121006', NULL, NULL, '1979-03-15', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(117, '198105132002122001', 'Heny Setyawati', NULL, NULL, NULL, '198105132002122001', NULL, NULL, '1981-05-13', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(118, '196411051986031001', 'Indra Utama', NULL, NULL, NULL, '196411051986031001', NULL, NULL, '1964-11-05', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(119, '197111181992031001', 'Iqravid Hajat', NULL, NULL, NULL, '197111181992031001', NULL, NULL, '1971-11-18', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(120, '196209171983021002', 'Isnaidi', NULL, NULL, NULL, '196209171983021002', NULL, NULL, '1962-09-17', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(121, '196111051985031002', 'Jaitar Sirait', NULL, NULL, NULL, '196111051985031002', NULL, NULL, '1961-11-05', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(122, '198708302008121002', 'Jarvik Fuad Rizky', NULL, NULL, NULL, '198708302008121002', NULL, NULL, '1987-08-30', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(123, '197801102002121002', 'M. Ichsan Firmansyah', NULL, NULL, NULL, '197801102002121002', NULL, NULL, '1978-01-10', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(124, '196206151983021001', 'M. Kayani', NULL, NULL, NULL, '196206151983021001', NULL, NULL, '1962-06-15', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(125, '198411052009012003', 'Maria Yosephina Siregar', NULL, NULL, NULL, '198411052009012003', NULL, NULL, '1984-11-05', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(126, '198405182006021002', 'Meiseno Purnawan', NULL, NULL, NULL, '198405182006021002', NULL, NULL, '1984-05-18', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(127, '196205191988101001', 'Mohammad  Irwan', NULL, NULL, NULL, '196205191988101001', NULL, NULL, '1962-05-19', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(128, '197210231993021001', 'Muhaimin Zikri', NULL, NULL, NULL, '197210231993021001', NULL, NULL, '1972-10-23', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(129, '196705031992012001', 'Nany Nur Aini', NULL, NULL, NULL, '196705031992012001', NULL, NULL, '1967-05-03', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(130, '196707051998031001', 'Noor Cholis Yuana', NULL, NULL, NULL, '196707051998031001', NULL, NULL, '1967-07-05', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(131, '196604101987031002', 'Nyamat', NULL, NULL, NULL, '196604101987031002', NULL, NULL, '1966-04-10', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(132, '198606022010122004', 'Prita Anindya', NULL, NULL, NULL, '198606022010122004', NULL, NULL, '1986-06-02', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(133, '198302112009012009', 'Putri Sion', NULL, NULL, NULL, '198302112009012009', NULL, NULL, '1983-02-11', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(134, '198511142009011007', 'Randi Mesarino', NULL, NULL, NULL, '198511142009011007', NULL, NULL, '1985-11-14', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(135, '196711221988032001', 'Ratnasari', NULL, NULL, NULL, '196711221988032001', NULL, NULL, '1967-11-22', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(136, '198306222006022001', 'Retno Maruti', NULL, NULL, NULL, '198306222006022001', NULL, NULL, '1983-06-22', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(137, '198506032006021001', 'Ridwan Ramdhani', NULL, NULL, NULL, '198506032006021001', NULL, NULL, '1985-06-03', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(138, '198606052007012002', 'Ristiana Susanti', NULL, NULL, NULL, '198606052007012002', NULL, NULL, '1986-06-05', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(139, '197004271990121001', 'Rustiyono', NULL, NULL, NULL, '197004271990121001', NULL, NULL, '1970-04-27', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(140, '197307051993031010', 'Saifudin', NULL, NULL, NULL, '197307051993031010', NULL, NULL, '1973-07-05', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(141, '196506231986032003', 'Sri Sukesi, Ak.', NULL, NULL, NULL, '196506231986032003', NULL, NULL, '1965-06-23', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(142, '198711242010122004', 'Suci Lestari', NULL, NULL, NULL, '198711242010122004', NULL, NULL, '1987-11-24', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(143, '198006172001121002', 'Suhadiyan Syah Alam', NULL, NULL, NULL, '198006172001121002', NULL, NULL, '1980-06-17', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(144, '196904181990031001', 'Suparyadi', NULL, NULL, NULL, '196904181990031001', NULL, NULL, '1969-04-18', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(145, '196309191985032001', 'Tirawan Mahulae', NULL, NULL, NULL, '196309191985032001', NULL, NULL, '1963-09-19', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(146, '196608031992011001', 'Tripto Tri Agustono', NULL, NULL, NULL, '196608031992011001', NULL, NULL, '1966-08-03', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(147, '196307181984021003', 'Untung Dwiyono', NULL, NULL, NULL, '196307181984021003', NULL, NULL, '1963-07-18', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(148, '196602061992012001', 'Wijaya Wardhani', NULL, NULL, NULL, '196602061992012001', NULL, NULL, '1966-02-06', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(149, '199001122012122002', 'Yohana Intan Dias Sari', NULL, NULL, NULL, '199001122012122002', NULL, NULL, '1990-01-12', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(150, '198306162004121001', 'Yudhistira, S.AB.', NULL, NULL, NULL, '198306162004121001', NULL, NULL, '1983-06-16', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL);
+(26, '', 'Admin Sekretariat Badan - Umum', '', '', '', 'admin_sekretariat_general', '', '', NULL, 0, '', '', '', '', '', '', '', '', '', 0, '', '', NULL, '', '', 1, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2913,15 +2743,7 @@ CREATE TABLE IF NOT EXISTS `program` (
   `modified` datetime DEFAULT NULL,
   `modified_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `program`
---
-
-INSERT INTO `program` (`id`, `satker_id`, `number`, `name`, `hours`, `days`, `test`, `note`, `stage`, `category`, `validation_status`, `validation_note`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 17, '2.2.2.0', 'Pranata Komputer Terampil New', '300.00', 30, 1, '', 'komputer', '1', 0, NULL, 1, '2014-10-22 06:09:02', 1, '2014-10-28 23:15:11', 1),
-(2, 23, '2.3.1.0', 'Intelejen Tingkat Dasar', '30.00', 3, 1, '', '', '1', 0, NULL, 1, '2014-10-29 13:04:51', 8, '2014-10-29 13:04:51', 8);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -2951,18 +2773,6 @@ CREATE TABLE IF NOT EXISTS `program_history` (
   PRIMARY KEY (`id`,`revision`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `program_history`
---
-
-INSERT INTO `program_history` (`id`, `revision`, `satker_id`, `number`, `name`, `hours`, `days`, `test`, `note`, `stage`, `category`, `validation_status`, `validation_note`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 0, 17, '2.2.2.0', 'Pranata Komputer Terampil', '300.00', 30, 1, '', 'komputer', '1', 0, NULL, 1, '2014-10-22 06:09:02', 1, '2014-10-23 16:27:17', 1),
-(1, 1, 17, '2.2.2.0', 'Pranata Komputer Terampil New', '300.00', 30, 1, '', 'komputer', '1', 0, NULL, 1, '2014-10-22 06:09:02', 1, '2014-10-28 22:36:44', 1),
-(1, 2, 17, '2.2.2.0', 'Pranata Komputer Terampil New', '300.00', 30, 1, '', 'komputer', '1', 0, NULL, 1, '2014-10-22 06:09:02', 1, '2014-10-28 22:37:33', 1),
-(1, 3, 17, '2.2.2.0', 'Pranata Komputer Terampil New', '300.00', 30, 1, '', 'komputer', '1', 0, NULL, 1, '2014-10-22 06:09:02', 1, '2014-10-28 22:37:41', 1),
-(1, 4, 17, '2.2.2.0', 'Pranata Komputer Terampil New', '300.00', 30, 1, '', 'komputer', '1', 0, NULL, 1, '2014-10-22 06:09:02', 1, '2014-10-28 23:15:11', 1),
-(2, 0, 23, '2.3.1.0', 'Intelejen Tingkat Dasar', '30.00', 3, 1, '', '', '1', NULL, NULL, 1, '2014-10-29 13:04:51', 8, '2014-10-29 13:04:51', 8);
-
 -- --------------------------------------------------------
 
 --
@@ -2986,15 +2796,7 @@ CREATE TABLE IF NOT EXISTS `program_subject` (
   `modified_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_tb_program_subject_tb_program1` (`program_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
-
---
--- Dumping data for table `program_subject`
---
-
-INSERT INTO `program_subject` (`id`, `program_id`, `program_revision`, `type`, `name`, `hours`, `sort`, `test`, `stage`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(5, 1, 4, 109, 'PHP', '70.00', 1, 1, 'Pranata Komputer', 1, '2014-10-23 03:58:38', 1, '2014-10-28 22:53:09', 1),
-(6, 1, 4, 109, 'Aplikasi Pranata Komputer', '36.00', 2, 1, 'Pranata Komputer', 1, '2014-10-23 03:59:37', 1, '2014-10-28 22:47:38', 1);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -3021,19 +2823,6 @@ CREATE TABLE IF NOT EXISTS `program_subject_history` (
   PRIMARY KEY (`id`,`revision`),
   KEY `fk_tb_program_subject_tb_program1` (`program_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `program_subject_history`
---
-
-INSERT INTO `program_subject_history` (`id`, `revision`, `program_id`, `program_revision`, `type`, `name`, `hours`, `sort`, `test`, `stage`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(0, 1, 1, 1, 109, 'PHP', '72.00', 1, 1, 'Pranata Komputer', 1, '2014-10-23 03:58:38', 1, '2014-10-28 22:36:44', 1),
-(5, 0, 1, 0, 109, 'PHP', '72.00', 1, 1, 'Pranata Komputer', 1, '2014-10-23 03:58:38', 1, '2014-10-23 04:50:32', 1),
-(5, 1, 1, 4, 109, 'PHP', '70.00', 1, 1, 'Pranata Komputer', 1, '2014-10-23 03:58:38', 1, '2014-10-28 22:53:09', 1),
-(6, 0, 1, 0, 109, 'Aplikasi Pranata Komputer', '36.00', 2, 1, 'Pranata Komputer', 1, '2014-10-23 03:59:37', 1, '2014-10-24 05:18:26', 1),
-(6, 1, 1, 4, 109, 'Aplikasi Pranata Komputer', '36.00', 2, 1, 'Pranata Komputer', 1, '2014-10-23 03:59:37', 1, '2014-10-28 22:47:38', 1),
-(7, 0, 1, 0, 109, 'Database Analisis', '30.00', 3, 1, '', 1, '2014-10-24 05:18:01', 1, '2014-10-24 05:18:17', 1),
-(7, 1, 1, 4, 109, 'Database Analisis', '30.00', 3, 1, '', 1, '2014-10-24 05:18:01', 1, '2014-10-28 22:47:38', 1);
 
 -- --------------------------------------------------------
 
@@ -3347,14 +3136,7 @@ CREATE TABLE IF NOT EXISTS `room` (
   `modified_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code_UNIQUE` (`code`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `room`
---
-
-INSERT INTO `room` (`id`, `satker_id`, `code`, `name`, `capacity`, `owner`, `computer`, `hostel`, `address`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 23, 'A01', 'Gedung A Ruang 1', 30, 1, 0, 0, '', 1, NULL, NULL, '2014-10-09 12:01:25', 1);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -3364,42 +3146,16 @@ INSERT INTO `room` (`id`, `satker_id`, `code`, `name`, `capacity`, `owner`, `com
 
 CREATE TABLE IF NOT EXISTS `satker` (
   `reference_id` int(11) NOT NULL,
-  `letter_number` varchar(10) DEFAULT NULL,
+  `letter_number` varchar(10) CHARACTER SET latin1 DEFAULT NULL,
   `eselon` int(1) DEFAULT NULL,
-  `address` text,
-  `city` varchar(50) DEFAULT NULL,
-  `phone` varchar(50) DEFAULT NULL,
-  `fax` varchar(50) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `website` varchar(255) DEFAULT NULL,
+  `address` text CHARACTER SET latin1,
+  `city` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
+  `phone` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
+  `fax` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
+  `email` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
+  `website` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   PRIMARY KEY (`reference_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `satker`
---
-
-INSERT INTO `satker` (`reference_id`, `letter_number`, `eselon`, `address`, `city`, `phone`, `fax`, `email`, `website`) VALUES
-(17, 'PP.01', 0, '', 'Jakarta', '2', '', '', 'http://www.bppk.kemenkeu.go.id'),
-(18, 'PP.02', 0, '', 'Tangerang', '2', '', '', 'http://www.bppk.kemenkeu.go.id'),
-(19, 'PP.03', 0, '', 'Bogor', '2', '', '', 'http://www.bppk.kemenkeu.go.id'),
-(20, 'PP.04', 0, '', 'Jakarta', '2', '', '', 'http://www.bppk.kemenkeu.go.id'),
-(21, 'PP.05', 0, '', 'Jakarta', '2', '', '', 'http://www.bppk.kemenkeu.go.id'),
-(22, 'PP.06', 0, '', 'Tangerang', '2', '', '', 'http://www.bppk.kemenkeu.go.id'),
-(23, 'PP.07', 0, '', 'Jakarta', '2', '', '', 'http://www.bppk.kemenkeu.go.id'),
-(24, 'PP.08', 0, '', 'Jakarta', '2', '', '', 'http://www.bppk.kemenkeu.go.id'),
-(25, 'BPP.0', 3, '', 'Medan', '', '', '', 'http://www.bppk.kemenkeu.go.id'),
-(26, 'BPP.0', 3, '', 'Palembang', '', '', '', 'http://www.bppk.kemenkeu.go.id'),
-(27, 'BPP.0', 3, '', 'Yogyakarta', '', '', '', 'http://www.bppk.kemenkeu.go.id'),
-(28, 'BPP.0', 3, '', 'Malang', '', '', '', 'http://www.bppk.kemenkeu.go.id'),
-(29, 'BPP.0', 3, '', 'Balikpapan', '', '', '', 'http://www.bppk.kemenkeu.go.id'),
-(30, 'BPP.0', 3, '', 'Makassar', '', '', '', 'http://www.bppk.kemenkeu.go.id'),
-(31, 'BPP.0', 3, '', 'Cimahi', '', '', '', 'http://www.bppk.kemenkeu.go.id'),
-(32, 'BPP.0', 3, '', 'Manado', '', '', '', 'http://www.bppk.kemenkeu.go.id'),
-(33, 'BPP.0', 3, '', 'Pekanbaru', '', '', '', 'http://www.bppk.kemenkeu.go.id'),
-(34, 'BPP.0', 3, '', 'Pontianak', '', '', '', 'http://www.bppk.kemenkeu.go.id'),
-(35, 'BPP.0', 3, '', 'Denpasar', '', '', '', 'http://www.bppk.kemenkeu.go.id'),
-(36, 'BPP.0', 3, '', 'Magelang', '', '', '', 'http://www.bppk.kemenkeu.go.id');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3417,67 +3173,12 @@ CREATE TABLE IF NOT EXISTS `student` (
   `eselon3` varchar(255) DEFAULT NULL,
   `eselon4` varchar(255) DEFAULT NULL,
   `satker` int(3) DEFAULT NULL,
-  `no_sk` int(11) DEFAULT NULL COMMENT 'SK Pangkat',
-  `tmt_sk` int(11) DEFAULT NULL,
+  `no_sk` date DEFAULT NULL COMMENT 'SK Pangkat',
+  `tmt_sk` varchar(255) DEFAULT NULL,
   `status` int(3) NOT NULL DEFAULT '1',
   PRIMARY KEY (`person_id`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `student`
---
-
-INSERT INTO `student` (`person_id`, `username`, `password_hash`, `auth_key`, `password_reset_token`, `eselon2`, `eselon3`, `eselon4`, `satker`, `no_sk`, `tmt_sk`, `status`) VALUES
-(102, '198606052007011002', '$2y$04$ef5jWuVTbdWOhkv1LwcCnOHV8HvZoCClbsOOwPlHys./NdS.kXd9m', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(103, '197305071993011001', '$2y$04$a39NTJWEMC0h.imuEIXmWOLErBZ8VDxhWwwbA7765lHzSfIlddpqS', '', NULL, '', '', '', NULL, NULL, NULL, 1),
-(104, '198704302008121003', '$2y$04$g1hfdK5zCs0x3Gdj9A7SNOnJtbBJC5t0to4fcLQ4tIMAGAwhisEy2', '', NULL, '', '', '', NULL, NULL, NULL, 1),
-(105, '196501011985032003', '$2y$04$u6RccEww9/Sq.v23TDuxW.UBZV7NNyaCsG79wBXbO6DwMw8OW/7HW', '', NULL, '', '', '', NULL, NULL, NULL, 1),
-(106, '196712111988021001', '$2y$04$t/TYa2WKuUd5KSLSS5zkL.SPR/ydoVSlo7iRDRHxyc/LLHP.rJsSW', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(107, '197704291998031002', '$2y$04$FYrSjglcqD9f5xHiJMT3gua8TQ3sH8i1ai11hu2FXRWwOpfxvVJnm', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(108, '196312281985031001', '$2y$04$uhbzXhUIQ7ah/xsMFzKcXe/2YvhIpsM6d4.DMtYG3MuHCL.1lUZHq', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(109, '197404131994031002', '$2y$04$sO6Bs/aQbBCkEqgcfZfZGOUJnj4rIPhOK8R0Cuf0xwhZoHJhqN1n.', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(110, '198201062009011008', '$2y$04$GUeEslDWS1akPovOx3FfsuFm26VnTShSKA4E2zH82ZhR4fw5fLMvq', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(111, '196704121992012001', '$2y$04$SQDuZkoUHVvxRiJOosDz9eSWojzVoLEvrM7Mjz1NTigN1DxKDbw26', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(112, '197802272000011003', '$2y$04$Y25ISZNeZ/pLivhlrctkEuwBEZ7Y9IXXBKyle58X9nK.EW9ktq.Qe', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(113, '197406011998031001', '$2y$04$2vaRpES6ek3qnkYmkGLDR.s0.vy2xHB1KvHYG8/2Awr91YRoprxCq', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(114, '197307021998032001', '$2y$04$.IbBjv./EU6tlGAJvZzTieDfJUh7Hqyh.LHe8AzbdTdGreQEDAGE.', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(115, '196911291996031002', '$2y$04$73fr.bhkW0X9xSbNyZAAZ.In6RJFwbEpdUiQmf06gbiAO8q.GlvSq', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(116, '197903152000121006', '$2y$04$KF9Fp6OKJTUs4A69ne0DauzJ5/NskNSNs1YR6a18G7I7Cqu8j8GPW', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(117, '198105132002122001', '$2y$04$GSwqdTRJjjLSCdOm4fzQNuIegbtWYwdcol7weNSy4VbnaMuALnVyK', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(118, '196411051986031001', '$2y$04$x6mNAF12Su0TEOsg1zZ1m.dOKbdVLX9pF3Y.atwbBnujXEj6wPaYG', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(119, '197111181992031001', '$2y$04$8SlxwcjxwUnY0jGgDfhDuuUi.klgHhWQ5TTiCxUOqG30QWNkVmCfK', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(120, '196209171983021002', '$2y$04$LxVjOFKDoIuCy07VZ85pouNC2V9Etdi.YmbC3vNQzv3yI0XH24tw2', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(121, '196111051985031002', '$2y$04$6QZZfMcuS5SFzs3C9Z7.7erVge8FV/9vCJPdDdHOZ/cOgTpdIn4PK', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(122, '198708302008121002', '$2y$04$Hn0CVaPm9PZKB5gDO6XJoOPorpltZZ.HY6yiFyAZz49KkoxEgPxMW', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(123, '197801102002121002', '$2y$04$42CdwtO3hrql6qh4UDxHguBadhnmrcZJBPOeMKPRuyrfddAlVbjTy', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(124, '196206151983021001', '$2y$04$tL/YTvh1cy61P6Z/Fj4x8eIOcR1YW.yKfDC2OxPmfECrd7.YdgRue', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(125, '198411052009012003', '$2y$04$0zkCZ/w2wOv.8F4HBFjn9OrRTNawA/Boz05V3Wi55ZB1wxGvuVPau', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(126, '198405182006021002', '$2y$04$AvcISpVOGt9deQGq.vvTI.XY8FY1JxoNxV2IILT09ch2G8l/SpVFe', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(127, '196205191988101001', '$2y$04$ys9srHewv2UgrHhLAl5r5Ot8HHDoxai2X8fiIvMq1MD2NWs3ZWbta', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(128, '197210231993021001', '$2y$04$C7FtZyuBHNuCkslkqsvxseSA7QPDyNVMkEDc9vEFN2DQHClmEoTly', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(129, '196705031992012001', '$2y$04$21wp35SiPYNdmW8CeUGbJud8vDzMOabK1Nb4fY6V9IFJzX5qsobCu', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(130, '196707051998031001', '$2y$04$fHBeNQrRMD5bcYtXN/zuGOn4mcWOwlAybXODKWxGhSz7jPNjGaTPK', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(131, '196604101987031002', '$2y$04$9eZn5ufEcV7xzfWmY0co4OAbiDZ4GzPq8jvkRjo/oZ59VU2IJLzW6', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(132, '198606022010122004', '$2y$04$CCWsguD1QeLJiy2PFXxSiOPrglcsB38x9F1pl/M1RYcga.aNxadLe', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(133, '198302112009012009', '$2y$04$na50KVDXuHCPnWMmxQ7Gq.es1ni6lZgUvMi7KsCTO0f96Sz34tWcS', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(134, '198511142009011007', '$2y$04$mp3jeqy9UN2GZxczpkRf7.JYMlA.ntia9TRTErUdo9emYeel.NrWm', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(135, '196711221988032001', '$2y$04$zp.ptglppm7.4D.hUNfkJedDlIieHIdGH9s0.Lyscwd9.1ocJI/Qu', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(136, '198306222006022001', '$2y$04$gWgUTADQg.yTuneznyJ0u.rp0vc/zrxrdHPoLnez7j3.9bQy5NUHi', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(137, '198506032006021001', '$2y$04$.KoT9ppAeB9t3lrt4aelfOeqiCE18rklsDBg2F4JF5nCHPSSbtsn2', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(138, '198606052007012002', '$2y$04$mJ0rIikVzZsTfbw2Yfbwhe3VaxBq3O22d3G9zjmqvr/sB5TmElk1G', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(139, '197004271990121001', '$2y$04$BQwMXSnPSZUP9VySGQT2Te4rNeG8nUsEQXYXwZIgAJ1Vk7didaF46', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(140, '197307051993031010', '$2y$04$orv9OZjeYWyCGQ7ru5kY5eoaSp8uqizH59l.YLhArOYf3VB3D8DDq', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(141, '196506231986032003', '$2y$04$svDJMxwzj8KuLNAupowA6uv8ej6q4R9ynjps7fd4zI1P9nruV/Ota', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(142, '198711242010122004', '$2y$04$8JKwieQzXVed1bgfHHK0FeHId8x9EehXIVIxtV6bVPWqTtI5.HbGS', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(143, '198006172001121002', '$2y$04$x6mG3HxRtG/YkE/SubPaveQsc2ymM9urYopztj6ezR2uq4zUrO6l2', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(144, '196904181990031001', '$2y$04$zLFWCdf8CcxtxhrbJ5tGMeQjdWeJto3Ht827wTe5VIQ/V77F1z7ZK', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(145, '196309191985032001', '$2y$04$iVhHY2WFErJXRQaZfjxe2Olx.p3knynUMkxPtlF4tx6sMQCuNXdaC', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(146, '196608031992011001', '$2y$04$ReA7SyhLMureUtmuoo9quOspnTqjie73OcUcM/62u4ycZtOCTLLFK', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(147, '196307181984021003', '$2y$04$vgvTbuGTjup1wKz2WOM9GO8UnpFZ7ke2LJAmtVRBhPEcuOftP7c76', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(148, '196602061992012001', '$2y$04$uzlJgVYfV7pqY7oh1pVz9urrpFW4FNvNgbk.v3.Q1HN8laRLkdcP.', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(149, '199001122012122002', '$2y$04$ux307d1eo7510.WgACWDoOqpqcgjsolFOOzZSapp0UsR3ze7tvCpa', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(150, '198306162004121001', '$2y$04$acxm8YbMqJKlbzQ0BTlDcu876/2PCBQA7oHpaUoGQ0X/7eH3b61dC', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -3493,13 +3194,6 @@ CREATE TABLE IF NOT EXISTS `trainer` (
   `experience_history` text,
   PRIMARY KEY (`person_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `trainer`
---
-
-INSERT INTO `trainer` (`person_id`, `category`, `education_history`, `training_history`, `experience_history`) VALUES
-(101, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -3531,14 +3225,6 @@ CREATE TABLE IF NOT EXISTS `training` (
   KEY `program_id` (`program_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `training`
---
-
-INSERT INTO `training` (`activity_id`, `program_id`, `program_revision`, `number`, `note`, `regular`, `stakeholder`, `student_count_plan`, `class_count_plan`, `execution_sk`, `result_sk`, `cost_source`, `cost_plan`, `cost_real`, `approved_status`, `approved_note`, `approved_date`, `approved_by`) VALUES
-(1, 1, 0, '2014-01-00-2.2.2.0.2', '', 1, '', 5, 1, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(3, 2, 0, '2014-07-00-2.3.1.0.2', '', 1, '', 30, 1, '', '', '', NULL, NULL, NULL, NULL, NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -3556,14 +3242,7 @@ CREATE TABLE IF NOT EXISTS `training_class` (
   `modified_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_tb_training_assignment_tb_training_subject1` (`training_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `training_class`
---
-
-INSERT INTO `training_class` (`id`, `training_id`, `class`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 1, 'A', 1, NULL, NULL, NULL, NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -3593,61 +3272,7 @@ CREATE TABLE IF NOT EXISTS `training_class_student` (
   KEY `fk_tb_training_subject_student_tb_training_assignment1` (`training_class_id`),
   KEY `fk_tb_training_subject_student_tb_student1` (`training_student_id`),
   KEY `tb_training_id` (`training_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=49 ;
-
---
--- Dumping data for table `training_class_student`
---
-
-INSERT INTO `training_class_student` (`id`, `training_id`, `training_class_id`, `training_student_id`, `number`, `head_class`, `activity`, `presence`, `pre_test`, `post_test`, `test`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 1, 1, 89, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(2, 1, 1, 59, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(3, 1, 1, 94, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(4, 1, 1, 65, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(5, 1, 1, 70, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(6, 1, 1, 84, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(7, 1, 1, 51, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(8, 1, 1, 85, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(9, 1, 1, 83, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(10, 1, 1, 63, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(11, 1, 1, 87, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(12, 1, 1, 82, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(13, 1, 1, 75, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(14, 1, 1, 74, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(15, 1, 1, 53, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(16, 1, 1, 96, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(17, 1, 1, 68, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(18, 1, 1, 62, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(19, 1, 1, 86, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(20, 1, 1, 60, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(21, 1, 1, 78, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(22, 1, 1, 90, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(23, 1, 1, 98, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(24, 1, 1, 76, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(25, 1, 1, 61, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(26, 1, 1, 93, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(27, 1, 1, 52, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(28, 1, 1, 77, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(29, 1, 1, 66, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(30, 1, 1, 71, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(31, 1, 1, 81, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(32, 1, 1, 69, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(33, 1, 1, 67, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(34, 1, 1, 97, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(35, 1, 1, 73, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(36, 1, 1, 72, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(37, 1, 1, 54, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(38, 1, 1, 92, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(39, 1, 1, 91, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(40, 1, 1, 55, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(41, 1, 1, 56, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(42, 1, 1, 95, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(43, 1, 1, 80, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(44, 1, 1, 88, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(45, 1, 1, 57, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(46, 1, 1, 64, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(47, 1, 1, 58, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
-(48, 1, 1, 79, NULL, 0, '1.00', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -3717,16 +3342,7 @@ CREATE TABLE IF NOT EXISTS `training_class_subject` (
   PRIMARY KEY (`id`),
   KEY `fk_tb_training_assignment_tb_training_subject1` (`training_class_id`),
   KEY `fk_tb_training_assignment_tb_trainer1` (`program_subject_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
-
---
--- Dumping data for table `training_class_subject`
---
-
-INSERT INTO `training_class_subject` (`id`, `training_class_id`, `program_subject_id`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 1, 5, 1, NULL, NULL, NULL, NULL),
-(2, 1, 6, 1, NULL, NULL, NULL, NULL),
-(3, 1, 7, 1, NULL, NULL, NULL, NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -3807,14 +3423,6 @@ CREATE TABLE IF NOT EXISTS `training_history` (
   PRIMARY KEY (`activity_id`,`revision`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `training_history`
---
-
-INSERT INTO `training_history` (`activity_id`, `revision`, `program_id`, `program_revision`, `number`, `note`, `regular`, `stakeholder`, `student_count_plan`, `class_count_plan`, `execution_sk`, `result_sk`, `cost_source`, `cost_plan`, `cost_real`, `approved_status`, `approved_note`, `approved_date`, `approved_by`) VALUES
-(1, 0, 1, 0, '2014-01-00-2.2.2.0.2', '', 1, '', 5, 1, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
-(3, 0, 2, 0, '2014-07-00-2.3.1.0.2', '', 1, '', 30, 1, '', '', '', NULL, NULL, NULL, NULL, NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -3841,24 +3449,7 @@ CREATE TABLE IF NOT EXISTS `training_schedule` (
   KEY `tb_activity_room_id` (`activity_room_id`),
   KEY `tb_training_class_subject_assignment_id` (`training_class_subject_id`),
   KEY `tb_training_class_id` (`training_class_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
-
---
--- Dumping data for table `training_schedule`
---
-
-INSERT INTO `training_schedule` (`id`, `training_class_id`, `training_class_subject_id`, `activity_room_id`, `activity`, `pic`, `hours`, `start`, `end`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(2, 1, -3, 1, 'Pembukaan', 'Kapusdiklat', '0.00', '2014-02-11 08:00:00', '2014-02-11 08:30:00', 1, NULL, NULL, NULL, NULL),
-(3, 1, 1, 1, '', '', '3.00', '2014-02-11 08:30:00', '2014-02-11 10:45:00', 1, NULL, NULL, NULL, NULL),
-(4, 1, -1, 1, 'Coffe Break', '-', '0.00', '2014-02-11 10:45:00', '2014-02-11 11:00:00', 1, NULL, NULL, NULL, NULL),
-(5, 1, 1, 1, '', '', '1.00', '2014-02-11 11:00:00', '2014-02-11 11:45:00', 1, NULL, NULL, NULL, NULL),
-(6, 1, -2, 1, 'Ishoma', '-', '0.00', '2014-02-11 11:45:00', '2014-02-11 12:45:00', 1, NULL, NULL, NULL, NULL),
-(7, 1, 2, 1, '', '', '4.00', '2014-02-11 12:45:00', '2014-02-11 15:45:00', 1, NULL, NULL, NULL, NULL),
-(8, 1, -1, 1, 'Coffe Break', '-', '0.00', '2014-02-11 15:45:00', '2014-02-11 16:00:00', 1, NULL, NULL, NULL, NULL),
-(9, 1, 1, 1, '', '', '2.00', '2014-02-11 16:00:00', '2014-02-11 17:30:00', 1, NULL, NULL, NULL, NULL),
-(10, 1, 1, 1, '', '', '5.00', '2014-02-12 08:00:00', '2014-02-12 11:45:00', 1, NULL, NULL, NULL, NULL),
-(11, 1, -2, 1, 'Ishoma', '-', '0.00', '2014-02-12 11:45:00', '2014-02-12 12:45:00', 1, NULL, NULL, NULL, NULL),
-(12, 1, 2, 1, '', '', '5.00', '2014-02-12 12:45:00', '2014-02-12 16:30:00', 1, NULL, NULL, NULL, NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -3883,14 +3474,7 @@ CREATE TABLE IF NOT EXISTS `training_schedule_trainer` (
   UNIQUE KEY `tb_training_schedule_id` (`training_schedule_id`,`trainer_id`),
   KEY `tb_training_class_subject_assignment_id` (`trainer_id`),
   KEY `tb_training_class_id` (`training_schedule_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
-
---
--- Dumping data for table `training_schedule_trainer`
---
-
-INSERT INTO `training_schedule_trainer` (`id`, `training_schedule_id`, `type`, `trainer_id`, `hours`, `reason`, `cost`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(4, 3, 113, 101, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -3911,62 +3495,7 @@ CREATE TABLE IF NOT EXISTS `training_student` (
   PRIMARY KEY (`id`),
   KEY `fk_tb_training_assignment_tb_training_subject1` (`training_id`),
   KEY `tb_student_id` (`student_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=99 ;
-
---
--- Dumping data for table `training_student`
---
-
-INSERT INTO `training_student` (`id`, `training_id`, `student_id`, `note`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(50, 1, 102, 'mengundurkan diri', 0, NULL, NULL, NULL, NULL),
-(51, 1, 103, NULL, 1, NULL, NULL, NULL, NULL),
-(52, 1, 104, NULL, 1, NULL, NULL, NULL, NULL),
-(53, 1, 105, NULL, 1, NULL, NULL, NULL, NULL),
-(54, 1, 106, NULL, 1, NULL, NULL, NULL, NULL),
-(55, 1, 107, NULL, 1, NULL, NULL, NULL, NULL),
-(56, 1, 108, NULL, 1, NULL, NULL, NULL, NULL),
-(57, 1, 109, NULL, 1, NULL, NULL, NULL, NULL),
-(58, 1, 110, NULL, 1, NULL, NULL, NULL, NULL),
-(59, 1, 111, NULL, 1, NULL, NULL, NULL, NULL),
-(60, 1, 112, NULL, 1, NULL, NULL, NULL, NULL),
-(61, 1, 113, NULL, 1, NULL, NULL, NULL, NULL),
-(62, 1, 114, NULL, 1, NULL, NULL, NULL, NULL),
-(63, 1, 115, NULL, 1, NULL, NULL, NULL, NULL),
-(64, 1, 116, NULL, 1, NULL, NULL, NULL, NULL),
-(65, 1, 117, NULL, 1, NULL, NULL, NULL, NULL),
-(66, 1, 118, NULL, 1, NULL, NULL, NULL, NULL),
-(67, 1, 119, NULL, 1, NULL, NULL, NULL, NULL),
-(68, 1, 120, NULL, 1, NULL, NULL, NULL, NULL),
-(69, 1, 121, NULL, 1, NULL, NULL, NULL, NULL),
-(70, 1, 122, NULL, 1, NULL, NULL, NULL, NULL),
-(71, 1, 123, NULL, 1, NULL, NULL, NULL, NULL),
-(72, 1, 124, NULL, 1, NULL, NULL, NULL, NULL),
-(73, 1, 125, NULL, 1, NULL, NULL, NULL, NULL),
-(74, 1, 126, NULL, 1, NULL, NULL, NULL, NULL),
-(75, 1, 127, NULL, 1, NULL, NULL, NULL, NULL),
-(76, 1, 128, NULL, 1, NULL, NULL, NULL, NULL),
-(77, 1, 129, NULL, 1, NULL, NULL, NULL, NULL),
-(78, 1, 130, NULL, 1, NULL, NULL, NULL, NULL),
-(79, 1, 131, NULL, 1, NULL, NULL, NULL, NULL),
-(80, 1, 132, NULL, 1, NULL, NULL, NULL, NULL),
-(81, 1, 133, NULL, 1, NULL, NULL, NULL, NULL),
-(82, 1, 134, NULL, 1, NULL, NULL, NULL, NULL),
-(83, 1, 135, NULL, 1, NULL, NULL, NULL, NULL),
-(84, 1, 136, NULL, 1, NULL, NULL, NULL, NULL),
-(85, 1, 137, NULL, 1, NULL, NULL, NULL, NULL),
-(86, 1, 138, NULL, 1, NULL, NULL, NULL, NULL),
-(87, 1, 139, NULL, 1, NULL, NULL, NULL, NULL),
-(88, 1, 140, NULL, 1, NULL, NULL, NULL, NULL),
-(89, 1, 141, NULL, 1, NULL, NULL, NULL, NULL),
-(90, 1, 142, NULL, 1, NULL, NULL, NULL, NULL),
-(91, 1, 143, NULL, 1, NULL, NULL, NULL, NULL),
-(92, 1, 144, NULL, 1, NULL, NULL, NULL, NULL),
-(93, 1, 145, NULL, 1, NULL, NULL, NULL, NULL),
-(94, 1, 146, NULL, 1, NULL, NULL, NULL, NULL),
-(95, 1, 147, NULL, 1, NULL, NULL, NULL, NULL),
-(96, 1, 148, NULL, 1, NULL, NULL, NULL, NULL),
-(97, 1, 149, NULL, 1, NULL, NULL, NULL, NULL),
-(98, 1, 150, NULL, 1, NULL, NULL, NULL, NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -3984,13 +3513,6 @@ CREATE TABLE IF NOT EXISTS `training_student_plan` (
   `modified_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`training_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `training_student_plan`
---
-
-INSERT INTO `training_student_plan` (`training_id`, `spread`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, '{"121":"1","122":"0","123":"4","124":"0","125":"0","126":"0","127":"0","128":"0","129":"0","130":"0","131":"0","132":"0","133":"0"}', 1, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -4015,14 +3537,7 @@ CREATE TABLE IF NOT EXISTS `training_subject_trainer_recommendation` (
   KEY `fk_tb_training_subject_trainer_recommendation_tb_training_sub1` (`program_subject_id`),
   KEY `fk_tb_training_subject_trainer_recommendation_tb_trainer1` (`trainer_id`),
   KEY `tb_training_id` (`training_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `training_subject_trainer_recommendation`
---
-
-INSERT INTO `training_subject_trainer_recommendation` (`id`, `training_id`, `program_subject_id`, `type`, `trainer_id`, `note`, `sort`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(2, 1, 5, 113, 101, NULL, NULL, 1, NULL, NULL, NULL, NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -4042,7 +3557,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=102 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=101 ;
 
 --
 -- Dumping data for table `user`
@@ -4074,8 +3589,7 @@ INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_res
 (23, 'admin_sekretariat_hrd', '', '$2y$13$I15w2LMAOslm3GJrIC3ss.8mdDE8.QiZZ1uCmh6mBhEWGPKfDq82W', NULL, 'admin_sekretariat_hrd@gmail.com', 1, 1, 1413843677, 1413843677),
 (24, 'admin_sekretariat_finance', '', '$2y$13$bvGxy1TfI2HFwZs4vYVI2eqVxiOuS7TZEub/KvArQXmMriQA0FQnK', NULL, 'admin_sekretariat_finance@gmail.com', 1, 1, 1413843775, 1413843775),
 (25, 'admin_sekretariat_it', '', '$2y$13$X8nh/TXpBMUhmRfB7Hg/uOPjh63mm8hgnlyBOWe8vRSjLHPIVBd2K', NULL, 'admin_sekretariat_it@gmail.com', 1, 1, 1413843832, 1413843832),
-(26, 'admin_sekretariat_general', '', '$2y$13$0RWmtv7pTfpX0g88C8Tm6umWLsHAw8OiPTRCW8IvW0b7OikOfKyES', NULL, 'admin_sekretariat_general@gmail.com', 1, 1, 1413843871, 1413843871),
-(101, '198604302009011002', '', '$2y$13$TBX6tJ9xfO7981OgRCRIxeiTzyyc5iSFiTh3Y2Uu8Kb1VOjuWKQci', NULL, '198604302009011002@gmail.com', 1, 0, 1413852500, 1414555330);
+(26, 'admin_sekretariat_general', '', '$2y$13$0RWmtv7pTfpX0g88C8Tm6umWLsHAw8OiPTRCW8IvW0b7OikOfKyES', NULL, 'admin_sekretariat_general@gmail.com', 1, 1, 1413843871, 1413843871);
 
 --
 -- Constraints for dumped tables

@@ -1102,14 +1102,18 @@ class ActivityController extends Controller
 				}
 				
 				if($person_id>0){
+					
 					if($student_id==0){
+						
 						$student = new Student([
 							'person_id' => $person_id,
 							'username'=>$nip,
 							'password_hash'=>$password,
 							'status' => 1,
 						]);
+						
 						if($student->save()){
+							
 							$student_id = $student->person_id;
 						}
 					}
@@ -1340,11 +1344,13 @@ class ActivityController extends Controller
     {
 		$model = $this->findModel($id);
 		
-		$searchModel = new ActivityRoomSearch([
-			'activity_id' => $id,
-		]);
+		$searchModel = new ActivityRoomSearch();
+		$queryParams['ActivityRoomSearch']=[
+			'activity_id' => $id
+		];
 		
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$dataProvider = $searchModel->search($queryParams);
 		
 		$location = explode('|',$model->location);
 		$location = (int)@$location[0];		
