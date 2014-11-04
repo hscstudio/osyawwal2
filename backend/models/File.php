@@ -125,6 +125,7 @@ class File extends \yii\db\ActiveRecord
         $scenarios['filetype-document'] = ['file_name'];
         $scenarios['filetype-compressed'] = ['file_name'];
         $scenarios['filetype-image'] = ['file_name'];
+        $scenarios['default'] = ['file_name'];
         return $scenarios;
     }
 	
