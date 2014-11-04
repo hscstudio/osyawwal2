@@ -172,14 +172,27 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
 				'class' => 'kartik\grid\ActionColumn',
-				'width' => '140px',
-				'template' => '<div class="btn-group">{dashboard} {cost-real}</div> <div class="btn-group">{pre-test} {post-test}</div>',
+				'width' => '190px',
+				'template' => '<div class="btn-group">{dashboard} {cost-real}</div> <div class="btn-group">{nilai-kehadiran} {nilai-aktivitas} {pre-test} {post-test}</div>',
 				'buttons' => [
 					'dashboard' => function ($url, $model) {
 								$icon='<span class="fa fa-fw fa-dashboard"></span>';
 								if (in_array($model->status,[2])){
 									return Html::a($icon,$url,[
 										'class'=>'btn btn-default btn-xs',
+										'data-pjax'=>'0',
+									]);
+								}
+							},
+					'nilai-aktivitas' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-headphones"></span>';
+								if (in_array($model->status,[2])){
+									return Html::a($icon,$url,[
+										'class'=>'btn btn-default btn-xs',
+										'title' => 'Input Nilai Aktivitas',
+										'data-toggle' => 'tooltip',
+										'data-placement' => 'top',
+										'data-container' => 'body',
 										'data-pjax'=>'0',
 									]);
 								}
@@ -216,6 +229,19 @@ $this->params['breadcrumbs'][] = $this->title;
 									return Html::a($icon,$url,[
 										'class'=>'btn btn-default btn-xs',
 										'title' => 'Input Nilai Post-Test',
+										'data-toggle' => 'tooltip',
+										'data-placement' => 'top',
+										'data-container' => 'body',
+										'data-pjax'=>'0',
+									]);
+								}
+							},
+					'nilai-kehadiran' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-map-marker"></span>';
+								if (in_array($model->status,[2])){
+									return Html::a($icon,$url,[
+										'class'=>'btn btn-default btn-xs',
+										'title' => 'Input Nilai Kehadiran',
 										'data-toggle' => 'tooltip',
 										'data-placement' => 'top',
 										'data-container' => 'body',

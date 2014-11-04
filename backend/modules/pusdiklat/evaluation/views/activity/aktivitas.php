@@ -15,7 +15,7 @@ use backend\models\TrainingSchedule;
 use backend\models\TrainingClassStudentAttendance;
 use backend\models\ObjectReference;
 
-$this->title = 'Nilai Post-Test';
+$this->title = 'Nilai Aktivitas';
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Activities'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => Inflector::camel2words($modelTraining->activity->name), 'url' => ['view', 'id' => $modelTraining->activity->id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
@@ -29,7 +29,7 @@ echo AlertBlock::widget([
 ]);
 ?>
 
-<div class="post-test-update">
+<div class="aktivitas-update">
 
     <?php
 
@@ -73,7 +73,7 @@ echo AlertBlock::widget([
 				}
 			],
     		[
-    			'header' => 'Nilai Post-Test',
+    			'header' => 'Nilai Aktivitas',
 				'vAlign'=>'middle',
 				'format' => 'raw',
 				'width' => '80px',
@@ -82,7 +82,7 @@ echo AlertBlock::widget([
 				],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'value' => function($model) {
-					return Html::input('text', 'post_test', $model->post_test, [
+					return Html::input('text', 'activity', $model->activity, [
 							'class' => 'form-control',
 							'onchange' => new JsExpression('
 								var maxVal = 100;
@@ -100,9 +100,9 @@ echo AlertBlock::widget([
 								else {
 					    			$.ajax({
 										type: "post",
-										url: "'.Url::to(['editable-post-test']).'",
+										url: "'.Url::to(['editable-nilai-aktivitas']).'",
 										data: {
-											post_test: $(this).val(),
+											activity: $(this).val(),
 											training_class_student_id: "'.$model->id.'",
 										},
 										success: function(data) {
@@ -111,7 +111,7 @@ echo AlertBlock::widget([
 												$.growl({
 													icon: "fa fa-fw fa-check-circle",
 													title: " <strong>Saved!</strong> ",
-													message: "Nilai " + data.post_test + " tersimpan",
+													message: "Nilai " + data.activity + " tersimpan",
 												}, {
 													type: "success",
 												});
@@ -121,7 +121,7 @@ echo AlertBlock::widget([
 												$.growl({
 													icon: "fa fa-fw fa-exclamation-circle",
 													title: " <strong>Kesalahan!</strong> ",
-													message: data.post_test,
+													message: data.activity,
 												}, {
 													type: "warning",
 												});
@@ -144,7 +144,7 @@ echo AlertBlock::widget([
     			'hover' => true,
     			'responsive' => true,
     			'panel' => [
-					'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> Nilai Post-Test</h3>',
+					'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> Nilai Aktivitas</h3>',
 					'before'=>
 						Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back', [
 								'activity/index'
