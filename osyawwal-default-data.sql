@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 31, 2014 at 10:28 PM
+-- Generation Time: Nov 04, 2014 at 09:04 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.9
 
@@ -42,7 +42,8 @@ CREATE TABLE IF NOT EXISTS `activity` (
   `modified_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+
 --
 -- Dumping data for table `activity`
 --
@@ -2567,8 +2568,17 @@ INSERT INTO `object_reference` (`object`, `object_id`, `type`, `reference_id`) V
 CREATE TABLE IF NOT EXISTS `online` (
   `person_id` int(11) NOT NULL,
   `ip` varchar(15) CHARACTER SET utf8 NOT NULL,
-  `time` datetime NOT NULL
+  `time` datetime NOT NULL,
+  UNIQUE KEY `person_id` (`person_id`),
+  KEY `person_id_2` (`person_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `online`
+--
+
+INSERT INTO `online` (`person_id`, `ip`, `time`) VALUES
+(1, '127.0.0.1', '2014-11-04 08:41:32');
 
 -- --------------------------------------------------------
 
@@ -2792,7 +2802,7 @@ CREATE TABLE IF NOT EXISTS `program` (
   `modified` datetime DEFAULT NULL,
   `modified_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `program`
@@ -3219,6 +3229,32 @@ CREATE TABLE IF NOT EXISTS `satker` (
   `website` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   PRIMARY KEY (`reference_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `satker`
+--
+
+INSERT INTO `satker` (`reference_id`, `letter_number`, `eselon`, `address`, `city`, `phone`, `fax`, `email`, `website`) VALUES
+(17, 'PP.01', 0, '', 'Jakarta', '2', '', '', 'http://www.bppk.kemenkeu.go.id'),
+(18, 'PP.02', 0, '', 'Tangerang', '2', '', '', 'http://www.bppk.kemenkeu.go.id'),
+(19, 'PP.03', 0, '', 'Bogor', '2', '', '', 'http://www.bppk.kemenkeu.go.id'),
+(20, 'PP.04', 0, '', 'Jakarta', '2', '', '', 'http://www.bppk.kemenkeu.go.id'),
+(21, 'PP.05', 0, '', 'Jakarta', '2', '', '', 'http://www.bppk.kemenkeu.go.id'),
+(22, 'PP.06', 0, '', 'Tangerang', '2', '', '', 'http://www.bppk.kemenkeu.go.id'),
+(23, 'PP.07', 0, '', 'Jakarta', '2', '', '', 'http://www.bppk.kemenkeu.go.id'),
+(24, 'PP.08', 0, '', 'Jakarta', '2', '', '', 'http://www.bppk.kemenkeu.go.id'),
+(25, 'BPP.0', 3, '', 'Medan', '', '', '', 'http://www.bppk.kemenkeu.go.id'),
+(26, 'BPP.0', 3, '', 'Palembang', '', '', '', 'http://www.bppk.kemenkeu.go.id'),
+(27, 'BPP.0', 3, '', 'Yogyakarta', '', '', '', 'http://www.bppk.kemenkeu.go.id'),
+(28, 'BPP.0', 3, '', 'Malang', '', '', '', 'http://www.bppk.kemenkeu.go.id'),
+(29, 'BPP.0', 3, '', 'Balikpapan', '', '', '', 'http://www.bppk.kemenkeu.go.id'),
+(30, 'BPP.0', 3, '', 'Makassar', '', '', '', 'http://www.bppk.kemenkeu.go.id'),
+(31, 'BPP.0', 3, '', 'Cimahi', '', '', '', 'http://www.bppk.kemenkeu.go.id'),
+(32, 'BPP.0', 3, '', 'Manado', '', '', '', 'http://www.bppk.kemenkeu.go.id'),
+(33, 'BPP.0', 3, '', 'Pekanbaru', '', '', '', 'http://www.bppk.kemenkeu.go.id'),
+(34, 'BPP.0', 3, '', 'Pontianak', '', '', '', 'http://www.bppk.kemenkeu.go.id'),
+(35, 'BPP.0', 3, '', 'Denpasar', '', '', '', 'http://www.bppk.kemenkeu.go.id'),
+(36, 'BPP.0', 3, '', 'Magelang', '', '', '', 'http://www.bppk.kemenkeu.go.id');
 
 -- --------------------------------------------------------
 
@@ -3695,12 +3731,6 @@ INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_res
 --
 -- Constraints for dumped tables
 --
---
--- Indexes for table `online`
---
-ALTER TABLE `online`
- ADD UNIQUE KEY `person_id` (`person_id`), ADD KEY `person_id_2` (`person_id`);
-
 
 --
 -- Constraints for table `activity_room`
@@ -3764,13 +3794,13 @@ ALTER TABLE `object_person`
 -- Constraints for table `object_reference`
 --
 ALTER TABLE `object_reference`
-ADD CONSTRAINT `object_reference_ibfk_1` FOREIGN KEY (`reference_id`) REFERENCES `reference` (`id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `object_reference_ibfk_1` FOREIGN KEY (`reference_id`) REFERENCES `reference` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `online`
 --
 ALTER TABLE `online`
-ADD CONSTRAINT `online_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`);
+  ADD CONSTRAINT `online_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`);
 
 --
 -- Constraints for table `program_subject`
