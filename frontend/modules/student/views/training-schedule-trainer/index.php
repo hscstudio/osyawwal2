@@ -67,9 +67,9 @@ $this->params['breadcrumbs'][] = $this->title;
 				'class' => 'kartik\grid\ActionColumn',
 				'template' => '{questioner}',
 				'buttons' => [
-					'questioner' => function ($url, $model) {
+					'questioner' => function ($url, $model) use($training_id,$training_student_id){
 								$icon='<span class="fa fa-fw fa-newspaper-o"></span>';
-								return ($model->status!=2 AND $model->status!=1)?'':Html::a($icon,\yii\helpers\Url::to('../training-class-subject-trainer-evaluation/index.aspx?training_class_subject_id='.\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->trainingSchedule->training_class_subject_id)).'&trainer_id='.\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->trainer_id))),[
+								return ($model->status!=2 AND $model->status!=1)?'':Html::a($icon,\yii\helpers\Url::to('../training-class-subject-trainer-evaluation/index.aspx?training_class_subject_id='.\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->trainingSchedule->training_class_subject_id)).'&trainer_id='.\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($model->trainer_id)).'&training_id='.$training_id.'&training_student_id='.$training_student_id),[
 									'class'=>'btn btn-default btn-xs',
 									'data-pjax'=>'0',
 								]);

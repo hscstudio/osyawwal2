@@ -395,9 +395,11 @@ class ActivityController extends Controller
         }
     }
 	
-	public function actionTrainingStudentStatus($training_id=NULL,$status=NULL)
+	public function actionTrainingStudentStatus($status=NULL,$training_id=NULL)
     {
-        $model = TrainingStudent::findOne(['status'=>$status,'student_id'=>Yii::$app->user->identity->id,'training_id'=>$training_id]);
+        $id = base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($status));
+		$id2 = base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_id));
+		$model = TrainingStudent::findOne(['status'=>$id,'student_id'=>Yii::$app->user->identity->id,'training_id'=>$id2]);
 
         if ($model->load(Yii::$app->request->post())) {
             if($model->save()) {
@@ -406,7 +408,7 @@ class ActivityController extends Controller
 			else{
 				Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
 			}
-			return $this->redirect(['view-training-student-status', 'student_id'=>Yii::$app->user->identity->id,'training_id'=>$training_id]);
+			return $this->redirect(['view-training-student-status','training_id'=>$training_id]);
         } else {
             return $this->render('trainingStudentStatus', [
                 'model' => $model,
@@ -414,11 +416,14 @@ class ActivityController extends Controller
         }
 	}
 	
-	public function actionViewTrainingStudentStatus($student_id=NULL,$training_id=NULL)
+	public function actionViewTrainingStudentStatus($training_id=NULL)
     {
         $id = Yii::$app->user->identity->id;
+		$id2 = base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_id));
+		$model = TrainingStudent::findOne(['student_id'=>$id,'training_id'=>$id2]);
 		return $this->render('viewTrainingStudentStatus', [
-            'model' => TrainingStudent::findOne(['student_id'=>Yii::$app->user->identity->id,'training_id'=>$training_id]),
+            'model' => $model,
+			'status_training_student' => $model->status,
         ]);
 	}
 }

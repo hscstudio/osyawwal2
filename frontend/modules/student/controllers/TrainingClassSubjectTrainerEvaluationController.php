@@ -31,7 +31,7 @@ class TrainingClassSubjectTrainerEvaluationController extends Controller
      * Lists all TrainingClassSubjectTrainerEvaluation models.
      * @return mixed
      */
-    public function actionIndex($training_class_subject_id=NULL,$trainer_id=NULL)
+    public function actionIndex($training_class_subject_id=NULL,$trainer_id=NULL,$training_id=NULL,$training_student_id=NULL)
     {
         /*$searchModel = new TrainingClassSubjectTrainerEvaluationSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -45,7 +45,9 @@ class TrainingClassSubjectTrainerEvaluationController extends Controller
 		{
 			return $this->redirect(['view',
 						'training_class_subject_id' => $training_class_subject_id,
-						'trainer_id' => $trainer_id,		
+						'trainer_id' => $trainer_id,
+						'training_id' => $training_id,
+						'training_student_id' => $training_student_id,
 				]);
 		}
 		else
@@ -53,6 +55,8 @@ class TrainingClassSubjectTrainerEvaluationController extends Controller
 			return $this->redirect(['create',
 						'training_class_subject_id' => $training_class_subject_id,
 						'trainer_id' => $trainer_id,
+						'training_id' => $training_id,
+						'training_student_id' => $training_student_id,
 				]);	
 		}
     }
@@ -62,12 +66,14 @@ class TrainingClassSubjectTrainerEvaluationController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($training_class_subject_id=NULL,$trainer_id=NULL)
+    public function actionView($training_class_subject_id=NULL,$trainer_id=NULL,$training_id=NULL,$training_student_id=NULL)
     {
         return $this->render('view', [
             'model' => TrainingClassSubjectTrainerEvaluation::findOne(['training_class_subject_id'=>base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_class_subject_id)),'trainer_id'=>base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($trainer_id)),'student_id'=>Yii::$app->user->identity->id]),
 			'training_class_subject_id' => $training_class_subject_id,
 			'trainer_id' => $trainer_id,
+			'training_id' => $training_id,
+			'training_student_id' => $training_student_id,
         ]);
     }
 
@@ -76,7 +82,7 @@ class TrainingClassSubjectTrainerEvaluationController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($training_class_subject_id=NULL,$trainer_id=NULL)
+    public function actionCreate($training_class_subject_id=NULL,$trainer_id=NULL,$training_id=NULL,$training_student_id=NULL)
     {
         $id1 = base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_class_subject_id));
 		$id2 = base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($trainer_id));
@@ -107,6 +113,8 @@ class TrainingClassSubjectTrainerEvaluationController extends Controller
 				//'training_id' => base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($tb_training_id)),
 				'training_class_subject_id' => $training_class_subject_id,
 				'trainer_id' => $trainer_id,
+				'training_id' => $training_id,
+				'training_student_id' => $training_student_id,
             ]);
         }
     }

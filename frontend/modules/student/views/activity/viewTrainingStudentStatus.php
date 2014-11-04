@@ -16,12 +16,12 @@ $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 $data = \frontend\models\Person::find()->where(['id'=>Yii::$app->user->identity->id])->One();
 $tgllahir = explode('-',$data->birthday);
+//$status_training_student = \frontend\models\TrainingStudent
 ?>
 <?php
     Modal::begin([
 		'header'=>'PRINT FORM EREGISTERASI',
-		//'data' => $model,
-		'toggleButton' => ['label'=>'PRINT', 'class'=>'fa fa-fw fa-search'],
+		'toggleButton' => ['label'=>'PRINT ', 'class'=>'fa fa-fw fa-print'],
 	]);
 ?>
 <table align="center" cellspacing="1" cellpadding="2" style="font-family:'Times New Roman', Times, serif" width="100%">
@@ -63,7 +63,7 @@ $tgllahir = explode('-',$data->birthday);
     	<td>JABATAN</td><td>:</td><td><?php echo strtoupper($data->position_desc);?></td>
     </tr>
     <tr>
-    	<td>STATUS PESERTA</td><td>:</td><td><?php echo $data->status==2?'BARU':'MENGULANG';?></td>
+    	<td>STATUS PESERTA</td><td>:</td><td><?php echo $status_training_student==2?'MENGULANG':'BARU';?></td>
     </tr>
     
 </table>
@@ -95,7 +95,7 @@ $tgllahir = explode('-',$data->birthday);
 </table>
 <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="window.location='<?php echo \yii\helpers\Url::to('../student/print.aspx');?>'">Print</button>
+        <button type="button" class="btn btn-primary" onclick="window.location='<?php echo \yii\helpers\Url::to('../student/print.aspx?status_training_student='.$status_training_student);?>'">Print</button>
                
 </div>
 <?php		

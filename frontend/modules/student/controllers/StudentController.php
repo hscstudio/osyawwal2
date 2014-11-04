@@ -182,7 +182,7 @@ class StudentController extends Controller
         ]);
     }
 	
-	public function actionPrint($filetype='docx') {
+	public function actionPrint($status_training_student=NULL,$filetype='docx') {
 		$dataProvider = new ActiveDataProvider([
             'query' => \frontend\models\Person::find()->where(['id'=>Yii::$app->user->identity->id]),
         ]);
@@ -214,7 +214,7 @@ class StudentController extends Controller
 					'col5'=> strtoupper(\frontend\models\ObjectReference::findOne(['object'=>'person','object_id'=>$student->id,'type'=>'unit'])->reference->name),
 					'col6'=>strtoupper(\frontend\models\ObjectReference::findOne(['object'=>'person','object_id'=>$student->id,'type'=>'rank_class'])->reference->name),
 					'col7'=>strtoupper($student->position_desc),
-					'col8'=>$student->status=1?'BARU':'MENGULANG',
+					'col8'=>$status_training_student==2?'MENGULANG':'BARU',
 				];
 			}
 			$OpenTBS->MergeBlock('b', $data2);
