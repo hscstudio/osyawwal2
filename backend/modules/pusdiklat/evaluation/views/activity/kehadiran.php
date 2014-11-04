@@ -15,7 +15,7 @@ use backend\models\TrainingSchedule;
 use backend\models\TrainingClassStudentAttendance;
 use backend\models\ObjectReference;
 
-$this->title = 'Nilai Pre-Test';
+$this->title = 'Nilai Kehadiran';
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Activities'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => Inflector::camel2words($modelTraining->activity->name), 'url' => ['view', 'id' => $modelTraining->activity->id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
@@ -82,7 +82,7 @@ echo AlertBlock::widget([
 				],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'value' => function($model) {
-					return Html::input('text', 'pre_test', $model->pre_test, [
+					return Html::input('text', 'presence', $model->presence, [
 							'class' => 'form-control',
 							'onchange' => new JsExpression('
 								var maxVal = 100;
@@ -100,9 +100,9 @@ echo AlertBlock::widget([
 								else {
 					    			$.ajax({
 										type: "post",
-										url: "'.Url::to(['editable-pre-test']).'",
+										url: "'.Url::to(['editable-nilai-kehadiran']).'",
 										data: {
-											pre_test: $(this).val(),
+											presence: $(this).val(),
 											training_class_student_id: "'.$model->id.'",
 										},
 										success: function(data) {
@@ -111,7 +111,7 @@ echo AlertBlock::widget([
 												$.growl({
 													icon: "fa fa-fw fa-check-circle",
 													title: " <strong>Saved!</strong> ",
-													message: "Nilai " + data.pre_test + " tersimpan",
+													message: "Nilai " + data.presence + " tersimpan",
 												}, {
 													type: "success",
 												});
@@ -121,7 +121,7 @@ echo AlertBlock::widget([
 												$.growl({
 													icon: "fa fa-fw fa-exclamation-circle",
 													title: " <strong>Kesalahan!</strong> ",
-													message: data.pre_test,
+													message: data.presence,
 												}, {
 													type: "warning",
 												});
@@ -144,7 +144,7 @@ echo AlertBlock::widget([
     			'hover' => true,
     			'responsive' => true,
     			'panel' => [
-					'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> Nilai Pre-Test</h3>',
+					'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> Nilai Kehadiran</h3>',
 					'before'=>
 						Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back', [
 								'activity/index'
