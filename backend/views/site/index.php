@@ -194,7 +194,7 @@ else
             padding: 0px;
         }
         .site-index .container-fluid {
-            padding:17px;
+            padding:17px 17px 0px 17px;
         }
         .site-index .container-fluid > .row {
             margin-left: -17px;
