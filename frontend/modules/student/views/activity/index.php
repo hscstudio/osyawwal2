@@ -72,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					'value' => function ($data){
 						$status = \frontend\models\TrainingStudent::findOne(['training_id'=>$data->id,'student_id'=>Yii::$app->user->identity->id])->status;
 						if($status==1)
-						{return Html::a('Baru',['training-status','status'=>$status],[
+						{return Html::a('Baru',['training-student-status','status'=>$status,'training_id'=>$data->id],[
 							'class' => 'label label-info ',
 							'data-pjax'=>0,
 							'source'=>'',
@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
 							'data-toggle'=>'tooltip',
 							]);}
 						else if($status==2)
-						{return Html::a('Mengulang',['training-status','status'=>$status],[
+						{return Html::a('Mengulang',['training-student-status','status'=>$status,'training_id'=>$data->id],[
 							'class' => 'label label-info ',
 							'data-pjax'=>0,
 							'source'=>'',

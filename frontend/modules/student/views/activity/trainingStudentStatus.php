@@ -10,12 +10,10 @@ $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 
-$this->title = Yii::t('app', 'PIC {modelClass}: ', [
-    'modelClass' => 'Training',
-]) . ' ' . Inflector::camel2words($model->name);
+$this->title = Yii::t('app', 'Status Mengikuti Diklat: '.$model->training->activity->name);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Activity'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => Inflector::camel2words($model->name), 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'PIC');
+//$this->params['breadcrumbs'][] = ['label' => Inflector::camel2words($model->name), 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = Yii::t('app', 'Status Mengikuti Diklat '.$model->training->activity->name);
 ?>
 <div class="program-update panel panel-default">
 	<?php
@@ -34,11 +32,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'PIC');
 		<?php
 		$renders = [];
 		$renders['model'] = $model;
-		$renders['object_people_array'] = $object_people_array;
-		foreach($object_people_array as $object_person=>$label){
-			$renders[$object_person] = ${$object_person};
-		}
 		?>
-		<?= $this->render('_form_pic', $renders) ?>
+		<?= $this->render('_form_training_status', $renders) ?>
 	</div>
 </div>

@@ -395,53 +395,30 @@ class ActivityController extends Controller
         }
     }
 	
-	public function actionTrainingStatus($id)
+	public function actionTrainingStudentStatus($training_id=NULL,$status=NULL)
     {
-        $model = TrainingStudent::findOne(['status'=>$id]);
-		$renders = [];
-		$renders['model'] = $model;
-		$object_people_array = [
-			// CEK ID 1213010300 IN TABLE ORGANISATION
-			'organisation_1201050000'=>'PIC Meeting'
-		];
-		$renders['object_people_array'] = $object_people_array;
-		foreach($object_people_array as $object_person=>$label){
-			$object_people[$object_person] = ObjectPerson::find()
-				->where([
-					'object'=>'activity',
-					'object_id' => $id,
-					'type' => $object_person, 
-				])
-				->one();
-			if($object_people[$object_person]==null){
-				$object_people[$object_person]= new ObjectPerson(
-					[
-						'object'=>'activity',
-						'object_id' => $id,
-						'type' => $object_person, 
-					]
-				);
-			}
-			$renders[$object_person] = $object_people[$object_person];
-		}	
-		
-        if (Yii::$app->request->post()) {
-			foreach($object_people_array as $object_person=>$label){
-				$person_id = (int)Yii::$app->request->post('ObjectPerson')[$object_person]['person_id'];
-				Heart::objectPerson($object_people[$object_person],$person_id,'activity',$id,$object_person);
-			}	
-			Yii::$app->getSession()->setFlash('success', 'Pic have updated.');
-			if (!Yii::$app->request->isAjax) {
-				return $this->redirect(['view', 'id' => $model->id]);	
+        $model = TrainingStudent::findOne(['status'=>$status,'student_id'=>Yii::$app->user->identity->id,'training_id'=>$training_id]);
+
+        if ($model->load(Yii::$app->request->post())) {
+            if($model->save()) {
+				Yii::$app->getSession()->setFlash('success', 'Data have updated.');
 			}
 			else{
-				echo 'Pic have updated.';
+				Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
 			}
+			return $this->redirect(['view-training-student-status', 'student_id'=>Yii::$app->user->identity->id,'training_id'=>$training_id]);
         } else {
-			if (Yii::$app->request->isAjax)
-				return $this->renderAjax('pic', $renders);
-            else
-				return $this->render('pic', $renders);
+            return $this->render('trainingStudentStatus', [
+                'model' => $model,
+            ]);
         }
-    }
+	}
+	
+	public function actionViewTrainingStudentStatus($student_id=NULL,$training_id=NULL)
+    {
+        $id = Yii::$app->user->identity->id;
+		return $this->render('viewTrainingStudentStatus', [
+            'model' => TrainingStudent::findOne(['student_id'=>Yii::$app->user->identity->id,'training_id'=>$training_id]),
+        ]);
+	}
 }
