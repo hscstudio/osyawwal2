@@ -124,59 +124,65 @@ else
                 <div class="row">
                 
                     <div class="col-md-12">
-                        <h4 class="margin-top-large no-bold">Pegawai Online</h4>
-                        <?php
-                            foreach ($userOnline as $user) {
-                                echo '<div class="row margin-bottom-small">';
+                        <div class="slot">
+                            <h4 class="margin-top-large no-bold">Pegawai Online</h4>
+                            <?php
+                                foreach ($userOnline as $user) {
+                                    echo '<div class="row margin-bottom-small">';
 
-                                // Ngambil foto
-                                $objectFile = ObjectFile::find()
-                                    ->where([
-                                        'object' => 'person',
-                                        'object_id' => $user->person_id,
-                                        'type' => 'photo'
-                                    ])
-                                    ->joinWith('file')
-                                    ->one();
-                                // dah
+                                    // Ngambil foto
+                                    $objectFile = ObjectFile::find()
+                                        ->where([
+                                            'object' => 'person',
+                                            'object_id' => $user->person_id,
+                                            'type' => 'photo'
+                                        ])
+                                        ->joinWith('file')
+                                        ->one();
+                                    // dah
 
-                                echo    '<div class="col-md-3 padding-right-medium">';
-                                echo        '<div class="image-frame-small">';
-                                
-                                if (empty($objectFile)) {
-                                    // foto ga ada, so pake gambar default
-                                    echo        '<img class="image-small" src="'.Yii::$app->homeUrl.'/logo_simbppk_pelangi.png">';
+                                    echo    '<div class="col-md-3 padding-right-medium">';
+                                    echo        '<div class="image-frame-small">';
+                                    
+                                    if (empty($objectFile)) {
+                                        // foto ga ada, so pake gambar default
+                                        echo        '<img class="image-small" src="'.Yii::$app->homeUrl.'/logo_simbppk_pelangi.png">';
+                                    }
+                                    else {
+                                        echo        '<img class="image-medium image-corner" src="'.Url::to(['/file/download','file'=>$objectFile->object.'/'.$objectFile->object_id.'/thumb_'.$objectFile->file->file_name]).'">';
+                                    }
+                                    
+                                    echo        '</div>';
+                                    echo    '</div>';
+                                    
+                                    
+                                    echo    '<div class="col-md-9 padding-left-medium">';
+                                    $waktuPertamaInception = new DateTime($user->time);
+                                    $waktuSekarang = new DateTime(date('Y-m-d H:i:s'));
+                                    $bedaWaktu = '';
+                                    if ( $waktuPertamaInception->diff($waktuSekarang)->format('%H') != '00' ) {
+                                        $bedaWaktu .= $waktuPertamaInception->diff($waktuSekarang)->format('%H').' jam '.$waktuPertamaInception->diff($waktuSekarang)->format('%I').' menit yang lalu';
+                                    }
+                                    elseif ( $waktuPertamaInception->diff($waktuSekarang)->format('%I') == '00' ) {
+                                        $bedaWaktu .= 'Baru saja';
+                                    }
+                                    else {
+                                        $bedaWaktu .= $waktuPertamaInception->diff($waktuSekarang)->format('%I').' menit yang lalu';
+                                    }
+                                    echo        '<p class="text-small open-sans"><strong>'.$user->person->name.'</strong>';
+                                    echo            '<span class="text-small open-sans block text-muted">'.$bedaWaktu;
+                                    echo            '</span>';
+                                    echo        '</p>';
+                                    echo    '</div>';
+                                    
+                                    echo '</div>';
                                 }
-                                else {
-                                    echo        '<img class="image-medium image-corner" src="'.Url::to(['/file/download','file'=>$objectFile->object.'/'.$objectFile->object_id.'/thumb_'.$objectFile->file->file_name]).'">';
-                                }
-                                
-                                echo        '</div>';
-                                echo    '</div>';
-                                
-                                
-                                echo    '<div class="col-md-9 padding-left-medium">';
-                                $waktuPertamaInception = new DateTime($user->time);
-                                $waktuSekarang = new DateTime(date('Y-m-d H:i:s'));
-                                $bedaWaktu = '';
-                                if ( $waktuPertamaInception->diff($waktuSekarang)->format('%H') != '00' ) {
-                                    $bedaWaktu .= $waktuPertamaInception->diff($waktuSekarang)->format('%H').' jam '.$waktuPertamaInception->diff($waktuSekarang)->format('%I').' menit yang lalu';
-                                }
-                                elseif ( $waktuPertamaInception->diff($waktuSekarang)->format('%I') == '00' ) {
-                                    $bedaWaktu .= 'Baru saja';
-                                }
-                                else {
-                                    $bedaWaktu .= $waktuPertamaInception->diff($waktuSekarang)->format('%I').' menit yang lalu';
-                                }
-                                echo        '<p class="text-small open-sans"><strong>'.$user->person->name.'</strong>';
-                                echo            '<span class="text-small open-sans block text-muted">'.$bedaWaktu;
-                                echo            '</span>';
-                                echo        '</p>';
-                                echo    '</div>';
-                                
-                                echo '</div>';
-                            }
-                        ?>
+                            ?>
+                        </div>
+
+                        <div class="slot">
+                            <h4 class="margin-top-large no-bold">Aktivitas Terbaru</h4>
+                        </div>
                     </div>
 
                 </div>
