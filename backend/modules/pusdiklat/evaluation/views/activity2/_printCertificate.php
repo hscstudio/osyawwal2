@@ -247,7 +247,7 @@ use kartik\widgets\DatePicker;
 		</tr>
 		<tr>
 			<td>City Signer</td>
-			<td><?= Html::input( 'text', 'city_signer', (strlen($activity->satker->satker->city)>2)?$activity->satker->satker->city:'Jakarta', ['class'=>'form-control'] ) ?></td>
+			<td><?= Html::input( 'text', 'city_signer', (strlen($activity->satker->city)>2)?$activity->satker->satker->city:'Jakarta', ['class'=>'form-control'] ) ?></td>
 		</tr>
 		<tr>
 			<td></td>
@@ -328,7 +328,7 @@ use kartik\widgets\DatePicker;
 		</tr>
 		<tr>
 			<td>City Signer</td>
-			<td><?= Html::input( 'text', 'city_signer', (strlen($activity->satker->satker->city)>2)?$activity->satker->satker->city:'Jakarta', ['class'=>'form-control'] ) ?></td>
+			<td><?= Html::input( 'text', 'city_signer', (strlen($activity->satker->city)>2)?$activity->satker->city:'Jakarta', ['class'=>'form-control'] ) ?></td>
 		</tr>
 		<tr>
 			<td></td>
@@ -409,7 +409,7 @@ use kartik\widgets\DatePicker;
 		</tr>
 		<tr>
 			<td>City Signer</td>
-			<td><?= Html::input( 'text', 'city_signer', (strlen($activity->satker->satker->city)>2)?$activity->satker->satker->city:'Jakarta', ['class'=>'form-control'] ) ?></td>
+			<td><?= Html::input( 'text', 'city_signer', (strlen($activity->satker->city)>2)?$activity->satker->city:'Jakarta', ['class'=>'form-control'] ) ?></td>
 		</tr>
 		<tr>
 			<td></td>
