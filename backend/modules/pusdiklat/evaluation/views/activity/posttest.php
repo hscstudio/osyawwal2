@@ -29,7 +29,7 @@ echo AlertBlock::widget([
 ]);
 ?>
 
-<div class="pre-test-update">
+<div class="post-test-update">
 
     <?php
 
@@ -73,7 +73,7 @@ echo AlertBlock::widget([
 				}
 			],
     		[
-    			'header' => 'Nilai Pre-Test',
+    			'header' => 'Nilai Post-Test',
 				'vAlign'=>'middle',
 				'format' => 'raw',
 				'width' => '80px',
@@ -82,7 +82,7 @@ echo AlertBlock::widget([
 				],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'value' => function($model) {
-					return Html::input('text', 'pre_test', $model->pre_test, [
+					return Html::input('text', 'post_test', $model->post_test, [
 							'class' => 'form-control',
 							'onchange' => new JsExpression('
 								var maxVal = 100;
@@ -100,9 +100,9 @@ echo AlertBlock::widget([
 								else {
 					    			$.ajax({
 										type: "post",
-										url: "'.Url::to(['editable-pre-test']).'",
+										url: "'.Url::to(['editable-post-test']).'",
 										data: {
-											pre_test: $(this).val(),
+											post_test: $(this).val(),
 											training_class_student_id: "'.$model->id.'",
 										},
 										success: function(data) {
@@ -111,7 +111,7 @@ echo AlertBlock::widget([
 												$.growl({
 													icon: "fa fa-fw fa-check-circle",
 													title: " <strong>Saved!</strong> ",
-													message: "Nilai " + data.pre_test + " tersimpan",
+													message: "Nilai " + data.post_test + " tersimpan",
 												}, {
 													type: "success",
 												});
@@ -121,7 +121,7 @@ echo AlertBlock::widget([
 												$.growl({
 													icon: "fa fa-fw fa-exclamation-circle",
 													title: " <strong>Kesalahan!</strong> ",
-													message: data.pre_test,
+													message: data.post_test,
 												}, {
 													type: "warning",
 												});

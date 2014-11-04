@@ -24,6 +24,7 @@ use backend\modules\pusdiklat\evaluation\models\TrainingClassSubjectSearch;
 
 use backend\models\TrainingClassStudent;
 use backend\modules\pusdiklat\evaluation\models\TrainingClassStudentSearch;
+use backend\modules\pusdiklat\evaluation\models\TrainingClassStudentPureSearch;
 
 use backend\models\TrainingStudent;
 use backend\modules\pusdiklat\evaluation\models\TrainingStudentSearch;
@@ -2328,10 +2329,10 @@ class ActivityController extends Controller
 
     public function actionPreTest($id) {
     	// Bikin data provider student dari class schedule
-		$searchModel = new TrainingClassStudentSearch(); 
+		$searchModel = new TrainingClassStudentPureSearch(); 
 
-		$queryParams['TrainingClassStudentSearch'] = [
-			'training_class_student.training_id' => $id
+		$queryParams['TrainingClassStudentPureSearch'] = [
+			'training_id' => $id
 		];
 
 		$queryParams = ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
@@ -2357,7 +2358,7 @@ class ActivityController extends Controller
 
 
 
-    public function actionEditable() {
+    public function actionEditablePreTest() {
 
 		// Cuma ajax yg boleh manggil fungsi ni
 		if (Yii::$app->request->isAjax == false) {
@@ -2383,16 +2384,93 @@ class ActivityController extends Controller
 			}
 			else {
 
-				echo Json::encode(['pre_test' => $modelTrainingClassStudent->errors['pre_test'], 'error' => 'error']);
+				echo Json::encode(['pre_test' => 'Tidak bisa menyimpan nilai!', 'error' => 'error']);
 
 			}
 			
 		}
 		else {
-			echo Json::encode(['pre_test' => 'Peserta diklat tidak ada!', 'error' => 'error']);
+			
+			echo Json::encode(['pre_test' => 'Peserta diklat tidak ada!'.Yii::$app->request->post('training_class_student_id'), 'error' => 'error']);
+
 		}
 
-		//dah
+	}
+
+
+	public function actionPostTest($id) {
+    	// Bikin data provider student dari class schedule
+		$searchModel = new TrainingClassStudentPureSearch(); 
+
+		$queryParams['TrainingClassStudentPureSearch'] = [
+			'training_id' => $id
+		];
+
+		$queryParams = ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+
+		$dataProvider = $searchModel->search($queryParams);
+		// dah
+
+		// Ngambil model training
+		$modelTraining = Training::find()
+			->where([
+				'activity_id' => $id
+			])
+			->one();
+		// dah
+
+		return $this->render('posttest', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+            'modelTraining' => $modelTraining
+        ]);
+    }
+
+
+
+
+
+    public function actionEditablePostTest() {
+
+		// Cuma ajax yg boleh manggil fungsi ni
+		if (Yii::$app->request->isAjax == false) {
+			Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Forbidden!');
+			return $this->redirect(['activity/index']);
+		}
+		// dah
+
+		$modelTrainingClassStudent = TrainingClassStudent::find()
+			->where([
+				'id' => Yii::$app->request->post('training_class_student_id'),
+			])
+			->one();
+
+		if (!empty($modelTrainingClassStudent)) {
+
+			$modelTrainingClassStudent->post_test = Yii::$app->request->post('post_test');
+
+			if ($modelTrainingClassStudent->save()) {
+
+				echo Json::encode(['post_test' => $modelTrainingClassStudent->post_test, 'error' => '']);
+
+			}
+			else {
+
+				echo Json::encode(['post_test' => 'Tidak bisa menyimpan nilai!', 'error' => 'error']);
+
+			}
+			
+		}
+		else {
+			
+			echo Json::encode(['post_test' => 'Peserta diklat tidak ada!'.Yii::$app->request->post('training_class_student_id'), 'error' => 'error']);
+
+		}
 
 	}
+
+
+
+
+
 }
