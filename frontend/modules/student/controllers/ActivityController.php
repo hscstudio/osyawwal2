@@ -52,24 +52,32 @@ class ActivityController extends Controller
 		$queryParams = Yii::$app->request->getQueryParams();
 		if($status=='nocancel'){
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
-					'status'=> [0,1,2],
-				];
+				if(!empty($satker_id))
+				{
+					$queryParams['ActivitySearch']=[
+						'status'=> [0,1,2],
+						'satker_id'=>$satker_id,
+					];
+				}
 			}
 			else{
-				$queryParams['ActivitySearch']=[
-					'year' => $year,
-					'status'=> [0,1,2],
-				];
+				if(!empty($satker_id))
+				{
+					$queryParams['ActivitySearch']=[
+						'year' => $year,
+						'status'=> [0,1,2],
+						'satker_id'=>$satker_id,
+					];
+				}
 			}
 		}
-		if(!empty($satker_id))
+		/*if(!empty($satker_id))
 		{$id_satker=$satker_id;}
 		else
-		{$id_satker=0;}
+		{$id_satker=0;}*/
 		
 		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
-		$dataProvider = $searchModel->search($queryParams,$id_satker,$year);
+		$dataProvider = $searchModel->search($queryParams);
 		$dataProvider->getSort()->defaultOrder = ['start'=>SORT_ASC,'end'=>SORT_ASC];
 		
 		// GET ALL TRAINING YEAR
@@ -386,4 +394,36 @@ class ActivityController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+	
+	public function actionTrainingStudentStatus($status=NULL,$training_id=NULL)
+    {
+        $id = base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($status));
+		$id2 = base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_id));
+		$model = TrainingStudent::findOne(['status'=>$id,'student_id'=>Yii::$app->user->identity->id,'training_id'=>$id2]);
+
+        if ($model->load(Yii::$app->request->post())) {
+            if($model->save()) {
+				Yii::$app->getSession()->setFlash('success', 'Data have updated.');
+			}
+			else{
+				Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
+			}
+			return $this->redirect(['view-training-student-status','training_id'=>$training_id]);
+        } else {
+            return $this->render('trainingStudentStatus', [
+                'model' => $model,
+            ]);
+        }
+	}
+	
+	public function actionViewTrainingStudentStatus($training_id=NULL)
+    {
+        $id = Yii::$app->user->identity->id;
+		$id2 = base64_decode(\hscstudio\heart\helpers\Kalkun::HexToAscii($training_id));
+		$model = TrainingStudent::findOne(['student_id'=>$id,'training_id'=>$id2]);
+		return $this->render('viewTrainingStudentStatus', [
+            'model' => $model,
+			'status_training_student' => $model->status,
+        ]);
+	}
 }

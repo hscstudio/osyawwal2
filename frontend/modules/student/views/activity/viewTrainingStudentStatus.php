@@ -8,7 +8,7 @@ use kartik\widgets\FileInput;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Student */
 
-$this->title = $model->name;
+$this->title = $model->training->activity->name;
 $this->params['breadcrumbs'][] = ['label' => 'Students', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $controller = $this->context;
@@ -16,12 +16,12 @@ $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 $data = \frontend\models\Person::find()->where(['id'=>Yii::$app->user->identity->id])->One();
 $tgllahir = explode('-',$data->birthday);
+//$status_training_student = \frontend\models\TrainingStudent
 ?>
 <?php
     Modal::begin([
 		'header'=>'PRINT FORM EREGISTERASI',
-		//'data' => $model,
-		'toggleButton' => ['label'=>'PRINT', 'class'=>'fa fa-fw fa-search'],
+		'toggleButton' => ['label'=>'PRINT ', 'class'=>'fa fa-fw fa-print'],
 	]);
 ?>
 <table align="center" cellspacing="1" cellpadding="2" style="font-family:'Times New Roman', Times, serif" width="100%">
@@ -63,7 +63,7 @@ $tgllahir = explode('-',$data->birthday);
     	<td>JABATAN</td><td>:</td><td><?php echo strtoupper($data->position_desc);?></td>
     </tr>
     <tr>
-    	<td>STATUS PESERTA</td><td>:</td><td><?php echo $data->status=0?'MENGULANG':'BARU';?></td>
+    	<td>STATUS PESERTA</td><td>:</td><td><?php echo $status_training_student==2?'MENGULANG':'BARU';?></td>
     </tr>
     
 </table>
@@ -95,7 +95,7 @@ $tgllahir = explode('-',$data->birthday);
 </table>
 <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="window.location='<?php echo \yii\helpers\Url::to('print.aspx');?>'">Print</button>
+        <button type="button" class="btn btn-primary" onclick="window.location='<?php echo \yii\helpers\Url::to('../student/print.aspx?status_training_student='.$status_training_student);?>'">Print</button>
                
 </div>
 <?php		
@@ -110,31 +110,27 @@ $tgllahir = explode('-',$data->birthday);
 			'type'=>DetailView::TYPE_DEFAULT,
 		],
 		
-		'buttons1'=> Html::a('<i class="fa fa-fw fa-arrow-left"></i> BACK',['update?id='.Yii::$app->user->identity->id],
+		'buttons1'=> Html::a('<i class="fa fa-fw fa-arrow-left"></i> BACK',['index'],
+
 						['class'=>'btn btn-xs btn-primary',
 						 'title'=>'Back to Index',
 						])
 					
 		,
         'attributes' => [
-            //'id',
-            'front_title',
-			'name',
-            'back_title',
-            'nip',
-			'nickname',
-			'npwp',
-			'born',
-			'birthday',
-           
-            'phone',
-            'email:email',
-            'address',
-			
-            'blood',
-            'position',
-            'graduate_desc',
-          
+            [
+				'attribute'=> 'training_id',
+				'value'=>$model->training->activity->name,
+			],
+			[
+				'attribute'=> 'student_id',
+				'value'=>$model->student->person->name,
+			],
+	
+			[
+				'attribute'=> 'status',
+				'value'=>$model->status==1?'Baru':'Mengulang',
+			],
         ],
     ]) ?>
 </div>

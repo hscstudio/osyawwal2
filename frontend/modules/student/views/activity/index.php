@@ -61,13 +61,38 @@ $this->params['breadcrumbs'][] = $this->title;
 					'contentOptions'=>['class'=>'kv-sticky-column'],					
 				],
 				
-				/*[
-					'attribute' => 'location',
+				[
+					'label' => 'Status',				
 					'vAlign'=>'middle',
 					'hAlign'=>'center',
+					'width' => '75px',
 					'headerOptions'=>['class'=>'kv-sticky-column'],
-					'contentOptions'=>['class'=>'kv-sticky-column'],					
-				],*/
+					'contentOptions'=>['class'=>'kv-sticky-column'],
+					'format'=>'raw',
+					'value' => function ($data){
+						$status = \frontend\models\TrainingStudent::findOne(['training_id'=>$data->id,'student_id'=>Yii::$app->user->identity->id])->status;
+						if($status==1)
+						{return Html::a('Baru',['training-student-status','status'=>\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($status)),'training_id'=>\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($data->id))],[
+							'class' => 'label label-info ',
+							'data-pjax'=>0,
+							'source'=>'',
+							'modal-size'=>'modal-lg',
+							'data-html'=>true,
+							'title'=>$status,
+							'data-toggle'=>'tooltip',
+							]);}
+						else if($status==2)
+						{return Html::a('Mengulang',['training-student-status','status'=>\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($status)),'training_id'=>\hscstudio\heart\helpers\Kalkun::AsciiToHex(base64_encode($data->id))],[
+							'class' => 'label label-info ',
+							'data-pjax'=>0,
+							'source'=>'',
+							'modal-size'=>'modal-lg',
+							'data-html'=>true,
+							'title'=>$status,
+							'data-toggle'=>'tooltip',
+							]);}
+					},					
+				],
 				
 				/*[
 				 	'class' => 'kartik\grid\ActionColumn',
@@ -141,5 +166,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		'responsive'=>true,
 		'hover'=>true,
     ]); ?>
+    <?= \hscstudio\heart\widgets\Modal::widget() ?>
+	<?php $this->registerCss('#div-select2-status .select2-container{width:125px !important;}');  ?>
 <?php \yii\widgets\Pjax::end(); ?>
 </div>
