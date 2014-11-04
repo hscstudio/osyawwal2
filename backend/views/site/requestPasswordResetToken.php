@@ -23,7 +23,7 @@ $this->title = 'Request password reset';
 						])->textInput(array('placeholder' => 'Masukkan email Anda', 'class' => 'form-control input-lg'))->label('<i class="fa fa-fw fa-envelope"></i>Email'); // fajar ?>
 						
 						<div class="form-group">
-							<?= Html::submitButton('<i class="fa fa-fw fa-send-o"></i>Kirim', ['class' => 'btn btn-info btn-block btn-lg']) ?>
+							<?= Html::submitButton('<i class="fa fa-fw fa-send-o"></i>Kirim', ['class' => 'btn btn-block btn-lg bg-cyan-pucat']) ?>
 						</div>
 					<?php ActiveForm::end(); ?>
 				</div>
@@ -97,6 +97,7 @@ $this->title = 'Request password reset';
 		.site-request-password-reset {
 			margin: 0px auto;
 			width: 400px;
+			margin-top: -51px;
 		}
 		.site-request-password-reset .panel {
 			box-shadow:none;
@@ -197,14 +198,11 @@ $this->title = 'Request password reset';
 			width: 112px;
 			height: 112px;
 			margin: 0px auto;
-			/*background: linear-gradient(rgb(58, 164, 229), rgb(42, 150, 216));
-			box-shadow: 0px 3px 0px rgb(27, 100, 145);*/
 		}
 		.logo .ikon img {
 			width: 80px;
 			margin-top: 10px;
 			margin-left: 10px;
-			transform: rotate(29deg);
 		}
 		.logo .judul.apl {
 			font-size: 300%;
@@ -262,6 +260,25 @@ $this->title = 'Request password reset';
 			.logo, .beta {
 				display: none;
 			}
+		}
+
+		.bg-cyan-pucat {
+			background-color: #5bc0de;
+			color: white;
+			border-color: #438EA5;
+			border-top-width: 0px;
+			border-left-width: 0px;
+			border-right-width: 0px;
+		}
+		.bg-cyan-pucat:hover {
+			color:white;
+			background-color: #64CFEF;
+			border-top-width: 1px;
+			border-top-color: #5bc0de;
+			border-bottom-width: 2px;
+		}
+		.bg-cyan-pucat:focus {
+			color: white;
 		}
 
 	');
