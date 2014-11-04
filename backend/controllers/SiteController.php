@@ -94,8 +94,11 @@ class SiteController extends Controller
         
         foreach ($data as $baris) {
             $angkaBulan = date('m', strtotime($baris->start)) - 1;
-            $dataAnggaran[$angkaBulan] = $dataAnggaran[$angkaBulan] + $baris->training->cost_plan;
-            $dataRealisasi[$angkaBulan] = $dataRealisasi[$angkaBulan] + $baris->training->cost_real;
+            if (!empty($baris->training->cost_plan)) {
+                // Artinya aktivitas yang diambil adalah diklat. Rapat uda jelas ga ada duitnya
+                $dataAnggaran[$angkaBulan] = $dataAnggaran[$angkaBulan] + $baris->training->cost_plan;
+                $dataRealisasi[$angkaBulan] = $dataRealisasi[$angkaBulan] + $baris->training->cost_real;
+            }
         }
         
         $dataSeries = [
@@ -137,13 +140,22 @@ class SiteController extends Controller
         // dah
 
         // Ngambil user yang online
-        $userOnline = Online::find()->orderBy(['time' => 'ASC'])->all();
+        $userOnline = Online::find()->orderBy(['time' => 'DESC'])->all();
+        // dah
+
+        // Ngambil aktivitas terakhir yang terjadi
+        $aktivitasTerbaru = Activity::find()
+            ->orderBy('UNIX_TIMESTAMP(modified) DESC')
+            ->limit(10)
+            ->all();
+        // dah
 
         return $this->render('index', [
             'totalAnggaran' => $totalAnggaran,
             'totalRealisasi' => $totalRealisasi,
             'dataSeries' => $dataSeries,
-            'userOnline' => $userOnline
+            'userOnline' => $userOnline,
+            'aktivitasTerbaru' => $aktivitasTerbaru
         ]);
     }
 

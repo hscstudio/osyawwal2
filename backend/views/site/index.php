@@ -1,9 +1,12 @@
 <?php
-use backend\models\Person;
-use backend\models\ObjectFile;
 use miloschuman\highcharts\Highcharts;
 use yii\web\JsExpression;
 use yii\helpers\Url;
+
+use backend\models\Person;
+use backend\models\ObjectFile;
+use backend\models\Meeting;
+use backend\models\Training;
 
 $this->title = 'Sistem Informasi Manajemen Badan Pendidikan dan Pelatihan Keuangan';
 
@@ -182,6 +185,135 @@ else
 
                         <div class="slot">
                             <h4 class="margin-top-large no-bold">Aktivitas Terbaru</h4>
+                            <?php
+                                foreach ($aktivitasTerbaru as $aktivitas) {
+                                    echo '<div class="row margin-bottom-small">';
+
+                                    // Jadi, semua aktivitas masuk ke 2 kategori, yaitu kalo gak create ya update
+                                    // Kita tampung jenisnya, sebenarnya bisa langsung inline, tp dimasukin ke variabel
+                                    // Biar tau alurnya
+                                    $jenisAktivitas = 'bikin_baru';
+
+                                    if ($aktivitas->modified > $aktivitas->created) {
+                                        // Artinya user sudah melakukan perubahan
+                                        $jenisAktivitas = 'perbarui';
+                                    }
+
+                                    // Ngambil foto sesuai jenis aktivitas
+                                    switch ($jenisAktivitas) {
+                                        case 'bikin_baru':
+                                            $objectFile = ObjectFile::find()
+                                                ->where([
+                                                    'object' => 'person',
+                                                    'object_id' => $aktivitas->created_by,
+                                                    'type' => 'photo'
+                                                ])
+                                                ->joinWith('file')
+                                                ->one();
+                                            break;
+                                        case 'perbarui':
+                                            $objectFile = ObjectFile::find()
+                                                ->where([
+                                                    'object' => 'person',
+                                                    'object_id' => $aktivitas->modified_by,
+                                                    'type' => 'photo'
+                                                ])
+                                                ->joinWith('file')
+                                                ->one();
+                                            break;
+                                        default:
+                                    }
+                                    // dah
+
+                                    echo    '<div class="col-md-3 padding-right-medium">';
+                                    echo        '<div class="image-frame-small">';
+                                    
+                                    if (empty($objectFile)) {
+                                        // foto ga ada, so pake gambar default
+                                        echo        '<img class="image-small" src="'.Yii::$app->homeUrl.'/logo_simbppk_pelangi.png">';
+                                    }
+                                    else {
+                                        echo        '<img class="image-medium image-corner" src="'.Url::to(['/file/download','file'=>$objectFile->object.'/'.$objectFile->object_id.'/thumb_'.$objectFile->file->file_name]).'">';
+                                    }
+                                    
+                                    echo        '</div>';
+                                    echo    '</div>';
+                                    
+                                    switch ($jenisAktivitas) {
+                                        case 'bikin_baru':
+                                            echo    '<div class="col-md-9 padding-left-medium">';
+                                            $waktuPertamaInception = new DateTime($aktivitas->created);
+                                            $waktuSekarang = new DateTime(date('Y-m-d H:i:s'));
+                                            $bedaWaktu = '';
+                                            if ( $waktuPertamaInception->diff($waktuSekarang)->format('%H') != '00' ) {
+                                                if ($bedaWaktu .= $waktuPertamaInception->diff($waktuSekarang)->format('%d') != '00') {
+                                                    $bedaWaktu .= $waktuPertamaInception->diff($waktuSekarang)->format('%d'). ' hari ';
+                                                }
+                                                $bedaWaktu .= $waktuPertamaInception->diff($waktuSekarang)->format('%H').' jam '.$waktuPertamaInception->diff($waktuSekarang)->format('%I').' menit yang lalu';
+                                            }
+                                            elseif ( $waktuPertamaInception->diff($waktuSekarang)->format('%I') == '00' ) {
+                                                $bedaWaktu .= 'Baru saja';
+                                            }
+                                            else {
+                                                $bedaWaktu .= $waktuPertamaInception->diff($waktuSekarang)->format('%I').' menit yang lalu';
+                                            }
+                                            echo        '<p class="text-small open-sans"><strong>'.Person::findOne($aktivitas->created_by)->name.'</strong>';
+                                            
+                                            if (!empty($meeting = Meeting::findOne($aktivitas->id))) {
+                                                echo            ' telah membuat rapat <span class="label label-success">baru</span>';
+                                                echo            ' dengan nama <strong>'.$aktivitas->name.'</strong>';
+                                            }
+
+                                            if (!empty($training = Training::findOne($aktivitas->id))) {
+                                                echo            ' telah membuat diklat <span class="label label-success">baru</span>';
+                                                echo            ' dengan nama <strong>'.$aktivitas->name.'</strong>';
+                                            }
+
+                                            echo            '<span class="text-small open-sans block text-muted">'.$bedaWaktu;
+                                            echo            '</span>';
+                                            echo        '</p>';
+                                            echo    '</div>';
+                                            break;
+
+                                        case 'perbarui':
+                                            echo    '<div class="col-md-9 padding-left-medium">';
+                                            $waktuPertamaInception = new DateTime($aktivitas->modified);
+                                            $waktuSekarang = new DateTime(date('Y-m-d H:i:s'));
+                                            $bedaWaktu = '';
+                                            if ( $waktuPertamaInception->diff($waktuSekarang)->format('%H') != '00' ) {
+                                                if ($bedaWaktu .= $waktuPertamaInception->diff($waktuSekarang)->format('%d') != '00') {
+                                                    $bedaWaktu .= $waktuPertamaInception->diff($waktuSekarang)->format('%d'). ' hari ';
+                                                }
+                                                $bedaWaktu .= $waktuPertamaInception->diff($waktuSekarang)->format('%H').' jam '.$waktuPertamaInception->diff($waktuSekarang)->format('%I').' menit yang lalu';
+                                            }
+                                            elseif ( $waktuPertamaInception->diff($waktuSekarang)->format('%I') == '00' ) {
+                                                $bedaWaktu .= 'Baru saja';
+                                            }
+                                            else {
+                                                $bedaWaktu .= $waktuPertamaInception->diff($waktuSekarang)->format('%I').' menit yang lalu';
+                                            }
+                                            echo        '<p class="text-small open-sans"><strong>'.Person::findOne($aktivitas->created_by)->name.'</strong>';
+                                            
+                                            if (!empty($meeting = Meeting::findOne($aktivitas->id))) {
+                                                echo            ' telah melakukan <span class="label label-warning">perubahan</span> pada rapat <strong>'.$aktivitas->name.'</strong>';
+                                            }
+
+                                            if (!empty($training = Training::findOne($aktivitas->id))) {
+                                                echo            ' telah melakukan <span class="label label-warning">perubahan</span> diklat <strong>'.$aktivitas->name.'</strong>';
+                                            }
+
+                                            echo            '<span class="text-small open-sans block text-muted">'.$bedaWaktu;
+                                            echo            '</span>';
+                                            echo        '</p>';
+                                            echo    '</div>';
+                                            break;
+                                        default:
+                                            echo 'dobol';
+                                    }
+                                    
+                                    echo '</div>';
+                                }
+                            ?>
                         </div>
                     </div>
 
