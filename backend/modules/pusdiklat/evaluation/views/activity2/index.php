@@ -199,15 +199,30 @@ $this->params['breadcrumbs'][] = $this->title;
 							},
 					'nilai-akhir' => function ($url, $model) {
 								$icon='<span class="fa fa-fw fa-flag-checkered"></span>';
-								if (in_array($model->status,[2])){
-									return Html::a($icon,$url,[
-										'class'=>'btn btn-default btn-xs',
+								if (in_array($model->status,[2])) {
+
+									$tembolok = '<div class="btn-group dropup">';
+									$tembolok .= Html::a($icon.' <span class="caret"></span>', null,[
+										'class'=>'btn btn-default btn-xs dropdown-toggle',
 										'title' => 'Input Nilai Akhir',
 										'data-toggle' => 'tooltip',
 										'data-placement' => 'top',
 										'data-container' => 'body',
 										'data-pjax'=>'0',
+										'data-toggle' => 'dropdown'
 									]);
+									$tembolok .= '<ul class="dropdown-menu dropdown-menu-right" role="menu">';
+									foreach ($model->training->trainingClasses as $trainingClass) {
+										$tembolok .= '<li>';
+										$tembolok .= Html::a('Kelas '.$trainingClass->class, Url::to(['activity2/nilai-akhir', 
+											'training_id' => $trainingClass->training_id, 
+											'training_class_id' => $trainingClass->id
+										]));
+										$tembolok .= '</li>';
+									}
+									$tembolok .= '</ul>';
+									$tembolok .= '</div>';
+									return $tembolok;
 								}
 							},
 				],		

@@ -29,7 +29,7 @@ echo AlertBlock::widget([
 ]);
 ?>
 
-<div class="pre-test-update">
+<div class="kehadiran-update">
 
     <?php
 

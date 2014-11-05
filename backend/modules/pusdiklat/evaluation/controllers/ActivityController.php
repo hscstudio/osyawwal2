@@ -2327,12 +2327,13 @@ class ActivityController extends Controller
 
 
 
-    public function actionPreTest($id) {
+    public function actionPreTest($training_id, $training_class_id) {
     	// Bikin data provider student dari class schedule
 		$searchModel = new TrainingClassStudentPureSearch(); 
 
 		$queryParams['TrainingClassStudentPureSearch'] = [
-			'training_id' => $id
+			'training_id' => $training_id,
+			'training_class_id' => $training_class_id
 		];
 
 		$queryParams = ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
@@ -2343,7 +2344,7 @@ class ActivityController extends Controller
 		// Ngambil model training
 		$modelTraining = Training::find()
 			->where([
-				'activity_id' => $id
+				'activity_id' => $training_id
 			])
 			->one();
 		// dah
@@ -2398,12 +2399,13 @@ class ActivityController extends Controller
 	}
 
 
-	public function actionPostTest($id) {
+	public function actionPostTest($training_id, $training_class_id) {
     	// Bikin data provider student dari class schedule
 		$searchModel = new TrainingClassStudentPureSearch(); 
 
 		$queryParams['TrainingClassStudentPureSearch'] = [
-			'training_id' => $id
+			'training_id' => $training_id,
+			'training_class_id' => $training_class_id
 		];
 
 		$queryParams = ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
@@ -2414,7 +2416,7 @@ class ActivityController extends Controller
 		// Ngambil model training
 		$modelTraining = Training::find()
 			->where([
-				'activity_id' => $id
+				'activity_id' => $training_id
 			])
 			->one();
 		// dah
@@ -2472,12 +2474,13 @@ class ActivityController extends Controller
 
 
 
-	public function actionNilaiAktivitas($id) {
+	public function actionNilaiAktivitas($training_id, $training_class_id) {
     	// Bikin data provider student dari class schedule
 		$searchModel = new TrainingClassStudentPureSearch(); 
 
 		$queryParams['TrainingClassStudentPureSearch'] = [
-			'training_id' => $id
+			'training_id' => $training_id,
+			'training_class_id' => $training_class_id
 		];
 
 		$queryParams = ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
@@ -2488,7 +2491,7 @@ class ActivityController extends Controller
 		// Ngambil model training
 		$modelTraining = Training::find()
 			->where([
-				'activity_id' => $id
+				'activity_id' => $training_id
 			])
 			->one();
 		// dah
@@ -2547,12 +2550,13 @@ class ActivityController extends Controller
 
 
 
-	public function actionNilaiKehadiran($id) {
+	public function actionNilaiKehadiran($training_id, $training_class_id) {
     	// Bikin data provider student dari class schedule
 		$searchModel = new TrainingClassStudentPureSearch(); 
 
 		$queryParams['TrainingClassStudentPureSearch'] = [
-			'training_id' => $id
+			'training_id' => $training_id,
+			'training_class_id' => $training_class_id
 		];
 
 		$queryParams = ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
@@ -2563,7 +2567,7 @@ class ActivityController extends Controller
 		// Ngambil model training
 		$modelTraining = Training::find()
 			->where([
-				'activity_id' => $id
+				'activity_id' => $training_id
 			])
 			->one();
 		// dah
