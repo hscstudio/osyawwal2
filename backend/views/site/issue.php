@@ -14,6 +14,9 @@ $this->title = 'Issues';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="issue-index">
+	<blockquote>
+	Gunakan tools ini jika Anda menjumpai permasalahan ketika menggunakan Aplikasi SIM BPPK
+	</blockquote>
     <?php \yii\widgets\Pjax::begin([
 		'id'=>'pjax-gridview',
 	]); ?>
@@ -40,11 +43,11 @@ $this->params['breadcrumbs'][] = $this->title;
 						$label = $data->getLastLabel($data->id);
 						$labelt = '';
 						if(!empty($label)){
-							if($label=='verified') $labelt = '<span class="label label-warning">Status: To be '.$label.'</span>';
-							if($label=='critical') $labelt = '<span class="label label-danger">'.$label.'</span>';
-							if($label=='bugfix') $labelt = '<span class="label label-primary">'.$label.'</span>';
-							if($label=='discussion') $labelt = '<span class="label label-info">'.$label.'</span>';
-							if($label=='enhancement') $labelt = '<span class="label label-success">'.$label.'</span>';
+							if($label=='verified') $labelt = '<span class="label label-warning">Label: To be '.$label.'</span>';
+							if($label=='critical') $labelt = '<span class="label label-danger">Label: '.$label.'</span>';
+							if($label=='bugfix') $labelt = '<span class="label label-primary">Label: '.$label.'</span>';
+							if($label=='discussion') $labelt = '<span class="label label-info">Label: '.$label.'</span>';
+							if($label=='enhancement') $labelt = '<span class="label label-success">Label: '.$label.'</span>';
 						}
 						else{
 							$labelt = '';//<span class="label label-default">-</span>';
@@ -62,11 +65,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     'contentOptions'=>['class'=>'kv-sticky-column'],  
 					'format'=>'html',
 					'value' => function ($data){
-						if($data->status==1){
-							return '<span class="label label-warning">OPEN</span>';
+						if($data->status==0){
+							return '<span class="label label-danger">CLOSE</span>';
+							
 						}
 						else{
-							return '<span class="label label-success">CLOSE</span>';
+							return '<span class="label label-success">OPEN</span>';
 						}
 					}
                 ],

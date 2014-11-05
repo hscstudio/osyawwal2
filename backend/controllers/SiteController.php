@@ -340,14 +340,71 @@ class SiteController extends Controller
     public function actionViewIssue($id)
     {
 		$model = $this->findModelIssue($id);
+		$last_status = $model->getLastStatus($model->id);
+		$modelNew = new Issue();
+		if ($modelNew->load(Yii::$app->request->post())){ 
+			$attachment = UploadedFile::getInstances($modelNew, 'attachment');	
+			if(!empty($attachment[0])){			
+				$ext = end((explode(".", $attachment[0]->name)));
+				$filename = uniqid() . '.' . $ext;			
+				$modelNew->attachment = $filename;
+			}
+			$modelNew->parent_id = $id;
+			$modelNew->subject = 'comment';
+			if(!empty($modelNew->label)){
+				$modelNew->subject = 'label';
+				/* $modelNew->content = $modelNew->label; */
+			}
+			
+			if(!empty($modelNew->status)){
+				$modelNew->status = ($modelNew->status==2)?0:1;
+				$modelNew->subject = 'status';
+				/* $modelNew->content = $modelNew->status; */
+				if($last_status!=$modelNew->status){
+					$model->status = $modelNew->status;
+					$model->save();
+				}
+			}
+			else{
+				$modelNew->status = 1;
+			}
+
+			if($modelNew->save()) {
+				Yii::$app->getSession()->setFlash('success', 'New data have saved.');
+				if(!empty($attachment[0])){
+					$path = '';
+					if(isset(Yii::$app->params['uploadPath'])){
+						$path = Yii::$app->params['uploadPath'].DIRECTORY_SEPARATOR.'issue'.DIRECTORY_SEPARATOR.$modelNew->id.DIRECTORY_SEPARATOR;
+					}
+					else{
+						$path = Yii::getAlias('@file').DIRECTORY_SEPARATOR.'issue'.DIRECTORY_SEPARATOR.$modelNew->id.DIRECTORY_SEPARATOR;
+					}
+					@mkdir($path, 0755, true);
+					@chmod($path, 0755);
+					/* if(isset($current_file)){
+						@unlink($path . $current_file);
+					}	 */	
+					$attachment[0]->saveAs($path.$filename);
+				}
+			}
+            else{
+				die(print_r($modelNew->errors));
+                Yii::$app->getSession()->setFlash('error', 'New data is not saved.');
+            }
+        } 
+		
 		$modelChildrens = \backend\models\Issue::find()
 			->where([
 				'parent_id' => $id,
 			])
 			->orderBy('id ASC')
 			->all();
+		
+		$modelNew = new Issue();
+		
         return $this->render('viewIssue', [
             'model' => $model,
+            'modelNew' => $modelNew,
             'modelChildrens' => $modelChildrens,
         ]);
     }
@@ -363,8 +420,9 @@ class SiteController extends Controller
 
         if ($model->load(Yii::$app->request->post())){ 
 			$attachment = UploadedFile::getInstances($model, 'attachment');	
-			if(!empty($attachment)){
-				$filename = uniqid() . '.' . $attachment->extension;				
+			if(!empty($attachment[0])){
+				$ext = end((explode(".", $attachment[0]->name)));
+				$filename = uniqid() . '.' . $ext;				
 				$model->attachment = $filename;
 			}
 			$model->parent_id = NULL;
@@ -372,7 +430,8 @@ class SiteController extends Controller
 			$model->status = 1;
 			if($model->save()) {
 				Yii::$app->getSession()->setFlash('success', 'New data have saved.');
-				if(!empty($attachment)){
+				if(!empty($attachment[0])){
+					
 					$path = '';
 					if(isset(Yii::$app->params['uploadPath'])){
 						$path = Yii::$app->params['uploadPath'].DIRECTORY_SEPARATOR.'issue'.DIRECTORY_SEPARATOR.$model->id.DIRECTORY_SEPARATOR;
@@ -385,7 +444,7 @@ class SiteController extends Controller
 					/* if(isset($current_file)){
 						@unlink($path . $current_file);
 					}	 */	
-					$attachment->saveAs($path.$filename);
+					$attachment[0]->saveAs($path.$filename);
 				}
 			}
             else{

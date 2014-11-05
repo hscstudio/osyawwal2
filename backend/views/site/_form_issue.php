@@ -11,9 +11,11 @@ use yii\helpers\ArrayHelper;
 
 <div class="issue-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+		'options'=>['enctype'=>'multipart/form-data']
+	]); ?>
     <?= $form->errorSummary($model) ?> <!-- ADDED HERE -->
-    <?php if(!$model->isNewRecord) echo $form->field($model, 'parent_id')->textInput() ?>
+    <?php /* if(!$model->isNewRecord) echo $form->field($model, 'parent_id')->textInput() */ ?>
 
     <?= $form->field($model, 'subject')->textInput(['maxlength' => 255]) ?>
 

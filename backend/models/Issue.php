@@ -99,7 +99,6 @@ class Issue extends \yii\db\ActiveRecord
 			->where([
 				'parent_id'=>$parent_id,
 				'subject'=>'label',
-				'content'=>'label',
 			])
 			->orderBy('id DESC')
 			->one();
@@ -117,7 +116,6 @@ class Issue extends \yii\db\ActiveRecord
 			->where([
 				'parent_id'=>$parent_id,
 				'subject'=>'status',
-				'content'=>'status',
 			])
 			->orderBy('id DESC')
 			->one();

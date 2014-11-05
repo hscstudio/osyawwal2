@@ -4,6 +4,7 @@ use yii\widgets\ActiveForm;
 use kartik\widgets\FileInput;
 use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Issue */
 
@@ -23,10 +24,10 @@ $this->params['breadcrumbs'][] = $this->title;
 		$content = '<strong>'.$this->title.'</strong><br>';
 		$content .= '<small>';
 		if($model->status==1){
-			$content .= '<span class="label label-success">OPEN</span> ';
+			$content .= '<span class="label label-success">STATUS: OPEN</span> ';
 		}
 		else{
-			$content .= '<span class="label label-danger">CLOSE</span> ';
+			$content .= '<span class="label label-danger">STATUS: CLOSE</span> ';
 		}
 		$user = \backend\models\User::findOne($model->created_by);						
 		if(!empty($user)){
@@ -38,11 +39,11 @@ $this->params['breadcrumbs'][] = $this->title;
 		$label = $model->getLastLabel($model->id);
 		$labelt = '';
 		if(!empty($label)){
-			if($label=='verified') $labelt = '<span class="label label-warning">Status: To be '.$label.'</span>';
-			if($label=='critical') $labelt = '<span class="label label-danger">'.$label.'</span>';
-			if($label=='bugfix') $labelt = '<span class="label label-primary">'.$label.'</span>';
-			if($label=='discussion') $labelt = '<span class="label label-info">'.$label.'</span>';
-			if($label=='enhancement') $labelt = '<span class="label label-success">'.$label.'</span>';
+			if($label=='verified') $labelt = '<span class="label label-warning">Label: To be '.$label.'</span>';
+			if($label=='critical') $labelt = '<span class="label label-danger">Label: '.$label.'</span>';
+			if($label=='bugfix') $labelt = '<span class="label label-primary">Label: '.$label.'</span>';
+			if($label=='discussion') $labelt = '<span class="label label-info">Label: '.$label.'</span>';
+			if($label=='enhancement') $labelt = '<span class="label label-success">Label: '.$label.'</span>';
 		}
 		else{
 			$labelt = '';//<span class="label label-default">-</span>';
@@ -50,9 +51,15 @@ $this->params['breadcrumbs'][] = $this->title;
 		echo $content.$labelt;
 		?>
     </div>
-    <div class="panel-body">
+    <div class="panel-body">	
 		<blockquote>
-			<?php echo $model->subject ?>
+			<?php 
+			echo $model->subject;
+			if(!empty($model->attachment) and strlen(($model->attachment))>3){
+				echo '<br>';
+				echo Html::a('<i class="fa fa-fw fa-download"></i>  download attachment',Url::to(['/file/download','file'=>'issue/'.$model->id.'/'.$model->attachment]));
+			}
+			?>
 		</blockquote>
 		<?php
 		foreach($modelChildrens as $modelChildren){
@@ -65,16 +72,28 @@ $this->params['breadcrumbs'][] = $this->title;
 				$label = $modelChildren->label;
 				$labelt = '';
 				if(!empty($label)){
-					if($label=='verified') $labelt = '<span class="label label-warning">Status: To be '.$label.'</span>';
-					if($label=='critical') $labelt = '<span class="label label-danger">'.$label.'</span>';
-					if($label=='bugfix') $labelt = '<span class="label label-primary">'.$label.'</span>';
-					if($label=='discussion') $labelt = '<span class="label label-info">'.$label.'</span>';
-					if($label=='enhancement') $labelt = '<span class="label label-success">'.$label.'</span>';
+					if($label=='verified') $labelt = '<span class="label label-warning">Label: To be '.$label.'</span>';
+					if($label=='critical') $labelt = '<span class="label label-danger">Label: '.$label.'</span>';
+					if($label=='bugfix') $labelt = '<span class="label label-primary">Label: '.$label.'</span>';
+					if($label=='discussion') $labelt = '<span class="label label-info">Label: '.$label.'</span>';
+					if($label=='enhancement') $labelt = '<span class="label label-success">Label: '.$label.'</span>';
 				}
 				else{
 					$labelt = '';//<span class="label label-default">-</span>';
 				}
 				echo $labelt.' by '.$author.' '.$modelChildren->created.'<hr> ';
+			}
+			else if($modelChildren->subject=='status'){
+				$status = $modelChildren->status;
+				$statust = '';
+				if(isset($status)){
+					if($status==1) $statust = '<span class="label label-success">Status: open</span>';
+					else $statust = '<span class="label label-danger">Status: close</span>';
+				}
+				else{
+					$statust = '';//<span class="label label-default">-</span>';
+				}
+				echo $statust.' by '.$author.' '.$modelChildren->created.'<hr> ';
 			}
 			else{
 				?>
@@ -89,6 +108,10 @@ $this->params['breadcrumbs'][] = $this->title;
 					<div class="panel-body">
 						<?php
 						echo $modelChildren->content;
+						echo '<br>';
+						if(!empty($modelChildren->attachment) and strlen(($modelChildren->attachment))>3){
+							echo Html::a('<i class="fa fa-fw fa-download"></i> download attachment',Url::to(['/file/download','file'=>'issue/'.$modelChildren->id.'/'.$modelChildren->attachment]));
+						}
 						?>
 					</div>
 				</div>
@@ -97,63 +120,68 @@ $this->params['breadcrumbs'][] = $this->title;
 		}
 		?>
 		
-		<div class="issue-form">
-			<?php $form = ActiveForm::begin(); ?>
-			<?= $form->errorSummary($model) ?> <!-- ADDED HERE -->
+		<div class="panel panel-default">
+			<div class="panel-heading"> 
+				<strong>Write</strong>
+			</div>
+			<div class="panel-body">
+				<?php $form = ActiveForm::begin(['options'=>['enctype'=>'multipart/form-data']]); ?>
+				<?= $form->errorSummary($modelNew) ?> <!-- ADDED HERE -->
 
-			<?php
-			$model->content	= NULL;
-			echo $form->field($model, 'content')->textarea(['rows' => 3]) ;
-			?>
-			
-			<?php
-			echo $form->field($model, 'attachment')->widget(FileInput::classname(), [
-				'pluginOptions' => [
-					'showUpload' => false,
-				]
-			])->label(); 
-			?>
-			
-			<?php 
-			if(!$model->isNewRecord){
+				<?php
+				echo $form->field($modelNew, 'content')->textarea(['rows' => 3]) ;
+				?>
+				
+				<?php
+				echo $form->field($modelNew, 'attachment')->widget(FileInput::classname(), [
+					'pluginOptions' => [
+						'showUpload' => false,
+					]
+				])->label(); 
+				?>
+				
+				<?php 
 				if(\Yii::$app->user->can('BPPK')){
 					$data = [
 						'verified' => 'verified','critical' => 'critical',
 						'bugfix' => 'bugfix','discussion' => 'discussion',
 						'enhancement' => 'enhancement'
 					];
-					echo $form->field($model, 'label')->widget(Select2::classname(), [
+					echo $form->field($modelNew, 'label')->widget(Select2::classname(), [
 						'data' => $data,
-						'options' => ['placeholder' => 'Choose label ...'],
+						'options' => [
+							'placeholder' => 'Choose label ...',
+							'onchange' => "$('#issue-content').val($(this).val())",
+						],
 						'pluginOptions' => [
 						'allowClear' => true
 						],
 					]); 
 				}
-			}
-			?>
-			
-			<?php
-			if(!$model->isNewRecord){
+				?>
+				
+				<?php
 				if(\Yii::$app->user->can('BPPK') or \Yii::$app->user->id==$model->created_by){
-					$data = ['1' => 'Open','0' => 'Close'];
-					echo $form->field($model, 'status')->widget(Select2::classname(), [
+					$data = ['1' => 'Open','2' => 'Close'];
+					echo $form->field($modelNew, 'status')->widget(Select2::classname(), [
 						'data' => $data,
-						'options' => ['placeholder' => 'Choose status ...'],
+						'options' => [
+							'placeholder' => 'Choose status ...',
+							'onchange' => "$('#issue-content').val($(this).val())",
+						],
 						'pluginOptions' => [
 						'allowClear' => true
 						],
 					]); 
 				}
-			}
-			?>
-			
-			<div class="form-group">
-				<?= Html::submitButton('Comment', ['class' => 'btn btn-success' ]) ?>
+				?>
+				
+				<div class="form-group">
+					<?= Html::submitButton('Comment', ['class' => 'btn btn-success' ]) ?>
+				</div>
+
+				<?php ActiveForm::end(); ?>
 			</div>
-
-			<?php ActiveForm::end(); ?>
-
 		</div> 
     </div>
 </div> 

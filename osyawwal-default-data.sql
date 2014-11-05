@@ -3748,9 +3748,8 @@ CREATE TABLE IF NOT EXISTS `issue` (
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `code_UNIQUE` (`subject`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 --
 -- Constraints for table `activity_room`
