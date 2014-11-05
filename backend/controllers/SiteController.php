@@ -360,10 +360,8 @@ class SiteController extends Controller
 				$modelNew->status = ($modelNew->status==2)?0:1;
 				$modelNew->subject = 'status';
 				/* $modelNew->content = $modelNew->status; */
-				if($last_status!=$modelNew->status){
-					$model->status = $modelNew->status;
-					$model->save();
-				}
+				$model->status = $modelNew->status;
+				$model->save();
 			}
 			else{
 				$modelNew->status = 1;
