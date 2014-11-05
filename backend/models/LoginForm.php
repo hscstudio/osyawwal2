@@ -43,13 +43,13 @@ class LoginForm extends Model
             $user = $this->getUser();
 			
             if (!$user) {
-                $this->addError('username', 'Incorrect username.');
+                $this->addError('username', 'Username atau kata sandi salah'); // Translate
             }
 			else if($user->status==0){
-				$this->addError('username', 'This username is banned. Please contact Administrator.');
+				$this->addError('username', 'Akun ini telah diblokir. Silahkan hubungi bagian TIK'); // Translate
 			}
 			else  if (!$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect password.');
+                $this->addError($attribute, 'Username atau kata sandi salah'); // Translate
             }
         }
     }
