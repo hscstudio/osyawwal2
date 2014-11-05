@@ -2116,11 +2116,11 @@ INSERT INTO `employee` (`person_id`, `satker_id`, `user_id`, `organisation_id`, 
 (19, 34, 19, NULL, 0),
 (20, 35, 20, NULL, 0),
 (21, 36, 21, NULL, 0),
-(22, 17, 22, NULL, NULL),
-(23, 17, 23, NULL, NULL),
-(24, 17, 24, NULL, NULL),
-(25, 17, 25, NULL, NULL),
-(26, 17, 26, NULL, NULL);
+(22, 17, 22, NULL, 0),
+(23, 17, 23, NULL, 0),
+(24, 17, 24, NULL, 0),
+(25, 17, 25, NULL, 0),
+(26, 17, 26, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -2726,7 +2726,7 @@ CREATE TABLE IF NOT EXISTS `person` (
   `modified_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nid` (`nid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=101 ;
 
 --
 -- Dumping data for table `person`
@@ -3684,53 +3684,73 @@ CREATE TABLE IF NOT EXISTS `training_subject_trainer_recommendation` (
 
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `auth_key` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  `password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `password_reset_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `auth_key` varchar(32) NOT NULL,
+  `password_hash` varchar(255) NOT NULL,
+  `password_reset_token` varchar(255) DEFAULT NULL,
+  `email` varchar(255) NOT NULL,
   `role` smallint(6) NOT NULL DEFAULT '10',
   `status` smallint(6) NOT NULL DEFAULT '10',
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=27 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=101 ;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `role`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'superadmin', '5_082mYBEKJPI2VsPKBUwh6EEZFhpuv0', '$2y$13$8W7z/7NCJ1BaLigR9dCWH.C0VdYrCB2.yw68xpoCwn3Hq82Zbi2ye', '', 'milisstudio@gmail.com', 1, 1, 1411603965, 1412108460),
-(2, 'admin_sekretariat_badan', '', '$2y$13$srEdKVFpamSq7lRDhNn1Ye3bgVSQcTwPYUi210z/THk1iIIUURfCO', NULL, 'admin_sekretariat_badan@kemenkeu.go.id', 1, 1, 1413765096, 1413765096),
-(3, 'admin_pusdiklat_psdm', '', '$2y$13$OQfNDXoGCLOgQ31y24OTwuiZqH/ZrYrDwcz5lW9sHd.Er5e3rtJDq', NULL, 'admin_pusdiklat_psdm@kemenkeu.go.id', 1, 1, 1413765144, 1413765144),
-(4, 'admin_pusdiklat_ap', '', '$2y$13$Xh0UOiUz5983S/nou7VUe./GCLgEEh1bDCTiQ5afeQUZb5VENX4hG', NULL, 'admin_pusdiklat_ap@kemenkeu.go.id', 1, 1, 1413765179, 1413765179),
-(5, 'admin_pusdiklat_pajak', '', '$2y$13$DpWvMQr7owkwySybUQTCfuUOzwOCipRTjrmf2xtfH6/7wtRXBC8ni', NULL, 'admin_pusdiklat_pajak @kemenkeu.go.id', 1, 1, 1413765209, 1413765209),
-(6, 'admin_pusdiklat_bc', '', '$2y$13$qanbodlWc4w1nNwUqUdPZ.9zDDQdmZqWN.jHcLleUuP7DG7TmlltK', NULL, 'admin_pusdiklat_bc @kemenkeu.go.id', 1, 1, 1413765225, 1413765225),
-(7, 'admin_pusdiklat_knpk', '', '$2y$13$n4IxTJZEJJO2oNXl2Lx3o.iVf8cENmhcwvWchXrkyeDBgBXgXPC3e', NULL, 'admin_pusdiklat_knpk @kemenkeu.go.id', 1, 1, 1413765244, 1413765244),
-(8, 'admin_pusdiklat_ku', '', '$2y$13$zac9E550..fNNMYKMEnxFupl.Tk/4fnn.kR0ChDRwiDqcrCuDE2/a', NULL, 'admin_pusdiklat_ku @kemenkeu.go.id', 1, 1, 1413765275, 1413765275),
-(9, 'admin_stan', '', '$2y$13$uoqG0HtjBtFgbINR4iJ9e.eQCBxdSkoMiKXgRsoSJPa3W2hm/wGKq', NULL, 'admin_stan @kemenkeu.go.id', 1, 1, 1413765292, 1413765292),
-(10, 'admin_bdk_medan', '', '$2y$13$vNmJaeiDV/5PwjTxR4K1mO1hdyK/5bVxv1qCNPak1iCiNI9yddxka', NULL, 'admin_bdk_medan @kemenkeu.go.id', 1, 1, 1413765313, 1413765313),
-(11, 'admin_bdk_balikpapan', '', '$2y$13$H0SEl6BOvql8Y6oAISvvgurjkO1BTTQDgJbN5d9G7NO14GKBw7AfC', NULL, 'admin_bdk_balikpapan @kemenkeu.go.id', 1, 1, 1413765335, 1413765335),
-(12, 'admin_bdk_malang', '', '$2y$13$Og69VJTV77YXVXaXYarN3urNkO1xMqh/QN939eVuTrKGbbx4WeFuG', NULL, 'admin_bdk_malang @kemenkeu.go.id', 1, 1, 1413765400, 1413765400),
-(13, 'admin_bdk_yogyakarta', '', '$2y$13$E5Nbcd6OMFfIxMMbWeSU4Ovomicu0L3omATlMStMZObMyLCMIgtGu', NULL, 'admin_bdk_yogyakarta @kemenkeu.go.id', 1, 1, 1413765411, 1413765411),
-(14, 'admin_bdk_palembang', '', '$2y$13$dDzdv0bQSL8G9q0aZpCT..89eWSQlU2u2MdSmT2Bha1.cpTjOh3Ra', NULL, 'admin_bdk_palembang @kemenkeu.go.id', 1, 1, 1413765510, 1413765510),
-(15, 'admin_bdk_makassar', '', '$2y$13$2f10PseJIGtL5CyXt1n3aeP/1QNS1rePa7XxYlr4YFPWrxZ.S2H7W', NULL, 'admin_bdk_makassar @kemenkeu.go.id', 1, 1, 1413765513, 1413765513),
-(16, 'admin_bdk_cimahi', '', '$2y$13$h2lPGZMQs4NHx264HmyGreoIsABfp59EXAsxjO.smKUBx/mCvcXlO', NULL, 'admin_bdk_cimahi @kemenkeu.go.id', 1, 1, 1413765517, 1413765517),
-(17, 'admin_bdk_manado', '', '$2y$13$8YscgSJcQV0EeNoxudgnCexybK0ktwXayng0Iz5.uH/LxA.HBH502', NULL, 'admin_bdk_manado @kemenkeu.go.id', 1, 1, 1413765520, 1413765520),
-(18, 'admin_bdk_pekanbaru', '', '$2y$13$/1AeyBp5ytY563JPgrutm.F0Ff46.IJ/tXLdCo15EmK3CjsMp7era', NULL, 'admin_bdk_pekanbaru @kemenkeu.go.id', 1, 1, 1413765523, 1413765523),
-(19, 'admin_bdk_pontianak', '', '$2y$13$sXTOuIaNHf1KnV6LKei17e1jwUqf/0FCyX0WIF92nysGaKtR9Luse', NULL, 'admin_bdk_pontianak @kemenkeu.go.id', 1, 1, 1413765527, 1413765527),
-(20, 'admin_bdk_denpasar', '', '$2y$13$Mu8BZntJePVlOxZMW99ow.emjFp3noc21KX4ynYcq1aSaftDz/wOe', NULL, 'admin_bdk_denpasar @kemenkeu.go.id', 1, 1, 1413765562, 1413765562),
-(21, 'admin_bdk_magelang', '', '$2y$13$yj6o0HbpWwEibRI0XL/bsuINe1DVXa08TXi0KahLdEI4BI5sbKGxa', NULL, 'admin_bdk_magelang @kemenkeu.go.id', 1, 1, 1413765583, 1413765583),
-(22, 'admin_sekretariat_organisation', '', '$2y$13$DpWalezkf3sFHTdcyvQIbeK55E7PuTG331iNxN5Tfk5qRGOf7WIKi', NULL, 'admin_sekretariat_organisation@gmail.com', 1, 1, 1413843604, 1413843604),
-(23, 'admin_sekretariat_hrd', '', '$2y$13$I15w2LMAOslm3GJrIC3ss.8mdDE8.QiZZ1uCmh6mBhEWGPKfDq82W', NULL, 'admin_sekretariat_hrd@gmail.com', 1, 1, 1413843677, 1413843677),
-(24, 'admin_sekretariat_finance', '', '$2y$13$bvGxy1TfI2HFwZs4vYVI2eqVxiOuS7TZEub/KvArQXmMriQA0FQnK', NULL, 'admin_sekretariat_finance@gmail.com', 1, 1, 1413843775, 1413843775),
-(25, 'admin_sekretariat_it', '', '$2y$13$X8nh/TXpBMUhmRfB7Hg/uOPjh63mm8hgnlyBOWe8vRSjLHPIVBd2K', NULL, 'admin_sekretariat_it@gmail.com', 1, 1, 1413843832, 1413843832),
-(26, 'admin_sekretariat_general', '', '$2y$13$0RWmtv7pTfpX0g88C8Tm6umWLsHAw8OiPTRCW8IvW0b7OikOfKyES', NULL, 'admin_sekretariat_general@gmail.com', 1, 1, 1413843871, 1413843871);
+(1, 'superadmin', '5_082mYBEKJPI2VsPKBUwh6EEZFhpuv0', '$2y$13$8W7z/7NCJ1BaLigR9dCWH.C0VdYrCB2.yw68xpoCwn3Hq82Zbi2ye', '', 'superadmin@abc.def', 1, 1, 1411603965, 1412108460),
+(2, 'admin_sekretariat_badan', '', '$2y$13$srEdKVFpamSq7lRDhNn1Ye3bgVSQcTwPYUi210z/THk1iIIUURfCO', NULL, 'admin_sekretariat_badan@abc.def', 1, 1, 1413765096, 1413765096),
+(3, 'admin_pusdiklat_psdm', '', '$2y$13$OQfNDXoGCLOgQ31y24OTwuiZqH/ZrYrDwcz5lW9sHd.Er5e3rtJDq', NULL, 'admin_pusdiklat_psdm@abc.def', 1, 1, 1413765144, 1413765144),
+(4, 'admin_pusdiklat_ap', '', '$2y$13$Xh0UOiUz5983S/nou7VUe./GCLgEEh1bDCTiQ5afeQUZb5VENX4hG', NULL, 'admin_pusdiklat_ap@abc.def', 1, 1, 1413765179, 1413765179),
+(5, 'admin_pusdiklat_pajak', '', '$2y$13$DpWvMQr7owkwySybUQTCfuUOzwOCipRTjrmf2xtfH6/7wtRXBC8ni', NULL, 'admin_pusdiklat_pajak @abc.def', 1, 1, 1413765209, 1413765209),
+(6, 'admin_pusdiklat_bc', '', '$2y$13$qanbodlWc4w1nNwUqUdPZ.9zDDQdmZqWN.jHcLleUuP7DG7TmlltK', NULL, 'admin_pusdiklat_bc @abc.def', 1, 1, 1413765225, 1413765225),
+(7, 'admin_pusdiklat_knpk', '', '$2y$13$n4IxTJZEJJO2oNXl2Lx3o.iVf8cENmhcwvWchXrkyeDBgBXgXPC3e', NULL, 'admin_pusdiklat_knpk @abc.def', 1, 1, 1413765244, 1413765244),
+(8, 'admin_pusdiklat_ku', '', '$2y$13$zac9E550..fNNMYKMEnxFupl.Tk/4fnn.kR0ChDRwiDqcrCuDE2/a', NULL, 'admin_pusdiklat_ku @abc.def', 1, 1, 1413765275, 1413765275),
+(9, 'admin_stan', '', '$2y$13$uoqG0HtjBtFgbINR4iJ9e.eQCBxdSkoMiKXgRsoSJPa3W2hm/wGKq', NULL, 'admin_stan @abc.def', 1, 1, 1413765292, 1413765292),
+(10, 'admin_bdk_medan', '', '$2y$13$vNmJaeiDV/5PwjTxR4K1mO1hdyK/5bVxv1qCNPak1iCiNI9yddxka', NULL, 'admin_bdk_medan @abc.def', 1, 1, 1413765313, 1413765313),
+(11, 'admin_bdk_balikpapan', '', '$2y$13$H0SEl6BOvql8Y6oAISvvgurjkO1BTTQDgJbN5d9G7NO14GKBw7AfC', NULL, 'admin_bdk_balikpapan @abc.def', 1, 1, 1413765335, 1413765335),
+(12, 'admin_bdk_malang', '', '$2y$13$Og69VJTV77YXVXaXYarN3urNkO1xMqh/QN939eVuTrKGbbx4WeFuG', NULL, 'admin_bdk_malang @abc.def', 1, 1, 1413765400, 1413765400),
+(13, 'admin_bdk_yogyakarta', '', '$2y$13$E5Nbcd6OMFfIxMMbWeSU4Ovomicu0L3omATlMStMZObMyLCMIgtGu', NULL, 'admin_bdk_yogyakarta @abc.def', 1, 1, 1413765411, 1413765411),
+(14, 'admin_bdk_palembang', '', '$2y$13$dDzdv0bQSL8G9q0aZpCT..89eWSQlU2u2MdSmT2Bha1.cpTjOh3Ra', NULL, 'admin_bdk_palembang @abc.def', 1, 1, 1413765510, 1413765510),
+(15, 'admin_bdk_makassar', '', '$2y$13$2f10PseJIGtL5CyXt1n3aeP/1QNS1rePa7XxYlr4YFPWrxZ.S2H7W', NULL, 'admin_bdk_makassar @abc.def', 1, 1, 1413765513, 1413765513),
+(16, 'admin_bdk_cimahi', '', '$2y$13$h2lPGZMQs4NHx264HmyGreoIsABfp59EXAsxjO.smKUBx/mCvcXlO', NULL, 'admin_bdk_cimahi @abc.def', 1, 1, 1413765517, 1413765517),
+(17, 'admin_bdk_manado', '', '$2y$13$8YscgSJcQV0EeNoxudgnCexybK0ktwXayng0Iz5.uH/LxA.HBH502', NULL, 'admin_bdk_manado @abc.def', 1, 1, 1413765520, 1413765520),
+(18, 'admin_bdk_pekanbaru', '', '$2y$13$/1AeyBp5ytY563JPgrutm.F0Ff46.IJ/tXLdCo15EmK3CjsMp7era', NULL, 'admin_bdk_pekanbaru @abc.def', 1, 1, 1413765523, 1413765523),
+(19, 'admin_bdk_pontianak', '', '$2y$13$sXTOuIaNHf1KnV6LKei17e1jwUqf/0FCyX0WIF92nysGaKtR9Luse', NULL, 'admin_bdk_pontianak @abc.def', 1, 1, 1413765527, 1413765527),
+(20, 'admin_bdk_denpasar', '', '$2y$13$Mu8BZntJePVlOxZMW99ow.emjFp3noc21KX4ynYcq1aSaftDz/wOe', NULL, 'admin_bdk_denpasar @abc.def', 1, 1, 1413765562, 1413765562),
+(21, 'admin_bdk_magelang', '', '$2y$13$yj6o0HbpWwEibRI0XL/bsuINe1DVXa08TXi0KahLdEI4BI5sbKGxa', NULL, 'admin_bdk_magelang @abc.def', 1, 1, 1413765583, 1413765583),
+(22, 'admin_sekretariat_organisation', '', '$2y$13$DpWalezkf3sFHTdcyvQIbeK55E7PuTG331iNxN5Tfk5qRGOf7WIKi', NULL, 'admin_sekretariat_organisation@abc.def', 1, 1, 1413843604, 1413843604),
+(23, 'admin_sekretariat_hrd', '', '$2y$13$I15w2LMAOslm3GJrIC3ss.8mdDE8.QiZZ1uCmh6mBhEWGPKfDq82W', NULL, 'admin_sekretariat_hrd@abc.def', 1, 1, 1413843677, 1413843677),
+(24, 'admin_sekretariat_finance', '', '$2y$13$bvGxy1TfI2HFwZs4vYVI2eqVxiOuS7TZEub/KvArQXmMriQA0FQnK', NULL, 'admin_sekretariat_finance@abc.def', 1, 1, 1413843775, 1413843775),
+(25, 'admin_sekretariat_it', '', '$2y$13$X8nh/TXpBMUhmRfB7Hg/uOPjh63mm8hgnlyBOWe8vRSjLHPIVBd2K', NULL, 'admin_sekretariat_it@abc.def', 1, 1, 1413843832, 1413843832),
+(26, 'admin_sekretariat_general', '', '$2y$13$0RWmtv7pTfpX0g88C8Tm6umWLsHAw8OiPTRCW8IvW0b7OikOfKyES', NULL, 'admin_sekretariat_general@abc.def', 1, 1, 1413843871, 1413843871);
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Table structure for table `issue`
+--
+
+CREATE TABLE IF NOT EXISTS `issue` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) DEFAULT NULL,
+  `subject` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `attachment` varchar(255) NOT NULL,
+  `label` varchar(255) DEFAULT NULL,
+  `status` int(1) NOT NULL DEFAULT '1',
+  `created` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `modified_by` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code_UNIQUE` (`subject`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Constraints for table `activity_room`
