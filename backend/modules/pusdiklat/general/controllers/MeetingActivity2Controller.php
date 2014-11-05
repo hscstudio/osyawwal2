@@ -10,7 +10,7 @@ use backend\models\Room;
 use backend\models\Meeting;
 use backend\models\Reference;
 use backend\models\ObjectPerson;
-use backend\modules\pusdiklat\general\models\MeetingActivitySearch as ActivitySearch;;
+use backend\modules\pusdiklat\general\models\MeetingActivitySearch;
 use backend\modules\pusdiklat\general\models\RoomSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -44,7 +44,7 @@ class MeetingActivity2Controller extends Controller
     public function actionIndex($year='',$status='all')
     {
 		if(empty($year)) $year=date('Y');
-		$searchModel = new ActivitySearch();
+		$searchModel = new MeetingActivitySearch();
 		$queryParams = Yii::$app->request->getQueryParams();
 		$organisation_id =  390;
 		if($status=='all'){
