@@ -2059,12 +2059,13 @@ class Activity2Controller extends Controller
 
 
 
-    public function actionNilaiAkhir($id) {
+    public function actionNilaiAkhir($training_id, $training_class_id) {
     	// Bikin data provider student dari class schedule
 		$searchModel = new TrainingClassStudentPureSearch(); 
 
 		$queryParams['TrainingClassStudentPureSearch'] = [
-			'training_id' => $id
+			'training_id' => $training_id,
+			'training_class_id' => $training_class_id
 		];
 
 		$queryParams = ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
@@ -2075,7 +2076,7 @@ class Activity2Controller extends Controller
 		// Ngambil model training
 		$modelTraining = Training::find()
 			->where([
-				'activity_id' => $id
+				'activity_id' => $training_id
 			])
 			->one();
 		// dah
