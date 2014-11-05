@@ -172,7 +172,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
 				'class' => 'kartik\grid\ActionColumn',
-				'width' => '190px',
+				'width' => '240px',
 				'template' => '<div class="btn-group">{dashboard} {cost-real}</div> <div class="btn-group">{nilai-kehadiran} {nilai-aktivitas} {pre-test} {post-test}</div>',
 				'buttons' => [
 					'dashboard' => function ($url, $model) {
@@ -186,15 +186,29 @@ $this->params['breadcrumbs'][] = $this->title;
 							},
 					'nilai-aktivitas' => function ($url, $model) {
 								$icon='<span class="fa fa-fw fa-headphones"></span>';
-								if (in_array($model->status,[2])){
-									return Html::a($icon,$url,[
-										'class'=>'btn btn-default btn-xs',
+								if (in_array($model->status,[2])) {
+									$tembolok = '<div class="btn-group dropup">';
+									$tembolok .= Html::a($icon.' <span class="caret"></span>', null,[
+										'class'=>'btn btn-default btn-xs dropdown-toggle',
 										'title' => 'Input Nilai Aktivitas',
 										'data-toggle' => 'tooltip',
 										'data-placement' => 'top',
 										'data-container' => 'body',
 										'data-pjax'=>'0',
+										'data-toggle' => 'dropdown'
 									]);
+									$tembolok .= '<ul class="dropdown-menu dropdown-menu-right" role="menu">';
+									foreach ($model->training->trainingClasses as $trainingClass) {
+										$tembolok .= '<li>';
+										$tembolok .= Html::a('Kelas '.$trainingClass->class, Url::to(['activity/nilai-aktivitas', 
+											'training_id' => $trainingClass->training_id, 
+											'training_class_id' => $trainingClass->id
+										]));
+										$tembolok .= '</li>';
+									}
+									$tembolok .= '</ul>';
+									$tembolok .= '</div>';
+									return $tembolok;
 								}
 							},
 					'cost-real' => function ($url, $model) {
@@ -212,7 +226,32 @@ $this->params['breadcrumbs'][] = $this->title;
 							},
 					'pre-test' => function ($url, $model) {
 								$icon='<span class="fa fa-fw fa-file-text-o"></span>';
-								if (in_array($model->status,[2])){
+								if (in_array($model->status,[2])) {
+
+									$tembolok = '<div class="btn-group dropup">';
+									$tembolok .= Html::a($icon.' <span class="caret"></span>', null,[
+
+										'class'=>'btn btn-default btn-xs dropdown-toggle',
+										'title' => 'Input Nilai Pre-Test',
+										'data-toggle' => 'tooltip',
+										'data-placement' => 'top',
+										'data-container' => 'body',
+										'data-pjax'=>'0',
+										'data-toggle' => 'dropdown'
+									]);
+									$tembolok .= '<ul class="dropdown-menu dropdown-menu-right" role="menu">';
+									foreach ($model->training->trainingClasses as $trainingClass) {
+										$tembolok .= '<li>';
+										$tembolok .= Html::a('Kelas '.$trainingClass->class, Url::to(['activity/pre-test', 
+											'training_id' => $trainingClass->training_id, 
+											'training_class_id' => $trainingClass->id
+										]));
+										$tembolok .= '</li>';
+									}
+									$tembolok .= '</ul>';
+									$tembolok .= '</div>';
+									return $tembolok;
+								
 									return Html::a($icon,$url,[
 										'class'=>'btn btn-default btn-xs',
 										'title' => 'Input Nilai Pre-Test',
@@ -225,28 +264,62 @@ $this->params['breadcrumbs'][] = $this->title;
 							},
 					'post-test' => function ($url, $model) {
 								$icon='<span class="fa fa-fw fa-file-text"></span>';
-								if (in_array($model->status,[2])){
-									return Html::a($icon,$url,[
-										'class'=>'btn btn-default btn-xs',
+								if (in_array($model->status,[2])) {
+
+									$tembolok = '<div class="btn-group dropup">';
+									$tembolok .= Html::a($icon.' <span class="caret"></span>', null,[
+
+										'class'=>'btn btn-default btn-xs dropdown-toggle',
 										'title' => 'Input Nilai Post-Test',
 										'data-toggle' => 'tooltip',
 										'data-placement' => 'top',
 										'data-container' => 'body',
 										'data-pjax'=>'0',
+										'data-toggle' => 'dropdown'
 									]);
+									$tembolok .= '<ul class="dropdown-menu dropdown-menu-right" role="menu">';
+									foreach ($model->training->trainingClasses as $trainingClass) {
+										$tembolok .= '<li>';
+										$tembolok .= Html::a('Kelas '.$trainingClass->class, Url::to(['activity/post-test', 
+											'training_id' => $trainingClass->training_id, 
+											'training_class_id' => $trainingClass->id
+										]));
+										$tembolok .= '</li>';
+									}
+									$tembolok .= '</ul>';
+									$tembolok .= '</div>';
+									return $tembolok;
+
 								}
 							},
 					'nilai-kehadiran' => function ($url, $model) {
 								$icon='<span class="fa fa-fw fa-map-marker"></span>';
-								if (in_array($model->status,[2])){
-									return Html::a($icon,$url,[
-										'class'=>'btn btn-default btn-xs',
+								if (in_array($model->status,[2])) {
+
+
+									$tembolok = '<div class="btn-group dropup">';
+									$tembolok .= Html::a($icon.' <span class="caret"></span>', null,[
+
+										'class'=>'btn btn-default btn-xs dropdown-toggle',
 										'title' => 'Input Nilai Kehadiran',
 										'data-toggle' => 'tooltip',
 										'data-placement' => 'top',
 										'data-container' => 'body',
 										'data-pjax'=>'0',
+										'data-toggle' => 'dropdown'
 									]);
+									$tembolok .= '<ul class="dropdown-menu dropdown-menu-right" role="menu">';
+									foreach ($model->training->trainingClasses as $trainingClass) {
+										$tembolok .= '<li>';
+										$tembolok .= Html::a('Kelas '.$trainingClass->class, Url::to(['activity/nilai-kehadiran', 
+											'training_id' => $trainingClass->training_id, 
+											'training_class_id' => $trainingClass->id
+										]));
+										$tembolok .= '</li>';
+									}
+									$tembolok .= '</ul>';
+									$tembolok .= '</div>';
+									return $tembolok;
 								}
 							},
 				],		

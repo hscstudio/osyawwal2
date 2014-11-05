@@ -70,66 +70,52 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 			],
 			[
-				'header' => '<div style="text-align:center;">Satker</div>',
+				'header' => '<div style="text-align:center">SATKER</div>',
 				'vAlign'=>'middle',
 				'hAlign'=>'left',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'format'=>'raw',
 				'value' => function ($data){
-					$student = $data->trainingStudent->student;
-					$unit = $student->person->unit->reference->name;
-					
-					if($student->satker==2){
-						if(!empty($student->eselon2)){
-							$unit = $student->eselon2;
+					$unit = "-";
+					$object_reference = \backend\models\ObjectReference::find()
+						->where([
+							'object' => 'person',
+							'object_id' => $data->trainingStudent->student->person->id,
+							'type' => 'unit',
+						])
+						->one();
+					if(null!=$object_reference){
+						$unit = $object_reference->reference->name;
+					}
+					if($data->trainingStudent->student->satker==2){
+						if(!empty($data->trainingStudent->student->eselon2)){
+							$unit = $data->trainingStudent->student->eselon2;
 						}
 					}
-					else if($student->satker==3){
-						if(!empty($student->eselon3)){
-							$unit = $student->eselon3;
+					else if($data->trainingStudent->student->satker==3){
+						if(!empty($data->trainingStudent->student->eselon3)){
+							$unit = $data->trainingStudent->student->eselon3;
 						}
 					}
-					else if($student->satker==4){
-						if(!empty($student->eselon4)){
-							$unit = $student->eselon4;
+					else if($data->trainingStudent->student->satker==4){
+						if(!empty($data->trainingStudent->student->eselon4)){
+							$unit = $data->trainingStudent->student->eselon4;
 						}
 					}
-					return Html::tag('span',$unit,[
-						'class'=>'label label-default','data-toggle'=>'tooltip','title'=>''
-					]);
+					return Html::tag('span',
+						$unit,
+						[
+							'class'=>'label label-default',
+							'data-toggle'=>'tooltip',
+							'data-html'=>'true',
+						]
+					);
 				},
 			],
 			[
 				'class' => 'kartik\grid\ActionColumn',
-				'template' => '{class} {delete}',
-				'buttons' => [
-					'delete' => function ($url, $model) {
-						$icon='<span class="fa fa-fw fa-trash"></span>';
-						return Html::a($icon,
-							['delete-class-student','id'=>$model->training_id,'class_id'=>$model->training_class_id,'training_class_student_id'=>$model->id],
-							[
-								'class'=>'btn btn-default btn-xs',
-								'data-pjax'=>'0',
-								'data-confirm'=>'Are you sure you want delete this item!',
-								'data-method'=>'post',
-							]
-						);
-					},
-					'class' => function ($url, $model) {
-						$icon='<span class="fa fa-fw fa-trello"></span>';
-						return Html::a($icon,
-							['change-class-student','id'=>$model->training_id,'class_id'=>$model->training_class_id,'training_class_student_id'=>$model->id],
-							[
-								'class'=>'modal-heart btn btn-default btn-xs',
-								'data-pjax'=>'0',
-								'modal-size'=>'modal-md',
-								'modal-title'=>'Move To Another Class',
-								
-							]
-						);
-					},
-				]
+				'template' => '{}',
 			]
            
         ],
@@ -145,94 +131,4 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 	<?= \hscstudio\heart\widgets\Modal::widget() ?>
 	<?php \yii\widgets\Pjax::end(); ?>
-</div>
-
-<div class="panel panel-default">
-	<div class="panel-heading">
-	<i class="glyphicon glyphicon-upload"></i> Get Random Student
-	</div>
-    <div class="panel-body">
-		<?php
-		$form = \yii\bootstrap\ActiveForm::begin([
-			'options'=>[
-				'id'=>'myform',
-				'onsubmit'=>'
-					
-				',
-			],
-			'action'=>[
-				'class-student','id'=>$activity->id,
-				'class_id'=>$class->id
-			], 
-		]);
-		?>
-		<div class="row clearfix">
-			<div class="col-md-2">
-			<?php
-			echo Html::beginTag('label',['class'=>'control-label']).'Stock'.Html::endTag('label');
-			echo Html::input('text','',$trainingStudentCount,['class'=>'form-control','disabled'=>'disabled','id'=>'stock']);
-			?>
-			</div>
-			<div class="col-md-2">
-			<?php
-			echo Html::beginTag('label',['class'=>'control-label']).'Jumlah'.Html::endTag('label');
-			echo Html::input('text','student','',['class'=>'form-control','id'=>'count']);
-			?>
-			</div>
-			<div class="col-md-3">
-			<?php
-			echo '<label class="control-label">Berdasarkan</label>';
-			echo Select2::widget([
-				'name' => 'baseon', 
-				'data' => [
-					'person.name' =>'Nama', 
-					'person.gender' => 'Gender', 
-					'object_reference.reference_id' => 'Unit',					
-				],
-				'options' => [
-					'placeholder' => 'Select base on ...', 
-					'class'=>'form-control', 
-					'multiple' => true,
-					'id'=>'baseon',
-				],
-			]);
-			?>
-			</div>
-			<div class="col-md-3">
-			<?php
-			echo Html::beginTag('label',['class'=>'control-label']).' '.Html::endTag('label');
-			echo Html::submitButton('Get', ['class' => 'btn btn-success','style'=>'display:block;']);
-			?>
-			</div>
-		</div>
-		<?php \yii\bootstrap\ActiveForm::end(); ?>
-		<?php
-		$this->registerJs("
-			$('#myform').on('beforeSubmit', function () {
-				var count = parseInt($('#count').val());
-				var stock = parseInt($('#stock').val());
-				var baseon = $('#baseon').val();
-				if(stock<=0 || isNaN(stock)){
-					alert('Tidak ada stock peserta!');
-					return false;
-				}
-				else if(count<=0 || isNaN(count)){
-					alert('Jumlah permintaan peserta tidak boleh nol!');
-					$('#count').select();
-					return false;
-				}
-				else if(stock<count){
-					alert('Jumlah permintaan tidak boleh melebihi stock peserta!'+x+y);
-					$('#count').select();
-					return false;
-				}			
-				else if(baseon==null){
-					alert('Dasar pengacakan harus ditentukan!');
-					$('#baseon').select();	
-					return false;					
-				}	
-			});
-		");
-		?>
-	</div>
 </div>

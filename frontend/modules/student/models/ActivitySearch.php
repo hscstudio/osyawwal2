@@ -39,7 +39,7 @@ class ActivitySearch extends Activity
      *
      * @return ActiveDataProvider
      */
-    public function search($params,$satker_id=NULL,$year=NULL)
+    public function search($params)
     {
         $query = Activity::find()
 				->leftjoin('training_student','training_student.training_id=activity.id')
@@ -64,6 +64,7 @@ class ActivitySearch extends Activity
             'created_by' => $this->created_by,
             'modified' => $this->modified,
             'modified_by' => $this->modified_by,
+			'YEAR(start)' => $this->year,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

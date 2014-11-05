@@ -16,6 +16,8 @@ use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use backend\models\ObjectFile;
 use frontend\models\TrainingClass;
+use frontend\models\TrainingClassStudent;
+use frontend\modules\student\models\TrainingClassStudentSearch;
 use backend\modules\pusdiklat\execution\models\TrainingClassSearch;
 use frontend\models\TrainingStudent;
 use frontend\modules\student\models\TrainingStudentSearch;
@@ -46,8 +48,7 @@ class ActivityController extends Controller
     public function actionIndex($year=NULL,$satker_id=NULL,$status='nocancel')
     {
 		$satker = ArrayHelper::map(\frontend\models\Reference::find()->select(['id','name'])->where(['type'=>'satker'])->asArray()->all(), 'id', 'name');
-		//if(empty($year)) 
-		$year=date('Y');
+		if(empty($year)) $year=date('Y');
 		$searchModel = new ActivitySearch();
 		$queryParams = Yii::$app->request->getQueryParams();
 		if($status=='nocancel'){
@@ -57,6 +58,12 @@ class ActivityController extends Controller
 					$queryParams['ActivitySearch']=[
 						'status'=> [0,1,2],
 						'satker_id'=>$satker_id,
+					];
+				}
+				else
+				{
+					$queryParams['ActivitySearch']=[
+						'status'=> [0,1,2],
 					];
 				}
 			}
@@ -69,12 +76,16 @@ class ActivityController extends Controller
 						'satker_id'=>$satker_id,
 					];
 				}
+				else
+				{
+					$queryParams['ActivitySearch']=[
+						'year' => $year,
+						'status'=> [0,1,2],
+					];
+				}
 			}
 		}
-		/*if(!empty($satker_id))
-		{$id_satker=$satker_id;}
-		else
-		{$id_satker=0;}*/
+		
 		
 		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
 		$dataProvider = $searchModel->search($queryParams);
@@ -293,9 +304,9 @@ class ActivityController extends Controller
         ]);
     }
 	
-	public function actionClassStudent($id, $class_id)
+	public function actionClassStudent($training_id, $class_id)
     {
-        $activity = $this->findModel($id); // Activity
+        $activity = $this->findModel($training_id); // Activity
 		$class = $this->findModelClass($class_id); // Class		
 			
 		$searchModel = new TrainingClassStudentSearch();
@@ -309,7 +320,7 @@ class ActivityController extends Controller
 		
 		$subquery = TrainingClassStudent::find()
 			->select('training_student_id')
-			->where(['training_id' => $id]);
+			->where(['training_id' => $training_id]);
 		 
 		// fetch orders that are placed by customers who are older than 30  
 		$trainingStudentCount = TrainingStudent::find()
@@ -347,7 +358,7 @@ class ActivityController extends Controller
 					->all();
 				foreach ($trainingStudents as $trainingStudent){
 					$trainingClassStudent = new TrainingClassStudent([
-						'training_id'=>$id,
+						'training_id'=>$training_id,
 						'training_class_id'=>$class_id,
 						'training_student_id'=>$trainingStudent['id'],
 						'status'=>1
@@ -358,7 +369,7 @@ class ActivityController extends Controller
 				
 				$subquery = TrainingClassStudent::find()
 					->select('training_student_id')
-					->where(['training_id' => $id]);
+					->where(['training_id' => $training_id]);
 				 
 				// fetch orders that are placed by customers who are older than 30  
 				$trainingStudentCount = TrainingStudent::find()
@@ -426,4 +437,13 @@ class ActivityController extends Controller
 			'status_training_student' => $model->status,
         ]);
 	}
+	
+	protected function findModelClass($id)
+    {
+        if (($model = TrainingClass::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
 }
