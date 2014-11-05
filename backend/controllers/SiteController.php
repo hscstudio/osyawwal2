@@ -20,6 +20,9 @@ use backend\models\Training;
 use backend\models\Person;
 use backend\models\Online;
 
+use backend\models\Issue;
+use backend\models\IssueSearch; 
+
 /**
  * Site controller
  */
@@ -45,7 +48,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['logout', 'index', 'issue'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -55,6 +58,7 @@ class SiteController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'logout' => ['post'],
+					'delete-issue' => ['post'],
                 ],
             ],
         ];
@@ -285,4 +289,164 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+	
+	 /**
+     * Lists all Issue models.
+     * @return mixed
+     */
+    public function actionIssue($status=1)
+    {
+		$searchModel = new IssueSearch();
+		$queryParams = Yii::$app->request->getQueryParams();
+		if($status=='all'){
+			$queryParams['IssueSearch']=[
+			];
+		}
+		else{
+			$queryParams['IssueSearch']=[
+				'status' => $status,
+			];			
+		}
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$dataProvider = $searchModel->search($queryParams);
+		$dataProvider->getSort()->defaultOrder = ['modified'=>SORT_DESC,'created'=>SORT_DESC];
+
+        return $this->render('issue', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+			'status'=> $status,
+        ]);
+    } 
+	
+	/**
+     * Displays a single Issue model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionViewIssue($id)
+    {
+        return $this->render('viewIssue', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
+    /**
+     * Creates a new Issue model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreateIssue()
+    {
+        $model = new Issue();
+
+        if ($model->load(Yii::$app->request->post())){ 
+			$attachment = UploadedFile::getInstances($model, 'attachment');
+			
+			$filenames = uniqid() . '.' . $ext;				
+		$file->file_name = $filenames;
+		$path = '';
+		if(isset(Yii::$app->params['uploadPath'])){
+			$path = Yii::$app->params['uploadPath'].'/'.$object.'/'.$object_id.'/';
+		}
+		else{
+			$path = Yii::getAlias('@file').'/'.$object.'/'.$object_id.'/';
+		}
+		@mkdir($path, 0755, true);
+		@chmod($path, 0755);
+		if(isset($current_file)){
+			@unlink($path . $current_file);
+			@unlink($path . 'thumb_'. $current_file);
+		}
+		
+		if(isset($filenames)){
+			$instance_file->saveAs($path.$filenames);
+			if ($resize) 
+				\hscstudio\heart\helpers\Heart::imageResize($path.$filenames, $path. 'thumb_'. $filenames,148,198,0);
+			if(!isset($file->name)) $file->name = $filenames;
+			if(!isset($file->status)) $file->status=1;
+			$file->save();
+
+			$object_file->object = $object; 
+			$object_file->object_id = $object_id; 
+			$object_file->type = $type; 
+			$object_file->file_id = $file->id; 
+			$object_file->save();
+			return true;
+		}
+		
+			if ($model->validate()) {                
+                $model->file->saveAs('uploads/' . $attachment->baseName . '.' . $attachment->extension);
+            }
+            if($model->save()) {
+                Yii::$app->getSession()->setFlash('success', 'New data have saved.');
+				
+            }
+            else{
+                Yii::$app->getSession()->setFlash('error', 'New data is not saved.');
+            }
+            return $this->redirect(['view-issue', 'id' => $model->id]);
+        } else {
+            return $this->render('createIssue', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    /**
+     * Updates an existing Issue model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionUpdateIssue($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post())) {
+            if($model->save()) {
+                Yii::$app->getSession()->setFlash('success', 'Data have updated.');
+            }
+            else{
+                Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
+            }
+            return $this->redirect(['view-issue', 'id' => $model->id]);
+        } else {
+            return $this->render('updateIssue', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    /**
+     * Deletes an existing Issue model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDeleteIssue($id)
+    {
+        if($this->findModel($id)->delete()) {
+            Yii::$app->getSession()->setFlash('success', 'Data have deleted.');
+        }
+        else{
+            Yii::$app->getSession()->setFlash('error', 'Data is not deleted.');
+        }
+        return $this->redirect(['issue']);
+    }
+
+    /**
+     * Finds the Issue model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return Issue the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModelIssue($id)
+    {
+        if (($model = Issue::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    } 
 }
