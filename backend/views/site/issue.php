@@ -14,53 +14,83 @@ $this->title = 'Issues';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="issue-index">
-    
+    <?php \yii\widgets\Pjax::begin([
+		'id'=>'pjax-gridview',
+	]); ?>
 	<?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'kartik\grid\SerialColumn'],
-
-            // 'id',
-            
-                [
-                    'attribute' => 'parent_id',
+				[
+					'attribute' => 'subject',
                     'vAlign'=>'middle',
-                    'hAlign'=>'center',
+                    'hAlign'=>'left',
                     'headerOptions'=>['class'=>'kv-sticky-column'],
-                    'contentOptions'=>['class'=>'kv-sticky-column'],                    
+                    'contentOptions'=>['class'=>'kv-sticky-column'],  
+					'format'=>'raw',
+					'value' => function ($data){
+						$content = '<strong>'.$data->subject.'</strong><br>';
+						$content .= '<small>#'.$data->id.' ';
+						$content .= 'open at '.$data->created.' ';
+						$user = \backend\models\User::findOne($data->created_by);						
+						if(!empty($user)){
+						$content .= 'by '.$user->employee->person->name.' ';
+						}
+						$content .= '</small>';
+						$label = $data->getLastLabel($data->id);
+						$labelt = '';
+						if(!empty($label)){
+							if($label=='verified') $labelt = '<span class="label label-warning">Status: To be '.$label.'</span>';
+							if($label=='critical') $labelt = '<span class="label label-danger">'.$label.'</span>';
+							if($label=='bugfix') $labelt = '<span class="label label-primary">'.$label.'</span>';
+							if($label=='discussion') $labelt = '<span class="label label-info">'.$label.'</span>';
+							if($label=='enhancement') $labelt = '<span class="label label-success">'.$label.'</span>';
+						}
+						else{
+							$labelt = '';//<span class="label label-default">-</span>';
+						}
+						return $content.$labelt;
+					}
                 ],
-            
+				
                 [
-                    'attribute' => 'subject',
+                    'width'=>'100px',
+					'attribute' => 'status',
                     'vAlign'=>'middle',
                     'hAlign'=>'center',
                     'headerOptions'=>['class'=>'kv-sticky-column'],
-                    'contentOptions'=>['class'=>'kv-sticky-column'],                    
-                ],
-            'content:ntext',
-            
-                [
-                    'attribute' => 'label',
-                    'vAlign'=>'middle',
-                    'hAlign'=>'center',
-                    'headerOptions'=>['class'=>'kv-sticky-column'],
-                    'contentOptions'=>['class'=>'kv-sticky-column'],                    
-                ],
-            
-                [
-                    'attribute' => 'status',
-                    'vAlign'=>'middle',
-                    'hAlign'=>'center',
-                    'headerOptions'=>['class'=>'kv-sticky-column'],
-                    'contentOptions'=>['class'=>'kv-sticky-column'],                    
+                    'contentOptions'=>['class'=>'kv-sticky-column'],  
+					'format'=>'html',
+					'value' => function ($data){
+						if($data->status==1){
+							return '<span class="label label-warning">OPEN</span>';
+						}
+						else{
+							return '<span class="label label-success">CLOSE</span>';
+						}
+					}
                 ],
             // 'created',
             // 'created_by',
             // 'modified',
             // 'modified_by',
 
-            ['class' => 'kartik\grid\ActionColumn'],
+            [
+				'class' => 'kartik\grid\ActionColumn',
+				'template' => '{view} {update}',
+				'buttons'=> [
+					'view' => function ($url, $data){
+						$icon = "<i class='fa fa-fw fa-eye'></i>";
+						return Html::a($icon,['view-issue','id'=>$data->id],['class'=>'btn btn-xs btn-default']);
+					},
+					'update' => function ($url, $data){
+						if(\Yii::$app->user->can('BPPK') or \Yii::$app->user->id==$model->created_by){
+							$icon = "<i class='fa fa-fw fa-pencil'></i>";
+							return Html::a($icon,['update-issue','id'=>$data->id],['class'=>'btn btn-xs btn-default']);
+						}
+					}
+				],
+			],
         ],
         'panel' => [
             'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
@@ -78,7 +108,7 @@ $this->params['breadcrumbs'][] = $this->title;
 							$.pjax.reload({
 								url: "'.Url::to(['issue']).'?status="+$(this).val(), 
 								container: "#pjax-gridview", 
-								timeout: 1000,
+								timeout: 1,
 							});
 						',	
 					],
@@ -90,5 +120,5 @@ $this->params['breadcrumbs'][] = $this->title;
         'responsive'=>true,
         'hover'=>true,
     ]); ?>
-
+	<?php \yii\widgets\Pjax::end(); ?>
 </div> 

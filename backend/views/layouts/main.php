@@ -140,7 +140,7 @@ AppAsset::register($this);
 					}
 					
 					$menuItemsLeft[] =
-							['icon'=>'fa fa-stack-overflow fa-fw','label' => 'Issue', 'url' => ['issue']];
+							['icon'=>'fa fa-stack-overflow fa-fw','label' => 'Issue', 'url' => ['/site/issue']];
 							
 	                echo Nav::widget([
 	                    'options' => ['class' => 'navbar-nav'],

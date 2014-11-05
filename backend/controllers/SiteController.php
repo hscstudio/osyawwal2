@@ -22,7 +22,7 @@ use backend\models\Online;
 
 use backend\models\Issue;
 use backend\models\IssueSearch; 
-
+use yii\web\UploadedFile;
 /**
  * Site controller
  */
@@ -312,10 +312,12 @@ class SiteController extends Controller
 		$queryParams = Yii::$app->request->getQueryParams();
 		if($status=='all'){
 			$queryParams['IssueSearch']=[
+				'parent_id' => NULL,
 			];
 		}
 		else{
 			$queryParams['IssueSearch']=[
+				'parent_id' => NULL,
 				'status' => $status,
 			];			
 		}
@@ -337,8 +339,16 @@ class SiteController extends Controller
      */
     public function actionViewIssue($id)
     {
+		$model = $this->findModelIssue($id);
+		$modelChildrens = \backend\models\Issue::find()
+			->where([
+				'parent_id' => $id,
+			])
+			->orderBy('id ASC')
+			->all();
         return $this->render('viewIssue', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'modelChildrens' => $modelChildrens,
         ]);
     }
 
@@ -352,51 +362,36 @@ class SiteController extends Controller
         $model = new Issue();
 
         if ($model->load(Yii::$app->request->post())){ 
-			$attachment = UploadedFile::getInstances($model, 'attachment');
-			
-			$filenames = uniqid() . '.' . $ext;				
-		$file->file_name = $filenames;
-		$path = '';
-		if(isset(Yii::$app->params['uploadPath'])){
-			$path = Yii::$app->params['uploadPath'].'/'.$object.'/'.$object_id.'/';
-		}
-		else{
-			$path = Yii::getAlias('@file').'/'.$object.'/'.$object_id.'/';
-		}
-		@mkdir($path, 0755, true);
-		@chmod($path, 0755);
-		if(isset($current_file)){
-			@unlink($path . $current_file);
-			@unlink($path . 'thumb_'. $current_file);
-		}
-		
-		if(isset($filenames)){
-			$instance_file->saveAs($path.$filenames);
-			if ($resize) 
-				\hscstudio\heart\helpers\Heart::imageResize($path.$filenames, $path. 'thumb_'. $filenames,148,198,0);
-			if(!isset($file->name)) $file->name = $filenames;
-			if(!isset($file->status)) $file->status=1;
-			$file->save();
-
-			$object_file->object = $object; 
-			$object_file->object_id = $object_id; 
-			$object_file->type = $type; 
-			$object_file->file_id = $file->id; 
-			$object_file->save();
-			return true;
-		}
-		
-			if ($model->validate()) {                
-                $model->file->saveAs('uploads/' . $attachment->baseName . '.' . $attachment->extension);
-            }
-            if($model->save()) {
-                Yii::$app->getSession()->setFlash('success', 'New data have saved.');
-				
-            }
+			$attachment = UploadedFile::getInstances($model, 'attachment');	
+			if(!empty($attachment)){
+				$filename = uniqid() . '.' . $attachment->extension;				
+				$model->attachment = $filename;
+			}
+			$model->parent_id = NULL;
+			$model->label = NULL;
+			$model->status = 1;
+			if($model->save()) {
+				Yii::$app->getSession()->setFlash('success', 'New data have saved.');
+				if(!empty($attachment)){
+					$path = '';
+					if(isset(Yii::$app->params['uploadPath'])){
+						$path = Yii::$app->params['uploadPath'].DIRECTORY_SEPARATOR.'issue'.DIRECTORY_SEPARATOR.$model->id.DIRECTORY_SEPARATOR;
+					}
+					else{
+						$path = Yii::getAlias('@file').DIRECTORY_SEPARATOR.'issue'.DIRECTORY_SEPARATOR.$model->id.DIRECTORY_SEPARATOR;
+					}
+					@mkdir($path, 0755, true);
+					@chmod($path, 0755);
+					/* if(isset($current_file)){
+						@unlink($path . $current_file);
+					}	 */	
+					$attachment->saveAs($path.$filename);
+				}
+			}
             else{
                 Yii::$app->getSession()->setFlash('error', 'New data is not saved.');
             }
-            return $this->redirect(['view-issue', 'id' => $model->id]);
+            return $this->redirect(['issue']);
         } else {
             return $this->render('createIssue', [
                 'model' => $model,
@@ -412,7 +407,7 @@ class SiteController extends Controller
      */
     public function actionUpdateIssue($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModelIssue($id);
 
         if ($model->load(Yii::$app->request->post())) {
             if($model->save()) {
@@ -421,7 +416,7 @@ class SiteController extends Controller
             else{
                 Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
             }
-            return $this->redirect(['view-issue', 'id' => $model->id]);
+            return $this->redirect(['issue']);
         } else {
             return $this->render('updateIssue', [
                 'model' => $model,
@@ -437,7 +432,7 @@ class SiteController extends Controller
      */
     public function actionDeleteIssue($id)
     {
-        if($this->findModel($id)->delete()) {
+        if($this->findModelIssue($id)->delete()) {
             Yii::$app->getSession()->setFlash('success', 'Data have deleted.');
         }
         else{

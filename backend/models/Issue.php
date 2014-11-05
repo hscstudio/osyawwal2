@@ -3,6 +3,11 @@
 namespace backend\models;
 
 use Yii;
+use yii\db\ActiveRecord;								
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\AttributeBehavior;
+use yii\db\Expression;
+use yii\behaviors\BlameableBehavior;
 
 /**
  * This is the model class for table "issue".
@@ -27,7 +32,31 @@ class Issue extends \yii\db\ActiveRecord
     {
         return 'issue';
     }
-
+	
+	/**
+     * @inheritdoc
+     */	
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                        ActiveRecord::EVENT_BEFORE_INSERT => ['created','modified'],
+                        ActiveRecord::EVENT_BEFORE_UPDATE => 'modified',
+                ],
+                'value' => new Expression('NOW()'),
+            ],
+            'blameable' => [
+                'class' => BlameableBehavior::className(),
+                'attributes' => [
+                        ActiveRecord::EVENT_BEFORE_INSERT => ['created_by','modified_by'],
+                        ActiveRecord::EVENT_BEFORE_UPDATE => 'modified_by',
+                ],
+            ],
+        ];
+    }
+	
     /**
      * @inheritdoc
      */
@@ -39,18 +68,12 @@ class Issue extends \yii\db\ActiveRecord
             [['content'], 'string'],
             [['created', 'modified'], 'safe'],
             [['subject', 'label', 'attachment'], 'string', 'max' => 255],			
-            [['subject'], 'unique'],
 			[['attachment'], 'file', 'extensions' => 'jpg, png, gif, zip', 
-				'mimeTypes' => 'image/jpeg, image/png, image/gif, application/zip','on' => 'default'],
+				'mimeTypes' => 'image/jpeg, image/png, image/gif, application/zip','skipOnEmpty' => true],
         ];
     }
 
-	public function scenarios()
-    {
-       /*  $scenarios = parent::scenarios(); */
-        $scenarios['default'] = ['attachment'];
-        return $scenarios;
-    }
+	
 	
     /**
      * @inheritdoc
@@ -70,4 +93,40 @@ class Issue extends \yii\db\ActiveRecord
             'modified_by' => 'Modified By',
         ];
     }
+	
+	public function getLastLabel($parent_id){
+		$obj = self::find()
+			->where([
+				'parent_id'=>$parent_id,
+				'subject'=>'label',
+				'content'=>'label',
+			])
+			->orderBy('id DESC')
+			->one();
+		if(!empty($obj)){
+			return $obj->label;
+		}		
+		else{
+			return '';
+		}
+			
+	}
+	
+	public function getLastStatus($parent_id){
+		$obj = self::find()
+			->where([
+				'parent_id'=>$parent_id,
+				'subject'=>'status',
+				'content'=>'status',
+			])
+			->orderBy('id DESC')
+			->one();
+		if(!empty($obj)){
+			return $obj->status;
+		}		
+		else{
+			return '';
+		}
+			
+	}
 }

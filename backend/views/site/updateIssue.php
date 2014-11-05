@@ -8,8 +8,8 @@ use yii\helpers\Html;
 $controller = $this->context;
 
 $this->title = 'Update Issue: ' . ' ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Issues', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => 'Issues', 'url' => ['issue']];
+$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view-issue', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="issue-update panel panel-default">
@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = 'Update';
     <div class="panel-heading">        
         <div class="pull-right">
         <?=
- Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back', ['index'], ['class' => 'btn btn-xs btn-primary']) ?>
+ Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back', ['issue'], ['class' => 'btn btn-xs btn-primary']) ?>
         </div>
         <h1 class="panel-title"><?= Html::encode($this->title) ?></h1>
     </div>

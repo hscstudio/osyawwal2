@@ -2,6 +2,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\widgets\FileInput;
+use kartik\widgets\Select2;
+use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Issue */
 /* @var $form yii\widgets\ActiveForm */
@@ -25,10 +27,40 @@ use kartik\widgets\FileInput;
 	])->label(); 
 	?>
 	
-    <?php if(!$model->isNewRecord) echo $form->field($model, 'label')->textInput(['maxlength' => 255]) ?>
-
-    <?php if(!$model->isNewRecord) echo $form->field($model, 'status')->textInput() ?>
-
+    <?php 
+	/* if(!$model->isNewRecord){
+		if(\Yii::$app->user->can('BPPK')){
+			$data = [
+				'verified' => 'verified','critical' => 'critical',
+				'bugfix' => 'bugfix','discussion' => 'discussion',
+				'enhancement' => 'enhancement'
+			];
+			echo $form->field($model, 'label')->widget(Select2::classname(), [
+				'data' => $data,
+				'options' => ['placeholder' => 'Choose label ...'],
+				'pluginOptions' => [
+				'allowClear' => true
+				],
+			]); 
+		}
+	} */
+	?>
+	
+	<?php
+	/* if(!$model->isNewRecord){
+		if(\Yii::$app->user->can('BPPK') or \Yii::$app->user->id==$model->created_by){
+			$data = ['1' => 'Open','0' => 'Close'];
+			echo $form->field($model, 'status')->widget(Select2::classname(), [
+				'data' => $data,
+				'options' => ['placeholder' => 'Choose status ...'],
+				'pluginOptions' => [
+				'allowClear' => true
+				],
+			]); 
+		}
+	} */
+	?>
+	
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

@@ -9,7 +9,7 @@ use yii\helpers\Html;
 $controller = $this->context;
 
 $this->title = 'Create Issue';
-$this->params['breadcrumbs'][] = ['label' => 'Issues', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Issues', 'url' => ['issue']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="issue-create  panel panel-default">
@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="panel-heading"> 
         <div class="pull-right">
         <?=
- Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back', ['index'], ['class' => 'btn btn-xs btn-primary']) ?>
+ Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back', ['issue'], ['class' => 'btn btn-xs btn-primary']) ?>
         </div>
         <h1 class="panel-title"><?= Html::encode($this->title) ?></h1> 
     </div>

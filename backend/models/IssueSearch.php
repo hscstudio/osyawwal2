@@ -41,7 +41,13 @@ class IssueSearch extends Issue
      */
     public function search($params)
     {
-        $query = Issue::find();
+        $query = Issue::find()
+			->where([
+				'parent_id'=>NULL,
+			])
+			->orWhere([
+				'parent_id'=>0,
+			]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
