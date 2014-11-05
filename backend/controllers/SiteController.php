@@ -366,8 +366,10 @@ class SiteController extends Controller
 			else{
 				$modelNew->status = 1;
 			}
-
-			if($modelNew->save()) {
+			
+			$modelNew->subject=strip_tags($modelNew->subject);
+			$modelNew->content=strip_tags($modelNew->content);
+			if($modelNew->validate() and $modelNew->save()) {
 				Yii::$app->getSession()->setFlash('success', 'New data have saved.');
 				if(!empty($attachment[0])){
 					$path = '';
@@ -426,7 +428,9 @@ class SiteController extends Controller
 			$model->parent_id = NULL;
 			$model->label = NULL;
 			$model->status = 1;
-			if($model->save()) {
+			$model->subject=strip_tags($model->subject);
+			$model->content=strip_tags($model->content);
+			if($model->validate() and  $model->save()) {
 				Yii::$app->getSession()->setFlash('success', 'New data have saved.');
 				if(!empty($attachment[0])){
 					
@@ -465,9 +469,11 @@ class SiteController extends Controller
     public function actionUpdateIssue($id)
     {
         $model = $this->findModelIssue($id);
-
+	
         if ($model->load(Yii::$app->request->post())) {
-            if($model->save()) {
+			$model->subject=strip_tags($model->subject);
+			$model->content=strip_tags($model->content);
+            if($model->validate() and $model->save()) {
                 Yii::$app->getSession()->setFlash('success', 'Data have updated.');
             }
             else{

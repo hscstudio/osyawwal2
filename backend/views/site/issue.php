@@ -103,7 +103,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'<div class="pull-right" style="margin-right:5px;">'.
 				Select2::widget([
 					'name' => 'status', 
-					'data' => ['all'=>'All','1'=>'Open','2'=>'Close'],
+					'data' => ['all'=>'All','1'=>'Open','0'=>'Close'],
 					'value' => $status,
 					'options' => [
 						'placeholder' => 'Status ...', 
