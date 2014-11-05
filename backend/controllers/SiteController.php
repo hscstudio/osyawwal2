@@ -140,7 +140,7 @@ class SiteController extends Controller
         // dah
 
         // Ngambil user yang online
-        $userOnline = Online::find()->orderBy(['time' => 'DESC'])->all();
+        $userOnline = Online::find()->orderBy('UNIX_TIMESTAMP(time) DESC')->all();
         // dah
 
         // Ngambil aktivitas terakhir yang terjadi

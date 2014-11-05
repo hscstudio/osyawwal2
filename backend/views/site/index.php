@@ -36,7 +36,6 @@ else
                         <div class="row">
                             <div class="col-md-12">
                                 <h2>Selamat datang <?php echo ucwords(Person::findOne(Yii::$app->user->identity->id)->name); ?></h2>
-                                <p>Anda memiliki 10 tugas, 5 pesan, dan 20 notifikasi yang belum dibaca</p>
                             </div>
                         </div>
 
@@ -243,21 +242,6 @@ else
                                         switch ($jenisAktivitas) {
                                             case 'bikin_baru':
                                                 echo    '<div class="col-md-9 padding-left-medium">';
-                                                $waktuPertamaInception = new DateTime($aktivitas->created);
-                                                $waktuSekarang = new DateTime(date('Y-m-d H:i:s'));
-                                                $bedaWaktu = '';
-                                                if ( $waktuPertamaInception->diff($waktuSekarang)->format('%H') != '00' ) {
-                                                    if ($bedaWaktu .= $waktuPertamaInception->diff($waktuSekarang)->format('%d') != '00') {
-                                                        $bedaWaktu .= $waktuPertamaInception->diff($waktuSekarang)->format('%d'). ' hari ';
-                                                    }
-                                                    $bedaWaktu .= $waktuPertamaInception->diff($waktuSekarang)->format('%H').' jam '.$waktuPertamaInception->diff($waktuSekarang)->format('%I').' menit yang lalu';
-                                                }
-                                                elseif ( $waktuPertamaInception->diff($waktuSekarang)->format('%I') == '00' ) {
-                                                    $bedaWaktu .= 'Baru saja';
-                                                }
-                                                else {
-                                                    $bedaWaktu .= $waktuPertamaInception->diff($waktuSekarang)->format('%I').' menit yang lalu';
-                                                }
                                                 echo        '<p class="text-small open-sans"><strong>'.Person::findOne($aktivitas->created_by)->name.'</strong>';
                                                 
                                                 if (!empty($meeting = Meeting::findOne($aktivitas->id))) {
@@ -270,7 +254,7 @@ else
                                                     echo            ' dengan nama <strong>'.$aktivitas->name.'</strong>';
                                                 }
 
-                                                echo            '<span class="text-small open-sans block text-muted">'.$bedaWaktu;
+                                                echo            '<span class="text-small open-sans block text-muted">'.date('D, d M Y', strtotime($aktivitas->created)).' jam '.date('H:i', strtotime($aktivitas->created));
                                                 echo            '</span>';
                                                 echo        '</p>';
                                                 echo    '</div>';
@@ -278,21 +262,6 @@ else
 
                                             case 'perbarui':
                                                 echo    '<div class="col-md-9 padding-left-medium">';
-                                                $waktuPertamaInception = new DateTime($aktivitas->modified);
-                                                $waktuSekarang = new DateTime(date('Y-m-d H:i:s'));
-                                                $bedaWaktu = '';
-                                                if ( $waktuPertamaInception->diff($waktuSekarang)->format('%H') != '00' ) {
-                                                    if ($bedaWaktu .= $waktuPertamaInception->diff($waktuSekarang)->format('%d') != '00') {
-                                                        $bedaWaktu .= $waktuPertamaInception->diff($waktuSekarang)->format('%d'). ' hari ';
-                                                    }
-                                                    $bedaWaktu .= $waktuPertamaInception->diff($waktuSekarang)->format('%H').' jam '.$waktuPertamaInception->diff($waktuSekarang)->format('%I').' menit yang lalu';
-                                                }
-                                                elseif ( $waktuPertamaInception->diff($waktuSekarang)->format('%I') == '00' ) {
-                                                    $bedaWaktu .= 'Baru saja';
-                                                }
-                                                else {
-                                                    $bedaWaktu .= $waktuPertamaInception->diff($waktuSekarang)->format('%I').' menit yang lalu';
-                                                }
                                                 echo        '<p class="text-small open-sans"><strong>'.Person::findOne($aktivitas->created_by)->name.'</strong>';
                                                 
                                                 if (!empty($meeting = Meeting::findOne($aktivitas->id))) {
@@ -303,7 +272,7 @@ else
                                                     echo            ' telah melakukan <span class="label label-warning">perubahan</span> diklat <strong>'.$aktivitas->name.'</strong>';
                                                 }
 
-                                                echo            '<span class="text-small open-sans block text-muted">'.$bedaWaktu;
+                                                echo            '<span class="text-small open-sans block text-muted">'.date('D, d M Y', strtotime($aktivitas->modified)).' jam '.date('H:i', strtotime($aktivitas->modified));
                                                 echo            '</span>';
                                                 echo        '</p>';
                                                 echo    '</div>';
@@ -371,8 +340,7 @@ else
         $(function(){
             $('.aktivitas').slimScroll({
                 height: '300px',
-                railVisible: true,
-                right: '-3px'
+                railVisible: true
             });
         });
     ");
