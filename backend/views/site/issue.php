@@ -88,7 +88,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						return Html::a($icon,['view-issue','id'=>$data->id],['class'=>'btn btn-xs btn-default']);
 					},
 					'update' => function ($url, $data){
-						if(\Yii::$app->user->can('BPPK') or \Yii::$app->user->id==$model->created_by){
+						if(\Yii::$app->user->can('BPPK') or \Yii::$app->user->id==$data->created_by){
 							$icon = "<i class='fa fa-fw fa-pencil'></i>";
 							return Html::a($icon,['update-issue','id'=>$data->id],['class'=>'btn btn-xs btn-default']);
 						}
