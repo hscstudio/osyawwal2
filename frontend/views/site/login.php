@@ -9,7 +9,6 @@ $this->params['breadcrumbs'][] = $this->title;
  */
 ?>
 <div class="site-login">
-	<div class="beta" data-text="Beta Version 0.7.33">Beta Version 0.7.33</div> 
 	<div class="logo">
 		<div class="ikon"><img src="<?php echo Yii::$app->homeUrl.'/logo_simbppk_pelangi.png'; ?>"></div>
 		<div class="judul apl">SIM BPPK</div>
@@ -23,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						
 						<?= $form->field($model, 'username', [
 						  'template' => "{input}\n{label}\n{hint}\n{error}"
-						])->textInput(array('placeholder' => 'Masukkan nama Anda', 'class' => 'form-control input-lg'))->label('<i class="fa fa-fw fa-user"></i>Nama'); // fajar ?>
+						])->textInput(array('placeholder' => 'Masukkan NIP Anda', 'class' => 'form-control input-lg'))->label('<i class="fa fa-fw fa-user"></i>USER'); // fajar ?>
 						
 						<?= $form->field($model, 'password', [
 						  'template' => "{input}\n{label}\n{hint}\n{error}"

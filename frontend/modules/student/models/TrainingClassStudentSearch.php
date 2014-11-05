@@ -5,12 +5,12 @@ namespace frontend\modules\student\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\Activity;
+use frontend\models\TrainingClassStudent;
 
 /**
- * ActivitySearch represents the model behind the search form about `frontend\models\Activity`.
+ * TrainingClassStudentSearch represents the model behind the search form about `frontend\models\TrainingClassStudent`.
  */
-class ActivitySearch extends Activity
+class TrainingClassStudentSearch extends TrainingClassStudent
 {
     /**
      * @inheritdoc
@@ -18,8 +18,9 @@ class ActivitySearch extends Activity
     public function rules()
     {
         return [
-            [['id', 'satker_id', 'hostel', 'status', 'created_by', 'modified_by'], 'integer'],
-            [['name', 'description', 'start', 'end', 'location', 'created', 'modified'], 'safe'],
+            [['id', 'training_id', 'training_class_id', 'training_student_id', 'head_class', 'status', 'created_by', 'modified_by'], 'integer'],
+            [['number', 'created', 'modified'], 'safe'],
+            [['activity', 'presence', 'pre_test', 'post_test', 'test'], 'number'],
         ];
     }
 
@@ -41,9 +42,7 @@ class ActivitySearch extends Activity
      */
     public function search($params)
     {
-        $query = Activity::find()
-				->leftjoin('training_student','training_student.training_id=activity.id')
-				->where(['training_student.student_id'=>Yii::$app->user->identity->id]);
+        $query = TrainingClassStudent::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -55,21 +54,23 @@ class ActivitySearch extends Activity
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'satker_id' => $this->satker_id,
-            'start' => $this->start,
-            'end' => $this->end,
-            'hostel' => $this->hostel,
+            'training_id' => $this->training_id,
+            'training_class_id' => $this->training_class_id,
+            'training_student_id' => $this->training_student_id,
+            'head_class' => $this->head_class,
+            'activity' => $this->activity,
+            'presence' => $this->presence,
+            'pre_test' => $this->pre_test,
+            'post_test' => $this->post_test,
+            'test' => $this->test,
             'status' => $this->status,
             'created' => $this->created,
             'created_by' => $this->created_by,
             'modified' => $this->modified,
             'modified_by' => $this->modified_by,
-			'YEAR(start)' => $this->year,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'location', $this->location]);
+        $query->andFilterWhere(['like', 'number', $this->number]);
 
         return $dataProvider;
     }
