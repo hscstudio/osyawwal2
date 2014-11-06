@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						
 						<?= $form->field($model, 'username', [
 						  'template' => "{input}\n{label}\n{hint}\n{error}"
-						])->textInput(array('placeholder' => 'Masukkan nama Anda', 'class' => 'form-control input-lg'))->label('<i class="fa fa-fw fa-user"></i>Nama'); // fajar ?>
+						])->textInput(array('placeholder' => 'Masukkan nama Anda', 'class' => 'form-control input-lg'))->label('<i class="fa fa-fw fa-user"></i>User'); // fajar ?>
 						
 						<?= $form->field($model, 'password', [
 						  'template' => "{input}\n{label}\n{hint}\n{error}"
