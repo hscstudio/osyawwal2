@@ -513,7 +513,9 @@ class PersonController extends Controller
 							'role'=>1,
 							'status' => 1,
 						]);
-						$user->save();
+						if($user->save()) {
+							$user_id = $user->id; // ealah disini penyabab. Ente lupa memperbarui variabel ini.
+						}
 					}
 					
 					if($user_id>0){		
@@ -528,6 +530,9 @@ class PersonController extends Controller
 							
 							if($employee->save()){							
 								$employee_id = $employee->person_id;
+							}
+							else {
+								die(var_dump($employee->errors));
 							}
 						}
 					}

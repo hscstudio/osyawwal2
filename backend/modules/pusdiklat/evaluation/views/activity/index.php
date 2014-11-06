@@ -172,8 +172,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
 				'class' => 'kartik\grid\ActionColumn',
-				'width' => '240px',
-				'template' => '<div class="btn-group">{dashboard} {cost-real}</div> <div class="btn-group">{nilai-kehadiran} {nilai-aktivitas} {pre-test} {post-test}</div>',
+				'width' => '270px',
+				'template' => '<div class="btn-group">{dashboard} {cost-real}</div> <div class="btn-group">{nilai-kehadiran} {nilai-aktivitas} {pre-test} {post-test}</div> <div class="btn-group">{cetak}</div>',
 				'buttons' => [
 					'dashboard' => function ($url, $model) {
 								$icon='<span class="fa fa-fw fa-dashboard"></span>';
@@ -312,6 +312,36 @@ $this->params['breadcrumbs'][] = $this->title;
 									foreach ($model->training->trainingClasses as $trainingClass) {
 										$tembolok .= '<li>';
 										$tembolok .= Html::a('Kelas '.$trainingClass->class, Url::to(['activity/nilai-kehadiran', 
+											'training_id' => $trainingClass->training_id, 
+											'training_class_id' => $trainingClass->id
+										]));
+										$tembolok .= '</li>';
+									}
+									$tembolok .= '</ul>';
+									$tembolok .= '</div>';
+									return $tembolok;
+								}
+							},
+					'cetak' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-print"></span>';
+								if (in_array($model->status,[2])) {
+
+
+									$tembolok = '<div class="btn-group dropup">';
+									$tembolok .= Html::a($icon.' <span class="caret"></span>', null,[
+
+										'class'=>'btn btn-default btn-xs dropdown-toggle',
+										'title' => 'Cetak Nilai Kehadiran, Aktivitas, Pre-Test, dan Post-Test',
+										'data-toggle' => 'tooltip',
+										'data-placement' => 'top',
+										'data-container' => 'body',
+										'data-pjax'=>'0',
+										'data-toggle' => 'dropdown'
+									]);
+									$tembolok .= '<ul class="dropdown-menu dropdown-menu-right" role="menu">';
+									foreach ($model->training->trainingClasses as $trainingClass) {
+										$tembolok .= '<li>';
+										$tembolok .= Html::a('Kelas '.$trainingClass->class, Url::to(['activity/cetak', 
 											'training_id' => $trainingClass->training_id, 
 											'training_class_id' => $trainingClass->id
 										]));

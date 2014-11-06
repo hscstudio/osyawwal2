@@ -9,7 +9,7 @@ $this->params['breadcrumbs'][] = $this->title;
  */
 ?>
 <div class="site-login">
-	<div class="beta" data-text="Beta Version 0.7.33">Beta Version 0.7.33</div> 
+
 	<div class="logo">
 		<div class="ikon"><img src="<?php echo Yii::$app->homeUrl.'/logo_simbppk_pelangi.png'; ?>"></div>
 		<div class="judul apl">SIM BPPK</div>
