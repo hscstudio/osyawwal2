@@ -16,16 +16,16 @@ class Module extends \yii\base\Module
 	public function getMenuItems(){
 		return [
 			['icon'=>'fa fa-fw fa-dashboard','label' => 'Dashboard', 'url' => ['/'.$this->uniqueId.'/default']],
-			['icon'=>'fa fa-fw fa-user','label' => 'Manage Person', 'url' => ['person/index'],'path'=>[
+			['icon'=>'fa fa-fw fa-child','label' => 'Manage Person', 'url' => ['person/index'],'path'=>[
 				'/person/',
 			]],
 			['icon'=>'fa fa-fw fa-user', 'label' => 'Manage Employee', 'url' => ['employee/index'],'path'=>[
 					'/employee/',
 				]],
-			['icon'=>'fa fa-fw fa-key','label' => 'Manage User', 'url' => ['user/index'],'path'=>[
+			['icon'=>'fa fa-fw fa-users','label' => 'Manage User', 'url' => ['user/index'],'path'=>[
 				'/user/',
 			]],
-			['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Rapat', 'url' => ['/'.$this->uniqueId.'/activity-meeting-hrd/index'],'path'=>[
+			['icon'=>'fa fa-fw fa-suitcase','label' => 'Rapat', 'url' => ['/'.$this->uniqueId.'/activity-meeting-hrd/index'],'path'=>[
 				'/activity-meeting-hrd/',
 			]],
 		];

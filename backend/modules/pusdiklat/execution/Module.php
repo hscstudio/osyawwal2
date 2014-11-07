@@ -51,7 +51,7 @@ class Module extends \yii\base\Module
 					]],
 				];
 			}
-			$menus_1 = ['icon'=>'fa fa-link fa-fw','label' => '+ Penyelenggaraan I', 'url' => ['#'], 'items' => $menus_1 ];
+			$menus_1 = ['icon'=>'fa fa-glass fa-fw','label' => 'Penyelenggaraan I', 'url' => ['#'], 'items' => $menus_1 ];
 		}
 		
 		if($this->checkAccess([
@@ -73,7 +73,7 @@ class Module extends \yii\base\Module
 					]],
 				];
 			}
-			$menus_2 = ['icon'=>'fa fa-link fa-fw','label' => '+ Penyelenggaraan II', 'url' => ['#'], 'items' => $menus_2 ];
+			$menus_2 = ['icon'=>'fa fa-coffee fa-fw','label' => 'Penyelenggaraan II', 'url' => ['#'], 'items' => $menus_2 ];
 		}
 		
 		$menus[] = ['icon'=>'fa fa-fw fa-dashboard','label' => 'Dashboard', 'url' => ['/'.$this->uniqueId.'/default']];

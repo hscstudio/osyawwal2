@@ -41,15 +41,15 @@ class Module extends \yii\base\Module
 			$menus_1 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,43,$callback,true);
 			if(empty($menus_1)){
 				$menus_1 = [
-					['icon'=>'fa fa-fw fa-stack-overflow', 'label' => 'Training Activity', 'url' => ['activity/index'],'path'=>[
+					['icon'=>'fa fa-fw fa-book', 'label' => 'Training Activity', 'url' => ['activity/index'],'path'=>[
 						'/activity/',
 					]],
-					['icon'=>'fa fa-fw fa-stack-overflow', 'label' => 'Meeting Activity', 'url' => ['meeting-activity/index'],'path'=>[
+					['icon'=>'fa fa-fw fa-briefcase', 'label' => 'Meeting Activity', 'url' => ['meeting-activity/index'],'path'=>[
 						'/meeting-activity/',
 					]],
 				];
 			}
-			$menus_1 = ['icon'=>'fa fa-check-square-o fa-fw','label' => '+ Evaluasi Diklat', 'url' => ['#'], 'items' => $menus_1 ];
+			$menus_1 = ['icon'=>'fa fa-check-square-o fa-fw','label' => 'Evaluasi Diklat', 'url' => ['#'], 'items' => $menus_1 ];
 		}
 		
 		if($this->checkAccess([
@@ -58,15 +58,15 @@ class Module extends \yii\base\Module
 			$menus_2 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,44,$callback,true);
 			if(empty($menus_2)){
 				$menus_2 = [
-					['icon'=>'fa fa-fw fa-stack-overflow', 'label' => 'Training Activity', 'url' => ['activity2/index'],'path'=>[
+					['icon'=>'fa fa-fw fa-book', 'label' => 'Training Activity', 'url' => ['activity2/index'],'path'=>[
 						'/activity2/',
 					]],
-					['icon'=>'fa fa-fw fa-stack-overflow', 'label' => 'Meeting Activity', 'url' => ['meeting-activity2/index'],'path'=>[
+					['icon'=>'fa fa-fw fa-briefcase', 'label' => 'Meeting Activity', 'url' => ['meeting-activity2/index'],'path'=>[
 						'/meeting-activity2/',
 					]],
 				];
 			}
-			$menus_2 = ['icon'=>'fa fa-cloud fa-fw','label' => '+ PHD', 'url' => ['#'], 'items' => $menus_2 ];
+			$menus_2 = ['icon'=>'fa fa-cloud fa-fw','label' => 'PHD', 'url' => ['#'], 'items' => $menus_2 ];
 		}
 		
 		if($this->checkAccess([
@@ -75,15 +75,15 @@ class Module extends \yii\base\Module
 			$menus_3 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,45,$callback,true);
 			if(empty($menus_3)){
 				$menus_3 = [
-					['icon'=>'fa fa-fw fa-stack-overflow', 'label' => 'Training Activity', 'url' => ['activity3/index'],'path'=>[
+					['icon'=>'fa fa-fw fa-book', 'label' => 'Training Activity', 'url' => ['activity3/index'],'path'=>[
 						'/activity3/',
 					]],
-					['icon'=>'fa fa-fw fa-stack-overflow', 'label' => 'Meeting Activity', 'url' => ['meeting-activity3/index'],'path'=>[
+					['icon'=>'fa fa-fw fa-briefcase', 'label' => 'Meeting Activity', 'url' => ['meeting-activity3/index'],'path'=>[
 						'/meeting-activity3/',
 					]],
 				];
 			}
-			$menus_3 = ['icon'=>'fa fa-book fa-fw','label' => '+ IPK', 'url' => ['#'], 'items' => $menus_3 ];
+			$menus_3 = ['icon'=>'fa fa-book fa-fw','label' => 'IPK', 'url' => ['#'], 'items' => $menus_3 ];
 		}
 		
 		$menus[] = ['icon'=>'fa fa-fw fa-dashboard','label' => 'Dashboard', 'url' => ['/'.$this->uniqueId.'/default']];

@@ -16,12 +16,12 @@ class Module extends \yii\base\Module
 	public function getMenuItems(){
 		return [
 			['icon'=>'fa fa-fw fa-dashboard','label' => 'Dashboard', 'url' => ['/'.$this->uniqueId.'/default']],
-			['icon'=>'fa fa-fw fa-tree','label' => 'Referensi', 'url' => '#','items'=>[
-			['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Sbu', 'url' => ['/'.$this->uniqueId.'/reference-sbu/index'],'path'=>[
+			['icon'=>'fa fa-fw fa-list-alt','label' => 'Referensi', 'url' => '#','items'=>[
+			['icon'=>'fa fa-fw fa-money','label' => 'Sbu', 'url' => ['/'.$this->uniqueId.'/reference-sbu/index'],'path'=>[
 				'/reference-sbu/',
 			]],
 			]],
-			['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Rapat', 'url' => ['/'.$this->uniqueId.'/activity-meeting-finance/index'],'path'=>[
+			['icon'=>'fa fa-fw fa-suitcase','label' => 'Rapat', 'url' => ['/'.$this->uniqueId.'/activity-meeting-finance/index'],'path'=>[
 				'/activity-meeting-finance/',
 			]],
 		];

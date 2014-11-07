@@ -53,7 +53,7 @@ class Module extends \yii\base\Module
 					]],
 				];
 			}
-			$menus_1 = ['icon'=>'fa fa-code-fork fa-fw','label' => '+ Program', 'url' => ['#'], 'items' => $menus_1 ];
+			$menus_1 = ['icon'=>'fa fa-qrcode fa-fw','label' => 'Program', 'url' => ['#'], 'items' => $menus_1 ];
 		}
 		
 		if($this->checkAccess([
@@ -73,7 +73,7 @@ class Module extends \yii\base\Module
 					]],
 				];
 			}
-			$menus_2 = ['icon'=>'fa fa-university fa-fw','label' => '+ Kurikulum', 'url' => ['#'], 'items' => $menus_2 ];
+			$menus_2 = ['icon'=>'fa fa-list fa-fw','label' => 'Kurikulum', 'url' => ['#'], 'items' => $menus_2 ];
 		}
 		
 		if($this->checkAccess([
@@ -96,7 +96,7 @@ class Module extends \yii\base\Module
 					]],
 				];
 			}
-			$menus_3 = ['icon'=>'fa fa-users fa-fw','label' => '+ Tenaga Pengajar', 'url' => ['#'], 'items' => $menus_3 ];
+			$menus_3 = ['icon'=>'fa fa-users fa-fw','label' => 'Tenaga Pengajar', 'url' => ['#'], 'items' => $menus_3 ];
 		}
 		
 		$menus[] = ['icon'=>'fa fa-fw fa-dashboard','label' => 'Dashboard', 'url' => ['/'.$this->uniqueId.'/default']];

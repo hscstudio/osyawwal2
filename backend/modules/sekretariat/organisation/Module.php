@@ -16,17 +16,17 @@ class Module extends \yii\base\Module
 	public function getMenuItems(){
 		return [
 			['icon'=>'fa fa-fw fa-dashboard','label' => 'Dashboard', 'url' => ['/'.$this->uniqueId.'/default']],
-			['icon'=>'fa fa-fw fa-tree','label' => 'Referensi', 'url' => '#','items'=>[
+			['icon'=>'fa fa-fw fa-list-alt','label' => 'Referensi', 'url' => '#','items'=>[
 			['icon'=>'fa fa-fw fa-graduation-cap','label' => 'Graduate', 'url' => ['/'.$this->uniqueId.'/reference-graduate/index'],'path'=>'reference-graduate/'],
 			['icon'=>'fa fa-fw fa-sliders','label' => 'Program Code', 'url' => ['/'.$this->uniqueId.'/reference-program-code/index'],'path'=>'reference-program-code/'],
 			['icon'=>'fa fa-fw fa-empire', 'label' => 'Religion', 'url' => ['/'.$this->uniqueId.'/reference-religion/index'],'path'=>'reference-religion/'],
 			['icon'=>'fa fa-fw fa-trophy', 'label' => 'RankClass', 'url' => ['/'.$this->uniqueId.'/reference-rank-class/index'],'path'=>'reference-rank-class/'],
 			['icon'=>'fa fa-fw fa-institution', 'label' => 'Satker', 'url' => ['/'.$this->uniqueId.'/reference-satker/index'],'path'=>'reference-satker/'],
 			['icon'=>'fa fa-fw fa-building', 'label' => 'Unit', 'url' => ['/'.$this->uniqueId.'/reference-unit/index'],'path'=>'reference-unit/'],	
-			['icon'=>'fa fa-fw fa-fax', 'label' => 'Subject Type', 'url' => ['/'.$this->uniqueId.'/reference-subject-type/index'],'path'=>'reference-subject-type/'],
-			['icon'=>'fa fa-fw fa-child', 'label' => 'Trainer Type', 'url' => ['/'.$this->uniqueId.'/reference-trainer-type/index'],'path'=>'reference-trainer-type/']],
+			['icon'=>'fa fa-fw fa-tags', 'label' => 'Subject Type', 'url' => ['/'.$this->uniqueId.'/reference-subject-type/index'],'path'=>'reference-subject-type/'],
+			['icon'=>'fa fa-fw fa-user-md', 'label' => 'Trainer Type', 'url' => ['/'.$this->uniqueId.'/reference-trainer-type/index'],'path'=>'reference-trainer-type/']],
 			 ],
-			['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Rapat', 'url' => ['/'.$this->uniqueId.'/activity-meeting-organisation/index'],'path'=>[
+			['icon'=>'fa fa-fw fa-suitcase','label' => 'Rapat', 'url' => ['/'.$this->uniqueId.'/activity-meeting-organisation/index'],'path'=>[
 				'/activity-meeting-organisation/',
 			]],
 		];

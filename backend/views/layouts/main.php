@@ -41,7 +41,6 @@ AppAsset::register($this);
 	            ]);
 				
 				if (Yii::$app->user->isGuest) {
-					//$menuItems[] = ['icon'=>'fa fa-user fa-fw','label' => 'Signup', 'url' => ['/site/signup']];
 					$menuItems[] = ['icon'=>'fa fa-key fa-fw','label' => 'Login', 'url' => ['/site/login']];
 	            } else {
 					$callback = function($menuX){
@@ -79,16 +78,8 @@ AppAsset::register($this);
 						'sekretariat-badan-tik',
 						'sekretariat-badan-general'
 					])){
-						/* $menuItemsLeft[] =
-							['icon'=>'fa fa-home fa-fw','label' => 'SEKRETARIAT', 'url' => '#', 'items' => [
-								['icon'=>'fa fa-sitemap fa-fw','label'=>'Organisation', 'url'=> ['/sekretariat-organisation/default/index'],'path'=>'sekretariat-organisation' ],
-								['icon'=>'fa fa-users fa-fw','label'=>'HRD', 'url'=> ['/sekretariat-hrd/default/index'],'path'=>'sekretariat-hrd' ],
-								['icon'=>'fa fa-money fa-fw','label'=>'Finance', 'url'=> ['/sekretariat-finance/default/index'],'path'=>'sekretariat-finance' ],
-								['icon'=>'fa fa-desktop fa-fw','label'=>'Information Technology', 'url'=> ['/sekretariat-it/default/index'],'path'=>'sekretariat-it' ],
-								['icon'=>'fa fa-joomla fa-fw','label'=>'General', 'url'=> ['/sekretariat-general/default/index'],'path'=>'sekretariat-general' ],
-							]]; */
 						$menus_sekretariat = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,1,$callback,true);
-						$menuItemsLeft[] = ['icon'=>'fa fa-home fa-fw','label' => 'Sekretariat', 'url' => ['#'], 'items' => $menus_sekretariat ];
+						$menuItemsLeft[] = ['icon'=>'fa fa-jsfiddle fa-fw','label' => 'Sekretariat', 'url' => ['#'], 'items' => $menus_sekretariat ];
 					}
 					
 					if(checkAccess([
@@ -98,13 +89,6 @@ AppAsset::register($this);
 						'pusdiklat-evaluation-1','pusdiklat-evaluation-2','pusdiklat-evaluation-3',
 						
 					])){
-						/* $menuItemsLeft[] =
-							['icon'=>'fa fa-building fa-fw','label' => 'PUSDIKLAT', 'url' => ['#'], 'items' => [
-								['icon'=>'fa fa-joomla fa-fw','label'=>'Tata Usaha', 'url'=> ['/pusdiklat-general/default/index'],'path'=>'pusdiklat-general'],
-								['icon'=>'fa fa-calendar fa-fw','label'=>'Perencanaan', 'url'=> ['/pusdiklat-planning/default/index'],'path'=>'pusdiklat-planning'],
-								['icon'=>'fa fa-paper-plane fa-fw','label'=>'Penyelenggaraan', 'url'=> ['/pusdiklat-execution/default/index'],'path'=>'pusdiklat-execution'],
-								['icon'=>'fa fa-check-square-o fa-fw','label'=>'Evaluasi', 'url'=> ['/pusdiklat-evaluation/default/index'],'path'=>'pusdiklat-evaluation'],
-							]]; */
 						$menus_pusdiklat = \mdm\admin\components\MenuHelper::getAssignedMenu(Yii::$app->user->id,7,$callback,true);
 						$menuItemsLeft[] = ['icon'=>'fa fa-building fa-fw','label' => 'Pusdiklat', 'url' => ['#'], 'items' => $menus_pusdiklat ];
 					}
@@ -140,7 +124,7 @@ AppAsset::register($this);
 					}
 					
 					$menuItemsLeft[] =
-							['icon'=>'fa fa-stack-overflow fa-fw','label' => 'Issue', 'url' => ['/site/issue']];
+							['icon'=>'fa fa-crosshairs fa-fw','label' => 'Issue', 'url' => ['/site/issue']];
 							
 	                echo Nav::widget([
 	                    'options' => ['class' => 'navbar-nav'],
@@ -201,9 +185,9 @@ AppAsset::register($this);
 
     <?php if (Yii::$app->user->isGuest === false) { // Klo guest, berarti belum login, so ga usa munculin footer ?>
     <footer class="footer">
-        <div class="container-fluid">
-        <p>Hak cipta &copy; Badan Pendidikan dan Pelatihan Keuangan <?= date('Y') ?></p>
-        </div>
+		<div class="col-md-12">
+			<p>Hak cipta &copy; Badan Pendidikan dan Pelatihan Keuangan <?= date('Y') ?></p>
+		</div>
     </footer>
     <?php } ?>
 
