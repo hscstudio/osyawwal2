@@ -473,7 +473,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post())) {
 			$model->subject=strip_tags($model->subject);
 			$model->content=strip_tags($model->content);
-            if($model->validate() and $model->save()) {
+            if($model->validate() and  $model->save()) {
                 Yii::$app->getSession()->setFlash('success', 'Data have updated.');
             }
             else{

@@ -366,6 +366,13 @@ class PersonController extends Controller
 					$objReader = \PHPExcel_IOFactory::createReader($inputFileType);
 					$objPHPExcel = $objReader->load($importFile->tempName );
 					$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
+					$template_code = @$sheetData[54]['C'];
+					if($template_code!=='syawwal'){
+						Yii::$app->session->setFlash('error', 'Invalid template!');
+						return $this->redirect([
+							'index',
+						]);
+					}
 					$baseRow = 4;
 					$err=[];
 					$data = [];	
@@ -422,7 +429,7 @@ class PersonController extends Controller
 							'nip'	=>	$nip,
 							'name'	=>	$name,
 							'jabatan_id' =>	$jabatan_id,
-							'organisation_id' =>	$organisation_id,
+							'organisation_id' => $organisation_id,
 							'person_id' => $person_id,
 							'employee_id'=>	$employee_id,
 							'user_id'=>	$user_id,
@@ -511,10 +518,17 @@ class PersonController extends Controller
 							'password_hash'=>$password,
 							'email'=>$nip.'@abc.def',
 							'role'=>1,
-							'status' => 1,
+							'status' => (\Yii::$app->user->can('admin-pusdiklat'))?1:0,
 						]);
-						if($user->save()) {
-							$user_id = $user->id; // ealah disini penyabab. Ente lupa memperbarui variabel ini.
+						if ($user->save()){
+							$user_id = $user->id;
+						}
+					}
+					else{
+						if(\Yii::$app->user->can('admin-pusdiklat')){
+							$user=User::findOne($user_id);
+							$user->status=1;
+							$user->save();
 						}
 					}
 					
@@ -537,18 +551,58 @@ class PersonController extends Controller
 						}
 					}
 				}
-
-				if($user_id>0){				
-					/* $organisation = \backend\models\Organisation::findOne($organisation_id);
-					if(!empty($organisation)){
-						\backend\models\Organisation::find
+				
+				if($user_id>0 and (\Yii::$app->user->can('admin-pusdiklat'))){	
+					if (in_array($jabatan_id,[1,2])){
+						if($jabatan_id==2){
+							$auths = [
+								'387'=>'Pusdiklat',
+								'388'=>'Bagian Tata Usaha',
+								'389'=>'Subbagian Tata Usaha, Kepegawaian, Dan Humas',
+								'390'=>'Subbagian Perencanaan Dan Keuangan',
+								'391'=>'Subbagian Rumah Tangga Dan Pengelolaan Aset',
+								'392'=>'Bidang Perencanaan Dan Pengembangan Diklat',
+								'393'=>'Subbidang Program',
+								'394'=>'Subbidang Kurikulum',
+								'395'=>'Subbidang Tenaga Pengajar',
+								'396'=>'Bidang Penyelenggaraan',
+								'397'=>'Subbidang Penyelenggaraan I',
+								'398'=>'Subbidang Penyelenggaraan II',
+								'399'=>'Bidang Evaluasi Dan Pelaporan Kinerja',
+								'400'=>'Subbidang Evaluasi Diklat',
+								'401'=>'Subbidang Pengolahan Hasil Diklat',
+								'402'=>'Subbidang Informasi Dan Pelaporan Kinerja',								
+							];
+						}
+						else{
+							$auths = [
+								'389'=>'Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas',
+								'390'=>'Pelaksana Subbagian Perencanaan Dan Keuangan',
+								'391'=>'Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset',
+								
+								'393'=>'Pelaksana Subbidang Program',
+								'394'=>'Pelaksana Subbidang Kurikulum',
+								'395'=>'Pelaksana Subbidang Tenaga Pengajar',
+								
+								'397'=>'Pelaksana Subbidang Penyelenggaraan I',
+								'398'=>'Pelaksana Subbidang Penyelenggaraan II',
+								
+								'400'=>'Pelaksana Subbidang Evaluasi Diklat',
+								'401'=>'Pelaksana Subbidang Pengolahan Hasil Diklat',
+								'402'=>'Pelaksana Subbidang Informasi Dan Pelaporan Kinerja',								
+							];
+						}
 						
-						\backend\models\AuthItem::find()
-							->where([
-								'type'=>1,
-								'description'=>[4,5]
-							])
-					} */
+						\backend\models\AuthAssignment::deleteAll(
+							'user_id='.$user_id
+						);
+						
+						$authAssignment = new \backend\models\AuthAssignment([
+							'user_id' => $user_id,
+							'item_name' => $auths[$organisation_id],
+						]);
+						$authAssignment->save();
+					}
 				}
 			}
 			Yii::$app->session->setFlash('success', 'done');	
