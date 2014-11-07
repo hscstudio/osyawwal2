@@ -366,7 +366,7 @@ class PersonController extends Controller
 					$objReader = \PHPExcel_IOFactory::createReader($inputFileType);
 					$objPHPExcel = $objReader->load($importFile->tempName );
 					$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
-					$template_code = @$sheetData[54]['C'];
+					$template_code = @$sheetData[104]['C'];
 					if($template_code!=='syawwal'){
 						Yii::$app->session->setFlash('error', 'Invalid template!');
 						return $this->redirect([
@@ -592,16 +592,18 @@ class PersonController extends Controller
 								'402'=>'Pelaksana Subbidang Informasi Dan Pelaporan Kinerja',								
 							];
 						}
+												
 						
-						\backend\models\AuthAssignment::deleteAll(
-							'user_id='.$user_id
-						);
-						
-						$authAssignment = new \backend\models\AuthAssignment([
-							'user_id' => $user_id,
-							'item_name' => $auths[$organisation_id],
-						]);
-						$authAssignment->save();
+						if(isset($auths[$organisation_id]) and !empty($auths[$organisation_id])){
+							\backend\models\AuthAssignment::deleteAll(
+								'user_id='.$user_id
+							);
+							$authAssignment = new \backend\models\AuthAssignment([
+								'user_id' => $user_id,
+								'item_name' => $auths[$organisation_id],
+							]);
+							$authAssignment->save();
+						}
 					}
 				}
 			}
