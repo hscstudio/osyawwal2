@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="panel-body">	
 		<blockquote>
 			<?php 
-			echo $model->subject;
+			echo $model->content;
 			if(!empty($model->attachment) and strlen(($model->attachment))>3){
 				echo '<br>';
 				echo Html::a('<i class="fa fa-fw fa-download"></i>  download attachment',Url::to(['/file/download','file'=>'issue/'.$model->id.'/'.$model->attachment]));
