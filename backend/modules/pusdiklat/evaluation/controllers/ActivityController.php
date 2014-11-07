@@ -2639,12 +2639,12 @@ class ActivityController extends Controller
     		->joinWith('trainingStudent')
     		->joinWith([
     			'trainingStudent.student' => function ($query) {
-    				$query->orderBy('trainingStudent.student.status DESC');
+    				$query->where(['student.status' => 1]); // cuma ngambil student yang published doank. Perlu diimprove lebih lanjut, misal cm ngambil student yang ga di block
     			}
     		])
     		->joinWith([
     			'trainingStudent.student.person' => function ($query) {
-    				$query->orderBy('name DESC');
+    				$query->orderBy('name ASC');
     			}
     		])
     		->all();
@@ -2755,7 +2755,7 @@ class ActivityController extends Controller
 		// Bikin kolom tanda tangan
 		$objPHPExcel->getActiveSheet()->setCellValue(
 			chr($pointerKolomTTD).$pointerBarisLegend,
-			'Jakarta,   '.date('F Y', strtotime(Training::findOne($training_id)->activity->end))
+			'Jakarta,   '.$namaBulan[date('F', strtotime(Training::findOne($training_id)->activity->end))].' '.date('Y', strtotime(Training::findOne($training_id)->activity->end))
 		);
 
 		$modelEmployeeSigner = Employee::find()
@@ -2788,7 +2788,7 @@ class ActivityController extends Controller
 		else 
 			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 			
-		header('Content-Disposition: attachment;filename="recapitulation_pengajar_attendance_'.Training::findOne($training_id)->activity->name.date('YmdHis').'.'.$filetype.'"');
+		header('Content-Disposition: attachment;filename="rakap_evaluasi_ED_nilai_'.Training::findOne($training_id)->activity->name.' '.date('YmdHis').'.'.$filetype.'"');
 		header('Cache-Control: max-age=0');
 		$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, $types[$filetype]);
 		$objWriter->save('php://output');
