@@ -25,6 +25,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
                             ->where([
                                 'organisation_id'=>$data->ID,
                                 'chairman'=>1,
+								'satker_id' => \Yii::$app->user->identity->employee->satker_id,
                             ])
                             ->one();
                         if(null!=$employee) {
@@ -55,6 +56,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
                                 ->where([
                                     'organisation_id'=>$data2->ID,
                                     'chairman'=>1,
+									'satker_id' => \Yii::$app->user->identity->employee->satker_id,
                                 ])
                                 ->one();
                             if(null!=$employee) {
@@ -75,6 +77,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
                                 ->where([
                                     'organisation_id'=>$data2->ID,
                                     'chairman'=>0,
+									'satker_id' => \Yii::$app->user->identity->employee->satker_id,
                                 ])
                                 ->all();
                             echo '<li>';

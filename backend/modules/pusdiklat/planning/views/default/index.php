@@ -24,6 +24,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
                     $employee = \backend\models\Employee::find()
                         ->where([
                             'organisation_id'=>$data->ID,
+							'satker_id' => \Yii::$app->user->identity->employee->satker_id,
                             'chairman'=>1,
                         ])
                         ->one();
@@ -54,6 +55,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
                         $employee = \backend\models\Employee::find()
                             ->where([
                                 'organisation_id'=>$data2->ID,
+								'satker_id' => \Yii::$app->user->identity->employee->satker_id,
                                 'chairman'=>1,
                             ])
                             ->one();
@@ -74,6 +76,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
                         $employees = \backend\models\Employee::find()
                             ->where([
                                 'organisation_id'=>$data2->ID,
+								'satker_id' => \Yii::$app->user->identity->employee->satker_id,
                                 'chairman'=>0,
                             ])
                             ->all();
