@@ -104,9 +104,6 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
                 </ul>
             </div>
         </div>
-        <div class="panel-footer">
-            Copyright &copy;  2014 by Syawwal&trade; Dev Team
-        </div>
     </div>
 
 <?= \hscstudio\heart\widgets\Modal::widget() ?>
