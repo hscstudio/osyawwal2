@@ -366,13 +366,13 @@ class PersonController extends Controller
 					$objReader = \PHPExcel_IOFactory::createReader($inputFileType);
 					$objPHPExcel = $objReader->load($importFile->tempName );
 					$sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
-					$template_code = @$sheetData[104]['C'];
+					/* $template_code = @$sheetData[104]['C'];
 					if($template_code!=='syawwal'){
 						Yii::$app->session->setFlash('error', 'Invalid template!');
 						return $this->redirect([
 							'index',
 						]);
-					}
+					} */
 					$baseRow = 4;
 					$err=[];
 					$data = [];	
