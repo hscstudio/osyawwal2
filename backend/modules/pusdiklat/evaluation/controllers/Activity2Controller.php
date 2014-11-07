@@ -13,6 +13,7 @@ use backend\models\ProgramSubject;
 use backend\models\Reference;
 use backend\models\ObjectReference;
 use backend\models\Training;
+use backend\models\Employee;
 use backend\models\TrainingStudentPlan;
 
 use backend\models\TrainingClass;
@@ -52,6 +53,7 @@ use yii\data\ActiveDataProvider;
 
 use hscstudio\heart\helpers\Heart;
 use yii\data\ArrayDataProvider;
+use PHPExcel_Cell_DataType;
 /**
  * ActivityController implements the CRUD actions for Activity model.
  */
@@ -2130,4 +2132,161 @@ class Activity2Controller extends Controller
 		}
 
 	}
+
+
+
+
+
+
+
+
+
+	public function actionCetak($training_id, $training_class_id, $filetype = 'xls') {
+    	// Ngambil training 
+    	$modelTrainingClassStudent = TrainingClassStudent::find()
+    		->where([
+    			'training_class_student.training_id' => $training_id,
+    			'training_class_id' => $training_class_id
+    		])
+    		->joinWith('trainingStudent')
+    		->joinWith([
+    			'trainingStudent.student' => function ($query) {
+    				$query->where(['student.status' => 1]); // cuma ngambil student yang published doank. Perlu diimprove lebih lanjut, misal cm ngambil student yang ga di block
+    			}
+    		])
+    		->joinWith([
+    			'trainingStudent.student.person' => function ($query) {
+    				$query->orderBy('name ASC');
+    			}
+    		])
+    		->all();
+    	// dah
+
+    	// Ambil template
+		$template = Yii::getAlias('@file').DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'pusdiklat'.
+			DIRECTORY_SEPARATOR.'evaluation'.DIRECTORY_SEPARATOR.'rekap.evaluasi.phd.nilai.akhir.'.$filetype;
+		$types=['xls'=>'Excel5','xlsx'=>'Excel2007'];
+		$objReader = \PHPExcel_IOFactory::createReader($types[$filetype]);
+		$objPHPExcel = $objReader->load($template);
+		// dah
+
+		// Ngisi konten
+		$objPHPExcel->getActiveSheet()->setCellValue('A2', strtoupper(Training::findOne($training_id)->activity->name.' Kelas '.TrainingClass::findOne($training_class_id)->class));
+		$objPHPExcel->getActiveSheet()->setCellValue('A3', 'TAHUN ANGGARAN '.date('Y', strtotime(Training::findOne($training_id)->activity->start)));
+
+		$pointerKolomMP = ord('E');
+		$pointerKolomTTD = ord('F');
+		$pointerBaris = 7;
+		$jumlahBaris = 0;
+
+		$namaHari = [
+			'Mon' => 'Senin',
+			'Tue' => 'Selasa',
+			'Wed' => 'Rabu',
+			'Thu' => 'Kami',
+			'Fri' => 'Jumat',
+			'Sat' => 'Sabtu',
+			'Sun' => 'Minggu'
+		];
+
+		$namaBulan = [
+			'January' => 'Januari',
+			'February' => 'Febuari',
+			'March' => 'Maret',
+			'April' => 'April',
+			'May' => 'Mei',
+			'June' => 'Juni',
+			'July' => 'Juli',
+			'August' => 'Agustus',
+			'September' => 'September',
+			'October' => 'Oktober',
+			'November' => 'November',
+			'December' => 'Desember'
+		];
+
+		foreach ($modelTrainingClassStudent as $baris) {
+
+			// Insert row
+			$objPHPExcel->getActiveSheet()->insertNewRowBefore($pointerBaris + 1, 1);
+			// dah
+
+			// Ngisi nomer urut
+			$objPHPExcel->getActiveSheet()->setCellValue('A'.$pointerBaris, $pointerBaris-6);
+			// dah
+
+			// Ngisi nama
+			$objPHPExcel->getActiveSheet()->setCellValue('B'.$pointerBaris, 
+				$baris->trainingStudent->student->person->name
+			);
+			// dah
+
+			// Ngisi nip
+			$objPHPExcel->getActiveSheet()->setCellValueExplicit('C'.$pointerBaris, 
+				$baris->trainingStudent->student->person->nid, 
+				PHPExcel_Cell_DataType::TYPE_STRING
+			);
+			// dah
+
+			// Ngisi unit				
+			$objPHPExcel->getActiveSheet()->setCellValue('D'.$pointerBaris, 
+				$baris->trainingStudent->student->person->organisation
+			);
+			// dah
+
+			// Ngisi nilai akhir
+			$objPHPExcel->getActiveSheet()->setCellValue('E'.$pointerBaris, 
+				$baris->test
+			);
+			// dah
+
+			$pointerBaris += 1;
+
+		}
+		// dah
+
+		$pointerBarisLegend = $pointerBaris + 2;
+
+		// Bikin kolom tanda tangan
+		$objPHPExcel->getActiveSheet()->setCellValue(
+			chr($pointerKolomTTD).$pointerBarisLegend,
+			'Jakarta,   '.$namaBulan[date('F', strtotime(Training::findOne($training_id)->activity->end))].' '.date('Y', strtotime(Training::findOne($training_id)->activity->end))
+		);
+
+		$modelEmployeeSigner = Employee::find()
+			->where([
+				'satker_id' => Yii::$app->user->identity->employee->satker_id,
+				'organisation_id' => 396,
+				'chairman' => 1
+			])
+			->one();
+
+		if (!empty($modelEmployeeSigner)) {
+			$objPHPExcel->getActiveSheet()->setCellValue(
+				chr($pointerKolomTTD).($pointerBarisLegend + 5),
+				$modelEmployeeSigner->person->name
+			);
+			$objPHPExcel->getActiveSheet()->setCellValue(
+				chr($pointerKolomTTD).($pointerBarisLegend + 6),
+				'NIP '.$modelEmployeeSigner->person->nip
+			);
+		}
+		// dah
+
+		// Ngeset lebar kolom
+		$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
+		// dah
+
+		
+		if($filetype=='xls') 
+			header('Content-Type: application/vnd.ms-excel');
+		else 
+			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+			
+		header('Content-Disposition: attachment;filename="rakap_evaluasi_PHD_nilai_akhir_'.Training::findOne($training_id)->activity->name.' '.date('YmdHis').'.'.$filetype.'"');
+		header('Cache-Control: max-age=0');
+		$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, $types[$filetype]);
+		$objWriter->save('php://output');
+		exit;
+
+    }
 }

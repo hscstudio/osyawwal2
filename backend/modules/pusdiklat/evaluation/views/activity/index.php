@@ -173,7 +173,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
 				'class' => 'kartik\grid\ActionColumn',
 				'width' => '270px',
-				'template' => '<div class="btn-group">{dashboard} {cost-real}</div> <div class="btn-group">{nilai-kehadiran} {nilai-aktivitas} {pre-test} {post-test}</div> <div class="btn-group">{cetak}</div>',
+				'template' => '<div class="btn-group">{dashboard} {cost-real}</div> <div class="btn-group">{nilai-kehadiran} {nilai-aktivitas} {pre-test} {post-test}</div> {cetak}',
 				'buttons' => [
 					'dashboard' => function ($url, $model) {
 								$icon='<span class="fa fa-fw fa-dashboard"></span>';
