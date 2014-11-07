@@ -159,7 +159,6 @@ class UserController extends Controller
 		$model = $this->findModel($id);
 		$model->scenario = 'password';
         if ($model->load(Yii::$app->request->post())) {	
-			$model->old_password = Yii::$app->security->generatePasswordHash($model->old_password);
 			if(!Yii::$app->security->validatePassword($model->old_password, Yii::$app->user->identity->password_hash)){
 				Yii::$app->getSession()->setFlash('error', 'Old password not match with current password');
 			}
