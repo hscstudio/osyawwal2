@@ -15,6 +15,17 @@ return [
 	'BPPK_TEXT_VALIDATE' => 'Validasi',
 	'BPPK_TEXT_NUMBER' => 'Kode',
 	'BPPK_TEXT_NAME' => 'Nama',
+	'BPPK_TEXT_START' => 'Mulai',
+	'BPPK_TEXT_END' => 'Selesai',
+	'BPPK_TEXT_STUDENT' => 'Peserta',
+	'BPPK_TEXT_TRAINING_ACTIVITIES' => 'Aktivitas Kediklatan',
+	'BPPK_TEXT_SHOW_ALL_EXCEPT_CANCEL' => 'Semua kec. Batal',
+	'BPPK_TEXT_SHOW_ALL' => 'Semua',
+	'BPPK_TEXT_PLAN' => 'Rencana',
+	'BPPK_TEXT_READY' => 'Siap',
+	'BPPK_TEXT_EXECUTE' => 'Eksekusi',
+	'BPPK_TEXT_CANCEL' => 'Batal',
+	'BPPK_BUTTON_STUDENT_PLAN' => 'Rencana Sebaran Peserta',
 
 	'PAGE_TITLE_SUB_BID_PROGRAM' => 'Daftar Program',
 

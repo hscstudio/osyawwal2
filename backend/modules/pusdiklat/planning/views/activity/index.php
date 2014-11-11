@@ -5,28 +5,14 @@ use kartik\grid\GridView;
 use yii\helpers\Url;
 use kartik\widgets\Select2;
 
-/* @var $this yii\web\View */
-/* @var $searchModel backend\modules\pusdiklat\planning\models\ActivitySearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
-$this->title = Yii::t('app', 'Training Activities');
+$this->title = Yii::t('app', 'BPPK_TEXT_TRAINING_ACTIVITIES');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="activity-index">
 	
-<!--
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Activity',
-]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
--->
 	<?php \yii\widgets\Pjax::begin([
 		'id'=>'pjax-gridview',
 	]); ?>
@@ -37,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'kartik\grid\SerialColumn'],        
 			[
 				'attribute' => 'name',
+				'label' => Yii::t('app', 'BPPK_TEXT_NAME'),
 				'vAlign'=>'middle',
 				'hAlign'=>'left',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
@@ -53,6 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			],            
 			[
 				'attribute' => 'start',
+				'label' => Yii::t('app', 'BPPK_TEXT_START'),
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
@@ -68,6 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		
 			[
 				'attribute' => 'end',
+				'label' => Yii::t('app', 'BPPK_TEXT_END'),
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
@@ -81,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 			],
 			[
-				'label' => 'Student',
+				'label' => Yii::t('app', 'BPPK_TEXT_STUDENT'),
 				'vAlign'=>'left',
 				'hAlign'=>'center',
 				'width' => '75px',
@@ -244,9 +233,9 @@ $this->params['breadcrumbs'][] = $this->title;
 			} */
 		],
 		'panel' => [
-			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
+			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-book"></i> '.Html::encode($this->title).'</h3>',
 			'before'=>
-				Html::a('<i class="fa fa-fw fa-plus"></i> Create ', ['create'], ['class' => 'btn btn-success']).
+				Html::a('<i class="fa fa-fw fa-plus-circle"></i> '.Yii::t('app', 'SYSTEM_BUTTON_CREATE'), ['create'], ['class' => 'btn btn-success']).
 				'<div class="pull-right" style="margin-right:5px;">'.
 				Select2::widget([
 					'name' => 'year', 
@@ -268,7 +257,14 @@ $this->params['breadcrumbs'][] = $this->title;
 				'<div class="pull-right" style="margin-right:5px;">'.
 				Select2::widget([
 					'name' => 'status', 
-					'data' => ['nocancel'=>'All -Cancel','all'=>'All','0'=>'Plan','1'=>'Ready','2'=>'Execute','3'=>'Cancel'],
+					'data' => [
+						'nocancel'=>Yii::t('app','BPPK_TEXT_SHOW_ALL_EXCEPT_CANCEL'),
+						'all'=>Yii::t('app','BPPK_TEXT_SHOW_ALL'),
+						'0'=>Yii::t('app','BPPK_TEXT_PLAN'),
+						'1'=>Yii::t('app','BPPK_TEXT_READY'),
+						'2'=>Yii::t('app','BPPK_TEXT_EXECUTE'),
+						'3'=>Yii::t('app','BPPK_TEXT_CANCEL')
+					],
 					'value' => $status,
 					'options' => [
 						'placeholder' => 'Status ...', 
@@ -284,8 +280,8 @@ $this->params['breadcrumbs'][] = $this->title;
 				]).
 				'</div>',
 			'after'=>
-				Html::a('<i class="fa fa-fw fa-link"></i> Student Plan', ['index-student-plan'], ['class' => 'btn btn-default','data-pjax'=>'0']).' '.
-				Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
+				Html::a('<i class="fa fa-fw fa-link"></i> '.Yii::t('app', 'BPPK_BUTTON_STUDENT_PLAN'), ['index-student-plan'], ['class' => 'btn btn-default','data-pjax'=>'0']).' '.
+				Html::a('<i class="fa fa-fw fa-repeat"></i> '.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'responsive'=>true,
@@ -306,7 +302,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			'method'=>'get',
 			'action'=>['export-training','year'=>$year,'status'=>$status],
 		]);
-		echo Html::submitButton('<i class="fa fa-fw fa-download"></i> Download Kalender Diklat', ['class' => 'btn btn-default','style'=>'display:block;']);
+		echo Html::submitButton('<i class="fa fa-fw fa-download"></i> '.Yii::t('app', 'SYSTEM_TEXT_DOWNLOAD').' Kalender Diklat', ['class' => 'btn btn-default','style'=>'display:block;']);
 		\yii\bootstrap\ActiveForm::end(); 
 		?>
 	</div>
