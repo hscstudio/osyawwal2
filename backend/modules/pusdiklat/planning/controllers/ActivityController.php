@@ -300,7 +300,10 @@ class ActivityController extends Controller
 			}
         } 
 		
-		return $this->render('create', $renders);
+		if (Yii::$app->request->isAjax)
+			return $this->renderAjax('create', $renders);
+		else 
+			return $this->render('create', $renders);
     }
 
     /**

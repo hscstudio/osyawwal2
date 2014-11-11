@@ -25,6 +25,8 @@ return [
 	'BPPK_TEXT_READY' => 'Siap',
 	'BPPK_TEXT_EXECUTE' => 'Eksekusi',
 	'BPPK_TEXT_CANCEL' => 'Batal',
+	'BPPK_TEXT_YEAR' => 'Tahun',
+
 	'BPPK_BUTTON_STUDENT_PLAN' => 'Rencana Sebaran Peserta',
 
 	'PAGE_TITLE_SUB_BID_PROGRAM' => 'Daftar Program',

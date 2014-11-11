@@ -235,14 +235,19 @@ $this->params['breadcrumbs'][] = $this->title;
 		'panel' => [
 			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-book"></i> '.Html::encode($this->title).'</h3>',
 			'before'=>
-				Html::a('<i class="fa fa-fw fa-plus-circle"></i> '.Yii::t('app', 'SYSTEM_BUTTON_CREATE'), ['create'], ['class' => 'btn btn-success']).
+				Html::a('<i class="fa fa-fw fa-plus-circle"></i> '.Yii::t('app', 'SYSTEM_BUTTON_CREATE'), ['create'], [
+					'class' => 'btn btn-success modal-heart',
+					'data-pjax' => '0',
+					'modal-title' => '<i class="fa fa-fw fa-plus-circle"></i> '.Yii::t('app', 'SYSTEM_BUTTON_CREATE'),
+					'modal-size' => 'modal-lg'
+				]).
 				'<div class="pull-right" style="margin-right:5px;">'.
 				Select2::widget([
 					'name' => 'year', 
 					'data' => $year_training,
 					'value' => $year,
 					'options' => [
-						'placeholder' => 'Year ...', 
+						'placeholder' => Yii::t('app', 'BPPK_TEXT_YEAR'), 
 						'class'=>'form-control', 
 						'onchange'=>'
 							$.pjax.reload({
@@ -280,7 +285,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				]).
 				'</div>',
 			'after'=>
-				Html::a('<i class="fa fa-fw fa-link"></i> '.Yii::t('app', 'BPPK_BUTTON_STUDENT_PLAN'), ['index-student-plan'], ['class' => 'btn btn-default','data-pjax'=>'0']).' '.
+				Html::a('<i class="fa fa-fw fa-tasks"></i> '.Yii::t('app', 'BPPK_BUTTON_STUDENT_PLAN'), ['index-student-plan'], ['class' => 'btn btn-default','data-pjax'=>'0']).' '.
 				Html::a('<i class="fa fa-fw fa-repeat"></i> '.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
