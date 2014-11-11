@@ -9,6 +9,7 @@ $params = array_merge(
 return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
+    'language' => 'id-ID',
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log','heart'],
 	'homeUrl' => '/github/osyawwal2/administrator',
@@ -125,6 +126,17 @@ return [
 		/* FINISH BDK */
 	],
     'components' => [
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/error' => 'error.php',
+                    ],
+                ],
+            ],
+        ],
         'user' => [
             'identityClass' => 'backend\models\User',
             'enableAutoLogin' => true,

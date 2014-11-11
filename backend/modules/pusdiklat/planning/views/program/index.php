@@ -7,15 +7,12 @@ use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use kartik\widgets\Select2;
 
-/* @var $this yii\web\View */
-/* @var $searchModel backend\models\ProgramSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
-$this->title = Yii::t('app', 'Programs');
+$this->title = Yii::t('app', 'PAGE_TITLE_SUB_BID_PROGRAM');
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="program-index">
 
@@ -43,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'id',
             
 			[
-				'attribute' => 'number',
+				'attribute' => Yii::t('app', 'BPPK_TEXT_NUMBER'),
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'150px',
@@ -57,6 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		
 			[
 				'attribute' => 'name',
+				'label' => Yii::t('app', 'BPPK_TEXT_NAME'),
 				'vAlign'=>'middle',
 				'hAlign'=>'left',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
@@ -116,7 +114,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			
 			[
 				'attribute' => 'validation_status',
-				'label' => 'Validate',
+				'label' => Yii::t('app', 'BPPK_TEXT_VALIDATE'),
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'70px',
@@ -146,7 +144,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 			],
 			[
-				'label' => 'Training',
+				'label' => Yii::t('app', 'BPPK_TEXT_TRAINING'),
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'70px',
@@ -310,19 +308,19 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
         ],
 		'panel' => [
-			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
+			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode(Yii::t('app','PAGE_TITLE_TABLE_PROGRAM')).'</h3>',
 			'before'=>
-				Html::a('<i class="fa fa-fw fa-plus"></i> Create ', ['create'], [
+				Html::a('<i class="fa fa-fw fa-plus-circle"></i> '.Yii::t('app', 'SYSTEM_BUTTON_CREATE'), ['create'], [
 					'class' => 'btn btn-success modal-heart ',
 					'data-toggle'=>'tooltip',
 					'data-pjax'=>"0",
-					'modal-title'=>'Create Program',
+					'modal-title'=>'<i class="fa fa-fw fa-plus-circle"></i> Buat Program Baru',
 					'modal-size'=>'modal-lg',
 				]).
 				'<div class="pull-right" style="margin-right:5px;">'.
 				Select2::widget([
 					'name' => 'status', 
-					'data' => ['1'=>'Published','0'=>'Unpublished','all'=>'All'],
+					'data' => ['1'=> Yii::t('app', 'SYSTEM_TEXT_PUBLISHED'),'0'=>Yii::t('app', 'SYSTEM_TEXT_UNPUBLISHED'),'all'=>Yii::t('app', 'SYSTEM_TEXT_SHOW_ALL')],
 					'value' => $status,
 					'options' => [
 						'placeholder' => 'Status ...', 
@@ -337,7 +335,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					],
 				]).
 				'</div>',
-			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
+			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> '.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'responsive'=>true,
@@ -351,7 +349,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-	<i class="fa fa-fw fa-refresh"></i> Document Generator
+	<i class="fa fa-fw fa-print"></i> Document Generator
 	</div>
     <div class="panel-body">
 		<?php
@@ -359,7 +357,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			'method'=>'get',
 			'action'=>['export-program','status'=>$status],
 		]);
-		echo Html::submitButton('<i class="fa fa-fw fa-download"></i> Download Data Program', ['class' => 'btn btn-default','style'=>'display:block;']);
+		echo Html::submitButton('<i class="fa fa-fw fa-download"></i> '.Yii::t('app', 'SYSTEM_TEXT_DOWNLOAD').' Data Program', ['class' => 'btn btn-default','style'=>'display:block;']);
 		\yii\bootstrap\ActiveForm::end(); 
 		?>
 	</div>
