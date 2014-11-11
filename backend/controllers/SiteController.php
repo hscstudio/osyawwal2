@@ -308,7 +308,7 @@ class SiteController extends Controller
      * Lists all Issue models.
      * @return mixed
      */
-    public function actionIssue($status=1)
+    public function actionIssue($status='all')
     {
 		$searchModel = new IssueSearch();
 		$queryParams = Yii::$app->request->getQueryParams();

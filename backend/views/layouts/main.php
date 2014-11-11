@@ -136,7 +136,7 @@ AppAsset::register($this);
 					$objectFile = ObjectFile::find()
                         ->where([
                             'object' => 'person',
-                            'object_id' => Yii::$app->user->identity->id,
+                            'object_id' => Yii::$app->user->identity->employee->person_id,
                             'type' => 'photo'
                         ])
                         ->joinWith('file')
@@ -145,7 +145,7 @@ AppAsset::register($this);
 
                     if (empty($objectFile)) {
                         // foto ga ada, so pake gambar default
-                        $pathFoto = Yii::$app->homeUrl.'/logo_simbppk_pelangi.png">';
+                        $pathFoto = Yii::$app->homeUrl.'/logo_simbppk_pelangi.png';
                     }
                     else {
                         $pathFoto = Url::to(['/file/download','file'=>$objectFile->object.'/'.$objectFile->object_id.'/thumb_'.$objectFile->file->file_name]);
