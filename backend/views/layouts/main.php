@@ -145,7 +145,7 @@ AppAsset::register($this);
 
                     if (empty($objectFile)) {
                         // foto ga ada, so pake gambar default
-                        $pathFoto = Yii::$app->homeUrl.'/logo_simbppk_pelangi.png">';
+                        $pathFoto = Yii::$app->homeUrl.'/logo_simbppk_pelangi.png';
                     }
                     else {
                         $pathFoto = Url::to(['/file/download','file'=>$objectFile->object.'/'.$objectFile->object_id.'/thumb_'.$objectFile->file->file_name]);
@@ -154,14 +154,12 @@ AppAsset::register($this);
 	                $menuItems[] =  
 	                    [
 	                    	'icon'=>'fa fa-fw fa-user',
-	                    	'label'=> Yii::$app->user->identity->employee->person->name, //Keliru jar Person::findOne(Yii::$app->user->identity->id)->name, 
+	                    	'label'=> Yii::$app->user->identity->employee->person->name, 
 	                    	'url'=> '', 
 	                    	'items'=>[
 	                    		'<li class="kartu-profil">
 	                    			<img class="image-corner" src="'.$pathFoto.'">
-	                    			<p class="nama-nid">'.Yii::$app->user->identity->employee->person->name
-	                    			.' 
-	                    			</p>
+	                    			<p class="nama-nid">'.Yii::$app->user->identity->employee->person->name.'</p>
 	                    			<p class="tanggal-terdaftar">'.Yii::$app->user->identity->employee->person->nid.'<br>Terdaftar sejak '.date('D, d F Y', Yii::$app->user->identity->created_at).'</p>
 	                    			'.Html::a('<i class="fa fa-fw fa-user"></i> Profil', ['/user/user/profile'], ['class' => 'btn btn-default pull-left']).'
 	                    			'.Html::a('<i class="fa fa-fw fa-sign-out"></i> Keluar', ['/site/logout'], ['class' => 'btn btn-default pull-right', 'data-method'=>'post']).'
