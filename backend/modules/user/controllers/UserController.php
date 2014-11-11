@@ -39,19 +39,11 @@ class UserController extends Controller
      */
     public function actionProfile()
     {
-        $id = Yii::$app->user->id;
+        $id = Yii::$app->user->identity->id;
 		$model = $this->findModel($id);
 		//$model->scenario = 'profile';
-		$employee = Employee::find()
-					->where([
-						'person_id' => $id
-					])
-					->one();
-		$person = Person::find()
-			->where([
-				'id'=>$employee->person_id
-			])
-			->one();			
+		$employee = Yii::$app->user->identity->employee;
+		$person = Yii::$app->user->identity->employee->person;			
 		if (null==$employee or null==$person){  
 			throw new NotFoundHttpException('The requested page does not exist.');
 		}

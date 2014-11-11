@@ -154,15 +154,15 @@ AppAsset::register($this);
 	                $menuItems[] =  
 	                    [
 	                    	'icon'=>'fa fa-fw fa-user',
-	                    	'label'=> Person::findOne(Yii::$app->user->identity->id)->name, 
+	                    	'label'=> Yii::$app->user->identity->employee->person->name, //Keliru jar Person::findOne(Yii::$app->user->identity->id)->name, 
 	                    	'url'=> '', 
 	                    	'items'=>[
 	                    		'<li class="kartu-profil">
 	                    			<img class="image-corner" src="'.$pathFoto.'">
-	                    			<p class="nama-nid">'.Person::findOne(Yii::$app->user->identity->id)->name
+	                    			<p class="nama-nid">'.Yii::$app->user->identity->employee->person->name
 	                    			.' 
 	                    			</p>
-	                    			<p class="tanggal-terdaftar">'.Person::findOne(Yii::$app->user->identity->id)->nid.'<br>Terdaftar sejak '.date('D, d F Y', Yii::$app->user->identity->created_at).'</p>
+	                    			<p class="tanggal-terdaftar">'.Yii::$app->user->identity->employee->person->nid.'<br>Terdaftar sejak '.date('D, d F Y', Yii::$app->user->identity->created_at).'</p>
 	                    			'.Html::a('<i class="fa fa-fw fa-user"></i> Profil', ['/user/user/profile'], ['class' => 'btn btn-default pull-left']).'
 	                    			'.Html::a('<i class="fa fa-fw fa-sign-out"></i> Keluar', ['/site/logout'], ['class' => 'btn btn-default pull-right', 'data-method'=>'post']).'
 	                    		</li>',
