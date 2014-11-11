@@ -35,7 +35,35 @@ else
                         
                         <div class="row">
                             <div class="col-md-12">
-                                <h2>Selamat datang <?php echo ucwords(Person::findOne(Yii::$app->user->identity->id)->name); ?></h2>
+								<?php
+								// Mencoba lebih hangat
+								$sapaan = '';
+								$birthday = Yii::$app->user->identity->employee->person->birthday;
+								$gender = Yii::$app->user->identity->employee->person->gender;
+								if(!empty($birthday)){
+									$birth = new DateTime(date('Y-m-d', strtotime($birthday)));
+									$now = new DateTime(date('Y-m-d'));
+									$interval = $birth->diff($now);
+									/* echo "difference " . $interval->y . " years, " . $interval->m." months, ".$interval->d." days "; */
+									// Usia < 20 tahun => dik
+									if($interval->y<20){
+										$sapaan = ($gender==1)?'Dik':'Dik';
+									}
+									// Usia 20 - 30 tahun => Mas / Mbak
+									else if($interval->y>=20 and $interval->y<=30){
+										$sapaan = ($gender==1)?'Mas':'Mbak';
+									}
+									// Usia 31 - => Bapak / Ibu
+									else if($interval->y>30){
+										$sapaan = ($gender==1)?'Bapak':'Ibu';
+									}
+								}
+								?>
+								<div class="jumbotron">
+								  <h1>Selamat datang!</h1>
+								  <p><?php echo $sapaan.' '.ucwords(Yii::$app->user->identity->employee->person->name); ?>, sebelum mulai bekerja, pastikan data profile Anda benar dan update, </p>
+								  <p><a class="btn btn-primary btn-lg" href="<?= Url::to(['user/user/profile']) ?>" role="button">Perbaharui profile</a></p>
+								</div>
                             </div>
                         </div>
 

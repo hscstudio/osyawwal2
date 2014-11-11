@@ -474,6 +474,10 @@ class PersonController extends Controller
 			$student_values = [];
 			$training_student_values = []; */
 			$satker_id = (int)Yii::$app->user->identity->employee->satker_id;
+			$position = 5; //default pelaksana
+			$position_desc = 'Pelaksana'; 
+			$organisation = 'BPPK';
+			$unit = 132; // default 132 = BPPK
 			foreach($selections as $selection){	
 				/* if($persons[$selection]==0)
 					$person_values[] = [$names[$selection],$nips[$selection],$nips[$selection],1];
@@ -498,12 +502,31 @@ class PersonController extends Controller
 				}
 				
 				if($person_id==0){
+					if($jabatan_id==2){
+						// Pejabat
+						// Get Kode Eselon
+						if($organisation_id>0){
+							$org = \backend\models\Organisation::find()
+								->where([
+									'ID' =>  $organisation_id,
+									])
+									->one();
+							if(!empty($org)){
+								$position = $org->KD_ESELON;
+								$position_desc = $org->NM_UNIT_ORG; 
+							}
+						}
+					}
+								
 					$person = new Person([
 						'name' => $name,
 						'nid' => $nip,
 						'nip' => $nip,
 						'birthday' => $birthday,
 						'gender' => $gender,
+						'position'=> $position,
+						'position_desc'=> $position_desc,
+						'organisation'=> $organisation,
 						'status' => 1,
 					]);
 					if($person->save()){
@@ -511,7 +534,7 @@ class PersonController extends Controller
 					}
 				}
 				
-				if($person_id>0){	
+				if($person_id>0){						
 					if($user_id==0){
 						$user = new User([
 							'username'=>$nip,
@@ -548,8 +571,30 @@ class PersonController extends Controller
 							else {
 								die(var_dump($employee->errors));
 							}
-						}
+						}				
 					}
+				}
+				
+				if($employee_id>0){
+					if(in_array($jabatan_id,[2,3])){
+						// 139 WI, 140 PK
+						$object_reference = ObjectReference::find()
+							->where([
+								'object'=>'employee',
+								'object_id' => $employee_id,
+								'type' => 'fungsional', 
+							])
+							->one();
+						Heart::objectReference($object_reference,($jabatan_id==2)?139:140,'employee',$employee_id,'fungsional');
+					}
+					$object_reference = ObjectReference::find()
+							->where([
+								'object'=>'person',
+								'object_id' => $employee_id,
+								'type' => 'unit', 
+							])
+							->one();
+					Heart::objectReference($object_reference,$unit,'person',$employee_id,'unit');
 				}
 				
 				if($user_id>0 and (\Yii::$app->user->can('admin-pusdiklat'))){	

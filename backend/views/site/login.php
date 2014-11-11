@@ -38,6 +38,8 @@ $this->params['breadcrumbs'][] = $this->title;
 						</div>
 						<div class="lupasandi">
 							<?= Html::a('Saya lupa kata sandi', ['site/request-password-reset']) ?>
+							<br>
+							<?= Html::a('Download Panduan Admin', ['file/free-download','file'=>'guide/manual-admin-pengelolaan-pegawai.pdf']) ?>
 						</div>
 					<?php ActiveForm::end(); ?>
 			</div>
