@@ -208,7 +208,7 @@ class SiteController extends Controller
     public function actionLogout()
     {
         // Hapus log online nya
-        $online = Yii::$app->user->identity->employee->person_id;
+        $online = Online::findOne(Yii::$app->user->identity->employee->person_id);
         if (!empty($online)) {
             // Klo kosong ya uda biarin, klo ada aja baru hapus
             $online->delete();
