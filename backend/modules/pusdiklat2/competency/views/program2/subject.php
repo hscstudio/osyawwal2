@@ -266,7 +266,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 				'buttons' => [
 					'delete' => function ($url, $data) use ($countTraining) {
 						// CEK AUTHORISE ACCESS
-						$permit = \Yii::$app->user->can('pusdiklat-planning-2');
+						$permit = \Yii::$app->user->can('pusdiklat2-competency');
 						if($permit and $countTraining==0){
 							$icon='<span class="fa fa-fw fa-trash"></span>';
 							return Html::a($icon,['subject-delete','id'=>$data->program_id,'subject_id'=>$data->id],[
@@ -283,7 +283,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 					},
 					'update' => function ($url, $data) {
 						// CEK AUTHORISE ACCESS
-						$permit = \Yii::$app->user->can('pusdiklat-planning-2');
+						$permit = \Yii::$app->user->can('pusdiklat2-competency');
 						if($permit){
 							$icon='<span class="fa fa-fw fa-pencil"></span>';
 							return Html::a($icon,['subject','id'=>$data->program_id,'action'=>'update','subject_id'=>$data->id],[

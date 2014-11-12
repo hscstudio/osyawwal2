@@ -1,11 +1,11 @@
 <?php
 
-namespace backend\modules\pusdiklat\planning;
+namespace backend\modules\pusdiklat2\planning;
 use Yii;
 
 class Module extends \yii\base\Module
 {
-    public $controllerNamespace = 'backend\modules\pusdiklat\planning\controllers';
+    public $controllerNamespace = 'backend\modules\pusdiklat2\planning\controllers';
 
     public function init()
     {
@@ -37,7 +37,7 @@ class Module extends \yii\base\Module
 		$menus_3=[];
 		
 		if($this->checkAccess([
-			'pusdiklat-planning-1'
+			'pusdiklat2-competency'
 		])){
 			$menus_1 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,28,$callback,true);
 			if(empty($menus_1)){
@@ -57,7 +57,7 @@ class Module extends \yii\base\Module
 		}
 		
 		if($this->checkAccess([
-			'pusdiklat-planning-2'
+			'pusdiklat2-competency'
 		])){
 			$menus_2 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,29,$callback,true);
 			if(empty($menus_2)){
@@ -77,7 +77,7 @@ class Module extends \yii\base\Module
 		}
 		
 		if($this->checkAccess([
-			'pusdiklat-planning-3'
+			'pusdiklat2-competency'
 		])){
 			$menus_3 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,30,$callback,true);
 			if(empty($menus_3)){

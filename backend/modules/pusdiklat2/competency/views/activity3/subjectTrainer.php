@@ -7,7 +7,7 @@ use yii\helpers\Url;
 use yii\helpers\Inflector;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\modules\pusdiklat\planning\models\TrainingSubjectTrainerRecommendationSearch */
+/* @var $searchModel backend\modules\pusdiklat2\planning\models\TrainingSubjectTrainerRecommendationSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $controller = $this->context;

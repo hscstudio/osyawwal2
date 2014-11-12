@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\pusdiklat\planning\controllers;
+namespace backend\modules\pusdiklat2\planning\controllers;
 
 use Yii;
 use backend\models\Activity;
@@ -10,8 +10,8 @@ use backend\models\Room;
 use backend\models\Meeting;
 use backend\models\Reference;
 use backend\models\ObjectPerson;
-use backend\modules\pusdiklat\planning\models\MeetingActivitySearch;
-use backend\modules\pusdiklat\planning\models\RoomSearch;
+use backend\modules\pusdiklat2\planning\models\MeetingActivitySearch;
+use backend\modules\pusdiklat2\planning\models\RoomSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

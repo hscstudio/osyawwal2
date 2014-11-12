@@ -1,12 +1,12 @@
 <?php
 
-namespace backend\modules\pusdiklat\general\controllers;
+namespace backend\modules\pusdiklat2\general\controllers;
 
 use Yii;
 use backend\models\Person;
 use backend\models\Employee;
 use backend\models\User;
-use backend\modules\pusdiklat\general\models\PersonSearch;
+use backend\modules\pusdiklat2\general\models\PersonSearch;
 use backend\models\ObjectReference;
 use backend\models\ObjectFile;
 use backend\models\File;

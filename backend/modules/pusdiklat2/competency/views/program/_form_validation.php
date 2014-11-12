@@ -27,7 +27,7 @@ use yii\helpers\Url;
 	<div class="row">
 		<div class="col-md-3">
 		<?php
-		$permit = \Yii::$app->user->can('pusdiklat-planning-1');
+		$permit = \Yii::$app->user->can('pusdiklat2-competency');
 		$data = ['0'=>'Draft','1'=>'Process','2'=>'Valid','3'=>'Reject'];
 		if($permit){	
 			$options['placeholder']='Choose validation status ...';

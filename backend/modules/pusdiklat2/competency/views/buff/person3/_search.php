@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model backend\modules\pusdiklat\planning\models\PersonSearch */
+/* @var $model backend\modules\pusdiklat2\planning\models\PersonSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 

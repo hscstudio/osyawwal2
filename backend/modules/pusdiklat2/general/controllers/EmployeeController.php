@@ -1,10 +1,10 @@
 <?php
 
-namespace backend\modules\pusdiklat\general\controllers;
+namespace backend\modules\pusdiklat2\general\controllers;
 
 use Yii;
 use backend\models\Employee;
-use backend\modules\pusdiklat\general\models\EmployeeSearch;
+use backend\modules\pusdiklat2\general\models\EmployeeSearch;
 use backend\models\ObjectReference;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;

@@ -6,7 +6,7 @@ use yii\helpers\Url;
 use kartik\widgets\Select2;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\modules\pusdiklat\planning\models\ActivitySearch */
+/* @var $searchModel backend\modules\pusdiklat2\planning\models\ActivitySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $controller = $this->context;
@@ -109,7 +109,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'value' => function ($data){
 					// CEK AUTHORISE ACCESS
-					$permit = \Yii::$app->user->can('pusdiklat-planning-2');
+					$permit = \Yii::$app->user->can('pusdiklat2-competency');
 					$object_person=\backend\models\ObjectPerson::find()
 						->where([
 							'object'=>'activity',

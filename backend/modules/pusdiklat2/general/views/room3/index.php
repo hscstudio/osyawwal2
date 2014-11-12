@@ -7,7 +7,7 @@ use yii\helpers\Url;
 use kartik\widgets\Select2;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\modules\pusdiklat\general\models\RoomSearch */
+/* @var $searchModel backend\modules\pusdiklat2\general\models\RoomSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $controller = $this->context;

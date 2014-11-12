@@ -10,7 +10,7 @@ use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\modules\pusdiklat\execution\models\TrainingClassSearch */
+/* @var $searchModel backend\modules\pusdiklat2\execution\models\TrainingClassSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $controller = $this->context;

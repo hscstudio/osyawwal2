@@ -116,7 +116,7 @@ if(!$model->isNewRecord){
 	
 	<?php if(!$model->isNewRecord){ ?>
 		<?php
-		$permit = \Yii::$app->user->can('pusdiklat-planning-1');
+		$permit = \Yii::$app->user->can('pusdiklat2-competency');
 		if($permit){			
 			$form->field($model, 'status')->widget(SwitchInput::classname(), [
 				'options' => [

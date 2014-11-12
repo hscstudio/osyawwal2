@@ -180,7 +180,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'value' => function ($data){
-					$permit = \Yii::$app->user->can('pusdiklat-planning-1');
+					$permit = \Yii::$app->user->can('pusdiklat2-competency');
 					if($permit){
 						$object_person=\backend\models\ObjectPerson::find()
 							->where([
@@ -229,7 +229,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'value' => function ($data){
-					$permit = \Yii::$app->user->can('pusdiklat-planning-1');
+					$permit = \Yii::$app->user->can('pusdiklat2-competency');
 					if($permit){
 						$icon = ($data->status==1)?'<span class="glyphicon glyphicon-ok"></span>':'<span class="glyphicon glyphicon-remove"></span>';
 						return Html::a($icon, ['status','status'=>$data->status, 'id'=>$data->id], [

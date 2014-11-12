@@ -6,7 +6,7 @@ use kartik\grid\GridView;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\modules\pusdiklat\planning\models\TrainerSearch */
+/* @var $searchModel backend\modules\pusdiklat2\planning\models\TrainerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $controller = $this->context;

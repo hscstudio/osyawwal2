@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\pusdiklat\planning\models;
+namespace backend\modules\pusdiklat2\planning\models;
 
 use Yii;
 use yii\base\Model;

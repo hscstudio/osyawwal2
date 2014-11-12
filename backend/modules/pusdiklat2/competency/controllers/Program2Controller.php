@@ -1,12 +1,12 @@
 <?php
 
-namespace backend\modules\pusdiklat\planning\controllers;
+namespace backend\modules\pusdiklat2\planning\controllers;
 
 use Yii;
 use backend\models\Program;
 use backend\models\ProgramHistory;
-use backend\modules\pusdiklat\planning\models\ProgramSearch;
-use backend\modules\pusdiklat\planning\models\ProgramHistorySearch;
+use backend\modules\pusdiklat2\planning\models\ProgramSearch;
+use backend\modules\pusdiklat2\planning\models\ProgramHistorySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

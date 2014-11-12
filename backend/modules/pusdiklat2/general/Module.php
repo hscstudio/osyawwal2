@@ -1,10 +1,10 @@
 <?php
 
-namespace backend\modules\pusdiklat\general;
+namespace backend\modules\pusdiklat2\general;
 
 class Module extends \yii\base\Module
 {
-    public $controllerNamespace = 'backend\modules\pusdiklat\general\controllers';
+    public $controllerNamespace = 'backend\modules\pusdiklat2\general\controllers';
 
     public function init()
     {
@@ -51,7 +51,7 @@ class Module extends \yii\base\Module
 		}
 		
 		if($this->checkAccess([
-			'pusdiklat-general-1'
+			'pusdiklat2-general'
 		])){
 			$menus_1 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,14,$callback,true);
 			if(empty($menus_1)){
@@ -77,7 +77,7 @@ class Module extends \yii\base\Module
 		}
 		
 		if($this->checkAccess([
-			'pusdiklat-general-2'
+			'pusdiklat2-general'
 		])){
 			$menus_2 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,20,$callback,true);
 			if(empty($menus_2)){
@@ -94,7 +94,7 @@ class Module extends \yii\base\Module
 		}
 		
 		if($this->checkAccess([
-			'pusdiklat-general-3'
+			'pusdiklat2-general'
 		])){
 			$menus_3 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,23,$callback,true);
 			if(empty($menus_3)){

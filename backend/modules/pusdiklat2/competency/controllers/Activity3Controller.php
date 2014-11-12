@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\pusdiklat\planning\controllers;
+namespace backend\modules\pusdiklat2\planning\controllers;
 
 use Yii;
 use backend\models\Activity;
@@ -9,7 +9,7 @@ use backend\models\TrainingStudentPlan;
 use backend\models\Program;
 use backend\models\Reference;
 use backend\models\ObjectPerson;
-use backend\modules\pusdiklat\planning\models\TrainingActivitySearch;
+use backend\modules\pusdiklat2\planning\models\TrainingActivitySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -18,10 +18,10 @@ use yii\helpers\ArrayHelper;
 use backend\models\ProgramSubject;
 use backend\models\ProgramSubjectHistory;
 use backend\models\TrainingSubjectTrainerRecommendation;
-use backend\modules\pusdiklat\planning\models\TrainingSubjectTrainerRecommendationSearch;
+use backend\modules\pusdiklat2\planning\models\TrainingSubjectTrainerRecommendationSearch;
 use yii\data\ActiveDataProvider;
 use backend\models\Trainer;
-use backend\modules\pusdiklat\planning\models\TrainerSearch;
+use backend\modules\pusdiklat2\planning\models\TrainerSearch;
 
 /**
  * ActivityController implements the CRUD actions for Activity model.

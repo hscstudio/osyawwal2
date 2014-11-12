@@ -98,7 +98,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'value' => function ($data){
 					// CEK AUTHORISE ACCESS
-					$permit = \Yii::$app->user->can('pusdiklat-planning-1');
+					$permit = \Yii::$app->user->can('pusdiklat2-competency');
 					$object_person=\backend\models\ObjectPerson::find()
 						->where([
 							'object'=>'activity',
