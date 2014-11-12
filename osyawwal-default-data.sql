@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 12, 2014 at 09:17 AM
+-- Generation Time: Nov 12, 2014 at 04:37 PM
 -- Server version: 5.5.39-MariaDB
 -- PHP Version: 5.5.18
 
@@ -1102,6 +1102,8 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/pusdiklat-planning/training-subject-trainer-recommendation/inde', 2, NULL, NULL, NULL, 1413838826, 1413838826),
 ('/pusdiklat-planning/training-subject-trainer-recommendation/upda', 2, NULL, NULL, NULL, 1413838826, 1413838826),
 ('/pusdiklat-planning/training-subject-trainer-recommendation/view', 2, NULL, NULL, NULL, 1413838826, 1413838826),
+('/pusdiklat2-competency/*', 2, NULL, NULL, NULL, 1415784754, 1415784754),
+('/pusdiklat2-general/*', 2, NULL, NULL, NULL, 1415784741, 1415784741),
 ('/sekretariat-finance/*', 2, NULL, NULL, NULL, 1413838622, 1413838622),
 ('/sekretariat-finance/default/*', 2, NULL, NULL, NULL, 1413838622, 1413838622),
 ('/sekretariat-finance/default/index', 2, NULL, NULL, NULL, 1413838622, 1413838622),
@@ -1114,10 +1116,10 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/sekretariat-general/*', 2, NULL, NULL, NULL, 1413838698, 1413838698),
 ('/sekretariat-general/activity-meeting-general/*', 2, NULL, NULL, NULL, 1413838698, 1413838698),
 ('/sekretariat-general/activity-meeting-general/create', 2, NULL, NULL, NULL, 1413838698, 1413838698),
-('/sekretariat-general/activity-meeting-general/delete', 2, NULL, NULL, NULL, 1413838698, 1413838698),
-('/sekretariat-general/activity-meeting-general/index', 2, NULL, NULL, NULL, 1413838698, 1413838698),
-('/sekretariat-general/activity-meeting-general/update', 2, NULL, NULL, NULL, 1413838698, 1413838698);
+('/sekretariat-general/activity-meeting-general/delete', 2, NULL, NULL, NULL, 1413838698, 1413838698);
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
+('/sekretariat-general/activity-meeting-general/index', 2, NULL, NULL, NULL, 1413838698, 1413838698),
+('/sekretariat-general/activity-meeting-general/update', 2, NULL, NULL, NULL, 1413838698, 1413838698),
 ('/sekretariat-general/activity-meeting-general/view', 2, NULL, NULL, NULL, 1413838698, 1413838698),
 ('/sekretariat-general/activity-room/*', 2, NULL, NULL, NULL, 1413838698, 1413838698),
 ('/sekretariat-general/activity-room/create', 2, NULL, NULL, NULL, 1413838698, 1413838698),
@@ -1217,6 +1219,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/sekretariat-organisation/reference-unit/view', 2, NULL, NULL, NULL, 1413838538, 1413838538),
 ('admin-bdk', 2, NULL, NULL, NULL, 1415755384, 1415755384),
 ('admin-pusdiklat', 2, NULL, NULL, NULL, 1413838886, 1413842949),
+('admin-pusdiklat2', 2, NULL, NULL, NULL, 1415784816, 1415784816),
 ('Bagian Kepegawaian', 1, '3', NULL, NULL, NULL, NULL),
 ('Bagian Keuangan', 1, '3', NULL, NULL, NULL, NULL),
 ('Bagian Otl', 1, '3', NULL, NULL, NULL, NULL),
@@ -1271,6 +1274,8 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('pusdiklat-planning-1', 2, NULL, NULL, NULL, 1413840127, 1413840127),
 ('pusdiklat-planning-2', 2, NULL, NULL, NULL, 1413840185, 1413840185),
 ('pusdiklat-planning-3', 2, NULL, NULL, NULL, 1413840251, 1413840251),
+('pusdiklat2-competency', 2, NULL, NULL, NULL, 1415784798, 1415784798),
+('pusdiklat2-general', 2, NULL, NULL, NULL, 1415784774, 1415784774),
 ('Sekretariat Badan', 1, '2', NULL, NULL, NULL, NULL),
 ('sekretariat-badan-finance', 2, NULL, NULL, NULL, 1413838636, 1413842873),
 ('sekretariat-badan-general', 2, NULL, NULL, NULL, 1413838713, 1413842914),
@@ -1795,6 +1800,8 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('admin-pusdiklat', 'pusdiklat-planning-1'),
 ('admin-pusdiklat', 'pusdiklat-planning-2'),
 ('admin-pusdiklat', 'pusdiklat-planning-3'),
+('admin-pusdiklat2', 'pusdiklat2-competency'),
+('admin-pusdiklat2', 'pusdiklat2-general'),
 ('Bagian Kepegawaian', 'Pelaksana Bagian Kepegawaian'),
 ('Bagian Keuangan', 'Pelaksana Bagian Keuangan'),
 ('Bagian Otl', 'Pelaksana Bagian Otl'),
@@ -1908,6 +1915,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Pusdiklat', 'Bidang Evaluasi Dan Pelaporan Kinerja'),
 ('Pusdiklat', 'Bidang Penyelenggaraan'),
 ('Pusdiklat', 'Bidang Perencanaan Dan Pengembangan Diklat'),
+('Pusdiklat PSDM', 'admin-pusdiklat2'),
 ('Pusdiklat PSDM', 'Bagian Tata Usaha [PSDM]'),
 ('Pusdiklat PSDM', 'Bidang Penjenjangan Dan Peningkatan Kompetensi'),
 ('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/*'),
@@ -2086,10 +2094,10 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('pusdiklat-execution-1', '/pusdiklat-execution/activity/view'),
 ('pusdiklat-execution-1', '/pusdiklat-execution/activity/view-student-plan'),
 ('pusdiklat-execution-1', '/pusdiklat-execution/default/*'),
-('pusdiklat-execution-1', '/pusdiklat-execution/default/index'),
-('pusdiklat-execution-1', '/pusdiklat-execution/default/view-employee'),
-('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/*');
+('pusdiklat-execution-1', '/pusdiklat-execution/default/index');
 INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
+('pusdiklat-execution-1', '/pusdiklat-execution/default/view-employee'),
+('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/*'),
 ('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/create'),
 ('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/delete'),
 ('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/index'),
@@ -2387,6 +2395,8 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/update-person'),
 ('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/view'),
 ('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/view-person'),
+('pusdiklat2-competency', '/pusdiklat2-competency/*'),
+('pusdiklat2-general', '/pusdiklat2-general/*'),
 ('Sekretariat Badan', 'Bagian Kepegawaian'),
 ('Sekretariat Badan', 'Bagian Keuangan'),
 ('Sekretariat Badan', 'Bagian Otl'),
