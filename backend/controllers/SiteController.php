@@ -208,7 +208,7 @@ class SiteController extends Controller
     public function actionLogout()
     {
         // Hapus log online nya
-        $online = Yii::$app->user->identity->employee->person_id;
+        $online = Online::findOne(Person::findOne(Yii::$app->user->identity->employee->person_id)->id);
         if (!empty($online)) {
             // Klo kosong ya uda biarin, klo ada aja baru hapus
             $online->delete();
@@ -225,6 +225,7 @@ class SiteController extends Controller
 		if(isset(Yii::$app->user->identity->username)){
 			// save current username	
 			$username = Yii::$app->user->identity->username;
+			$name = Yii::$app->user->identity->employee->person->name;
 			// force logout		
 			Yii::$app->user->logout();
 			// render form lockscreen
@@ -233,6 +234,7 @@ class SiteController extends Controller
 			return $this->render('lockScreen', [
 				'model' => $model,
 				'previous' => $previous,
+				'name' => $name,
 			]);  
         }
 		else{
@@ -306,7 +308,7 @@ class SiteController extends Controller
      * Lists all Issue models.
      * @return mixed
      */
-    public function actionIssue($status=1)
+    public function actionIssue($status='all')
     {
 		$searchModel = new IssueSearch();
 		$queryParams = Yii::$app->request->getQueryParams();

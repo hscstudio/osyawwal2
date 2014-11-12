@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						<?php						
 						echo Html::activeHiddenInput($model, 'username');
 						?>
-						<h1><?= $model->username ?></h1>
+						<h1><?= $name ?></h1>
 						<?= $form->field($model, 'password')->passwordInput() ?>
 						<?php
 						$this->registerJs("

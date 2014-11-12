@@ -15,11 +15,33 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="issue-view  panel panel-default">
 
-   <div class="panel-heading"> 
+   <div class="panel-heading" style="position:relative;padding-left:60px;"> 
+		<?php
+		$user = \backend\models\User::findOne($model->created_by);	
+		// Ngambil foto
+		$objectFile = \backend\models\ObjectFile::find()
+			->where([
+				'object' => 'person',
+				'object_id' => $user->employee->person_id,
+				'type' => 'photo'
+			])
+			->joinWith('file')
+			->one();
+		// dah
+
+		if (empty($objectFile)) {
+			// foto ga ada, so pake gambar default
+			$pathFoto = Yii::$app->homeUrl.'/logo_simbppk_pelangi.png';
+		}
+		else {
+			$pathFoto = Url::to(['/file/download','file'=>$objectFile->object.'/'.$objectFile->object_id.'/thumb_'.$objectFile->file->file_name]);
+		}
+		?>
         <div class="pull-right">
         <?=
  Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back', ['issue'], ['class' => 'btn btn-xs btn-primary']) ?>
         </div>
+		<img style="left:0;top:0;width:50px;position:absolute;" src="<?= $pathFoto ?>">
 		<?php
 		$content = '<strong>'.$this->title.'</strong><br>';
 		$content .= '<small>';
@@ -29,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		else{
 			$content .= '<span class="label label-danger">STATUS: CLOSE</span> ';
 		}
-		$user = \backend\models\User::findOne($model->created_by);						
+							
 		if(!empty($user)){
 			$content .= ' '.$user->employee->person->name.' ';
 		}		
@@ -52,12 +74,12 @@ $this->params['breadcrumbs'][] = $this->title;
 		?>
     </div>
     <div class="panel-body">	
-		<blockquote>
+		<blockquote style="font-size:17px;">
 			<?php 
-			echo $model->content;
+			echo trim($model->content);
 			if(!empty($model->attachment) and strlen(($model->attachment))>3){
 				echo '<br>';
-				echo Html::a('<i class="fa fa-fw fa-download"></i>  download attachment',Url::to(['/file/download','file'=>'issue/'.$model->id.'/'.$model->attachment]));
+				echo Html::a('<i class="fa fa-fw fa-download"></i>  download attachment',Url::to(['/file/download','file'=>'issue/'.$model->id.'/'.$model->attachment]),['class'=>'btn-xs']);
 			}
 			?>
 		</blockquote>
@@ -81,7 +103,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				else{
 					$labelt = '';//<span class="label label-default">-</span>';
 				}
-				echo $labelt.' by '.$author.' '.$modelChildren->created.'<hr> ';
+				echo $labelt.'<small>'.' by '.$author.' '.$modelChildren->created.'</small>'.'<hr> ';
 			}
 			else if($modelChildren->subject=='status'){
 				$status = $modelChildren->status;
@@ -93,25 +115,50 @@ $this->params['breadcrumbs'][] = $this->title;
 				else{
 					$statust = '';//<span class="label label-default">-</span>';
 				}
-				echo $statust.' by '.$author.' '.$modelChildren->created.'<hr> ';
+				echo $statust.'<small>'.' by '.$author.' '.$modelChildren->created.'</small>'.'<hr> ';
 			}
 			else{
 				?>
 				<div class="panel panel-default">
-					<div class="panel-heading"> 
+					<div class="panel-heading" style="position:relative;padding-left:60px;"> 
 						<?php
-						$content = $author;						
+						// Ngambil foto
+						$objectFile = \backend\models\ObjectFile::find()
+							->where([
+								'object' => 'person',
+								'object_id' => $user->employee->person_id,
+								'type' => 'photo'
+							])
+							->joinWith('file')
+							->one();
+						// dah
+
+						if (empty($objectFile)) {
+							// foto ga ada, so pake gambar default
+							$pathFoto = Yii::$app->homeUrl.'/logo_simbppk_pelangi.png';
+						}
+						else {
+							$pathFoto = Url::to(['/file/download','file'=>$objectFile->object.'/'.$objectFile->object_id.'/thumb_'.$objectFile->file->file_name]);
+						}
+						?>
+						<img style="left:0;top:0;width:50px;position:absolute;" src="<?= $pathFoto ?>">
+						<?php
+						$content = '<small>';
+						$content .= $author;						
 						$content .= ' commented at '.$modelChildren->created.' ';
-						echo $content;
+						$content .= '</small>';												
+						echo $content;						
 						?>
 					</div>
 					<div class="panel-body">
 						<?php
+						echo '<blockquote style="font-size:15px;margin-bottom:0;">';	
 						echo $modelChildren->content;
 						echo '<br>';
 						if(!empty($modelChildren->attachment) and strlen(($modelChildren->attachment))>3){
-							echo Html::a('<i class="fa fa-fw fa-download"></i> download attachment',Url::to(['/file/download','file'=>'issue/'.$modelChildren->id.'/'.$modelChildren->attachment]));
+							echo Html::a('<i class="fa fa-fw fa-download"></i> download attachment',Url::to(['/file/download','file'=>'issue/'.$modelChildren->id.'/'.$modelChildren->attachment]),['class'=>'btn-xs']);
 						}
+						echo '</blockquote>';
 						?>
 					</div>
 				</div>

@@ -125,6 +125,12 @@ AppAsset::register($this);
 					
 					$menuItemsLeft[] =
 							['icon'=>'fa fa-crosshairs fa-fw','label' => 'Issue', 'url' => ['/site/issue']];
+					
+					$menuItemsLeft[] =
+							['icon'=>'fa fa-file fa-fw','label' => 'Dokumentasi', 'url' => '#', 'items' =>[
+								['icon'=>'fa fa-link fa-faw','label'=>'Main Flow SIM BPPK', 'url' => ['file/free-download','file'=>'guide/main-flow-sim-bppk.pdf']],
+								['icon'=>'fa fa-link fa-faw','label'=>'Manual Admin Pengelolaan Pusdiklat', 'url' => ['file/free-download','file'=>'guide/manual-admin-pengelolaan-pegawai.pdf']],
+							]];
 							
 	                echo Nav::widget([
 	                    'options' => ['class' => 'navbar-nav'],
@@ -136,7 +142,7 @@ AppAsset::register($this);
 					$objectFile = ObjectFile::find()
                         ->where([
                             'object' => 'person',
-                            'object_id' => Yii::$app->user->identity->id,
+                            'object_id' => Yii::$app->user->identity->employee->person_id,
                             'type' => 'photo'
                         ])
                         ->joinWith('file')
@@ -145,7 +151,7 @@ AppAsset::register($this);
 
                     if (empty($objectFile)) {
                         // foto ga ada, so pake gambar default
-                        $pathFoto = Yii::$app->homeUrl.'/logo_simbppk_pelangi.png">';
+                        $pathFoto = Yii::$app->homeUrl.'/logo_simbppk_pelangi.png';
                     }
                     else {
                         $pathFoto = Url::to(['/file/download','file'=>$objectFile->object.'/'.$objectFile->object_id.'/thumb_'.$objectFile->file->file_name]);
