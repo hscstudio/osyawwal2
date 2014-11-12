@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\bdk\general\controllers;
+namespace backend\modules\pusdiklat\general\controllers;
 
 use Yii;
 use backend\models\Activity;
@@ -11,8 +11,8 @@ use backend\models\Meeting;
 use backend\models\Reference;
 use backend\models\Organisation;
 use backend\models\ObjectPerson;
-use backend\modules\bdk\general\models\MeetingActivitySearch as ActivitySearch;;
-use backend\modules\bdk\general\models\RoomSearch;
+use backend\modules\pusdiklat\general\models\MeetingActivitySearch as ActivitySearch;;
+use backend\modules\pusdiklat\general\models\RoomSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -42,13 +42,13 @@ class RoomRequest3Controller extends Controller
      * Lists all Activity models.
      * @return mixed
      */
-    public function actionIndex($year='',$status='all', $organisation_id='387')
+    public function actionIndex($year='',$status=1, $organisation_id='387')
     {
 		if(empty($year)) $year=date('Y');
 		$searchModel = new ActivitySearch();
 		$queryParams = Yii::$app->request->getQueryParams();		
 		if($status!='all'){
-			$queryParams['ActivitySearch']['status'] = $status;
+			$queryParams['MeetingActivitySearch']['status'] = $status;
 		}
 		
 		$org = Organisation::findOne($organisation_id);
@@ -56,11 +56,11 @@ class RoomRequest3Controller extends Controller
 		
 		}
 		else {
-			$queryParams['ActivitySearch']['organisation_id'] = $organisation_id;
+			$queryParams['MeetingActivitySearch']['organisation_id'] = $organisation_id;
 		}
 		
 		if($year!='all'){
-			$queryParams['ActivitySearch']['year'] = $year;
+			$queryParams['MeetingActivitySearch']['year'] = $year;
 		}
 				
 		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
@@ -271,14 +271,14 @@ class RoomRequest3Controller extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionSetRoom($activity_id,$room_id,$status)
+    public function actionSetRoom($activity_id,$room_id)
     {
         $satker_id = (int)Yii::$app->user->identity->employee->satker_id;
 		$activity=$this->findModel($activity_id);		
 		$meeting = Meeting::findOne($activity->id);
 		$room = Room::findOne($room_id);
-		/* $status = 0;
-		if($room->satker_id == $satker_id) $status = 1; */
+		$status = 0;
+		if($room->satker_id == $satker_id) $status = 1;
 		$model = new ActivityRoom([
 			'activity_id'=>$meeting->activity_id,
 			'room_id'=>$room->id,

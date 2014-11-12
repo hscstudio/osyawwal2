@@ -110,21 +110,12 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'value' => function ($data){
 					// CEK AUTHORISE ACCESS
-					$permit = \hscstudio\heart\helpers\Heart::OrganisationAuthorized(
-						[
-							'1213020100', // CEK KD_UNIT_ORG 1213020100 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
-							'1213020000', // BIDANG RENBANG
-							'1213000000', // PUSDIKLAT
-						],
-						[
-							1, // 1= HEAD OF KD_UNIT_ORG
-						]
-					);
+					$permit = \Yii::$app->user->can('Subbagian Rumah Tangga Dan Pengelolaan Aset');
 					$object_person=\backend\models\ObjectPerson::find()
 						->where([
 							'object'=>'activity',
-							'object_id'=>$data->id,
-							'type'=>'organisation_1213020100', // CEK KD_UNIT_ORG 1213020100 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
+							'object_id'=>$data->id,														
+							'type'=>'organisation_1213010300' //1213010100 CEK KD_UNIT_ORG 1213010100 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
 						])
 						->one();
 					
@@ -296,4 +287,20 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?= \hscstudio\heart\widgets\Modal::widget() ?>
 	<?php $this->registerCss('#div-select2-status .select2-container{width:125px !important;}');  ?>
 	<?php \yii\widgets\Pjax::end(); ?>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+	<i class="fa fa-fw fa-refresh"></i> Document Generator
+	</div>
+    <div class="panel-body">
+		<?php
+		$form = \yii\bootstrap\ActiveForm::begin([
+			'method'=>'get',
+			'action'=>['export-meeting','year'=>$year,'status'=>$status],
+		]);
+		echo Html::submitButton('<i class="fa fa-fw fa-download"></i> Download Daftar Rapat', ['class' => 'btn btn-default','style'=>'display:block;']);
+		\yii\bootstrap\ActiveForm::end(); 
+		?>
+	</div>
 </div>

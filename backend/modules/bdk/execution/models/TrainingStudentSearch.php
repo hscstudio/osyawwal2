@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\bdk\execution\models;
+namespace backend\modules\pusdiklat\execution\models;
 
 use Yii;
 use yii\base\Model;
@@ -12,6 +12,7 @@ use backend\models\TrainingStudent;
  */
 class TrainingStudentSearch extends TrainingStudent
 {
+	public $name, $nip;
     /**
      * @inheritdoc
      */
@@ -20,6 +21,7 @@ class TrainingStudentSearch extends TrainingStudent
         return [
             [['id', 'training_id', 'student_id', 'status', 'created_by', 'modified_by'], 'integer'],
             [['created', 'modified'], 'safe'],
+			[['name', 'nip'], 'safe'],
         ];
     }
 
@@ -41,7 +43,11 @@ class TrainingStudentSearch extends TrainingStudent
      */
     public function search($params)
     {
-        $query = TrainingStudent::find();
+        $query = TrainingStudent::find()
+			->joinWith('student')
+			->joinWith('student.person')
+			->orderBy('name ASC')
+			;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -50,18 +56,21 @@ class TrainingStudentSearch extends TrainingStudent
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
-
+		
         $query->andFilterWhere([
             'id' => $this->id,
             'training_id' => $this->training_id,
             'student_id' => $this->student_id,
-            'status' => $this->status,
+            'training_student.status' => $this->status,
             'created' => $this->created,
             'created_by' => $this->created_by,
             'modified' => $this->modified,
             'modified_by' => $this->modified_by,
         ]);
-
+		
+		$query->andFilterWhere(['like', 'name', $this->name])
+			  ->andFilterWhere(['like', 'nip', $this->nip]);
+			
         return $dataProvider;
     }
 }

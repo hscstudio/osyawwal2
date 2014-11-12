@@ -1,37 +1,43 @@
 <?php
-namespace backend\modules\bdk\execution\controllers;
+namespace backend\modules\pusdiklat\execution\controllers;
 
 use Yii;
 use backend\models\Activity;
-use backend\modules\bdk\execution\models\ActivitySearch;
+use backend\modules\pusdiklat\execution\models\TrainingActivitySearch;
 
 use backend\models\Person;
 use backend\models\ObjectPerson;
 use backend\models\ObjectFile;
 use backend\models\Program;
 use backend\models\ProgramSubject;
+use backend\models\ProgramSubjectHistory;
 use backend\models\Reference;
 use backend\models\ObjectReference;
 use backend\models\Training;
 use backend\models\TrainingStudentPlan;
+use backend\models\Employee;
+use backend\models\Trainer;
 
 use backend\models\TrainingClass;
-use backend\modules\bdk\execution\models\TrainingClassSearch;
+use backend\modules\pusdiklat\execution\models\TrainingClassSearch;
 
 use backend\models\TrainingClassSubject;
-use backend\modules\bdk\execution\models\TrainingClassSubjectSearch;
+use backend\modules\pusdiklat\execution\models\TrainingClassSubjectSearch;
 
 use backend\models\TrainingClassStudent;
-use backend\modules\bdk\execution\models\TrainingClassStudentSearch;
+use backend\modules\pusdiklat\execution\models\TrainingClassStudentSearch;
 
 use backend\models\TrainingStudent;
-use backend\modules\bdk\execution\models\TrainingStudentSearch;
+use backend\modules\pusdiklat\execution\models\TrainingStudentSearch;
 
 use backend\models\Student;
-use backend\modules\bdk\execution\models\StudentSearch;
+use backend\modules\pusdiklat\execution\models\StudentSearch;
 
 use backend\models\TrainingSchedule;
-use backend\modules\bdk\execution\models\TrainingScheduleSearch;
+use backend\modules\pusdiklat\execution\models\TrainingScheduleSearch;
+use backend\modules\pusdiklat\execution\models\TrainingScheduleExtSearch;
+
+use backend\models\ActivityRoom;
 
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -42,9 +48,11 @@ use yii\data\ActiveDataProvider;
 use hscstudio\heart\helpers\Heart;
 
 use yii\data\ArrayDataProvider;
-/**
- * ActivityController implements the CRUD actions for Activity model.
- */
+
+use PHPExcel_IOFactory;
+use PHPExcel_Cell_DataType;
+use PHPExcel_Calculation;
+
 class Activity2Controller extends Controller
 {
     public $layout = '@hscstudio/heart/views/layouts/column2';
@@ -60,6 +68,27 @@ class Activity2Controller extends Controller
         ];
     }
 
+    private $daftarMPperTanggal = []; 	/*
+    									dipake untuk nyatet kordinat kolom MP yang udah dicatet
+										yang dikategorikan berdasarkan tanggal
+										contoh struktur: $daftarMPperTanggal => [
+															'1-1-2014' => [
+																'1' => [
+																	'kodeMP' => 'MP1',
+																	'kordinat' => 'A1'
+																],
+																'2' => [
+																	'kodeMP' => 'MP2',
+																	'kordinat' => 'A2'
+																]
+															],
+															'2-1-2014' => [
+																'1' => [
+																	'kodeMP' => 'MP3',
+																	'kordinat' => 'A3'
+																],
+															]*/
+
     /**
      * Lists all Activity models.
      * @return mixed
@@ -67,16 +96,16 @@ class Activity2Controller extends Controller
     public function actionIndex($year='',$status='nocancel')
     {
 		if(empty($year)) $year=date('Y');
-		$searchModel = new ActivitySearch();
+		$searchModel = new TrainingActivitySearch();
 		$queryParams = Yii::$app->request->getQueryParams();
 		if($status=='nocancel'){
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'status'=> [0,1,2],
 				];
 			}
 			else{
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'year' => $year,
 					'status'=> [0,1,2],
 				];
@@ -84,23 +113,23 @@ class Activity2Controller extends Controller
 		}
 		else if($status=='all'){
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 				];
 			}
 			else{
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'year' => $year,
 				];
 			}
 		}
 		else{
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'status' => $status,
 				];
 			}
 			else{
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'year' => $year,
 					'status' => $status,
 				];
@@ -116,10 +145,9 @@ class Activity2Controller extends Controller
 			->orderBy(['year'=>'DESC'])
 			->groupBy(['year'])
 			->currentSatker()
-			->active()
 			->asArray()
 			->all(), 'year', 'year');
-		$year_training['all']='All'	;
+		$year_training['all']='All'	; 
 		
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -166,25 +194,25 @@ class Activity2Controller extends Controller
 					$model->satker = 'current';
 					$model->location = implode('|',$model->location);							
 					if($model->save()) {
-						Yii::$app->getSession()->setFlash('success', 'Activity data have saved.');
+						Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Activity data have saved.');
 						if($training->load(Yii::$app->request->post())){							
 							$training->activity_id= $model->id;
 							$training->program_revision = (int)\backend\models\ProgramHistory::getRevision($training->program_id);
 							
 							if($training->save()){								 
-								Yii::$app->getSession()->setFlash('success', 'Training & activity data have saved.');
+								Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Training & activity data have saved.');
 								$transaction->commit();
 								return $this->redirect(['index']);
 							}
 						}						
 					}
 					else{
-						Yii::$app->getSession()->setFlash('error', 'Data is NOT saved.');
+						Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Data is NOT saved.');
 					}				
 				}
 			}
 			catch (Exception $e) {
-				Yii::$app->getSession()->setFlash('error', 'Roolback transaction. Data is not saved');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Roolback transaction. Data is not saved');
 			}
         } 
 		
@@ -225,16 +253,16 @@ class Activity2Controller extends Controller
     public function actionIndexStudentPlan($year='',$status='nocancel')
     {
         if(empty($year)) $year=date('Y');
-		$searchModel = new ActivitySearch();
+		$searchModel = new TrainingActivitySearch();
 		$queryParams = Yii::$app->request->getQueryParams();
 		if($status=='nocancel'){
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'status'=> [0,1,2],
 				];
 			}
 			else{
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'year' => $year,
 					'status'=> [0,1,2],
 				];
@@ -242,23 +270,23 @@ class Activity2Controller extends Controller
 		}
 		else if($status=='all'){
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 				];
 			}
 			else{
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'year' => $year,
 				];
 			}
 		}
 		else{
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'status' => $status,
 				];
 			}
 			else{
-				$queryParams['ActivitySearch']=[
+				$queryParams['TrainingActivitySearch']=[
 					'year' => $year,
 					'status' => $status,
 				];
@@ -325,8 +353,8 @@ class Activity2Controller extends Controller
 		$renders = [];
 		$renders['model'] = $model;
 		$object_people_array = [
-			//1213030100 CEK KD_UNIT_ORG 1213030100 IN TABLE ORGANISATION IS SUBBIDANG PENYEL I
-			'organisation_1213030100'=>'PIC TRAINING ACTIVITY [BIDANG PENYELENGGARAAN I]'
+			//1213030200 CEK KD_UNIT_ORG 1213030200 IN TABLE ORGANISATION IS SUBBIDANG PENYEL I
+			'organisation_1213030200'=>'PIC TRAINING ACTIVITY [BIDANG PENYELENGGARAAN II]'
 		];
 		$renders['object_people_array'] = $object_people_array;
 		foreach($object_people_array as $object_person=>$label){
@@ -393,10 +421,11 @@ class Activity2Controller extends Controller
         $model = $this->findModel($id);
 		$program = Program::findOne($model->training->program_id);
 		$subject = new ActiveDataProvider([
-            'query' => ProgramSubject::find()
+            'query' => \backend\models\ProgramSubjectHistory::find()
 						->where([
-							'program_id' => $model->training->program_id,
-							'status'=>1,
+							'program_id'=>$model->training->program_id,
+							'program_revision'=>$model->training->program_revision,
+							'status'=>1
 						])
 						->orderBy(['sort'=>SORT_ASC,]),
         ]);
@@ -637,9 +666,10 @@ class Activity2Controller extends Controller
         $activity = $this->findModel($id); // Activity
 		$class = $this->findModelClass($class_id); // Class
 		
-		$programSubjects= ProgramSubject::find()
+		$programSubjects= ProgramSubjectHistory::find()
 			->where([
-				'program_id' => $activity->training->program_id,
+				'program_id'=>$activity->training->program_id,
+				'program_revision'=>$activity->training->program_revision,
 				'status'=>1
 			])
 			->all();
@@ -685,18 +715,25 @@ class Activity2Controller extends Controller
      * Lists all TrainingClass models.
      * @return mixed
      */
-    public function actionStudent($id)
+    public function actionStudent($id,$status=1)
     {
         $model = $this->findModel($id);
-		$searchModel = new TrainingStudentSearch([
+		$searchModel = new TrainingStudentSearch();
+		$queryParams['TrainingStudentSearch']=[
 			'training_id' => $id,
-		]);
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+			'status' => $status
+		]; 
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$dataProvider = $searchModel->search($queryParams); 
+		$dataProvider->getSort()->defaultOrder = [
+			'status'=>SORT_DESC,		
+		];
+		
         return $this->render('student', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
 			'model' => $model,
+			'status' => $status,
         ]);
     }
 	
@@ -842,7 +879,6 @@ class Activity2Controller extends Controller
 					$baseRow = 4;
 					$err=[];
 					$data = [];	
-					$password = Yii::$app->security->generatePasswordHash('aku cinta bppk');
 					$row=0;
 					while(!empty($sheetData[$baseRow]['B'])){
 						// GET DATA FROM EXCEL
@@ -866,7 +902,7 @@ class Activity2Controller extends Controller
 										->where(['nip' => $nip])
 										->orWhere(['nid' => $nip])
 										->one();
-							if(null!=$person){
+							if(!empty($person)){
 								$person_id = $person->id;
 							}
 							
@@ -879,8 +915,8 @@ class Activity2Controller extends Controller
 										->orWhere(['nid' => $nip])
 										->column(),
 								])
-								->one();					
-							if(null!=$student){
+								->one();		
+							if(!empty($student)){
 								$student_id = $student->person_id;
 							}
 							
@@ -891,7 +927,7 @@ class Activity2Controller extends Controller
 									'value'=>$unit
 								])
 								->one();
-							if(null!=$reference){
+							if(!empty($reference)){
 								$reference_id = $reference->id;
 							}
 							
@@ -899,15 +935,16 @@ class Activity2Controller extends Controller
 							$object_reference = ObjectReference::find()
 								->where([
 									'object' => 'person',
-									'object_id' => $person->id,
+									'object_id' => $person_id,
 									'type' => 'unit',
 								])
 								->one();
-							if(null!=$object_reference){
+							if(!empty($object_reference)){
 								$object_reference_id = 1;
 							}
-						
 							
+						
+							$password = Yii::$app->security->generatePasswordHash($nip,4);
 							$data[$row]=[
 								'row'	=>	$row,
 								'nip'	=>	$nip,
@@ -1019,14 +1056,15 @@ class Activity2Controller extends Controller
 					}
 					
 					if($unit_id>0){
-						/* if($object_reference_id==1){
+						if($object_reference_id>=1){
 							$object_reference = ObjectReference::find()
 								->where([
 									'object' => 'person',
 									'object_id' => $person_id,
 									'type' => 'unit',
-									'reference_id' => $unit_id,
-								]);
+								])
+								->one();
+							$object_reference->reference_id = $unit_id;
 						}
 						else{
 							$object_reference = new ObjectReference([
@@ -1036,41 +1074,14 @@ class Activity2Controller extends Controller
 								'reference_id' => $unit_id,
 							]);
 						}
-						$object_reference->save(); */
+						$object_reference->save(); 						
 					}
 				} 
 			}
 			
 			unset($session['data']);
-			
-			/*
-			if(count($person_values)>0)
-				Yii::$app->getDb()->createCommand()
-					->batchInsert('person', ['name', 'nip', 'nid','status'], $person_values)
-					->execute();
-			
-			if(count($student_values)>0)
-				Yii::$app->getDb()->createCommand()
-					->batchInsert('student', ['person_id','username','password_hash','status'], $student_values)
-					->execute();
-			 Yii::$app->getDb()->createCommand()
-				->batchInsert('training_student', ['nip'], $person_values);
-				->execute(); */	
-			/* Yii::$app->getDb()->createCommand()
-				->batchInsert('tbl_user', ['name', 'status'],
-					[],
-					[],
-					
-				])
-				->execute(); */
 
 		}
-		/* 
-		Please read guide of upload https://github.com/yiisoft/yii2/blob/master/docs/guide/input-file-upload.md
-		maybe I do mistake :)
-		*/	
-		
-
 		
 		if ($session->has('data')) {
 			$data = $session['data'];
@@ -1238,71 +1249,310 @@ class Activity2Controller extends Controller
 
 
 
-    public function actionSchedule($training_class_id,$start="",$finish="")
+    
+
+
+
+
+
+
+    public function actionDeleteClassStudent($id, $class_id, $training_class_student_id)
     {
-		$trainingClass = TrainingClass::findOne($training_class_id);
-
-    	$activity = $this->findModel($trainingClass->training->activity->id); // Activity
+        $model = $this->findModelClassStudent($training_class_student_id);
+		$model->delete();
 		
-		if(empty($start)){
-			$start = $trainingClass->training->activity->start;
-		}
-		
-		if(empty($finish) or $finish<$start){
-			$finish = $start;
-		}
-		$searchModel = new TrainingScheduleSearch();
-		$queryParams['TrainingScheduleSearch']=[				
-			'training_class_id'=>$training_class_id,
-			'startDate'=>$start,
-			'endDate'=>$finish,
-		];
-		$queryParams = ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
-        $dataProvider = $searchModel->search($queryParams);
-		$dataProvider->getSort()->defaultOrder = ['start'=>SORT_ASC,'end'=>SORT_ASC];
-
-		if (Yii::$app->request->isAjax){
-			return $this->renderAjax('schedule', [
-				'searchModel' => $searchModel,
-				'dataProvider' => $dataProvider,
-				'trainingClass'=>$trainingClass,
-				'start'=>$start,
-				'finish'=>$finish,
-				'activity' => $activity
-			]);
-		}
-		else{
-			return $this->render('schedule', [
-				'searchModel' => $searchModel,
-				'dataProvider' => $dataProvider,
-				'trainingClass'=>$trainingClass,
-				'start'=>$start,
-				'finish'=>$finish,
-				'activity' => $activity
-			]);
-		}
+		Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-plus-circle"></i>Data have deleted.');
+        return $this->redirect(['class-student', 'id' => $id, 'class_id' => $class_id]);
     }
 
 
+    protected function findModelClassStudent($id)
+    {
+        if (($model = TrainingClassStudent::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
 
-    public function actionGetMaxTime($training_class_id,$start=""){
+	/**
+     * Lists all Room models.
+     * @return mixed
+     */
+    public function actionClassSchedule($id, $class_id,$start="",$end="")
+    {
+		$activity = $this->findModel($id); // Activity
+		$class = $this->findModelClass($class_id); // Class	
+
+		if(empty($start)){
+			$start = $class->training->activity->start;
+		}
+		
+		if(empty($end) or $end<$start){
+			$end = $start;
+		}
+		$searchModel = new TrainingScheduleSearch();
+		$queryParams['TrainingScheduleSearch']=[				
+			'training_class_id'=>$class_id,
+			'startDate' => date('Y-m-d',strtotime($start)),
+			'endDate'=>date('Y-m-d',strtotime($start)),
+		];		
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+        $dataProvider = $searchModel->search($queryParams);
+		$dataProvider->getSort()->defaultOrder = ['start'=>SORT_ASC,'end'=>SORT_ASC];
+
+		$trainingScheduleExtSearch = new TrainingScheduleExtSearch([
+			'startDate' => date('Y-m-d',strtotime($start)),
+			'scheduleDate' => date('Y-m-d',strtotime($start)),
+		]);
+		
+		// GET ALL TRAINING YEAR
+		if (Yii::$app->request->isAjax){
+			return $this->renderAjax('classSchedule', [
+				'searchModel' => $searchModel,
+				'dataProvider' => $dataProvider,
+				'activity'=>$activity,
+				'class'=>$class,
+				'start'=>$start,
+				'end'=>$end,
+				'trainingScheduleExtSearch' => $trainingScheduleExtSearch
+			]);
+		}
+		else{
+			return $this->render('classSchedule', [
+				'searchModel' => $searchModel,
+				'dataProvider' => $dataProvider,
+				'activity'=>$activity,
+				'class'=>$class,
+				'start'=>$start,
+				'end'=>$end,
+				'trainingScheduleExtSearch' => $trainingScheduleExtSearch
+			]);
+		}
+    }
+	
+	/**
+     * Lists all Room models.
+     * @return mixed
+     */
+    public function actionExportClassSchedule($id, $class_id,$start="",$end="",$filetype="xlsx")
+    {
+		$activity = $this->findModel($id); // Activity
+		$class = $this->findModelClass($class_id); // Class	
+
+		if(empty($start)){
+			$start = $class->training->activity->start;
+		}
+		
+		if(empty($end) or $end<$start){
+			$end = $start;
+		}
+		$searchModel = new TrainingScheduleSearch();
+		$queryParams['TrainingScheduleSearch']=[				
+			'training_class_id'=>$class_id,
+			/* 'startDate' => date('Y-m-d',strtotime($start)),
+			'endDate'=>date('Y-m-d',strtotime($start)), */
+		];		
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+        $dataProvider = $searchModel->search($queryParams);
+		$dataProvider->getSort()->defaultOrder = ['start'=>SORT_ASC,'end'=>SORT_ASC];
+		
+		$dataProvider->setPagination(false);
+		
+		$types=['xls'=>'Excel5','xlsx'=>'Excel2007'];
+		$objReader = \PHPExcel_IOFactory::createReader($types[$filetype]);
+		$template = Yii::getAlias('@file').DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'pusdiklat'.DIRECTORY_SEPARATOR.'execution'.
+			DIRECTORY_SEPARATOR.'training.class.schedule.'.$filetype;
+		$objPHPExcel = $objReader->load($template);
+		$objPHPExcel->getProperties()->setTitle("PHPExcel in Yii2Heart");
+		$objPHPExcel->setActiveSheetIndex(0);
+		$activeSheet = $objPHPExcel->getActiveSheet();
+		$activeSheet->setCellValue('A2', $activity->name)
+					->setCellValue('A3', 'TAHUN ANGGARAN '. substr($activity->start,0,4))
+					->setCellValue('A4', 'KELAS '. $class->class);
+		$idx=7; // line 7
+		$last_date='';
+		foreach($dataProvider->getModels() as $data){
+			/* $unit = "-";
+			$object_reference = \backend\models\ObjectReference::find()
+				->where([
+					'object' => 'person',
+					'object_id' => $data->student->person->id,
+					'type' => 'unit',
+				])
+				->one();
+			if(!empty($object_reference)){
+				$unit = $object_reference->reference->name;
+			}
+			if($data->student->satker==2){
+				if(!empty($data->student->eselon2)){
+					$unit = $data->student->eselon2;
+				}
+			}
+			else if($data->student->satker==3){
+				if(!empty($data->student->eselon3)){
+					$unit = $data->student->eselon3;
+				}
+			}
+			else if($data->student->satker==4){
+				if(!empty($data->student->eselon4)){
+					$unit = $data->student->eselon4;
+				}
+			}
+					
+			$trainingClassStudent = \backend\models\TrainingClassStudent::find()
+				->where([
+					'training_student_id'=>$data->id
+				])
+				->one();
+			$class = '-';*/
+			
+			if(!empty($trainingClassStudent)) $class = $trainingClassStudent->class;			
+			
+			$start = date('d-M-Y H:i',strtotime($data->start));
+			$finish = date('d-M-Y H:i',strtotime($data->end));
+			$startDate = date('d-M-Y',strtotime($data->start));
+			$finishDate = date('d-M-Y',strtotime($data->end));
+			$startTime = date('H:i',strtotime($data->start));
+			$finishTime = date('H:i',strtotime($data->end));
+			
+			$weeks = ['','Senin','Selasa','Rabu','Kamis',"Jum'at",'Sabtu','Minggu'];
+			$week = $weeks[date('N',strtotime($data->start))];
+			$months = ['','Januari','Februari','Maret','April','Mei','Juni','July','Agustus','September','Oktober','November','Desember'];
+			$month = $months[date('n',strtotime($data->start))];
+			$date = $week.', '.date('j',strtotime($data->start)).' '.$month.' '.date('Y',strtotime($data->start));
+			if($date!=$last_date){				
+				$last_date = $date;
+			}
+			else{
+				$date = '';
+			}
+			
+			$time = '-';
+			if($start==$finish){
+				$time_start = $startTime;				
+				$time_end = $startTime;				
+			}
+			else{
+				$time_start = $startTime;				
+				$time_end = $finishTime;	
+			}
+			
+			$activity_name = '-';
+			if($data->training_class_subject_id>0){
+				$trainingClassSubject = \backend\models\TrainingClassSubject::findOne($data->training_class_subject_id);
+				if($trainingClassSubject!==null){					
+					$program_subject_id = $trainingClassSubject->program_subject_id;
+					$program_id = $activity->training->program_id;
+					$program_revision =  $activity->training->program_revision;
+					$programSubjectHistory = \backend\models\ProgramSubjectHistory::find()
+						->where([
+							'id'=>$program_subject_id,
+							'program_id'=>$program_id,
+							'program_revision'=>$program_revision,
+							'status'=>1
+						])
+						->one();
+					if(!empty($programSubjectHistory)){
+						$name = $programSubjectHistory->subjectType->name.' '.$programSubjectHistory->name;
+						$activity_name =  $name;
+					}
+					else{
+						$activity_name =  "Undefined??? hello??";
+					}
+					
+				}
+				else{
+					$activity_name =  "Undefined??? hello??";
+				}
+			}
+			else{
+				$activity_name =  $data->activity;
+			}
+			
+			if($data->training_class_subject_id>0){
+				$hours = $data->hours;
+			}
+			else{
+				$hours = '';
+			}
+			
+			$pic = '';
+			if($data->training_class_subject_id>0){				
+				$trainingScheduleTrainer = \backend\models\TrainingScheduleTrainer::find()
+					->where([
+						'training_schedule_id'=>$data->id,
+						'status'=>1,
+					])
+					->orderBy('type ASC')
+					->all();
+				$type= "-1";	
+				$idx2 = 1;
+				foreach($trainingScheduleTrainer as $trainer){
+					$pic .= $trainer->trainer->person->name.' ('.$trainer->trainer->person->organisation.')
+					';
+					/* if($type!=$trainer->type){
+						$content .="<hr style='margin:2px 0'>";
+						$content .="<strong>".$trainer->trainerType->name."</strong>";
+						$content .="<hr style='margin:2px 0'>";
+						$type=$trainer->type;
+						$idx=1;
+					}
+					
+					$content .="<div>";
+					$content .="<span  class='label label-default' data-toggle='tooltip' title='".$trainer->trainer->person->organisation." - ".$trainer->trainer->person->phone."'>".$idx++.". ".$trainer->trainer->person->name."</span> ";							 */
+				}
+			}
+			else{
+				$pic = $data->pic;
+			}
+			
+			$activeSheet->insertNewRowBefore($idx+1,1);
+			$activeSheet->setCellValue('A'.$idx, $idx-6)
+					    ->setCellValue('B'.$idx, $date)
+					    ->setCellValue('C'.$idx, $time_start)
+						->setCellValue('D'.$idx, $time_end)
+						->setCellValue('E'.$idx, $activity_name) 
+						->setCellValue('F'.$idx, $hours) 
+						->setCellValue('G'.$idx, $pic) 
+						;
+			$idx++;
+		}		
+		
+		// Redirect output to a client’s web browser
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="training.class.schedule.'.date('YmdHis').'.'.$filetype.'"');
+		header('Cache-Control: max-age=0');
+		$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, $types[$filetype]);
+		$objWriter->save('php://output');
+		exit;
+    }
+	
+	public function actionClassScheduleMaxTime($id, $class_id,$start=""){
+		$activity = $this->findModel($id); // Activity
+		$class = $this->findModelClass($class_id); // Class	
+
+		if(empty($start)){
+			$start = $class->training->activity->start;
+		}
+		
 		$start = date('Y-m-d',strtotime($start)); 
-		$finish =  date('Y-m-d',(strtotime($start)+ 60*60*24));
+		$end =  date('Y-m-d',(strtotime($start)+ 60*60*24));
 		$trainingSchedule = TrainingSchedule::find()
 				->where('
 					(
 						start >= :start AND 
-						end <= :finish
+						end <= :end
 					)
 					AND 
-					training_class_id = :training_class_id
+						training_class_id = :class_id
 					AND
 					status = :status
 				',
 				[
 					':start' => $start,
-					':finish' => $finish,
-					':training_class_id' => $training_class_id,
+					':end' => $end,
+					':class_id' => $class_id,
 					':status' => 1,
 				])
 				->orderBy('end DESC')
@@ -1312,28 +1562,25 @@ class Activity2Controller extends Controller
 		else
 			return '08:00';		
 	}
-
-
-
-
-	public function actionAddActivity($training_class_id) 
-    { 		
+	
+	public function actionAddActivityClassSchedule($id, $class_id) 
+    { 	
+		$activity = $this->findModel($id); // Activity
+		$class = $this->findModelClass($class_id); // Class	
 		if (Yii::$app->request->isAjax){
-
 			// PREPARING DATA
 			$post = Yii::$app->request->post('TrainingScheduleExtSearch');
 			$start = date('Y-m-d H:i',strtotime($post['startDate'].' '.$post['startTime'])); 
 			$training_class_subject_id = $post['training_class_subject_id'];
 			$activity_room_id =  $post['activity_room_id'];
-			$activity = "";
+			$activity_name = "";
 			$pic = "";
 			$hours = 0;
 			$minutes = 0;
 			
 			//CHECKING SATKER
 			$satker_id = (int)Yii::$app->user->identity->employee->satker_id;
-			$trainingClass = TrainingClass::findOne($training_class_id);
-			if ($satker_id!=$trainingClass->training->activity->satker_id){
+			if ($satker_id!=$activity->satker_id){
 				die('|0|You have not privileges');
 			}
 			
@@ -1352,7 +1599,7 @@ class Activity2Controller extends Controller
 			else{
 				$minutes = (int)$post['minutes'];
 				if($minutes>0){
-					$activity = $post['activity'];
+					$activity_name = $post['activity'];
 					$pic = $post['pic'];
 				}
 				else{
@@ -1360,24 +1607,24 @@ class Activity2Controller extends Controller
 				}
 			}
 			$training_class_subject_id=(int)$training_class_subject_id;
-			$finish = date('Y-m-d H:i',strtotime($start)+($minutes*60));
+			$end = date('Y-m-d H:i',strtotime($start)+($minutes*60));
 			$activity_room_id=(int)$activity_room_id;
 			// CHECKING CONSTRAIN TIME
-			$startSearch = $start + 60; // [08:00 - 09:00, 09:00 - 10:00] not excact between :)
-			$finishSearch = $finish - 60;
+			$startSearch = $start + 1; // [08:00 - 09:00, 09:00 - 10:00] not exact between :)
+			$endSearch = $end - 1;
 			$trainingSchedule = TrainingSchedule::find()
 				->where('
-					((start between :start AND :finish)
-						OR (end between :start AND :finish))
+					((start between :start AND :end)
+						OR (end between :start AND :end))
 					AND 
-					training_class_id = :training_class_id
+						training_class_id = :training_class_id
 					AND
 					status = :status
 				',
 				[
 					':start' => $startSearch,
-					':finish' => $finishSearch,
-					':training_class_id' => $training_class_id,
+					':end' => $endSearch,
+					':training_class_id' => $class_id,
 					':status' => 1,
 				]);
 				
@@ -1385,19 +1632,19 @@ class Activity2Controller extends Controller
 			if($trainingSchedule->count()==0){ 
 				// PREPARING SAVE
 				$model = new TrainingSchedule(); 
-				$model->training_class_id=$training_class_id;
+				$model->training_class_id=$class_id;
 				$model->training_class_subject_id = $training_class_subject_id;
 				$model->activity_room_id = $activity_room_id;		
-				$model->activity = $activity;
+				$model->activity = $activity_name;
 				$model->pic = $pic;
 				$model->hours = $hours;
 				$model->start = $start;
-				$model->end = $finish;
+				$model->end = $end;
 				$model->status = 1;
 			
 				if($model->save()) {
-					Yii::$app->session->setFlash('success', '<i class="fa fa-fw fa-plus-circle"></i>Activity have Added');
-					die('|1|Activity have Added|'.date('Y-m-d',strtotime($start)).'|'.date('H:i',strtotime($finish)));
+					Yii::$app->session->setFlash('success', 'Activity have Added');
+					die('|1|Activity have Added|'.date('Y-m-d',strtotime($start)).'|'.date('H:i',strtotime($end)));
 					
 				}
 				else{
@@ -1409,31 +1656,29 @@ class Activity2Controller extends Controller
 			}
 		}
 		else{
-			Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Only for ajax request');
-			return $this->redirect(['schedule', 'training_class_id' => $training_class_id]);
+			Yii::$app->session->setFlash('error', 'Only for ajax request');
+			return $this->redirect(['class-schedule', 'id' => $id, 'class_id' => $class_id]);
 		}
     } 
-
-	public function actionDeleteActivity($id,$training_class_id)
-    {
+	
+	public function actionDeleteActivityClassSchedule($id, $class_id, $schedule_id) 
+    { 	
+		$activity = $this->findModel($id); // Activity
+		$class = $this->findModelClass($class_id); // Class	
 		if (Yii::$app->request->isAjax){
-
 			//CHECKING SATKER
 			$satker_id = (int)Yii::$app->user->identity->employee->satker_id;
-			$trainingClass = TrainingClass::findOne($training_class_id);
-			if ($satker_id != $trainingClass->training->activity->satker_id){
+			if ($satker_id!=$activity->satker_id){
 				die('|0|You have not privileges');
 			}
 			
-			$trainingSchedule = TrainingSchedule::find()->where([
-				'id'=>$id,
-				'training_class_id'=>$training_class_id,
+			$trainingSchedule = \backend\models\TrainingSchedule::find()->where([
+				'id'=>$schedule_id,
+				'training_class_id'=>$class_id,
 			])->one();
-
 			$start = $trainingSchedule->start;
-
 			if($trainingSchedule->delete()) {
-				Yii::$app->session->setFlash('success', '<i class="fa fa-fw fa-plus-circle"></i>Delete activity success');
+				Yii::$app->session->setFlash('success', 'Delete activity success');
 				die('|1|Activity have deleted|'.date('Y-m-d',strtotime($start)).'|'.date('H:i',strtotime($start)));
 			}
 			else{
@@ -1441,43 +1686,138 @@ class Activity2Controller extends Controller
 			}
 		}
 		else{
-			Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Only for ajax request');
-			return $this->redirect(['schedule', 'training_class_id' => $training_class_id]);
-		}		
-		
-    }
-
-
-
-
-
-
-    public function actionDeleteClassStudent($id, $class_id, $training_class_student_id)
+			Yii::$app->session->setFlash('error', 'Only for ajax request');
+			return $this->redirect(['class-schedule', 'id' => $id, 'class_id' => $class_id]);
+		} 
+	}
+	
+	public function actionRoomClassSchedule($id, $class_id, $schedule_id) 
     {
-        $model = $this->findModelClassStudent($training_class_student_id);
-		$model->delete();
-		
-		Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-plus-circle"></i>Data have deleted.');
-        return $this->redirect(['class-student', 'id' => $id, 'class_id' => $class_id]);
+        $activity = $this->findModel($id); // Activity
+		$class = $this->findModelClass($class_id); // Class	
+		if (Yii::$app->request->isAjax){
+			$model = TrainingSchedule::findOne($schedule_id);
+			$dataRoom = [];
+			$activityRoom = ActivityRoom::find()
+				->where([
+					'activity_id'=>$activity->id,
+					'status'=>2 // Approved only	
+				])
+				->all();
+			foreach ($activityRoom as $ar){
+				$dataRoom[$ar->room_id] = $ar->room->name;
+			}
+			if (Yii::$app->request->post()) {	
+				$model->activity_room_id = Yii::$app->request->post('TrainingSchedule')['activity_room_id'];
+				if($model->save()) {
+					Yii::$app->session->setFlash('success', 'Room have set');
+					die('|1|Room have set|'.date('Y-m-d',strtotime($model->start)).'|'.date('H:i',strtotime($model->end)));
+					
+				}
+				else{
+					die('|0|There are some error');
+				}
+			}
+			else{
+				return $this->renderAjax('roomSchedule', [
+					'model' => $model,
+					'activity' => $activity,
+					'class' => $class,
+					'dataRoom' => $dataRoom
+				]);
+			}
+		}
+		else{
+			Yii::$app->session->setFlash('error', 'Only for ajax request');
+			return $this->redirect(['class-schedule', 'id' => $id, 'class_id' => $class_id]);
+		} 
     }
-
-
-
-
-
-    protected function findModelClassStudent($id)
+	
+	public function actionTrainerClassSchedule($id, $class_id, $schedule_id) 
     {
-        if (($model = TrainingClassStudent::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
+        $activity = $this->findModel($id); // Activity
+		$class = $this->findModelClass($class_id); // Class	
+		if (Yii::$app->request->isAjax){
+			$model = new \backend\models\TrainingScheduleTrainer();
+			$trainingSchedule = TrainingSchedule::findOne($schedule_id);
+			$trainingSubjectTrainerRecommendation =\backend\models\TrainingSubjectTrainerRecommendation::find()
+			->where([
+				'training_id'=>$activity->id,
+				'program_subject_id'=>$trainingSchedule->trainingClassSubject->program_subject_id,
+				'status'=>1,
+			])
+			->orderBy('type')
+			->all();			
+			
+			if ($model->load(Yii::$app->request->post())) {
+				$trainer_id_array = Yii::$app->request->post('trainer_id_array');
+				
+				$insert=0;
+				foreach($trainer_id_array as $trainer_id=>$on){
+					$model2 = new \backend\models\TrainingScheduleTrainer();
+					$model2->training_schedule_id = $schedule_id;
+					$trainingSubjectTrainerRecommendation=\backend\models\TrainingSubjectTrainerRecommendation::find()
+					->where([
+						'training_id'=>$activity->id,
+						'program_subject_id'=>$trainingSchedule->trainingClassSubject->program_subject_id,
+						'trainer_id'=>$trainer_id,
+						'status'=>1,
+					])
+					->one();
+					$model2->type=$trainingSubjectTrainerRecommendation->type;
+					$model2->trainer_id = $trainer_id;
+					$model2->status = 1;
+					if($model2->save()) {
+						$insert++;
+					}
+					else{
+						die('|0|There are some error'.print_r($model2->errors));
+					}
+				}
+				
+				if($insert>0) {
+					Yii::$app->session->setFlash('success', 'Trainer have added');
+					die('|1|Trainer have added|'.date('Y-m-d',strtotime($trainingSchedule->start)).'|'.date('H:i',strtotime($trainingSchedule->end)));
+				}
+				else{
+					die('|0|No trainer added');
+				} 
+			}
+			else{				
+				return $this->renderAjax('trainerSchedule', [
+					'model' => $model,
+					'activity' => $activity,
+					'class' => $class,
+					'trainingSchedule' => $trainingSchedule,
+					'trainingSubjectTrainerRecommendation' => $trainingSubjectTrainerRecommendation,
+					
+				]);
+			}
+		}
+		else{
+			Yii::$app->session->setFlash('error', 'Only for ajax request');
+			return $this->redirect(['class-schedule', 'id' => $id, 'class_id' => $class_id]);
+		} 
     }
+	
+	public function actionDeleteTrainerClassSchedule($id, $class_id, $schedule_id, $trainer_id) 
+    {
+        $activity = $this->findModel($id); // Activity
+		$class = $this->findModelClass($class_id); // Class	
+		$trainingSchedule = TrainingSchedule::findOne($schedule_id);
+		$trainingScheduleTrainer = TrainingScheduleTrainer::find()
+			->where([
+				'training_schedule_id'=>$schedule_id,
+				'trainer_id'=>$trainer_id
+			])
+			->one();
+		$trainingScheduleTrainer->delete();
+		Yii::$app->session->setFlash('success', 'Trainer have deleted');
+		die('|1|Trainer have deleted|'.date('Y-m-d',strtotime($trainingSchedule->start)).'|'.date('H:i',strtotime($trainingSchedule->end)));
+	}
 
 
-
-
-    public function actionTrainerClassSchedule($id, $class_id, $schedule_id) 
+    /* public function actionTrainerClassSchedule($id, $class_id, $schedule_id) 
     {
         $activity = $this->findModel($id); // Activity
 		$class = $this->findModelClass($class_id); // Class	
@@ -1542,7 +1882,1305 @@ class Activity2Controller extends Controller
 			Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Only for ajax request');
 			return $this->redirect(['class-schedule', 'id' => $id, 'class_id' => $class_id]);
 		} 
+    } */
+
+
+
+
+
+
+    public function actionRecap($id, $training_class_id = null) {
+    	// Ngambil training 
+    	$modelTraining = Training::findOne($id);
+    	// dah
+
+    	// Ambil template
+    	$template = Yii::getAlias('@backend').'/../file/template/pusdiklat/execution/STANDAR_REKAPITULASI_KEHADIRAN_PESERTA_DIKLAT.xls';
+		$objPHPExcel = PHPExcel_IOFactory::load($template);
+		// dah
+
+		// Ngisi konten
+		$objPHPExcel->getActiveSheet()->setCellValue('A2', strtoupper($modelTraining->activity->name));
+		$objPHPExcel->getActiveSheet()->setCellValue('A3', 'TAHUN ANGGARAN '.date('Y', strtotime($modelTraining->activity->start)));
+
+		$pointerKolomMP = ord('E');
+
+		$pointerKolomHadir = ord('F');
+
+		$pointerKolomTTD = ord('F');
+
+		$pointerBaris = 9;
+
+		$jumlahBaris = 0;
+
+		$namaHari = [
+			'Mon' => 'Senin',
+			'Tue' => 'Selasa',
+			'Wed' => 'Rabu',
+			'Thu' => 'Kami',
+			'Fri' => 'Jumat',
+			'Sat' => 'Sabtu',
+			'Sun' => 'Minggu'
+		];
+
+		$namaBulan = [
+			'January' => 'Januari',
+			'February' => 'Febuari',
+			'March' => 'Maret',
+			'April' => 'April',
+			'May' => 'Mei',
+			'June' => 'Juni',
+			'July' => 'Juli',
+			'August' => 'Agustus',
+			'September' => 'September',
+			'October' => 'Oktober',
+			'November' => 'November',
+			'December' => 'Desember'
+		];
+
+		foreach ($modelTraining->trainingClasses as $trainingClass) {
+
+			// Nah, kita filter disini, jadi cuma bikin report buat class yg di variable $training_class_id
+			if ($trainingClass->id != $training_class_id and $training_class_id != null) {
+				continue;
+			}
+			// dah
+
+			$kolomAwal = $pointerKolomMP;
+			$kolomAkhir = $pointerKolomMP;
+			$pointerTanggal = '';
+			$nomorMPTerbesar = 1;
+
+			// Bikin kolom MP
+			foreach ($trainingClass->trainingSchedules as $trainingSchedule) {
+				
+				// Klo ketemu Ishoma, coffe break dll lewati
+				if ($trainingSchedule->training_class_subject_id <= 0) {
+					continue;
+				}
+				// dah
+
+				// Ngecek apakah MP pada hari schedule sekarang udah ada
+				$pointerTanggal = date('d-m-Y', strtotime($trainingSchedule->start));
+
+				// MP ketemu, artinya MP yg sama di tanggal yg sama uda ada, so lewati
+				if ( isset($this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]) ) {
+					continue;
+		    	}
+	    		// Pointer tanggal ketemu, tapi MP belum ada, berarti bikin baru
+		    	elseif ( isset($this->daftarMPperTanggal[$pointerTanggal]) ) {
+
+		    		$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id] = [];
+
+					
+					$programSubject = \backend\models\ProgramSubjectHistory::find()
+						->where([
+							'id'=>$trainingSchedule->trainingClassSubject->program_subject_id,
+							'program_id'=>$modelTraining->program_id,
+							'program_revision'=>$modelTraining->program_revision,
+							'status'=>1
+						])
+						->one();
+					$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id] = [
+		    			'kodeMP' => 'MP'.$nomorMPTerbesar,
+		    			'kolom' => '',
+		    			'namaMP' => $programSubject->name,
+		    		];
+
+		    		// koreksi kodeMP
+		    		ksort($this->daftarMPperTanggal);
+		    		foreach ($this->daftarMPperTanggal as $tanggal => $dataTanggal) {
+		    			
+		    			if ($tanggal != $pointerTanggal) {
+
+		    				foreach ($dataTanggal as $subjectId => $dataSubject) {
+
+			    				if ($subjectId == $trainingSchedule->trainingClassSubject->program_subject_id) {
+		    						$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kodeMP'] = $dataSubject['kodeMP'];
+			    				}
+		    				}
+		    			}
+		    			else {
+		    				break;
+		    			}
+		    		}
+		    		// dah
+
+		    		// Benerin urutan kolom
+		    		$kolomTertinggi = ord('E');
+
+		    		ksort($this->daftarMPperTanggal);
+
+		    		foreach ($this->daftarMPperTanggal as $k => $v) {
+	    				foreach ($v as $baris) {
+	    					if (ord($baris['kolom']) != '') {
+    							$kolomTertinggi = ord($baris['kolom']);
+    						}
+	    				}
+		    		}
+		    		$kolomTertinggi += 1;
+
+		    		$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kolom'] = chr($kolomTertinggi);
+		    		// dah
+
+
+		    		$objPHPExcel->getActiveSheet()->insertNewColumnBefore(chr($kolomTertinggi), 1);
+
+					$objPHPExcel->getActiveSheet()->setCellValue(chr($kolomTertinggi).'8', 
+						$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kodeMP']
+					);
+
+					$nomorMPTerbesar += 1;
+
+		    	}
+	    		// Artinya pointer tanggal ga ada sama sekali
+		    	else {
+
+		    		$this->daftarMPperTanggal[$pointerTanggal] = [];
+
+		    		$this->daftarMPperTanggal[$pointerTanggal] = [
+		    			$trainingSchedule->trainingClassSubject->program_subject_id => []
+		    		];
+					
+					$programSubject = \backend\models\ProgramSubjectHistory::find()
+						->where([
+							'id'=>$trainingSchedule->trainingClassSubject->program_subject_id,
+							'program_id'=>$modelTraining->program_id,
+							'program_revision'=>$modelTraining->program_revision,
+							'status'=>1
+						])
+						->one();
+		    		$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id] = [
+		    			'kodeMP' => 'MP'.$nomorMPTerbesar,
+		    			'kolom' => '',
+		    			'namaMP' => $programSubject->name,
+		    		];
+
+		    		// Koreksi kodeMP
+		    		ksort($this->daftarMPperTanggal);
+		    		foreach ($this->daftarMPperTanggal as $tanggal => $dataTanggal) {
+		    			
+		    			if ($tanggal != $pointerTanggal) {
+
+		    				foreach ($dataTanggal as $subjectId => $dataSubject) {
+
+			    				if ($subjectId == $trainingSchedule->trainingClassSubject->program_subject_id) {
+		    						$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kodeMP'] = $dataSubject['kodeMP'];
+		    						$nomorMPTerbesar -= 1; // Perlu dikurang 1 sebab dibawah nanti MP nya pasti naik 1, padahal kode diatas cm ngopi kodeMP karena uda sama
+			    				}
+		    				}
+		    			}
+		    			else {
+		    				break;
+		    			}
+		    		}
+		    		// dah
+
+		    		// Koreksi kolom
+		    		$kolomTertinggi = ord('E');
+
+		    		ksort($this->daftarMPperTanggal);
+
+		    		foreach ($this->daftarMPperTanggal as $k => $v) {
+	    				foreach ($v as $baris) {
+	    					if (ord($baris['kolom']) != '') {
+    							$kolomTertinggi = ord($baris['kolom']);
+    						}
+	    				}
+		    		}
+		    		// dah
+
+		    		if ($kolomTertinggi == ord('E')) {
+		    			$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kolom'] = 'E';
+		    		}
+		    		else {
+		    			$kolomTertinggi += 1;
+		    			$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kolom'] = chr($kolomTertinggi);
+			    		$objPHPExcel->getActiveSheet()->insertNewColumnBefore(chr($kolomTertinggi), 1);
+		    		}
+
+		    		$kordinatMP = $kolomTertinggi;
+
+					$objPHPExcel->getActiveSheet()->setCellValue(
+						$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kolom'].'8', 
+						$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kodeMP']
+					);
+
+					$nomorMPTerbesar += 1;
+
+					unset($kolomTertinggi);
+
+		    	}
+				// dah
+
+			}
+			// dah
+
+			// Ngeset ulang pointerKolomHadir
+			foreach ($this->daftarMPperTanggal as $MPperTanggal) {
+				foreach ($MPperTanggal as $baris) {
+					if (ord($baris['kolom']) > $pointerKolomHadir) {
+						$pointerKolomHadir = ord($baris['kolom']);
+					}
+				}
+			}
+			$pointerKolomHadir += 1;
+			// dah
+			
+			// Ngisi data semua kolom, ngeloopnya per student
+			foreach ($trainingClass->trainingClassStudents as $trainingClassStudent) {
+				
+				// Insert row
+				$objPHPExcel->getActiveSheet()->insertNewRowBefore($pointerBaris + 1, 1);
+				// dah
+
+				// Ngisi nomer urut
+				$objPHPExcel->getActiveSheet()->setCellValue('A'.$pointerBaris, $pointerBaris-8);
+				// dah
+
+				// Ngisi nama
+				$objPHPExcel->getActiveSheet()->setCellValue('B'.$pointerBaris, 
+					$trainingClassStudent->trainingStudent->student->person->name
+				);
+				// dah
+
+				// Ngisi nip
+				$objPHPExcel->getActiveSheet()->setCellValueExplicit('C'.$pointerBaris, 
+					$trainingClassStudent->trainingStudent->student->person->nip, 
+					PHPExcel_Cell_DataType::TYPE_STRING
+				);
+				// dah
+
+				// Ngisi unit
+				$unit = "-";
+				$object_reference = ObjectReference::find()
+					->where([
+						'object' => 'person',
+						'object_id' => $trainingClassStudent->trainingStudent->student->person->id,
+						'type' => 'unit',
+					])
+					->one();
+				if(null!=$object_reference){
+					$unit = $object_reference->reference->name;
+				}
+				if($trainingClassStudent->trainingStudent->student->satker==2){
+					if(!empty($trainingClassStudent->trainingStudent->student->eselon2)){
+						$unit = $trainingClassStudent->trainingStudent->student->eselon2;
+					}
+				}
+				else if($trainingClassStudent->trainingStudent->student->satker==3){
+					if(!empty($trainingClassStudent->trainingStudent->student->eselon3)){
+						$unit = $trainingClassStudent->trainingStudent->student->eselon3;
+					}
+				}
+				else if($trainingClassStudent->trainingStudent->student->satker==4){
+					if(!empty($trainingClassStudent->trainingStudent->student->eselon4)){
+						$unit = $trainingClassStudent->trainingStudent->student->eselon4;
+					}
+				}
+				
+				$objPHPExcel->getActiveSheet()->setCellValue('D'.$pointerBaris, 
+					$unit
+				);
+				// dah
+
+				// Ngisi kehadiran
+				$pointerMP = 0;
+				$pointerTanggal = '';
+				$jumlahJPKehadiranMax = 0;
+				foreach ($trainingClassStudent->trainingClassStudentAttendances as $trainingClassStudentAttendance) {
+					
+					foreach ($trainingClass->trainingSchedules as $trainingSchedule) {
+
+						$pointerTanggal = date('d-m-Y', strtotime($trainingSchedule->start));
+					
+						if ($trainingClassStudentAttendance->training_schedule_id == $trainingSchedule->id) {
+
+							// Ngambil JP ideal dari schedule lalu di tambahkan ke $jumlahJPKehadiranMax, nanti dipake buat ngitung total hadir, bolos, dan %
+							$jumlahJPKehadiranMax += $trainingSchedule->hours;
+							// dah
+
+							// Ngisi keterangan
+							$keteranganSebelumnya = $objPHPExcel->getActiveSheet()->getCell(chr($pointerKolomHadir + 3).$pointerBaris)->getValue();
+							if ($trainingClassStudentAttendance->reason != null or $trainingClassStudentAttendance->reason != '') {
+								if ($keteranganSebelumnya != '') {
+									$keteranganSebelumnya .= ', '.$trainingClassStudentAttendance->reason;
+								}
+								else {
+									$keteranganSebelumnya = $trainingClassStudentAttendance->reason;
+								}
+								$objPHPExcel->getActiveSheet()->setCellValue(
+									chr($pointerKolomHadir + 3).$pointerBaris, 
+									$keteranganSebelumnya
+								);
+							}
+							// dah
+					
+							if ($pointerMP == $trainingSchedule->trainingClassSubject->program_subject_id) {
+								
+								$nilai = $objPHPExcel->getActiveSheet()->getCell(
+									$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kolom'].$pointerBaris
+								)->getValue();
+
+								$nilai += $trainingClassStudentAttendance->hours;
+								
+								$objPHPExcel->getActiveSheet()->setCellValue(
+									$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kolom'].$pointerBaris, 
+									$nilai
+								);
+							}
+							else {
+								$objPHPExcel->getActiveSheet()->setCellValue(
+									$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kolom'].$pointerBaris, 
+									$trainingClassStudentAttendance->hours
+								);
+								$pointerMP = $trainingSchedule->trainingClassSubject->program_subject_id;
+							}
+						}
+					}
+				}
+				// dah
+
+				// Ngisi rumus total hadir, bolos, %, dan keterangan
+				$objPHPExcel->getActiveSheet()->setCellValue(
+					chr($pointerKolomHadir).$pointerBaris, 
+					'=SUM(E'.$pointerBaris.':'.chr($pointerKolomHadir - 1).$pointerBaris.')'
+				);
+
+				$objPHPExcel->getActiveSheet()->setCellValue(
+					chr($pointerKolomHadir + 1).$pointerBaris, 
+					'='.$jumlahJPKehadiranMax.' - '.chr($pointerKolomHadir).$pointerBaris
+				);
+
+				$kolomHadir = chr($pointerKolomHadir).$pointerBaris;
+				$objPHPExcel->getActiveSheet()->setCellValue(
+					chr($pointerKolomHadir + 2).$pointerBaris, 
+					'='.$kolomHadir.'/'.$jumlahJPKehadiranMax
+				);
+				// dah
+
+				$pointerBaris += 1;
+
+				$jumlahBaris += 1;
+
+			}
+			// dah
+
+			if ($pointerKolomTTD < $pointerKolomHadir) {
+				$pointerKolomTTD = $pointerKolomHadir;
+			}
+
+			// Balik ke posisi kolom awal
+			$pointerKolomMP = ord('E');
+			$pointerKolomHadir = ord('F');
+			// dah
+
+		}
+		// dah
+
+		// Bikin legend
+		$pointerBarisLegend = $pointerBaris + 4;
+		$catat = [];
+		foreach ($this->daftarMPperTanggal as $tanggal) {
+			foreach ($tanggal as $baris) {
+				$lewati = false;
+				foreach ($catat as $kodeMP) {
+					if ($baris['kodeMP'] == $kodeMP) {
+						$lewati = true;
+					}
+				}
+				if ($lewati == true) {
+					continue;
+				}
+				$barisSebelumnya = $pointerBarisLegend -1 ;
+				$objPHPExcel->getActiveSheet()->setCellValue('A'.$pointerBarisLegend, $baris['kodeMP']);
+				$objPHPExcel->getActiveSheet()->duplicateStyle($objPHPExcel->getActiveSheet()->getStyle('A'.$barisSebelumnya), 'A'.$pointerBarisLegend);
+				$objPHPExcel->getActiveSheet()->setCellValue('B'.$pointerBarisLegend, $baris['namaMP']);
+				$objPHPExcel->getActiveSheet()->duplicateStyle($objPHPExcel->getActiveSheet()->getStyle('B'.$barisSebelumnya), 'B'.$pointerBarisLegend);
+				$catat[] = $baris['kodeMP'];
+				$pointerBarisLegend += 1;
+			}
+		}
+		$pointerBarisLegend = $pointerBaris + 2;
+		// dah
+
+		// Bikin kolom tanda tangan
+		$objPHPExcel->getActiveSheet()->setCellValue(
+			chr($pointerKolomTTD).$pointerBarisLegend,
+			'Jakarta,   '.date('F Y', strtotime($modelTraining->activity->end))
+		);
+
+		$modelEmployeeSigner = Employee::find()
+			->where([
+				'satker_id' => Yii::$app->user->identity->employee->satker_id,
+				'organisation_id' => 396,
+				'chairman' => 1
+			])
+			->one();
+
+		if (!empty($modelEmployeeSigner)) {
+			$objPHPExcel->getActiveSheet()->setCellValue(
+				chr($pointerKolomTTD).($pointerBarisLegend + 5),
+				$modelEmployeeSigner->person->name
+			);
+			$objPHPExcel->getActiveSheet()->setCellValue(
+				chr($pointerKolomTTD).($pointerBarisLegend + 6),
+				'NIP '.$modelEmployeeSigner->person->nip
+			);
+		}
+		// dah
+
+		// Ngeset lebar kolom
+		$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
+		for ($i=ord('E'); $i < $pointerKolomTTD; $i++) { 
+			$objPHPExcel->getActiveSheet()->getColumnDimension(chr($i))->setWidth(7);
+		}
+		// dah
+
+		// Finishing
+		$kolomAwal = 'E';
+		$kolomAkhir = 'E';
+		foreach ($this->daftarMPperTanggal as $MPperTanggal => $data) {
+			foreach ($data as $baris) {
+				if (ord($baris['kolom']) > ord($kolomAkhir)) {
+					$kolomAkhir = $baris['kolom'];
+				}
+			}
+			$objPHPExcel->getActiveSheet()->setCellValue($kolomAwal.'6', $namaHari[date('D', strtotime($MPperTanggal))]);
+			$objPHPExcel->getActiveSheet()->setCellValue($kolomAwal.'7', date('d M', strtotime($MPperTanggal)));
+			if($kolomAkhir != 'E'){
+				$objPHPExcel->getActiveSheet()->mergeCells($kolomAwal.'6:'.$kolomAkhir.'6');
+				$objPHPExcel->getActiveSheet()->mergeCells($kolomAwal.'7:'.$kolomAkhir.'7'); 
+			}
+			$kolomAwal = chr(ord($kolomAkhir) + 1);
+		}
+
+		$kolomAwal = '';
+		$kolomAkhir = 'E';
+		$bulanAcuan = 0;
+		$jumlahBulanDistinct = 0;
+		foreach ($this->daftarMPperTanggal as $MPperTanggal => $data) {
+			foreach ($data as $baris) {
+				if ($kolomAwal == '') {
+					$bulanAcuan = date('m', strtotime($MPperTanggal));
+					$kolomAwal = $baris['kolom'];
+				}
+				else {
+					if (date('m', strtotime($MPperTanggal)) > $bulanAcuan) {
+						$bulanAcuan = date('m', strtotime($MPperTanggal));
+						$objPHPExcel->getActiveSheet()->setCellValue($kolomAwal.'5', $namaBulan[date('F', strtotime($MPperTanggal))]);
+						$objPHPExcel->getActiveSheet()->mergeCells($kolomAwal.'5:'.$kolomAkhir.'5');
+						$kolomAwal = chr(ord($kolomAkhir) + 1);
+						$jumlahBulanDistinct += 1;
+					}
+					else {
+						$kolomAkhir = $baris['kolom'];
+					}
+				}
+			}
+		}
+		if ($jumlahBulanDistinct == 0) {
+			$objPHPExcel->getActiveSheet()->setCellValue($kolomAwal.'5', date('F', strtotime($MPperTanggal)));
+			$objPHPExcel->getActiveSheet()->mergeCells($kolomAwal.'5:'.$kolomAkhir.'5');
+		}
+		// dah
+		
+		// Redirect output to a client’s web browser
+		header('Content-Type: application/vnd.ms-excel');
+
+		header('Content-Disposition: attachment;filename="recapitulation_student_attendance_'.$modelTraining->activity->name.'.xls"');
+		header('Cache-Control: max-age=0');
+		// If you're serving to IE 9, then the following may be needed
+		header('Cache-Control: max-age=1');
+
+		// If you're serving to IE over SSL, then the following may be needed
+		header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+		header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+		header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+		header ('Pragma: public'); // HTTP/1.0
+		
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+		$objWriter->save('php://output');
+		exit;
+
     }
 
+
+
+
+    
+	/**
+     * Lists all TrainingClass models.
+     * @return mixed
+     */
+    public function actionExportTraining($year='',$status='nocancel',$filetype='xlsx')
+    {
+		if(empty($year)) $year=date('Y');
+		$searchModel = new TrainingActivitySearch();
+		$queryParams = Yii::$app->request->getQueryParams();
+		if($status=='nocancel'){
+			if($year=='all'){
+				$queryParams['TrainingActivitySearch']=[
+					'status'=> [0,1,2],
+				];
+			}
+			else{
+				$queryParams['TrainingActivitySearch']=[
+					'year' => $year,
+					'status'=> [0,1,2],
+				];
+			}
+		}
+		else if($status=='all'){
+			if($year=='all'){
+				$queryParams['TrainingActivitySearch']=[
+				];
+			}
+			else{
+				$queryParams['TrainingActivitySearch']=[
+					'year' => $year,
+				];
+			}
+		}
+		else{
+			if($year=='all'){
+				$queryParams['TrainingActivitySearch']=[
+					'status' => $status,
+				];
+			}
+			else{
+				$queryParams['TrainingActivitySearch']=[
+					'year' => $year,
+					'status' => $status,
+				];
+			}
+		}
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$dataProvider = $searchModel->search($queryParams);
+		$dataProvider->getSort()->defaultOrder = ['start'=>SORT_ASC,'end'=>SORT_ASC];    
+		$dataProvider->setPagination(false);
+		
+		$types=['xls'=>'Excel5','xlsx'=>'Excel2007'];
+		$objReader = \PHPExcel_IOFactory::createReader($types[$filetype]);
+		$template = Yii::getAlias('@file').DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'pusdiklat'.
+			DIRECTORY_SEPARATOR.'execution'.DIRECTORY_SEPARATOR.'training.list.'.$filetype;
+		$objPHPExcel = $objReader->load($template);
+		$objPHPExcel->getProperties()->setTitle("Kalender Diklat");
+		$objPHPExcel->setActiveSheetIndex(0);
+		$activeSheet = $objPHPExcel->getActiveSheet();
+		$activeSheet->setCellValue('A3', strtoupper(\Yii::$app->user->identity->employee->satker->name));
+		$idx=7; // line 7
+		$status_arr = ['0'=>'Planning','1'=>'Ready','2'=>'Execute','3'=>'Cancel'];
+		foreach($dataProvider->getModels() as $data){		
+			if($idx==7){
+				$activeSheet->setCellValue('A4', date('Y',strtotime($data->start)));
+			}
+			$activeSheet->insertNewRowBefore($idx+1,1);
+			$locations = explode('|',$data->location);
+			$location = '';
+			if(Yii::$app->user->identity->employee->satker_id==$locations[0]){
+				$location = $locations[1];
+			}
+			$activeSheet->setCellValue('A'.$idx, $idx-6)
+					    ->setCellValue('B'.$idx, $data->training->number)
+					    ->setCellValue('C'.$idx, $data->name)
+					    ->setCellValue('D'.$idx, date('d M y',strtotime($data->start)))
+					    ->setCellValue('E'.$idx, date('d M y',strtotime($data->end)))
+						->setCellValue('F'.$idx, $data->training->program->days)
+						->setCellValue('G'.$idx, $data->training->program->hours)
+						->setCellValue('H'.$idx, $data->training->student_count_plan)
+						->setCellValue('I'.$idx, $data->training->class_count_plan)
+						->setCellValue('J'.$idx, ($data->hostel==1)?'Ya':'Tidak')
+						->setCellValue('K'.$idx, $location)
+					    ->setCellValue('L'.$idx, $status_arr[$data->status])
+					    
+						;
+			$idx++;
+		} 	
+		
+		// Redirect output to a client’s web browser
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="training.list.'.date('YmdHis').'.'.$filetype.'"');
+		header('Cache-Control: max-age=0');
+		$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, $types[$filetype]);
+		$objWriter->save('php://output');
+		exit;
+		/* return $this->redirect(['student', 'id' => $id, 'status'=>$status]);	 */
+    }
+
+
+
+
+
+    public function actionRecapTrainer($id, $training_class_id = null,$filetype='xls') {
+    	// Ngambil training 
+    	$modelTraining = Training::findOne($id);
+    	// dah
+
+    	// Ambil template
+		$template = Yii::getAlias('@file').DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'pusdiklat'.
+			DIRECTORY_SEPARATOR.'execution'.DIRECTORY_SEPARATOR.'STANDAR_REKAPITULASI_KEHADIRAN_PENGAJAR_DIKLAT.'.$filetype;
+		$types=['xls'=>'Excel5','xlsx'=>'Excel2007'];
+		$objReader = \PHPExcel_IOFactory::createReader($types[$filetype]);
+		$objPHPExcel = $objReader->load($template);
+		// dah
+
+		// Ngisi konten
+		$objPHPExcel->getActiveSheet()->setCellValue('A2', strtoupper($modelTraining->activity->name));
+		$objPHPExcel->getActiveSheet()->setCellValue('A3', 'TAHUN ANGGARAN '.date('Y', strtotime($modelTraining->activity->start)));
+
+		$pointerKolomMP = ord('E');
+		$pointerKolomHadir = ord('F');
+		$pointerKolomTTD = ord('F');
+		$pointerBaris = 9;
+		$jumlahBaris = 0;
+
+		$namaHari = [
+			'Mon' => 'Senin',
+			'Tue' => 'Selasa',
+			'Wed' => 'Rabu',
+			'Thu' => 'Kami',
+			'Fri' => 'Jumat',
+			'Sat' => 'Sabtu',
+			'Sun' => 'Minggu'
+		];
+
+		$namaBulan = [
+			'January' => 'Januari',
+			'February' => 'Febuari',
+			'March' => 'Maret',
+			'April' => 'April',
+			'May' => 'Mei',
+			'June' => 'Juni',
+			'July' => 'Juli',
+			'August' => 'Agustus',
+			'September' => 'September',
+			'October' => 'Oktober',
+			'November' => 'November',
+			'December' => 'Desember'
+		];
+
+		foreach ($modelTraining->trainingClasses as $trainingClass) {
+
+			// Nah, kita filter disini, jadi cuma bikin report buat class yg di variable $training_class_id
+			if ($trainingClass->id != $training_class_id and $training_class_id != null) {
+				continue;
+			}
+			// dah
+
+			$kolomAwal = $pointerKolomMP;
+			$kolomAkhir = $pointerKolomMP;
+			$pointerTanggal = '';
+			$nomorMPTerbesar = 1;
+			$daftarPengajar = [];
+
+			// Bikin kolom MP
+			foreach ($trainingClass->trainingSchedules as $trainingSchedule) {
+				
+				// Klo ketemu Ishoma, coffe break dll lewati
+				if ($trainingSchedule->training_class_subject_id <= 0) {
+					continue;
+				}
+				// dah
+
+				// Nyatet pengajar yang distinct
+				foreach ($trainingSchedule->trainingScheduleTrainers as $baris) {
+					$ketemu = array_search($baris->trainer_id, $daftarPengajar);
+					if ($ketemu === false) {
+						$daftarPengajar[] = $baris->trainer_id;
+					}
+				}
+				// dah
+
+				// Ngecek apakah MP pada hari schedule sekarang udah ada
+				$pointerTanggal = date('d-m-Y', strtotime($trainingSchedule->start));
+
+				// MP ketemu, artinya MP yg sama di tanggal yg sama uda ada, so lewati
+				if ( isset($this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]) ) {
+					continue;
+		    	}
+	    		// Pointer tanggal ketemu, tapi MP belum ada, berarti bikin baru
+		    	elseif ( isset($this->daftarMPperTanggal[$pointerTanggal]) ) {
+
+		    		$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id] = [];
+					
+					$programSubject = \backend\models\ProgramSubjectHistory::find()
+						->where([
+							'id'=>$trainingSchedule->trainingClassSubject->program_subject_id,
+							'program_id'=>$modelTraining->program_id,
+							'program_revision'=>$modelTraining->program_revision,
+							'status'=>1
+						])
+						->one();
+					$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id] = [
+		    			'kodeMP' => 'MP'.$nomorMPTerbesar,
+		    			'kolom' => '',
+		    			'namaMP' => $programSubject->name,
+		    		];
+
+		    		// koreksi kodeMP
+		    		ksort($this->daftarMPperTanggal);
+		    		foreach ($this->daftarMPperTanggal as $tanggal => $dataTanggal) {
+		    			
+		    			if ($tanggal != $pointerTanggal) {
+
+		    				foreach ($dataTanggal as $subjectId => $dataSubject) {
+
+			    				if ($subjectId == $trainingSchedule->trainingClassSubject->program_subject_id) {
+		    						$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kodeMP'] = $dataSubject['kodeMP'];
+			    				}
+		    				}
+		    			}
+		    			else {
+		    				break;
+		    			}
+		    		}
+		    		// dah
+
+		    		// Benerin urutan kolom
+		    		$kolomTertinggi = ord('E');
+
+		    		ksort($this->daftarMPperTanggal);
+
+		    		foreach ($this->daftarMPperTanggal as $k => $v) {
+	    				foreach ($v as $baris) {
+	    					if (ord($baris['kolom']) != '') {
+    							$kolomTertinggi = ord($baris['kolom']);
+    						}
+	    				}
+		    		}
+		    		$kolomTertinggi += 1;
+
+		    		$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kolom'] = chr($kolomTertinggi);
+		    		// dah
+
+
+		    		$objPHPExcel->getActiveSheet()->insertNewColumnBefore(chr($kolomTertinggi), 1);
+
+					$objPHPExcel->getActiveSheet()->setCellValue(chr($kolomTertinggi).'8', 
+						$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kodeMP']
+					);
+
+					$nomorMPTerbesar += 1;
+
+		    	}
+	    		// Artinya pointer tanggal ga ada sama sekali
+		    	else {
+
+		    		$this->daftarMPperTanggal[$pointerTanggal] = [];
+
+		    		$this->daftarMPperTanggal[$pointerTanggal] = [
+		    			$trainingSchedule->trainingClassSubject->program_subject_id => []
+		    		];
+					
+					$programSubject = \backend\models\ProgramSubjectHistory::find()
+						->where([
+							'id'=>$trainingSchedule->trainingClassSubject->program_subject_id,
+							'program_id'=>$modelTraining->program_id,
+							'program_revision'=>$modelTraining->program_revision,
+							'status'=>1
+						])
+						->one();
+		    		$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id] = [
+		    			'kodeMP' => 'MP'.$nomorMPTerbesar,
+		    			'kolom' => '',
+		    			'namaMP' => $programSubject->name,
+		    		];
+
+		    		// Koreksi kodeMP
+		    		ksort($this->daftarMPperTanggal);
+		    		foreach ($this->daftarMPperTanggal as $tanggal => $dataTanggal) {
+		    			
+		    			if ($tanggal != $pointerTanggal) {
+
+		    				foreach ($dataTanggal as $subjectId => $dataSubject) {
+
+			    				if ($subjectId == $trainingSchedule->trainingClassSubject->program_subject_id) {
+		    						$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kodeMP'] = $dataSubject['kodeMP'];
+		    						$nomorMPTerbesar -= 1; // Perlu dikurang 1 sebab dibawah nanti MP nya pasti naik 1, padahal kode diatas cm ngopi kodeMP karena uda sama
+			    				}
+		    				}
+		    			}
+		    			else {
+		    				break;
+		    			}
+		    		}
+		    		// dah
+
+		    		// Koreksi kolom
+		    		$kolomTertinggi = ord('E');
+
+		    		ksort($this->daftarMPperTanggal);
+
+		    		foreach ($this->daftarMPperTanggal as $k => $v) {
+	    				foreach ($v as $baris) {
+	    					if (ord($baris['kolom']) != '') {
+    							$kolomTertinggi = ord($baris['kolom']);
+    						}
+	    				}
+		    		}
+		    		// dah
+
+		    		if ($kolomTertinggi == ord('E')) {
+		    			$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kolom'] = 'E';
+		    		}
+		    		else {
+		    			$kolomTertinggi += 1;
+		    			$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kolom'] = chr($kolomTertinggi);
+			    		$objPHPExcel->getActiveSheet()->insertNewColumnBefore(chr($kolomTertinggi), 1);
+		    		}
+
+		    		$kordinatMP = $kolomTertinggi;
+
+					$objPHPExcel->getActiveSheet()->setCellValue(
+						$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kolom'].'8', 
+						$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kodeMP']
+					);
+
+					$nomorMPTerbesar += 1;
+
+					unset($kolomTertinggi);
+
+		    	}
+				// dah
+
+			}
+			// dah
+
+			// Ngeset ulang pointerKolomHadir
+			foreach ($this->daftarMPperTanggal as $MPperTanggal) {
+				foreach ($MPperTanggal as $baris) {
+					if (ord($baris['kolom']) > $pointerKolomHadir) {
+						$pointerKolomHadir = ord($baris['kolom']);
+					}
+				}
+			}
+			$pointerKolomHadir += 1;
+			// dah
+
+			// Ngambil data trainer
+			$modelTrainer = Trainer::find()
+				->where([
+					'person_id' => $daftarPengajar
+				])
+				->all();
+			// dah
+			
+			// Ngisi data semua kolom, ngeloopnya per trainer
+			foreach ($modelTrainer as $trainer) {
+				
+				// Insert row
+				$objPHPExcel->getActiveSheet()->insertNewRowBefore($pointerBaris + 1, 1);
+				// dah
+
+				// Ngisi nomer urut
+				$objPHPExcel->getActiveSheet()->setCellValue('A'.$pointerBaris, $pointerBaris-8);
+				// dah
+
+				// Ngisi nama
+				$objPHPExcel->getActiveSheet()->setCellValue('B'.$pointerBaris, 
+					$trainer->person->name
+				);
+				// dah
+
+				// Ngisi nip
+				$objPHPExcel->getActiveSheet()->setCellValueExplicit('C'.$pointerBaris, 
+					$trainer->person->nid, 
+					PHPExcel_Cell_DataType::TYPE_STRING
+				);
+				// dah
+
+				// Ngisi unit				
+				$objPHPExcel->getActiveSheet()->setCellValue('D'.$pointerBaris, 
+					$trainer->person->organisation
+				);
+				// dah
+
+				// Ngisi kehadiran
+				$pointerMP = 0;
+				$pointerTanggal = '';
+				$jumlahJPKehadiranMax = 0;
+				foreach ($trainer->trainingScheduleTrainers as $trainerAttendance) {
+					
+					foreach ($trainingClass->trainingSchedules as $trainingSchedule) {
+
+						$pointerTanggal = date('d-m-Y', strtotime($trainingSchedule->start));
+					
+						if ($trainerAttendance->training_schedule_id == $trainingSchedule->id) {
+
+							// Ngambil JP ideal dari schedule lalu di tambahkan ke $jumlahJPKehadiranMax, nanti dipake buat ngitung total hadir, bolos, dan %
+							$jumlahJPKehadiranMax += $trainingSchedule->hours;
+							// dah
+
+							// Ngisi keterangan
+							$keteranganSebelumnya = $objPHPExcel->getActiveSheet()->getCell(chr($pointerKolomHadir + 3).$pointerBaris)->getValue();
+							if ($trainerAttendance->reason != null or $trainerAttendance->reason != '') {
+								if ($keteranganSebelumnya != '') {
+									$keteranganSebelumnya .= ', '.$trainerAttendance->reason;
+								}
+								else {
+									$keteranganSebelumnya = $trainerAttendance->reason;
+								}
+								$objPHPExcel->getActiveSheet()->setCellValue(
+									chr($pointerKolomHadir + 3).$pointerBaris, 
+									$keteranganSebelumnya
+								);
+							}
+							// dah
+					
+							if ($pointerMP == $trainingSchedule->trainingClassSubject->program_subject_id) {
+								
+								$nilai = $objPHPExcel->getActiveSheet()->getCell(
+									$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kolom'].$pointerBaris
+								)->getValue();
+
+								$nilai += $trainerAttendance->hours;
+								
+								$objPHPExcel->getActiveSheet()->setCellValue(
+									$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kolom'].$pointerBaris, 
+									$nilai
+								);
+							}
+							else {
+								$objPHPExcel->getActiveSheet()->setCellValue(
+									$this->daftarMPperTanggal[$pointerTanggal][$trainingSchedule->trainingClassSubject->program_subject_id]['kolom'].$pointerBaris, 
+									$trainerAttendance->hours
+								);
+								$pointerMP = $trainingSchedule->trainingClassSubject->program_subject_id;
+							}
+						}
+					}
+				}
+				// dah
+
+				// Ngisi rumus total hadir, bolos, %, dan keterangan
+				$objPHPExcel->getActiveSheet()->setCellValue(
+					chr($pointerKolomHadir).$pointerBaris, 
+					'=SUM(E'.$pointerBaris.':'.chr($pointerKolomHadir - 1).$pointerBaris.')'
+				);
+
+				$objPHPExcel->getActiveSheet()->setCellValue(
+					chr($pointerKolomHadir + 1).$pointerBaris, 
+					'='.$jumlahJPKehadiranMax.' - '.chr($pointerKolomHadir).$pointerBaris
+				);
+
+				$kolomHadir = chr($pointerKolomHadir).$pointerBaris;
+				$objPHPExcel->getActiveSheet()->setCellValue(
+					chr($pointerKolomHadir + 2).$pointerBaris, 
+					'='.$kolomHadir.'/'.$jumlahJPKehadiranMax
+				);
+				// dah
+
+				$pointerBaris += 1;
+
+				$jumlahBaris += 1;
+
+			}
+			// dah
+
+			if ($pointerKolomTTD < $pointerKolomHadir) {
+				$pointerKolomTTD = $pointerKolomHadir;
+			}
+
+			// Balik ke posisi kolom awal
+			$pointerKolomMP = ord('E');
+			$pointerKolomHadir = ord('F');
+			// dah
+
+		}
+		// dah
+
+		// Bikin legend
+		$pointerBarisLegend = $pointerBaris + 4;
+		$catat = [];
+		foreach ($this->daftarMPperTanggal as $tanggal) {
+			foreach ($tanggal as $baris) {
+				$lewati = false;
+				foreach ($catat as $kodeMP) {
+					if ($baris['kodeMP'] == $kodeMP) {
+						$lewati = true;
+					}
+				}
+				if ($lewati == true) {
+					continue;
+				}
+				$barisSebelumnya = $pointerBarisLegend -1 ;
+				$objPHPExcel->getActiveSheet()->setCellValue('A'.$pointerBarisLegend, $baris['kodeMP']);
+				$objPHPExcel->getActiveSheet()->duplicateStyle($objPHPExcel->getActiveSheet()->getStyle('A'.$barisSebelumnya), 'A'.$pointerBarisLegend);
+				$objPHPExcel->getActiveSheet()->setCellValue('B'.$pointerBarisLegend, $baris['namaMP']);
+				$objPHPExcel->getActiveSheet()->duplicateStyle($objPHPExcel->getActiveSheet()->getStyle('B'.$barisSebelumnya), 'B'.$pointerBarisLegend);
+				$catat[] = $baris['kodeMP'];
+				$pointerBarisLegend += 1;
+			}
+		}
+		$pointerBarisLegend = $pointerBaris + 2;
+		// dah
+
+		// Bikin kolom tanda tangan
+		$objPHPExcel->getActiveSheet()->setCellValue(
+			chr($pointerKolomTTD).$pointerBarisLegend,
+			'Jakarta,   '.date('F Y', strtotime($modelTraining->activity->end))
+		);
+
+		$modelEmployeeSigner = Employee::find()
+			->where([
+				'satker_id' => Yii::$app->user->identity->employee->satker_id,
+				'organisation_id' => 396,
+				'chairman' => 1
+			])
+			->one();
+
+		if (!empty($modelEmployeeSigner)) {
+			$objPHPExcel->getActiveSheet()->setCellValue(
+				chr($pointerKolomTTD).($pointerBarisLegend + 5),
+				$modelEmployeeSigner->person->name
+			);
+			$objPHPExcel->getActiveSheet()->setCellValue(
+				chr($pointerKolomTTD).($pointerBarisLegend + 6),
+				'NIP '.$modelEmployeeSigner->person->nip
+			);
+		}
+		// dah
+
+		// Ngeset lebar kolom
+		$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
+		for ($i=ord('E'); $i < $pointerKolomTTD; $i++) { 
+			$objPHPExcel->getActiveSheet()->getColumnDimension(chr($i))->setWidth(7);
+		}
+		// dah
+
+		// Finishing
+		$kolomAwal = 'E';
+		$kolomAkhir = 'E';
+		foreach ($this->daftarMPperTanggal as $MPperTanggal => $data) {
+			foreach ($data as $baris) {
+				if (ord($baris['kolom']) > ord($kolomAkhir)) {
+					$kolomAkhir = $baris['kolom'];
+				}
+			}
+			$objPHPExcel->getActiveSheet()->setCellValue($kolomAwal.'6', $namaHari[date('D', strtotime($MPperTanggal))]);
+			$objPHPExcel->getActiveSheet()->setCellValue($kolomAwal.'7', date('d M', strtotime($MPperTanggal)));
+			if($kolomAkhir != 'E'){
+				$objPHPExcel->getActiveSheet()->mergeCells($kolomAwal.'6:'.$kolomAkhir.'6');
+				$objPHPExcel->getActiveSheet()->mergeCells($kolomAwal.'7:'.$kolomAkhir.'7');
+			}
+			$kolomAwal = chr(ord($kolomAkhir) + 1);
+		}
+
+		$kolomAwal = '';
+		$kolomAkhir = 'E';
+		$bulanAcuan = 0;
+		$jumlahBulanDistinct = 0;
+		foreach ($this->daftarMPperTanggal as $MPperTanggal => $data) {
+			foreach ($data as $baris) {
+				if ($kolomAwal == '') {
+					$bulanAcuan = date('m', strtotime($MPperTanggal));
+					$kolomAwal = $baris['kolom'];
+				}
+				else {
+					if (date('m', strtotime($MPperTanggal)) > $bulanAcuan) {
+						$bulanAcuan = date('m', strtotime($MPperTanggal));
+						$objPHPExcel->getActiveSheet()->setCellValue($kolomAwal.'5', $namaBulan[date('F', strtotime($MPperTanggal))]);
+						$objPHPExcel->getActiveSheet()->mergeCells($kolomAwal.'5:'.$kolomAkhir.'5');
+						$kolomAwal = chr(ord($kolomAkhir) + 1);
+						$jumlahBulanDistinct += 1;
+					}
+					else {
+						$kolomAkhir = $baris['kolom'];
+					}
+				}
+			}
+		}
+		if ($jumlahBulanDistinct == 0) {
+			$objPHPExcel->getActiveSheet()->setCellValue($kolomAwal.'5', date('F', strtotime($MPperTanggal)));
+			$objPHPExcel->getActiveSheet()->mergeCells($kolomAwal.'5:'.$kolomAkhir.'5');
+		}
+		// dah
+		
+		if($filetype=='xls') 
+			header('Content-Type: application/vnd.ms-excel');
+		else 
+			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+			
+		header('Content-Disposition: attachment;filename="recapitulation_pengajar_attendance_'.$modelTraining->activity->name.date('YmdHis').'.'.$filetype.'"');
+		header('Cache-Control: max-age=0');
+		$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, $types[$filetype]);
+		$objWriter->save('php://output');
+		exit;
+
+    }
+	
+	public function actionChangeClassStudent($id, $class_id, $training_class_student_id)
+    {
+        $activity = $this->findModel($id); // Activity
+		$class = $this->findModelClass($class_id); // Class	
+		$model = $this->findModelClassStudent($training_class_student_id);
+		$renders = [];
+		$renders['activity'] = $activity;
+		$renders['class'] = $class;
+		$renders['model'] = $model;
+		$trainingClass = TrainingClass::find()
+			->where([
+				'training_id' => $activity->id
+			])
+			->all();
+		$renders['trainingClass'] = $trainingClass;	
+		if (Yii::$app->request->post()) {			
+			$model->load(Yii::$app->request->post());
+			if($model->save()){
+				Yii::$app->getSession()->setFlash('success', 'Student have moved.');
+				if (!Yii::$app->request->isAjax){
+					return $this->redirect(['class-student', 'id' => $id, 'class_id'=>$class_id]);	
+				}
+				else{
+					echo 'Student have moved.';
+				}
+			}
+			else{
+				Yii::$app->getSession()->setFlash('failed', 'Student have not moved.');
+				if (!Yii::$app->request->isAjax) {
+					return $this->redirect(['class-student', 'id' => $id, 'class_id'=>$class_id]);	
+				}
+				else{
+					echo 'Student have not moved.';
+				}
+			}
+        } else {
+			if (Yii::$app->request->isAjax)
+				return $this->renderAjax('changeClassStudent', $renders);
+            else
+				return $this->render('changeClassStudent', $renders);
+        }
+    }
+	
+	
+	/**
+     * Lists all TrainingClass models.
+     * @return mixed
+     */
+    public function actionHonorarium($id)
+    {
+        $model = $this->findModel($id);
+		$searchModel = new TrainingClassSearch([
+			'training_id' => $id,
+		]);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('honorarium', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+			'model' => $model,
+        ]);
+    }
+	
+	public function actionPrepareHonorarium($id, $class_id)
+    {				
+		$activity = $this->findModel($id); // Activity
+		$class = $this->findModelClass($class_id); // Class	
+		
+		/* $dataProvider = new \yii\data\ActiveDataProvider([
+			'query' => \backend\models\TrainingScheduleTrainer::find()
+				->joinWith(['trainingSchedule'])
+				->where([
+					'tb_training_schedule_id'=>\backend\models\TrainingSchedule::find()
+						->select('id')
+						->where([
+							'tb_training_class_id'=>$tb_training_class_id,
+							'status'=>1,					
+						])
+						->andWhere('tb_training_class_subject_id>0')
+						->groupBy('tb_training_class_subject_id')
+						->column(),
+					TrainingScheduleTrainer::tableName().'.status'=>1,
+					'ref_trainer_type_id'=>[0], //Only PENGAJAR not ASISTEN & PENCERAMAH
+				])
+				->groupBy('tb_training_class_subject_id,tb_trainer_id'),				
+			'pagination' => [
+				'pageSize' => 20,
+			],
+			'sort'=> ['defaultOrder' => ['tb_training_schedule_id'=>SORT_ASC]]
+		]);
+		$trainingClass=\backend\models\TrainingClass::findOne($tb_training_class_id);
+		$sbu = \backend\models\Sbu::find()->where(['name'=>'honor_persiapan_mengajar','status'=>1])->one();
+        return $this->render('prepare', [
+			'dataProvider' => $dataProvider,
+			'trainingClass' => $trainingClass, 
+			'sbu' => $sbu,
+        ]); */
+    }
+	
+	/* public function actionTransport($tb_training_class_id)
+    {			
+		$ref_satker_id = Yii::$app->user->identity->employee->ref_satker_id;
+		$dataProvider = new ActiveDataProvider([
+			'query' => TrainingScheduleTrainer::find()
+				->select(TrainingScheduleTrainer::tableName().'.*,'.Employee::tableName().'.ref_satker_id')
+				->joinWith(['trainer', 'trainer.employee','trainingSchedule'])
+				->where([
+					'tb_training_schedule_id'=>TrainingSchedule::find()
+						->select('id')
+						->where([
+							'tb_training_class_id'=>$tb_training_class_id,
+							'status'=>1,					
+						])
+						->andWhere('tb_training_class_subject_id>0')
+						//->groupBy('tb_training_class_subject_id')
+						->column(),
+					TrainingScheduleTrainer::tableName().'.status'=>1,
+				])
+				->andWhere(
+					'('.Employee::tableName().'.ref_satker_id IS NOT NULL AND '.Employee::tableName().'.ref_satker_id!='.$ref_satker_id.')'.
+					' OR '.
+					Employee::tableName().'.ref_satker_id IS NULL'
+				)
+				->groupBy('tb_training_class_subject_id,tb_trainer_id')
+				,	
+			'pagination' => [
+				'pageSize' => 20,
+			],
+			'sort'=> ['defaultOrder' => ['tb_training_schedule_id'=>SORT_ASC]]
+		]);
+		$trainingClass=TrainingClass::findOne($tb_training_class_id);
+		$sbu = Sbu::find()->where(['name'=>'honor_transport_dalam_kota','status'=>1])->one();
+        return $this->render('transport', [
+			'dataProvider' => $dataProvider,
+			'trainingClass' => $trainingClass, 
+			'sbu' => $sbu,
+        ]);
+    }
+	
+	public function actionTraining($tb_training_class_id)
+    {			
+		$ref_satker_id = Yii::$app->user->identity->employee->ref_satker_id;
+		$dataProvider = new ActiveDataProvider([
+			'query' => TrainingScheduleTrainer::find()
+				->joinWith(['trainer', 'trainer.employee','trainingSchedule'])
+				->where([
+					'tb_training_schedule_id'=>TrainingSchedule::find()
+						->select('id')
+						->where([
+							'tb_training_class_id'=>$tb_training_class_id,
+							'status'=>1,					
+						])
+						->andWhere('tb_training_class_subject_id>0')
+						//->groupBy('tb_training_class_subject_id')
+						->column(),
+					TrainingScheduleTrainer::tableName().'.status'=>1,
+				])
+				->groupBy('tb_training_class_subject_id,tb_trainer_id')
+				,		
+			'pagination' => [
+				'pageSize' => 20,
+			],
+			'sort'=> ['defaultOrder' => ['tb_training_schedule_id'=>SORT_ASC,'ref_trainer_type_id'=>SORT_ASC]]
+		]);
+
+		$trainingClass=TrainingClass::findOne($tb_training_class_id);
+		$sbus = ArrayHelper::map(Sbu::find()->where(['status'=>1])->all(),'name','value');
+        return $this->render('training', [
+			'dataProvider' => $dataProvider,
+			'trainingClass' => $trainingClass, 
+			'sbus' => $sbus,
+        ]);
+    } */
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\bdk\execution\models;
+namespace backend\modules\pusdiklat\execution\models;
 
 use Yii;
 use yii\base\Model;
@@ -41,7 +41,10 @@ class PersonSearch extends Person
      */
     public function search($params)
     {
-        $query = Person::find();
+        $query = Person::find()
+            ->where([
+                '>','id',100
+            ]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

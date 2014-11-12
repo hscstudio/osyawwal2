@@ -110,16 +110,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'value' => function ($data){
 					// CEK AUTHORISE ACCESS
-					$permit = \hscstudio\heart\helpers\Heart::OrganisationAuthorized(
-						[
-							'1213020100', // CEK KD_UNIT_ORG 1213020100 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
-							'1213020000', // BIDANG RENBANG
-							'1213000000', // PUSDIKLAT
-						],
-						[
-							1, // 1= HEAD OF KD_UNIT_ORG
-						]
-					);
+					$permit = \Yii::$app->user->can('Subbagian Rumah Tangga Dan Pengelolaan Aset');
 					$object_person=\backend\models\ObjectPerson::find()
 						->where([
 							'object'=>'activity',
@@ -229,7 +220,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			[
 				'attribute' => 'status',
-				'filter' => false,
+				'filter' => true,
 				'label' => 'Status',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
@@ -280,7 +271,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				]).
 				'</div>'.
 				'<div class="pull-right" style="margin-right:5px;">'.
-				Select2::widget([
+				/* Select2::widget([
 					'name' => 'status', 
 					'data' => ['all'=>'- All -','0'=>'Draft','1'=>'Publish'],
 					'value' => $status,
@@ -295,7 +286,7 @@ $this->params['breadcrumbs'][] = $this->title;
 							});
 						',	
 					],
-				]).
+				]). */
 				'</div>'.
 				'<div class="pull-right" style="margin-right:5px;" id="div_organisation_id">'.
 				Select2::widget([

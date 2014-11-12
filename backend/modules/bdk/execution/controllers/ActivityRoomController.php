@@ -1,10 +1,10 @@
 <?php
 
-namespace backend\modules\bdk\execution\controllers;
+namespace backend\modules\pusdiklat\execution\controllers;
 
 use Yii;
 use backend\models\ActivityRoom;
-use backend\modules\bdk\execution\models\ActivityRoomSearch;
+use backend\modules\pusdiklat\execution\models\ActivityRoomSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

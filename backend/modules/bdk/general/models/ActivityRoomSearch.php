@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\bdk\general\models;
+namespace backend\modules\pusdiklat\general\models;
 
 use Yii;
 use yii\base\Model;
@@ -41,7 +41,10 @@ class ActivityRoomSearch extends ActivityRoom
      */
     public function search($params)
     {
-        $query = ActivityRoom::find();
+        $query = ActivityRoom::find()
+			->where([
+				'<>','status',0
+			]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -56,7 +59,7 @@ class ActivityRoomSearch extends ActivityRoom
             'room_id' => $this->room_id,
             'start' => $this->start,
             'end' => $this->end,
-            'status' => $this->status,
+            /* 'status' => $this->status, */
             'created' => $this->created,
             'created_by' => $this->created_by,
             'modified' => $this->modified,

@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\bdk\general\models;
+namespace backend\modules\pusdiklat\general\models;
 
 use Yii;
 use yii\base\Model;
@@ -44,7 +44,8 @@ class EmployeeSearch extends Employee
         $query = Employee::find()
 			->where([
 				'satker_id' => $satker_id,
-			]);
+			])
+			->andWhere(['>','person_id',100]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

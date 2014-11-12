@@ -89,15 +89,15 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
 
 		<?php
-		
-		echo $form->field($model, 'status')->widget(Select2::classname(), [
-			'data' => $data_status,
-			'options' => ['placeholder' => 'Choose status ...'],
-			'pluginOptions' => [
-			'allowClear' => true
-			],
-		]); 
-		
+		if($model->status==1){
+			echo $form->field($model, 'status')->widget(Select2::classname(), [
+				'data' => $data_status,
+				'options' => ['placeholder' => 'Choose status ...'],
+				'pluginOptions' => [
+				'allowClear' => true
+				],
+			]); 
+		}
 		if($model->room->satker_id==Yii::$app->user->identity->employee->satker_id){
 			echo $form->field($model, 'note')->textInput(['maxlength' => 255]);
 		}

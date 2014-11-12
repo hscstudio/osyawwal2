@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\bdk\general\models;
+namespace backend\modules\pusdiklat\general\models;
 
 use Yii;
 use yii\base\Model;
@@ -51,7 +51,9 @@ class UserSearch extends User
 							'satker_id' => $satker_id,
 						])
 						->column(),
-			]);
+			])
+			->andWhere(['>','id',100])
+			;
 			
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

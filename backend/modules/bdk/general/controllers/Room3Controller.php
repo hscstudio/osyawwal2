@@ -1,13 +1,13 @@
 <?php
 
-namespace backend\modules\bdk\general\controllers;
+namespace backend\modules\pusdiklat\general\controllers;
 
 use Yii;
 use backend\models\Room;
-use backend\modules\bdk\general\models\RoomSearch;
+use backend\modules\pusdiklat\general\models\RoomSearch;
 use backend\models\Activity;
 use backend\models\ActivityRoom;
-use backend\modules\bdk\general\models\ActivityRoomSearch;
+use backend\modules\pusdiklat\general\models\ActivityRoomSearch;
 use backend\models\Reference;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

@@ -11,9 +11,6 @@ use kartik\widgets\FileInput;
 use yii\helpers\Url;
 use kartik\checkbox\CheckboxX;
 
-/* @var $this yii\web\View */
-/* @var $model backend\models\Activity */
-/* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="activity-form">
@@ -31,11 +28,27 @@ use kartik\checkbox\CheckboxX;
 				<div class="col-md-3">
 				<?= $form->field($model, 'start')->widget(DateControl::classname(), [
 						'type' => DateControl::FORMAT_DATE,
+						'displayFormat' => 'php:d-m-Y',
+						'saveFormat' => 'php:Y-m-d',
+						'ajaxConversion' => false,
+						'options' => [
+					        'pluginOptions' => [
+					            'autoclose' => true
+					        ]
+					    ]
 					]); ?>
 				</div>
 				<div class="col-md-3">
 				<?= $form->field($model, 'end')->widget(DateControl::classname(), [
 						'type' => DateControl::FORMAT_DATE,
+						'displayFormat' => 'php:d-m-Y',
+						'saveFormat' => 'php:Y-m-d',
+						'ajaxConversion' => false,
+						'options' => [
+					        'pluginOptions' => [
+					            'autoclose' => true
+					        ]
+					    ]
 					]); ?>
 				</div>
 			</div>

@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\bdk\execution\models;
+namespace backend\modules\pusdiklat\execution\models;
 
 use Yii;
 use yii\base\Model;
@@ -47,10 +47,11 @@ class TrainingClassSearch extends TrainingClass
             'query' => $query,
         ]);
 
-        if (!($this->load($params) && $this->validate())) {
-            return $dataProvider;
-        }
-
+        $this->load($params);
+		if (!$this->validate()) {
+			return $dataProvider;
+		}
+		
         $query->andFilterWhere([
             'id' => $this->id,
             'training_id' => $this->training_id,

@@ -94,19 +94,5 @@ $this->params['breadcrumbs'][] = $this->title; */
 	<?= \hscstudio\heart\widgets\Modal::widget() ?>
 </div>
 <?php
-/* $this->registerJs(
-	'
-	var idx =  0;
-	var exists = ['.implode(',',$exists).'];
-	$("input[name=\'selection[]\']").each(function() {
-		if (exists.indexOf(idx)==-1){
-			$(this).prop( "checked", true );
-		}
-		else{
-			$(this).prop( "checked", false );			
-		}		
-		idx++;
-	});
-	'
-); */
+
 ?>

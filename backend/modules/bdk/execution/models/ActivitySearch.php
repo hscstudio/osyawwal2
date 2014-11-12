@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\bdk\execution\models;
+namespace backend\modules\pusdiklat\execution\models;
 
 use Yii;
 use yii\base\Model;

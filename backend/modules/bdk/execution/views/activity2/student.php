@@ -1,11 +1,11 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView as Gridview2;
 use kartik\grid\GridView;
 use yii\helpers\Url;
 use yii\helpers\Inflector;
 use hscstudio\heart\widgets\Box;
+use kartik\widgets\Select2;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\modules\pusdiklat\execution\models\TrainingClassSearch */
@@ -38,12 +38,17 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?php
 	Box::end();
 	?>
+	
+	<?php \yii\widgets\Pjax::begin([
+		'id'=>'pjax-gridview',
+	]); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'kartik\grid\SerialColumn'],		
 			[
+				'attribute'=>'name',
 				'header' => '<div style="text-align:center">Name</div>',
 				'vAlign'=>'middle',
 				'hAlign'=>'left',
@@ -62,6 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 			],
 			[
+				'attribute'=>'nip',
 				'header' => '<div style="text-align:center">NIP</div>',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
@@ -96,7 +102,7 @@ $this->params['breadcrumbs'][] = $this->title;
 							'type' => 'unit',
 						])
 						->one();
-					if(null!=$object_reference){
+					if(!empty($object_reference)){
 						$unit = $object_reference->reference->name;
 					}
 					if($data->student->satker==2){
@@ -122,6 +128,45 @@ $this->params['breadcrumbs'][] = $this->title;
 							'data-html'=>'true',
 						]
 					);
+				},
+			],
+			[
+				'header' => '<div style="text-align:center">CLASS</div>',
+				'vAlign'=>'middle',
+				'hAlign'=>'center',
+				'width'=>'50px',
+				'headerOptions'=>['class'=>'kv-sticky-column'],
+				'contentOptions'=>['class'=>'kv-sticky-column'],
+				'format'=>'raw',
+				'value' => function ($data){
+					$trainingClassStudent = \backend\models\TrainingClassStudent::find()
+						->where([
+							'training_student_id'=>$data->id
+						])
+						->one();
+					$class = '-';
+					$options = [
+							'class'=>'label label-info',
+							'data-toggle'=>'tooltip',
+							'data-html'=>'true',
+						];
+					if(!empty($trainingClassStudent)){
+						$class = $trainingClassStudent->trainingClass->class;
+						return Html::a(
+							$class,
+							[
+								'class',
+								'id'=>$trainingClassStudent->training_id
+							],
+							$options
+						);
+					}
+					else{
+						return Html::tag('span',
+							$class,
+							$options
+						);
+					}
 				},
 			],
             [
@@ -165,7 +210,25 @@ $this->params['breadcrumbs'][] = $this->title;
 					'choose-student','id'=>$model->id
 				], [
 					'class' => 'btn btn-success','data-pjax'=>'0'
-				]),
+				]).
+				'<div class="pull-right" style="margin-right:5px;">'.
+				Select2::widget([
+					'name' => 'status', 
+					'data' => ['1'=>'Active','0'=>'Cancel'],
+					'value' => $status,
+					'options' => [
+						'placeholder' => 'Status ...', 
+						'class'=>'form-control', 
+						'onchange'=>'
+							$.pjax.reload({
+								url: "'.\yii\helpers\Url::to(['student','id'=>$model->id]).'&status="+$(this).val(), 
+								container: "#pjax-gridview", 
+								timeout: 1000,
+							});
+						',	
+					],
+				]).
+				'</div>',
 			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
@@ -173,6 +236,29 @@ $this->params['breadcrumbs'][] = $this->title;
 		'hover'=>true,
     ]); ?>
 	<?= \hscstudio\heart\widgets\Modal::widget() ?>
+	<?php \yii\widgets\Pjax::end(); ?>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+	<i class="fa fa-fw fa-refresh upload"></i> Document Generator
+	</div>
+    <div class="panel-body">
+		<div class="row clearfix">
+			<div class="col-md-2">
+			<?php
+			echo Html::a('<i class="fa fa-fw fa-file"></i> Data Peserta Diklat',
+						Url::to(['export-student','id'=>$model->id,'status'=>$status]),
+						[
+							'class'=>'btn btn-default',
+							'data-pjax'=>'0',
+						]
+					);
+			?>
+			</div>			
+			
+		</div>
+	</div>
 </div>
 
 <div class="panel panel-default">
@@ -197,23 +283,22 @@ $this->params['breadcrumbs'][] = $this->title;
 			</div>
 			<div class="col-md-8">
 			<?php
-			echo Html::beginTag('div', ['class'=>'col-md-8']);
-				$form = \yii\bootstrap\ActiveForm::begin([
-					'options'=>['enctype'=>'multipart/form-data'],
-					'action'=>['import-student','id'=>$model->id], 
-				]);
-				echo \kartik\widgets\FileInput::widget([
-					'name' => 'importFile', 
-					//'options' => ['multiple' => true], 
-					'pluginOptions' => [
-						'previewFileType' => 'any',
-						'uploadLabel'=>"Import Excel",
-					]
-				]);
-				\yii\bootstrap\ActiveForm::end();
-			echo Html::endTag('div');
+			$form = \yii\bootstrap\ActiveForm::begin([
+				'options'=>['enctype'=>'multipart/form-data'],
+				'action'=>['import-student','id'=>$model->id], 
+			]);
+			echo \kartik\widgets\FileInput::widget([
+				'name' => 'importFile', 
+				//'options' => ['multiple' => true], 
+				'pluginOptions' => [
+					'previewFileType' => 'any',
+					'uploadLabel'=>"Import Excel",
+				]
+			]);
+			\yii\bootstrap\ActiveForm::end();
 			?>
 			</div>
+			
 		</div>
 	</div>
 </div>
