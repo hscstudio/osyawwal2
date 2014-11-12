@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 12, 2014 at 04:37 PM
+-- Generation Time: Nov 12, 2014 at 05:30 PM
 -- Server version: 5.5.39-MariaDB
 -- PHP Version: 5.5.18
 
@@ -485,6 +485,7 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('Pusdiklat', '6', 1413841954),
 ('Pusdiklat', '7', 1413841960),
 ('Pusdiklat', '8', 1413841928),
+('Pusdiklat PSDM', '3', 1415787898),
 ('Subbagian Perencanaan Dan Keuangan', '363', NULL),
 ('Subbagian Rumah Tangga Dan Pengelolaan Aset', '194', NULL),
 ('Subbagian Rumah Tangga Dan Pengelolaan Aset', '297', NULL),
@@ -1103,7 +1104,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/pusdiklat-planning/training-subject-trainer-recommendation/upda', 2, NULL, NULL, NULL, 1413838826, 1413838826),
 ('/pusdiklat-planning/training-subject-trainer-recommendation/view', 2, NULL, NULL, NULL, 1413838826, 1413838826),
 ('/pusdiklat2-competency/*', 2, NULL, NULL, NULL, 1415784754, 1415784754),
-('/pusdiklat2-general/*', 2, NULL, NULL, NULL, 1415784741, 1415784741),
+('/pusdiklat2-general/*', 2, NULL, NULL, NULL, 1415786573, 1415786573),
 ('/sekretariat-finance/*', 2, NULL, NULL, NULL, 1413838622, 1413838622),
 ('/sekretariat-finance/default/*', 2, NULL, NULL, NULL, 1413838622, 1413838622),
 ('/sekretariat-finance/default/index', 2, NULL, NULL, NULL, 1413838622, 1413838622),
@@ -4156,6 +4157,13 @@ CREATE TABLE IF NOT EXISTS `online` (
   `ip` varchar(15) CHARACTER SET utf8 NOT NULL,
   `time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `online`
+--
+
+INSERT INTO `online` (`person_id`, `ip`, `time`) VALUES
+(30, '127.0.0.1', '2014-11-12 17:26:07');
 
 -- --------------------------------------------------------
 
