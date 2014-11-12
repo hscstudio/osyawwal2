@@ -9,7 +9,7 @@ use hscstudio\heart\widgets\Box;
 use kartik\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\modules\pusdiklat\execution\models\TrainingClassSearch */
+/* @var $searchModel backend\modules\bdk\execution\models\TrainingClassSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $controller = $this->context;

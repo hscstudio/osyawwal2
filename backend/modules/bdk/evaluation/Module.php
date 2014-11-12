@@ -36,7 +36,7 @@ class Module extends \yii\base\Module
 		$menus_3=[];
 		
 		if($this->checkAccess([
-			'pusdiklat-evaluation-1'
+			'bdk-evaluation'
 		])){
 			$menus_1 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,43,$callback,true);
 			if(empty($menus_1)){
@@ -53,7 +53,7 @@ class Module extends \yii\base\Module
 		}
 		
 		if($this->checkAccess([
-			'pusdiklat-evaluation-2'
+			'bdk-evaluation'
 		])){
 			$menus_2 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,44,$callback,true);
 			if(empty($menus_2)){
@@ -70,7 +70,7 @@ class Module extends \yii\base\Module
 		}
 		
 		if($this->checkAccess([
-			'pusdiklat-evaluation-3'
+			'bdk-evaluation'
 		])){
 			$menus_3 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,45,$callback,true);
 			if(empty($menus_3)){

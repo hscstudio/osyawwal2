@@ -1,9 +1,9 @@
 <?php
-namespace backend\modules\pusdiklat\evaluation\controllers;
+namespace backend\modules\bdk\evaluation\controllers;
 
 use Yii;
 use backend\models\Activity;
-use backend\modules\pusdiklat\evaluation\models\TrainingActivitySearch;
+use backend\modules\bdk\evaluation\models\TrainingActivitySearch;
 use yii\helpers\Html;
 use backend\models\Person;
 use backend\models\ObjectPerson;
@@ -16,29 +16,29 @@ use backend\models\Training;
 use backend\models\TrainingStudentPlan;
 
 use backend\models\TrainingClass;
-use backend\modules\pusdiklat\evaluation\models\TrainingClassSearch;
+use backend\modules\bdk\evaluation\models\TrainingClassSearch;
 
 use backend\models\TrainingClassSubject;
-use backend\modules\pusdiklat\evaluation\models\TrainingClassSubjectSearch;
+use backend\modules\bdk\evaluation\models\TrainingClassSubjectSearch;
 
 use backend\models\TrainingClassStudent;
-use backend\modules\pusdiklat\evaluation\models\TrainingClassStudentSearch;
+use backend\modules\bdk\evaluation\models\TrainingClassStudentSearch;
 
 use backend\models\TrainingStudent;
-use backend\modules\pusdiklat\evaluation\models\TrainingStudentSearch;
+use backend\modules\bdk\evaluation\models\TrainingStudentSearch;
 
 use backend\models\TrainingSchedule;
-use backend\modules\pusdiklat\evaluation\models\TrainingScheduleSearch;
-use backend\modules\pusdiklat\evaluation\models\TrainingScheduleExtSearch;
+use backend\modules\bdk\evaluation\models\TrainingScheduleSearch;
+use backend\modules\bdk\evaluation\models\TrainingScheduleExtSearch;
 
 use backend\models\Student;
-use backend\modules\pusdiklat\evaluation\models\StudentSearch;
+use backend\modules\bdk\evaluation\models\StudentSearch;
 
 use backend\models\Room;
 use backend\models\ActivityRoom;
-use backend\modules\pusdiklat\evaluation\models\ActivityRoomSearch;
-use backend\modules\pusdiklat\evaluation\models\ActivityRoomExtensionSearch;
-use backend\modules\pusdiklat\evaluation\models\RoomSearch;
+use backend\modules\bdk\evaluation\models\ActivityRoomSearch;
+use backend\modules\bdk\evaluation\models\ActivityRoomExtensionSearch;
+use backend\modules\bdk\evaluation\models\RoomSearch;
 
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

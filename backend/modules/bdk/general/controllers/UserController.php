@@ -1,10 +1,10 @@
 <?php
 
-namespace backend\modules\pusdiklat\general\controllers;
+namespace backend\modules\bdk\general\controllers;
 
 use Yii;
 use backend\models\User;
-use backend\modules\pusdiklat\general\models\UserSearch;
+use backend\modules\bdk\general\models\UserSearch;
 use backend\models\Employee;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

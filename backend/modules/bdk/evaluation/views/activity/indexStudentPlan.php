@@ -8,7 +8,7 @@ use backend\models\Reference;
 use kartik\widgets\Select2;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\modules\pusdiklat\planning\models\ActivitySearch */
+/* @var $searchModel backend\modules\bdk\planning\models\ActivitySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $controller = $this->context;

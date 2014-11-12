@@ -1,9 +1,9 @@
 <?php
-namespace backend\modules\pusdiklat\execution\controllers;
+namespace backend\modules\bdk\execution\controllers;
 
 use Yii;
 use backend\models\Activity;
-use backend\modules\pusdiklat\execution\models\TrainingActivitySearch;
+use backend\modules\bdk\execution\models\TrainingActivitySearch;
 
 use backend\models\Person;
 use backend\models\ObjectPerson;
@@ -19,23 +19,23 @@ use backend\models\Employee;
 use backend\models\Trainer;
 
 use backend\models\TrainingClass;
-use backend\modules\pusdiklat\execution\models\TrainingClassSearch;
+use backend\modules\bdk\execution\models\TrainingClassSearch;
 
 use backend\models\TrainingClassSubject;
-use backend\modules\pusdiklat\execution\models\TrainingClassSubjectSearch;
+use backend\modules\bdk\execution\models\TrainingClassSubjectSearch;
 
 use backend\models\TrainingClassStudent;
-use backend\modules\pusdiklat\execution\models\TrainingClassStudentSearch;
+use backend\modules\bdk\execution\models\TrainingClassStudentSearch;
 
 use backend\models\TrainingStudent;
-use backend\modules\pusdiklat\execution\models\TrainingStudentSearch;
+use backend\modules\bdk\execution\models\TrainingStudentSearch;
 
 use backend\models\Student;
-use backend\modules\pusdiklat\execution\models\StudentSearch;
+use backend\modules\bdk\execution\models\StudentSearch;
 
 use backend\models\TrainingSchedule;
-use backend\modules\pusdiklat\execution\models\TrainingScheduleSearch;
-use backend\modules\pusdiklat\execution\models\TrainingScheduleExtSearch;
+use backend\modules\bdk\execution\models\TrainingScheduleSearch;
+use backend\modules\bdk\execution\models\TrainingScheduleExtSearch;
 
 use backend\models\ActivityRoom;
 

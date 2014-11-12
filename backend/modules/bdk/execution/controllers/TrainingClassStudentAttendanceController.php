@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\pusdiklat\execution\controllers;
+namespace backend\modules\bdk\execution\controllers;
 
 use Yii;
 use yii\web\Controller;
@@ -23,7 +23,7 @@ use backend\models\ProgramSubjectHistory;
 use backend\models\ObjectReference;
 use backend\models\Reference;
 
-use backend\modules\pusdiklat\execution\models\TrainingClassStudentSearch;
+use backend\modules\bdk\execution\models\TrainingClassStudentSearch;
 
 class TrainingClassStudentAttendanceController extends Controller
 {

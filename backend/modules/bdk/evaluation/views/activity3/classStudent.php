@@ -8,7 +8,7 @@ use yii\helpers\Inflector;
 use kartik\widgets\Select2;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\modules\pusdiklat\execution\models\TrainingClassSubjectSearch */
+/* @var $searchModel backend\modules\bdk\execution\models\TrainingClassSubjectSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $controller = $this->context;

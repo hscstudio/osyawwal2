@@ -1,10 +1,10 @@
 <?php
 
-namespace backend\modules\pusdiklat\evaluation\controllers;
+namespace backend\modules\bdk\evaluation\controllers;
 
 use Yii;
 use backend\models\TrainingClassSubjectTrainerEvaluation;
-use backend\modules\pusdiklat\evaluation\models\TrainingClassSubjectTrainerEvaluationSearch;
+use backend\modules\bdk\evaluation\models\TrainingClassSubjectTrainerEvaluationSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

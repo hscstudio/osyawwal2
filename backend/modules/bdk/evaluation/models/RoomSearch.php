@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\pusdiklat\evaluation\models;
+namespace backend\modules\bdk\evaluation\models;
 
 use Yii;
 use yii\base\Model;

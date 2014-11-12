@@ -35,7 +35,7 @@ class Module extends \yii\base\Module
 		$menus_2=[];
 		
 		if($this->checkAccess([
-			'pusdiklat-execution-1'
+			'bdk-execution'
 		])){
 			$menus_1 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,41,$callback,true);
 			if(empty($menus_1)){
@@ -55,7 +55,7 @@ class Module extends \yii\base\Module
 		}
 		
 		if($this->checkAccess([
-			'pusdiklat-execution-2'
+			'bdk-execution'
 		])){
 			$menus_2 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,42,$callback,true);
 			if(empty($menus_2)){

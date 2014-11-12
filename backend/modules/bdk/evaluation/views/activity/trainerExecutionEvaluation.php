@@ -8,7 +8,7 @@ use yii\helpers\Inflector;
 use hscstudio\heart\widgets\Box;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\modules\pusdiklat\execution\models\TrainingClassSearch */
+/* @var $searchModel backend\modules\bdk\execution\models\TrainingClassSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $controller = $this->context;

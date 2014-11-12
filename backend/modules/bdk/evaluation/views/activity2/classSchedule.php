@@ -18,7 +18,7 @@ use backend\models\ProgramSubject;
 use backend\models\TrainingClassSubject;
 use backend\models\TrainingSchedule;
 use backend\models\TrainingScheduleTrainer;
-use backend\modules\pusdiklat\execution\models\TrainingScheduleExtSearch;
+use backend\modules\bdk\execution\models\TrainingScheduleExtSearch;
 
 $this->title = 'Schedule : Class '.$trainingClass->class;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Activities'), 'url' => ['index']];

@@ -1,12 +1,12 @@
 <?php
 
-namespace backend\modules\pusdiklat\general\controllers;
+namespace backend\modules\bdk\general\controllers;
 
 use Yii;
 use backend\models\Person;
 use backend\models\Employee;
 use backend\models\User;
-use backend\modules\pusdiklat\general\models\PersonSearch;
+use backend\modules\bdk\general\models\PersonSearch;
 use backend\models\ObjectReference;
 use backend\models\ObjectFile;
 use backend\models\File;
@@ -541,14 +541,14 @@ class PersonController extends Controller
 							'password_hash'=>$password,
 							'email'=>$nip.'@abc.def',
 							'role'=>1,
-							'status' => (\Yii::$app->user->can('admin-pusdiklat'))?1:0,
+							'status' => (\Yii::$app->user->can('admin-bdk'))?1:0,
 						]);
 						if ($user->save()){
 							$user_id = $user->id;
 						}
 					}
 					else{
-						if(\Yii::$app->user->can('admin-pusdiklat')){
+						if(\Yii::$app->user->can('admin-bdk')){
 							$user=User::findOne($user_id);
 							$user->status=1;
 							$user->save();
@@ -597,10 +597,11 @@ class PersonController extends Controller
 					Heart::objectReference($object_reference,$unit,'person',$employee_id,'unit');
 				}
 				
-				if($user_id>0 and (\Yii::$app->user->can('admin-pusdiklat'))){	
+				if($user_id>0 and (\Yii::$app->user->can('admin-bdk'))){	
 					if (in_array($jabatan_id,[1,2])){
 						if($jabatan_id==2){
 							$auths = [
+								// PR - upload pegawai tar dulu
 								'387'=>'Pusdiklat',
 								'388'=>'Bagian Tata Usaha',
 								'389'=>'Subbagian Tata Usaha, Kepegawaian, Dan Humas',

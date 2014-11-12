@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\pusdiklat\evaluation\controllers;
+namespace backend\modules\bdk\evaluation\controllers;
 
 use yii\web\Controller;
 use backend\models\ObjectReference;
