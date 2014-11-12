@@ -96,20 +96,28 @@ return [
             'class' => 'backend\modules\sekretariat\it\Module',
         ],
 		/* START SEKRETARIAT */
-		/* START PUSDIKLAT */
-		'pusdiklat-general' => [
+        /* START PUSDIKLAT */
+        'pusdiklat-general' => [
             'class' => 'backend\modules\pusdiklat\general\Module',
         ],
-		'pusdiklat-planning' => [
+        'pusdiklat-planning' => [
             'class' => 'backend\modules\pusdiklat\planning\Module',
         ],
-		'pusdiklat-execution' => [
+        'pusdiklat-execution' => [
             'class' => 'backend\modules\pusdiklat\execution\Module',
         ],
-		'pusdiklat-evaluation' => [
+        'pusdiklat-evaluation' => [
             'class' => 'backend\modules\pusdiklat\evaluation\Module',
         ],
-		/* FINISH PUSDIKLAT */
+        /* FINISH PUSDIKLAT */
+		/* START PSDM */
+		'pusdiklat2-general' => [
+            'class' => 'backend\modules\pusdiklat2\general\Module',
+        ],
+		'pusdiklat2-competency' => [
+            'class' => 'backend\modules\pusdiklat2\competency\Module',
+        ],
+		/* FINISH PSDM */
 		/* START BDK */
 		'bdk-general' => [
             'class' => 'backend\modules\bdk\general\Module',

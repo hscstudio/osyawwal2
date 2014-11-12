@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\pusdiklat2\planning\models;
+namespace backend\modules\pusdiklat2\competency\models;
 
 use Yii;
 use yii\base\Model;

@@ -1,11 +1,11 @@
 <?php
 
-namespace backend\modules\pusdiklat2\planning;
+namespace backend\modules\pusdiklat2\competency;
 use Yii;
 
 class Module extends \yii\base\Module
 {
-    public $controllerNamespace = 'backend\modules\pusdiklat2\planning\controllers';
+    public $controllerNamespace = 'backend\modules\pusdiklat2\competency\controllers';
 
     public function init()
     {

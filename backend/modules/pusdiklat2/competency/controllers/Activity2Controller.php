@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\pusdiklat2\planning\controllers;
+namespace backend\modules\pusdiklat2\competency\controllers;
 
 use Yii;
 use backend\models\Activity;
@@ -10,7 +10,7 @@ use backend\models\Program;
 use backend\models\ProgramHistory;
 use backend\models\Reference;
 use backend\models\ObjectPerson;
-use backend\modules\pusdiklat2\planning\models\TrainingActivitySearch;
+use backend\modules\pusdiklat2\competency\models\TrainingActivitySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

@@ -8,7 +8,7 @@ use kartik\widgets\Select2;
 use kartik\widgets\SwitchInput;
 use backend\models\Reference;
 /* @var $this yii\web\View */
-/* @var $searchModel backend\modules\pusdiklat2\planning\models\TrainerSearch */
+/* @var $searchModel backend\modules\pusdiklat2\competency\models\TrainerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $controller = $this->context;

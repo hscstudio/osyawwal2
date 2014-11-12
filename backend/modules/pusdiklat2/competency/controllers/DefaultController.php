@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\pusdiklat2\planning\controllers;
+namespace backend\modules\pusdiklat2\competency\controllers;
 
 use yii\web\Controller;
 use backend\models\ObjectReference;
