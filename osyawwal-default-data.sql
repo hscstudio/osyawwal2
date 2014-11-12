@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 12, 2014 at 08:24 AM
+-- Generation Time: Nov 12, 2014 at 09:17 AM
 -- Server version: 5.5.39-MariaDB
 -- PHP Version: 5.5.18
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `activity` (
 --
 
 INSERT INTO `activity` (`id`, `satker_id`, `name`, `description`, `start`, `end`, `location`, `hostel`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 23, 'Diklat Fedora Administrator Angkatan 1', '', '2014-01-07 00:00:00', '2014-01-22 00:00:00', '23|', 0, 1, '2014-11-02 15:37:17', 8, '2014-11-07 03:42:25', 8),
+(1, 23, 'Diklat Fedora Administrator Angkatan 1', '', '2014-01-07 00:00:00', '2014-01-22 00:00:00', '23|', 0, 2, '2014-11-02 15:37:17', 8, '2014-11-12 08:28:01', 8),
 (2, 23, 'Diklat Fedora Administrator Angkatan 2', '', '2014-02-12 00:00:00', '2014-02-20 00:00:00', '23|', 0, 0, '2014-11-02 15:37:35', 8, '2014-11-02 15:37:35', 8),
 (3, 23, 'Diklat Fedora Administrator Angkatan 3', '', '2014-03-12 00:00:00', '2014-03-21 00:00:00', '23|', 0, 0, '2014-11-02 15:37:55', 8, '2014-11-02 15:37:55', 8),
 (4, 23, 'Diklat Fedora Administrator Angkatan 4', '', '2014-04-17 00:00:00', '2014-04-24 00:00:00', '23|', 0, 0, '2014-11-02 15:38:17', 8, '2014-11-02 15:38:17', 8),
@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `activity_history` (
 --
 
 INSERT INTO `activity_history` (`id`, `revision`, `satker_id`, `name`, `description`, `start`, `end`, `location`, `hostel`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 0, 23, 'Diklat Fedora Administrator Angkatan 1', '', '2014-01-07 00:00:00', '2014-01-22 00:00:00', '23|', 0, 1, '2014-11-02 15:37:17', 8, '2014-11-07 03:42:25', 8),
+(1, 0, 23, 'Diklat Fedora Administrator Angkatan 1', '', '2014-01-07 00:00:00', '2014-01-22 00:00:00', '23|', 0, 2, '2014-11-02 15:37:17', 8, '2014-11-12 08:28:01', 8),
 (2, 0, 23, 'Diklat Fedora Administrator Angkatan 2', '', '2014-02-12 00:00:00', '2014-02-20 00:00:00', '23|', 0, 0, '2014-11-02 15:37:35', 8, '2014-11-02 15:37:35', 8),
 (3, 0, 23, 'Diklat Fedora Administrator Angkatan 3', '', '2014-03-12 00:00:00', '2014-03-21 00:00:00', '23|', 0, 0, '2014-11-02 15:37:55', 8, '2014-11-02 15:37:55', 8),
 (4, 0, 23, 'Diklat Fedora Administrator Angkatan 4', '', '2014-04-17 00:00:00', '2014-04-24 00:00:00', '23|', 0, 0, '2014-11-02 15:38:17', 8, '2014-11-02 15:38:17', 8),
@@ -164,6 +164,18 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('Bagian Tik', '25', 1413844318),
 ('Bagian Umum', '2', 1413841857),
 ('Bagian Umum', '26', 1413844349),
+('BDK', '10', 1415758345),
+('BDK', '11', 1415758354),
+('BDK', '12', 1415758362),
+('BDK', '13', 1415758369),
+('BDK', '14', 1415758383),
+('BDK', '15', 1415758402),
+('BDK', '16', 1415758418),
+('BDK', '17', 1415758425),
+('BDK', '18', 1415758432),
+('BDK', '19', 1415758441),
+('BDK', '20', 1415758449),
+('BDK', '21', 1415758459),
 ('Bidang Evaluasi Dan Pelaporan Kinerja', '196', NULL),
 ('Bidang Evaluasi Dan Pelaporan Kinerja', '286', NULL),
 ('Bidang Evaluasi Dan Pelaporan Kinerja', '365', NULL),
@@ -4135,13 +4147,6 @@ CREATE TABLE IF NOT EXISTS `online` (
   `time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `online`
---
-
-INSERT INTO `online` (`person_id`, `ip`, `time`) VALUES
-(30, '127.0.0.1', '2014-11-12 08:19:08');
-
 -- --------------------------------------------------------
 
 --
@@ -5349,7 +5354,7 @@ CREATE TABLE IF NOT EXISTS `training` (
 --
 
 INSERT INTO `training` (`activity_id`, `program_id`, `program_revision`, `number`, `note`, `regular`, `stakeholder`, `student_count_plan`, `class_count_plan`, `execution_sk`, `result_sk`, `cost_source`, `cost_plan`, `cost_real`, `approved_status`, `approved_note`, `approved_date`, `approved_by`) VALUES
-(1, 1, 0, '2014-07-00-2.3.2.0.2', '', 0, '', NULL, NULL, NULL, NULL, '', '52097000.00', '21000000.00', NULL, NULL, NULL, NULL),
+(1, 1, 0, '2014-07-00-2.3.2.0.2', '', 0, '', NULL, NULL, '', NULL, '', '52097000.00', '21000000.00', NULL, NULL, NULL, NULL),
 (2, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '21000000.00', '2100000.00', NULL, NULL, NULL, NULL),
 (3, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '52097000.00', '5207000.00', NULL, NULL, NULL, NULL),
 (4, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '52097000.00', '20900000.00', NULL, NULL, NULL, NULL),
@@ -5550,7 +5555,7 @@ CREATE TABLE IF NOT EXISTS `training_history` (
 --
 
 INSERT INTO `training_history` (`activity_id`, `revision`, `program_id`, `program_revision`, `number`, `note`, `regular`, `stakeholder`, `student_count_plan`, `class_count_plan`, `execution_sk`, `result_sk`, `cost_source`, `cost_plan`, `cost_real`, `approved_status`, `approved_note`, `approved_date`, `approved_by`) VALUES
-(1, 0, 1, 0, '2014-07-00-2.3.2.0.2', '', 0, '', NULL, NULL, NULL, NULL, '', '52097000.00', '21000000.00', NULL, NULL, NULL, NULL),
+(1, 0, 1, 0, '2014-07-00-2.3.2.0.2', '', 0, '', NULL, NULL, '', NULL, '', '52097000.00', '21000000.00', NULL, NULL, NULL, NULL),
 (2, 0, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '21000000.00', NULL, NULL, NULL, NULL, NULL),
 (3, 0, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '52097000.00', NULL, NULL, NULL, NULL, NULL),
 (4, 0, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '52097000.00', NULL, NULL, NULL, NULL, NULL),
