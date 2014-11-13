@@ -19,6 +19,7 @@ use backend\models\TrainingClassStudent;
 use backend\models\TrainingSchedule;
 use backend\models\TrainingClass;
 use backend\models\ProgramSubject;
+use backend\models\ProgramSubjectHistory;
 use backend\models\ObjectReference;
 use backend\models\Reference;
 
@@ -531,7 +532,7 @@ class TrainingClassStudentAttendanceController extends Controller
 		// dah
 
     	// Ambil template
-    	$template = Yii::getAlias('@backend').'/../file/template/bdk/execution/2.12_contoh_daftar_hadir_peserta_diklat_27082014.xls';
+    	$template = Yii::getAlias('@backend').'/../file/template/pusdiklat/execution/2.12_contoh_daftar_hadir_peserta_diklat_27082014.xls';
 		$objPHPExcel = PHPExcel_IOFactory::load($template);
 		//dah
 
@@ -676,9 +677,21 @@ class TrainingClassStudentAttendanceController extends Controller
 					chr($pointerKolomMP).(17 + $j)
 				);
 			}
-
+			
+			$objPHPExcel->getActiveSheet()->setCellValue(chr($pointerKolomMP).'14', 
+				'Jamlat: '.$modelTrainingSchedule->hours
+			);
+			
+			$programSubject = \backend\models\ProgramSubjectHistory::find()
+				->where([
+					'id'=>$modelTrainingSchedule->trainingClassSubject->program_subject_id,
+					'program_id'=>$row->trainingClass->training->program_id,
+					'program_revision'=>$row->trainingClass->training->program_revision,
+					'status'=>1
+				])
+				->one();
 			$objPHPExcel->getActiveSheet()->setCellValue(chr($pointerKolomMP).'15', 
-				'Mata Diklat: '.ProgramSubject::findOne($modelTrainingSchedule->trainingClassSubject->program_subject_id)->name
+				'Mata Diklat: '.$programSubject->name
 			);
 
 			$objPHPExcel->getActiveSheet()->getColumnDimension(chr($pointerKolomMP))->setWidth(20);
@@ -790,7 +803,7 @@ class TrainingClassStudentAttendanceController extends Controller
 		// dah
 
     	// Ambil template
-    	$template = Yii::getAlias('@backend').'/../file/template/bdk/execution/2.15_contoh_rekapitulasi_kehadiran_peserta_dan_pengajar_24082014.xls';
+    	$template = Yii::getAlias('@backend').'/../file/template/pusdiklat/execution/2.15_contoh_rekapitulasi_kehadiran_peserta_dan_pengajar_24082014.xls';
 		$objPHPExcel = PHPExcel_IOFactory::load($template);
 		//dah
 
@@ -904,17 +917,25 @@ class TrainingClassStudentAttendanceController extends Controller
 			$modelTrainingSchedule = TrainingSchedule::find()
 				->where(['id' => $training_schedule_id[$i]])
 				->one();
-
-			if ($pointerKolomMP == ord('E')) {
+			
+			$programSubject = \backend\models\ProgramSubjectHistory::find()
+				->where([
+					'id'=>$modelTrainingSchedule->trainingClassSubject->program_subject_id,
+					'program_id'=>$row->trainingClass->training->program_id,
+					'program_revision'=>$row->trainingClass->training->program_revision,
+					'status'=>1
+				])
+				->one();
+			if ($pointerKolomMP == ord('E')) {				
 				$objPHPExcel->getActiveSheet()->setCellValue(chr($pointerKolomMP).(10-1), 
-					ProgramSubject::findOne($modelTrainingSchedule->trainingClassSubject->program_subject_id)->name
+					$programSubject->name
 				);
 			}
 			else {
 				$objPHPExcel->getActiveSheet()->insertNewColumnBefore(chr($pointerKolomMP), 1);
 				
 				$objPHPExcel->getActiveSheet()->setCellValue(chr($pointerKolomMP).(10-1), 
-					ProgramSubject::findOne($modelTrainingSchedule->trainingClassSubject->program_subject_id)->name
+					$programSubject->name
 				);
 
 				$objPHPExcel->getActiveSheet()->duplicateStyle($objPHPExcel->getActiveSheet()->getStyle('E'.(10 - 1)), 

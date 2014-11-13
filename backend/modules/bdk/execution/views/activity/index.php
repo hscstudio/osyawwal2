@@ -6,7 +6,7 @@ use yii\helpers\Url;
 use kartik\widgets\Select2;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\modules\pusdiklat\planning\models\ActivitySearch */
+/* @var $searchModel backend\modules\bdk\planning\models\ActivitySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $controller = $this->context;
@@ -109,16 +109,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'value' => function ($data){
 					// CEK AUTHORISE ACCESS
-					$permit = \hscstudio\heart\helpers\Heart::OrganisationAuthorized(
-						[
-							'1213030100', // CEK KD_UNIT_ORG 1213030100 IN TABLE ORGANISATION IS SUBBIDANG PENYEL I
-							'1213030000', // BIDANG PENYEL
-							'1213000000', // PUSDIKLAT
-						],
-						[
-							1, // 1= HEAD OF KD_UNIT_ORG
-						]
-					);
+					$permit = \Yii::$app->user->can('Subbidang Penyelenggaraan I');
 					$object_person=\backend\models\ObjectPerson::find()
 						->where([
 							'object'=>'activity',
@@ -199,17 +190,21 @@ $this->params['breadcrumbs'][] = $this->title;
 				'buttons' => [
 					'dashboard' => function ($url, $model) {
 								$icon='<span class="fa fa-fw fa-dashboard"></span>';
-								return ($model->status!=2 AND $model->status!=1)?'':Html::a($icon,$url,[
-									'class'=>'btn btn-default btn-xs',
-									'data-pjax'=>'0',
-								]);
+								if (in_array($model->status,[2])){
+									return Html::a($icon,$url,[
+										'class'=>'btn btn-default btn-xs',
+										'data-pjax'=>'0',
+									]);
+								}
 							},
 					'update' => function ($url, $model) {
 								$icon='<span class="fa fa-fw fa-pencil"></span>';
-								return ($model->status!=2 AND $model->status!=1)?'':Html::a($icon,$url,[
-									'class'=>'btn btn-default btn-xs',
-									'data-pjax'=>'0',
-								]);
+								if (in_array($model->status,[1,2])){
+									return Html::a($icon,$url,[
+										'class'=>'btn btn-default btn-xs',
+										'data-pjax'=>'0',
+									]);
+								}
 							},
 				],		
 			],
@@ -264,4 +259,20 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?= \hscstudio\heart\widgets\Modal::widget() ?>
 	<?php /* $this->registerCss('.select2-container{width:125px !important;}'); */ ?>
 	<?php \yii\widgets\Pjax::end(); ?>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+	<i class="fa fa-fw fa-refresh"></i> Document Generator
+	</div>
+    <div class="panel-body">
+		<?php
+		$form = \yii\bootstrap\ActiveForm::begin([
+			'method'=>'get',
+			'action'=>['export-training','year'=>$year,'status'=>$status],
+		]);
+		echo Html::submitButton('<i class="fa fa-fw fa-download"></i> Download Kalender Diklat', ['class' => 'btn btn-default','style'=>'display:block;']);
+		\yii\bootstrap\ActiveForm::end(); 
+		?>
+	</div>
 </div>

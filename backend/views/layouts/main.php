@@ -95,17 +95,17 @@ AppAsset::register($this);
 					
 					if(checkAccess([
 						'pusdiklat2-general',
-						'pusdiklat2-training',
-						'pusdiklat2-test',
-						'pusdiklat2-scholarship',
+						'pusdiklat2-competency',
+						/*'pusdiklat2-test',
+						'pusdiklat2-scholarship',*/
 						
 					])){
 						$menuItemsLeft[] =
 							['icon'=>'fa fa-building fa-fw','label' => 'PSDM', 'url' => ['#'], 'items' => [
-								['icon'=>'fa fa-joomla fa-fw','label'=>'General', 'url'=> ['/pusdiklat2-general/default/index'],'path'=>'pusdiklat2-general' ],
-								['icon'=>'fa fa-stack-overflow fa-fw','label'=>'Training', 'url'=> ['/pusdiklat2-training/default/index'],'path'=>'pusdiklat2-training' ],
-								['icon'=>'fa fa-sort-numeric-asc fa-fw','label'=>'Test', 'url'=> ['/pusdiklat2-test/default/index'],'path'=>'pusdiklat2-test' ],
-								['icon'=>'fa fa-graduation-cap fa-fw','label'=>'Scholarship', 'url'=> ['/pusdiklat2-scholarship/default/index'],'path'=>'pusdiklat2-scholarship' ],
+								['icon'=>'fa fa-cubes fa-fw','label'=>'General', 'url'=> ['/pusdiklat2-general/default/index'],'path'=>'pusdiklat2-general' ],
+								['icon'=>'fa fa-calendar fa-fw','label'=>'Competency', 'url'=> ['/pusdiklat2-competency/default/index'],'path'=>'pusdiklat2-competency' ],
+								/*['icon'=>'fa fa-sort-numeric-asc fa-fw','label'=>'Test', 'url'=> ['/pusdiklat2-test/default/index'],'path'=>'pusdiklat2-test' ],
+								['icon'=>'fa fa-graduation-cap fa-fw','label'=>'Scholarship', 'url'=> ['/pusdiklat2-scholarship/default/index'],'path'=>'pusdiklat2-scholarship' ],*/
 							]];
 					}
 					
@@ -117,7 +117,7 @@ AppAsset::register($this);
 					])){				
 						$menuItemsLeft[] =
 							['icon'=>'fa fa-university fa-fw','label' => 'BDK', 'url' => ['#'], 'items' => [
-								['icon'=>'fa fa-joomla fa-fw','label'=>'General', 'url'=> ['/bdk-general/default/index'],'path'=>'bdk-general'],
+								['icon'=>'fa fa-cubes fa-fw','label'=>'General', 'url'=> ['/bdk-general/default/index'],'path'=>'bdk-general'],
 								['icon'=>'fa fa-paper-plane fa-fw','label'=>'Execution', 'url'=> ['/bdk-execution/default/index'],'path'=>'bdk-execution'],
 								['icon'=>'fa fa-check-square-o fa-fw','label'=>'Evaluation', 'url'=> ['/bdk-evaluation/default/index'],'path'=>'bdk-evaluation'],
 							]];
@@ -160,14 +160,12 @@ AppAsset::register($this);
 	                $menuItems[] =  
 	                    [
 	                    	'icon'=>'fa fa-fw fa-user',
-	                    	'label'=> Yii::$app->user->identity->employee->person->name, //Keliru jar Person::findOne(Yii::$app->user->identity->id)->name, 
+	                    	'label'=> Yii::$app->user->identity->employee->person->name, 
 	                    	'url'=> '', 
 	                    	'items'=>[
 	                    		'<li class="kartu-profil">
 	                    			<img class="image-corner" src="'.$pathFoto.'">
-	                    			<p class="nama-nid">'.Yii::$app->user->identity->employee->person->name
-	                    			.' 
-	                    			</p>
+	                    			<p class="nama-nid">'.Yii::$app->user->identity->employee->person->name.'</p>
 	                    			<p class="tanggal-terdaftar">'.Yii::$app->user->identity->employee->person->nid.'<br>Terdaftar sejak '.date('D, d F Y', Yii::$app->user->identity->created_at).'</p>
 	                    			'.Html::a('<i class="fa fa-fw fa-user"></i> Profil', ['/user/user/profile'], ['class' => 'btn btn-default pull-left']).'
 	                    			'.Html::a('<i class="fa fa-fw fa-sign-out"></i> Keluar', ['/site/logout'], ['class' => 'btn btn-default pull-right', 'data-method'=>'post']).'

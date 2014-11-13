@@ -55,7 +55,6 @@ use yii\helpers\ArrayHelper;
 	<?= $form->errorSummary($model) ?>
 	
     <?php
-	
 	$type='-1';		
 	$idx=1;
 	echo "<table class='table table-condensed table-striped'>";

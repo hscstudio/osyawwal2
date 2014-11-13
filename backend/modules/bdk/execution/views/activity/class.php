@@ -9,7 +9,7 @@ use hscstudio\heart\widgets\Box;
 use kartik\widgets\Select2;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\modules\pusdiklat\execution\models\TrainingClassSearch */
+/* @var $searchModel backend\modules\bdk\execution\models\TrainingClassSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $controller = $this->context;
@@ -66,14 +66,13 @@ $this->params['breadcrumbs'][] = $this->title;
 							'training_class_id' => $data->id
 						])
 						->count();
-					$subjectCount = \backend\models\ProgramSubject::find()
+					$subjectCount = \backend\models\ProgramSubjectHistory::find()
 						->where([
 							'program_id' => $data->training->program_id,
-							/* DIPIKIRIN NANTI.. PUYENG AKU 'revision'=> $data->training->tb_program_revision, */
-							'status'=>1,
+							'program_revision' => $data->training->program_revision,
+							'status'=>1
 						])
 						->count();
-					
 					if($subjectCount>$classSubjectCount){
 						return Html::a($classSubjectCount.' <i class="fa fa-fw fa-plus-circle"></i>', 
 								[
@@ -136,7 +135,7 @@ $this->params['breadcrumbs'][] = $this->title;
 								'class_id'=>$data->id,
 							], 
 							[
-								'title'=>$classStudentCount,
+								'title'=>$classStudentCount.' peserta',
 								'class' => 'label label-info',
 								'data-pjax'=>'0',
 								'data-toggle'=>'tooltip',
@@ -157,43 +156,7 @@ $this->params['breadcrumbs'][] = $this->title;
 								]);
 					}
 					
-					/* $subjectCount = \backend\models\ProgramSubject::find()
-						->where([
-							'program_id' => $data->training->program_id,
-							DIPIKIRIN NANTI.. PUYENG AKU 'revision'=> $data->training->tb_program_revision, 
-							'status'=>1,
-						])
-						->count();
 					
-					if($subjectCount>$classSubjectCount){
-						return Html::a($classSubjectCount.' <i class="fa fa-fw fa-plus-circle"></i>', 
-								[
-									'create-class-subject',
-									'id'=>$data->training_id,
-									'class_id'=>$data->id,
-								], 
-								[
-									'title'=>$subjectCount,
-									'class' => 'label label-info',
-									'data-pjax'=>0,
-									'data-toggle'=>'tooltip',
-									'data-confirm'=>'Mata pelajaran akan digenerate, menyesuaikan dengan program diklatnya!'
-								]);
-					}
-					else{
-						return Html::a($classSubjectCount, 
-								[
-									'class-subject',
-									'id'=>$data->training_id,
-									'class_id'=>$data->id,
-								], 
-								[
-									'title'=>$subjectCount,
-									'class' => 'label label-info',
-									'data-pjax'=>0,
-									'data-toggle'=>'tooltip',
-								]);
-					} */
 				}
 			],
 			[
@@ -213,11 +176,11 @@ $this->params['breadcrumbs'][] = $this->title;
 								'class_id'=>$data->id,
 							], 
 							[
-								'title'=>'Klik to set schedule',
+								'title'=>'Click to view schedule',
 								'class' => 'label label-info',
 								'data-pjax'=>0,
 								'data-toggle'=>'tooltip',
-								'data-confirm'=>'Process!'
+								/* 'data-confirm'=>'Process!' */
 							]);							
 				}
 			],

@@ -10,7 +10,7 @@ use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\modules\pusdiklat\execution\models\TrainingClassSearch */
+/* @var $searchModel backend\modules\bdk\execution\models\TrainingClassSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $controller = $this->context;
@@ -94,19 +94,5 @@ $this->params['breadcrumbs'][] = $this->title; */
 	<?= \hscstudio\heart\widgets\Modal::widget() ?>
 </div>
 <?php
-/* $this->registerJs(
-	'
-	var idx =  0;
-	var exists = ['.implode(',',$exists).'];
-	$("input[name=\'selection[]\']").each(function() {
-		if (exists.indexOf(idx)==-1){
-			$(this).prop( "checked", true );
-		}
-		else{
-			$(this).prop( "checked", false );			
-		}		
-		idx++;
-	});
-	'
-); */
+
 ?>

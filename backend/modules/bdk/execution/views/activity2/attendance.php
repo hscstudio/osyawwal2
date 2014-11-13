@@ -19,7 +19,7 @@ use backend\models\ProgramSubject;
 use backend\models\TrainingScheduleTrainer;
 use backend\models\TrainingSchedule;
 
-use backend\modules\pusdiklat\execution\models\TrainingScheduleExtSearch;
+use backend\modules\bdk\execution\models\TrainingScheduleExtSearch;
 
 $this->title = 'Schedule : Class '.$trainingClass->class;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Activities'), 'url' => ['index']];
@@ -104,13 +104,22 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 					$out = '';
 
 					foreach ($modelTrainingSchedule as $row) {
-						$modelProgramSubject = ProgramSubject::find()
-						->where([
-							'id' => $row->trainingClassSubject->program_subject_id,
-							'status' => 1
-						])
-						->one();
-						$out .= $modelProgramSubject->name.'<br>';
+						
+						
+						$programSubject= \backend\models\ProgramSubjectHistory::find()
+							->where([
+								'id' => $row->trainingClassSubject->program_subject_id,
+								'program_id' => $row->trainingClass->training->program_id,
+								'program_revision' => $row->trainingClass->training->program_revision,
+								'status'=>1
+							])
+							->one();
+						if(null!==$programSubject){
+							$out .= Html::tag('span',$programSubject->reference->name,[
+								'class'=>'label label-default','data-toggle'=>'tooltip','title'=>''
+							]);
+							$out .= ' '.$programSubject->name.'<br>';
+						}						
 					}
 
 					return $out;
@@ -216,39 +225,6 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 	<?php \yii\widgets\Pjax::end(); ?>
 	
 	<?php 
-	if (Yii::$app->request->isAjax){	
-	
-	}
-	else{
-		echo Html::beginTag('div', ['class'=>'row']);
-			echo Html::beginTag('div', ['class'=>'col-md-2']);
-				echo Html::beginTag('div', ['class'=>'dropdown']);
-					echo Html::button('PHPExcel <span class="caret"></span></button>', 
-						['type'=>'button', 'class'=>'btn btn-default', 'data-toggle'=>'dropdown']);
-					echo Dropdown::widget([
-						'items' => [
-							['label' => 'EXport XLSX', 'url' => ['php-excel?filetype=xlsx&template=yes']],
-							['label' => 'EXport XLS', 'url' => ['php-excel?filetype=xls&template=yes']],
-							['label' => 'Export PDF', 'url' => ['php-excel?filetype=pdf&template=no']],
-						],
-					]); 
-				echo Html::endTag('div');
-			echo Html::endTag('div');	
-			echo Html::beginTag('div', ['class'=>'col-md-2']);
-				echo Html::beginTag('div', ['class'=>'dropdown']);
-					echo Html::button('OpenTBS <span class="caret"></span></button>', 
-						['type'=>'button', 'class'=>'btn btn-default', 'data-toggle'=>'dropdown']);
-					echo Dropdown::widget([
-						'items' => [
-							['label' => 'EXport DOCX', 'url' => ['open-tbs?filetype=docx']],
-							['label' => 'EXport ODT', 'url' => ['open-tbs?filetype=odt']],
-							['label' => 'EXport XLSX', 'url' => ['open-tbs?filetype=xlsx']],
-						],
-					]); 
-				echo Html::endTag('div');
-			echo Html::endTag('div');	
-		echo Html::endTag('div');
-	}
 	
 	$this->registerJs('
 		$("#booking-schedule").slideToggle("slow");

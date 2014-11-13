@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.6
+-- version 4.2.10.1
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 04, 2014 at 09:04 AM
--- Server version: 5.6.16
--- PHP Version: 5.5.9
+-- Host: localhost
+-- Generation Time: Nov 12, 2014 at 05:30 PM
+-- Server version: 5.5.39-MariaDB
+-- PHP Version: 5.5.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `activity` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `satker_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` text,
@@ -39,17 +39,15 @@ CREATE TABLE IF NOT EXISTS `activity` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `activity`
 --
 
 INSERT INTO `activity` (`id`, `satker_id`, `name`, `description`, `start`, `end`, `location`, `hostel`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 23, 'Diklat Fedora Administrator Angkatan 1', '', '2014-01-07 00:00:00', '2014-01-22 00:00:00', '23|', 0, 0, '2014-11-02 15:37:17', 8, '2014-11-02 22:24:20', 8),
+(1, 23, 'Diklat Fedora Administrator Angkatan 1', '', '2014-01-07 00:00:00', '2014-01-22 00:00:00', '23|', 0, 2, '2014-11-02 15:37:17', 8, '2014-11-12 08:28:01', 8),
 (2, 23, 'Diklat Fedora Administrator Angkatan 2', '', '2014-02-12 00:00:00', '2014-02-20 00:00:00', '23|', 0, 0, '2014-11-02 15:37:35', 8, '2014-11-02 15:37:35', 8),
 (3, 23, 'Diklat Fedora Administrator Angkatan 3', '', '2014-03-12 00:00:00', '2014-03-21 00:00:00', '23|', 0, 0, '2014-11-02 15:37:55', 8, '2014-11-02 15:37:55', 8),
 (4, 23, 'Diklat Fedora Administrator Angkatan 4', '', '2014-04-17 00:00:00', '2014-04-24 00:00:00', '23|', 0, 0, '2014-11-02 15:38:17', 8, '2014-11-02 15:38:17', 8),
@@ -61,7 +59,13 @@ INSERT INTO `activity` (`id`, `satker_id`, `name`, `description`, `start`, `end`
 (10, 23, 'Diklat Fedora Administrator Angkatan 9', '', '2014-09-09 00:00:00', '2014-09-18 00:00:00', '23|', 0, 0, '2014-11-02 22:28:11', 8, '2014-11-02 22:28:11', 8),
 (11, 23, 'Diklat Fedora Administrator Angkatan 10', '', '2014-10-08 00:00:00', '2014-10-30 00:00:00', '23|', 0, 0, '2014-11-02 22:28:40', 8, '2014-11-02 22:46:29', 8),
 (12, 23, 'Diklat Fedora Administrator Angkatan 11', '', '2014-11-18 00:00:00', '2014-11-28 00:00:00', '23|', 0, 0, '2014-11-02 22:29:03', 8, '2014-11-02 22:29:03', 8),
-(13, 23, 'Diklat Fedora Administrator ', '', '2014-12-10 00:00:00', '2014-12-25 00:00:00', '23|', 0, 0, '2014-11-02 22:29:49', 8, '2014-11-02 22:29:49', 8);
+(13, 23, 'Diklat Fedora Administrator ', '', '2014-12-10 00:00:00', '2014-12-25 00:00:00', '23|', 0, 0, '2014-11-02 22:29:49', 8, '2014-11-02 22:29:49', 8),
+(14, 17, 'PKK  Angkatan I', '', '2014-11-24 00:00:00', '2014-12-01 00:00:00', '17|', 0, 1, '2014-11-11 00:49:42', 31, '2014-11-11 00:50:00', 31),
+(15, 20, 'DTU Orientasi Untuk Pegawai Pajak Angkatan III', 'DTU Orientasi untuk Pegawai Pajak dimaksudkan untuk meningkatkan pengetahuan dan keterampilan dasar di bidang perpajakan bagi para pegawai baru di lingkungan Direktorat Jenderal Pajak', '2014-11-12 00:00:00', '2014-11-21 00:00:00', '20|Bumi Perkemahan Cibubur', 1, 0, '2014-11-11 02:43:31', 520, '2014-11-11 02:43:31', 520),
+(16, 20, 'DTSD Pajak I Angkatan I', 'DTSD Pajak I dimaksudkan untuk mendidik dan melatih pegawai yang baru masuk dalam organisasi Direktorat Jenderal Pajak dan merupakan lulusan diploma-III untuk dapat meningkatkan pengetahuan, keterampilan, dan sikap pegawai dalam rangka pelaksanaan tugas dan tanggung jawab yang diberikan kepadanya dengan sebaik-baiknya.', '2014-11-24 00:00:00', '2014-12-24 00:00:00', '20|Jalan Sakti Raya Nomor 1 Kemanggisan', 0, 0, '2014-11-11 02:48:43', 520, '2014-11-11 02:48:43', 520),
+(17, 20, 'DTSD Pajak II Angkatan III', 'DTSD Pajak II dimaksudkan untuk mendidik dan melatih pegawai yang baru masuk dalam organisasi Direktorat Jenderal Pajak dan merupakan lulusan sarjana atau pascasarjana untuk dapat meningkatkan pengetahuan, keterampilan, dan sikap pegawai dalam rangka pelaksanaan tugas dan tanggung jawab yang diberikan kepadanya dengan sebaik-baiknya.', '2014-11-24 00:00:00', '2014-12-30 00:00:00', '20|Jalan Sakti Raya Nomor 1 Kemanggisan', 0, 0, '2014-11-11 02:51:42', 520, '2014-11-11 02:51:42', 520),
+(18, 20, 'DTU Orientasi Untuk Pegawai Pajak Angkatan IV', 'DTU Orientasi untuk Pegawai Pajak dimaksudkan untuk meningkatkan pengetahuan dan keterampilan dasar di bidang perpajakan bagi para pegawai baru di lingkungan Direktorat Jenderal Pajak', '2014-11-26 00:00:00', '2014-12-05 00:00:00', '20|Bumi Perkemahan Cibubur', 1, 0, '2014-11-11 02:54:54', 520, '2014-11-11 02:54:54', 520),
+(19, 20, 'DTU Orientasi Untuk Pegawai Pajak Angkatan V', 'DTU Orientasi untuk Pegawai Pajak dimaksudkan untuk meningkatkan pengetahuan dan keterampilan dasar di bidang perpajakan bagi para pegawai baru di lingkungan Direktorat Jenderal Pajak', '2014-12-08 00:00:00', '2014-12-17 00:00:00', '20|Bumi Perkemahan Cibubur', 1, 0, '2014-11-11 02:56:48', 520, '2014-11-11 02:56:48', 520);
 
 -- --------------------------------------------------------
 
@@ -83,8 +87,7 @@ CREATE TABLE IF NOT EXISTS `activity_history` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`,`revision`)
+  `modified_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -92,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `activity_history` (
 --
 
 INSERT INTO `activity_history` (`id`, `revision`, `satker_id`, `name`, `description`, `start`, `end`, `location`, `hostel`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 0, 23, 'Diklat Fedora Administrator Angkatan 1', '', '2014-01-07 00:00:00', '2014-01-22 00:00:00', '23|', 0, 0, '2014-11-02 15:37:17', 8, '2014-11-02 22:24:20', 8),
+(1, 0, 23, 'Diklat Fedora Administrator Angkatan 1', '', '2014-01-07 00:00:00', '2014-01-22 00:00:00', '23|', 0, 2, '2014-11-02 15:37:17', 8, '2014-11-12 08:28:01', 8),
 (2, 0, 23, 'Diklat Fedora Administrator Angkatan 2', '', '2014-02-12 00:00:00', '2014-02-20 00:00:00', '23|', 0, 0, '2014-11-02 15:37:35', 8, '2014-11-02 15:37:35', 8),
 (3, 0, 23, 'Diklat Fedora Administrator Angkatan 3', '', '2014-03-12 00:00:00', '2014-03-21 00:00:00', '23|', 0, 0, '2014-11-02 15:37:55', 8, '2014-11-02 15:37:55', 8),
 (4, 0, 23, 'Diklat Fedora Administrator Angkatan 4', '', '2014-04-17 00:00:00', '2014-04-24 00:00:00', '23|', 0, 0, '2014-11-02 15:38:17', 8, '2014-11-02 15:38:17', 8),
@@ -104,7 +107,13 @@ INSERT INTO `activity_history` (`id`, `revision`, `satker_id`, `name`, `descript
 (10, 0, 23, 'Diklat Fedora Administrator Angkatan 9', '', '2014-09-09 00:00:00', '2014-09-18 00:00:00', '23|', 0, 0, '2014-11-02 22:28:11', 8, '2014-11-02 22:28:11', 8),
 (11, 0, 23, 'Diklat Fedora Administrator Angkatan 10', '', '2014-10-08 00:00:00', '2014-10-30 00:00:00', '23|', 0, 0, '2014-11-02 22:28:40', 8, '2014-11-02 22:46:29', 8),
 (12, 0, 23, 'Diklat Fedora Administrator Angkatan 11', '', '2014-11-18 00:00:00', '2014-11-28 00:00:00', '23|', 0, 0, '2014-11-02 22:29:03', 8, '2014-11-02 22:29:03', 8),
-(13, 0, 23, 'Diklat Fedora Administrator ', '', '2014-12-10 00:00:00', '2014-12-25 00:00:00', '23|', 0, 0, '2014-11-02 22:29:49', 8, '2014-11-02 22:29:49', 8);
+(13, 0, 23, 'Diklat Fedora Administrator ', '', '2014-12-10 00:00:00', '2014-12-25 00:00:00', '23|', 0, 0, '2014-11-02 22:29:49', 8, '2014-11-02 22:29:49', 8),
+(14, 0, 17, 'PKK  Angkatan I', '', '2014-11-24 00:00:00', '2014-12-01 00:00:00', '17|', 0, 1, '2014-11-11 00:49:42', 31, '2014-11-11 00:50:00', 31),
+(15, 0, 20, 'DTU Orientasi Untuk Pegawai Pajak Angkatan III', 'DTU Orientasi untuk Pegawai Pajak dimaksudkan untuk meningkatkan pengetahuan dan keterampilan dasar di bidang perpajakan bagi para pegawai baru di lingkungan Direktorat Jenderal Pajak', '2014-11-12 00:00:00', '2014-11-21 00:00:00', '20|Bumi Perkemahan Cibubur', 1, 0, '2014-11-11 02:43:31', 520, '2014-11-11 02:43:31', 520),
+(16, 0, 20, 'DTSD Pajak I Angkatan I', 'DTSD Pajak I dimaksudkan untuk mendidik dan melatih pegawai yang baru masuk dalam organisasi Direktorat Jenderal Pajak dan merupakan lulusan diploma-III untuk dapat meningkatkan pengetahuan, keterampilan, dan sikap pegawai dalam rangka pelaksanaan tugas dan tanggung jawab yang diberikan kepadanya dengan sebaik-baiknya.', '2014-11-24 00:00:00', '2014-12-24 00:00:00', '20|Jalan Sakti Raya Nomor 1 Kemanggisan', 0, 0, '2014-11-11 02:48:43', 520, '2014-11-11 02:48:43', 520),
+(17, 0, 20, 'DTSD Pajak II Angkatan III', 'DTSD Pajak II dimaksudkan untuk mendidik dan melatih pegawai yang baru masuk dalam organisasi Direktorat Jenderal Pajak dan merupakan lulusan sarjana atau pascasarjana untuk dapat meningkatkan pengetahuan, keterampilan, dan sikap pegawai dalam rangka pelaksanaan tugas dan tanggung jawab yang diberikan kepadanya dengan sebaik-baiknya.', '2014-11-24 00:00:00', '2014-12-30 00:00:00', '20|Jalan Sakti Raya Nomor 1 Kemanggisan', 0, 0, '2014-11-11 02:51:42', 520, '2014-11-11 02:51:42', 520),
+(18, 0, 20, 'DTU Orientasi Untuk Pegawai Pajak Angkatan IV', 'DTU Orientasi untuk Pegawai Pajak dimaksudkan untuk meningkatkan pengetahuan dan keterampilan dasar di bidang perpajakan bagi para pegawai baru di lingkungan Direktorat Jenderal Pajak', '2014-11-26 00:00:00', '2014-12-05 00:00:00', '20|Bumi Perkemahan Cibubur', 1, 0, '2014-11-11 02:54:54', 520, '2014-11-11 02:54:54', 520),
+(19, 0, 20, 'DTU Orientasi Untuk Pegawai Pajak Angkatan V', 'DTU Orientasi untuk Pegawai Pajak dimaksudkan untuk meningkatkan pengetahuan dan keterampilan dasar di bidang perpajakan bagi para pegawai baru di lingkungan Direktorat Jenderal Pajak', '2014-12-08 00:00:00', '2014-12-17 00:00:00', '20|Bumi Perkemahan Cibubur', 1, 0, '2014-11-11 02:56:48', 520, '2014-11-11 02:56:48', 520);
 
 -- --------------------------------------------------------
 
@@ -122,10 +131,7 @@ CREATE TABLE IF NOT EXISTS `activity_room` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`activity_id`,`room_id`),
-  KEY `tb_room_id` (`room_id`),
-  KEY `tb_training_id` (`activity_id`)
+  `modified_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -137,8 +143,7 @@ CREATE TABLE IF NOT EXISTS `activity_room` (
 CREATE TABLE IF NOT EXISTS `auth_assignment` (
   `item_name` varchar(64) NOT NULL,
   `user_id` varchar(64) NOT NULL,
-  `created_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`item_name`,`user_id`)
+  `created_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -151,16 +156,380 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('Bagian Keuangan', '24', 1413844311),
 ('Bagian Otl', '2', 1413841857),
 ('Bagian Otl', '22', 1413844305),
+('Bagian Tata Usaha', '188', NULL),
+('Bagian Tata Usaha', '293', NULL),
+('Bagian Tata Usaha', '372', NULL),
+('Bagian Tata Usaha', '450', NULL),
 ('Bagian Tik', '2', 1413841857),
 ('Bagian Tik', '25', 1413844318),
 ('Bagian Umum', '2', 1413841857),
 ('Bagian Umum', '26', 1413844349),
+('BDK', '10', 1415758345),
+('BDK', '11', 1415758354),
+('BDK', '12', 1415758362),
+('BDK', '13', 1415758369),
+('BDK', '14', 1415758383),
+('BDK', '15', 1415758402),
+('BDK', '16', 1415758418),
+('BDK', '17', 1415758425),
+('BDK', '18', 1415758432),
+('BDK', '19', 1415758441),
+('BDK', '20', 1415758449),
+('BDK', '21', 1415758459),
+('Bidang Evaluasi Dan Pelaporan Kinerja', '196', NULL),
+('Bidang Evaluasi Dan Pelaporan Kinerja', '286', NULL),
+('Bidang Evaluasi Dan Pelaporan Kinerja', '365', NULL),
+('Bidang Evaluasi Dan Pelaporan Kinerja', '460', NULL),
+('Bidang Penyelenggaraan', '176', NULL),
+('Bidang Penyelenggaraan', '287', NULL),
+('Bidang Penyelenggaraan', '359', NULL),
+('Bidang Penyelenggaraan', '436', NULL),
+('Bidang Perencanaan Dan Pengembangan Diklat', '187', NULL),
+('Bidang Perencanaan Dan Pengembangan Diklat', '212', NULL),
+('Bidang Perencanaan Dan Pengembangan Diklat', '288', NULL),
+('Bidang Perencanaan Dan Pengembangan Diklat', '295', NULL),
+('Bidang Perencanaan Dan Pengembangan Diklat', '376', NULL),
+('Bidang Perencanaan Dan Pengembangan Diklat', '437', NULL),
+('Bidang Perencanaan Dan Pengembangan Diklat', '459', NULL),
 ('BPPK', '1', 1413761860),
+('BPPK', '27', 1415333412),
+('BPPK', '28', 1415333202),
+('BPPK', '29', 1415333244),
+('BPPK', '30', 1415333227),
+('BPPK', '31', 1415333266),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', '104', NULL),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', '120', NULL),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', '132', NULL),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', '146', NULL),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', '236', NULL),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', '237', NULL),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', '250', NULL),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', '254', NULL),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', '262', NULL),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', '282', NULL),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', '319', NULL),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', '328', NULL),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', '329', NULL),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', '340', NULL),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', '341', NULL),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', '345', NULL),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', '415', NULL),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', '419', NULL),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', '420', NULL),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', '422', NULL),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', '497', NULL),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', '506', NULL),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', '515', NULL),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', '537', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '105', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '109', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '112', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '138', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '182', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '190', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '228', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '253', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '255', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '259', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '276', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '307', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '311', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '313', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '323', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '332', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '334', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '338', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '343', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '375', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '408', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '423', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '444', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '490', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '491', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '492', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '495', NULL),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', '504', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '111', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '117', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '125', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '127', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '141', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '142', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '149', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '150', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '195', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '235', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '243', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '251', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '258', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '264', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '266', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '267', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '268', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '269', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '278', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '281', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '301', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '309', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '326', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '336', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '344', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '347', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '353', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '354', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '355', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '370', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '379', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '411', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '416', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '426', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '427', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '430', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '431', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '432', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '433', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '438', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '483', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '496', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '518', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '519', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '525', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '529', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '534', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '536', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '539', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '540', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '541', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '542', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '543', NULL),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', '547', NULL),
+('Pelaksana Subbidang Evaluasi Diklat', '133', NULL),
+('Pelaksana Subbidang Evaluasi Diklat', '144', NULL),
+('Pelaksana Subbidang Evaluasi Diklat', '178', NULL),
+('Pelaksana Subbidang Evaluasi Diklat', '244', NULL),
+('Pelaksana Subbidang Evaluasi Diklat', '257', NULL),
+('Pelaksana Subbidang Evaluasi Diklat', '342', NULL),
+('Pelaksana Subbidang Evaluasi Diklat', '371', NULL),
+('Pelaksana Subbidang Evaluasi Diklat', '428', NULL),
+('Pelaksana Subbidang Evaluasi Diklat', '429', NULL),
+('Pelaksana Subbidang Evaluasi Diklat', '440', NULL),
+('Pelaksana Subbidang Evaluasi Diklat', '465', NULL),
+('Pelaksana Subbidang Evaluasi Diklat', '509', NULL),
+('Pelaksana Subbidang Evaluasi Diklat', '522', NULL),
+('Pelaksana Subbidang Evaluasi Diklat', '526', NULL),
+('Pelaksana Subbidang Evaluasi Diklat', '532', NULL),
+('Pelaksana Subbidang Informasi Dan Pelaporan Kinerja', '114', NULL),
+('Pelaksana Subbidang Informasi Dan Pelaporan Kinerja', '222', NULL),
+('Pelaksana Subbidang Informasi Dan Pelaporan Kinerja', '227', NULL),
+('Pelaksana Subbidang Informasi Dan Pelaporan Kinerja', '292', NULL),
+('Pelaksana Subbidang Informasi Dan Pelaporan Kinerja', '339', NULL),
+('Pelaksana Subbidang Informasi Dan Pelaporan Kinerja', '351', NULL),
+('Pelaksana Subbidang Informasi Dan Pelaporan Kinerja', '373', NULL),
+('Pelaksana Subbidang Informasi Dan Pelaporan Kinerja', '399', NULL),
+('Pelaksana Subbidang Informasi Dan Pelaporan Kinerja', '409', NULL),
+('Pelaksana Subbidang Informasi Dan Pelaporan Kinerja', '414', NULL),
+('Pelaksana Subbidang Informasi Dan Pelaporan Kinerja', '511', NULL),
+('Pelaksana Subbidang Kurikulum', '131', NULL),
+('Pelaksana Subbidang Kurikulum', '147', NULL),
+('Pelaksana Subbidang Kurikulum', '206', NULL),
+('Pelaksana Subbidang Kurikulum', '241', NULL),
+('Pelaksana Subbidang Kurikulum', '245', NULL),
+('Pelaksana Subbidang Kurikulum', '260', NULL),
+('Pelaksana Subbidang Kurikulum', '283', NULL),
+('Pelaksana Subbidang Kurikulum', '314', NULL),
+('Pelaksana Subbidang Kurikulum', '321', NULL),
+('Pelaksana Subbidang Kurikulum', '333', NULL),
+('Pelaksana Subbidang Kurikulum', '398', NULL),
+('Pelaksana Subbidang Kurikulum', '405', NULL),
+('Pelaksana Subbidang Kurikulum', '501', NULL),
+('Pelaksana Subbidang Kurikulum', '508', NULL),
+('Pelaksana Subbidang Kurikulum', '513', NULL),
+('Pelaksana Subbidang Kurikulum', '517', NULL),
+('Pelaksana Subbidang Pengolahan Hasil Diklat', '106', NULL),
+('Pelaksana Subbidang Pengolahan Hasil Diklat', '115', NULL),
+('Pelaksana Subbidang Pengolahan Hasil Diklat', '145', NULL),
+('Pelaksana Subbidang Pengolahan Hasil Diklat', '185', NULL),
+('Pelaksana Subbidang Pengolahan Hasil Diklat', '252', NULL),
+('Pelaksana Subbidang Pengolahan Hasil Diklat', '271', NULL),
+('Pelaksana Subbidang Pengolahan Hasil Diklat', '312', NULL),
+('Pelaksana Subbidang Pengolahan Hasil Diklat', '316', NULL),
+('Pelaksana Subbidang Pengolahan Hasil Diklat', '320', NULL),
+('Pelaksana Subbidang Pengolahan Hasil Diklat', '346', NULL),
+('Pelaksana Subbidang Pengolahan Hasil Diklat', '367', NULL),
+('Pelaksana Subbidang Pengolahan Hasil Diklat', '406', NULL),
+('Pelaksana Subbidang Pengolahan Hasil Diklat', '407', NULL),
+('Pelaksana Subbidang Pengolahan Hasil Diklat', '469', NULL),
+('Pelaksana Subbidang Pengolahan Hasil Diklat', '507', NULL),
+('Pelaksana Subbidang Pengolahan Hasil Diklat', '512', NULL),
+('Pelaksana Subbidang Pengolahan Hasil Diklat', '535', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '101', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '110', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '118', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '137', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '225', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '226', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '239', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '247', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '249', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '310', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '315', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '327', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '330', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '335', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '348', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '397', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '400', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '401', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '425', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '448', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '451', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '502', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '505', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '527', NULL),
+('Pelaksana Subbidang Penyelenggaraan I', '531', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '108', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '122', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '126', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '135', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '148', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '233', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '240', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '263', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '317', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '318', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '337', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '349', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '350', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '352', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '377', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '387', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '394', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '412', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '413', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '417', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '418', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '445', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '458', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '484', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '516', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '521', NULL),
+('Pelaksana Subbidang Penyelenggaraan II', '530', NULL),
+('Pelaksana Subbidang Program', '102', NULL),
+('Pelaksana Subbidang Program', '113', NULL),
+('Pelaksana Subbidang Program', '119', NULL),
+('Pelaksana Subbidang Program', '121', NULL),
+('Pelaksana Subbidang Program', '123', NULL),
+('Pelaksana Subbidang Program', '128', NULL),
+('Pelaksana Subbidang Program', '129', NULL),
+('Pelaksana Subbidang Program', '130', NULL),
+('Pelaksana Subbidang Program', '136', NULL),
+('Pelaksana Subbidang Program', '179', NULL),
+('Pelaksana Subbidang Program', '189', NULL),
+('Pelaksana Subbidang Program', '191', NULL),
+('Pelaksana Subbidang Program', '192', NULL),
+('Pelaksana Subbidang Program', '220', NULL),
+('Pelaksana Subbidang Program', '223', NULL),
+('Pelaksana Subbidang Program', '224', NULL),
+('Pelaksana Subbidang Program', '230', NULL),
+('Pelaksana Subbidang Program', '231', NULL),
+('Pelaksana Subbidang Program', '232', NULL),
+('Pelaksana Subbidang Program', '234', NULL),
+('Pelaksana Subbidang Program', '246', NULL),
+('Pelaksana Subbidang Program', '248', NULL),
+('Pelaksana Subbidang Program', '261', NULL),
+('Pelaksana Subbidang Program', '265', NULL),
+('Pelaksana Subbidang Program', '272', NULL),
+('Pelaksana Subbidang Program', '279', NULL),
+('Pelaksana Subbidang Program', '322', NULL),
+('Pelaksana Subbidang Program', '324', NULL),
+('Pelaksana Subbidang Program', '325', NULL),
+('Pelaksana Subbidang Program', '331', NULL),
+('Pelaksana Subbidang Program', '360', NULL),
+('Pelaksana Subbidang Program', '392', NULL),
+('Pelaksana Subbidang Program', '393', NULL),
+('Pelaksana Subbidang Program', '396', NULL),
+('Pelaksana Subbidang Program', '402', NULL),
+('Pelaksana Subbidang Program', '403', NULL),
+('Pelaksana Subbidang Program', '404', NULL),
+('Pelaksana Subbidang Program', '421', NULL),
+('Pelaksana Subbidang Program', '434', NULL),
+('Pelaksana Subbidang Program', '441', NULL),
+('Pelaksana Subbidang Program', '442', NULL),
+('Pelaksana Subbidang Program', '449', NULL),
+('Pelaksana Subbidang Program', '498', NULL),
+('Pelaksana Subbidang Program', '503', NULL),
+('Pelaksana Subbidang Program', '510', NULL),
+('Pelaksana Subbidang Program', '514', NULL),
+('Pelaksana Subbidang Program', '520', NULL),
+('Pelaksana Subbidang Program', '523', NULL),
+('Pelaksana Subbidang Program', '524', NULL),
+('Pelaksana Subbidang Program', '533', NULL),
+('Pelaksana Subbidang Tenaga Pengajar', '103', NULL),
+('Pelaksana Subbidang Tenaga Pengajar', '124', NULL),
+('Pelaksana Subbidang Tenaga Pengajar', '143', NULL),
+('Pelaksana Subbidang Tenaga Pengajar', '238', NULL),
+('Pelaksana Subbidang Tenaga Pengajar', '242', NULL),
+('Pelaksana Subbidang Tenaga Pengajar', '256', NULL),
+('Pelaksana Subbidang Tenaga Pengajar', '386', NULL),
+('Pelaksana Subbidang Tenaga Pengajar', '410', NULL),
+('Pelaksana Subbidang Tenaga Pengajar', '424', NULL),
+('Pelaksana Subbidang Tenaga Pengajar', '443', NULL),
+('Pelaksana Subbidang Tenaga Pengajar', '499', NULL),
+('Pelaksana Subbidang Tenaga Pengajar', '528', NULL),
+('Pusdiklat', '184', NULL),
+('Pusdiklat', '280', NULL),
+('Pusdiklat', '361', NULL),
 ('Pusdiklat', '4', 1413841938),
+('Pusdiklat', '455', NULL),
 ('Pusdiklat', '5', 1413841943),
 ('Pusdiklat', '6', 1413841954),
 ('Pusdiklat', '7', 1413841960),
-('Pusdiklat', '8', 1413841928);
+('Pusdiklat', '8', 1413841928),
+('Pusdiklat PSDM', '3', 1415787898),
+('Subbagian Perencanaan Dan Keuangan', '363', NULL),
+('Subbagian Rumah Tangga Dan Pengelolaan Aset', '194', NULL),
+('Subbagian Rumah Tangga Dan Pengelolaan Aset', '297', NULL),
+('Subbagian Rumah Tangga Dan Pengelolaan Aset', '382', NULL),
+('Subbagian Rumah Tangga Dan Pengelolaan Aset', '462', NULL),
+('Subbagian Tata Usaha, Kepegawaian, Dan Humas', '183', NULL),
+('Subbagian Tata Usaha, Kepegawaian, Dan Humas', '289', NULL),
+('Subbagian Tata Usaha, Kepegawaian, Dan Humas', '364', NULL),
+('Subbagian Tata Usaha, Kepegawaian, Dan Humas', '500', NULL),
+('Subbagian Tata Usaha, Kepegawaian, Dan Humas', '544', NULL),
+('Subbagian Tata Usaha, Kepegawaian, Dan Humas', '548', NULL),
+('Subbidang Evaluasi Diklat', '197', NULL),
+('Subbidang Evaluasi Diklat', '304', NULL),
+('Subbidang Evaluasi Diklat', '486', NULL),
+('Subbidang Informasi Dan Pelaporan Kinerja', '209', NULL),
+('Subbidang Informasi Dan Pelaporan Kinerja', '305', NULL),
+('Subbidang Informasi Dan Pelaporan Kinerja', '380', NULL),
+('Subbidang Informasi Dan Pelaporan Kinerja', '466', NULL),
+('Subbidang Kurikulum', '207', NULL),
+('Subbidang Kurikulum', '306', NULL),
+('Subbidang Kurikulum', '389', NULL),
+('Subbidang Kurikulum', '464', NULL),
+('Subbidang Pengolahan Hasil Diklat', '229', NULL),
+('Subbidang Pengolahan Hasil Diklat', '303', NULL),
+('Subbidang Pengolahan Hasil Diklat', '385', NULL),
+('Subbidang Pengolahan Hasil Diklat', '435', NULL),
+('Subbidang Penyelenggaraan I  ', '107', NULL),
+('Subbidang Penyelenggaraan I', '221', NULL),
+('Subbidang Penyelenggaraan I', '299', NULL),
+('Subbidang Penyelenggaraan I', '362', NULL),
+('Subbidang Penyelenggaraan I', '477', NULL),
+('Subbidang Penyelenggaraan II', '181', NULL),
+('Subbidang Penyelenggaraan II', '298', NULL),
+('Subbidang Penyelenggaraan II', '366', NULL),
+('Subbidang Penyelenggaraan II', '374', NULL),
+('Subbidang Penyelenggaraan II', '454', NULL),
+('Subbidang Program', '211', NULL),
+('Subbidang Program', '302', NULL),
+('Subbidang Program', '390', NULL),
+('Subbidang Program', '488', NULL),
+('Subbidang Tenaga Pengajar', '180', NULL),
+('Subbidang Tenaga Pengajar', '285', NULL),
+('Subbidang Tenaga Pengajar', '391', NULL),
+('Subbidang Tenaga Pengajar', '481', NULL);
 
 -- --------------------------------------------------------
 
@@ -175,10 +544,7 @@ CREATE TABLE IF NOT EXISTS `auth_item` (
   `rule_name` varchar(64) DEFAULT NULL,
   `data` text,
   `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`name`),
-  KEY `rule_name` (`rule_name`),
-  KEY `idx-auth_item-type` (`type`)
+  `updated_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -210,6 +576,65 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/admin/user/unblock', 2, NULL, NULL, NULL, 1413763393, 1413763393),
 ('/admin/user/update', 2, NULL, NULL, NULL, 1413763393, 1413763393),
 ('/admin/user/view', 2, NULL, NULL, NULL, 1413763393, 1413763393),
+('/bdk-evaluation/*', 2, NULL, NULL, NULL, 1415755232, 1415755232),
+('/bdk-execution/*', 2, NULL, NULL, NULL, 1415755238, 1415755238),
+('/bdk-general/*', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/activity3/*', 2, NULL, NULL, NULL, 1415755268, 1415755268),
+('/bdk-general/activity3/create', 2, NULL, NULL, NULL, 1415755268, 1415755268),
+('/bdk-general/activity3/delete', 2, NULL, NULL, NULL, 1415755268, 1415755268),
+('/bdk-general/activity3/index', 2, NULL, NULL, NULL, 1415755268, 1415755268),
+('/bdk-general/activity3/pic', 2, NULL, NULL, NULL, 1415755268, 1415755268),
+('/bdk-general/activity3/program-name', 2, NULL, NULL, NULL, 1415755268, 1415755268),
+('/bdk-general/activity3/room', 2, NULL, NULL, NULL, 1415755268, 1415755268),
+('/bdk-general/activity3/update', 2, NULL, NULL, NULL, 1415755268, 1415755268),
+('/bdk-general/activity3/view', 2, NULL, NULL, NULL, 1415755268, 1415755268),
+('/bdk-general/default/*', 2, NULL, NULL, NULL, 1415755268, 1415755268),
+('/bdk-general/default/index', 2, NULL, NULL, NULL, 1415755268, 1415755268),
+('/bdk-general/employee2/*', 2, NULL, NULL, NULL, 1415755268, 1415755268),
+('/bdk-general/employee2/delete', 2, NULL, NULL, NULL, 1415755268, 1415755268),
+('/bdk-general/employee2/index', 2, NULL, NULL, NULL, 1415755268, 1415755268),
+('/bdk-general/employee2/update', 2, NULL, NULL, NULL, 1415755268, 1415755268),
+('/bdk-general/employee2/view', 2, NULL, NULL, NULL, 1415755268, 1415755268),
+('/bdk-general/meeting-activity3/*', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/meeting-activity3/create', 2, NULL, NULL, NULL, 1415755268, 1415755268),
+('/bdk-general/meeting-activity3/delete', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/meeting-activity3/index', 2, NULL, NULL, NULL, 1415755268, 1415755268),
+('/bdk-general/meeting-activity3/pic', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/meeting-activity3/program-name', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/meeting-activity3/room', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/meeting-activity3/update', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/meeting-activity3/view', 2, NULL, NULL, NULL, 1415755268, 1415755268),
+('/bdk-general/person2/*', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/person2/create', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/person2/delete', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/person2/index', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/person2/update', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/person2/view', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/room-request3/*', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/room-request3/index', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/room-request3/pic', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/room-request3/program-name', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/room-request3/room', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/room-request3/set-room', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/room-request3/unset-room', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/room-request3/view', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/room3/*', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/room3/activity-room', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/room3/calendar-activity-room', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/room3/create', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/room3/delete', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/room3/event-activity-room', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/room3/index', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/room3/update', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/room3/update-activity-room', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/room3/view', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/user2/*', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/user2/block', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/user2/delete', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/user2/index', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/user2/unblock', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/user2/update', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/user2/view', 2, NULL, NULL, NULL, 1415755269, 1415755269),
 ('/gii/*', 2, NULL, NULL, NULL, 1413764009, 1413764009),
 ('/privilege/*', 2, NULL, NULL, NULL, 1413763971, 1413763971),
 ('/pusdiklat-evaluation/*', 2, NULL, NULL, NULL, 1413838826, 1413838826),
@@ -678,6 +1103,8 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/pusdiklat-planning/training-subject-trainer-recommendation/inde', 2, NULL, NULL, NULL, 1413838826, 1413838826),
 ('/pusdiklat-planning/training-subject-trainer-recommendation/upda', 2, NULL, NULL, NULL, 1413838826, 1413838826),
 ('/pusdiklat-planning/training-subject-trainer-recommendation/view', 2, NULL, NULL, NULL, 1413838826, 1413838826),
+('/pusdiklat2-competency/*', 2, NULL, NULL, NULL, 1415784754, 1415784754),
+('/pusdiklat2-general/*', 2, NULL, NULL, NULL, 1415786573, 1415786573),
 ('/sekretariat-finance/*', 2, NULL, NULL, NULL, 1413838622, 1413838622),
 ('/sekretariat-finance/default/*', 2, NULL, NULL, NULL, 1413838622, 1413838622),
 ('/sekretariat-finance/default/index', 2, NULL, NULL, NULL, 1413838622, 1413838622),
@@ -690,7 +1117,8 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/sekretariat-general/*', 2, NULL, NULL, NULL, 1413838698, 1413838698),
 ('/sekretariat-general/activity-meeting-general/*', 2, NULL, NULL, NULL, 1413838698, 1413838698),
 ('/sekretariat-general/activity-meeting-general/create', 2, NULL, NULL, NULL, 1413838698, 1413838698),
-('/sekretariat-general/activity-meeting-general/delete', 2, NULL, NULL, NULL, 1413838698, 1413838698),
+('/sekretariat-general/activity-meeting-general/delete', 2, NULL, NULL, NULL, 1413838698, 1413838698);
+INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
 ('/sekretariat-general/activity-meeting-general/index', 2, NULL, NULL, NULL, 1413838698, 1413838698),
 ('/sekretariat-general/activity-meeting-general/update', 2, NULL, NULL, NULL, 1413838698, 1413838698),
 ('/sekretariat-general/activity-meeting-general/view', 2, NULL, NULL, NULL, 1413838698, 1413838698),
@@ -747,8 +1175,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/sekretariat-organisation/reference-graduate/delete', 2, NULL, NULL, NULL, 1413838538, 1413838538),
 ('/sekretariat-organisation/reference-graduate/index', 2, NULL, NULL, NULL, 1413838538, 1413838538),
 ('/sekretariat-organisation/reference-graduate/update', 2, NULL, NULL, NULL, 1413838538, 1413838538),
-('/sekretariat-organisation/reference-graduate/view', 2, NULL, NULL, NULL, 1413838538, 1413838538);
-INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
+('/sekretariat-organisation/reference-graduate/view', 2, NULL, NULL, NULL, 1413838538, 1413838538),
 ('/sekretariat-organisation/reference-program-code/*', 2, NULL, NULL, NULL, 1413838538, 1413838538),
 ('/sekretariat-organisation/reference-program-code/create', 2, NULL, NULL, NULL, 1413838538, 1413838538),
 ('/sekretariat-organisation/reference-program-code/delete', 2, NULL, NULL, NULL, 1413838538, 1413838538),
@@ -791,7 +1218,9 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/sekretariat-organisation/reference-unit/index', 2, NULL, NULL, NULL, 1413838538, 1413838538),
 ('/sekretariat-organisation/reference-unit/update', 2, NULL, NULL, NULL, 1413838538, 1413838538),
 ('/sekretariat-organisation/reference-unit/view', 2, NULL, NULL, NULL, 1413838538, 1413838538),
+('admin-bdk', 2, NULL, NULL, NULL, 1415755384, 1415755384),
 ('admin-pusdiklat', 2, NULL, NULL, NULL, 1413838886, 1413842949),
+('admin-pusdiklat2', 2, NULL, NULL, NULL, 1415784816, 1415784816),
 ('Bagian Kepegawaian', 1, '3', NULL, NULL, NULL, NULL),
 ('Bagian Keuangan', 1, '3', NULL, NULL, NULL, NULL),
 ('Bagian Otl', 1, '3', NULL, NULL, NULL, NULL),
@@ -800,6 +1229,9 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('Bagian Tik', 1, '3', NULL, NULL, NULL, NULL),
 ('Bagian Umum', 1, '3', NULL, NULL, NULL, NULL),
 ('BDK', 1, '3', NULL, NULL, NULL, NULL),
+('bdk-evaluation', 2, NULL, NULL, NULL, 1415755293, 1415755293),
+('bdk-execution', 2, NULL, NULL, NULL, 1415755309, 1415755309),
+('bdk-general', 2, NULL, NULL, NULL, 1415755247, 1415755247),
 ('Bidang Evaluasi Dan Pelaporan Kinerja', 1, '3', NULL, NULL, NULL, NULL),
 ('Bidang Penjenjangan Dan Peningkatan Kompetensi', 1, '3', NULL, NULL, NULL, NULL),
 ('Bidang Penyelenggaraan', 1, '3', NULL, NULL, NULL, NULL),
@@ -843,6 +1275,8 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('pusdiklat-planning-1', 2, NULL, NULL, NULL, 1413840127, 1413840127),
 ('pusdiklat-planning-2', 2, NULL, NULL, NULL, 1413840185, 1413840185),
 ('pusdiklat-planning-3', 2, NULL, NULL, NULL, 1413840251, 1413840251),
+('pusdiklat2-competency', 2, NULL, NULL, NULL, 1415784798, 1415784798),
+('pusdiklat2-general', 2, NULL, NULL, NULL, 1415784774, 1415784774),
 ('Sekretariat Badan', 1, '2', NULL, NULL, NULL, NULL),
 ('sekretariat-badan-finance', 2, NULL, NULL, NULL, 1413838636, 1413842873),
 ('sekretariat-badan-general', 2, NULL, NULL, NULL, 1413838713, 1413842914),
@@ -879,9 +1313,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 
 CREATE TABLE IF NOT EXISTS `auth_item_child` (
   `parent` varchar(64) NOT NULL,
-  `child` varchar(64) NOT NULL,
-  PRIMARY KEY (`parent`,`child`),
-  KEY `child` (`child`)
+  `child` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -889,598 +1321,289 @@ CREATE TABLE IF NOT EXISTS `auth_item_child` (
 --
 
 INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
-('superadmin', '/admin/*'),
-('superadmin', '/admin/default/*'),
-('superadmin', '/admin/default/index'),
-('superadmin', '/admin/employee/*'),
-('superadmin', '/admin/employee/create'),
-('superadmin', '/admin/employee/delete'),
-('superadmin', '/admin/employee/index'),
-('superadmin', '/admin/employee/organisation'),
-('superadmin', '/admin/employee/update'),
-('superadmin', '/admin/employee/view'),
-('superadmin', '/admin/person/*'),
-('superadmin', '/admin/person/create'),
-('superadmin', '/admin/person/delete'),
-('superadmin', '/admin/person/index'),
-('superadmin', '/admin/person/update'),
-('superadmin', '/admin/person/view'),
-('superadmin', '/admin/user/*'),
-('superadmin', '/admin/user/block'),
-('superadmin', '/admin/user/create'),
-('superadmin', '/admin/user/delete'),
-('superadmin', '/admin/user/index'),
-('superadmin', '/admin/user/unblock'),
-('superadmin', '/admin/user/update'),
-('superadmin', '/admin/user/view'),
-('superadmin', '/gii/*'),
-('superadmin', '/privilege/*'),
+('admin-bdk', 'bdk-evaluation'),
+('admin-bdk', 'bdk-execution'),
+('admin-bdk', 'bdk-general'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/*'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/*'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/*'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/add-activity-class-schedule'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/add-activity-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/available-room'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/available-room'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/change-class-student'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/change-class-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/choose-student'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/choose-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/class'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/class'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/class-schedule'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/class-schedule-max-time'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/class-schedule-max-time'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/class-student'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/class-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/class-subject'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/class-subject'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/create-class'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/create-class'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/create-class-subject'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/create-class-subject'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/dashboard'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/dashboard'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/delete-activity-class-schedule'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/delete-activity-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/delete-class'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/delete-class'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/delete-class-student'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/delete-class-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/delete-student'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/delete-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/honorarium'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/honorarium'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/import-student'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/import-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/index'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/index'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/index-student-plan'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/index-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/pic'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/pic'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/prepare-honorarium'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/prepare-honorarium'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/program-name'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/program-name'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/property'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/property'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/room'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/room'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/room-class-schedule'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/room-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/set-room'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/set-room'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/set-student'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/set-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/student'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/trainer-class-schedule'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/trainer-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/unset-room'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/unset-room'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/update'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/update'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/update-student'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/update-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/view'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/view'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity/view-student-plan'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/view-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/*'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/*'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/class'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/class'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/class-schedule'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/class-schedule-max-time'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/class-schedule-max-time'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/class-student'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/class-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/class-subject'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/class-subject'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/create-certificate-class-student'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/create-certificate-class-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/dashboard'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/dashboard'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/delete-certificate-class-student'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/delete-certificate-class-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/index'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/index'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/index-student-plan'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/index-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/pic'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/pic'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/print-backend-certificate'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/print-backend-certificate'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/print-certificate-receipt'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/print-certificate-receipt'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/print-frontend-certificate'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/print-frontend-certificate'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/print-student-checklist'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/print-student-checklist'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/print-value-certificate'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/print-value-certificate'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/program-name'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/program-name'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/property'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/property'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/set-certificate-class'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/set-certificate-class'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/student'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/update-certificate-class-student'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/update-certificate-class-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/update-class-student'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/update-class-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/view'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/view'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity2/view-student-plan'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/view-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/*'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/*'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/add-activity-class-schedule'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/add-activity-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/available-room'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/available-room'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/change-class-student'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/change-class-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/choose-student'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/choose-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/class'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/class'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/class-schedule'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/class-schedule-max-time'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/class-schedule-max-time'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/class-student'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/class-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/class-subject'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/class-subject'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/create-class'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/create-class'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/create-class-subject'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/create-class-subject'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/dashboard'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/dashboard'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/delete-activity-class-schedule'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/delete-activity-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/delete-class'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/delete-class'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/delete-class-student'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/delete-class-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/delete-student'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/delete-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/honorarium'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/honorarium'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/import-student'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/import-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/index'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/index'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/index-student-plan'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/index-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/pic'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/pic'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/prepare-honorarium'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/prepare-honorarium'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/program-name'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/program-name'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/property'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/property'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/room'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/room'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/room-class-schedule'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/room-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/set-room'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/set-room'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/set-student'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/set-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/student'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/trainer-class-schedule'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/trainer-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/unset-room'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/unset-room'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/update'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/update'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/update-student'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/update-student'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/view'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/view'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/activity3/view-student-plan'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/view-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/default/*'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/default/*'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/default/*'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/default/*'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/default/index'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/default/index'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/default/index'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/default/index'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/default/view-employee'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/default/view-employee'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/default/view-employee'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/default/view-employee'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity/*'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/*'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity/create'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/create'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity/delete'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/delete'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity/index'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/index'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity/pic'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/pic'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity/program-name'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/program-name'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity/room'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/room'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity/update'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/update'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity/view'),
-('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/view'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity2/*'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/*'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity2/create'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/create'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity2/delete'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/delete'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity2/index'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/index'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity2/pic'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/pic'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity2/program-name'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/program-name'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity2/room'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/room'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity2/update'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/update'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity2/view'),
-('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/view'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity3/*'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/*'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity3/create'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/create'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity3/delete'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/delete'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity3/index'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/index'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity3/pic'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/pic'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity3/program-name'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/program-name'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity3/room'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/room'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity3/update'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/update'),
 ('admin-pusdiklat', '/pusdiklat-evaluation/meeting-activity3/view'),
-('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/view'),
 ('admin-pusdiklat', '/pusdiklat-execution/*'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity-room/*'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity-room/*'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity-room/create'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity-room/create'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity-room/delete'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity-room/delete'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity-room/index'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity-room/index'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity-room/update'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity-room/update'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity-room/view'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity-room/view'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/*'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/*'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/add-activity-class-schedule'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/add-activity-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/available-room'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/available-room'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/change-class-student'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/change-class-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/choose-student'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/choose-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/class'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/class'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/class-schedule'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/class-schedule-max-time'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/class-schedule-max-time'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/class-student'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/class-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/class-subject'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/class-subject'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/create-class'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/create-class'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/create-class-subject'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/create-class-subject'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/dashboard'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/dashboard'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/delete-activity-class-schedule'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/delete-activity-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/delete-class'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/delete-class'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/delete-class-student'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/delete-class-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/delete-student'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/delete-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/honorarium'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/honorarium'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/import-student'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/import-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/index'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/index'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/index-student-plan'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/index-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/pic'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/pic'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/prepare-honorarium'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/prepare-honorarium'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/program-name'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/program-name'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/property'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/property'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/room'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/room'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/room-class-schedule'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/room-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/set-room'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/set-room'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/set-student'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/set-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/student'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/trainer-class-schedule'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/trainer-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/unset-room'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/unset-room'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/update'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/update'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/update-student'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/update-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/view'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/view'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity/view-student-plan'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/view-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/*'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/*'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/add-activity'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/add-activity'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/attendance'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/attendance'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/choose-student'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/choose-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/class'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/class'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/class-student'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/class-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/class-subject'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/class-subject'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/create-class'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/create-class'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/create-class-subject'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/create-class-subject'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/dashboard'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/dashboard'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/delete-activity'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/delete-activity'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/delete-class'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/delete-class'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/delete-class-student'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/delete-class-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/delete-student'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/delete-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/get-max-time'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/get-max-time'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/import-student'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/import-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/index'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/index'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/index-student-plan'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/index-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/pic'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/pic'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/program-name'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/program-name'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/property'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/property'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/schedule'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/schedule'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/set-student'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/set-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/student'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/trainer-class-schedule'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/trainer-class-schedule'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/update'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/update'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/update-student'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/update-student'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/view'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/view'),
 ('admin-pusdiklat', '/pusdiklat-execution/activity2/view-student-plan'),
-('pusdiklat-execution-2', '/pusdiklat-execution/activity2/view-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-execution/default/*'),
-('pusdiklat-execution-1', '/pusdiklat-execution/default/*'),
-('pusdiklat-execution-2', '/pusdiklat-execution/default/*'),
 ('admin-pusdiklat', '/pusdiklat-execution/default/index'),
-('pusdiklat-execution-1', '/pusdiklat-execution/default/index'),
-('pusdiklat-execution-2', '/pusdiklat-execution/default/index'),
 ('admin-pusdiklat', '/pusdiklat-execution/default/view-employee'),
-('pusdiklat-execution-1', '/pusdiklat-execution/default/view-employee'),
-('pusdiklat-execution-2', '/pusdiklat-execution/default/view-employee'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity/*'),
-('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/*'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity/create'),
-('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/create'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity/delete'),
-('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/delete'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity/index'),
-('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/index'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity/pic'),
-('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/pic'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity/program-name'),
-('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/program-name'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity/room'),
-('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/room'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity/update'),
-('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/update'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity/view'),
-('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/view'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity2/*'),
-('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/*'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity2/create'),
-('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/create'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity2/delete'),
-('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/delete'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity2/index'),
-('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/index'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity2/pic'),
-('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/pic'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity2/program-name'),
-('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/program-name'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity2/room'),
-('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/room'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity2/update'),
-('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/update'),
 ('admin-pusdiklat', '/pusdiklat-execution/meeting-activity2/view'),
-('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/view'),
 ('admin-pusdiklat', '/pusdiklat-execution/room/*'),
-('pusdiklat-execution-1', '/pusdiklat-execution/room/*'),
 ('admin-pusdiklat', '/pusdiklat-execution/room/create'),
-('pusdiklat-execution-1', '/pusdiklat-execution/room/create'),
 ('admin-pusdiklat', '/pusdiklat-execution/room/delete'),
-('pusdiklat-execution-1', '/pusdiklat-execution/room/delete'),
 ('admin-pusdiklat', '/pusdiklat-execution/room/index'),
-('pusdiklat-execution-1', '/pusdiklat-execution/room/index'),
 ('admin-pusdiklat', '/pusdiklat-execution/room/update'),
-('pusdiklat-execution-1', '/pusdiklat-execution/room/update'),
 ('admin-pusdiklat', '/pusdiklat-execution/room/view'),
-('pusdiklat-execution-1', '/pusdiklat-execution/room/view'),
 ('admin-pusdiklat', '/pusdiklat-execution/student/*'),
-('pusdiklat-execution-1', '/pusdiklat-execution/student/*'),
 ('admin-pusdiklat', '/pusdiklat-execution/student/create'),
-('pusdiklat-execution-1', '/pusdiklat-execution/student/create'),
 ('admin-pusdiklat', '/pusdiklat-execution/student/delete'),
-('pusdiklat-execution-1', '/pusdiklat-execution/student/delete'),
 ('admin-pusdiklat', '/pusdiklat-execution/student/index'),
-('pusdiklat-execution-1', '/pusdiklat-execution/student/index'),
 ('admin-pusdiklat', '/pusdiklat-execution/student/person'),
-('pusdiklat-execution-1', '/pusdiklat-execution/student/person'),
 ('admin-pusdiklat', '/pusdiklat-execution/student/update'),
-('pusdiklat-execution-1', '/pusdiklat-execution/student/update'),
 ('admin-pusdiklat', '/pusdiklat-execution/student/view'),
-('pusdiklat-execution-1', '/pusdiklat-execution/student/view'),
 ('admin-pusdiklat', '/pusdiklat-execution/student2/*'),
-('pusdiklat-execution-2', '/pusdiklat-execution/student2/*'),
 ('admin-pusdiklat', '/pusdiklat-execution/student2/create'),
-('pusdiklat-execution-2', '/pusdiklat-execution/student2/create'),
 ('admin-pusdiklat', '/pusdiklat-execution/student2/delete'),
-('pusdiklat-execution-2', '/pusdiklat-execution/student2/delete'),
 ('admin-pusdiklat', '/pusdiklat-execution/student2/index'),
-('pusdiklat-execution-2', '/pusdiklat-execution/student2/index'),
 ('admin-pusdiklat', '/pusdiklat-execution/student2/person'),
-('pusdiklat-execution-2', '/pusdiklat-execution/student2/person'),
 ('admin-pusdiklat', '/pusdiklat-execution/student2/update'),
-('pusdiklat-execution-2', '/pusdiklat-execution/student2/update'),
 ('admin-pusdiklat', '/pusdiklat-execution/student2/view'),
-('pusdiklat-execution-2', '/pusdiklat-execution/student2/view'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-class-student-attendance/*'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/*'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-class-student-attendance/editable'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/editable'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-class-student-attendance/import'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/import'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-class-student-attendance/open-tbs'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/open-tbs'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-class-student-attendance/php-excel'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/php-excel'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-class-student-attendance/print'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/print'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-class-student-attendance/recap'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/recap'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-class-student-attendance/update'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/update'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-schedule-trainer-attendance/*'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/*'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-schedule-trainer-attendance/editab'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/editab'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-schedule-trainer-attendance/import'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/import'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-schedule-trainer-attendance/open-t'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/open-t'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-schedule-trainer-attendance/php-ex'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/php-ex'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-schedule-trainer-attendance/print'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/print'),
 ('admin-pusdiklat', '/pusdiklat-execution/training-schedule-trainer-attendance/update'),
-('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/update'),
 ('admin-pusdiklat', '/pusdiklat-general/*'),
 ('admin-pusdiklat', '/pusdiklat-general/activity/*'),
-('pusdiklat-general-1', '/pusdiklat-general/activity/*'),
 ('admin-pusdiklat', '/pusdiklat-general/activity/index'),
-('pusdiklat-general-1', '/pusdiklat-general/activity/index'),
 ('admin-pusdiklat', '/pusdiklat-general/activity/index-student-plan'),
-('pusdiklat-general-1', '/pusdiklat-general/activity/index-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-general/activity/pic'),
-('pusdiklat-general-1', '/pusdiklat-general/activity/pic'),
 ('admin-pusdiklat', '/pusdiklat-general/activity/program-name'),
-('pusdiklat-general-1', '/pusdiklat-general/activity/program-name'),
 ('admin-pusdiklat', '/pusdiklat-general/activity/view'),
-('pusdiklat-general-1', '/pusdiklat-general/activity/view'),
 ('admin-pusdiklat', '/pusdiklat-general/activity/view-student-plan'),
-('pusdiklat-general-1', '/pusdiklat-general/activity/view-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-general/activity2/*'),
-('pusdiklat-general-2', '/pusdiklat-general/activity2/*'),
 ('admin-pusdiklat', '/pusdiklat-general/activity2/index'),
-('pusdiklat-general-2', '/pusdiklat-general/activity2/index'),
 ('admin-pusdiklat', '/pusdiklat-general/activity2/index-student-plan'),
-('pusdiklat-general-2', '/pusdiklat-general/activity2/index-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-general/activity2/pic'),
-('pusdiklat-general-2', '/pusdiklat-general/activity2/pic'),
 ('admin-pusdiklat', '/pusdiklat-general/activity2/program-name'),
-('pusdiklat-general-2', '/pusdiklat-general/activity2/program-name'),
 ('admin-pusdiklat', '/pusdiklat-general/activity2/update'),
-('pusdiklat-general-2', '/pusdiklat-general/activity2/update'),
 ('admin-pusdiklat', '/pusdiklat-general/activity2/view'),
-('pusdiklat-general-2', '/pusdiklat-general/activity2/view'),
 ('admin-pusdiklat', '/pusdiklat-general/activity2/view-student-plan'),
-('pusdiklat-general-2', '/pusdiklat-general/activity2/view-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-general/activity3/*'),
-('pusdiklat-general-3', '/pusdiklat-general/activity3/*'),
 ('admin-pusdiklat', '/pusdiklat-general/activity3/index'),
-('pusdiklat-general-3', '/pusdiklat-general/activity3/index'),
 ('admin-pusdiklat', '/pusdiklat-general/activity3/index-student-plan'),
-('pusdiklat-general-3', '/pusdiklat-general/activity3/index-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-general/activity3/pic'),
-('pusdiklat-general-3', '/pusdiklat-general/activity3/pic'),
 ('admin-pusdiklat', '/pusdiklat-general/activity3/program-name'),
-('pusdiklat-general-3', '/pusdiklat-general/activity3/program-name'),
 ('admin-pusdiklat', '/pusdiklat-general/activity3/update'),
-('pusdiklat-general-3', '/pusdiklat-general/activity3/update'),
 ('admin-pusdiklat', '/pusdiklat-general/activity3/view'),
-('pusdiklat-general-3', '/pusdiklat-general/activity3/view'),
 ('admin-pusdiklat', '/pusdiklat-general/activity3/view-student-plan'),
-('pusdiklat-general-3', '/pusdiklat-general/activity3/view-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-general/assignment0/*'),
 ('admin-pusdiklat', '/pusdiklat-general/assignment0/block'),
 ('admin-pusdiklat', '/pusdiklat-general/assignment0/delete'),
@@ -1489,375 +1612,797 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('admin-pusdiklat', '/pusdiklat-general/assignment0/update'),
 ('admin-pusdiklat', '/pusdiklat-general/assignment0/view'),
 ('admin-pusdiklat', '/pusdiklat-general/default/*'),
-('pusdiklat-general-1', '/pusdiklat-general/default/*'),
-('pusdiklat-general-2', '/pusdiklat-general/default/*'),
-('pusdiklat-general-3', '/pusdiklat-general/default/*'),
 ('admin-pusdiklat', '/pusdiklat-general/default/index'),
-('pusdiklat-general-1', '/pusdiklat-general/default/index'),
-('pusdiklat-general-2', '/pusdiklat-general/default/index'),
-('pusdiklat-general-3', '/pusdiklat-general/default/index'),
 ('admin-pusdiklat', '/pusdiklat-general/default/view-employee'),
-('pusdiklat-general-1', '/pusdiklat-general/default/view-employee'),
-('pusdiklat-general-2', '/pusdiklat-general/default/view-employee'),
-('pusdiklat-general-3', '/pusdiklat-general/default/view-employee'),
 ('admin-pusdiklat', '/pusdiklat-general/employee/*'),
-('pusdiklat-general-1', '/pusdiklat-general/employee/*'),
 ('admin-pusdiklat', '/pusdiklat-general/employee/delete'),
-('pusdiklat-general-1', '/pusdiklat-general/employee/delete'),
 ('admin-pusdiklat', '/pusdiklat-general/employee/index'),
-('pusdiklat-general-1', '/pusdiklat-general/employee/index'),
 ('admin-pusdiklat', '/pusdiklat-general/employee/update'),
-('pusdiklat-general-1', '/pusdiklat-general/employee/update'),
 ('admin-pusdiklat', '/pusdiklat-general/employee/view'),
-('pusdiklat-general-1', '/pusdiklat-general/employee/view'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity/*'),
-('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/*'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity/create'),
-('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/create'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity/delete'),
-('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/delete'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity/index'),
-('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/index'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity/pic'),
-('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/pic'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity/program-name'),
-('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/program-name'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity/room'),
-('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/room'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity/update'),
-('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/update'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity/view'),
-('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/view'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity2/*'),
-('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/*'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity2/create'),
-('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/create'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity2/delete'),
-('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/delete'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity2/index'),
-('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/index'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity2/pic'),
-('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/pic'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity2/program-name'),
-('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/program-name'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity2/room'),
-('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/room'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity2/update'),
-('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/update'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity2/view'),
-('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/view'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity3/*'),
-('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/*'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity3/create'),
-('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/create'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity3/delete'),
-('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/delete'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity3/index'),
-('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/index'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity3/pic'),
-('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/pic'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity3/program-name'),
-('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/program-name'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity3/room'),
-('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/room'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity3/update'),
-('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/update'),
 ('admin-pusdiklat', '/pusdiklat-general/meeting-activity3/view'),
-('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/view'),
 ('admin-pusdiklat', '/pusdiklat-general/person/*'),
-('pusdiklat-general-1', '/pusdiklat-general/person/*'),
 ('admin-pusdiklat', '/pusdiklat-general/person/create'),
-('pusdiklat-general-1', '/pusdiklat-general/person/create'),
 ('admin-pusdiklat', '/pusdiklat-general/person/delete'),
-('pusdiklat-general-1', '/pusdiklat-general/person/delete'),
 ('admin-pusdiklat', '/pusdiklat-general/person/index'),
-('pusdiklat-general-1', '/pusdiklat-general/person/index'),
 ('admin-pusdiklat', '/pusdiklat-general/person/update'),
-('pusdiklat-general-1', '/pusdiklat-general/person/update'),
 ('admin-pusdiklat', '/pusdiklat-general/person/view'),
-('pusdiklat-general-1', '/pusdiklat-general/person/view'),
 ('admin-pusdiklat', '/pusdiklat-general/room-request3/*'),
-('pusdiklat-general-3', '/pusdiklat-general/room-request3/*'),
 ('admin-pusdiklat', '/pusdiklat-general/room-request3/index'),
-('pusdiklat-general-3', '/pusdiklat-general/room-request3/index'),
 ('admin-pusdiklat', '/pusdiklat-general/room-request3/pic'),
-('pusdiklat-general-3', '/pusdiklat-general/room-request3/pic'),
 ('admin-pusdiklat', '/pusdiklat-general/room-request3/program-name'),
-('pusdiklat-general-3', '/pusdiklat-general/room-request3/program-name'),
 ('admin-pusdiklat', '/pusdiklat-general/room-request3/room'),
-('pusdiklat-general-3', '/pusdiklat-general/room-request3/room'),
 ('admin-pusdiklat', '/pusdiklat-general/room-request3/set-room'),
-('pusdiklat-general-3', '/pusdiklat-general/room-request3/set-room'),
 ('admin-pusdiklat', '/pusdiklat-general/room-request3/unset-room'),
-('pusdiklat-general-3', '/pusdiklat-general/room-request3/unset-room'),
 ('admin-pusdiklat', '/pusdiklat-general/room-request3/view'),
-('pusdiklat-general-3', '/pusdiklat-general/room-request3/view'),
 ('admin-pusdiklat', '/pusdiklat-general/room3/*'),
-('pusdiklat-general-3', '/pusdiklat-general/room3/*'),
 ('admin-pusdiklat', '/pusdiklat-general/room3/activity-room'),
-('pusdiklat-general-3', '/pusdiklat-general/room3/activity-room'),
 ('admin-pusdiklat', '/pusdiklat-general/room3/calendar-activity-room'),
-('pusdiklat-general-3', '/pusdiklat-general/room3/calendar-activity-room'),
 ('admin-pusdiklat', '/pusdiklat-general/room3/create'),
-('pusdiklat-general-3', '/pusdiklat-general/room3/create'),
 ('admin-pusdiklat', '/pusdiklat-general/room3/delete'),
-('pusdiklat-general-3', '/pusdiklat-general/room3/delete'),
 ('admin-pusdiklat', '/pusdiklat-general/room3/event-activity-room'),
-('pusdiklat-general-3', '/pusdiklat-general/room3/event-activity-room'),
 ('admin-pusdiklat', '/pusdiklat-general/room3/index'),
-('pusdiklat-general-3', '/pusdiklat-general/room3/index'),
 ('admin-pusdiklat', '/pusdiklat-general/room3/update'),
-('pusdiklat-general-3', '/pusdiklat-general/room3/update'),
 ('admin-pusdiklat', '/pusdiklat-general/room3/update-activity-room'),
-('pusdiklat-general-3', '/pusdiklat-general/room3/update-activity-room'),
 ('admin-pusdiklat', '/pusdiklat-general/room3/view'),
-('pusdiklat-general-3', '/pusdiklat-general/room3/view'),
 ('admin-pusdiklat', '/pusdiklat-general/user/*'),
-('pusdiklat-general-1', '/pusdiklat-general/user/*'),
 ('admin-pusdiklat', '/pusdiklat-general/user/block'),
-('pusdiklat-general-1', '/pusdiklat-general/user/block'),
 ('admin-pusdiklat', '/pusdiklat-general/user/delete'),
-('pusdiklat-general-1', '/pusdiklat-general/user/delete'),
 ('admin-pusdiklat', '/pusdiklat-general/user/index'),
-('pusdiklat-general-1', '/pusdiklat-general/user/index'),
 ('admin-pusdiklat', '/pusdiklat-general/user/unblock'),
-('pusdiklat-general-1', '/pusdiklat-general/user/unblock'),
 ('admin-pusdiklat', '/pusdiklat-general/user/update'),
-('pusdiklat-general-1', '/pusdiklat-general/user/update'),
 ('admin-pusdiklat', '/pusdiklat-general/user/view'),
-('pusdiklat-general-1', '/pusdiklat-general/user/view'),
 ('admin-pusdiklat', '/pusdiklat-planning/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/*'),
-('pusdiklat-planning-1', '/pusdiklat-planning/activity/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/create'),
-('pusdiklat-planning-1', '/pusdiklat-planning/activity/create'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/delete'),
-('pusdiklat-planning-1', '/pusdiklat-planning/activity/delete'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/index'),
-('pusdiklat-planning-1', '/pusdiklat-planning/activity/index'),
-('admin-pusdiklat', '/pusdiklat-planning/activity/index-student-plan');
-INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
-('pusdiklat-planning-1', '/pusdiklat-planning/activity/index-student-plan'),
+('admin-pusdiklat', '/pusdiklat-planning/activity/index-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/pic'),
-('pusdiklat-planning-1', '/pusdiklat-planning/activity/pic'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/program-name'),
-('pusdiklat-planning-1', '/pusdiklat-planning/activity/program-name'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/update'),
-('pusdiklat-planning-1', '/pusdiklat-planning/activity/update'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/update-student-plan'),
-('pusdiklat-planning-1', '/pusdiklat-planning/activity/update-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/view'),
-('pusdiklat-planning-1', '/pusdiklat-planning/activity/view'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity/view-student-plan'),
-('pusdiklat-planning-1', '/pusdiklat-planning/activity/view-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity2/*'),
-('pusdiklat-planning-2', '/pusdiklat-planning/activity2/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity2/index'),
-('pusdiklat-planning-2', '/pusdiklat-planning/activity2/index'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity2/index-student-plan'),
-('pusdiklat-planning-2', '/pusdiklat-planning/activity2/index-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity2/pic'),
-('pusdiklat-planning-2', '/pusdiklat-planning/activity2/pic'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity2/program-name'),
-('pusdiklat-planning-2', '/pusdiklat-planning/activity2/program-name'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity2/update'),
-('pusdiklat-planning-2', '/pusdiklat-planning/activity2/update'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity2/view'),
-('pusdiklat-planning-2', '/pusdiklat-planning/activity2/view'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity2/view-student-plan'),
-('pusdiklat-planning-2', '/pusdiklat-planning/activity2/view-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/*'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/choose-trainer'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/choose-trainer'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/delete-subject-trainer'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/delete-subject-trainer'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/index'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/index'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/index-student-plan'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/index-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/pic'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/pic'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/program-name'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/program-name'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/set-trainer'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/set-trainer'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/subject'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/subject'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/subject-trainer'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/subject-trainer'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/update-subject-trainer'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/update-subject-trainer'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/view'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/view'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/view-student-plan'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/view-student-plan'),
 ('admin-pusdiklat', '/pusdiklat-planning/activity3/view-subject-trainer'),
-('pusdiklat-planning-3', '/pusdiklat-planning/activity3/view-subject-trainer'),
 ('admin-pusdiklat', '/pusdiklat-planning/default/*'),
-('pusdiklat-planning-1', '/pusdiklat-planning/default/*'),
-('pusdiklat-planning-2', '/pusdiklat-planning/default/*'),
-('pusdiklat-planning-3', '/pusdiklat-planning/default/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/default/index'),
-('pusdiklat-planning-1', '/pusdiklat-planning/default/index'),
-('pusdiklat-planning-2', '/pusdiklat-planning/default/index'),
-('pusdiklat-planning-3', '/pusdiklat-planning/default/index'),
 ('admin-pusdiklat', '/pusdiklat-planning/default/view-employee'),
-('pusdiklat-planning-1', '/pusdiklat-planning/default/view-employee'),
-('pusdiklat-planning-2', '/pusdiklat-planning/default/view-employee'),
-('pusdiklat-planning-3', '/pusdiklat-planning/default/view-employee'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity/*'),
-('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity/create'),
-('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/create'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity/delete'),
-('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/delete'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity/index'),
-('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/index'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity/pic'),
-('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/pic'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity/program-name'),
-('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/program-name'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity/room'),
-('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/room'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity/update'),
-('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/update'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity/view'),
-('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/view'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity2/*'),
-('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity2/create'),
-('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/create'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity2/delete'),
-('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/delete'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity2/index'),
-('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/index'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity2/pic'),
-('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/pic'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity2/program-name'),
-('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/program-name'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity2/room'),
-('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/room'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity2/update'),
-('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/update'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity2/view'),
-('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/view'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity3/*'),
-('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity3/create'),
-('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/create'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity3/delete'),
-('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/delete'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity3/index'),
-('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/index'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity3/pic'),
-('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/pic'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity3/program-name'),
-('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/program-name'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity3/room'),
-('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/room'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity3/update'),
-('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/update'),
 ('admin-pusdiklat', '/pusdiklat-planning/meeting-activity3/view'),
-('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/view'),
 ('admin-pusdiklat', '/pusdiklat-planning/program/*'),
-('pusdiklat-planning-1', '/pusdiklat-planning/program/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/program/create'),
-('pusdiklat-planning-1', '/pusdiklat-planning/program/create'),
 ('admin-pusdiklat', '/pusdiklat-planning/program/delete'),
-('pusdiklat-planning-1', '/pusdiklat-planning/program/delete'),
 ('admin-pusdiklat', '/pusdiklat-planning/program/index'),
-('pusdiklat-planning-1', '/pusdiklat-planning/program/index'),
 ('admin-pusdiklat', '/pusdiklat-planning/program/pic'),
-('pusdiklat-planning-1', '/pusdiklat-planning/program/pic'),
 ('admin-pusdiklat', '/pusdiklat-planning/program/status'),
-('pusdiklat-planning-1', '/pusdiklat-planning/program/status'),
 ('admin-pusdiklat', '/pusdiklat-planning/program/update'),
-('pusdiklat-planning-1', '/pusdiklat-planning/program/update'),
 ('admin-pusdiklat', '/pusdiklat-planning/program/validation'),
-('pusdiklat-planning-1', '/pusdiklat-planning/program/validation'),
 ('admin-pusdiklat', '/pusdiklat-planning/program/view'),
-('pusdiklat-planning-1', '/pusdiklat-planning/program/view'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/*'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/document'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/document'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/document-delete'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/document-delete'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/document-history'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/document-history'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/document-status'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/document-status'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/history'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/history'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/index'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/index'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/pic'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/pic'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/subject'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/subject'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/subject-delete'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/subject-delete'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/subject-history'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/subject-history'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/subject-status'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/subject-status'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/update'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/update'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/view'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/view'),
 ('admin-pusdiklat', '/pusdiklat-planning/program2/view-history'),
-('pusdiklat-planning-2', '/pusdiklat-planning/program2/view-history'),
 ('admin-pusdiklat', '/pusdiklat-planning/program3/*'),
-('pusdiklat-planning-3', '/pusdiklat-planning/program3/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/program3/index'),
-('pusdiklat-planning-3', '/pusdiklat-planning/program3/index'),
 ('admin-pusdiklat', '/pusdiklat-planning/program3/pic'),
-('pusdiklat-planning-3', '/pusdiklat-planning/program3/pic'),
 ('admin-pusdiklat', '/pusdiklat-planning/program3/subject'),
-('pusdiklat-planning-3', '/pusdiklat-planning/program3/subject'),
 ('admin-pusdiklat', '/pusdiklat-planning/program3/subject-delete'),
-('pusdiklat-planning-3', '/pusdiklat-planning/program3/subject-delete'),
 ('admin-pusdiklat', '/pusdiklat-planning/program3/subject-status'),
-('pusdiklat-planning-3', '/pusdiklat-planning/program3/subject-status'),
 ('admin-pusdiklat', '/pusdiklat-planning/program3/update'),
-('pusdiklat-planning-3', '/pusdiklat-planning/program3/update'),
 ('admin-pusdiklat', '/pusdiklat-planning/program3/view'),
-('pusdiklat-planning-3', '/pusdiklat-planning/program3/view'),
 ('admin-pusdiklat', '/pusdiklat-planning/trainer3/*'),
-('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/trainer3/create'),
-('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/create'),
 ('admin-pusdiklat', '/pusdiklat-planning/trainer3/create-person'),
-('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/create-person'),
 ('admin-pusdiklat', '/pusdiklat-planning/trainer3/delete'),
-('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/delete'),
 ('admin-pusdiklat', '/pusdiklat-planning/trainer3/delete-person'),
-('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/delete-person'),
 ('admin-pusdiklat', '/pusdiklat-planning/trainer3/index'),
-('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/index'),
 ('admin-pusdiklat', '/pusdiklat-planning/trainer3/person'),
-('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/person'),
 ('admin-pusdiklat', '/pusdiklat-planning/trainer3/update'),
-('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/update'),
 ('admin-pusdiklat', '/pusdiklat-planning/trainer3/update-person'),
-('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/update-person'),
 ('admin-pusdiklat', '/pusdiklat-planning/trainer3/view'),
-('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/view'),
 ('admin-pusdiklat', '/pusdiklat-planning/trainer3/view-person'),
-('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/view-person'),
 ('admin-pusdiklat', '/pusdiklat-planning/training-subject-trainer-recommendation/*'),
-('pusdiklat-planning-1', '/pusdiklat-planning/training-subject-trainer-recommendation/*'),
 ('admin-pusdiklat', '/pusdiklat-planning/training-subject-trainer-recommendation/crea'),
-('pusdiklat-planning-1', '/pusdiklat-planning/training-subject-trainer-recommendation/crea'),
 ('admin-pusdiklat', '/pusdiklat-planning/training-subject-trainer-recommendation/dele'),
-('pusdiklat-planning-1', '/pusdiklat-planning/training-subject-trainer-recommendation/dele'),
 ('admin-pusdiklat', '/pusdiklat-planning/training-subject-trainer-recommendation/inde'),
-('pusdiklat-planning-1', '/pusdiklat-planning/training-subject-trainer-recommendation/inde'),
 ('admin-pusdiklat', '/pusdiklat-planning/training-subject-trainer-recommendation/upda'),
-('pusdiklat-planning-1', '/pusdiklat-planning/training-subject-trainer-recommendation/upda'),
 ('admin-pusdiklat', '/pusdiklat-planning/training-subject-trainer-recommendation/view'),
+('admin-pusdiklat', 'pusdiklat-evaluation-1'),
+('admin-pusdiklat', 'pusdiklat-evaluation-2'),
+('admin-pusdiklat', 'pusdiklat-evaluation-3'),
+('admin-pusdiklat', 'pusdiklat-execution-1'),
+('admin-pusdiklat', 'pusdiklat-execution-2'),
+('admin-pusdiklat', 'pusdiklat-general-1'),
+('admin-pusdiklat', 'pusdiklat-general-2'),
+('admin-pusdiklat', 'pusdiklat-general-3'),
+('admin-pusdiklat', 'pusdiklat-planning-1'),
+('admin-pusdiklat', 'pusdiklat-planning-2'),
+('admin-pusdiklat', 'pusdiklat-planning-3'),
+('admin-pusdiklat2', 'pusdiklat2-competency'),
+('admin-pusdiklat2', 'pusdiklat2-general'),
+('Bagian Kepegawaian', 'Pelaksana Bagian Kepegawaian'),
+('Bagian Keuangan', 'Pelaksana Bagian Keuangan'),
+('Bagian Otl', 'Pelaksana Bagian Otl'),
+('Bagian Tata Usaha', 'Subbagian Perencanaan Dan Keuangan'),
+('Bagian Tata Usaha', 'Subbagian Rumah Tangga Dan Pengelolaan Aset '),
+('Bagian Tata Usaha', 'Subbagian Tata Usaha, Kepegawaian, Dan Humas'),
+('Bagian Tata Usaha [PSDM]', 'Subbagian Perencanaan Dan Keuangan  [PSDM]'),
+('Bagian Tata Usaha [PSDM]', 'Subbagian Rumah Tangga Dan Pengelolaan Aset  [PSDM]'),
+('Bagian Tata Usaha [PSDM]', 'Subbagian Tata Usaha, Kepegawaian, Dan Humas  [PSDM]'),
+('Bagian Tik', 'Pelaksana Bagian Tik'),
+('Bagian Umum', 'Pelaksana Bagian Umum'),
+('BDK', 'admin-bdk'),
+('BDK', 'Seksi Evaluasi Dan Informasi'),
+('BDK', 'Seksi Penyelenggaraan'),
+('BDK', 'Subbag Tata Usaha'),
+('bdk-evaluation', '/bdk-evaluation/*'),
+('bdk-execution', '/bdk-execution/*'),
+('bdk-general', '/bdk-general/*'),
+('bdk-general', '/bdk-general/activity3/*'),
+('bdk-general', '/bdk-general/activity3/create'),
+('bdk-general', '/bdk-general/activity3/delete'),
+('bdk-general', '/bdk-general/activity3/index'),
+('bdk-general', '/bdk-general/activity3/pic'),
+('bdk-general', '/bdk-general/activity3/program-name'),
+('bdk-general', '/bdk-general/activity3/room'),
+('bdk-general', '/bdk-general/activity3/update'),
+('bdk-general', '/bdk-general/activity3/view'),
+('bdk-general', '/bdk-general/default/*'),
+('bdk-general', '/bdk-general/default/index'),
+('bdk-general', '/bdk-general/employee2/*'),
+('bdk-general', '/bdk-general/employee2/delete'),
+('bdk-general', '/bdk-general/employee2/index'),
+('bdk-general', '/bdk-general/employee2/update'),
+('bdk-general', '/bdk-general/employee2/view'),
+('bdk-general', '/bdk-general/meeting-activity3/*'),
+('bdk-general', '/bdk-general/meeting-activity3/create'),
+('bdk-general', '/bdk-general/meeting-activity3/delete'),
+('bdk-general', '/bdk-general/meeting-activity3/index'),
+('bdk-general', '/bdk-general/meeting-activity3/pic'),
+('bdk-general', '/bdk-general/meeting-activity3/program-name'),
+('bdk-general', '/bdk-general/meeting-activity3/room'),
+('bdk-general', '/bdk-general/meeting-activity3/update'),
+('bdk-general', '/bdk-general/meeting-activity3/view'),
+('bdk-general', '/bdk-general/person2/*'),
+('bdk-general', '/bdk-general/person2/create'),
+('bdk-general', '/bdk-general/person2/delete'),
+('bdk-general', '/bdk-general/person2/index'),
+('bdk-general', '/bdk-general/person2/update'),
+('bdk-general', '/bdk-general/person2/view'),
+('bdk-general', '/bdk-general/room-request3/*'),
+('bdk-general', '/bdk-general/room-request3/index'),
+('bdk-general', '/bdk-general/room-request3/pic'),
+('bdk-general', '/bdk-general/room-request3/program-name'),
+('bdk-general', '/bdk-general/room-request3/room'),
+('bdk-general', '/bdk-general/room-request3/set-room'),
+('bdk-general', '/bdk-general/room-request3/unset-room'),
+('bdk-general', '/bdk-general/room-request3/view'),
+('bdk-general', '/bdk-general/room3/*'),
+('bdk-general', '/bdk-general/room3/activity-room'),
+('bdk-general', '/bdk-general/room3/calendar-activity-room'),
+('bdk-general', '/bdk-general/room3/create'),
+('bdk-general', '/bdk-general/room3/delete'),
+('bdk-general', '/bdk-general/room3/event-activity-room'),
+('bdk-general', '/bdk-general/room3/index'),
+('bdk-general', '/bdk-general/room3/update'),
+('bdk-general', '/bdk-general/room3/update-activity-room'),
+('bdk-general', '/bdk-general/room3/view'),
+('bdk-general', '/bdk-general/user2/*'),
+('bdk-general', '/bdk-general/user2/block'),
+('bdk-general', '/bdk-general/user2/delete'),
+('bdk-general', '/bdk-general/user2/index'),
+('bdk-general', '/bdk-general/user2/unblock'),
+('bdk-general', '/bdk-general/user2/update'),
+('bdk-general', '/bdk-general/user2/view'),
+('Bidang Evaluasi Dan Pelaporan Kinerja', 'Subbidang Evaluasi Diklat '),
+('Bidang Evaluasi Dan Pelaporan Kinerja', 'Subbidang Informasi Dan Pelaporan Kinerja '),
+('Bidang Evaluasi Dan Pelaporan Kinerja', 'Subbidang Pengolahan Hasil Diklat '),
+('Bidang Penjenjangan Dan Peningkatan Kompetensi', 'Subbidang Perencanaan Dan Pengembangan'),
+('Bidang Penjenjangan Dan Peningkatan Kompetensi', 'Subbidang Program '),
+('Bidang Penjenjangan Dan Peningkatan Kompetensi', 'Subbidang Tenaga Pengajar '),
+('Bidang Penyelenggaraan', 'Pelaksana Subbidang Penyelenggaraan I'),
+('Bidang Penyelenggaraan', 'Pelaksana Subbidang Penyelenggaraan II'),
+('Bidang Penyelenggaraan', 'Subbidang Penyelenggaraan I  '),
+('Bidang Penyelenggaraan', 'Subbidang Penyelenggaraan II'),
+('Bidang Perencanaan Dan Pengembangan Diklat', 'Subbidang Kurikulum'),
+('Bidang Perencanaan Dan Pengembangan Diklat', 'Subbidang Program '),
+('Bidang Perencanaan Dan Pengembangan Diklat', 'Subbidang Tenaga Pengajar '),
+('BPPK', 'BDK'),
+('BPPK', 'Pusdiklat'),
+('BPPK', 'Pusdiklat PSDM'),
+('BPPK', 'Sekretariat Badan'),
+('BPPK', 'superadmin'),
+('Pelaksana Bagian Kepegawaian', 'sekretariat-badan-hrd'),
+('Pelaksana Bagian Keuangan', 'sekretariat-badan-finance'),
+('Pelaksana Bagian Otl', 'sekretariat-badan-organisation'),
+('Pelaksana Bagian Tik', 'sekretariat-badan-it'),
+('Pelaksana Bagian Umum', 'sekretariat-badan-general'),
+('Pelaksana Subbagian Perencanaan Dan Keuangan', 'pusdiklat-general-2'),
+('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', 'pusdiklat-general-3'),
+('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', 'pusdiklat-general-1'),
+('Pelaksana Subbidang Evaluasi Diklat', 'pusdiklat-evaluation-1'),
+('Pelaksana Subbidang Informasi Dan Pelaporan Kinerja', 'pusdiklat-evaluation-3'),
+('Pelaksana Subbidang Kurikulum', 'pusdiklat-planning-2'),
+('Pelaksana Subbidang Pengolahan Hasil Diklat', 'pusdiklat-evaluation-2'),
+('Pelaksana Subbidang Penyelenggaraan I', 'pusdiklat-execution-1'),
+('Pelaksana Subbidang Penyelenggaraan II', 'pusdiklat-execution-2'),
+('Pelaksana Subbidang Program', 'pusdiklat-planning-1'),
+('Pelaksana Subbidang Tenaga Pengajar', 'pusdiklat-planning-3'),
+('Pusdiklat', 'admin-pusdiklat'),
+('Pusdiklat', 'Bagian Tata Usaha'),
+('Pusdiklat', 'Bidang Evaluasi Dan Pelaporan Kinerja'),
+('Pusdiklat', 'Bidang Penyelenggaraan'),
+('Pusdiklat', 'Bidang Perencanaan Dan Pengembangan Diklat'),
+('Pusdiklat PSDM', 'admin-pusdiklat2'),
+('Pusdiklat PSDM', 'Bagian Tata Usaha [PSDM]'),
+('Pusdiklat PSDM', 'Bidang Penjenjangan Dan Peningkatan Kompetensi'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/*'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/add-activity-class-schedule'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/available-room'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/change-class-student'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/choose-student'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/class'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/class-schedule'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/class-schedule-max-time'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/class-student'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/class-subject'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/create-class'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/create-class-subject'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/dashboard'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/delete-activity-class-schedule'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/delete-class'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/delete-class-student'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/delete-student'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/honorarium'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/import-student'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/index'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/index-student-plan'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/pic'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/prepare-honorarium'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/program-name'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/property'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/room'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/room-class-schedule'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/set-room'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/set-student'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/student'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/trainer-class-schedule'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/unset-room'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/update'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/update-student'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/view'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/activity/view-student-plan'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/default/*'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/default/index'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/default/view-employee'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/*'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/create'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/delete'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/index'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/pic'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/program-name'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/room'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/update'),
+('pusdiklat-evaluation-1', '/pusdiklat-evaluation/meeting-activity/view'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/*'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/class'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/class-schedule'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/class-schedule-max-time'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/class-student'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/class-subject'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/create-certificate-class-student'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/dashboard'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/delete-certificate-class-student'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/index'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/index-student-plan'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/pic'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/print-backend-certificate'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/print-certificate-receipt'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/print-frontend-certificate'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/print-student-checklist'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/print-value-certificate'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/program-name'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/property'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/set-certificate-class'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/student'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/update-certificate-class-student'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/update-class-student'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/view'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/activity2/view-student-plan'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/default/*'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/default/index'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/default/view-employee'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/*'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/create'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/delete'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/index'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/pic'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/program-name'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/room'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/update'),
+('pusdiklat-evaluation-2', '/pusdiklat-evaluation/meeting-activity2/view'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/*'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/add-activity-class-schedule'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/available-room'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/change-class-student'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/choose-student'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/class'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/class-schedule'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/class-schedule-max-time'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/class-student'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/class-subject'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/create-class'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/create-class-subject'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/dashboard'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/delete-activity-class-schedule'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/delete-class'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/delete-class-student'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/delete-student'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/honorarium'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/import-student'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/index'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/index-student-plan'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/pic'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/prepare-honorarium'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/program-name'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/property'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/room'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/room-class-schedule'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/set-room'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/set-student'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/student'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/trainer-class-schedule'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/unset-room'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/update'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/update-student'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/view'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/activity3/view-student-plan'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/default/*'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/default/index'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/default/view-employee'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/*'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/create'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/delete'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/index'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/pic'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/program-name'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/room'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/update'),
+('pusdiklat-evaluation-3', '/pusdiklat-evaluation/meeting-activity3/view'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity-room/*'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity-room/create'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity-room/delete'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity-room/index'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity-room/update'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity-room/view'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/*'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/add-activity-class-schedule'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/available-room'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/change-class-student'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/choose-student'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/class'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/class-schedule'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/class-schedule-max-time'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/class-student'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/class-subject'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/create-class'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/create-class-subject'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/dashboard'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/delete-activity-class-schedule'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/delete-class'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/delete-class-student'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/delete-student'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/honorarium'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/import-student'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/index'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/index-student-plan'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/pic'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/prepare-honorarium'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/program-name'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/property'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/room'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/room-class-schedule'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/set-room'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/set-student'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/student'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/trainer-class-schedule'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/unset-room'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/update'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/update-student'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/view'),
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/view-student-plan'),
+('pusdiklat-execution-1', '/pusdiklat-execution/default/*'),
+('pusdiklat-execution-1', '/pusdiklat-execution/default/index');
+INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
+('pusdiklat-execution-1', '/pusdiklat-execution/default/view-employee'),
+('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/*'),
+('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/create'),
+('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/delete'),
+('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/index'),
+('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/pic'),
+('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/program-name'),
+('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/room'),
+('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/update'),
+('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/view'),
+('pusdiklat-execution-1', '/pusdiklat-execution/room/*'),
+('pusdiklat-execution-1', '/pusdiklat-execution/room/create'),
+('pusdiklat-execution-1', '/pusdiklat-execution/room/delete'),
+('pusdiklat-execution-1', '/pusdiklat-execution/room/index'),
+('pusdiklat-execution-1', '/pusdiklat-execution/room/update'),
+('pusdiklat-execution-1', '/pusdiklat-execution/room/view'),
+('pusdiklat-execution-1', '/pusdiklat-execution/student/*'),
+('pusdiklat-execution-1', '/pusdiklat-execution/student/create'),
+('pusdiklat-execution-1', '/pusdiklat-execution/student/delete'),
+('pusdiklat-execution-1', '/pusdiklat-execution/student/index'),
+('pusdiklat-execution-1', '/pusdiklat-execution/student/person'),
+('pusdiklat-execution-1', '/pusdiklat-execution/student/update'),
+('pusdiklat-execution-1', '/pusdiklat-execution/student/view'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/*'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/editable'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/import'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/open-tbs'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/php-excel'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/print'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/recap'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-class-student-attendance/update'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/*'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/editab'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/import'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/open-t'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/php-ex'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/print'),
+('pusdiklat-execution-1', '/pusdiklat-execution/training-schedule-trainer-attendance/update'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/*'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/add-activity'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/attendance'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/choose-student'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/class'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/class-student'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/class-subject'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/create-class'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/create-class-subject'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/dashboard'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/delete-activity'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/delete-class'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/delete-class-student'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/delete-student'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/get-max-time'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/import-student'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/index'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/index-student-plan'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/pic'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/program-name'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/property'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/schedule'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/set-student'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/student'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/trainer-class-schedule'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/update'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/update-student'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/view'),
+('pusdiklat-execution-2', '/pusdiklat-execution/activity2/view-student-plan'),
+('pusdiklat-execution-2', '/pusdiklat-execution/default/*'),
+('pusdiklat-execution-2', '/pusdiklat-execution/default/index'),
+('pusdiklat-execution-2', '/pusdiklat-execution/default/view-employee'),
+('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/*'),
+('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/create'),
+('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/delete'),
+('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/index'),
+('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/pic'),
+('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/program-name'),
+('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/room'),
+('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/update'),
+('pusdiklat-execution-2', '/pusdiklat-execution/meeting-activity2/view'),
+('pusdiklat-execution-2', '/pusdiklat-execution/student2/*'),
+('pusdiklat-execution-2', '/pusdiklat-execution/student2/create'),
+('pusdiklat-execution-2', '/pusdiklat-execution/student2/delete'),
+('pusdiklat-execution-2', '/pusdiklat-execution/student2/index'),
+('pusdiklat-execution-2', '/pusdiklat-execution/student2/person'),
+('pusdiklat-execution-2', '/pusdiklat-execution/student2/update'),
+('pusdiklat-execution-2', '/pusdiklat-execution/student2/view'),
+('pusdiklat-general-1', '/pusdiklat-general/activity/*'),
+('pusdiklat-general-1', '/pusdiklat-general/activity/index'),
+('pusdiklat-general-1', '/pusdiklat-general/activity/index-student-plan'),
+('pusdiklat-general-1', '/pusdiklat-general/activity/pic'),
+('pusdiklat-general-1', '/pusdiklat-general/activity/program-name'),
+('pusdiklat-general-1', '/pusdiklat-general/activity/view'),
+('pusdiklat-general-1', '/pusdiklat-general/activity/view-student-plan'),
+('pusdiklat-general-1', '/pusdiklat-general/default/*'),
+('pusdiklat-general-1', '/pusdiklat-general/default/index'),
+('pusdiklat-general-1', '/pusdiklat-general/default/view-employee'),
+('pusdiklat-general-1', '/pusdiklat-general/employee/*'),
+('pusdiklat-general-1', '/pusdiklat-general/employee/delete'),
+('pusdiklat-general-1', '/pusdiklat-general/employee/index'),
+('pusdiklat-general-1', '/pusdiklat-general/employee/update'),
+('pusdiklat-general-1', '/pusdiklat-general/employee/view'),
+('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/*'),
+('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/create'),
+('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/delete'),
+('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/index'),
+('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/pic'),
+('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/program-name'),
+('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/room'),
+('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/update'),
+('pusdiklat-general-1', '/pusdiklat-general/meeting-activity/view'),
+('pusdiklat-general-1', '/pusdiklat-general/person/*'),
+('pusdiklat-general-1', '/pusdiklat-general/person/create'),
+('pusdiklat-general-1', '/pusdiklat-general/person/delete'),
+('pusdiklat-general-1', '/pusdiklat-general/person/index'),
+('pusdiklat-general-1', '/pusdiklat-general/person/update'),
+('pusdiklat-general-1', '/pusdiklat-general/person/view'),
+('pusdiklat-general-1', '/pusdiklat-general/user/*'),
+('pusdiklat-general-1', '/pusdiklat-general/user/block'),
+('pusdiklat-general-1', '/pusdiklat-general/user/delete'),
+('pusdiklat-general-1', '/pusdiklat-general/user/index'),
+('pusdiklat-general-1', '/pusdiklat-general/user/unblock'),
+('pusdiklat-general-1', '/pusdiklat-general/user/update'),
+('pusdiklat-general-1', '/pusdiklat-general/user/view'),
+('pusdiklat-general-2', '/pusdiklat-general/activity2/*'),
+('pusdiklat-general-2', '/pusdiklat-general/activity2/index'),
+('pusdiklat-general-2', '/pusdiklat-general/activity2/index-student-plan'),
+('pusdiklat-general-2', '/pusdiklat-general/activity2/pic'),
+('pusdiklat-general-2', '/pusdiklat-general/activity2/program-name'),
+('pusdiklat-general-2', '/pusdiklat-general/activity2/update'),
+('pusdiklat-general-2', '/pusdiklat-general/activity2/view'),
+('pusdiklat-general-2', '/pusdiklat-general/activity2/view-student-plan'),
+('pusdiklat-general-2', '/pusdiklat-general/default/*'),
+('pusdiklat-general-2', '/pusdiklat-general/default/index'),
+('pusdiklat-general-2', '/pusdiklat-general/default/view-employee'),
+('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/*'),
+('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/create'),
+('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/delete'),
+('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/index'),
+('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/pic'),
+('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/program-name'),
+('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/room'),
+('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/update'),
+('pusdiklat-general-2', '/pusdiklat-general/meeting-activity2/view'),
+('pusdiklat-general-3', '/pusdiklat-general/activity3/*'),
+('pusdiklat-general-3', '/pusdiklat-general/activity3/index'),
+('pusdiklat-general-3', '/pusdiklat-general/activity3/index-student-plan'),
+('pusdiklat-general-3', '/pusdiklat-general/activity3/pic'),
+('pusdiklat-general-3', '/pusdiklat-general/activity3/program-name'),
+('pusdiklat-general-3', '/pusdiklat-general/activity3/update'),
+('pusdiklat-general-3', '/pusdiklat-general/activity3/view'),
+('pusdiklat-general-3', '/pusdiklat-general/activity3/view-student-plan'),
+('pusdiklat-general-3', '/pusdiklat-general/default/*'),
+('pusdiklat-general-3', '/pusdiklat-general/default/index'),
+('pusdiklat-general-3', '/pusdiklat-general/default/view-employee'),
+('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/*'),
+('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/create'),
+('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/delete'),
+('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/index'),
+('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/pic'),
+('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/program-name'),
+('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/room'),
+('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/update'),
+('pusdiklat-general-3', '/pusdiklat-general/meeting-activity3/view'),
+('pusdiklat-general-3', '/pusdiklat-general/room-request3/*'),
+('pusdiklat-general-3', '/pusdiklat-general/room-request3/index'),
+('pusdiklat-general-3', '/pusdiklat-general/room-request3/pic'),
+('pusdiklat-general-3', '/pusdiklat-general/room-request3/program-name'),
+('pusdiklat-general-3', '/pusdiklat-general/room-request3/room'),
+('pusdiklat-general-3', '/pusdiklat-general/room-request3/set-room'),
+('pusdiklat-general-3', '/pusdiklat-general/room-request3/unset-room'),
+('pusdiklat-general-3', '/pusdiklat-general/room-request3/view'),
+('pusdiklat-general-3', '/pusdiklat-general/room3/*'),
+('pusdiklat-general-3', '/pusdiklat-general/room3/activity-room'),
+('pusdiklat-general-3', '/pusdiklat-general/room3/calendar-activity-room'),
+('pusdiklat-general-3', '/pusdiklat-general/room3/create'),
+('pusdiklat-general-3', '/pusdiklat-general/room3/delete'),
+('pusdiklat-general-3', '/pusdiklat-general/room3/event-activity-room'),
+('pusdiklat-general-3', '/pusdiklat-general/room3/index'),
+('pusdiklat-general-3', '/pusdiklat-general/room3/update'),
+('pusdiklat-general-3', '/pusdiklat-general/room3/update-activity-room'),
+('pusdiklat-general-3', '/pusdiklat-general/room3/view'),
+('pusdiklat-planning-1', '/pusdiklat-planning/activity/*'),
+('pusdiklat-planning-1', '/pusdiklat-planning/activity/create'),
+('pusdiklat-planning-1', '/pusdiklat-planning/activity/delete'),
+('pusdiklat-planning-1', '/pusdiklat-planning/activity/index'),
+('pusdiklat-planning-1', '/pusdiklat-planning/activity/index-student-plan'),
+('pusdiklat-planning-1', '/pusdiklat-planning/activity/pic'),
+('pusdiklat-planning-1', '/pusdiklat-planning/activity/program-name'),
+('pusdiklat-planning-1', '/pusdiklat-planning/activity/update'),
+('pusdiklat-planning-1', '/pusdiklat-planning/activity/update-student-plan'),
+('pusdiklat-planning-1', '/pusdiklat-planning/activity/view'),
+('pusdiklat-planning-1', '/pusdiklat-planning/activity/view-student-plan'),
+('pusdiklat-planning-1', '/pusdiklat-planning/default/*'),
+('pusdiklat-planning-1', '/pusdiklat-planning/default/index'),
+('pusdiklat-planning-1', '/pusdiklat-planning/default/view-employee'),
+('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/*'),
+('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/create'),
+('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/delete'),
+('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/index'),
+('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/pic'),
+('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/program-name'),
+('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/room'),
+('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/update'),
+('pusdiklat-planning-1', '/pusdiklat-planning/meeting-activity/view'),
+('pusdiklat-planning-1', '/pusdiklat-planning/program/*'),
+('pusdiklat-planning-1', '/pusdiklat-planning/program/create'),
+('pusdiklat-planning-1', '/pusdiklat-planning/program/delete'),
+('pusdiklat-planning-1', '/pusdiklat-planning/program/index'),
+('pusdiklat-planning-1', '/pusdiklat-planning/program/pic'),
+('pusdiklat-planning-1', '/pusdiklat-planning/program/status'),
+('pusdiklat-planning-1', '/pusdiklat-planning/program/update'),
+('pusdiklat-planning-1', '/pusdiklat-planning/program/validation'),
+('pusdiklat-planning-1', '/pusdiklat-planning/program/view'),
+('pusdiklat-planning-1', '/pusdiklat-planning/training-subject-trainer-recommendation/*'),
+('pusdiklat-planning-1', '/pusdiklat-planning/training-subject-trainer-recommendation/crea'),
+('pusdiklat-planning-1', '/pusdiklat-planning/training-subject-trainer-recommendation/dele'),
+('pusdiklat-planning-1', '/pusdiklat-planning/training-subject-trainer-recommendation/inde'),
+('pusdiklat-planning-1', '/pusdiklat-planning/training-subject-trainer-recommendation/upda'),
 ('pusdiklat-planning-1', '/pusdiklat-planning/training-subject-trainer-recommendation/view'),
+('pusdiklat-planning-2', '/pusdiklat-planning/activity2/*'),
+('pusdiklat-planning-2', '/pusdiklat-planning/activity2/index'),
+('pusdiklat-planning-2', '/pusdiklat-planning/activity2/index-student-plan'),
+('pusdiklat-planning-2', '/pusdiklat-planning/activity2/pic'),
+('pusdiklat-planning-2', '/pusdiklat-planning/activity2/program-name'),
+('pusdiklat-planning-2', '/pusdiklat-planning/activity2/update'),
+('pusdiklat-planning-2', '/pusdiklat-planning/activity2/view'),
+('pusdiklat-planning-2', '/pusdiklat-planning/activity2/view-student-plan'),
+('pusdiklat-planning-2', '/pusdiklat-planning/default/*'),
+('pusdiklat-planning-2', '/pusdiklat-planning/default/index'),
+('pusdiklat-planning-2', '/pusdiklat-planning/default/view-employee'),
+('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/*'),
+('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/create'),
+('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/delete'),
+('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/index'),
+('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/pic'),
+('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/program-name'),
+('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/room'),
+('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/update'),
+('pusdiklat-planning-2', '/pusdiklat-planning/meeting-activity2/view'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/*'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/document'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/document-delete'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/document-history'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/document-status'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/history'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/index'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/pic'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/subject'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/subject-delete'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/subject-history'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/subject-status'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/update'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/view'),
+('pusdiklat-planning-2', '/pusdiklat-planning/program2/view-history'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/*'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/choose-trainer'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/delete-subject-trainer'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/index'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/index-student-plan'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/pic'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/program-name'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/set-trainer'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/subject'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/subject-trainer'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/update-subject-trainer'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/view'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/view-student-plan'),
+('pusdiklat-planning-3', '/pusdiklat-planning/activity3/view-subject-trainer'),
+('pusdiklat-planning-3', '/pusdiklat-planning/default/*'),
+('pusdiklat-planning-3', '/pusdiklat-planning/default/index'),
+('pusdiklat-planning-3', '/pusdiklat-planning/default/view-employee'),
+('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/*'),
+('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/create'),
+('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/delete'),
+('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/index'),
+('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/pic'),
+('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/program-name'),
+('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/room'),
+('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/update'),
+('pusdiklat-planning-3', '/pusdiklat-planning/meeting-activity3/view'),
+('pusdiklat-planning-3', '/pusdiklat-planning/program3/*'),
+('pusdiklat-planning-3', '/pusdiklat-planning/program3/index'),
+('pusdiklat-planning-3', '/pusdiklat-planning/program3/pic'),
+('pusdiklat-planning-3', '/pusdiklat-planning/program3/subject'),
+('pusdiklat-planning-3', '/pusdiklat-planning/program3/subject-delete'),
+('pusdiklat-planning-3', '/pusdiklat-planning/program3/subject-status'),
+('pusdiklat-planning-3', '/pusdiklat-planning/program3/update'),
+('pusdiklat-planning-3', '/pusdiklat-planning/program3/view'),
+('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/*'),
+('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/create'),
+('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/create-person'),
+('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/delete'),
+('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/delete-person'),
+('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/index'),
+('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/person'),
+('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/update'),
+('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/update-person'),
+('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/view'),
+('pusdiklat-planning-3', '/pusdiklat-planning/trainer3/view-person'),
+('pusdiklat2-competency', '/pusdiklat2-competency/*'),
+('pusdiklat2-general', '/pusdiklat2-general/*'),
+('Sekretariat Badan', 'Bagian Kepegawaian'),
+('Sekretariat Badan', 'Bagian Keuangan'),
+('Sekretariat Badan', 'Bagian Otl'),
+('Sekretariat Badan', 'Bagian Tik'),
+('Sekretariat Badan', 'Bagian Umum'),
 ('sekretariat-badan-finance', '/sekretariat-finance/*'),
 ('sekretariat-badan-finance', '/sekretariat-finance/default/*'),
 ('sekretariat-badan-finance', '/sekretariat-finance/default/index'),
@@ -1970,24 +2515,6 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('sekretariat-badan-organisation', '/sekretariat-organisation/reference-unit/index'),
 ('sekretariat-badan-organisation', '/sekretariat-organisation/reference-unit/update'),
 ('sekretariat-badan-organisation', '/sekretariat-organisation/reference-unit/view'),
-('Pusdiklat', 'admin-pusdiklat'),
-('Sekretariat Badan', 'Bagian Kepegawaian'),
-('Sekretariat Badan', 'Bagian Keuangan'),
-('Sekretariat Badan', 'Bagian Otl'),
-('Pusdiklat', 'Bagian Tata Usaha'),
-('Pusdiklat PSDM', 'Bagian Tata Usaha [PSDM]'),
-('Sekretariat Badan', 'Bagian Tik'),
-('Sekretariat Badan', 'Bagian Umum'),
-('BPPK', 'BDK'),
-('Pusdiklat', 'Bidang Evaluasi Dan Pelaporan Kinerja'),
-('Pusdiklat PSDM', 'Bidang Penjenjangan Dan Peningkatan Kompetensi'),
-('Pusdiklat', 'Bidang Penyelenggaraan'),
-('Pusdiklat', 'Bidang Perencanaan Dan Pengembangan Diklat'),
-('Bagian Kepegawaian', 'Pelaksana Bagian Kepegawaian'),
-('Bagian Keuangan', 'Pelaksana Bagian Keuangan'),
-('Bagian Otl', 'Pelaksana Bagian Otl'),
-('Bagian Tik', 'Pelaksana Bagian Tik'),
-('Bagian Umum', 'Pelaksana Bagian Umum'),
 ('Seksi Evaluasi Dan Informasi', 'Pelaksana Seksi Evaluasi Dan Informasi'),
 ('Seksi Penyelenggaraan', 'Pelaksana Seksi Penyelenggaraan'),
 ('Subbag Tata Usaha', 'Pelaksana Subbag Tata Usaha'),
@@ -2000,62 +2527,35 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Subbidang Evaluasi Dan Pelaporan Kinerja', 'Pelaksana Subbidang Evaluasi Dan Pelaporan Kinerja'),
 ('Subbidang Kurikulum', 'Pelaksana Subbidang Kurikulum'),
 ('Subbidang Penyelenggaraan', 'Pelaksana Subbidang Penyelenggaraan'),
-('Bidang Penyelenggaraan', 'Pelaksana Subbidang Penyelenggaraan I'),
-('Bidang Penyelenggaraan', 'Pelaksana Subbidang Penyelenggaraan II'),
 ('Subbidang Perencanaan Dan Pengembangan', 'Pelaksana Subbidang Perencanaan Dan Pengembangan'),
 ('Subbidang Program ', 'Pelaksana Subbidang Program'),
 ('Subbidang Tenaga Pengajar ', 'Pelaksana Subbidang Tenaga Pengajar'),
-('BPPK', 'Pusdiklat'),
-('BPPK', 'Pusdiklat PSDM'),
-('admin-pusdiklat', 'pusdiklat-evaluation-1'),
-('Pelaksana Subbidang Evaluasi Diklat', 'pusdiklat-evaluation-1'),
-('admin-pusdiklat', 'pusdiklat-evaluation-2'),
-('Pelaksana Subbidang Pengolahan Hasil Diklat', 'pusdiklat-evaluation-2'),
-('admin-pusdiklat', 'pusdiklat-evaluation-3'),
-('Pelaksana Subbidang Informasi Dan Pelaporan Kinerja', 'pusdiklat-evaluation-3'),
-('admin-pusdiklat', 'pusdiklat-execution-1'),
-('Pelaksana Subbidang Penyelenggaraan I', 'pusdiklat-execution-1'),
-('admin-pusdiklat', 'pusdiklat-execution-2'),
-('Pelaksana Subbidang Penyelenggaraan II', 'pusdiklat-execution-2'),
-('admin-pusdiklat', 'pusdiklat-general-1'),
-('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', 'pusdiklat-general-1'),
-('admin-pusdiklat', 'pusdiklat-general-2'),
-('Pelaksana Subbagian Perencanaan Dan Keuangan', 'pusdiklat-general-2'),
-('admin-pusdiklat', 'pusdiklat-general-3'),
-('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', 'pusdiklat-general-3'),
-('admin-pusdiklat', 'pusdiklat-planning-1'),
-('Pelaksana Subbidang Program', 'pusdiklat-planning-1'),
-('admin-pusdiklat', 'pusdiklat-planning-2'),
-('Pelaksana Subbidang Kurikulum', 'pusdiklat-planning-2'),
-('admin-pusdiklat', 'pusdiklat-planning-3'),
-('Pelaksana Subbidang Tenaga Pengajar', 'pusdiklat-planning-3'),
-('BPPK', 'Sekretariat Badan'),
-('Pelaksana Bagian Keuangan', 'sekretariat-badan-finance'),
-('Pelaksana Bagian Umum', 'sekretariat-badan-general'),
-('Pelaksana Bagian Kepegawaian', 'sekretariat-badan-hrd'),
-('Pelaksana Bagian Tik', 'sekretariat-badan-it'),
-('Pelaksana Bagian Otl', 'sekretariat-badan-organisation'),
-('BDK', 'Seksi Evaluasi Dan Informasi'),
-('BDK', 'Seksi Penyelenggaraan'),
-('BDK', 'Subbag Tata Usaha'),
-('Bagian Tata Usaha', 'Subbagian Perencanaan Dan Keuangan'),
-('Bagian Tata Usaha [PSDM]', 'Subbagian Perencanaan Dan Keuangan  [PSDM]'),
-('Bagian Tata Usaha', 'Subbagian Rumah Tangga Dan Pengelolaan Aset '),
-('Bagian Tata Usaha [PSDM]', 'Subbagian Rumah Tangga Dan Pengelolaan Aset  [PSDM]'),
-('Bagian Tata Usaha', 'Subbagian Tata Usaha, Kepegawaian , Dan Humas '),
-('Bagian Tata Usaha [PSDM]', 'Subbagian Tata Usaha, Kepegawaian, Dan Humas  [PSDM]'),
-('Bidang Evaluasi Dan Pelaporan Kinerja', 'Subbidang Evaluasi Diklat '),
-('Bidang Evaluasi Dan Pelaporan Kinerja', 'Subbidang Informasi Dan Pelaporan Kinerja '),
-('Bidang Perencanaan Dan Pengembangan Diklat', 'Subbidang Kurikulum'),
-('Bidang Evaluasi Dan Pelaporan Kinerja', 'Subbidang Pengolahan Hasil Diklat '),
-('Bidang Penyelenggaraan', 'Subbidang Penyelenggaraan I  '),
-('Bidang Penyelenggaraan', 'Subbidang Penyelenggaraan II'),
-('Bidang Penjenjangan Dan Peningkatan Kompetensi', 'Subbidang Perencanaan Dan Pengembangan'),
-('Bidang Penjenjangan Dan Peningkatan Kompetensi', 'Subbidang Program '),
-('Bidang Perencanaan Dan Pengembangan Diklat', 'Subbidang Program '),
-('Bidang Penjenjangan Dan Peningkatan Kompetensi', 'Subbidang Tenaga Pengajar '),
-('Bidang Perencanaan Dan Pengembangan Diklat', 'Subbidang Tenaga Pengajar '),
-('BPPK', 'superadmin');
+('superadmin', '/admin/*'),
+('superadmin', '/admin/default/*'),
+('superadmin', '/admin/default/index'),
+('superadmin', '/admin/employee/*'),
+('superadmin', '/admin/employee/create'),
+('superadmin', '/admin/employee/delete'),
+('superadmin', '/admin/employee/index'),
+('superadmin', '/admin/employee/organisation'),
+('superadmin', '/admin/employee/update'),
+('superadmin', '/admin/employee/view'),
+('superadmin', '/admin/person/*'),
+('superadmin', '/admin/person/create'),
+('superadmin', '/admin/person/delete'),
+('superadmin', '/admin/person/index'),
+('superadmin', '/admin/person/update'),
+('superadmin', '/admin/person/view'),
+('superadmin', '/admin/user/*'),
+('superadmin', '/admin/user/block'),
+('superadmin', '/admin/user/create'),
+('superadmin', '/admin/user/delete'),
+('superadmin', '/admin/user/index'),
+('superadmin', '/admin/user/unblock'),
+('superadmin', '/admin/user/update'),
+('superadmin', '/admin/user/view'),
+('superadmin', '/gii/*'),
+('superadmin', '/privilege/*');
 
 -- --------------------------------------------------------
 
@@ -2067,8 +2567,7 @@ CREATE TABLE IF NOT EXISTS `auth_rule` (
   `name` varchar(64) NOT NULL,
   `data` text,
   `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`name`)
+  `updated_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2082,10 +2581,7 @@ CREATE TABLE IF NOT EXISTS `employee` (
   `satker_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `organisation_id` int(11) DEFAULT NULL,
-  `chairman` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`person_id`),
-  KEY `user_id` (`user_id`),
-  KEY `organisation_id` (`organisation_id`)
+  `chairman` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -2118,7 +2614,454 @@ INSERT INTO `employee` (`person_id`, `satker_id`, `user_id`, `organisation_id`, 
 (23, 17, 23, NULL, 0),
 (24, 17, 24, NULL, 0),
 (25, 17, 25, NULL, 0),
-(26, 17, 26, NULL, 0);
+(26, 17, 26, NULL, 0),
+(27, 17, 27, NULL, 0),
+(28, 17, 28, NULL, 0),
+(29, 17, 29, NULL, 0),
+(30, 17, 30, NULL, 0),
+(31, 17, 31, NULL, 0),
+(112, 23, 112, 391, 0),
+(113, 23, 113, 393, 0),
+(114, 23, 114, 402, 0),
+(115, 23, 115, 401, 0),
+(116, 23, 116, 396, 0),
+(117, 23, 117, 389, 0),
+(118, 23, 101, 389, 0),
+(119, 23, 102, 393, 0),
+(120, 23, 103, 395, 0),
+(121, 23, 104, 390, 0),
+(122, 23, 105, 391, 0),
+(123, 23, 106, 401, 0),
+(124, 23, 107, 389, 0),
+(125, 23, 108, 398, 0),
+(126, 23, 109, 391, 0),
+(127, 23, 110, 397, 0),
+(128, 23, 111, 389, 0),
+(129, 23, 118, 397, 0),
+(130, 23, 119, 393, 0),
+(131, 23, 120, 390, 0),
+(132, 23, 121, 393, 0),
+(133, 23, 122, 398, 0),
+(134, 23, 123, 393, 0),
+(135, 23, 124, 395, 0),
+(136, 23, 125, 389, 0),
+(137, 23, 126, 398, 0),
+(138, 23, 127, 389, 0),
+(139, 23, 128, 393, 0),
+(140, 23, 129, 393, 0),
+(141, 23, 130, 393, 0),
+(142, 23, 131, 394, 0),
+(143, 23, 132, 390, 0),
+(144, 23, 133, 400, 0),
+(145, 23, 134, 392, 0),
+(146, 23, 135, 398, 0),
+(147, 23, 136, 393, 0),
+(148, 23, 137, 397, 0),
+(149, 23, 138, 391, 0),
+(150, 23, 139, 392, 0),
+(151, 23, 140, 392, 0),
+(152, 23, 141, 389, 0),
+(153, 23, 142, 389, 0),
+(154, 23, 143, 395, 0),
+(155, 23, 144, 400, 0),
+(156, 23, 145, 401, 0),
+(157, 23, 146, 390, 0),
+(158, 23, 147, 394, 0),
+(159, 23, 148, 398, 0),
+(160, 23, 149, 389, 0),
+(161, 23, 150, 389, 0),
+(162, 23, 151, 389, 0),
+(163, 23, 152, 387, 1),
+(164, 23, 153, 402, 1),
+(165, 23, 154, 396, 1),
+(166, 23, 155, 390, 1),
+(167, 23, 156, 399, 1),
+(168, 23, 157, 392, 1),
+(169, 23, 158, 391, 1),
+(170, 23, 159, 389, 1),
+(171, 23, 160, 388, 1),
+(172, 23, 161, 393, 1),
+(173, 23, 162, 400, 1),
+(174, 23, 163, 395, 1),
+(175, 23, 164, 394, 1),
+(176, 23, 165, 397, 1),
+(177, 23, 166, 398, 1),
+(178, 23, 167, 389, 0),
+(179, 23, 168, 389, 0),
+(180, 23, 169, 389, 0),
+(181, 23, 170, 389, 0),
+(182, 23, 171, 389, 0),
+(183, 23, 172, 389, 0),
+(184, 23, 173, 389, 0),
+(185, 23, 174, 389, 0),
+(186, 19, 175, 389, 0),
+(187, 19, 176, 396, 1),
+(188, 19, 177, 389, 0),
+(189, 19, 178, 400, 0),
+(190, 19, 179, 393, 0),
+(191, 19, 180, 395, 1),
+(192, 19, 181, 398, 1),
+(193, 19, 182, 391, 0),
+(194, 19, 183, 389, 1),
+(195, 19, 184, 387, 1),
+(196, 19, 185, 401, 0),
+(197, 19, 186, 389, 0),
+(198, 19, 187, 392, 1),
+(199, 19, 188, 388, 1),
+(200, 19, 189, 393, 0),
+(201, 19, 190, 391, 0),
+(202, 19, 191, 393, 0),
+(203, 19, 192, 393, 0),
+(204, 19, 193, 389, 0),
+(205, 19, 194, 391, 1),
+(206, 19, 195, 389, 0),
+(207, 19, 196, 399, 1),
+(208, 19, 197, 400, 1),
+(209, 19, 198, 389, 0),
+(210, 19, 199, 389, 0),
+(211, 19, 200, 389, 0),
+(212, 19, 201, 389, 0),
+(213, 19, 202, 389, 0),
+(214, 19, 203, 389, 0),
+(215, 19, 204, 389, 0),
+(216, 19, 205, 389, 0),
+(217, 19, 206, 394, 0),
+(218, 19, 207, 394, 1),
+(219, 19, 208, 389, 0),
+(220, 19, 209, 402, 1),
+(221, 19, 210, 389, 0),
+(222, 19, 211, 393, 1),
+(223, 19, 212, 392, 1),
+(224, 19, 213, 389, 0),
+(225, 19, 214, 389, 0),
+(226, 19, 215, 389, 0),
+(227, 19, 216, 389, 0),
+(228, 19, 217, 389, 0),
+(229, 19, 218, 389, 0),
+(230, 19, 219, 389, 0),
+(231, 19, 220, 393, 0),
+(232, 19, 221, 397, 1),
+(233, 19, 222, 402, 0),
+(234, 19, 223, 393, 0),
+(235, 19, 224, 393, 0),
+(236, 19, 225, 397, 0),
+(237, 19, 226, 397, 0),
+(238, 19, 227, 402, 0),
+(239, 19, 228, 391, 0),
+(240, 19, 229, 401, 1),
+(241, 19, 230, 393, 0),
+(242, 19, 231, 393, 0),
+(243, 19, 232, 393, 0),
+(244, 19, 233, 398, 0),
+(245, 19, 234, 393, 0),
+(246, 19, 235, 389, 0),
+(247, 19, 236, 390, 0),
+(248, 19, 237, 390, 0),
+(249, 19, 238, 395, 0),
+(250, 19, 239, 397, 0),
+(251, 19, 240, 398, 0),
+(252, 19, 241, 394, 0),
+(253, 19, 242, 395, 0),
+(254, 19, 243, 389, 0),
+(255, 19, 244, 400, 0),
+(256, 19, 245, 394, 0),
+(257, 19, 246, 393, 0),
+(258, 19, 247, 397, 0),
+(259, 19, 248, 393, 0),
+(260, 19, 249, 397, 0),
+(261, 19, 250, 390, 0),
+(262, 19, 251, 389, 0),
+(263, 19, 252, 401, 0),
+(264, 19, 253, 391, 0),
+(265, 19, 254, 390, 0),
+(266, 19, 255, 391, 0),
+(267, 19, 256, 395, 0),
+(268, 19, 257, 400, 0),
+(269, 19, 258, 389, 0),
+(270, 19, 259, 391, 0),
+(271, 19, 260, 394, 0),
+(272, 19, 261, 393, 0),
+(273, 19, 262, 390, 0),
+(274, 19, 263, 398, 0),
+(275, 19, 264, 389, 0),
+(276, 19, 265, 393, 0),
+(277, 19, 266, 389, 0),
+(278, 19, 267, 389, 0),
+(279, 19, 268, 389, 0),
+(280, 19, 269, 389, 0),
+(281, 21, 270, 389, 0),
+(282, 21, 271, 401, 0),
+(283, 21, 272, 393, 0),
+(284, 21, 273, 389, 0),
+(285, 21, 274, 389, 0),
+(286, 21, 275, 389, 0),
+(287, 21, 276, 391, 0),
+(288, 21, 277, 389, 0),
+(289, 21, 278, 389, 0),
+(290, 21, 279, 393, 0),
+(291, 21, 280, 387, 1),
+(292, 21, 281, 389, 0),
+(293, 21, 282, 390, 0),
+(294, 21, 283, 394, 0),
+(295, 21, 284, 389, 0),
+(296, 21, 285, 395, 1),
+(297, 21, 286, 399, 1),
+(298, 21, 287, 396, 1),
+(299, 21, 288, 392, 1),
+(300, 21, 289, 389, 1),
+(301, 21, 290, 389, 0),
+(302, 21, 291, 389, 0),
+(303, 21, 292, 402, 0),
+(304, 21, 293, 388, 1),
+(305, 21, 294, 389, 0),
+(306, 21, 295, 392, 1),
+(307, 21, 296, 389, 0),
+(308, 21, 297, 391, 1),
+(309, 21, 298, 398, 1),
+(310, 21, 299, 397, 1),
+(311, 21, 300, 389, 0),
+(312, 21, 301, 389, 0),
+(313, 21, 302, 393, 1),
+(314, 21, 303, 401, 1),
+(315, 21, 304, 400, 1),
+(316, 21, 305, 402, 1),
+(317, 21, 306, 394, 1),
+(318, 21, 307, 391, 0),
+(319, 21, 308, 389, 0),
+(320, 21, 309, 389, 0),
+(321, 21, 310, 397, 0),
+(322, 21, 311, 391, 0),
+(323, 21, 312, 401, 0),
+(324, 21, 313, 391, 0),
+(325, 21, 314, 394, 0),
+(326, 21, 315, 397, 0),
+(327, 21, 316, 401, 0),
+(328, 21, 317, 398, 0),
+(329, 21, 318, 398, 0),
+(330, 21, 319, 390, 0),
+(331, 21, 320, 401, 0),
+(332, 21, 321, 394, 0),
+(333, 21, 322, 393, 0),
+(334, 21, 323, 391, 0),
+(335, 21, 324, 393, 0),
+(336, 21, 325, 393, 0),
+(337, 21, 326, 389, 0),
+(338, 21, 327, 397, 0),
+(339, 21, 328, 390, 0),
+(340, 21, 329, 390, 0),
+(341, 21, 330, 397, 0),
+(342, 21, 331, 393, 0),
+(343, 21, 332, 391, 0),
+(344, 21, 333, 394, 0),
+(345, 21, 334, 391, 0),
+(346, 21, 335, 397, 0),
+(347, 21, 336, 389, 0),
+(348, 21, 337, 398, 0),
+(349, 21, 338, 391, 0),
+(350, 21, 339, 402, 0),
+(351, 21, 340, 390, 0),
+(352, 21, 341, 390, 0),
+(353, 21, 342, 400, 0),
+(354, 21, 343, 391, 0),
+(355, 21, 344, 389, 0),
+(356, 21, 345, 390, 0),
+(357, 21, 346, 401, 0),
+(358, 21, 347, 389, 0),
+(359, 21, 348, 397, 0),
+(360, 21, 349, 398, 0),
+(361, 21, 350, 398, 0),
+(362, 21, 351, 402, 0),
+(363, 21, 352, 398, 0),
+(364, 21, 353, 389, 0),
+(365, 21, 354, 389, 0),
+(366, 21, 355, 389, 0),
+(367, 22, 356, 389, 0),
+(368, 22, 357, 389, 0),
+(369, 22, 358, 389, 0),
+(370, 22, 359, 396, 1),
+(371, 22, 360, 393, 0),
+(372, 22, 361, 387, 1),
+(373, 22, 362, 397, 1),
+(374, 22, 363, 390, 1),
+(375, 22, 364, 389, 1),
+(376, 22, 365, 399, 1),
+(377, 22, 366, 398, 1),
+(378, 22, 367, 401, 0),
+(379, 22, 368, 389, 0),
+(380, 22, 369, 389, 0),
+(381, 22, 370, 389, 0),
+(382, 22, 371, 400, 0),
+(383, 22, 372, 388, 1),
+(384, 22, 373, 402, 0),
+(385, 22, 374, 398, 1),
+(386, 22, 375, 391, 0),
+(387, 22, 376, 392, 1),
+(388, 22, 377, 398, 0),
+(389, 22, 378, 389, 0),
+(390, 22, 379, 389, 0),
+(391, 22, 380, 402, 1),
+(392, 22, 381, 389, 0),
+(393, 22, 382, 391, 1),
+(394, 22, 383, 389, 0),
+(395, 22, 384, 389, 0),
+(396, 22, 385, 401, 1),
+(397, 22, 386, 395, 0),
+(398, 22, 387, 398, 0),
+(399, 22, 388, 389, 0),
+(400, 22, 389, 394, 1),
+(401, 22, 390, 393, 1),
+(402, 22, 391, 395, 1),
+(403, 22, 392, 393, 0),
+(404, 22, 393, 393, 0),
+(405, 22, 394, 398, 0),
+(406, 22, 395, 389, 0),
+(407, 22, 396, 393, 0),
+(408, 22, 397, 397, 0),
+(409, 22, 398, 394, 0),
+(410, 22, 399, 402, 0),
+(411, 22, 400, 397, 0),
+(412, 22, 401, 397, 0),
+(413, 22, 402, 393, 0),
+(414, 22, 403, 393, 0),
+(415, 22, 404, 393, 0),
+(416, 22, 405, 394, 0),
+(417, 22, 406, 401, 0),
+(418, 22, 407, 401, 0),
+(419, 22, 408, 391, 0),
+(420, 22, 409, 402, 0),
+(421, 22, 410, 395, 0),
+(422, 22, 411, 389, 0),
+(423, 22, 412, 398, 0),
+(424, 22, 413, 398, 0),
+(425, 22, 414, 402, 0),
+(426, 22, 415, 390, 0),
+(427, 22, 416, 389, 0),
+(428, 22, 417, 398, 0),
+(429, 22, 418, 398, 0),
+(430, 22, 419, 390, 0),
+(431, 22, 420, 390, 0),
+(432, 22, 421, 393, 0),
+(433, 22, 422, 390, 0),
+(434, 22, 423, 391, 0),
+(435, 22, 424, 395, 0),
+(436, 22, 425, 397, 0),
+(437, 22, 426, 389, 0),
+(438, 22, 427, 389, 0),
+(439, 22, 428, 400, 0),
+(440, 22, 429, 400, 0),
+(441, 22, 430, 389, 0),
+(442, 22, 431, 389, 0),
+(443, 22, 432, 389, 0),
+(444, 22, 433, 389, 0),
+(445, 20, 434, 393, 0),
+(446, 20, 435, 401, 1),
+(447, 20, 436, 396, 1),
+(448, 20, 437, 392, 1),
+(449, 20, 438, 389, 0),
+(450, 20, 439, 389, 0),
+(451, 20, 440, 400, 0),
+(452, 20, 441, 393, 0),
+(453, 20, 442, 393, 0),
+(454, 20, 443, 395, 0),
+(455, 20, 444, 391, 0),
+(456, 20, 445, 398, 0),
+(457, 20, 446, 389, 0),
+(458, 20, 447, 389, 0),
+(459, 20, 448, 397, 0),
+(460, 20, 449, 393, 0),
+(461, 20, 450, 388, 1),
+(462, 20, 451, 397, 0),
+(463, 20, 452, 389, 0),
+(464, 20, 453, 389, 0),
+(465, 20, 454, 398, 1),
+(466, 20, 455, 387, 1),
+(467, 20, 456, 389, 0),
+(468, 20, 457, 389, 0),
+(469, 20, 458, 398, 0),
+(470, 20, 459, 392, 1),
+(471, 20, 460, 399, 1),
+(472, 20, 461, 389, 0),
+(473, 20, 462, 391, 1),
+(474, 20, 463, 389, 0),
+(475, 20, 464, 394, 1),
+(476, 20, 465, 400, 0),
+(477, 20, 466, 402, 1),
+(478, 20, 467, 389, 0),
+(479, 20, 468, 389, 0),
+(480, 20, 469, 401, 0),
+(481, 20, 470, 389, 0),
+(482, 20, 471, 389, 0),
+(483, 20, 472, 389, 0),
+(484, 20, 473, 389, 0),
+(485, 20, 474, 389, 0),
+(486, 20, 475, 389, 0),
+(487, 20, 476, 389, 0),
+(488, 20, 477, 397, 1),
+(489, 20, 478, 389, 0),
+(490, 20, 479, 389, 0),
+(491, 20, 480, 389, 0),
+(492, 20, 481, 395, 1),
+(493, 20, 482, 389, 0),
+(494, 20, 483, 389, 0),
+(495, 20, 484, 398, 0),
+(496, 20, 485, 389, 0),
+(497, 20, 486, 400, 1),
+(498, 20, 487, 389, 0),
+(499, 20, 488, 393, 1),
+(500, 20, 489, 389, 0),
+(501, 20, 490, 391, 0),
+(502, 20, 491, 391, 0),
+(503, 20, 492, 391, 0),
+(504, 20, 493, 389, 0),
+(505, 20, 494, 389, 0),
+(506, 20, 495, 391, 0),
+(507, 20, 496, 389, 0),
+(508, 20, 497, 390, 0),
+(509, 20, 498, 393, 0),
+(510, 20, 499, 395, 0),
+(511, 20, 500, 389, 1),
+(512, 20, 501, 394, 0),
+(513, 20, 502, 397, 0),
+(514, 20, 503, 393, 0),
+(515, 20, 504, 391, 0),
+(516, 20, 505, 397, 0),
+(517, 20, 506, 390, 0),
+(518, 20, 507, 401, 0),
+(519, 20, 508, 394, 0),
+(520, 20, 509, 400, 0),
+(521, 20, 510, 393, 0),
+(522, 20, 511, 402, 0),
+(523, 20, 512, 401, 0),
+(524, 20, 513, 394, 0),
+(525, 20, 514, 393, 0),
+(526, 20, 515, 390, 0),
+(527, 20, 516, 398, 0),
+(528, 20, 517, 394, 0),
+(529, 20, 518, 389, 0),
+(530, 20, 519, 389, 0),
+(531, 20, 520, 393, 0),
+(532, 20, 521, 398, 0),
+(533, 20, 522, 400, 0),
+(534, 20, 523, 393, 0),
+(535, 20, 524, 393, 0),
+(536, 20, 525, 389, 0),
+(537, 20, 526, 400, 0),
+(538, 20, 527, 397, 0),
+(539, 20, 528, 395, 0),
+(540, 20, 529, 389, 0),
+(541, 20, 530, 398, 0),
+(542, 20, 531, 397, 0),
+(543, 20, 532, 400, 0),
+(544, 20, 533, 393, 0),
+(545, 20, 534, 389, 0),
+(546, 20, 535, 401, 0),
+(547, 20, 536, 389, 0),
+(548, 20, 537, 390, 0),
+(549, 20, 538, 389, 0),
+(550, 20, 539, 389, 0),
+(551, 20, 540, 389, 0),
+(552, 20, 541, 389, 0),
+(553, 20, 542, 389, 0);
 
 -- --------------------------------------------------------
 
@@ -2127,7 +3070,7 @@ INSERT INTO `employee` (`person_id`, `satker_id`, `user_id`, `organisation_id`, 
 --
 
 CREATE TABLE IF NOT EXISTS `file` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `file_name` varchar(255) NOT NULL,
   `file_type` varchar(255) DEFAULT NULL,
@@ -2137,9 +3080,66 @@ CREATE TABLE IF NOT EXISTS `file` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `file`
+--
+
+INSERT INTO `file` (`id`, `name`, `file_name`, `file_type`, `file_size`, `description`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
+(1, '545c722365163.jpg', '5462b59bb591c.jpg', NULL, NULL, NULL, 1, '2014-11-07 02:17:55', 30, '2014-11-12 08:19:24', 30),
+(2, '54601df78a3c3.png', '54601df78a3c3.png', NULL, NULL, NULL, 1, '2014-11-09 21:07:51', 27, '2014-11-09 21:07:51', 27),
+(3, '546190a16746a.jpg', '546190a16746a.jpg', NULL, NULL, NULL, 1, '2014-11-10 23:29:21', 520, '2014-11-10 23:29:21', 520),
+(4, '5461bd0981168.jpg', '5461bd0981168.jpg', NULL, NULL, NULL, 1, '2014-11-11 02:38:49', 128, '2014-11-11 02:38:49', 128),
+(5, '5461c981c3823.jpg', '5461c981c3823.jpg', NULL, NULL, NULL, 1, '2014-11-11 03:32:01', 119, '2014-11-11 03:32:01', 119);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `issue`
+--
+
+CREATE TABLE IF NOT EXISTS `issue` (
+`id` int(11) NOT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `subject` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `attachment` varchar(255) NOT NULL,
+  `label` varchar(255) DEFAULT NULL,
+  `status` int(1) NOT NULL DEFAULT '1',
+  `created` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `issue`
+--
+
+INSERT INTO `issue` (`id`, `parent_id`, `subject`, `content`, `attachment`, `label`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
+(5, NULL, 'Upload individu', 'Untuk template upload individu, jika upload dibatasi s.d. 50 di template diberi note agar admin tahu atas batasan tersebut. Apakah untuk upload massive yang lain juga dibatasi dengan jumlah yang sama? Menurut saya, jangan !! Apalagi untuk peserta diklat, upload massive minimal sekali upload bisa 100 peserta.', '', NULL, 0, '2014-11-07 01:45:53', 8, '2014-11-07 03:56:20', 27),
+(6, 5, 'label', 'discussion', '', 'discussion', 1, '2014-11-07 02:07:53', 27, '2014-11-07 02:07:53', 27),
+(7, 5, 'comment', 'upload individu kenapa pak?', '', '', 1, '2014-11-07 02:08:11', 27, '2014-11-07 02:08:11', 27),
+(8, 5, 'comment', 'testing issue jalan kok', '', NULL, 1, '2014-11-07 02:10:01', 7, '2014-11-07 02:10:01', 7),
+(9, 5, 'comment', 'hadir', '', '', 1, '2014-11-07 02:17:15', 30, '2014-11-07 02:17:15', 30),
+(10, 5, 'label', 'discussion', '', 'discussion', 1, '2014-11-07 02:19:08', 28, '2014-11-07 02:19:08', 28),
+(11, NULL, 'Test Issue', 'Apakah content ini terbaca???', '', NULL, 0, '2014-11-07 02:23:41', 7, '2014-11-07 03:56:36', 27),
+(12, 11, 'comment', 'YESS !!!!', '', NULL, 1, '2014-11-07 02:54:07', 8, '2014-11-07 02:54:07', 8),
+(13, 5, 'comment', 'Upload peserta udah bisa maksimal 100peserta', '', '', 1, '2014-11-07 03:56:12', 27, '2014-11-07 03:56:12', 27),
+(14, 5, 'status', '2', '', '', 0, '2014-11-07 03:56:20', 27, '2014-11-07 03:56:20', 27),
+(15, 11, 'status', '2', '', '', 0, '2014-11-07 03:56:36', 27, '2014-11-07 03:56:36', 27),
+(16, NULL, 'Penambahan Info untuk manaj. individu, manaj. pegawai dan manaj. user', 'Saat ini, setelah Upload data individu massal dengan mencantumkan data organisation, maka pada data pegawai (manaj. pegawai) akan tersimpan juga data organisationnya, namun pada saat melihat/edit melalui manaj. individu, data organisation tidak otomatis terisi (termasuk chairman, dll).\r\n\r\nJuga bisa dimunculkan juga nama pegawai dan id organisation nya pada saat ingin diberikan assignment (edit assignment) terhadap pegawai tersebut sebagai informasi ke admin akan kedudukan/status kepegawaiannya. Sehubungan dengan pegawai tersebut diberikan assignment lebih dari seharusnya (multi assignment) maka itu bergantung dari kebijakan masing-masing satker', '5460590d7e3e6.JPG', NULL, 0, '2014-11-10 01:19:57', 28, '2014-11-10 03:40:16', 27),
+(17, 16, 'status', '1', '54605a18817a9.JPG', 'discussion', 1, '2014-11-10 01:24:24', 28, '2014-11-10 01:24:24', 28),
+(18, 16, 'comment', 'Ini untuk yang assignment', '54605a81bbb55.JPG', '', 1, '2014-11-10 01:26:09', 28, '2014-11-10 01:26:09', 28),
+(19, 16, 'label', 'verified', '', 'verified', 1, '2014-11-10 01:34:39', 27, '2014-11-10 01:34:39', 27),
+(20, 16, 'comment', 'Ini untuk yang assignment', '54605cae9f522.JPG', '', 1, '2014-11-10 01:35:26', 28, '2014-11-10 01:35:26', 28),
+(21, 16, 'comment', 'Oke sudah di update.. thx', '', NULL, 1, '2014-11-10 03:38:52', 8, '2014-11-10 03:38:52', 8),
+(22, 16, 'label', 'enhancement', '', 'enhancement', 1, '2014-11-10 03:39:38', 27, '2014-11-10 03:39:38', 27),
+(23, 16, 'status', '2', '', '', 0, '2014-11-10 03:40:16', 27, '2014-11-10 03:40:16', 27),
+(24, NULL, 'Ganti password baru', 'Pada saat ganti password baru, harusnya user mengisi 2x untuk memastikan user telah mengetik password yang diinginkan. Dalam aplikasi ini, password baru hanya diketikkan 1x dan itu dapat beresiko salah ketik terhadap password penggantinya.', '', NULL, 1, '2014-11-10 23:32:48', 28, '2014-11-10 23:32:48', 28),
+(25, 24, 'label', 'enhancement', '', 'enhancement', 1, '2014-11-11 02:02:27', 27, '2014-11-11 02:02:27', 27);
 
 -- --------------------------------------------------------
 
@@ -2150,9 +3150,7 @@ CREATE TABLE IF NOT EXISTS `file` (
 CREATE TABLE IF NOT EXISTS `meeting` (
   `activity_id` int(11) NOT NULL,
   `attendance_count_plan` int(11) DEFAULT NULL,
-  `organisation_id` int(11) NOT NULL,
-  PRIMARY KEY (`activity_id`),
-  KEY `organisation_id` (`organisation_id`)
+  `organisation_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2162,15 +3160,13 @@ CREATE TABLE IF NOT EXISTS `meeting` (
 --
 
 CREATE TABLE IF NOT EXISTS `menu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL,
   `parent` int(11) DEFAULT NULL,
   `route` varchar(256) DEFAULT NULL,
   `order` int(11) DEFAULT NULL,
-  `data` text,
-  PRIMARY KEY (`id`),
-  KEY `parent` (`parent`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=58 ;
+  `data` text
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `menu`
@@ -2181,59 +3177,59 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 (2, 'Bagian OTL', 1, '/sekretariat-organisation/default/index', 1, 'return [''icon''=>''fa fa-sitemap fa-fw'',''path''=>''/sekretariat-organisation/''];'),
 (3, 'Bagian Kepegawaian', 1, '/sekretariat-hrd/default/index', 2, 'return [''icon''=>''fa fa-users fa-fw'',''path''=>''/sekretariat-hrd/''];'),
 (4, 'Bagian Keuangan', 1, '/sekretariat-finance/default/index', 3, 'return [''icon''=>''fa fa-money fa-fw'',''path''=>''/sekretariat-finance/''];'),
-(5, 'Bagian Umum', 1, '/sekretariat-general/default/index', 4, 'return [''icon''=>''fa fa-joomla fa-fw'',''path''=>''/sekretariat-general/''];'),
+(5, 'Bagian Umum', 1, '/sekretariat-general/default/index', 4, 'return [''icon''=>''fa fa-cubes fa-fw'',''path''=>''/sekretariat-general/''];'),
 (6, 'Bagian TIK', 1, '/sekretariat-it/default/index', 5, 'return [''icon''=>''fa fa-desktop fa-fw'',''path''=>''/sekretariat-it/''];'),
 (7, 'Pusdiklat', NULL, NULL, NULL, NULL),
-(8, 'Bagian Tata Usaha', 7, '/pusdiklat-general/default/index', 1, 'return [''icon''=>''fa fa-joomla fa-fw'',''path''=>''/pusdiklat-general/''];'),
+(8, 'Bagian Tata Usaha', 7, '/pusdiklat-general/default/index', 1, 'return [''icon''=>''fa fa-cubes fa-fw'',''path''=>''/pusdiklat-general/''];'),
 (9, 'Bidang Perencanaan dan Pengembangan Diklat', 7, '/pusdiklat-planning/default/index', 2, 'return [''icon''=>''fa fa-calendar fa-fw'',''path''=>''/pusdiklat-planning/''];'),
 (10, 'Bidang Penyelenggaraan', 7, '/pusdiklat-execution/default/index', 3, 'return [''icon''=>''fa fa-paper-plane fa-fw'',''path''=>''/pusdiklat-execution/''];'),
 (11, 'Bidang Evaluasi dan Pelaporan Kinerja', 7, '/pusdiklat-evaluation/default/index', 4, 'return [''icon''=>''fa fa-check-square-o fa-fw'',''path''=>''/pusdiklat-evaluation/''];'),
-(12, 'Pusdiklat - General - Administrator', 8, '/pusdiklat-general/assignment0/index', NULL, NULL),
-(13, 'Assignment', 12, '/pusdiklat-general/assignment0/index', 1, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/assignment0/''];'),
+(12, 'Pusdiklat - General - Administrator', 8, '/pusdiklat-general/assignment0/index', NULL, 'return [''icon''=>''fa fa-plug fa-fw'',''path''=>''/assignment0/index/''];'),
+(13, 'Assignment', 12, '/pusdiklat-general/assignment0/index', 1, 'return [''icon''=>''fa fa-plug fa-fw'',''path''=>''/assignment0/''];'),
 (14, 'Pusdiklat - General - I (Pegawai TU Humas)', 8, '/pusdiklat-general/activity/index', NULL, NULL),
-(15, 'Diklat', 14, '/pusdiklat-general/activity/index', 1, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/activity/''];'),
-(16, 'Rapat', 14, '/pusdiklat-general/meeting-activity/index', 2, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/meeting-activity/''];'),
+(15, 'Diklat', 14, '/pusdiklat-general/activity/index', 1, 'return [''icon''=>''fa fa-book fa-fw'',''path''=>''/activity/''];'),
+(16, 'Rapat', 14, '/pusdiklat-general/meeting-activity/index', 2, 'return [''icon''=>''fa fa-briefcase fa-fw'',''path''=>''/meeting-activity/''];'),
 (17, 'Manajemen Individu', 14, '/pusdiklat-general/person/index', 3, 'return [''icon''=>''fa fa-user fa-fw'',''path''=>''/person/''];'),
 (18, 'Manajemen Pegawai', 14, '/pusdiklat-general/employee/index', 4, 'return [''icon''=>''fa fa-user-md fa-fw'',''path''=>''/employee/''];'),
 (19, 'Manajemen User', 14, '/pusdiklat-general/user/index', 5, 'return [''icon''=>''fa fa-key fa-fw'',''path''=>''/user/''];'),
 (20, 'Pusdiklat - General - II (Keuangan)', 8, '/pusdiklat-general/activity2/index', NULL, NULL),
-(21, 'Diklat', 20, '/pusdiklat-general/activity2/index', 1, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/activity2/''];'),
-(22, 'Rapat', 20, '/pusdiklat-general/meeting-activity2/index', 2, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/meeting-activity2/''];'),
+(21, 'Diklat', 20, '/pusdiklat-general/activity2/index', 1, 'return [''icon''=>''fa fa-book fa-fw'',''path''=>''/activity2/''];'),
+(22, 'Rapat', 20, '/pusdiklat-general/meeting-activity2/index', 2, 'return [''icon''=>''fa fa-briefcase fa-fw'',''path''=>''/meeting-activity2/''];'),
 (23, 'Pusdiklat - General - III (Pengelolaan Aset)', 8, '/pusdiklat-general/activity3/index', NULL, NULL),
-(24, 'Diklat', 23, '/pusdiklat-general/activity3/index', 1, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/activity3/''];'),
-(25, 'Rapat', 23, '/pusdiklat-general/meeting-activity3/index', 2, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/meeting-activity3/''];'),
-(26, 'Permintaan Ruangan', 23, '/pusdiklat-general/room-request3/index', 3, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/room-request3/''];'),
-(27, 'Manajemen Ruangan', 23, '/pusdiklat-general/room3/index', 4, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/room3/''];'),
+(24, 'Diklat', 23, '/pusdiklat-general/activity3/index', 1, 'return [''icon''=>''fa fa-book fa-fw'',''path''=>''/activity3/''];'),
+(25, 'Rapat', 23, '/pusdiklat-general/meeting-activity3/index', 2, 'return [''icon''=>''fa fa-briefcase fa-fw'',''path''=>''/meeting-activity3/''];'),
+(26, 'Permintaan Ruangan', 23, '/pusdiklat-general/room-request3/index', 3, 'return [''icon''=>''fa fa-ticket fa-fw'',''path''=>''/room-request3/''];'),
+(27, 'Manajemen Ruangan', 23, '/pusdiklat-general/room3/index', 4, 'return [''icon''=>''fa fa-inbox fa-fw'',''path''=>''/room3/''];'),
 (28, 'Pusdiklat - Planning - I (Program)', 9, '/pusdiklat-planning/program/index', NULL, NULL),
 (29, 'Pusdiklat - Planning - II (Kurikulum)', 9, '/pusdiklat-planning/program2/index', NULL, NULL),
 (30, 'Pusdiklat - Planning - III (Tenaga Pengajar)', 9, '/pusdiklat-planning/program3/index', NULL, NULL),
-(31, 'Program', 28, '/pusdiklat-planning/program/index', 1, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/program/''];'),
-(32, 'Diklat', 28, '/pusdiklat-planning/activity/index', 2, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/activity/''];'),
-(33, 'Rapat', 28, '/pusdiklat-planning/meeting-activity/index', 3, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/meeting-activity/''];'),
-(34, 'Program', 29, '/pusdiklat-planning/program2/index', 1, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/program2/''];'),
-(35, 'Diklat', 29, '/pusdiklat-planning/activity2/index', 2, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/activity2/''];'),
-(36, 'Rapat', 29, '/pusdiklat-planning/meeting-activity2/index', 3, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/meeting-activity2/''];'),
-(37, 'Program', 30, '/pusdiklat-planning/program3/index', 1, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/program3/''];'),
-(38, 'Diklat', 30, '/pusdiklat-planning/activity3/index', 2, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/activity3/''];'),
-(39, 'Rapat', 30, '/pusdiklat-planning/meeting-activity3/index', 3, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/meeting-activity3/''];'),
-(40, 'Manajemen Pengajar', 30, '/pusdiklat-planning/trainer3/index', 4, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/trainer3/''];'),
+(31, 'Program', 28, '/pusdiklat-planning/program/index', 1, 'return [''icon''=>''fa fa-paste fa-fw'',''path''=>''/program/''];'),
+(32, 'Diklat', 28, '/pusdiklat-planning/activity/index', 2, 'return [''icon''=>''fa fa-book fa-fw'',''path''=>''/activity/''];'),
+(33, 'Rapat', 28, '/pusdiklat-planning/meeting-activity/index', 3, 'return [''icon''=>''fa fa-briefcase fa-fw'',''path''=>''/meeting-activity/''];'),
+(34, 'Program', 29, '/pusdiklat-planning/program2/index', 1, 'return [''icon''=>''fa fa-paste fa-fw'',''path''=>''/program2/''];'),
+(35, 'Diklat', 29, '/pusdiklat-planning/activity2/index', 2, 'return [''icon''=>''fa fa-book fa-fw'',''path''=>''/activity2/''];'),
+(36, 'Rapat', 29, '/pusdiklat-planning/meeting-activity2/index', 3, 'return [''icon''=>''fa fa-briefcase fa-fw'',''path''=>''/meeting-activity2/''];'),
+(37, 'Program', 30, '/pusdiklat-planning/program3/index', 1, 'return [''icon''=>''fa fa-paste fa-fw'',''path''=>''/program3/''];'),
+(38, 'Diklat', 30, '/pusdiklat-planning/activity3/index', 2, 'return [''icon''=>''fa fa-book fa-fw'',''path''=>''/activity3/''];'),
+(39, 'Rapat', 30, '/pusdiklat-planning/meeting-activity3/index', 3, 'return [''icon''=>''fa fa-briefcase fa-fw'',''path''=>''/meeting-activity3/''];'),
+(40, 'Manajemen Pengajar', 30, '/pusdiklat-planning/trainer3/index', 4, 'return [''icon''=>''fa fa-user-md fa-fw'',''path''=>''/trainer3/''];'),
 (41, 'Pusdiklat - Execution - I', 10, '/pusdiklat-execution/activity/index', NULL, NULL),
 (42, 'Pusdiklat - Execution - II', 10, '/pusdiklat-execution/activity2/index', NULL, NULL),
 (43, 'Pusdiklat - Evaluation - I (Evaluasi Diklat)', 11, '/pusdiklat-evaluation/activity/index', NULL, NULL),
 (44, 'Pusdiklat - Evaluation - II (PHD)', 11, '/pusdiklat-evaluation/activity2/index', NULL, NULL),
 (45, 'Pusdiklat - Evaluation - III (IPK)', 11, '/pusdiklat-evaluation/activity3/index', NULL, NULL),
-(46, 'Diklat', 41, '/pusdiklat-execution/activity/index', 1, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/activity/''];'),
-(47, 'Rapat', 41, '/pusdiklat-execution/meeting-activity/index', 1, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/meeting-activity/''];'),
+(46, 'Diklat', 41, '/pusdiklat-execution/activity/index', 1, 'return [''icon''=>''fa fa-book fa-fw'',''path''=>''/activity/''];'),
+(47, 'Rapat', 41, '/pusdiklat-execution/meeting-activity/index', 1, 'return [''icon''=>''fa fa-briefcase fa-fw'',''path''=>''/meeting-activity/''];'),
 (48, 'Manajemen Peserta', 41, '/pusdiklat-execution/student/index', 3, 'return [''icon''=>''fa fa-user-md fa-fw'',''path''=>''/student/''];'),
-(49, 'Diklat', 42, '/pusdiklat-execution/activity2/index', 1, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/activity2/''];'),
-(50, 'Rapat', 42, '/pusdiklat-execution/meeting-activity2/index', 2, 'return [''icon''=>''fa fa-stack-overflow fa-fw'',''path''=>''/meeting-activity2/''];'),
-(51, 'Manajemen Peserta', 42, '/pusdiklat-execution/student2/index', 3, 'return [''icon''=>''fa fa-user-md fa-fw'',''path''=>''/student2/''];'),
-(52, 'Diklat', 43, '/pusdiklat-evaluation/activity/index', 1, 'return [''icon''=>''fa fa-link fa-fw'',''path''=>''/activity/''];'),
-(53, 'Diklat', 44, '/pusdiklat-evaluation/activity2/index', 1, 'return [''icon''=>''fa fa-link fa-fw'',''path''=>''/activity2/''];'),
-(54, 'Diklat', 45, '/pusdiklat-evaluation/activity3/index', 1, 'return [''icon''=>''fa fa-link fa-fw'',''path''=>''/activity3/''];'),
-(55, 'Rapat', 43, '/pusdiklat-evaluation/meeting-activity/index', 2, 'return [''icon''=>''fa fa-link fa-fw'',''path''=>''/meeting-activity/''];'),
-(56, 'Rapat', 44, '/pusdiklat-evaluation/meeting-activity2/index', 2, 'return [''icon''=>''fa fa-link fa-fw'',''path''=>''/meeting-activity2/''];'),
-(57, 'Rapat', 45, '/pusdiklat-evaluation/meeting-activity3/index', 2, 'return [''icon''=>''fa fa-link fa-fw'',''path''=>''/meeting-activity3/''];');
+(49, 'Diklat', 42, '/pusdiklat-execution/activity2/index', 1, 'return [''icon''=>''fa fa-book fa-fw'',''path''=>''/activity2/''];'),
+(50, 'Rapat', 42, '/pusdiklat-execution/meeting-activity2/index', 2, 'return [''icon''=>''fa fa-briefcase fa-fw'',''path''=>''/meeting-activity2/''];'),
+(51, 'Manajemen Peserta', 42, '/pusdiklat-execution/student2/index', 3, 'return [''icon''=>''fa fa-child fa-fw'',''path''=>''/student2/''];'),
+(52, 'Diklat', 43, '/pusdiklat-evaluation/activity/index', 1, 'return [''icon''=>''fa fa-book fa-fw'',''path''=>''/activity/''];'),
+(53, 'Diklat', 44, '/pusdiklat-evaluation/activity2/index', 1, 'return [''icon''=>''fa fa-book fa-fw'',''path''=>''/activity2/''];'),
+(54, 'Diklat', 45, '/pusdiklat-evaluation/activity3/index', 1, 'return [''icon''=>''fa fa-book fa-fw'',''path''=>''/activity3/''];'),
+(55, 'Rapat', 43, '/pusdiklat-evaluation/meeting-activity/index', 2, 'return [''icon''=>''fa fa-briefcase fa-fw'',''path''=>''/meeting-activity/''];'),
+(56, 'Rapat', 44, '/pusdiklat-evaluation/meeting-activity2/index', 2, 'return [''icon''=>''fa fa-briefcase fa-fw'',''path''=>''/meeting-activity2/''];'),
+(57, 'Rapat', 45, '/pusdiklat-evaluation/meeting-activity3/index', 2, 'return [''icon''=>''fa fa-briefcase fa-fw'',''path''=>''/meeting-activity3/''];');
 
 -- --------------------------------------------------------
 
@@ -2242,7 +3238,7 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `message` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `type` int(3) NOT NULL,
   `category` int(3) NOT NULL,
   `author` int(11) NOT NULL,
@@ -2251,10 +3247,8 @@ CREATE TABLE IF NOT EXISTS `message` (
   `content` text NOT NULL,
   `status` int(3) NOT NULL DEFAULT '1',
   `created` datetime DEFAULT NULL,
-  `created_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name_UNIQUE` (`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `created_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2264,8 +3258,7 @@ CREATE TABLE IF NOT EXISTS `message` (
 
 CREATE TABLE IF NOT EXISTS `migration` (
   `version` varchar(180) NOT NULL,
-  `apply_time` int(11) DEFAULT NULL,
-  PRIMARY KEY (`version`)
+  `apply_time` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -2286,10 +3279,19 @@ CREATE TABLE IF NOT EXISTS `object_file` (
   `object` varchar(100) NOT NULL,
   `object_id` int(11) NOT NULL,
   `type` varchar(50) NOT NULL DEFAULT '',
-  `file_id` int(11) NOT NULL,
-  PRIMARY KEY (`object`,`object_id`,`type`,`file_id`),
-  KEY `file_id` (`file_id`)
+  `file_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `object_file`
+--
+
+INSERT INTO `object_file` (`object`, `object_id`, `type`, `file_id`) VALUES
+('person', 27, 'photo', 2),
+('person', 30, 'photo', 1),
+('person', 130, 'photo', 5),
+('person', 139, 'photo', 4),
+('person', 531, 'photo', 3);
 
 -- --------------------------------------------------------
 
@@ -2301,10 +3303,16 @@ CREATE TABLE IF NOT EXISTS `object_person` (
   `object` varchar(100) NOT NULL,
   `object_id` int(11) NOT NULL,
   `type` varchar(50) NOT NULL DEFAULT '',
-  `person_id` int(11) NOT NULL,
-  PRIMARY KEY (`object`,`object_id`,`type`),
-  KEY `person_id` (`person_id`)
+  `person_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `object_person`
+--
+
+INSERT INTO `object_person` (`object`, `object_id`, `type`, `person_id`) VALUES
+('activity', 1, 'organisation_393', 113),
+('activity', 1, 'organisation_1213030100', 127);
 
 -- --------------------------------------------------------
 
@@ -2316,9 +3324,7 @@ CREATE TABLE IF NOT EXISTS `object_reference` (
   `object` varchar(100) NOT NULL,
   `object_id` int(11) NOT NULL,
   `type` varchar(50) NOT NULL DEFAULT '' COMMENT 'graduate,rank_class,religion,satker,finance_position',
-  `reference_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`object`,`object_id`,`type`),
-  KEY `reference_id` (`reference_id`)
+  `reference_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -2473,6 +3479,41 @@ INSERT INTO `object_reference` (`object`, `object_id`, `type`, `reference_id`) V
 ('employee', 21, 'pranata_komputer_terampil', NULL),
 ('employee', 21, 'unit', NULL),
 ('employee', 21, 'widyaiswara', NULL),
+('employee', 181, 'finance_position', NULL),
+('employee', 181, 'fungsional', NULL),
+('employee', 181, 'pranata_komputer', NULL),
+('employee', 181, 'pranata_komputer_ahli', NULL),
+('employee', 181, 'pranata_komputer_terampil', NULL),
+('employee', 181, 'unit', NULL),
+('employee', 181, 'widyaiswara', NULL),
+('employee', 182, 'finance_position', NULL),
+('employee', 182, 'fungsional', NULL),
+('employee', 182, 'pranata_komputer', NULL),
+('employee', 182, 'pranata_komputer_ahli', NULL),
+('employee', 182, 'pranata_komputer_terampil', NULL),
+('employee', 182, 'unit', NULL),
+('employee', 182, 'widyaiswara', NULL),
+('employee', 183, 'finance_position', NULL),
+('employee', 183, 'fungsional', NULL),
+('employee', 183, 'pranata_komputer', NULL),
+('employee', 183, 'pranata_komputer_ahli', NULL),
+('employee', 183, 'pranata_komputer_terampil', NULL),
+('employee', 183, 'unit', NULL),
+('employee', 183, 'widyaiswara', NULL),
+('employee', 184, 'finance_position', NULL),
+('employee', 184, 'fungsional', NULL),
+('employee', 184, 'pranata_komputer', NULL),
+('employee', 184, 'pranata_komputer_ahli', NULL),
+('employee', 184, 'pranata_komputer_terampil', NULL),
+('employee', 184, 'unit', NULL),
+('employee', 184, 'widyaiswara', NULL),
+('employee', 185, 'finance_position', NULL),
+('employee', 185, 'fungsional', NULL),
+('employee', 185, 'pranata_komputer', NULL),
+('employee', 185, 'pranata_komputer_ahli', NULL),
+('employee', 185, 'pranata_komputer_terampil', NULL),
+('employee', 185, 'unit', NULL),
+('employee', 185, 'widyaiswara', NULL),
 ('person', 1, 'graduate', NULL),
 ('person', 1, 'rank_class', NULL),
 ('person', 1, 'religion', NULL),
@@ -2555,7 +3596,555 @@ INSERT INTO `object_reference` (`object`, `object_id`, `type`, `reference_id`) V
 ('person', 26, 'graduate', NULL),
 ('person', 26, 'rank_class', NULL),
 ('person', 26, 'religion', NULL),
-('person', 26, 'unit', NULL);
+('person', 26, 'unit', NULL),
+('person', 27, 'graduate', NULL),
+('person', 27, 'rank_class', NULL),
+('person', 27, 'religion', NULL),
+('person', 30, 'graduate', NULL),
+('person', 30, 'rank_class', NULL),
+('person', 30, 'religion', NULL),
+('person', 132, 'graduate', NULL),
+('person', 132, 'religion', NULL),
+('person', 175, 'graduate', NULL),
+('person', 175, 'rank_class', NULL),
+('person', 175, 'religion', NULL),
+('person', 175, 'unit', NULL),
+('person', 181, 'graduate', NULL),
+('person', 181, 'rank_class', NULL),
+('person', 181, 'religion', NULL),
+('person', 182, 'graduate', NULL),
+('person', 182, 'rank_class', NULL),
+('person', 182, 'religion', NULL),
+('person', 183, 'graduate', NULL),
+('person', 183, 'rank_class', NULL),
+('person', 183, 'religion', NULL),
+('person', 184, 'graduate', NULL),
+('person', 184, 'rank_class', NULL),
+('person', 184, 'religion', NULL),
+('person', 185, 'graduate', NULL),
+('person', 185, 'rank_class', NULL),
+('person', 185, 'religion', NULL),
+('person', 531, 'graduate', 43),
+('person', 130, 'graduate', 45),
+('person', 139, 'graduate', 45),
+('person', 531, 'rank_class', 73),
+('person', 132, 'rank_class', 74),
+('person', 139, 'rank_class', 74),
+('person', 130, 'rank_class', 75),
+('person', 130, 'religion', 91),
+('person', 531, 'religion', 91),
+('person', 139, 'religion', 93),
+('employee', 558, 'unit', 132),
+('employee', 559, 'unit', 132),
+('employee', 560, 'unit', 132),
+('employee', 561, 'unit', 132),
+('person', 186, 'unit', 132),
+('person', 187, 'unit', 132),
+('person', 188, 'unit', 132),
+('person', 189, 'unit', 132),
+('person', 190, 'unit', 132),
+('person', 191, 'unit', 132),
+('person', 192, 'unit', 132),
+('person', 193, 'unit', 132),
+('person', 194, 'unit', 132),
+('person', 195, 'unit', 132),
+('person', 196, 'unit', 132),
+('person', 197, 'unit', 132),
+('person', 198, 'unit', 132),
+('person', 199, 'unit', 132),
+('person', 200, 'unit', 132),
+('person', 201, 'unit', 132),
+('person', 202, 'unit', 132),
+('person', 203, 'unit', 132),
+('person', 204, 'unit', 132),
+('person', 205, 'unit', 132),
+('person', 206, 'unit', 132),
+('person', 207, 'unit', 132),
+('person', 208, 'unit', 132),
+('person', 209, 'unit', 132),
+('person', 210, 'unit', 132),
+('person', 211, 'unit', 132),
+('person', 212, 'unit', 132),
+('person', 213, 'unit', 132),
+('person', 214, 'unit', 132),
+('person', 215, 'unit', 132),
+('person', 216, 'unit', 132),
+('person', 217, 'unit', 132),
+('person', 218, 'unit', 132),
+('person', 219, 'unit', 132),
+('person', 220, 'unit', 132),
+('person', 221, 'unit', 132),
+('person', 222, 'unit', 132),
+('person', 223, 'unit', 132),
+('person', 224, 'unit', 132),
+('person', 225, 'unit', 132),
+('person', 226, 'unit', 132),
+('person', 227, 'unit', 132),
+('person', 228, 'unit', 132),
+('person', 229, 'unit', 132),
+('person', 230, 'unit', 132),
+('person', 231, 'unit', 132),
+('person', 232, 'unit', 132),
+('person', 233, 'unit', 132),
+('person', 234, 'unit', 132),
+('person', 235, 'unit', 132),
+('person', 236, 'unit', 132),
+('person', 237, 'unit', 132),
+('person', 238, 'unit', 132),
+('person', 239, 'unit', 132),
+('person', 240, 'unit', 132),
+('person', 241, 'unit', 132),
+('person', 242, 'unit', 132),
+('person', 243, 'unit', 132),
+('person', 244, 'unit', 132),
+('person', 245, 'unit', 132),
+('person', 246, 'unit', 132),
+('person', 247, 'unit', 132),
+('person', 248, 'unit', 132),
+('person', 249, 'unit', 132),
+('person', 250, 'unit', 132),
+('person', 251, 'unit', 132),
+('person', 252, 'unit', 132),
+('person', 253, 'unit', 132),
+('person', 254, 'unit', 132),
+('person', 255, 'unit', 132),
+('person', 256, 'unit', 132),
+('person', 257, 'unit', 132),
+('person', 258, 'unit', 132),
+('person', 259, 'unit', 132),
+('person', 260, 'unit', 132),
+('person', 261, 'unit', 132),
+('person', 262, 'unit', 132),
+('person', 263, 'unit', 132),
+('person', 264, 'unit', 132),
+('person', 265, 'unit', 132),
+('person', 266, 'unit', 132),
+('person', 267, 'unit', 132),
+('person', 268, 'unit', 132),
+('person', 269, 'unit', 132),
+('person', 270, 'unit', 132),
+('person', 271, 'unit', 132),
+('person', 272, 'unit', 132),
+('person', 273, 'unit', 132),
+('person', 274, 'unit', 132),
+('person', 275, 'unit', 132),
+('person', 276, 'unit', 132),
+('person', 277, 'unit', 132),
+('person', 278, 'unit', 132),
+('person', 279, 'unit', 132),
+('person', 280, 'unit', 132),
+('person', 281, 'unit', 132),
+('person', 282, 'unit', 132),
+('person', 283, 'unit', 132),
+('person', 284, 'unit', 132),
+('person', 285, 'unit', 132),
+('person', 286, 'unit', 132),
+('person', 287, 'unit', 132),
+('person', 288, 'unit', 132),
+('person', 289, 'unit', 132),
+('person', 290, 'unit', 132),
+('person', 291, 'unit', 132),
+('person', 292, 'unit', 132),
+('person', 293, 'unit', 132),
+('person', 294, 'unit', 132),
+('person', 295, 'unit', 132),
+('person', 296, 'unit', 132),
+('person', 297, 'unit', 132),
+('person', 298, 'unit', 132),
+('person', 299, 'unit', 132),
+('person', 300, 'unit', 132),
+('person', 301, 'unit', 132),
+('person', 302, 'unit', 132),
+('person', 303, 'unit', 132),
+('person', 304, 'unit', 132),
+('person', 305, 'unit', 132),
+('person', 306, 'unit', 132),
+('person', 307, 'unit', 132),
+('person', 308, 'unit', 132),
+('person', 309, 'unit', 132),
+('person', 310, 'unit', 132),
+('person', 311, 'unit', 132),
+('person', 312, 'unit', 132),
+('person', 313, 'unit', 132),
+('person', 314, 'unit', 132),
+('person', 315, 'unit', 132),
+('person', 316, 'unit', 132),
+('person', 317, 'unit', 132),
+('person', 318, 'unit', 132),
+('person', 319, 'unit', 132),
+('person', 320, 'unit', 132),
+('person', 321, 'unit', 132),
+('person', 322, 'unit', 132),
+('person', 323, 'unit', 132),
+('person', 324, 'unit', 132),
+('person', 325, 'unit', 132),
+('person', 326, 'unit', 132),
+('person', 327, 'unit', 132),
+('person', 328, 'unit', 132),
+('person', 329, 'unit', 132),
+('person', 330, 'unit', 132),
+('person', 331, 'unit', 132),
+('person', 332, 'unit', 132),
+('person', 333, 'unit', 132),
+('person', 334, 'unit', 132),
+('person', 335, 'unit', 132),
+('person', 336, 'unit', 132),
+('person', 337, 'unit', 132),
+('person', 338, 'unit', 132),
+('person', 339, 'unit', 132),
+('person', 340, 'unit', 132),
+('person', 341, 'unit', 132),
+('person', 342, 'unit', 132),
+('person', 343, 'unit', 132),
+('person', 344, 'unit', 132),
+('person', 345, 'unit', 132),
+('person', 346, 'unit', 132),
+('person', 347, 'unit', 132),
+('person', 348, 'unit', 132),
+('person', 349, 'unit', 132),
+('person', 350, 'unit', 132),
+('person', 351, 'unit', 132),
+('person', 352, 'unit', 132),
+('person', 353, 'unit', 132),
+('person', 354, 'unit', 132),
+('person', 355, 'unit', 132),
+('person', 356, 'unit', 132),
+('person', 357, 'unit', 132),
+('person', 358, 'unit', 132),
+('person', 359, 'unit', 132),
+('person', 360, 'unit', 132),
+('person', 361, 'unit', 132),
+('person', 362, 'unit', 132),
+('person', 363, 'unit', 132),
+('person', 364, 'unit', 132),
+('person', 365, 'unit', 132),
+('person', 366, 'unit', 132),
+('person', 367, 'unit', 132),
+('person', 368, 'unit', 132),
+('person', 369, 'unit', 132),
+('person', 370, 'unit', 132),
+('person', 371, 'unit', 132),
+('person', 372, 'unit', 132),
+('person', 373, 'unit', 132),
+('person', 374, 'unit', 132),
+('person', 375, 'unit', 132),
+('person', 376, 'unit', 132),
+('person', 377, 'unit', 132),
+('person', 378, 'unit', 132),
+('person', 379, 'unit', 132),
+('person', 380, 'unit', 132),
+('person', 381, 'unit', 132),
+('person', 382, 'unit', 132),
+('person', 383, 'unit', 132),
+('person', 384, 'unit', 132),
+('person', 385, 'unit', 132),
+('person', 386, 'unit', 132),
+('person', 387, 'unit', 132),
+('person', 388, 'unit', 132),
+('person', 389, 'unit', 132),
+('person', 390, 'unit', 132),
+('person', 391, 'unit', 132),
+('person', 392, 'unit', 132),
+('person', 393, 'unit', 132),
+('person', 394, 'unit', 132),
+('person', 395, 'unit', 132),
+('person', 396, 'unit', 132),
+('person', 397, 'unit', 132),
+('person', 398, 'unit', 132),
+('person', 399, 'unit', 132),
+('person', 400, 'unit', 132),
+('person', 401, 'unit', 132),
+('person', 402, 'unit', 132),
+('person', 403, 'unit', 132),
+('person', 404, 'unit', 132),
+('person', 405, 'unit', 132),
+('person', 406, 'unit', 132),
+('person', 407, 'unit', 132),
+('person', 408, 'unit', 132),
+('person', 409, 'unit', 132),
+('person', 410, 'unit', 132),
+('person', 411, 'unit', 132),
+('person', 412, 'unit', 132),
+('person', 413, 'unit', 132),
+('person', 414, 'unit', 132),
+('person', 415, 'unit', 132),
+('person', 416, 'unit', 132),
+('person', 417, 'unit', 132),
+('person', 418, 'unit', 132),
+('person', 419, 'unit', 132),
+('person', 420, 'unit', 132),
+('person', 421, 'unit', 132),
+('person', 422, 'unit', 132),
+('person', 423, 'unit', 132),
+('person', 424, 'unit', 132),
+('person', 425, 'unit', 132),
+('person', 426, 'unit', 132),
+('person', 427, 'unit', 132),
+('person', 428, 'unit', 132),
+('person', 429, 'unit', 132),
+('person', 430, 'unit', 132),
+('person', 431, 'unit', 132),
+('person', 432, 'unit', 132),
+('person', 433, 'unit', 132),
+('person', 434, 'unit', 132),
+('person', 435, 'unit', 132),
+('person', 436, 'unit', 132),
+('person', 437, 'unit', 132),
+('person', 438, 'unit', 132),
+('person', 439, 'unit', 132),
+('person', 440, 'unit', 132),
+('person', 441, 'unit', 132),
+('person', 442, 'unit', 132),
+('person', 443, 'unit', 132),
+('person', 444, 'unit', 132),
+('person', 445, 'unit', 132),
+('person', 446, 'unit', 132),
+('person', 447, 'unit', 132),
+('person', 448, 'unit', 132),
+('person', 449, 'unit', 132),
+('person', 450, 'unit', 132),
+('person', 451, 'unit', 132),
+('person', 452, 'unit', 132),
+('person', 453, 'unit', 132),
+('person', 454, 'unit', 132),
+('person', 455, 'unit', 132),
+('person', 456, 'unit', 132),
+('person', 457, 'unit', 132),
+('person', 458, 'unit', 132),
+('person', 459, 'unit', 132),
+('person', 460, 'unit', 132),
+('person', 461, 'unit', 132),
+('person', 462, 'unit', 132),
+('person', 463, 'unit', 132),
+('person', 464, 'unit', 132),
+('person', 465, 'unit', 132),
+('person', 466, 'unit', 132),
+('person', 467, 'unit', 132),
+('person', 468, 'unit', 132),
+('person', 469, 'unit', 132),
+('person', 470, 'unit', 132),
+('person', 471, 'unit', 132),
+('person', 472, 'unit', 132),
+('person', 473, 'unit', 132),
+('person', 474, 'unit', 132),
+('person', 475, 'unit', 132),
+('person', 476, 'unit', 132),
+('person', 477, 'unit', 132),
+('person', 478, 'unit', 132),
+('person', 479, 'unit', 132),
+('person', 480, 'unit', 132),
+('person', 481, 'unit', 132),
+('person', 482, 'unit', 132),
+('person', 483, 'unit', 132),
+('person', 484, 'unit', 132),
+('person', 485, 'unit', 132),
+('person', 486, 'unit', 132),
+('person', 487, 'unit', 132),
+('person', 488, 'unit', 132),
+('person', 489, 'unit', 132),
+('person', 490, 'unit', 132),
+('person', 491, 'unit', 132),
+('person', 492, 'unit', 132),
+('person', 493, 'unit', 132),
+('person', 494, 'unit', 132),
+('person', 495, 'unit', 132),
+('person', 496, 'unit', 132),
+('person', 497, 'unit', 132),
+('person', 498, 'unit', 132),
+('person', 499, 'unit', 132),
+('person', 500, 'unit', 132),
+('person', 501, 'unit', 132),
+('person', 502, 'unit', 132),
+('person', 503, 'unit', 132),
+('person', 504, 'unit', 132),
+('person', 505, 'unit', 132),
+('person', 506, 'unit', 132),
+('person', 507, 'unit', 132),
+('person', 508, 'unit', 132),
+('person', 509, 'unit', 132),
+('person', 510, 'unit', 132),
+('person', 511, 'unit', 132),
+('person', 512, 'unit', 132),
+('person', 513, 'unit', 132),
+('person', 514, 'unit', 132),
+('person', 515, 'unit', 132),
+('person', 516, 'unit', 132),
+('person', 517, 'unit', 132),
+('person', 518, 'unit', 132),
+('person', 519, 'unit', 132),
+('person', 520, 'unit', 132),
+('person', 521, 'unit', 132),
+('person', 522, 'unit', 132),
+('person', 523, 'unit', 132),
+('person', 524, 'unit', 132),
+('person', 525, 'unit', 132),
+('person', 526, 'unit', 132),
+('person', 527, 'unit', 132),
+('person', 528, 'unit', 132),
+('person', 529, 'unit', 132),
+('person', 530, 'unit', 132),
+('person', 531, 'unit', 132),
+('person', 532, 'unit', 132),
+('person', 533, 'unit', 132),
+('person', 534, 'unit', 132),
+('person', 535, 'unit', 132),
+('person', 536, 'unit', 132),
+('person', 537, 'unit', 132),
+('person', 538, 'unit', 132),
+('person', 539, 'unit', 132),
+('person', 540, 'unit', 132),
+('person', 541, 'unit', 132),
+('person', 542, 'unit', 132),
+('person', 543, 'unit', 132),
+('person', 544, 'unit', 132),
+('person', 545, 'unit', 132),
+('person', 546, 'unit', 132),
+('person', 547, 'unit', 132),
+('person', 548, 'unit', 132),
+('person', 549, 'unit', 132),
+('person', 550, 'unit', 132),
+('person', 551, 'unit', 132),
+('person', 552, 'unit', 132),
+('person', 553, 'unit', 132),
+('employee', 187, 'fungsional', 139),
+('employee', 191, 'fungsional', 139),
+('employee', 192, 'fungsional', 139),
+('employee', 194, 'fungsional', 139),
+('employee', 195, 'fungsional', 139),
+('employee', 198, 'fungsional', 139),
+('employee', 199, 'fungsional', 139),
+('employee', 205, 'fungsional', 139),
+('employee', 207, 'fungsional', 139),
+('employee', 208, 'fungsional', 139),
+('employee', 218, 'fungsional', 139),
+('employee', 220, 'fungsional', 139),
+('employee', 222, 'fungsional', 139),
+('employee', 223, 'fungsional', 139),
+('employee', 232, 'fungsional', 139),
+('employee', 240, 'fungsional', 139),
+('employee', 291, 'fungsional', 139),
+('employee', 296, 'fungsional', 139),
+('employee', 297, 'fungsional', 139),
+('employee', 298, 'fungsional', 139),
+('employee', 299, 'fungsional', 139),
+('employee', 300, 'fungsional', 139),
+('employee', 304, 'fungsional', 139),
+('employee', 306, 'fungsional', 139),
+('employee', 308, 'fungsional', 139),
+('employee', 309, 'fungsional', 139),
+('employee', 310, 'fungsional', 139),
+('employee', 313, 'fungsional', 139),
+('employee', 314, 'fungsional', 139),
+('employee', 315, 'fungsional', 139),
+('employee', 316, 'fungsional', 139),
+('employee', 317, 'fungsional', 139),
+('employee', 370, 'fungsional', 139),
+('employee', 372, 'fungsional', 139),
+('employee', 373, 'fungsional', 139),
+('employee', 374, 'fungsional', 139),
+('employee', 375, 'fungsional', 139),
+('employee', 376, 'fungsional', 139),
+('employee', 377, 'fungsional', 139),
+('employee', 383, 'fungsional', 139),
+('employee', 385, 'fungsional', 139),
+('employee', 387, 'fungsional', 139),
+('employee', 391, 'fungsional', 139),
+('employee', 393, 'fungsional', 139),
+('employee', 396, 'fungsional', 139),
+('employee', 400, 'fungsional', 139),
+('employee', 401, 'fungsional', 139),
+('employee', 402, 'fungsional', 139),
+('employee', 446, 'fungsional', 139),
+('employee', 447, 'fungsional', 139),
+('employee', 448, 'fungsional', 139),
+('employee', 461, 'fungsional', 139),
+('employee', 465, 'fungsional', 139),
+('employee', 466, 'fungsional', 139),
+('employee', 470, 'fungsional', 139),
+('employee', 471, 'fungsional', 139),
+('employee', 473, 'fungsional', 139),
+('employee', 475, 'fungsional', 139),
+('employee', 477, 'fungsional', 139),
+('employee', 488, 'fungsional', 139),
+('employee', 492, 'fungsional', 139),
+('employee', 497, 'fungsional', 139),
+('employee', 499, 'fungsional', 139),
+('employee', 511, 'fungsional', 139),
+('employee', 555, 'fungsional', 139),
+('employee', 559, 'fungsional', 139),
+('employee', 186, 'fungsional', 140),
+('employee', 188, 'fungsional', 140),
+('employee', 197, 'fungsional', 140),
+('employee', 204, 'fungsional', 140),
+('employee', 209, 'fungsional', 140),
+('employee', 210, 'fungsional', 140),
+('employee', 211, 'fungsional', 140),
+('employee', 212, 'fungsional', 140),
+('employee', 213, 'fungsional', 140),
+('employee', 214, 'fungsional', 140),
+('employee', 215, 'fungsional', 140),
+('employee', 216, 'fungsional', 140),
+('employee', 219, 'fungsional', 140),
+('employee', 221, 'fungsional', 140),
+('employee', 224, 'fungsional', 140),
+('employee', 225, 'fungsional', 140),
+('employee', 226, 'fungsional', 140),
+('employee', 227, 'fungsional', 140),
+('employee', 228, 'fungsional', 140),
+('employee', 229, 'fungsional', 140),
+('employee', 230, 'fungsional', 140),
+('employee', 281, 'fungsional', 140),
+('employee', 284, 'fungsional', 140),
+('employee', 285, 'fungsional', 140),
+('employee', 286, 'fungsional', 140),
+('employee', 288, 'fungsional', 140),
+('employee', 295, 'fungsional', 140),
+('employee', 301, 'fungsional', 140),
+('employee', 302, 'fungsional', 140),
+('employee', 305, 'fungsional', 140),
+('employee', 307, 'fungsional', 140),
+('employee', 311, 'fungsional', 140),
+('employee', 319, 'fungsional', 140),
+('employee', 367, 'fungsional', 140),
+('employee', 368, 'fungsional', 140),
+('employee', 369, 'fungsional', 140),
+('employee', 379, 'fungsional', 140),
+('employee', 380, 'fungsional', 140),
+('employee', 389, 'fungsional', 140),
+('employee', 392, 'fungsional', 140),
+('employee', 394, 'fungsional', 140),
+('employee', 395, 'fungsional', 140),
+('employee', 399, 'fungsional', 140),
+('employee', 406, 'fungsional', 140),
+('employee', 450, 'fungsional', 140),
+('employee', 457, 'fungsional', 140),
+('employee', 458, 'fungsional', 140),
+('employee', 463, 'fungsional', 140),
+('employee', 464, 'fungsional', 140),
+('employee', 467, 'fungsional', 140),
+('employee', 468, 'fungsional', 140),
+('employee', 472, 'fungsional', 140),
+('employee', 474, 'fungsional', 140),
+('employee', 478, 'fungsional', 140),
+('employee', 479, 'fungsional', 140),
+('employee', 481, 'fungsional', 140),
+('employee', 482, 'fungsional', 140),
+('employee', 483, 'fungsional', 140),
+('employee', 484, 'fungsional', 140),
+('employee', 485, 'fungsional', 140),
+('employee', 486, 'fungsional', 140),
+('employee', 487, 'fungsional', 140),
+('employee', 489, 'fungsional', 140),
+('employee', 490, 'fungsional', 140),
+('employee', 491, 'fungsional', 140),
+('employee', 493, 'fungsional', 140),
+('employee', 496, 'fungsional', 140),
+('employee', 498, 'fungsional', 140),
+('employee', 500, 'fungsional', 140),
+('employee', 504, 'fungsional', 140),
+('employee', 505, 'fungsional', 140),
+('employee', 556, 'fungsional', 140),
+('employee', 560, 'fungsional', 140);
 
 -- --------------------------------------------------------
 
@@ -2566,9 +4155,7 @@ INSERT INTO `object_reference` (`object`, `object_id`, `type`, `reference_id`) V
 CREATE TABLE IF NOT EXISTS `online` (
   `person_id` int(11) NOT NULL,
   `ip` varchar(15) CHARACTER SET utf8 NOT NULL,
-  `time` datetime NOT NULL,
-  UNIQUE KEY `person_id` (`person_id`),
-  KEY `person_id_2` (`person_id`)
+  `time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -2576,7 +4163,7 @@ CREATE TABLE IF NOT EXISTS `online` (
 --
 
 INSERT INTO `online` (`person_id`, `ip`, `time`) VALUES
-(1, '127.0.0.1', '2014-11-04 08:41:32');
+(30, '127.0.0.1', '2014-11-12 17:26:07');
 
 -- --------------------------------------------------------
 
@@ -2585,7 +4172,7 @@ INSERT INTO `online` (`person_id`, `ip`, `time`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `organisation` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+`ID` int(11) NOT NULL,
   `KD_UNIT_ORG` char(10) NOT NULL,
   `KD_UNIT_ES1` char(2) NOT NULL,
   `KD_UNIT_ES2` char(2) NOT NULL,
@@ -2596,9 +4183,8 @@ CREATE TABLE IF NOT EXISTS `organisation` (
   `NM_UNIT_ORG` varchar(100) NOT NULL,
   `KD_ESELON` char(2) NOT NULL,
   `KD_SURAT_ORG` varchar(100) NOT NULL,
-  `TKT_ESELON` char(2) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=403 ;
+  `TKT_ESELON` char(2) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=403 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `organisation`
@@ -2691,7 +4277,7 @@ INSERT INTO `organisation` (`ID`, `KD_UNIT_ORG`, `KD_UNIT_ES1`, `KD_UNIT_ES2`, `
 --
 
 CREATE TABLE IF NOT EXISTS `person` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `nip` varchar(25) DEFAULT NULL,
   `name` varchar(100) NOT NULL,
   `nickname` varchar(25) DEFAULT NULL,
@@ -2721,10 +4307,8 @@ CREATE TABLE IF NOT EXISTS `person` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `nid` (`nid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=101 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=554 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `person`
@@ -2756,7 +4340,456 @@ INSERT INTO `person` (`id`, `nip`, `name`, `nickname`, `front_title`, `back_titl
 (23, '', 'Admin Sekretariat Badan - Kepegawaian', '', '', '', 'admin_sekretariat_hrd', '', '', NULL, 0, '', '', '', '', '', '', '', '', '', 0, '', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
 (24, '', 'Admin Sekretariat Badan - Keuangan', '', '', '', 'admin_sekretariat_finance', '', '', NULL, 0, '', '', '', '', '', '', '', '', '', 0, '', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
 (25, '', 'Admin Sekretariat Badan - TIK', '', '', '', 'admin_sekretariat_it', '', '', NULL, 0, '', '', '', '', '', '', '', '', '', 0, '', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
-(26, '', 'Admin Sekretariat Badan - Umum', '', '', '', 'admin_sekretariat_general', '', '', NULL, 0, '', '', '', '', '', '', '', '', '', 0, '', '', NULL, '', '', 1, NULL, NULL, NULL, NULL);
+(26, '', 'Admin Sekretariat Badan - Umum', '', '', '', 'admin_sekretariat_general', '', '', NULL, 0, '', '', '', '', '', '', '', '', '', 0, '', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
+(27, '', 'Admin Hafid', '', '', '', 'admin_hafid', '', '', NULL, 1, '', '', '', '', '', '', '', '', '', 0, '', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
+(28, '', 'Admin Edi', '', '', '', 'admin_edi', '', '', NULL, 1, '', '', '', '', '', '', '', '', '', 0, '', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
+(29, '', 'Admin Guntur', '', '', '', 'admin_guntur', '', '', NULL, 1, '', '', '', '', '', '', '', '', '', 0, '', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
+(30, '', 'Admin Fajar', '', '', '', 'admin_fajar', '', '', NULL, 1, '', '', '', '', '', '', '', '', '', 0, '', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
+(31, '', 'Admin Wida', '', '', '', 'admin_wida', '', '', NULL, 0, '', '', '', '', '', '', '', '', '', 0, '', '', NULL, '', '', 1, NULL, NULL, NULL, NULL),
+(112, '198010152005011001', 'Slamet Trimo', NULL, NULL, NULL, '198010152005011001', NULL, NULL, '1980-10-15', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(113, '198211302006021001', 'Wendi Nurhayat', NULL, NULL, NULL, '198211302006021001', NULL, NULL, '1982-11-30', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(114, '198306072010121002', 'Taufik Raharjo', NULL, NULL, NULL, '198306072010121002', NULL, NULL, '1983-06-07', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(115, '198309042010122002', 'Kharisma Kusuma Wardani', NULL, NULL, NULL, '198309042010122002', NULL, NULL, '1983-09-04', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(116, '198311142010122001', 'Ita Dwi Haryanti', NULL, NULL, NULL, '198311142010122001', NULL, NULL, '1983-11-14', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(117, '199106292013101003', 'YOGA EGINANDA', NULL, NULL, NULL, '199106292013101003', NULL, NULL, '1991-06-29', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(118, '198604302009011002', 'Hafid Mukhlasin', NULL, NULL, NULL, '198604302009011002', NULL, NULL, '1986-04-30', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(119, '195908021983101001', 'Panut', NULL, NULL, NULL, '195908021983101001', NULL, NULL, '1959-08-02', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(120, '196705031993081001', 'Suharjono', NULL, NULL, NULL, '196705031993081001', NULL, NULL, '1967-05-03', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(121, '196706091998031001', 'Karno', NULL, NULL, NULL, '196706091998031001', NULL, NULL, '1967-06-09', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(122, '196807101994031001', 'Santoso', NULL, NULL, NULL, '196807101994031001', NULL, NULL, '1968-07-10', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(123, '196901111998031002', 'Cahyo', NULL, NULL, NULL, '196901111998031002', NULL, NULL, '1969-01-11', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(124, '196905161994031002', 'Holid', NULL, NULL, NULL, '196905161994031002', NULL, NULL, '1969-05-16', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(125, '197008051994031002', 'Subagya', NULL, NULL, NULL, '197008051994031002', NULL, NULL, '1970-08-05', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(126, '197412232005011001', 'Widodo', NULL, NULL, NULL, '197412232005011001', NULL, NULL, '1974-12-23', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(127, '197601031996022001', 'Siti Rohmah', NULL, NULL, NULL, '197601031996022001', NULL, NULL, '1976-01-03', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(128, '197711101998031002', 'Junaidi', NULL, NULL, NULL, '197711101998031002', NULL, NULL, '1977-11-10', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(129, '198403212004121001', 'Wiwit Azananto', NULL, NULL, NULL, '198403212004121001', NULL, NULL, '1984-03-21', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(130, '198404012009011004', 'Rahmat Tri Setiadi', 'Rahmat', 'Rahmat', 'Tri Setiadi', '198404012009011004', '', 'Surakarta', '1984-04-01', 1, '08562956502', 'rtrisetiadi@gmail.com/rsetiadi@depkeu.go.id', 'Bekasi Jawa Barat', 'Jl. Taman Cikas Blok C 15/27 Pekayon Jaya Bekasi Selatan', '', '', '', '', '', 1, 'o', 'UNY', 5, '', '', 1, NULL, NULL, NULL, NULL),
+(131, '198407062010121005', 'Mohamad Efendi', NULL, NULL, NULL, '198407062010121005', NULL, NULL, '1984-07-06', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(132, '198408172007011001', 'Agusta Rizar Binadja', '', '', '', '198408172007011001', '', '', '1984-08-17', 1, '', '', '', '', '', '', '', '', '', 0, '-', '', 5, '', '', 1, NULL, NULL, NULL, NULL),
+(133, '198409042010122003', 'Annisa Kurniasari', NULL, NULL, NULL, '198409042010122003', NULL, NULL, '1984-09-04', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(134, '198501112010121003', 'Hascarya Adi Prastawa', NULL, NULL, NULL, '198501112010121003', NULL, NULL, '1985-01-11', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(135, '198503272007011001', 'Muhammad Arif Budiman', NULL, NULL, NULL, '198503272007011001', NULL, NULL, '1985-03-27', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(136, '198504252010122003', 'Rheni Maryani', NULL, NULL, NULL, '198504252010122003', NULL, NULL, '1985-04-25', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(137, '198510302007101001', 'Ahmad Zaky', NULL, NULL, NULL, '198510302007101001', NULL, NULL, '1985-10-30', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(138, '198510252010121005', 'Bagus Settya Tugas Purwanto', NULL, NULL, NULL, '198510252010121005', NULL, NULL, '1985-10-25', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(139, '198510292010121004', 'Johan Sagitta', 'zagitta', '', '', '198510292010121004', '67.631.292.9-529.000', 'Purbalingga', '1985-10-29', 0, '+6285726062910', 'benaya.zagitta@gmail.com', 'www.zagitta.web.id', 'Kembangan RT 05 RW 05, Kecamatan Bukateja, Kabupaten Purbalingga', '', '', '', 'Jl. Pancoran Timur II No. 1, Pancoran, Jakarta Selatan', '1190006037749', 0, 'A', 'Bahasa dan Sastra Indonesia', 5, '', '', 1, NULL, NULL, NULL, NULL),
+(140, '198605032007101003', 'Ardhiana Wahyu Saputro', NULL, NULL, NULL, '198605032007101003', NULL, NULL, '1986-05-03', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(141, '198609132008121002', 'Herry Samudro', NULL, NULL, NULL, '198609132008121002', NULL, NULL, '1986-09-13', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(142, '198609152010122006', 'Nurlita Hayati Prihutami', NULL, NULL, NULL, '198609152010122006', NULL, NULL, '1986-09-15', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(143, '198706252008121003', 'Anggi Ridwan Pratama', NULL, NULL, NULL, '198706252008121003', NULL, NULL, '1987-06-25', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(144, '198706162010122004', 'Sayekti Dewi Anggraeni', NULL, NULL, NULL, '198706162010122004', NULL, NULL, '1987-06-16', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(145, '198801032009121005', 'Arief Hardo Saputro', NULL, NULL, NULL, '198801032009121005', NULL, NULL, '1988-01-03', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(146, '198801142007011001', 'Delly Rahadian Perdana', NULL, NULL, NULL, '198801142007011001', NULL, NULL, '1988-01-14', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(147, '198804062008122001', 'Aprilla Mulia Dermawati', NULL, NULL, NULL, '198804062008122001', NULL, NULL, '1988-04-06', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(148, '198805272009121006', 'Eko Wasito Adi', NULL, NULL, NULL, '198805272009121006', NULL, NULL, '1988-05-27', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(149, '198804222007012001', 'Linda Nurapriliawati', NULL, NULL, NULL, '198804222007012001', NULL, NULL, '1988-04-22', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(150, '198805292009121002', 'Slamet Widodo', NULL, NULL, NULL, '198805292009121002', NULL, NULL, '1988-05-29', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(151, '198806262009121005', 'Jamaludin Ansori', NULL, NULL, NULL, '198806262009121005', NULL, NULL, '1988-06-26', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(152, '198807102010122001', 'Dwi Rahmawati', NULL, NULL, NULL, '198807102010122001', NULL, NULL, '1988-07-10', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(153, '198808092009121003', 'Eko Supriyono', NULL, NULL, NULL, '198808092009121003', NULL, NULL, '1988-08-09', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(154, '198812102010121003', 'Syaiful Ulum Riswandi', NULL, NULL, NULL, '198812102010121003', NULL, NULL, '1988-12-10', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(155, '198812042010121005', 'Yudha Sasangka', NULL, NULL, NULL, '198812042010121005', NULL, NULL, '1988-12-04', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(156, '198902222010121002', 'Alfrenius Lumban Tobing', NULL, NULL, NULL, '198902222010121002', NULL, NULL, '1989-02-22', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(157, '198904112010121006', 'Imam Ariffudin', NULL, NULL, NULL, '198904112010121006', NULL, NULL, '1989-04-11', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(158, '198905062010122002', 'Ana Rustanti', NULL, NULL, NULL, '198905062010122002', NULL, NULL, '1989-05-06', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(159, '198907222010121001', 'Selby Duatra', NULL, NULL, NULL, '198907222010121001', NULL, NULL, '1989-07-22', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(160, '199209032013102001', 'ASRI SHALIHA', NULL, NULL, NULL, '199209032013102001', NULL, NULL, '1992-09-03', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(161, '199109072013101001', 'FAKHRUDIN', NULL, NULL, NULL, '199109072013101001', NULL, NULL, '1991-09-07', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(162, '199209022013102001', 'VIRGINIA DEWI ISWANDARI', NULL, NULL, NULL, '199209022013102001', NULL, NULL, '1992-09-02', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(163, '195604041982031001', 'Tony Rooswiyanto', NULL, NULL, NULL, '195604041982031001', NULL, NULL, '1956-04-04', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(164, '195904011977121001', 'Eman Sulaeman', NULL, NULL, NULL, '195904011977121001', NULL, NULL, '1959-04-01', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(165, '196005271985032001', 'Hercarmina', NULL, NULL, NULL, '196005271985032001', NULL, NULL, '1960-05-27', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(166, '196206071984011001', 'Tresno Santosa', NULL, NULL, NULL, '196206071984011001', NULL, NULL, '1962-06-07', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(167, '196501261991031001', 'Pandu Patriadi', NULL, NULL, NULL, '196501261991031001', NULL, NULL, '1965-01-26', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(168, '196510141994031001', 'Unggul Kusalawan Respatiadi', NULL, NULL, NULL, '196510141994031001', NULL, NULL, '1965-10-14', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(169, '197201071998031002', 'Hartono', NULL, NULL, NULL, '197201071998031002', NULL, NULL, '1972-01-07', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(170, '197204021999031001', 'Sudrajat', NULL, NULL, NULL, '197204021999031001', NULL, NULL, '1972-04-02', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(171, '197205291998031001', 'Sugeng Satoto', NULL, NULL, NULL, '197205291998031001', NULL, NULL, '1972-05-29', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(172, '197306271998032001', 'Frisda Agriani Ambarita', NULL, NULL, NULL, '197306271998032001', NULL, NULL, '1973-06-27', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(173, '197306201995121001', 'Joni Aldwiansyah', NULL, NULL, NULL, '197306201995121001', NULL, NULL, '1973-06-20', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(174, '197406291995112001', 'Amik Yuniyanti', NULL, NULL, NULL, '197406291995112001', NULL, NULL, '1974-06-29', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(175, '197408041995021002', 'Soffan Marsus', NULL, NULL, NULL, '197408041995021002', NULL, NULL, '1974-08-04', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(176, '197410061999032001', 'Sri Wahyuni', NULL, NULL, NULL, '197410061999032001', NULL, NULL, '1974-10-06', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(177, '197705061996031001', 'Rokhmat Taufiq Hidayat', NULL, NULL, NULL, '197705061996031001', NULL, NULL, '1977-05-06', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(178, '195711011983032001', 'Linda Ria Lumbantobing', NULL, NULL, NULL, '195711011983032001', NULL, NULL, '1957-11-01', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(179, '195808261979031001', 'Mangasa Simatupang', NULL, NULL, NULL, '195808261979031001', NULL, NULL, '1958-08-26', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(180, '196711161988021001', 'Muhtar Yahya', NULL, NULL, NULL, '196711161988021001', NULL, NULL, '1967-11-16', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(181, '196808101987031001', 'Khamami Herusantoso', NULL, NULL, NULL, '196808101987031001', NULL, NULL, '1968-08-10', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(182, '197008121991031001', 'Agus Hekso Pramudijono', NULL, NULL, NULL, '197008121991031001', NULL, NULL, '1970-08-12', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(183, '197206291999032001', 'Efi Dyah Indrawati', NULL, NULL, NULL, '197206291999032001', NULL, NULL, '1972-06-29', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(184, '197707021999032001', 'Theresia Vera Yuliastanti', NULL, NULL, NULL, '197707021999032001', NULL, NULL, '1977-07-02', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(185, '198607202007011001', 'Ninin Sapto Hargiyanto', NULL, NULL, NULL, '198607202007011001', NULL, NULL, '1986-07-20', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(186, '194912311973021001', 'Manurgas Simamora', NULL, NULL, NULL, '194912311973021001', NULL, NULL, '1949-12-31', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(187, '195802271978032007', 'Evielina Siregar', NULL, NULL, NULL, '195802271978032007', NULL, NULL, '1958-02-27', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(188, '195605191977121001', 'Hasanuddin Tatang', NULL, NULL, NULL, '195605191977121001', NULL, NULL, '1956-05-19', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(189, '195902131998031001', 'Iman Sidharta', NULL, NULL, NULL, '195902131998031001', NULL, NULL, '1959-02-13', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(190, '195905091999031002', 'Sukarta', NULL, NULL, NULL, '195905091999031002', NULL, NULL, '1959-05-09', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(191, '195907021982091001', 'R. Budy Bahagianto Rasjidi', NULL, NULL, NULL, '195907021982091001', NULL, NULL, '1959-07-02', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(192, '195911011982101001', 'Sujarwanto', NULL, NULL, NULL, '195911011982101001', NULL, NULL, '1959-11-01', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(193, '196004261982091001', 'Isran Budiman P. Togatorop', NULL, NULL, NULL, '196004261982091001', NULL, NULL, '1960-04-26', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(194, '196010121982091001', 'R. Bambang Rosdiyanto', NULL, NULL, NULL, '196010121982091001', NULL, NULL, '1960-10-12', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(195, '195902241980031001', 'Syamsu Syakbani', NULL, NULL, NULL, '195902241980031001', NULL, NULL, '1959-02-24', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(196, '196103281984031001', 'Wagimin', NULL, NULL, NULL, '196103281984031001', NULL, NULL, '1961-03-28', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(197, '195406121980031002', 'Rasida', NULL, NULL, NULL, '195406121980031002', NULL, NULL, '1954-06-12', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(198, '196206281987031001', 'Kusmono', NULL, NULL, NULL, '196206281987031001', NULL, NULL, '1962-06-28', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(199, '196210121983101001', 'Mutasim Billah', NULL, NULL, NULL, '196210121983101001', NULL, NULL, '1962-10-12', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(200, '196303211986021001', 'Muhammad A.', NULL, NULL, NULL, '196303211986021001', NULL, NULL, '1963-03-21', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(201, '196306051998031001', 'Subarjo', NULL, NULL, NULL, '196306051998031001', NULL, NULL, '1963-06-05', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(202, '196609211988031001', 'Buntaran Puji Utomo', NULL, NULL, NULL, '196609211988031001', NULL, NULL, '1966-09-21', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(203, '196703041994031002', 'Nanang', NULL, NULL, NULL, '196703041994031002', NULL, NULL, '1967-03-04', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(204, '196504241985031001', 'Tri Ratna Taufiqurrahman', NULL, NULL, NULL, '196504241985031001', NULL, NULL, '1965-04-24', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(205, '196706301994031001', 'Ridwan Husen', NULL, NULL, NULL, '196706301994031001', NULL, NULL, '1967-06-30', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(206, '196810071993031001', 'Maman Rukiman', NULL, NULL, NULL, '196810071993031001', NULL, NULL, '1968-10-07', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(207, '196910191994032001', 'Endang Widajati', NULL, NULL, NULL, '196910191994032001', NULL, NULL, '1969-10-19', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(208, '196912181996031002', 'Adfuadi', NULL, NULL, NULL, '196912181996031002', NULL, NULL, '1969-12-18', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(209, '196902041989011001', 'Noor Cholis Madjid', NULL, NULL, NULL, '196902041989011001', NULL, NULL, '1969-02-04', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(210, '196903121990031001', 'Tohirin', NULL, NULL, NULL, '196903121990031001', NULL, NULL, '1969-03-12', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(211, '196904191989121001', 'Budi Sudarso', NULL, NULL, NULL, '196904191989121001', NULL, NULL, '1969-04-19', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(212, '196906101990121001', 'Muldiyanto', NULL, NULL, NULL, '196906101990121001', NULL, NULL, '1969-06-10', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(213, '197002161997031001', 'Haris Premadi', NULL, NULL, NULL, '197002161997031001', NULL, NULL, '1970-02-16', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(214, '197004091997031004', 'Heru Cahyono', NULL, NULL, NULL, '197004091997031004', NULL, NULL, '1970-04-09', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(215, '197205251993021001', 'Widhayat Rudhi Windarta', NULL, NULL, NULL, '197205251993021001', NULL, NULL, '1972-05-25', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(216, '197006161992011001', 'IMAM SUBROTO', NULL, NULL, NULL, '197006161992011001', NULL, NULL, '1970-06-16', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(217, '197209221993021001', 'Albert Silalahi', NULL, NULL, NULL, '197209221993021001', NULL, NULL, '1972-09-22', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(218, '197209101998031002', 'Rohmat Wahyudi', NULL, NULL, NULL, '197209101998031002', NULL, NULL, '1972-09-10', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(219, '197009251996031001', 'HERYANTO SIJABAT', NULL, NULL, NULL, '197009251996031001', NULL, NULL, '1970-09-25', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(220, '197212271999031002', 'Hendrizal', NULL, NULL, NULL, '197212271999031002', NULL, NULL, '1972-12-27', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(221, '197107031992031002', 'Agung Yuniarto', NULL, NULL, NULL, '197107031992031002', NULL, NULL, '1971-07-03', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(222, '197308171994031002', 'Amrul Yusroni', NULL, NULL, NULL, '197308171994031002', NULL, NULL, '1973-08-17', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(223, '197403031995122001', 'Azizatullatifah', NULL, NULL, NULL, '197403031995122001', NULL, NULL, '1974-03-03', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(224, '197207101993011001', 'Muchamad Amrullah', NULL, NULL, NULL, '197207101993011001', NULL, NULL, '1972-07-10', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(225, '197301101994021001', 'SUKARNO', NULL, NULL, NULL, '197301101994021001', NULL, NULL, '1973-01-10', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(226, '197312081994031001', 'Sutiono', NULL, NULL, NULL, '197312081994031001', NULL, NULL, '1973-12-08', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(227, '197402251993011001', 'Hasan Ashari', NULL, NULL, NULL, '197402251993011001', NULL, NULL, '1974-02-25', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(228, '197412061995031002', 'Mukhtaromin', NULL, NULL, NULL, '197412061995031002', NULL, NULL, '1974-12-06', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(229, '197507171995031001', 'Bambang Sancoko', NULL, NULL, NULL, '197507171995031001', NULL, NULL, '1975-07-17', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(230, '197607031996031001', 'DWI ARI WIBAWA', NULL, NULL, NULL, '197607031996031001', NULL, NULL, '1976-07-03', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(231, '198207302009011007', 'Mohammad Rifqi', NULL, NULL, NULL, '198207302009011007', NULL, NULL, '1982-07-30', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(232, '198301142006021001', 'M. Taufik Hidayat', NULL, NULL, NULL, '198301142006021001', NULL, NULL, '1983-01-14', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(233, '198403302010122005', 'Ana Churiyati', NULL, NULL, NULL, '198403302010122005', NULL, NULL, '1984-03-30', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(234, '198406212003121005', 'Slamet Heru Prasetyo', NULL, NULL, NULL, '198406212003121005', NULL, NULL, '1984-06-21', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(235, '198501022007011001', 'Wahyudi Zikri', NULL, NULL, NULL, '198501022007011001', NULL, NULL, '1985-01-02', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(236, '198502242009011003', 'Irwan Hermawan', NULL, NULL, NULL, '198502242009011003', NULL, NULL, '1985-02-24', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(237, '198503312010121006', 'Rizqon Nur Fu''ad', NULL, NULL, NULL, '198503312010121006', NULL, NULL, '1985-03-31', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(238, '198504012010122005', 'Murtafiatun', NULL, NULL, NULL, '198504012010122005', NULL, NULL, '1985-04-01', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(239, '198507272008122004', 'Santi Nurma Ayusa Anggraeni', NULL, NULL, NULL, '198507272008122004', NULL, NULL, '1985-07-27', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(240, '198508302009012005', 'Renny Sukmono', NULL, NULL, NULL, '198508302009012005', NULL, NULL, '1985-08-30', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(241, '198510052009011010', 'Muhamad Octariyaddi', NULL, NULL, NULL, '198510052009011010', NULL, NULL, '1985-10-05', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(242, '198510022007011001', 'Tedy Anggoro', NULL, NULL, NULL, '198510022007011001', NULL, NULL, '1985-10-02', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(243, '198511182007101001', 'Joko Kisworo', NULL, NULL, NULL, '198511182007101001', NULL, NULL, '1985-11-18', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(244, '198512252010121003', 'Ibnu Mazah Lubis', NULL, NULL, NULL, '198512252010121003', NULL, NULL, '1985-12-25', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(245, '198512172007101001', 'Syassi Azziz', NULL, NULL, NULL, '198512172007101001', NULL, NULL, '1985-12-17', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(246, '198603282010122006', 'Ayu Mirandhani', NULL, NULL, NULL, '198603282010122006', NULL, NULL, '1986-03-28', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(247, '198605132007011001', 'Taufan Sukma Nugraha', NULL, NULL, NULL, '198605132007011001', NULL, NULL, '1986-05-13', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(248, '198606172008121004', 'Muhammad Khoirul Amri', NULL, NULL, NULL, '198606172008121004', NULL, NULL, '1986-06-17', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(249, '198608312010122007', 'Rochi Agustina', NULL, NULL, NULL, '198608312010122007', NULL, NULL, '1986-08-31', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(250, '198701102008121002', 'Abdi Setyo', NULL, NULL, NULL, '198701102008121002', NULL, NULL, '1987-01-10', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(251, '198701192007012001', 'Umi Uswatun Hasanah', NULL, NULL, NULL, '198701192007012001', NULL, NULL, '1987-01-19', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(252, '198702062010122004', 'Adhe Mila Herdiyanti', NULL, NULL, NULL, '198702062010122004', NULL, NULL, '1987-02-06', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(253, '198706082010121008', 'Mulki Akbar Yuandri', NULL, NULL, NULL, '198706082010121008', NULL, NULL, '1987-06-08', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(254, '198706042008121002', 'Windra Kurniawan', NULL, NULL, NULL, '198706042008121002', NULL, NULL, '1987-06-04', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(255, '198707052008121003', 'Rahmat Hidayat', NULL, NULL, NULL, '198707052008121003', NULL, NULL, '1987-07-05', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(256, '198707122010122003', 'Rinni Rodiah Munajatisari', NULL, NULL, NULL, '198707122010122003', NULL, NULL, '1987-07-12', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(257, '198708282010122003', 'Nurul Madaniyah', NULL, NULL, NULL, '198708282010122003', NULL, NULL, '1987-08-28', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(258, '198711102006021002', 'Hari Mulia Atmaja', NULL, NULL, NULL, '198711102006021002', NULL, NULL, '1987-11-10', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(259, '198712272009121001', 'Edi Surakhman', NULL, NULL, NULL, '198712272009121001', NULL, NULL, '1987-12-27', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(260, '198712232009122004', 'Fitri Angraini', NULL, NULL, NULL, '198712232009122004', NULL, NULL, '1987-12-23', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(261, '198712032009121002', 'Nur Syam Ikhwani', NULL, NULL, NULL, '198712032009121002', NULL, NULL, '1987-12-03', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(262, '198802052008121003', 'Fajar Prasetyo Yuwono', NULL, NULL, NULL, '198802052008121003', NULL, NULL, '1988-02-05', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(263, '198802182010122002', 'Wijayanti Kartika Nhariswary', NULL, NULL, NULL, '198802182010122002', NULL, NULL, '1988-02-18', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(264, '198803082009121003', 'Bravasta Ananta Hartandi', NULL, NULL, NULL, '198803082009121003', NULL, NULL, '1988-03-08', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(265, '198803232009121006', 'Randy Amsyari', NULL, NULL, NULL, '198803232009121006', NULL, NULL, '1988-03-23', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(266, '198807112010121001', 'Cahya Gumilar', NULL, NULL, NULL, '198807112010121001', NULL, NULL, '1988-07-11', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(267, '198808112009121001', 'Galih Agung Pratama', NULL, NULL, NULL, '198808112009121001', NULL, NULL, '1988-08-11', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(268, '198811182009121001', 'Gilang Laksana Purnama', NULL, NULL, NULL, '198811182009121001', NULL, NULL, '1988-11-18', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(269, '198902082010122002', 'Ria Shaintisia Pertiwi', NULL, NULL, NULL, '198902082010122002', NULL, NULL, '1989-02-08', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(270, '198903022010121002', 'Ahmad Rifai', NULL, NULL, NULL, '198903022010121002', NULL, NULL, '1989-03-02', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(271, '198905022010121002', 'Ari Budi Susanto', NULL, NULL, NULL, '198905022010121002', NULL, NULL, '1989-05-02', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(272, '198905052008121001', 'Gunung Poltak Sahala Silalahi', NULL, NULL, NULL, '198905052008121001', NULL, NULL, '1989-05-05', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(273, '198906162008121001', 'Bambang Belani Pradana', NULL, NULL, NULL, '198906162008121001', NULL, NULL, '1989-06-16', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(274, '198906082010121002', 'Pnuel Sukma Perdana', NULL, NULL, NULL, '198906082010121002', NULL, NULL, '1989-06-08', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(275, '198908072010122002', 'Herina Nurhayati', NULL, NULL, NULL, '198908072010122002', NULL, NULL, '1989-08-07', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(276, '198909242010121003', 'Septian Dwi Cahyo', NULL, NULL, NULL, '198909242010121003', NULL, NULL, '1989-09-24', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(277, '199105142013102001', 'DIAN MEILINDA', NULL, NULL, NULL, '199105142013102001', NULL, NULL, '1991-05-14', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(278, '199110102013101002', 'ERIK SETIAWAN', NULL, NULL, NULL, '199110102013101002', NULL, NULL, '1991-10-10', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(279, '199103032013101002', 'SABDA ALAM MUHAMMADAN', NULL, NULL, NULL, '199103032013101002', NULL, NULL, '1991-03-03', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(280, '199003112013102001', 'YUSNITA COSKANA HUTAPEA', NULL, NULL, NULL, '199003112013102001', NULL, NULL, '1990-03-11', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(281, '195005291973031001', 'Bambang Semedi', NULL, NULL, NULL, '195005291973031001', NULL, NULL, '1950-05-29', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(282, '195805031983111002', 'Puji Waluyo', NULL, NULL, NULL, '195805031983111002', NULL, NULL, '1958-05-03', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(283, '195902281982091001', 'Wartono', NULL, NULL, NULL, '195902281982091001', NULL, NULL, '1959-02-28', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(284, '060044474', 'Ahmad Dimyati', NULL, NULL, NULL, '060044474', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(285, '195204031975101001', 'Syaiful Anwar', NULL, NULL, NULL, '195204031975101001', NULL, NULL, '1952-04-03', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(286, '195708111981091001', 'ADANG KARYANA. S', NULL, NULL, NULL, '195708111981091001', NULL, NULL, '1957-08-11', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(287, '196005151982032001', 'S. Ety Supriyanti', NULL, NULL, NULL, '196005151982032001', NULL, NULL, '1960-05-15', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(288, '196107041982031001', 'Purjono', NULL, NULL, NULL, '196107041982031001', NULL, NULL, '1961-07-04', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(289, '196401191999031001', 'Wasit', NULL, NULL, NULL, '196401191999031001', NULL, NULL, '1964-01-19', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(290, '196512021990112001', 'Kurnia', NULL, NULL, NULL, '196512021990112001', NULL, NULL, '1965-12-02', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(291, '196408171991031002', 'Agus Hermawan', NULL, NULL, NULL, '196408171991031002', NULL, NULL, '1964-08-17', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(292, '196903191998031003', 'Agus Supriyadi', NULL, NULL, NULL, '196903191998031003', NULL, NULL, '1969-03-19', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(293, '196908241998031001', 'Sugeng Sugiarto', NULL, NULL, NULL, '196908241998031001', NULL, NULL, '1969-08-24', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(294, '196910131998031001', 'Enjang Tatang Setiawan', NULL, NULL, NULL, '196910131998031001', NULL, NULL, '1969-10-13', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(295, '196710101997031001', 'Agung Budi Laksono', NULL, NULL, NULL, '196710101997031001', NULL, NULL, '1967-10-10', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(296, '196911061996032001', 'Marlinah', NULL, NULL, NULL, '196911061996032001', NULL, NULL, '1969-11-06', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(297, '197003131990031001', 'Rahmadi Murwanto', NULL, NULL, NULL, '197003131990031001', NULL, NULL, '1970-03-13', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(298, '197009261996031002', 'Sinung Prabowo', NULL, NULL, NULL, '197009261996031002', NULL, NULL, '1970-09-26', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(299, '197011251992031001', 'Rachmat Efendi', NULL, NULL, NULL, '197011251992031001', NULL, NULL, '1970-11-25', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(300, '197203301994031001', 'M. Ridhwan', NULL, NULL, NULL, '197203301994031001', NULL, NULL, '1972-03-30', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(301, '197003051996032001', 'Hanik Rustiningsih', NULL, NULL, NULL, '197003051996032001', NULL, NULL, '1970-03-05', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL);
+INSERT INTO `person` (`id`, `nip`, `name`, `nickname`, `front_title`, `back_title`, `nid`, `npwp`, `born`, `birthday`, `gender`, `phone`, `email`, `homepage`, `address`, `office_phone`, `office_fax`, `office_email`, `office_address`, `bank_account`, `married`, `blood`, `graduate_desc`, `position`, `position_desc`, `organisation`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
+(302, '197204281993011001', 'Muhammad Sofjan', NULL, NULL, NULL, '197204281993011001', NULL, NULL, '1972-04-28', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(303, '197206061998031002', 'Jefri Sani', NULL, NULL, NULL, '197206061998031002', NULL, NULL, '1972-06-06', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(304, '197310021999031001', 'Denny Handoyo Supriatman', NULL, NULL, NULL, '197310021999031001', NULL, NULL, '1973-10-02', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(305, '197201131992012001', 'Rita Dwi Lindawati', NULL, NULL, NULL, '197201131992012001', NULL, NULL, '1972-01-13', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(306, '197407111995031001', 'Moh Zamroni', NULL, NULL, NULL, '197407111995031001', NULL, NULL, '1974-07-11', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(307, '197207081992121001', 'Surono', NULL, NULL, NULL, '197207081992121001', NULL, NULL, '1972-07-08', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(308, '197411111995111001', 'Moch. Zakariya', NULL, NULL, NULL, '197411111995111001', NULL, NULL, '1974-11-11', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(309, '197412071999031001', 'Iwan Khrisnawan', NULL, NULL, NULL, '197412071999031001', NULL, NULL, '1974-12-07', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(310, '197502071995021001', 'Indra Asmadewa', NULL, NULL, NULL, '197502071995021001', NULL, NULL, '1975-02-07', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(311, '197303161992121001', 'Mohamad Jafar', NULL, NULL, NULL, '197303161992121001', NULL, NULL, '1973-03-16', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(312, '197504072005011001', 'Reddyansyah', NULL, NULL, NULL, '197504072005011001', NULL, NULL, '1975-04-07', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(313, '197507171995031003', 'Mohammad Yuli Akbar Daulay', NULL, NULL, NULL, '197507171995031003', NULL, NULL, '1975-07-17', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(314, '197604251996022001', 'Rakhmi Khalidya', NULL, NULL, NULL, '197604251996022001', NULL, NULL, '1976-04-25', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(315, '197606081999031002', 'Didi Carsidiawan', NULL, NULL, NULL, '197606081999031002', NULL, NULL, '1976-06-08', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(316, '197607021999031003', 'Fajar Yulianto', NULL, NULL, NULL, '197607021999031003', NULL, NULL, '1976-07-02', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(317, '197610071996021001', 'I Wayan Karmana', NULL, NULL, NULL, '197610071996021001', NULL, NULL, '1976-10-07', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(318, '197702091999031002', 'Cucu Supriadi', NULL, NULL, NULL, '197702091999031002', NULL, NULL, '1977-02-09', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(319, '197507111995021001', 'ICHSAN NAFARIN', NULL, NULL, NULL, '197507111995021001', NULL, NULL, '1975-07-11', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(320, '197711011998031001', 'Dede Hendrawan', NULL, NULL, NULL, '197711011998031001', NULL, NULL, '1977-11-01', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(321, '197807021999031001', 'Jaja Rojali', NULL, NULL, NULL, '197807021999031001', NULL, NULL, '1978-07-02', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(322, '197910192005012002', 'Yayah Hikmatul Hoeriah', NULL, NULL, NULL, '197910192005012002', NULL, NULL, '1979-10-19', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(323, '198306022010122004', 'Yusnita Isnaini Hidayat', NULL, NULL, NULL, '198306022010122004', NULL, NULL, '1983-06-02', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(324, '198308092009011010', 'Agus Sriyanto', NULL, NULL, NULL, '198308092009011010', NULL, NULL, '1983-08-09', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(325, '198308192010121003', 'Aris Widodo', NULL, NULL, NULL, '198308192010121003', NULL, NULL, '1983-08-19', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(326, '198401282010121003', 'Endy Dreyanto Endarvin', NULL, NULL, NULL, '198401282010121003', NULL, NULL, '1984-01-28', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(327, '198403262006022002', 'Astriani Saputri', NULL, NULL, NULL, '198403262006022002', NULL, NULL, '1984-03-26', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(328, '198407122006021002', 'Satria Adhitama', NULL, NULL, NULL, '198407122006021002', NULL, NULL, '1984-07-12', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(329, '198502152010121002', 'Eriex Febrieanto', NULL, NULL, NULL, '198502152010121002', NULL, NULL, '1985-02-15', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(330, '198503022007011001', 'Mohammad Reza Fadillah', NULL, NULL, NULL, '198503022007011001', NULL, NULL, '1985-03-02', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(331, '198504182004121003', 'Devi Maulana Hasanuddin', NULL, NULL, NULL, '198504182004121003', NULL, NULL, '1985-04-18', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(332, '198505082007011002', 'Barnas', NULL, NULL, NULL, '198505082007011002', NULL, NULL, '1985-05-08', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(333, '198507222009011006', 'Ahmad Fuad Syakir', NULL, NULL, NULL, '198507222009011006', NULL, NULL, '1985-07-22', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(334, '198508132007011001', 'Rama Santoso', NULL, NULL, NULL, '198508132007011001', NULL, NULL, '1985-08-13', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(335, '198509182004122002', 'Rina Zenvia', NULL, NULL, NULL, '198509182004122002', NULL, NULL, '1985-09-18', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(336, '198510072009012006', 'Erna Oktafiani', NULL, NULL, NULL, '198510072009012006', NULL, NULL, '1985-10-07', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(337, '198510062010121003', 'Imam Nalundra Rachmanto', NULL, NULL, NULL, '198510062010121003', NULL, NULL, '1985-10-06', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(338, '198510222010121005', 'Muhammad Iqbal', NULL, NULL, NULL, '198510222010121005', NULL, NULL, '1985-10-22', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(339, '198511112007101001', 'Thovan Aris Prabawa', NULL, NULL, NULL, '198511112007101001', NULL, NULL, '1985-11-11', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(340, '198605182007101003', 'Edwin Prasetyo', NULL, NULL, NULL, '198605182007101003', NULL, NULL, '1986-05-18', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(341, '198605112007101002', 'Rahmad Agung Wibowo', NULL, NULL, NULL, '198605112007101002', NULL, NULL, '1986-05-11', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(342, '198610272007011001', 'Alif Faizal', NULL, NULL, NULL, '198610272007011001', NULL, NULL, '1986-10-27', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(343, '198702062007101001', 'Feriska Drajat Asiyanto', NULL, NULL, NULL, '198702062007101001', NULL, NULL, '1987-02-06', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(344, '198704112010122003', 'Nella Prapita Sahadewi', NULL, NULL, NULL, '198704112010122003', NULL, NULL, '1987-04-11', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(345, '198705112008121002', 'Oksan Limoro Aji Saputro', NULL, NULL, NULL, '198705112008121002', NULL, NULL, '1987-05-11', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(346, '198705142010121004', 'Widi Galih Anggara', NULL, NULL, NULL, '198705142010121004', NULL, NULL, '1987-05-14', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(347, '198707052010121004', 'Arief Sugiri', NULL, NULL, NULL, '198707052010121004', NULL, NULL, '1987-07-05', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(348, '198708132008121003', 'Andry Hidayat Adhitama', NULL, NULL, NULL, '198708132008121003', NULL, NULL, '1987-08-13', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(349, '198802102009121002', 'Randy Febriatama', NULL, NULL, NULL, '198802102009121002', NULL, NULL, '1988-02-10', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(350, '198803082009121002', 'Kurnia Tri Hasmoko', NULL, NULL, NULL, '198803082009121002', NULL, NULL, '1988-03-08', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(351, '198805272009121004', 'Fibriyanta Wibawa', NULL, NULL, NULL, '198805272009121004', NULL, NULL, '1988-05-27', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(352, '198805202009121003', 'Sandy Pratomo', NULL, NULL, NULL, '198805202009121003', NULL, NULL, '1988-05-20', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(353, '198807272010121005', 'Ruchan Yulabi', NULL, NULL, NULL, '198807272010121005', NULL, NULL, '1988-07-27', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(354, '198809282009121004', 'Lingga Yudhana', NULL, NULL, NULL, '198809282009121004', NULL, NULL, '1988-09-28', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(355, '198809052010121003', 'Rahmat Fauzi', NULL, NULL, NULL, '198809052010121003', NULL, NULL, '1988-09-05', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(356, '198811152009121004', 'Muhammad Kamal Rezza', NULL, NULL, NULL, '198811152009121004', NULL, NULL, '1988-11-15', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(357, '198811172008121001', 'Rifqi Akhmad Aryanto', NULL, NULL, NULL, '198811172008121001', NULL, NULL, '1988-11-17', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(358, '198903262010122002', 'Galuh Wahyu Handayani', NULL, NULL, NULL, '198903262010122002', NULL, NULL, '1989-03-26', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(359, '198903202010122001', 'Lidhyananta Martdianasari', NULL, NULL, NULL, '198903202010122001', NULL, NULL, '1989-03-20', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(360, '198904282010122001', 'Dwi Rahma Ramadani Aulia', NULL, NULL, NULL, '198904282010122001', NULL, NULL, '1989-04-28', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(361, '198907062010121005', 'Frimadhi Damar Harliantara', NULL, NULL, NULL, '198907062010121005', NULL, NULL, '1989-07-06', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(362, '198907292010122001', 'Julyana Maratur Gultom', NULL, NULL, NULL, '198907292010122001', NULL, NULL, '1989-07-29', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(363, '198908252010121001', 'Aghi Wirawan', NULL, NULL, NULL, '198908252010121001', NULL, NULL, '1989-08-25', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(364, '199103212013102001', 'ADHIETA PRAMODHAWARDANI MUTIARA DEWI', NULL, NULL, NULL, '199103212013102001', NULL, NULL, '1991-03-21', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(365, '199110072013101001', 'AGUNG DWI LAKSONO', NULL, NULL, NULL, '199110072013101001', NULL, NULL, '1991-10-07', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(366, '199103292013102001', 'SILVIA PANDIANGAN', NULL, NULL, NULL, '199103292013102001', NULL, NULL, '1991-03-29', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(367, '195405251977121001', 'Margono', NULL, NULL, NULL, '195405251977121001', NULL, NULL, '1954-05-25', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(368, '195505291975071001', 'Ennoch Sindang', NULL, NULL, NULL, '195505291975071001', NULL, NULL, '1955-05-29', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(369, '195104021976091001', 'Herri Waloejo', NULL, NULL, NULL, '195104021976091001', NULL, NULL, '1951-04-02', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(370, '196005211983111001', 'Rahadi', NULL, NULL, NULL, '196005211983111001', NULL, NULL, '1960-05-21', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(371, '196002151985101001', 'Zarkasih', NULL, NULL, NULL, '196002151985101001', NULL, NULL, '1960-02-15', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(372, '195806201985101001', 'LALU HENDRY YUJANA', NULL, NULL, NULL, '195806201985101001', NULL, NULL, '1958-06-20', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(373, '196012261982092001', 'Mulyanah', NULL, NULL, NULL, '196012261982092001', NULL, NULL, '1960-12-26', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(374, '196102251985031001', 'Achmad Kuswardani', NULL, NULL, NULL, '196102251985031001', NULL, NULL, '1961-02-25', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(375, '196104181983101001', 'Marsedi Situmorang', NULL, NULL, NULL, '196104181983101001', NULL, NULL, '1961-04-18', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(376, '196207081982091001', 'Baihaki', NULL, NULL, NULL, '196207081982091001', NULL, NULL, '1962-07-08', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(377, '196207221983101001', 'Yansen', NULL, NULL, NULL, '196207221983101001', NULL, NULL, '1962-07-22', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(378, '196312241993081001', 'Iwan Setiawan', NULL, NULL, NULL, '196312241993081001', NULL, NULL, '1963-12-24', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(379, '196209041983022001', 'Agni Indriani', NULL, NULL, NULL, '196209041983022001', NULL, NULL, '1962-09-04', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(380, '196306221983022001', 'Retno Utari', NULL, NULL, NULL, '196306221983022001', NULL, NULL, '1963-06-22', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(381, '196510091987021001', 'Arief Mulia', NULL, NULL, NULL, '196510091987021001', NULL, NULL, '1965-10-09', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(382, '196612231999031001', 'Wasana Wahyudi', NULL, NULL, NULL, '196612231999031001', NULL, NULL, '1966-12-23', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(383, '196802121995012001', 'Kusumaningtyas', NULL, NULL, NULL, '196802121995012001', NULL, NULL, '1968-02-12', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(384, '196803011998032001', 'Rr. Kumoro Endarwati', NULL, NULL, NULL, '196803011998032001', NULL, NULL, '1968-03-01', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(385, '196809131995011001', 'Harada', NULL, NULL, NULL, '196809131995011001', NULL, NULL, '1968-09-13', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(386, '197011051994031001', 'Sakri', NULL, NULL, NULL, '197011051994031001', NULL, NULL, '1970-11-05', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(387, '197102131996031001', 'Arif Rahmanto', NULL, NULL, NULL, '197102131996031001', NULL, NULL, '1971-02-13', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(388, '197104091998032001', 'Fauziah Rosdiana', NULL, NULL, NULL, '197104091998032001', NULL, NULL, '1971-04-09', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(389, '196904161995031001', 'LISTIYARKO WIJITO', NULL, NULL, NULL, '196904161995031001', NULL, NULL, '1969-04-16', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(390, '197106151994031003', 'Suyono', NULL, NULL, NULL, '197106151994031003', NULL, NULL, '1971-06-15', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(391, '197108081996031001', 'Ahmad Riduan', NULL, NULL, NULL, '197108081996031001', NULL, NULL, '1971-08-08', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(392, '197005161992011001', 'Tanda Setiya', NULL, NULL, NULL, '197005161992011001', NULL, NULL, '1970-05-16', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(393, '197302151993021001', 'Marianto', NULL, NULL, NULL, '197302151993021001', NULL, NULL, '1973-02-15', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(394, '197106161992032001', 'Sumini', NULL, NULL, NULL, '197106161992032001', NULL, NULL, '1971-06-16', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(395, '197110151992032001', 'Oktavia Ester Pangaribuan', NULL, NULL, NULL, '197110151992032001', NULL, NULL, '1971-10-15', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(396, '197502141995112001', 'Chatarina P. Dyah Iswandari', NULL, NULL, NULL, '197502141995112001', NULL, NULL, '1975-02-14', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(397, '197607241999031002', 'Zahar Angga Setiawan', NULL, NULL, NULL, '197607241999031002', NULL, NULL, '1976-07-24', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(398, '197608041997032004', 'Yulie Agrianti', NULL, NULL, NULL, '197608041997032004', NULL, NULL, '1976-08-04', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(399, '197408251995031002', 'Arvan Carlo Djohansjah', NULL, NULL, NULL, '197408251995031002', NULL, NULL, '1974-08-25', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(400, '197610031999031001', 'Ahmad Rus''an', NULL, NULL, NULL, '197610031999031001', NULL, NULL, '1976-10-03', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(401, '197707131999032002', 'Rini Swasti Andari', NULL, NULL, NULL, '197707131999032002', NULL, NULL, '1977-07-13', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(402, '197812242000122001', 'Indrie Mulyawati', NULL, NULL, NULL, '197812242000122001', NULL, NULL, '1978-12-24', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(403, '198303272006021001', 'Chobin Martanto', NULL, NULL, NULL, '198303272006021001', NULL, NULL, '1983-03-27', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(404, '198307202009012008', 'Chairunnisa Marsh', NULL, NULL, NULL, '198307202009012008', NULL, NULL, '1983-07-20', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(405, '198410022010121002', 'Bima Lingga Sakti', NULL, NULL, NULL, '198410022010121002', NULL, NULL, '1984-10-02', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(406, '198301312004121001', 'TAUFIK CAHYO SUDRAJAD', NULL, NULL, NULL, '198301312004121001', NULL, NULL, '1983-01-31', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(407, '198502152009012005', 'Trisni Syamsu Indyaputri', NULL, NULL, NULL, '198502152009012005', NULL, NULL, '1985-02-15', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(408, '198503212007102001', 'Ika Ariesta Kusumawati', NULL, NULL, NULL, '198503212007102001', NULL, NULL, '1985-03-21', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(409, '198510182010121005', 'Ikhwan Arif Rahman', NULL, NULL, NULL, '198510182010121005', NULL, NULL, '1985-10-18', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(410, '198511042010121006', 'Andri Purwanto', NULL, NULL, NULL, '198511042010121006', NULL, NULL, '1985-11-04', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(411, '198512122008121005', 'Andi Santoso', NULL, NULL, NULL, '198512122008121005', NULL, NULL, '1985-12-12', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(412, '198602082010122003', 'Fitria Sri Wulandari', NULL, NULL, NULL, '198602082010122003', NULL, NULL, '1986-02-08', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(413, '198604142009011004', 'Ambang Aries Yudanto', NULL, NULL, NULL, '198604142009011004', NULL, NULL, '1986-04-14', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(414, '198604232010122004', 'Mirma Yudha Firdausi', NULL, NULL, NULL, '198604232010122004', NULL, NULL, '1986-04-23', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(415, '198605122009121005', 'Alfan Fahravi', NULL, NULL, NULL, '198605122009121005', NULL, NULL, '1986-05-12', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(416, '198605132010122003', 'Mia Prasetyawati', NULL, NULL, NULL, '198605132010122003', NULL, NULL, '1986-05-13', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(417, '198606202008121002', 'Muhammad Fiza Siregar', NULL, NULL, NULL, '198606202008121002', NULL, NULL, '1986-06-20', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(418, '198609172010121002', 'Daryan Ciptadi', NULL, NULL, NULL, '198609172010121002', NULL, NULL, '1986-09-17', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(419, '198601092007011003', 'Roy Anshor', NULL, NULL, NULL, '198601092007011003', NULL, NULL, '1986-01-09', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(420, '198612142010122003', 'Nurul Firdausy', NULL, NULL, NULL, '198612142010122003', NULL, NULL, '1986-12-14', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(421, '198704192008122003', 'Mike Damayanti', NULL, NULL, NULL, '198704192008122003', NULL, NULL, '1987-04-19', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(422, '198705012007011002', 'Angga Lesmana', NULL, NULL, NULL, '198705012007011002', NULL, NULL, '1987-05-01', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(423, '198709112010122003', 'Nike Desvilia', NULL, NULL, NULL, '198709112010122003', NULL, NULL, '1987-09-11', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(424, '198710032009121003', 'Hendro Kusumo', NULL, NULL, NULL, '198710032009121003', NULL, NULL, '1987-10-03', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(425, '198710032010121009', 'Muhammad Irfan', NULL, NULL, NULL, '198710032010121009', NULL, NULL, '1987-10-03', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(426, '198801302010122001', 'Dini Widianingsih', NULL, NULL, NULL, '198801302010122001', NULL, NULL, '1988-01-30', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(427, '198801302008122001', 'Siti Yunaria Yustin', NULL, NULL, NULL, '198801302008122001', NULL, NULL, '1988-01-30', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(428, '198803162008121001', 'Mohammad Wahyo Abusyar Surya Nagara', NULL, NULL, NULL, '198803162008121001', NULL, NULL, '1988-03-16', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(429, '198804062008121002', 'Marcelinus Iwantoko', NULL, NULL, NULL, '198804062008121002', NULL, NULL, '1988-04-06', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(430, '198805232009121005', 'Hiba Rahmad Budiman', NULL, NULL, NULL, '198805232009121005', NULL, NULL, '1988-05-23', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(431, '198805112009121004', 'M. Jalaluddin Fuad', NULL, NULL, NULL, '198805112009121004', NULL, NULL, '1988-05-11', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(432, '198807142010121001', 'Eri Yuli Prastanto', NULL, NULL, NULL, '198807142010121001', NULL, NULL, '1988-07-14', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(433, '198807252009121003', 'Moch. Taufik', NULL, NULL, NULL, '198807252009121003', NULL, NULL, '1988-07-25', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(434, '198807272009121004', 'Wahyu Zulianto', NULL, NULL, NULL, '198807272009121004', NULL, NULL, '1988-07-27', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(435, '198809252009122001', 'Demaya Noor Hasanah', NULL, NULL, NULL, '198809252009122001', NULL, NULL, '1988-09-25', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(436, '198812112010121002', 'Teguh Permana Putra', NULL, NULL, NULL, '198812112010121002', NULL, NULL, '1988-12-11', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(437, '198904172010122002', 'Dita Rakhmadina', NULL, NULL, NULL, '198904172010122002', NULL, NULL, '1989-04-17', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(438, '198908242010121002', 'Hendry Thomas Sinaga', NULL, NULL, NULL, '198908242010121002', NULL, NULL, '1989-08-24', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(439, '198910092010122003', 'Paula Magdalena Simanjuntak', NULL, NULL, NULL, '198910092010122003', NULL, NULL, '1989-10-09', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(440, '198912112009121001', 'Jaelani Aziz', NULL, NULL, NULL, '198912112009121001', NULL, NULL, '1989-12-11', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(441, '199201242013101001', 'ANGGA SUNDA PRIMA', NULL, NULL, NULL, '199201242013101001', NULL, NULL, '1992-01-24', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(442, '199104112013102001', 'DITA TRI HAPSARI', NULL, NULL, NULL, '199104112013102001', NULL, NULL, '1991-04-11', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(443, '199107132013102002', 'LOVA ADLINA RIYANATIKA', NULL, NULL, NULL, '199107132013102002', NULL, NULL, '1991-07-13', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(444, '199105102013101003', 'PANGGAH DWI PUTRA', NULL, NULL, NULL, '199105102013101003', NULL, NULL, '1991-05-10', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(445, '195807061993031001', 'Zonizon', NULL, NULL, NULL, '195807061993031001', NULL, NULL, '1958-07-06', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(446, '195904191980032001', 'Ismudjiwati', NULL, NULL, NULL, '195904191980032001', NULL, NULL, '1959-04-19', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(447, '195905281983101001', 'Herawanto', NULL, NULL, NULL, '195905281983101001', NULL, NULL, '1959-05-28', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(448, '196004041985032001', 'Ida Hamidah', NULL, NULL, NULL, '196004041985032001', NULL, NULL, '1960-04-04', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(449, '196008191985011001', 'Sidik Legowo', NULL, NULL, NULL, '196008191985011001', NULL, NULL, '1960-08-19', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(450, '195308091978011001', 'Darwin', NULL, NULL, NULL, '195308091978011001', NULL, NULL, '1953-08-09', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(451, '196101091990031001', 'Asyik', NULL, NULL, NULL, '196101091990031001', NULL, NULL, '1961-01-09', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(452, '196303251984031001', 'Wasi', NULL, NULL, NULL, '196303251984031001', NULL, NULL, '1963-03-25', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(453, '196402061986021009', 'Supriyadi', NULL, NULL, NULL, '196402061986021009', NULL, NULL, '1964-02-06', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(454, '196405011983101001', 'Zainuddin Pahrur', NULL, NULL, NULL, '196405011983101001', NULL, NULL, '1964-05-01', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(455, '196503061998031001', 'Sriyanto', NULL, NULL, NULL, '196503061998031001', NULL, NULL, '1965-03-06', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(456, '196512041998031001', 'Puryadi', NULL, NULL, NULL, '196512041998031001', NULL, NULL, '1965-12-04', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(457, '196501201989101001', 'DANI RAMDANI', NULL, NULL, NULL, '196501201989101001', NULL, NULL, '1965-01-20', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(458, '196509041985031001', 'ASEP JUMHANA', NULL, NULL, NULL, '196509041985031001', NULL, NULL, '1965-09-04', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(459, '196712161994031001', 'Saepudin', NULL, NULL, NULL, '196712161994031001', NULL, NULL, '1967-12-16', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(460, '196801152005011011', 'Muhadi', NULL, NULL, NULL, '196801152005011011', NULL, NULL, '1968-01-15', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(461, '196801261994032001', 'Vissia Dewi Haptari', NULL, NULL, NULL, '196801261994032001', NULL, NULL, '1968-01-26', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(462, '196802101994031003', 'Tugiman', NULL, NULL, NULL, '196802101994031003', NULL, NULL, '1968-02-10', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(463, '196609301992012001', 'Ida Zuraida', NULL, NULL, NULL, '196609301992012001', NULL, NULL, '1966-09-30', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(464, '196702141993102001', 'HERRU WIDIATMANTI', NULL, NULL, NULL, '196702141993102001', NULL, NULL, '1967-02-14', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(465, '196903191996031001', 'Fariz Wazdi', NULL, NULL, NULL, '196903191996031001', NULL, NULL, '1969-03-19', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(466, '196706271992011001', 'Imam Arifin', NULL, NULL, NULL, '196706271992011001', NULL, NULL, '1967-06-27', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(467, '196706111988031012', 'JOHANNES ARITONANG', NULL, NULL, NULL, '196706111988031012', NULL, NULL, '1967-06-11', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(468, '196707031993102001', 'HOTMIAN HELENA SAMOSIR', NULL, NULL, NULL, '196707031993102001', NULL, NULL, '1967-07-03', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(469, '196911241998031001', 'Kaswanto', NULL, NULL, NULL, '196911241998031001', NULL, NULL, '1969-11-24', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(470, '197002151997031001', 'Jumali', NULL, NULL, NULL, '197002151997031001', NULL, NULL, '1970-02-15', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(471, '197005091996032001', 'Maisaroh', NULL, NULL, NULL, '197005091996032001', NULL, NULL, '1970-05-09', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(472, '196806271989031002', 'Rd. TATAN JAKA TRESNAJAYA', NULL, NULL, NULL, '196806271989031002', NULL, NULL, '1968-06-27', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(473, '197012261998032001', 'Risnawaty BR. Surbakti', NULL, NULL, NULL, '197012261998032001', NULL, NULL, '1970-12-26', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(474, '196904111995031001', 'MOHAMMAD DJUFRI', NULL, NULL, NULL, '196904111995031001', NULL, NULL, '1969-04-11', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(475, '197107081997031002', 'Aznel Fajri', NULL, NULL, NULL, '197107081997031002', NULL, NULL, '1971-07-08', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(476, '197107091994032002', 'Juillit Haisa', NULL, NULL, NULL, '197107091994032002', NULL, NULL, '1971-07-09', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(477, '197112011999031001', 'Slamet Budiwijaya', NULL, NULL, NULL, '197112011999031001', NULL, NULL, '1971-12-01', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(478, '196912311995031001', 'AGUS SUHARSONO', NULL, NULL, NULL, '196912311995031001', NULL, NULL, '1969-12-31', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(479, '197001011990031003', 'SUWADI', NULL, NULL, NULL, '197001011990031003', NULL, NULL, '1970-01-01', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(480, '197202111998031001', 'Mulyono', NULL, NULL, NULL, '197202111998031001', NULL, NULL, '1972-02-11', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(481, '197004121989121002', 'L.Y. Hari Sih Advianto', NULL, NULL, NULL, '197004121989121002', NULL, NULL, '1970-04-12', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(482, '197005101995032001', 'ADRIANA DWI HARDJANTI', NULL, NULL, NULL, '197005101995032001', NULL, NULL, '1970-05-10', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(483, '197006021996031002', 'MUHAMMAD RIFKY SANTOSO', NULL, NULL, NULL, '197006021996031002', NULL, NULL, '1970-06-02', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(484, '197009051992011001', 'Heru Supriyanto', NULL, NULL, NULL, '197009051992011001', NULL, NULL, '1970-09-05', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(485, '197010181995032001', 'HENI SULASTRI', NULL, NULL, NULL, '197010181995032001', NULL, NULL, '1970-10-18', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(486, '197011231995032001', 'RINANINGSIH', NULL, NULL, NULL, '197011231995032001', NULL, NULL, '1970-11-23', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(487, '197012151992011001', 'GATHOT SUBROTO', NULL, NULL, NULL, '197012151992011001', NULL, NULL, '1970-12-15', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(488, '197301131994031002', 'Suyuti', NULL, NULL, NULL, '197301131994031002', NULL, NULL, '1973-01-13', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(489, '197101231992031001', 'Purwanto', NULL, NULL, NULL, '197101231992031001', NULL, NULL, '1971-01-23', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(490, '197109081998031001', 'M. BAHRUN NAWAWI', NULL, NULL, NULL, '197109081998031001', NULL, NULL, '1971-09-08', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(491, '197110241992031001', 'DUDI WAHYUDI', NULL, NULL, NULL, '197110241992031001', NULL, NULL, '1971-10-24', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(492, '197406181995122001', 'Sumiyati', NULL, NULL, NULL, '197406181995122001', NULL, NULL, '1974-06-18', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(493, '197209261993031001', 'BUDI HARSONO', NULL, NULL, NULL, '197209261993031001', NULL, NULL, '1972-09-26', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(494, '197411202005012001', 'Nova Maryanti', NULL, NULL, NULL, '197411202005012001', NULL, NULL, '1974-11-20', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(495, '197411211999031001', 'Toto Agung Basuki', NULL, NULL, NULL, '197411211999031001', NULL, NULL, '1974-11-21', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(496, '197412251995111002', 'Kristian Agung Prasetyo', NULL, NULL, NULL, '197412251995111002', NULL, NULL, '1974-12-25', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(497, '197501041995112001', 'Rina Setyastuti', NULL, NULL, NULL, '197501041995112001', NULL, NULL, '1975-01-04', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(498, '197401081998031002', 'IRWAN ARIBOWO', NULL, NULL, NULL, '197401081998031002', NULL, NULL, '1974-01-08', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(499, '197605251996021002', 'Rahadi Nugroho', NULL, NULL, NULL, '197605251996021002', NULL, NULL, '1976-05-25', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(500, '197406031995021001', 'Anang Mury Kurniawan', NULL, NULL, NULL, '197406031995021001', NULL, NULL, '1974-06-03', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(501, '197610061998031002', 'Maulana', NULL, NULL, NULL, '197610061998031002', NULL, NULL, '1976-10-06', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(502, '197704271999031001', 'Irwan', NULL, NULL, NULL, '197704271999031001', NULL, NULL, '1977-04-27', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(503, '197705242005011001', 'Solih', NULL, NULL, NULL, '197705242005011001', NULL, NULL, '1977-05-24', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(504, '197505241995032001', 'Khusnaini', NULL, NULL, NULL, '197505241995032001', NULL, NULL, '1975-05-24', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(505, '197507241999031001', 'Suhut Tumpal Sinaga', NULL, NULL, NULL, '197507241999031001', NULL, NULL, '1975-07-24', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(506, '198002201999031002', 'Ateng', NULL, NULL, NULL, '198002201999031002', NULL, NULL, '1980-02-20', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(507, '198304212004122001', 'Rachma Aprilia', NULL, NULL, NULL, '198304212004122001', NULL, NULL, '1983-04-21', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(508, '198305172004122001', 'Vitrie Rahmawati', NULL, NULL, NULL, '198305172004122001', NULL, NULL, '1983-05-17', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(509, '198308172007011001', 'Tri Warso Nugroho', NULL, NULL, NULL, '198308172007011001', NULL, NULL, '1983-08-17', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(510, '198310092010122003', 'Sri Handayani', NULL, NULL, NULL, '198310092010122003', NULL, NULL, '1983-10-09', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(511, '198403192006022002', 'Nurhidayati', NULL, NULL, NULL, '198403192006022002', NULL, NULL, '1984-03-19', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(512, '198403122004121002', 'Rovinus Deny Boy', NULL, NULL, NULL, '198403122004121002', NULL, NULL, '1984-03-12', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(513, '198409172006021002', 'Septia Yudhi Nugraha', NULL, NULL, NULL, '198409172006021002', NULL, NULL, '1984-09-17', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(514, '198503232007011001', 'Ridho Yusmari', NULL, NULL, NULL, '198503232007011001', NULL, NULL, '1985-03-23', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(515, '198504162010121005', 'Anwarudin Abdul Majid', NULL, NULL, NULL, '198504162010121005', NULL, NULL, '1985-04-16', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL);
+INSERT INTO `person` (`id`, `nip`, `name`, `nickname`, `front_title`, `back_title`, `nid`, `npwp`, `born`, `birthday`, `gender`, `phone`, `email`, `homepage`, `address`, `office_phone`, `office_fax`, `office_email`, `office_address`, `bank_account`, `married`, `blood`, `graduate_desc`, `position`, `position_desc`, `organisation`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
+(516, '198506102010122004', 'Fidiah Putrianti', NULL, NULL, NULL, '198506102010122004', NULL, NULL, '1985-06-10', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(517, '198506162010122005', 'Yusiana Puspitasari', NULL, NULL, NULL, '198506162010122005', NULL, NULL, '1985-06-16', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(518, '198603112010122003', 'Sylvia Mulyawati', NULL, NULL, NULL, '198603112010122003', NULL, NULL, '1986-03-11', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(519, '198604232009012004', 'Kusumawati', NULL, NULL, NULL, '198604232009012004', NULL, NULL, '1986-04-23', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(520, '198605012009121008', 'Cucun Handoko', NULL, NULL, NULL, '198605012009121008', NULL, NULL, '1986-05-01', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(521, '198608042007101002', 'Aldi Pratama', NULL, NULL, NULL, '198608042007101002', NULL, NULL, '1986-08-04', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(522, '198608202010122003', 'Erna Setiyowati', NULL, NULL, NULL, '198608202010122003', NULL, NULL, '1986-08-20', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(523, '198608082007011004', 'Rohmat Sholihin', NULL, NULL, NULL, '198608082007011004', NULL, NULL, '1986-08-08', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(524, '198609102010122004', 'Ayu Kusuma Negara', NULL, NULL, NULL, '198609102010122004', NULL, NULL, '1986-09-10', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(525, '198609212007101002', 'Budi Nata Gama', NULL, NULL, NULL, '198609212007101002', NULL, NULL, '1986-09-21', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(526, '198701302007011001', 'Joni Ermawan', NULL, NULL, NULL, '198701302007011001', NULL, NULL, '1987-01-30', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(527, '198704282010122005', 'Wahyu Astriavi Apritasari', NULL, NULL, NULL, '198704282010122005', NULL, NULL, '1987-04-28', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(528, '198705302010121001', 'Harfit Dimas Yogi Irianto', NULL, NULL, NULL, '198705302010121001', NULL, NULL, '1987-05-30', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(529, '198701062007011003', 'Asep Januar Datu', NULL, NULL, NULL, '198701062007011003', NULL, NULL, '1987-01-06', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(530, '198706022008121001', 'Cahyo Ari Wibowo', NULL, NULL, NULL, '198706022008121001', NULL, NULL, '1987-06-02', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(531, '198706052007101001', 'Munajat Putrowibowo', 'Mumun', '', '', '198706052007101001', '58.449.458.7-624.000', 'Pasuruan', '1987-06-05', 1, '085719149392', 'mumunbedje@gmail.com', '', '', '(021)5481155', '(021)5481394', '', 'Jalan Sakti Raya Nomor 1 Kemanggisan, Jakarta Barat', '', 1, 'B', 'Diploma III Administrasi Perpajakan', 5, 'Pelaksana Subbidang Program', 'Pusat Pendidikan dan Pelatihan Pajak', 1, NULL, NULL, NULL, NULL),
+(532, '198706042009121003', 'Pungki Setyawan', NULL, NULL, NULL, '198706042009121003', NULL, NULL, '1987-06-04', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(533, '198709222010121001', 'Thomas Irwan Kristanto', NULL, NULL, NULL, '198709222010121001', NULL, NULL, '1987-09-22', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(534, '198712202008122002', 'Diana Setiawati', NULL, NULL, NULL, '198712202008122002', NULL, NULL, '1987-12-20', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(535, '198802162007101001', 'Trio Handoko', NULL, NULL, NULL, '198802162007101001', NULL, NULL, '1988-02-16', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(536, '198804142009122003', 'Rahmania Wahyu Savitri', NULL, NULL, NULL, '198804142009122003', NULL, NULL, '1988-04-14', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(537, '198805242009121005', 'Ibnu Syahlan Mubarok', NULL, NULL, NULL, '198805242009121005', NULL, NULL, '1988-05-24', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(538, '198806042010122006', 'Nurmila Wijayanti', NULL, NULL, NULL, '198806042010122006', NULL, NULL, '1988-06-04', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(539, '198806102010121003', 'Taufiqur Rokhman Agung Saputra', NULL, NULL, NULL, '198806102010121003', NULL, NULL, '1988-06-10', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(540, '198808092009121002', 'Seno Adi Nugroho', NULL, NULL, NULL, '198808092009121002', NULL, NULL, '1988-08-09', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(541, '198810092009122003', 'Elviera Rossi Purwanti', NULL, NULL, NULL, '198810092009122003', NULL, NULL, '1988-10-09', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(542, '198812302010121004', 'Kusna Ari Kurniawan', NULL, NULL, NULL, '198812302010121004', NULL, NULL, '1988-12-30', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(543, '198902102009121004', 'Adina Winanda Putra', NULL, NULL, NULL, '198902102009121004', NULL, NULL, '1989-02-10', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(544, '198907242010122001', 'Galuh Dwi Cahyani', NULL, NULL, NULL, '198907242010122001', NULL, NULL, '1989-07-24', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(545, '198909072010121004', 'Dwi Yan Septika', NULL, NULL, NULL, '198909072010121004', NULL, NULL, '1989-09-07', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(546, '198912312010121002', 'Arief Chahyah Pramudhika', NULL, NULL, NULL, '198912312010121002', NULL, NULL, '1989-12-31', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(547, '198912012010121001', 'Salman Al Farisi', NULL, NULL, NULL, '198912012010121001', NULL, NULL, '1989-12-01', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(548, '198912262008121001', 'Yogi Jaya Kusuma', NULL, NULL, NULL, '198912262008121001', NULL, NULL, '1989-12-26', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(549, '198802262010121005', 'Rahmat Nugroho', NULL, NULL, NULL, '198802262010121005', NULL, NULL, '1988-02-26', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(550, '199110312013101002', 'FACHRI REZA KUSUMA', NULL, NULL, NULL, '199110312013101002', NULL, NULL, '1991-10-31', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(551, '199111092013101002', 'NOFI BAYU DARMAWAN', NULL, NULL, NULL, '199111092013101002', NULL, NULL, '1991-11-09', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(552, '199211082013102001', 'NOVITA HAPSARI', NULL, NULL, NULL, '199211082013102001', NULL, NULL, '1992-11-08', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL),
+(553, '199007202013101004', 'PRIHARDIAN ANDI PRAWIDYA', NULL, NULL, NULL, '199007202013101004', NULL, NULL, '1990-07-20', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '-', NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2771,8 +4804,7 @@ CREATE TABLE IF NOT EXISTS `person_activity` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  UNIQUE KEY `name_UNIQUE` (`activity_id`)
+  `modified_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2782,7 +4814,7 @@ CREATE TABLE IF NOT EXISTS `person_activity` (
 --
 
 CREATE TABLE IF NOT EXISTS `program` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `satker_id` int(11) NOT NULL,
   `number` varchar(15) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
@@ -2798,16 +4830,20 @@ CREATE TABLE IF NOT EXISTS `program` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `program`
 --
 
 INSERT INTO `program` (`id`, `satker_id`, `number`, `name`, `hours`, `days`, `test`, `note`, `stage`, `category`, `validation_status`, `validation_note`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 23, '2.3.2.0', 'Diklat Fedora Administrator', NULL, NULL, 0, '', '', '', 0, NULL, 1, '2014-11-02 15:36:46', 8, '2014-11-02 15:36:46', 8);
+(1, 23, '2.3.2.0', 'Diklat Fedora Administrator', NULL, NULL, 0, '', '', '', 0, NULL, 1, '2014-11-02 15:36:46', 8, '2014-11-02 15:36:46', 8),
+(2, 20, '2.0.0.0', 'DTU Orientasi Untuk Pegawai Pajak', '100.00', 10, 1, 'DTU Orientasi untuk Pegawai Pajak dimaksudkan untuk meningkatkan pengetahuan dan keterampilan dasar di bidang perpajakan bagi para pegawai baru di lingkungan Direktorat Jenderal Pajak', 'Bumi Perkemahan Cibubur', '1', 0, NULL, 0, '2014-11-10 23:38:41', 520, '2014-11-10 23:38:57', 520),
+(3, 20, '2.3.2.0', 'DTU Orientasi Untuk Pegawai Pajak', '100.00', 10, 0, 'DTU Orientasi untuk Pegawai Pajak dimaksudkan untuk meningkatkan pengetahuan dan keterampilan dasar di bidang perpajakan bagi para pegawai baru di lingkungan Direktorat Jenderal Pajak', 'Bumi Perkemahan Cibubur', '1', 0, NULL, 1, '2014-11-10 23:39:25', 520, '2014-11-10 23:40:53', 520),
+(4, 17, '2.2.2.0', 'PKK', '48.00', 6, 1, '', '', '1', 2, '', 1, '2014-11-11 00:47:43', 31, '2014-11-11 00:48:40', 31),
+(5, 20, '2.3.1.1', 'DTSD Pajak I', '238.00', 27, 1, 'DTSD Pajak I dimaksudkan untuk mendidik dan melatih pegawai yang baru masuk dalam organisasi Direktorat Jenderal Pajak dan merupakan lulusan diploma-III untuk dapat meningkatkan pengetahuan, keterampilan, dan sikap pegawai dalam rangka pelaksanaan tugas d', 'Pusdiklat Pajak', '1', 0, NULL, 1, '2014-11-11 02:46:07', 520, '2014-11-11 02:46:07', 520),
+(6, 20, '2.3.1.1', 'DTSD Pajak II', '273.00', 30, 1, 'DTSD Pajak II dimaksudkan untuk mendidik dan melatih pegawai yang baru masuk dalam organisasi Direktorat Jenderal Pajak dan merupakan lulusan sarjana atau pascasarjana untuk dapat meningkatkan pengetahuan, keterampilan, dan sikap pegawai dalam rangka pela', 'Pusdiklat Pajak', '1', 0, NULL, 1, '2014-11-11 02:49:58', 520, '2014-11-11 02:49:58', 520);
 
 -- --------------------------------------------------------
 
@@ -2833,8 +4869,7 @@ CREATE TABLE IF NOT EXISTS `program_history` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`,`revision`)
+  `modified_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -2842,7 +4877,12 @@ CREATE TABLE IF NOT EXISTS `program_history` (
 --
 
 INSERT INTO `program_history` (`id`, `revision`, `satker_id`, `number`, `name`, `hours`, `days`, `test`, `note`, `stage`, `category`, `validation_status`, `validation_note`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 0, 23, '2.3.2.0', 'Diklat Fedora Administrator', NULL, NULL, 0, '', '', '', NULL, NULL, 1, '2014-11-02 15:36:46', 8, '2014-11-02 15:36:46', 8);
+(1, 0, 23, '2.3.2.0', 'Diklat Fedora Administrator', NULL, NULL, 0, '', '', '', NULL, NULL, 1, '2014-11-02 15:36:46', 8, '2014-11-02 15:36:46', 8),
+(2, 0, 20, '2.0.0.0', 'DTU Orientasi Untuk Pegawai Pajak', '100.00', 10, 1, 'DTU Orientasi untuk Pegawai Pajak dimaksudkan untuk meningkatkan pengetahuan dan keterampilan dasar di bidang perpajakan bagi para pegawai baru di lingkungan Direktorat Jenderal Pajak', 'Bumi Perkemahan Cibubur', '1', 0, NULL, 0, '2014-11-10 23:38:41', 520, '2014-11-10 23:38:57', 520),
+(3, 0, 20, '2.3.2.0', 'DTU Orientasi Untuk Pegawai Pajak', '100.00', 10, 0, 'DTU Orientasi untuk Pegawai Pajak dimaksudkan untuk meningkatkan pengetahuan dan keterampilan dasar di bidang perpajakan bagi para pegawai baru di lingkungan Direktorat Jenderal Pajak', 'Bumi Perkemahan Cibubur', '1', 0, NULL, 1, '2014-11-10 23:39:25', 520, '2014-11-10 23:40:53', 520),
+(4, 0, 17, '2.2.2.0', 'PKK', '48.00', 6, 1, '', '', '1', 2, '', 1, '2014-11-11 00:47:43', 31, '2014-11-11 00:48:40', 31),
+(5, 0, 20, '2.3.1.1', 'DTSD Pajak I', '238.00', 27, 1, 'DTSD Pajak I dimaksudkan untuk mendidik dan melatih pegawai yang baru masuk dalam organisasi Direktorat Jenderal Pajak dan merupakan lulusan diploma-III untuk dapat meningkatkan pengetahuan, keterampilan, dan sikap pegawai dalam rangka pelaksanaan tugas d', 'Pusdiklat Pajak', '1', NULL, NULL, 1, '2014-11-11 02:46:07', 520, '2014-11-11 02:46:07', 520),
+(6, 0, 20, '2.3.1.1', 'DTSD Pajak II', '273.00', 30, 1, 'DTSD Pajak II dimaksudkan untuk mendidik dan melatih pegawai yang baru masuk dalam organisasi Direktorat Jenderal Pajak dan merupakan lulusan sarjana atau pascasarjana untuk dapat meningkatkan pengetahuan, keterampilan, dan sikap pegawai dalam rangka pela', 'Pusdiklat Pajak', '1', NULL, NULL, 1, '2014-11-11 02:49:58', 520, '2014-11-11 02:49:58', 520);
 
 -- --------------------------------------------------------
 
@@ -2851,7 +4891,7 @@ INSERT INTO `program_history` (`id`, `revision`, `satker_id`, `number`, `name`, 
 --
 
 CREATE TABLE IF NOT EXISTS `program_subject` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `program_id` int(11) NOT NULL,
   `program_revision` int(11) DEFAULT NULL,
   `type` int(11) NOT NULL,
@@ -2864,10 +4904,19 @@ CREATE TABLE IF NOT EXISTS `program_subject` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_tb_program_subject_tb_program1` (`program_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `program_subject`
+--
+
+INSERT INTO `program_subject` (`id`, `program_id`, `program_revision`, `type`, `name`, `hours`, `sort`, `test`, `stage`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
+(1, 4, 0, 109, 'Bahasa Indonesia', '8.00', NULL, 1, '', 0, '2014-11-11 03:05:33', 31, '2014-11-11 03:05:33', 31),
+(2, 4, 0, 109, 'Bahasa Inggris', '8.00', NULL, 0, '', 0, '2014-11-11 03:05:52', 31, '2014-11-11 03:05:52', 31),
+(3, 4, 0, 110, 'Ceramah Umum', '8.00', NULL, 0, 'Pasar Modal', 0, '2014-11-11 03:06:22', 31, '2014-11-11 03:06:22', 31),
+(4, 4, 0, 111, 'Samapta', '16.00', NULL, 1, '', 0, '2014-11-11 03:06:48', 31, '2014-11-11 03:06:48', 31),
+(5, 4, 0, 109, 'Kebijakan Fiskal', '8.00', NULL, 0, '', 0, '2014-11-11 03:07:17', 31, '2014-11-11 03:07:17', 31);
 
 -- --------------------------------------------------------
 
@@ -2890,10 +4939,19 @@ CREATE TABLE IF NOT EXISTS `program_subject_history` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`,`revision`),
-  KEY `fk_tb_program_subject_tb_program1` (`program_id`)
+  `modified_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `program_subject_history`
+--
+
+INSERT INTO `program_subject_history` (`id`, `revision`, `program_id`, `program_revision`, `type`, `name`, `hours`, `sort`, `test`, `stage`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
+(1, 0, 4, 0, 109, 'Bahasa Indonesia', '8.00', NULL, 1, '', 0, '2014-11-11 03:05:33', 31, '2014-11-11 03:05:33', 31),
+(2, 0, 4, 0, 109, 'Bahasa Inggris', '8.00', NULL, 0, '', 0, '2014-11-11 03:05:53', 31, '2014-11-11 03:05:53', 31),
+(3, 0, 4, 0, 110, 'Ceramah Umum', '8.00', NULL, 0, 'Pasar Modal', 0, '2014-11-11 03:06:22', 31, '2014-11-11 03:06:22', 31),
+(4, 0, 4, 0, 111, 'Samapta', '16.00', NULL, 1, '', 0, '2014-11-11 03:06:48', 31, '2014-11-11 03:06:48', 31),
+(5, 0, 4, 0, 109, 'Kebijakan Fiskal', '8.00', NULL, 0, '', 0, '2014-11-11 03:07:17', 31, '2014-11-11 03:07:17', 31);
 
 -- --------------------------------------------------------
 
@@ -2902,7 +4960,7 @@ CREATE TABLE IF NOT EXISTS `program_subject_history` (
 --
 
 CREATE TABLE IF NOT EXISTS `reference` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `parent_id` int(11) DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
@@ -2912,9 +4970,8 @@ CREATE TABLE IF NOT EXISTS `reference` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=204 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=204 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `reference`
@@ -3107,15 +5164,12 @@ INSERT INTO `reference` (`id`, `parent_id`, `type`, `name`, `value`, `sort`, `st
 --
 
 CREATE TABLE IF NOT EXISTS `role` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `parent_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `eselon` int(11) NOT NULL,
-  `organisation_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`),
-  KEY `organisation_id` (`organisation_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=62 ;
+  `organisation_id` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `role`
@@ -3140,17 +5194,17 @@ INSERT INTO `role` (`id`, `parent_id`, `name`, `eselon`, `organisation_id`) VALU
 (16, 15, 'Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', 5, 389),
 (17, 14, 'Subbagian Perencanaan Dan Keuangan', 4, 390),
 (18, 17, 'Pelaksana Subbagian Perencanaan Dan Keuangan', 5, 390),
-(19, 14, 'Subbagian Rumah Tangga Dan Pengelolaan Aset', 4, 391),
+(19, 14, 'Subbagian Rumah Tangga Dan Pengelolaan Aset ', 4, 391),
 (20, 19, 'Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', 5, 391),
 (21, 13, 'Bidang Perencanaan Dan Pengembangan Diklat', 3, 392),
-(22, 21, 'Subbidang Program', 4, 393),
+(22, 21, 'Subbidang Program ', 4, 393),
 (23, 22, 'Pelaksana Subbidang Program', 5, 393),
 (24, 21, 'Subbidang Kurikulum', 4, 394),
 (25, 24, 'Pelaksana Subbidang Kurikulum', 5, 394),
 (26, 21, 'Subbidang Tenaga Pengajar ', 4, 395),
 (27, 26, 'Pelaksana Subbidang Tenaga Pengajar', 5, 395),
 (28, 13, 'Bidang Penyelenggaraan', 3, 396),
-(29, 28, 'Subbidang Penyelenggaraan I', 4, 397),
+(29, 28, 'Subbidang Penyelenggaraan I  ', 4, 397),
 (30, 29, 'Pelaksana Subbidang Penyelenggaraan I', 5, 397),
 (31, 28, 'Subbidang Penyelenggaraan II', 4, 398),
 (32, 31, 'Pelaksana Subbidang Penyelenggaraan II', 5, 398),
@@ -3191,7 +5245,7 @@ INSERT INTO `role` (`id`, `parent_id`, `name`, `eselon`, `organisation_id`) VALU
 --
 
 CREATE TABLE IF NOT EXISTS `room` (
-  `id` int(3) NOT NULL AUTO_INCREMENT,
+`id` int(3) NOT NULL,
   `satker_id` int(11) NOT NULL,
   `code` varchar(25) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -3204,10 +5258,8 @@ CREATE TABLE IF NOT EXISTS `room` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `code_UNIQUE` (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3224,8 +5276,7 @@ CREATE TABLE IF NOT EXISTS `satker` (
   `phone` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
   `fax` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
   `email` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
-  `website` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  PRIMARY KEY (`reference_id`)
+  `website` varchar(255) CHARACTER SET latin1 DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -3272,9 +5323,7 @@ CREATE TABLE IF NOT EXISTS `student` (
   `satker` int(3) DEFAULT NULL,
   `no_sk` date DEFAULT NULL COMMENT 'SK Pangkat',
   `tmt_sk` varchar(255) DEFAULT NULL,
-  `status` int(3) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`person_id`),
-  UNIQUE KEY `username` (`username`)
+  `status` int(3) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -3288,8 +5337,7 @@ CREATE TABLE IF NOT EXISTS `trainer` (
   `category` varchar(255) DEFAULT NULL,
   `education_history` text,
   `training_history` text,
-  `experience_history` text,
-  PRIMARY KEY (`person_id`)
+  `experience_history` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -3316,10 +5364,7 @@ CREATE TABLE IF NOT EXISTS `training` (
   `approved_status` int(3) DEFAULT NULL,
   `approved_note` varchar(255) DEFAULT NULL,
   `approved_date` datetime DEFAULT NULL,
-  `approved_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`activity_id`),
-  KEY `activity_id` (`activity_id`,`program_id`),
-  KEY `program_id` (`program_id`)
+  `approved_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -3327,7 +5372,7 @@ CREATE TABLE IF NOT EXISTS `training` (
 --
 
 INSERT INTO `training` (`activity_id`, `program_id`, `program_revision`, `number`, `note`, `regular`, `stakeholder`, `student_count_plan`, `class_count_plan`, `execution_sk`, `result_sk`, `cost_source`, `cost_plan`, `cost_real`, `approved_status`, `approved_note`, `approved_date`, `approved_by`) VALUES
-(1, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '52097000.00', '21000000.00', NULL, NULL, NULL, NULL),
+(1, 1, 0, '2014-07-00-2.3.2.0.2', '', 0, '', NULL, NULL, '', NULL, '', '52097000.00', '21000000.00', NULL, NULL, NULL, NULL),
 (2, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '21000000.00', '2100000.00', NULL, NULL, NULL, NULL),
 (3, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '52097000.00', '5207000.00', NULL, NULL, NULL, NULL),
 (4, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '52097000.00', '20900000.00', NULL, NULL, NULL, NULL),
@@ -3339,7 +5384,13 @@ INSERT INTO `training` (`activity_id`, `program_id`, `program_revision`, `number
 (10, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '12387600.00', '574980.00', NULL, NULL, NULL, NULL),
 (11, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '57499887.00', '20900000.00', NULL, NULL, NULL, NULL),
 (12, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '20900000.00', '21000000.00', NULL, NULL, NULL, NULL),
-(13, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '21000000.00', '12387600.00', NULL, NULL, NULL, NULL);
+(13, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '21000000.00', '12387600.00', NULL, NULL, NULL, NULL),
+(14, 4, 0, '2014-01-00-2.2.2.0.2', '', 0, '', 80, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
+(15, 3, 0, '2014-04-00-2.3.2.0.1', '37 orang dari Itjen', 1, 'DJP', 605, 30, NULL, NULL, 'DIPA Pusdiklat Pajak  015.11.1.670142/2014 Tanggal 05 Desember 2013', '2368728000.00', NULL, NULL, NULL, NULL, NULL),
+(16, 5, 0, '2014-04-00-2.3.1.1.1', 'Diploma III Umum rekrutmen 2013', 1, 'DJP', 202, 5, NULL, NULL, 'DIPA Pusdiklat Pajak  015.11.1.670142/2014 Tanggal 05 Desember 2013', '779460000.00', NULL, NULL, NULL, NULL, NULL),
+(17, 6, 0, '2014-04-00-2.3.1.1.1', 'Sarjana non Akuntansi rekrutmen 2013', 1, 'DJP', 364, 9, NULL, NULL, 'DIPA Pusdiklat Pajak  015.11.1.670142/2014 Tanggal 05 Desember 2013', '1157576000.00', NULL, NULL, NULL, NULL, NULL),
+(18, 3, 0, '2014-04-00-2.3.2.0.1', 'Diploma I STAN rekrutmen 2013', 1, 'DJP', 806, 20, NULL, NULL, 'DIPA Pusdiklat Pajak  015.11.1.670142/2014 Tanggal 05 Desember 2013', '3715848000.00', NULL, NULL, NULL, NULL, NULL),
+(19, 3, 0, '2014-04-00-2.3.2.0.1', 'Diploma III STAN rekrutmen 2013', 1, 'DJP', 877, 22, NULL, NULL, 'DIPA Pusdiklat Pajak  015.11.1.670142/2014 Tanggal 05 Desember 2013', '3264682000.00', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -3348,17 +5399,15 @@ INSERT INTO `training` (`activity_id`, `program_id`, `program_revision`, `number
 --
 
 CREATE TABLE IF NOT EXISTS `training_class` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `training_id` int(11) NOT NULL,
   `class` varchar(5) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '1',
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_tb_training_assignment_tb_training_subject1` (`training_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3367,7 +5416,7 @@ CREATE TABLE IF NOT EXISTS `training_class` (
 --
 
 CREATE TABLE IF NOT EXISTS `training_class_student` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `training_id` int(11) NOT NULL,
   `training_class_id` int(11) NOT NULL,
   `training_student_id` int(11) NOT NULL,
@@ -3382,13 +5431,8 @@ CREATE TABLE IF NOT EXISTS `training_class_student` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `tb_training_id_2` (`training_id`,`training_student_id`),
-  KEY `fk_tb_training_subject_student_tb_training_assignment1` (`training_class_id`),
-  KEY `fk_tb_training_subject_student_tb_student1` (`training_student_id`),
-  KEY `tb_training_id` (`training_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3397,7 +5441,7 @@ CREATE TABLE IF NOT EXISTS `training_class_student` (
 --
 
 CREATE TABLE IF NOT EXISTS `training_class_student_attendance` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `training_schedule_id` int(11) NOT NULL,
   `training_class_student_id` int(11) NOT NULL,
   `hours` decimal(5,2) DEFAULT NULL,
@@ -3406,11 +5450,8 @@ CREATE TABLE IF NOT EXISTS `training_class_student_attendance` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `tb_training_schedule_id` (`training_schedule_id`),
-  KEY `tb_training_class_student_id` (`training_class_student_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3435,9 +5476,7 @@ CREATE TABLE IF NOT EXISTS `training_class_student_certificate` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`training_class_student_id`),
-  KEY `fk_tb_training_certificate_tb_training1` (`training_class_student_id`)
+  `modified_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -3447,18 +5486,15 @@ CREATE TABLE IF NOT EXISTS `training_class_student_certificate` (
 --
 
 CREATE TABLE IF NOT EXISTS `training_class_subject` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `training_class_id` int(11) NOT NULL,
   `program_subject_id` int(11) NOT NULL,
   `status` int(3) NOT NULL DEFAULT '1',
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_tb_training_assignment_tb_training_subject1` (`training_class_id`),
-  KEY `fk_tb_training_assignment_tb_trainer1` (`program_subject_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3467,7 +5503,7 @@ CREATE TABLE IF NOT EXISTS `training_class_subject` (
 --
 
 CREATE TABLE IF NOT EXISTS `training_class_subject_trainer_evaluation` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `training_class_subject_id` int(11) NOT NULL,
   `trainer_id` int(11) NOT NULL,
   `student_id` int(11) NOT NULL,
@@ -3477,12 +5513,8 @@ CREATE TABLE IF NOT EXISTS `training_class_subject_trainer_evaluation` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_tb_training_trainer_evaluation_tb_student1` (`student_id`),
-  KEY `tb_training_class_subject_id` (`training_class_subject_id`),
-  KEY `trainer_id` (`trainer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3491,7 +5523,7 @@ CREATE TABLE IF NOT EXISTS `training_class_subject_trainer_evaluation` (
 --
 
 CREATE TABLE IF NOT EXISTS `training_execution_evaluation` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `training_class_student_id` int(11) NOT NULL,
   `value` varchar(255) DEFAULT NULL,
   `text1` varchar(500) DEFAULT NULL,
@@ -3505,10 +5537,8 @@ CREATE TABLE IF NOT EXISTS `training_execution_evaluation` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_tb_training_execution_evaluation_tb_training_student1` (`training_class_student_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3535,8 +5565,7 @@ CREATE TABLE IF NOT EXISTS `training_history` (
   `approved_status` int(3) DEFAULT NULL,
   `approved_note` varchar(255) DEFAULT NULL,
   `approved_date` datetime DEFAULT NULL,
-  `approved_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`activity_id`,`revision`)
+  `approved_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -3544,7 +5573,7 @@ CREATE TABLE IF NOT EXISTS `training_history` (
 --
 
 INSERT INTO `training_history` (`activity_id`, `revision`, `program_id`, `program_revision`, `number`, `note`, `regular`, `stakeholder`, `student_count_plan`, `class_count_plan`, `execution_sk`, `result_sk`, `cost_source`, `cost_plan`, `cost_real`, `approved_status`, `approved_note`, `approved_date`, `approved_by`) VALUES
-(1, 0, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '52097000.00', NULL, NULL, NULL, NULL, NULL),
+(1, 0, 1, 0, '2014-07-00-2.3.2.0.2', '', 0, '', NULL, NULL, '', NULL, '', '52097000.00', '21000000.00', NULL, NULL, NULL, NULL),
 (2, 0, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '21000000.00', NULL, NULL, NULL, NULL, NULL),
 (3, 0, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '52097000.00', NULL, NULL, NULL, NULL, NULL),
 (4, 0, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '52097000.00', NULL, NULL, NULL, NULL, NULL),
@@ -3556,7 +5585,13 @@ INSERT INTO `training_history` (`activity_id`, `revision`, `program_id`, `progra
 (10, 0, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '12387600.00', NULL, NULL, NULL, NULL, NULL),
 (11, 0, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '57499887.00', NULL, NULL, NULL, NULL, NULL),
 (12, 0, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '20900000.00', NULL, NULL, NULL, NULL, NULL),
-(13, 0, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '21000000.00', NULL, NULL, NULL, NULL, NULL);
+(13, 0, 1, 0, '2014-07-00-2.3.2.0.1', '', 0, '', NULL, NULL, NULL, NULL, '', '21000000.00', NULL, NULL, NULL, NULL, NULL),
+(14, 0, 4, 0, '2014-01-00-2.2.2.0.2', '', 0, '', 80, 2, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL),
+(15, 0, 3, 0, '2014-04-00-2.3.2.0.1', '37 orang dari Itjen', 1, 'DJP', 605, 30, NULL, NULL, 'DIPA Pusdiklat Pajak  015.11.1.670142/2014 Tanggal 05 Desember 2013', '2368728000.00', NULL, NULL, NULL, NULL, NULL),
+(16, 0, 5, 0, '2014-04-00-2.3.1.1.1', 'Diploma III Umum rekrutmen 2013', 1, 'DJP', 202, 5, NULL, NULL, 'DIPA Pusdiklat Pajak  015.11.1.670142/2014 Tanggal 05 Desember 2013', '779460000.00', NULL, NULL, NULL, NULL, NULL),
+(17, 0, 6, 0, '2014-04-00-2.3.1.1.1', 'Sarjana non Akuntansi rekrutmen 2013', 1, 'DJP', 364, 9, NULL, NULL, 'DIPA Pusdiklat Pajak  015.11.1.670142/2014 Tanggal 05 Desember 2013', '1157576000.00', NULL, NULL, NULL, NULL, NULL),
+(18, 0, 3, 0, '2014-04-00-2.3.2.0.1', 'Diploma I STAN rekrutmen 2013', 1, 'DJP', 806, 20, NULL, NULL, 'DIPA Pusdiklat Pajak  015.11.1.670142/2014 Tanggal 05 Desember 2013', '3715848000.00', NULL, NULL, NULL, NULL, NULL),
+(19, 0, 3, 0, '2014-04-00-2.3.2.0.1', 'Diploma III STAN rekrutmen 2013', 1, 'DJP', 877, 22, NULL, NULL, 'DIPA Pusdiklat Pajak  015.11.1.670142/2014 Tanggal 05 Desember 2013', '3264682000.00', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -3565,7 +5600,7 @@ INSERT INTO `training_history` (`activity_id`, `revision`, `program_id`, `progra
 --
 
 CREATE TABLE IF NOT EXISTS `training_schedule` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `training_class_id` int(11) NOT NULL,
   `training_class_subject_id` int(11) NOT NULL,
   `activity_room_id` int(11) NOT NULL,
@@ -3578,13 +5613,8 @@ CREATE TABLE IF NOT EXISTS `training_schedule` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_tb_training_schedule_tb_room1` (`activity_room_id`),
-  KEY `tb_activity_room_id` (`activity_room_id`),
-  KEY `tb_training_class_subject_assignment_id` (`training_class_subject_id`),
-  KEY `tb_training_class_id` (`training_class_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3593,7 +5623,7 @@ CREATE TABLE IF NOT EXISTS `training_schedule` (
 --
 
 CREATE TABLE IF NOT EXISTS `training_schedule_trainer` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `training_schedule_id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
   `trainer_id` int(11) NOT NULL,
@@ -3604,12 +5634,8 @@ CREATE TABLE IF NOT EXISTS `training_schedule_trainer` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `tb_training_schedule_id` (`training_schedule_id`,`trainer_id`),
-  KEY `tb_training_class_subject_assignment_id` (`trainer_id`),
-  KEY `tb_training_class_id` (`training_schedule_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3618,7 +5644,7 @@ CREATE TABLE IF NOT EXISTS `training_schedule_trainer` (
 --
 
 CREATE TABLE IF NOT EXISTS `training_student` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `training_id` int(11) NOT NULL,
   `student_id` int(11) NOT NULL,
   `note` varchar(255) DEFAULT NULL,
@@ -3626,11 +5652,8 @@ CREATE TABLE IF NOT EXISTS `training_student` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_tb_training_assignment_tb_training_subject1` (`training_id`),
-  KEY `tb_student_id` (`student_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3645,9 +5668,15 @@ CREATE TABLE IF NOT EXISTS `training_student_plan` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`training_id`)
+  `modified_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `training_student_plan`
+--
+
+INSERT INTO `training_student_plan` (`training_id`, `spread`, `status`, `created`, `created_by`, `modified`, `modified_by`) VALUES
+(14, '{"121":"10","122":"10","123":"10","124":"10","125":"5","126":"5","127":"5","128":"5","129":"5","130":"5","131":"5","132":"5","133":"0"}', 1, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -3656,7 +5685,7 @@ CREATE TABLE IF NOT EXISTS `training_student_plan` (
 --
 
 CREATE TABLE IF NOT EXISTS `training_subject_trainer_recommendation` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `training_id` int(11) NOT NULL,
   `program_subject_id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
@@ -3667,12 +5696,8 @@ CREATE TABLE IF NOT EXISTS `training_subject_trainer_recommendation` (
   `created` datetime DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_tb_training_subject_trainer_recommendation_tb_training_sub1` (`program_subject_id`),
-  KEY `fk_tb_training_subject_trainer_recommendation_tb_trainer1` (`trainer_id`),
-  KEY `tb_training_id` (`training_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `modified_by` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3681,7 +5706,7 @@ CREATE TABLE IF NOT EXISTS `training_subject_trainer_recommendation` (
 --
 
 CREATE TABLE IF NOT EXISTS `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+`id` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
   `auth_key` varchar(32) NOT NULL,
   `password_hash` varchar(255) NOT NULL,
@@ -3690,23 +5715,22 @@ CREATE TABLE IF NOT EXISTS `user` (
   `role` smallint(6) NOT NULL DEFAULT '10',
   `status` smallint(6) NOT NULL DEFAULT '10',
   `created_at` int(11) NOT NULL,
-  `updated_at` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=101 ;
+  `updated_at` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=551 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `role`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'superadmin', '5_082mYBEKJPI2VsPKBUwh6EEZFhpuv0', '$2y$13$8W7z/7NCJ1BaLigR9dCWH.C0VdYrCB2.yw68xpoCwn3Hq82Zbi2ye', '', 'superadmin@abc.def', 1, 1, 1411603965, 1412108460),
+(1, 'superadmin', '5_082mYBEKJPI2VsPKBUwh6EEZFhpuv0', '$2y$13$oBGcqS.SVmIsrFp9FRxkBeLddWQOEC/pyp4LBPJWQ3SyV5KrJyg5C', '', 'superadmin@abc.def', 1, 1, 1411603965, 1415331840),
 (2, 'admin_sekretariat_badan', '', '$2y$13$srEdKVFpamSq7lRDhNn1Ye3bgVSQcTwPYUi210z/THk1iIIUURfCO', NULL, 'admin_sekretariat_badan@abc.def', 1, 1, 1413765096, 1413765096),
 (3, 'admin_pusdiklat_psdm', '', '$2y$13$OQfNDXoGCLOgQ31y24OTwuiZqH/ZrYrDwcz5lW9sHd.Er5e3rtJDq', NULL, 'admin_pusdiklat_psdm@abc.def', 1, 1, 1413765144, 1413765144),
 (4, 'admin_pusdiklat_ap', '', '$2y$13$Xh0UOiUz5983S/nou7VUe./GCLgEEh1bDCTiQ5afeQUZb5VENX4hG', NULL, 'admin_pusdiklat_ap@abc.def', 1, 1, 1413765179, 1413765179),
 (5, 'admin_pusdiklat_pajak', '', '$2y$13$DpWvMQr7owkwySybUQTCfuUOzwOCipRTjrmf2xtfH6/7wtRXBC8ni', NULL, 'admin_pusdiklat_pajak @abc.def', 1, 1, 1413765209, 1413765209),
 (6, 'admin_pusdiklat_bc', '', '$2y$13$qanbodlWc4w1nNwUqUdPZ.9zDDQdmZqWN.jHcLleUuP7DG7TmlltK', NULL, 'admin_pusdiklat_bc @abc.def', 1, 1, 1413765225, 1413765225),
 (7, 'admin_pusdiklat_knpk', '', '$2y$13$n4IxTJZEJJO2oNXl2Lx3o.iVf8cENmhcwvWchXrkyeDBgBXgXPC3e', NULL, 'admin_pusdiklat_knpk @abc.def', 1, 1, 1413765244, 1413765244),
-(8, 'admin_pusdiklat_ku', '', '$2y$13$zac9E550..fNNMYKMEnxFupl.Tk/4fnn.kR0ChDRwiDqcrCuDE2/a', NULL, 'admin_pusdiklat_ku @abc.def', 1, 1, 1413765275, 1413765275),
+(8, 'admin_pusdiklat_ku', '', '$2y$13$PR/qisH.QZyTo3TXcuuBNeWKarGszW2lt2IsQQGr2jApxusnUhss6', NULL, 'admin_pusdiklat_ku @abc.def', 1, 1, 1413765275, 1415692372),
 (9, 'admin_stan', '', '$2y$13$uoqG0HtjBtFgbINR4iJ9e.eQCBxdSkoMiKXgRsoSJPa3W2hm/wGKq', NULL, 'admin_stan @abc.def', 1, 1, 1413765292, 1413765292),
 (10, 'admin_bdk_medan', '', '$2y$13$vNmJaeiDV/5PwjTxR4K1mO1hdyK/5bVxv1qCNPak1iCiNI9yddxka', NULL, 'admin_bdk_medan @abc.def', 1, 1, 1413765313, 1413765313),
 (11, 'admin_bdk_balikpapan', '', '$2y$13$H0SEl6BOvql8Y6oAISvvgurjkO1BTTQDgJbN5d9G7NO14GKBw7AfC', NULL, 'admin_bdk_balikpapan @abc.def', 1, 1, 1413765335, 1413765335),
@@ -3724,216 +5748,1044 @@ INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_res
 (23, 'admin_sekretariat_hrd', '', '$2y$13$I15w2LMAOslm3GJrIC3ss.8mdDE8.QiZZ1uCmh6mBhEWGPKfDq82W', NULL, 'admin_sekretariat_hrd@abc.def', 1, 1, 1413843677, 1413843677),
 (24, 'admin_sekretariat_finance', '', '$2y$13$bvGxy1TfI2HFwZs4vYVI2eqVxiOuS7TZEub/KvArQXmMriQA0FQnK', NULL, 'admin_sekretariat_finance@abc.def', 1, 1, 1413843775, 1413843775),
 (25, 'admin_sekretariat_it', '', '$2y$13$X8nh/TXpBMUhmRfB7Hg/uOPjh63mm8hgnlyBOWe8vRSjLHPIVBd2K', NULL, 'admin_sekretariat_it@abc.def', 1, 1, 1413843832, 1413843832),
-(26, 'admin_sekretariat_general', '', '$2y$13$0RWmtv7pTfpX0g88C8Tm6umWLsHAw8OiPTRCW8IvW0b7OikOfKyES', NULL, 'admin_sekretariat_general@abc.def', 1, 1, 1413843871, 1413843871);
+(26, 'admin_sekretariat_general', '', '$2y$13$0RWmtv7pTfpX0g88C8Tm6umWLsHAw8OiPTRCW8IvW0b7OikOfKyES', NULL, 'admin_sekretariat_general@abc.def', 1, 1, 1413843871, 1413843871),
+(27, 'admin_hafid', '', '$2y$13$9uK3cKbD9zuYVtNlUDZYy.F50mcPbOp5AkFWH9xjN9fu3aCOnFJ.e', NULL, 'admin_hafid@abc.def', 1, 1, 1415332495, 1415332495),
+(28, 'admin_edi', '', '$2y$13$980vQGjLcODgx5JXAuhhn.s8t6CIpxU73OV2AOpX3npdvMAivE4EC', NULL, 'admin_edi@abc.def', 1, 1, 1415332532, 1415680084),
+(29, 'admin_guntur', '', '$2y$13$dejPnTf..d4kl8ZTdYAvMeL7Dbc5y/8THyU0ygAw1UZtA3ZJZxBW.', NULL, 'admin_guntur@abc.def', 1, 1, 1415332565, 1415332565),
+(30, 'admin_fajar', '', '$2y$13$vk8XigyfvTrOicygo.kyReuf5qk6yX2xZ7wBe7R9qUfsMpYceuity', NULL, 'admin_fajar@abc.def', 1, 1, 1415332590, 1415332590),
+(31, 'admin_wida', '', '$2y$13$vPC6MSCYLj4sUamC21hBoO5qipbk7YB0sZmFPwwZgR6lB/hUeBdJm', NULL, 'admin_wida@abc.def', 1, 1, 1415332617, 1415332617),
+(101, '198604302009011002', '', '$2y$04$bRCQ3DCGUjNmsbi6f7Y3iux0Bfp2mKaVlyKLVG1QXWblr5fDOyc32', NULL, '198604302009011002@abc.def', 1, 1, 1415344191, 1415606307),
+(102, '195908021983101001', '', '$2y$04$T7/WkiJh2RmpAaw9.oVMluUJ2agQ742d1QY1HerXlqlbs2KQEh3gK', NULL, '195908021983101001@abc.def', 1, 1, 1415344191, 1415360744),
+(103, '196705031993081001', '', '$2y$04$ycQbaopXHr/Ca9VYvmGSUeJcamwZi48SKGgb7aIUALdXNRdgtS1n6', NULL, '196705031993081001@abc.def', 1, 1, 1415344191, 1415360745),
+(104, '196706091998031001', '', '$2y$04$q83WYjoidPY4MWwIv5FyduoB1jOQbZNcOYOLCWOVKlqaBxEQvmCEW', NULL, '196706091998031001@abc.def', 1, 1, 1415344191, 1415360745),
+(105, '196807101994031001', '', '$2y$04$6vVnKYrJGw2xtjDGy3B9XOo50BeYoKdXXj4s6mXe9xKSxW/bC5mDi', NULL, '196807101994031001@abc.def', 1, 1, 1415344191, 1415360745),
+(106, '196901111998031002', '', '$2y$04$96nCV7cnAwGQEr8AbvOuJue9Tn62a7kPddmgGtchvI3t.ODZkvApS', NULL, '196901111998031002@abc.def', 1, 1, 1415344192, 1415360745),
+(107, '196905161994031002', '', '$2y$04$YOEMGHksCSS6iwOQTYxFi.X03LQrcQ01HwcdZHEDs94kBN2/bC1P2', NULL, '196905161994031002@abc.def', 1, 1, 1415344192, 1415692574),
+(108, '197008051994031002', '', '$2y$04$SPpkm.Wg1ndY3HnGUMgejOgRtafTrBtUGNsbwvFQFaOQ46K/yIcAK', NULL, '197008051994031002@abc.def', 1, 1, 1415344192, 1415360745),
+(109, '197412232005011001', '', '$2y$04$EoTAcxuWswmOGyFD8N4Gy.2Dl/9nMK1sC1KoB251DcuGaERf24ZC.', NULL, '197412232005011001@abc.def', 1, 1, 1415344192, 1415360745),
+(110, '197601031996022001', '', '$2y$04$P8EnQQcNojb9XQl.kBSCeek.tketoKrFuI6aPVH5B1pvbPADc2gbe', NULL, '197601031996022001@abc.def', 1, 1, 1415344192, 1415360745),
+(111, '197711101998031002', '', '$2y$04$iY3FQ6tluOHiXilotPbpYOjrCdfUjqHqRSP17YJi3HZjZHCqxCAxS', NULL, '197711101998031002@abc.def', 1, 1, 1415344192, 1415360745),
+(112, '198010152005011001', '', '$2y$04$0JqGxT.ZJ4wRPo4KnqPWCewJuu/oNp5t/55Uaru4jFa/8.or1taU6', NULL, '198010152005011001@abc.def', 1, 1, 1415344192, 1415360745),
+(113, '198211302006021001', '', '$2y$04$RS2Y8R/ZqQ9U9ZvkCXljtOc1YT6Ri0ntXktORiXhXFANZ28FHMnQi', NULL, '198211302006021001@abc.def', 1, 1, 1415344192, 1415360745),
+(114, '198306072010121002', '', '$2y$04$eBaMro4ZQ5/DaON5bmiKy.g2R60fTxHhhx6vWXu6vgitgvNnuSKs.', NULL, '198306072010121002@abc.def', 1, 1, 1415344192, 1415360745),
+(115, '198309042010122002', '', '$2y$04$OxMjOj7ETK2EoldMEsGQZ.uEffclkkDRxpiqt/WW8LoMT.V4pT.FK', NULL, '198309042010122002@abc.def', 1, 1, 1415344192, 1415360745),
+(116, '198311142010122001', '', '$2y$04$cJgVylajfx702IOnU7/EpujDDUQRvhvVOXaMwE5/tt6Ei9kVd0qqy', NULL, '198311142010122001@abc.def', 1, 1, 1415344192, 1415360745),
+(117, '199106292013101003', '', '$2y$04$Flm3mEHTxia42UZ4QLhLXe9akxqhjvKuCoGRndt4sQ1BLBZW6Ja2G', NULL, '199106292013101003@abc.def', 1, 1, 1415344551, 1415360746),
+(118, '198403212004121001', '', '$2y$04$T.TRYlmImfxX1/Lgl9RIR.nvk2sEAq9jY5/tudSGdlJZYvp0MKr8u', NULL, '198403212004121001@abc.def', 1, 1, 1415355543, 1415360745),
+(119, '198404012009011004', '', '$2y$04$Dncr.fSPjC6UcEoUvFizU.ZthEEkVLR4YugEuVHyxLJUpzLxjWrrG', NULL, '198404012009011004@abc.def', 1, 1, 1415355543, 1415360745),
+(120, '198407062010121005', '', '$2y$04$GuiQ.CqQaYWbpn4lJIkFwuJfjoZj6Yx4g8XU9v.OidSqEN7E1.p6m', NULL, '198407062010121005@abc.def', 1, 1, 1415355543, 1415360745),
+(121, '198408172007011001', '', '$2y$04$6SWP9miE3YWK7dfDzKSxM.Y.m/1fya10XCTqrfqt/FN/uQm99jtpy', NULL, '198408172007011001@abc.def', 1, 1, 1415355543, 1415360745),
+(122, '198409042010122003', '', '$2y$04$miU57GZ/UVzLEG4wqDpR9OQhtBq2xyGidHTDX.ghJTSlK6DQyUKqe', NULL, '198409042010122003@abc.def', 1, 1, 1415355543, 1415360745),
+(123, '198501112010121003', '', '$2y$04$dvlukPu0HuLh67aftJ1ZluNeu6pgZFEVeFgotblY0MxfpMOwTxWX2', NULL, '198501112010121003@abc.def', 1, 1, 1415355543, 1415360745),
+(124, '198503272007011001', '', '$2y$04$HD/O0xpnyFam/nncpmh3LeBjHIWfgBHhGvjE.cmGA6XxVVWU9RcdO', NULL, '198503272007011001@abc.def', 1, 1, 1415355543, 1415360745),
+(125, '198504252010122003', '', '$2y$04$5x3mer597vAakx7i/iEDp.FU0jJ3OS0t8ze6rfHGN5zpH2B/nLI86', NULL, '198504252010122003@abc.def', 1, 1, 1415355543, 1415360745),
+(126, '198510302007101001', '', '$2y$04$AI3SfRMBZQmdrG/eY6nU.e/9fz2jTtOWPXLdWDz4b/ayWPDiz0SdW', NULL, '198510302007101001@abc.def', 1, 1, 1415355543, 1415360745),
+(127, '198510252010121005', '', '$2y$04$7PFXsjtjCtzXNbLMpPtxl.t9gA5lMRNehjfQ2sCrR7uyN8ByPggZq', NULL, '198510252010121005@abc.def', 1, 1, 1415355543, 1415360746),
+(128, '198510292010121004', '', '$2y$13$vNqiz5kDbR7eweNBv/Xt9uotpM8EmZk7RPM88VdOz4vp/Bg8U3d4y', NULL, '198510292010121004@abc.def', 1, 1, 1415355543, 1415691586),
+(129, '198605032007101003', '', '$2y$04$.fbmkiLRVePoHUWvLpu85eyt5MK4KVDPpqLGMqtryqUNpKcMZE2wy', NULL, '198605032007101003@abc.def', 1, 1, 1415355543, 1415360746),
+(130, '198609132008121002', '', '$2y$04$4ipAHzvXlkmutLx22oo0ieflD6qzaDkMcueLJeyhIXePkmwhcRq2m', NULL, '198609132008121002@abc.def', 1, 1, 1415355543, 1415360746),
+(131, '198609152010122006', '', '$2y$04$pyvQTSmMX/ncDeisH8g1WuBZBdDMX9ZHnu91nOggK96g5fvx6jxf6', NULL, '198609152010122006@abc.def', 1, 1, 1415355544, 1415360746),
+(132, '198706252008121003', '', '$2y$04$cpxr/uBxATIrMulBdizORO05R0t7kqqHJJ1Kx3L/SUZhiP/c9AiAq', NULL, '198706252008121003@abc.def', 1, 1, 1415355544, 1415360746),
+(133, '198706162010122004', '', '$2y$04$Q/v2MxNDA/OG5ZVKAMgpouN0.kws7OVTgboYZjNn0dFxtCayPGAdK', NULL, '198706162010122004@abc.def', 1, 1, 1415355544, 1415360746),
+(134, '198801032009121005', '', '$2y$04$8/JKca7gufrSMcdjMF9JMetdoXNK0pBZ24UCGD1EUEe7jdQU5QDR2', NULL, '198801032009121005@abc.def', 1, 1, 1415355544, 1415360746),
+(135, '198801142007011001', '', '$2y$04$Yz83Pleln.gpQyr6IupbCO5e76FpVYuvcQQ9CMwhOKPZNEUJBqCsS', NULL, '198801142007011001@abc.def', 1, 1, 1415355544, 1415360746),
+(136, '198804062008122001', '', '$2y$04$zvATU6QWhx02ex4zclVCWOkKzeW17vHSoW9V81499TZsJRGtm3S4e', NULL, '198804062008122001@abc.def', 1, 1, 1415355544, 1415360746),
+(137, '198805272009121006', '', '$2y$04$3cTWgcYTMx7FwqUM8rECs.mCCDjbWKat7.tvE04nMgweXz9nOoSyO', NULL, '198805272009121006@abc.def', 1, 1, 1415355544, 1415360746),
+(138, '198804222007012001', '', '$2y$04$H/zVcWarBK4jI8lSqSLUROvPdUCgT5EmAxy7zNX8fxQYWKiWEfUwW', NULL, '198804222007012001@abc.def', 1, 1, 1415355544, 1415360746),
+(139, '198805292009121002', '', '$2y$04$lGqD0THFpZgigY8TpIinWebJYzhFq8pahZdQHRMCT2Z07nuceVjRa', NULL, '198805292009121002@abc.def', 1, 1, 1415355544, 1415360746),
+(140, '198806262009121005', '', '$2y$04$1fcPUZ/HtmGz64DQeTf1DeYK83nmDg6J8G5Z33kx2fbG.X.9tdXfy', NULL, '198806262009121005@abc.def', 1, 1, 1415355544, 1415360746),
+(141, '198807102010122001', '', '$2y$04$QCoOOdJ9s4pqpIeZbc9OMOsoK2.03m4cRJb3gKMoTWxWmze6CsMFC', NULL, '198807102010122001@abc.def', 1, 1, 1415355544, 1415360746),
+(142, '198808092009121003', '', '$2y$04$hkDaaA0.AvHTbLlDbJsG5uY3D3G5F73rxvvpgJt4TFZmPIH4LIXIa', NULL, '198808092009121003@abc.def', 1, 1, 1415355544, 1415360746),
+(143, '198812102010121003', '', '$2y$04$g9nhGoh.jEaKurPawPvvXOySF5q30DWK3oqGbxoG6mOGKy/gJWC7i', NULL, '198812102010121003@abc.def', 1, 1, 1415355544, 1415360746),
+(144, '198812042010121005', '', '$2y$04$3o5/fHCb0tM/xsZrXIxqDuNsMU5uYHRuNqc.TR1bPQUFukgH8sGby', NULL, '198812042010121005@abc.def', 1, 1, 1415355544, 1415360746),
+(145, '198902222010121002', '', '$2y$04$GzKrfEgORkXFxxGPtS4wO.Gbr.2ugr.NMC6wzZ12GSwAQQrqvmkre', NULL, '198902222010121002@abc.def', 1, 1, 1415355544, 1415360746),
+(146, '198904112010121006', '', '$2y$04$e/h41LbKz0rqZ0AtguS8QOnmukzuKD6uLGwcLJ.E/XayiBDsY.2te', NULL, '198904112010121006@abc.def', 1, 1, 1415355544, 1415360746),
+(147, '198905062010122002', '', '$2y$04$JHt94PTJ2ixHW.dklRHzA.OBGwTSviX8SvRZl.zA3PJBnWaSRkWhK', NULL, '198905062010122002@abc.def', 1, 1, 1415355544, 1415360746),
+(148, '198907222010121001', '', '$2y$04$hEN7LYFk.JW7eVfUMQ5y5ONrBiE9iqk4KR3xavf85NnyUU5zCGIie', NULL, '198907222010121001@abc.def', 1, 1, 1415355544, 1415360746),
+(149, '199209032013102001', '', '$2y$04$R.JACaaZemHkWJYwI005t.5x4HTYjJf8HZpJ2ypoDO3CeH1gyTzsq', NULL, '199209032013102001@abc.def', 1, 1, 1415355545, 1415360746),
+(150, '199109072013101001', '', '$2y$04$AkBKxFKpJ3A5uRJdFGUhwOl.afg58fRrRSWI5mj4bKn4mYp66FpO2', NULL, '199109072013101001@abc.def', 1, 1, 1415355545, 1415360746),
+(151, '199209022013102001', '', '$2y$04$uiRNy6TpquSBKcd9vt0nWOuTfdQfhmV7awAj0TckoWtfTT5Aaj0Z6', NULL, '199209022013102001@abc.def', 1, 1, 1415360746, 1415360746),
+(152, '195604041982031001', '', '$2y$04$zTBZQ3SKGtKqkN5M.UW/i.rCUZhEY46XYQwpxyD0oo6DPSmGbI2V6', NULL, '195604041982031001@abc.def', 1, 1, 1415360746, 1415360746),
+(153, '195904011977121001', '', '$2y$04$JdLLE7OooJyN4X2CZSEGHO4xwZl1ZmTB0QPR12HZT.7qs8BGk299S', NULL, '195904011977121001@abc.def', 1, 1, 1415360746, 1415360746),
+(154, '196005271985032001', '', '$2y$04$4p03XW7PW/BfhQkNa3it2.f9uWmARmpQ37lnaJFQJi6kr2otd55sa', NULL, '196005271985032001@abc.def', 1, 1, 1415360746, 1415360746),
+(155, '196206071984011001', '', '$2y$04$IHPW7TmEdLXfLQIl7OacV.rC9.PZ2xXXXWmwa53fP11J4tQSbqPEO', NULL, '196206071984011001@abc.def', 1, 1, 1415360747, 1415360747),
+(156, '196501261991031001', '', '$2y$04$124vW93GoxyVtd/hkXBpi.0VrM9.5EX5zGyVhaPhGyKaW5vhNrpyS', NULL, '196501261991031001@abc.def', 1, 1, 1415360747, 1415360747),
+(157, '196510141994031001', '', '$2y$04$biHVyiQh6ijU7PxPAENyluUvB0wXpyf8TgDL2NbcXiwshUe4vJceS', NULL, '196510141994031001@abc.def', 1, 1, 1415360747, 1415360747),
+(158, '197201071998031002', '', '$2y$04$gDvrDtztEvZks3xzw.KJ6.ADdcgWWllliR2ZmuyF9zO27JBAvvIS2', NULL, '197201071998031002@abc.def', 1, 1, 1415360747, 1415360747),
+(159, '197204021999031001', '', '$2y$04$k0wTbfqN.fPwHZl5KQYdueN.4GNC8GzXBIk/f5JCvW3CJ38AbhNBS', NULL, '197204021999031001@abc.def', 1, 1, 1415360747, 1415360747),
+(160, '197205291998031001', '', '$2y$04$EbygWAfmYiBstC3/jGGh6OqIoEd6ZvlWUaCA/XszvU5B..ty2bptW', NULL, '197205291998031001@abc.def', 1, 1, 1415360747, 1415360747),
+(161, '197306271998032001', '', '$2y$04$/L3gc7z/4h8PFBd5MNpu8.0/2Y0TFsO12xhOIGFOFRIDzCnH.LO8C', NULL, '197306271998032001@abc.def', 1, 1, 1415360747, 1415360747),
+(162, '197306201995121001', '', '$2y$04$HtjrsqiJNp8ntI8OsRcYueKoRgV7zF5HGgwuJb3y367YPrqm/Xiqe', NULL, '197306201995121001@abc.def', 1, 1, 1415360747, 1415360747),
+(163, '197406291995112001', '', '$2y$04$8XdwXhVRkeSEj1oMudWqGeOcphXJMS9HTdwUg/obj5cud4rW0nEjS', NULL, '197406291995112001@abc.def', 1, 1, 1415360747, 1415360747),
+(164, '197408041995021002', '', '$2y$04$JUToh52W/8E2UP5TS0U1juWz1v9u4JLnFJTu9M.88E0fgXYUZ.PY2', NULL, '197408041995021002@abc.def', 1, 1, 1415360747, 1415360747),
+(165, '197410061999032001', '', '$2y$04$g19D35qDQXS7KZ1EbnNIR.GXyKyH1cmCXBtLJYlup2uuDir0odNO2', NULL, '197410061999032001@abc.def', 1, 1, 1415360747, 1415360747),
+(166, '197705061996031001', '', '$2y$04$ibhNtIIeC3mGkI4WLKFjcO.Vy3e/WjUkGndjG5uz.4TGaxq.5eNYS', NULL, '197705061996031001@abc.def', 1, 1, 1415360747, 1415360747),
+(167, '195711011983032001', '', '$2y$04$uw9OXUqg72lyrsha9PnDquL6VraXFn1S5MkvbXp6WGylCToiLFO6q', NULL, '195711011983032001@abc.def', 1, 1, 1415360747, 1415360747),
+(168, '195808261979031001', '', '$2y$04$M7npVKnp60n88Ubgu1GJVe8xyr5s12zqWSh9yXHwrga9JX2MF5/v.', NULL, '195808261979031001@abc.def', 1, 1, 1415360747, 1415360747),
+(169, '196711161988021001', '', '$2y$04$e69eUTH4U0lDuWb2zk63oevCqKArslqaIIO0UBnN1iqiVi3Q9/srC', NULL, '196711161988021001@abc.def', 1, 1, 1415360747, 1415360747),
+(170, '196808101987031001', '', '$2y$04$Tcq97u1pCK/IHI4bbBVwD.lTsNq1PcMSlmIBU2o6YTnZqN3dJlZCi', NULL, '196808101987031001@abc.def', 1, 1, 1415360747, 1415360747),
+(171, '197008121991031001', '', '$2y$04$NnVyNl0bI0MCYnzQjcSfd.cHXIRhb2zDOV3BEQhyfTfqP1JLqFxTi', NULL, '197008121991031001@abc.def', 1, 1, 1415360747, 1415360747),
+(172, '197206291999032001', '', '$2y$04$1ihZzuUqkm2pyvn3C1rr/u8ojdupdmRe2Wx.BQ10aKJlgFho368Bi', NULL, '197206291999032001@abc.def', 1, 1, 1415360747, 1415360747),
+(173, '197707021999032001', '', '$2y$04$/PeP291KMft/BDJ1qD1.p.q/shqi5q8Cjxaw6qUfd4u89DnXM9MZS', NULL, '197707021999032001@abc.def', 1, 1, 1415360747, 1415360747),
+(174, '198607202007011001', '', '$2y$04$R71I6C8Tir59kZU62bWCYOFjam0w.uRdjA091vzlhegLGk7S9s0q2', NULL, '198607202007011001@abc.def', 1, 1, 1415360748, 1415360748),
+(175, '194912311973021001', '', '$2y$04$y33ymR87mBLeZggwDwN2Yu1dMNhUYH7HPFesYVpP7kymPw3dB.nGS', NULL, '194912311973021001@abc.def', 1, 1, 1415361598, 1415619294),
+(176, '195802271978032007', '', '$2y$04$1xJtVx1lKbfYNJNdtx1Ih.nLaKsioMbj/wMd/McNdCQTawXy76d42', NULL, '195802271978032007@abc.def', 1, 1, 1415361598, 1415619294),
+(177, '195605191977121001', '', '$2y$04$JtJBeY2bvtBFfotkqPDBWOT8qryr6kWKWBrEh.q35jkNx3.UhxVeS', NULL, '195605191977121001@abc.def', 1, 1, 1415361598, 1415619294),
+(178, '195902131998031001', '', '$2y$04$ZgAFdzVICpz7BGk26yys7eNl00Fp0ApjddRGowwVYWvHMuF8i88qy', NULL, '195902131998031001@abc.def', 1, 1, 1415361598, 1415619294),
+(179, '195905091999031002', '', '$2y$04$XlgmtQyEIZ9zJ117fqHoaO/k61A3ogfeevty/BMeCLw74Z9.Sz1Oy', NULL, '195905091999031002@abc.def', 1, 1, 1415361598, 1415619294),
+(180, '195907021982091001', '', '$2y$04$DYaFm8wrOo.dS7IpLxUBAOCD.3VV62SdB9JIj2bZXlcycVQ0XCqkW', NULL, '195907021982091001@abc.def', 1, 1, 1415361598, 1415619294),
+(181, '195911011982101001', '', '$2y$04$9iN.5TYRND9f2yVoyYUI1OpM6Qit9FiH1Ls7NaiDHdrW7Xax95oIC', NULL, '195911011982101001@abc.def', 1, 1, 1415361598, 1415619294),
+(182, '196004261982091001', '', '$2y$04$LwpujOYhBpSTaVHMDAjzh.kxbXYQeWwnIjTg1u.gJxaji7J.bp87a', NULL, '196004261982091001@abc.def', 1, 1, 1415361598, 1415619294),
+(183, '196010121982091001', '', '$2y$04$aDPLlrrsSS4xuDauzkJyreBDEb.tAkdCSGNOCkjz5.hZVumZmi9P2', NULL, '196010121982091001@abc.def', 1, 1, 1415361598, 1415619295),
+(184, '195902241980031001', '', '$2y$04$IcxH7L/JPcGLvNuBz.E4uOnpXd4r30lkUBQQ0PXlhYlK/xRyc4OEG', NULL, '195902241980031001@abc.def', 1, 1, 1415361598, 1415619295),
+(185, '196103281984031001', '', '$2y$04$knWE0ZilamPGZkE8wxB2Y.nxwtPyRVvSyPCrip759bjedwqacMPZG', NULL, '196103281984031001@abc.def', 1, 1, 1415361598, 1415619295),
+(186, '195406121980031002', '', '$2y$04$pRoZKLvBdxuLggAItcTc.uO84in23wGy6l1cIFx3n6i2xrrH2C0nO', NULL, '195406121980031002@abc.def', 1, 1, 1415361598, 1415619295),
+(187, '196206281987031001', '', '$2y$04$hv.hsNBfDLeJziPK/2rGkeM27DzTNJVcvcGuHMwbbiyFd7YD.Xo0C', NULL, '196206281987031001@abc.def', 1, 1, 1415361598, 1415619295),
+(188, '196210121983101001', '', '$2y$04$NC/78qL5Crg8ZA6vNMjTJOXN30POhOEyXuRGaRvW2s1LjZgOLa6vq', NULL, '196210121983101001@abc.def', 1, 1, 1415361598, 1415619295),
+(189, '196303211986021001', '', '$2y$04$liRd06Z.3oft0PUGMr81WO4sjF0phoftQ9vqL7xCWjIj9akQwage2', NULL, '196303211986021001@abc.def', 1, 1, 1415361598, 1415619295),
+(190, '196306051998031001', '', '$2y$04$UNKlec5LeCgcHD6DlXjFQOexD2izZmUXoW44r/YBznSIjGodm7LZy', NULL, '196306051998031001@abc.def', 1, 1, 1415361598, 1415619295),
+(191, '196609211988031001', '', '$2y$04$L9SklHlksY.9/R4nw5zf/OyiNRH6gyS8MiiDIuVeN.uVI/tHIHLly', NULL, '196609211988031001@abc.def', 1, 1, 1415361598, 1415619295),
+(192, '196703041994031002', '', '$2y$04$mzqNEyJAaMn8d.W9XbPgROtp5CfF9Z.9RZUU6x4lCtFN6k0FSYnPG', NULL, '196703041994031002@abc.def', 1, 1, 1415361598, 1415619295),
+(193, '196504241985031001', '', '$2y$04$0x/w7sJA.Mr4xm5v7qXr.OqbbgKtXGIwhGmalc.lQtiWcP0XPNzpq', NULL, '196504241985031001@abc.def', 1, 1, 1415361599, 1415619295),
+(194, '196706301994031001', '', '$2y$04$UCExuKRBCahcrueeknUqeeA1w/f9VtBm3CZtcuPu/4frh/9GaWZ4G', NULL, '196706301994031001@abc.def', 1, 1, 1415361599, 1415619295),
+(195, '196810071993031001', '', '$2y$04$AoLexxRi3Eds8NvIMFV.d.k5VTQK5bSkflpc.YcEhev8puf6cPK0i', NULL, '196810071993031001@abc.def', 1, 1, 1415361599, 1415619295),
+(196, '196910191994032001', '', '$2y$04$i4sBF279xbBP/TZmUwYf4ewo71UYE9vrF/XymOGFG1XLjR4Aa8Saq', NULL, '196910191994032001@abc.def', 1, 1, 1415361599, 1415619295),
+(197, '196912181996031002', '', '$2y$04$d3RVfpOW7Zhiys4V8wB8Iun6IGl7hLKke3kxfT7mrZ6348CAhrpme', NULL, '196912181996031002@abc.def', 1, 1, 1415361599, 1415619295),
+(198, '196902041989011001', '', '$2y$04$rWCY38mryHFhUL7Nxf4no.b/nC2ZHFV5bBN1REv./Sy/N9TCdlaaG', NULL, '196902041989011001@abc.def', 1, 1, 1415361599, 1415619296),
+(199, '196903121990031001', '', '$2y$04$Lex9w0a4meXU/dwuHsoU2.wG7/Kx/XGCTbGg08BCLZ1LD.9CIIXfG', NULL, '196903121990031001@abc.def', 1, 1, 1415361599, 1415619296),
+(200, '196904191989121001', '', '$2y$04$bGVjYpR7c82wZOzyfKd1seBAPllQ1l9rHxzMwP365Dd25cImz482y', NULL, '196904191989121001@abc.def', 1, 1, 1415361599, 1415619296),
+(201, '196906101990121001', '', '$2y$04$0IjlSjfSpo24WfA89ciSyO2W9GdeRsHtbzDCiiTffW.BAFQb1k6Mi', NULL, '196906101990121001@abc.def', 1, 1, 1415361599, 1415619296),
+(202, '197002161997031001', '', '$2y$04$gF75kyhcefR8UJK/EbrU3e2axZa9zGByDVBgReQBtLK3ayUMzXGM2', NULL, '197002161997031001@abc.def', 1, 1, 1415361599, 1415619296),
+(203, '197004091997031004', '', '$2y$04$1pt17o.MLm4g32N3mM9d/OhhFzH.9BkRSFOd5/7FNZmIptzsSUu5y', NULL, '197004091997031004@abc.def', 1, 1, 1415361599, 1415619296),
+(204, '197205251993021001', '', '$2y$04$qt.uVVH2oSdKaXh6jjl3mO6ja7NEwlmcxfcCrXPTkYGlbSedPuNkO', NULL, '197205251993021001@abc.def', 1, 1, 1415361599, 1415619296),
+(205, '197006161992011001', '', '$2y$04$J.0c26fQWiVKsYOl6dUMTO0wnoA9dHZabI8gSPubmRSlmfn6w7JwG', NULL, '197006161992011001@abc.def', 1, 1, 1415361599, 1415619296),
+(206, '197209221993021001', '', '$2y$04$8WNeQE6H.l10H4065QdAReY2TY1v07Y4beQOIpTlRN2oO2MmP2DjG', NULL, '197209221993021001@abc.def', 1, 1, 1415361599, 1415619296),
+(207, '197209101998031002', '', '$2y$04$tkb55oVq9yzr8TaeJMD6TO6hIvKuu4XulhOdh..hrCaSDKB65Aog2', NULL, '197209101998031002@abc.def', 1, 1, 1415361599, 1415619296),
+(208, '197009251996031001', '', '$2y$04$83NIN.1ktv48aK3x/nXmu.yxB.yJNFiloRRhA5D/btVjfHM74qnXS', NULL, '197009251996031001@abc.def', 1, 1, 1415361599, 1415619296),
+(209, '197212271999031002', '', '$2y$04$LcyCa3AowIF4J969L/k4BuB3d3Vh.ckhUxe65C86TQMwTmaehj.bS', NULL, '197212271999031002@abc.def', 1, 1, 1415361600, 1415619296),
+(210, '197107031992031002', '', '$2y$04$FCidGX.jmKqwl53.LAVwOep/FYEbayNJB3bEzYvDwXT13BS3nZ0gO', NULL, '197107031992031002@abc.def', 1, 1, 1415361600, 1415619296),
+(211, '197308171994031002', '', '$2y$04$29yO0RwvCqTuUK3M1DpgS.MY1j.Lvsz4/Rn0vXsvzQlFfPxXit8lW', NULL, '197308171994031002@abc.def', 1, 1, 1415361600, 1415619296),
+(212, '197403031995122001', '', '$2y$04$u.0LCRHeiduttd6W.2IL0eTN7zjIi4k3HRKo7wy0hbsnU2opXcQoW', NULL, '197403031995122001@abc.def', 1, 1, 1415361600, 1415619296),
+(213, '197207101993011001', '', '$2y$04$xY4od8uYFtPPsnIRteQVQONu4IdEETTlS/Q1oaZ3z3tB/iOWZZQCG', NULL, '197207101993011001@abc.def', 1, 1, 1415361600, 1415619296),
+(214, '197301101994021001', '', '$2y$04$lypPY0GA7MqDH1UhENlaG.s2P6EAIAmNmzCcW3DzKpVMxqxeHshkq', NULL, '197301101994021001@abc.def', 1, 1, 1415361600, 1415619296),
+(215, '197312081994031001', '', '$2y$04$z9Wdy9lilGaadYkuumdRy.46fGPeVe2zn1//Wlj0LVnjQlmnEY1t.', NULL, '197312081994031001@abc.def', 1, 1, 1415361600, 1415619296),
+(216, '197402251993011001', '', '$2y$04$e.HMz/2cK6mz.YLAsptFd.5M4/rZG7PLoN3QLF83I4ZJHfV0Lfz8q', NULL, '197402251993011001@abc.def', 1, 1, 1415361600, 1415619297),
+(217, '197412061995031002', '', '$2y$04$XeeNHTD2BWjs86Ecl5o.1.lLDof..DVnmoEsI9/HyGJDcdCwPjtrW', NULL, '197412061995031002@abc.def', 1, 1, 1415361600, 1415619297),
+(218, '197507171995031001', '', '$2y$04$sBI49qaGgywbMdN339DXK.axyiFaNZaAVYuzsTll/Qls0Tke8nEBa', NULL, '197507171995031001@abc.def', 1, 1, 1415361600, 1415619297),
+(219, '197607031996031001', '', '$2y$04$Df5EZjGULDT6gozfBTDjQuutP6p96q6xsmhXgaj1LiaTv957T7L/y', NULL, '197607031996031001@abc.def', 1, 1, 1415361600, 1415619297),
+(220, '198207302009011007', '', '$2y$04$id5kkJnMZivMNhrxBjg/LuWjdHmqmuYvJj2wb3xj4f110sGe2.Vu6', NULL, '198207302009011007@abc.def', 1, 1, 1415361600, 1415619297),
+(221, '198301142006021001', '', '$2y$04$tGlnfC.Ja9oILG/qnOqFXeuETJxfcz50SxDoo21V3IaAIl.5noOYm', NULL, '198301142006021001@abc.def', 1, 1, 1415361600, 1415619297),
+(222, '198403302010122005', '', '$2y$04$jp32QNPuxRgwkuvLEgRWtuzKuPSbiSgPT.yrTtS0M641tjMW.Gc8y', NULL, '198403302010122005@abc.def', 1, 1, 1415361600, 1415619297),
+(223, '198406212003121005', '', '$2y$04$uKPCguCzLa0O6Y4krMFXyuG8DnyKsnNZVX.LDHBcsm.tUpmrpWoWi', NULL, '198406212003121005@abc.def', 1, 1, 1415361600, 1415619297),
+(224, '198501022007011001', '', '$2y$04$4XigOLXRpraflz9x4VetkOcCiBytXBC.9mbmQlCnB0uGb0O//yDLS', NULL, '198501022007011001@abc.def', 1, 1, 1415361600, 1415619297),
+(225, '198502242009011003', '', '$2y$04$.2T9dFU.2YVkT0.OI471H.NDOqC9QCXY6vy8rVLxtGgLBtMgV3Inq', NULL, '198502242009011003@abc.def', 1, 1, 1415361600, 1415619297),
+(226, '198503312010121006', '', '$2y$04$uf7rqhf7mignj5RCsDbx6OKlOwsw0.ZOHwc.BZmSOHJ5CH3Ffohd6', NULL, '198503312010121006@abc.def', 1, 1, 1415361600, 1415619297),
+(227, '198504012010122005', '', '$2y$04$2W1ISeqQ0UV17ipI1nR32uHUvuADwswDcwy5NeKlngbEUF1BWpZlq', NULL, '198504012010122005@abc.def', 1, 1, 1415361600, 1415619297),
+(228, '198507272008122004', '', '$2y$04$VrbzM3cTU13bYObR10haLO10HeGX44FE1cTUZ0/IGeYs1.Ilm05Uy', NULL, '198507272008122004@abc.def', 1, 1, 1415361601, 1415619297),
+(229, '198508302009012005', '', '$2y$04$R2O7djCWneIUrcgan4ZahesOF080pIaGd59AoaFpudfg4JXVtxcPG', NULL, '198508302009012005@abc.def', 1, 1, 1415361601, 1415619297),
+(230, '198510052009011010', '', '$2y$04$sj608VWhbmIFqbZNiFBWOeUC87FUn9I679nw6BxvLWKtMQ9KswRfq', NULL, '198510052009011010@abc.def', 1, 1, 1415361601, 1415619297),
+(231, '198510022007011001', '', '$2y$04$jmKLqQxraQJ7OxxQSLcuyuZAgoPmhO06AC4x/rmlJX5qorlRZSHkm', NULL, '198510022007011001@abc.def', 1, 1, 1415361601, 1415619297),
+(232, '198511182007101001', '', '$2y$04$H8cadewpV/D.OMPf.sSNSODXuSUDz29D3.9iZvM9abeRd2vJ7AUCS', NULL, '198511182007101001@abc.def', 1, 1, 1415361601, 1415619297),
+(233, '198512252010121003', '', '$2y$04$h3wOESrdjh2.f8Z2bCg0je4G3kei6i.8rbk0sw4Fz03PougrcvISG', NULL, '198512252010121003@abc.def', 1, 1, 1415361601, 1415619297),
+(234, '198512172007101001', '', '$2y$04$7OU90RShenD30eT4zD7d5.yEzuuJ25LKs53B665a0n8X8YMori2uu', NULL, '198512172007101001@abc.def', 1, 1, 1415361601, 1415619297),
+(235, '198603282010122006', '', '$2y$04$O/VPAEy5tXoQxB0oJFFjMOBz29WW/xKeQHTlceVb1Yhi.LsXnc2D.', NULL, '198603282010122006@abc.def', 1, 1, 1415361601, 1415619298),
+(236, '198605132007011001', '', '$2y$04$6VViebT6vhzWGYhhPom4cOEvwSY1vlFURt760DTqhE/HeWXH38o/6', NULL, '198605132007011001@abc.def', 1, 1, 1415361601, 1415619298),
+(237, '198606172008121004', '', '$2y$04$7O/qdi1Lpj5tVfYjsP7O7OjeAMaKj56uYlvXSxa2oq/By/BOPHb0.', NULL, '198606172008121004@abc.def', 1, 1, 1415361601, 1415619298),
+(238, '198608312010122007', '', '$2y$04$Dl23lsulO5qDzHuPSdYcUO45oR82rjXM3eI2VCndoj9YaxrrRZphK', NULL, '198608312010122007@abc.def', 1, 1, 1415361601, 1415619298),
+(239, '198701102008121002', '', '$2y$04$wYnkCrALqi7TJv5VhwFhK.srA5MCE7uzvTZlWDlRjrdI/LSrHjgSG', NULL, '198701102008121002@abc.def', 1, 1, 1415361601, 1415619298),
+(240, '198701192007012001', '', '$2y$04$zugfk0yvWcOCkDIOfgNhxOYV5qFcnpAOcwnXTDgi36Q9mx0henYeu', NULL, '198701192007012001@abc.def', 1, 1, 1415361601, 1415619298),
+(241, '198702062010122004', '', '$2y$04$BD1FD1X6384039EW23snb.JaqIc25uauYccaVXSZ9Bf2qtCW4mDZu', NULL, '198702062010122004@abc.def', 1, 1, 1415361601, 1415619298),
+(242, '198706082010121008', '', '$2y$04$DLPLjgxSmElch5LvQjbW3.sAoexj95hwwDINuuVjBjeXvSGcvTkV2', NULL, '198706082010121008@abc.def', 1, 1, 1415361601, 1415619298),
+(243, '198706042008121002', '', '$2y$04$coarkVwtMI69ao7O.wddhOH6Wxdnzb4bZCdOerbc0f5oAPPsuSMKm', NULL, '198706042008121002@abc.def', 1, 1, 1415361601, 1415619298),
+(244, '198707052008121003', '', '$2y$04$76nbmCxwOOCgWNI3zAJJo.8DHJKXKCjSAplwbpniSgSvCHWJ7yDCG', NULL, '198707052008121003@abc.def', 1, 1, 1415361601, 1415619298),
+(245, '198707122010122003', '', '$2y$04$r5S/28WlpUJnjgdxmf58xOH2BbgWtwHG4vOf70o5R6XL4NvcfZKry', NULL, '198707122010122003@abc.def', 1, 1, 1415361602, 1415619298),
+(246, '198708282010122003', '', '$2y$04$..OyK7wi46/Cy7HRK9SzRehDJz5aZYgwmkwf7VygzO.89FtCNAyX.', NULL, '198708282010122003@abc.def', 1, 1, 1415361602, 1415619298),
+(247, '198711102006021002', '', '$2y$04$OJsru8hHyfI5.KwjM6Qfz.CNUV.vwBwXC5bCAi.Khlnb54SsWH7M6', NULL, '198711102006021002@abc.def', 1, 1, 1415361602, 1415619298),
+(248, '198712272009121001', '', '$2y$04$q.9pNYB0jWtTD91Ybf/dxOLQSBtC3i7FeAVnuY/wzBQlrza1w0NM2', NULL, '198712272009121001@abc.def', 1, 1, 1415361602, 1415619298),
+(249, '198712232009122004', '', '$2y$04$kH6AjgECNVZ7F2OWbdjPbueh0MwbldujIdd89gNyh74U.sea/7.l6', NULL, '198712232009122004@abc.def', 1, 1, 1415361602, 1415619298),
+(250, '198712032009121002', '', '$2y$04$SMK0lKtPzYjcJJAkAxb.HuPOJv97xj/LL3.W0PBsymLexZlyGlyxS', NULL, '198712032009121002@abc.def', 1, 1, 1415361602, 1415619298),
+(251, '198802052008121003', '', '$2y$04$YZWsFb9GEVHtgLh39gH.cubEM0s3zii8Pdqocoy9HAyErQOWqQr9e', NULL, '198802052008121003@abc.def', 1, 1, 1415361602, 1415619298),
+(252, '198802182010122002', '', '$2y$04$4syyzhS3CHzZojTmSkE4ZuhOYx7FaK1wNpKHtfTa0YCSbrgOcKxKG', NULL, '198802182010122002@abc.def', 1, 1, 1415361602, 1415619298),
+(253, '198803082009121003', '', '$2y$04$VLO3tflDfOqQTWHRn1f/2un7hAw4h67UHdnr58gBbPk09TYx3.7ee', NULL, '198803082009121003@abc.def', 1, 1, 1415361602, 1415619298),
+(254, '198803232009121006', '', '$2y$04$s0jgST3AZogUKV25tVDDv.sE7HN0NcbL4LRFRSRLmf78j8fpLOq32', NULL, '198803232009121006@abc.def', 1, 1, 1415361602, 1415619299),
+(255, '198807112010121001', '', '$2y$04$o47pczcqEAXDZe8e.L176uSWL.n85F4.PKHDaYfiw1Ue11Nn7sHsW', NULL, '198807112010121001@abc.def', 1, 1, 1415361602, 1415619299),
+(256, '198808112009121001', '', '$2y$04$i6.qQcPo2YPKa5xpu0b0lO5nI4DFbcGh4whNkDgOAcGPnKZZlJNSC', NULL, '198808112009121001@abc.def', 1, 1, 1415361602, 1415619299),
+(257, '198811182009121001', '', '$2y$04$GKG8vM6lCME8quEa7OdpIuTfkI.hJD64hzyo7KARn13cVk6EW.mwO', NULL, '198811182009121001@abc.def', 1, 1, 1415361602, 1415619299),
+(258, '198902082010122002', '', '$2y$04$IsoPk1CfqcQE90g582kB2.cynls7zOOnmaZy4PMCFQmtXdPm7BgCa', NULL, '198902082010122002@abc.def', 1, 1, 1415361602, 1415619299),
+(259, '198903022010121002', '', '$2y$04$TLCDWSGISOpZtvFLrlj00OjcyEsOvTIPGD3MAIEPufPsajBFgeYty', NULL, '198903022010121002@abc.def', 1, 1, 1415361602, 1415619299),
+(260, '198905022010121002', '', '$2y$04$uMoaop/ff7XE67asr42kpurkS9nDCtnA7Bodz3HCPaW4P57dJz5v6', NULL, '198905022010121002@abc.def', 1, 1, 1415361602, 1415619299),
+(261, '198905052008121001', '', '$2y$04$8XSeiI5lo6ztASeP5lhPhupWKHd/SftNnz/kA5TsM468Eoz9DKDzG', NULL, '198905052008121001@abc.def', 1, 1, 1415361602, 1415619299),
+(262, '198906162008121001', '', '$2y$04$ocr9rqvGrL9kGUZ6fafenu19VYewIBmV0TUAHfADD6XUlqRGUlTea', NULL, '198906162008121001@abc.def', 1, 1, 1415361602, 1415619299),
+(263, '198906082010121002', '', '$2y$04$E1ZSxplfq3tHQ0r7nWMdn.pRS5sdorzjCcS0jj3FXhnMzi0H7Ypuy', NULL, '198906082010121002@abc.def', 1, 1, 1415361602, 1415619299),
+(264, '198908072010122002', '', '$2y$04$p4dlf1Kp7YpofQR1gM9Obe.O7kxUcP4uMZ1hGTIkAhPQNTGGBjG/u', NULL, '198908072010122002@abc.def', 1, 1, 1415361602, 1415619299),
+(265, '198909242010121003', '', '$2y$04$nK3g8D4n3IZpzOrGJGNH0eBCZqafXYUazv7rVEzlphdXs1j639V/q', NULL, '198909242010121003@abc.def', 1, 1, 1415361603, 1415619299),
+(266, '199105142013102001', '', '$2y$04$NZuOewNlL4qsKn/TnHtCwuDqNcVn9O7in4hPp4u22/lGGigPSNMK6', NULL, '199105142013102001@abc.def', 1, 1, 1415361603, 1415619299),
+(267, '199110102013101002', '', '$2y$04$wqZZZqb2gwq7ERXC2UCFEuqUbvhxcsw4G.7rsrNVDe41GjgVLYUFy', NULL, '199110102013101002@abc.def', 1, 1, 1415361603, 1415619299),
+(268, '199103032013101002', '', '$2y$04$jUrqDamTbmjcfG3CjRRNbe/SBlazAFaEVtu8pgKpltrF2.5Tyzayq', NULL, '199103032013101002@abc.def', 1, 1, 1415361603, 1415619299),
+(269, '199003112013102001', '', '$2y$04$GAc65TXaTHf4m34rjD1akOZ0EyQv7XllM6f0JzKW8KM.QvnROCu/e', NULL, '199003112013102001@abc.def', 1, 1, 1415361603, 1415619299),
+(270, '195005291973031001', '', '$2y$04$v0G0b8XAS/8XVgtbLCss6eSoSEMrDBb1/VtjG8XEKv.X3UCzsHaVu', NULL, '195005291973031001@abc.def', 1, 1, 1415361980, 1415619612),
+(271, '195805031983111002', '', '$2y$04$4SXkHX6cOFHxFtpbmsR3n.jZsqS.GGJ85mTX25wUAMR/40HUZC.x2', NULL, '195805031983111002@abc.def', 1, 1, 1415361981, 1415619612),
+(272, '195902281982091001', '', '$2y$04$umzkXTu0pYkR8OI6vDBmf.8iIDSDOnoYFT54tv1NnInzk8hfjxwpS', NULL, '195902281982091001@abc.def', 1, 1, 1415361981, 1415619612),
+(273, '060044474', '', '$2y$04$6eIbmweMXnlEO1RdDf0QX.ToBcPB.4b.vRGiVTN.8nqDjIp5xrLDq', NULL, '060044474@abc.def', 1, 1, 1415361981, 1415619612),
+(274, '195204031975101001', '', '$2y$04$azNLDezyabnJB7O0p/.WyeWQ16dZCk6.ZBQ4RhsIr5sMbafEP7rHi', NULL, '195204031975101001@abc.def', 1, 1, 1415361981, 1415619612),
+(275, '195708111981091001', '', '$2y$04$NMuX8g6EAI2WWxQU4obbvetv672mQmvSRYfCtRLIb59UyJ6w2oSTi', NULL, '195708111981091001@abc.def', 1, 1, 1415361981, 1415619612),
+(276, '196005151982032001', '', '$2y$04$ze7mgRZvXjPp7d19MdCTqOdf979U3vAO3qntiLU3LFLcdUk4SFJ/.', NULL, '196005151982032001@abc.def', 1, 1, 1415361981, 1415619612),
+(277, '196107041982031001', '', '$2y$04$56uAebnmzDwT0CEdd1R.T.fSulodLFl0q6XqkWaenBBzMxrQjVzGa', NULL, '196107041982031001@abc.def', 1, 1, 1415361981, 1415619612),
+(278, '196401191999031001', '', '$2y$04$43Yl4cKX37oMlE6FyvSgjev4a.araz8oS90WhW8dLwYU4SF5tTYFu', NULL, '196401191999031001@abc.def', 1, 1, 1415361981, 1415619612),
+(279, '196512021990112001', '', '$2y$04$3gPIP/fcN0T6vcUF1bwBa.iT8iHdFBT2VWcvIuuo2pC7.UlPtVOEe', NULL, '196512021990112001@abc.def', 1, 1, 1415361981, 1415619613),
+(280, '196408171991031002', '', '$2y$04$HmH2QTRTckZXSanfOcrmQOSJZUI9swWBZ.n0tgBptXo09r1HsJTnG', NULL, '196408171991031002@abc.def', 1, 1, 1415361981, 1415619613),
+(281, '196903191998031003', '', '$2y$04$QngOPHYvZ8ghBOfV4nbGneSK5/4LPcToKI2NZKBkiiWP0I4PoibLa', NULL, '196903191998031003@abc.def', 1, 1, 1415361981, 1415619613),
+(282, '196908241998031001', '', '$2y$04$Hbi3dCiPL1DX/1yiGH31lu2ZbqbSMi//2ZBcFqL8CCsNt0TEMvjKW', NULL, '196908241998031001@abc.def', 1, 1, 1415361981, 1415619613),
+(283, '196910131998031001', '', '$2y$04$zei4qULKJnNF17kUXucMt.y6wcbXVGUnEsEvcIg8UEwlImHAY4Xe.', NULL, '196910131998031001@abc.def', 1, 1, 1415361981, 1415619613),
+(284, '196710101997031001', '', '$2y$04$/z0OX7hJYh/wYfu5kO2fJO4jdKvy/mdDNal86pdIewCydvwF8Byga', NULL, '196710101997031001@abc.def', 1, 1, 1415361981, 1415619613),
+(285, '196911061996032001', '', '$2y$04$cKP.p96eAsH0GPGLpAvPs.AMmoWPshAUgK7k0N2OaEDR62aAakyoS', NULL, '196911061996032001@abc.def', 1, 1, 1415361981, 1415619613),
+(286, '197003131990031001', '', '$2y$04$52dgBl.u7QjDoTzeM6UnzeoUpaOFsw9PrPDE/E0tAYoonSHJKPC5u', NULL, '197003131990031001@abc.def', 1, 1, 1415361981, 1415619613),
+(287, '197009261996031002', '', '$2y$04$gy1JDXAX5QyYFSRz5Qtx.OQLc88Kc6HtmvSWOBN8CuPfG6pmneBr.', NULL, '197009261996031002@abc.def', 1, 1, 1415361981, 1415619613),
+(288, '197011251992031001', '', '$2y$04$fBIua35OIcto50S7zQi4Me3fjkTmLoiG5HfEIWoxlEa5OXapRd5nK', NULL, '197011251992031001@abc.def', 1, 1, 1415361981, 1415619613),
+(289, '197203301994031001', '', '$2y$04$YeVTLs.HMJ279UYzg2YyfenN2aoiwAOwP4IjlljBmBZSZrTjz0cZ2', NULL, '197203301994031001@abc.def', 1, 1, 1415361981, 1415619613),
+(290, '197003051996032001', '', '$2y$04$/obzldxSjY3AFcZ4CQ3g3e.zeAz70TPhLR/dX5bwThEuf312byYd2', NULL, '197003051996032001@abc.def', 1, 1, 1415361982, 1415619613),
+(291, '197204281993011001', '', '$2y$04$pCyDnh6njyKKjmnuf8Pk7ezHI/.7syBcwd5VbLk99ZxJuDZ/px0vy', NULL, '197204281993011001@abc.def', 1, 1, 1415361982, 1415619613),
+(292, '197206061998031002', '', '$2y$04$MgBrRTYhq1Ym4zC3sckDgucadVUF3Q45H0H9C9Dgc3cnqiW7FHBo2', NULL, '197206061998031002@abc.def', 1, 1, 1415361982, 1415619613),
+(293, '197310021999031001', '', '$2y$04$FPAIFeJSd1SJMDU0guajJ.XPZOwd/KcO6MuS0olP0n96pQ4Kkbokq', NULL, '197310021999031001@abc.def', 1, 1, 1415361982, 1415619613),
+(294, '197201131992012001', '', '$2y$04$Ak3HGToc6Ns0OviM4KcagekdD71a0gaalBSkI.c0p7YLRj2rmmVSG', NULL, '197201131992012001@abc.def', 1, 1, 1415361982, 1415619613),
+(295, '197407111995031001', '', '$2y$04$TlfetUvLfrBD3TxlOn4/OeJk8IkhlHRdzsQSX1CSjcm12ZvKWzm8K', NULL, '197407111995031001@abc.def', 1, 1, 1415361982, 1415619613),
+(296, '197207081992121001', '', '$2y$04$R3gKuLnWwwsJqzoCD2MMV.D8BKTgw6OGbhDeaUkTontRFgJq2eamy', NULL, '197207081992121001@abc.def', 1, 1, 1415361982, 1415619614),
+(297, '197411111995111001', '', '$2y$04$lBl2NQ.SSHQOILZVnVTNsuF3QocO1RSDvQvmyseyqG8AMFznKrVUC', NULL, '197411111995111001@abc.def', 1, 1, 1415361982, 1415619614),
+(298, '197412071999031001', '', '$2y$04$Fyj4j3e6dHDX1xKBfb1t9uTrH9R946ozvwN4DEAqzTMtyE8upfaZy', NULL, '197412071999031001@abc.def', 1, 1, 1415361982, 1415619614),
+(299, '197502071995021001', '', '$2y$04$qrmvdhhTO6DzeiVzT5kLaeSIIjmZi/tEVEfgUeiVaKnjtAalesfeC', NULL, '197502071995021001@abc.def', 1, 1, 1415361982, 1415619614),
+(300, '197303161992121001', '', '$2y$04$J.pfCquogF0HxwaymPinFuhN4I4Ax.Dm4O9mtDN4lW72bimb8TLKu', NULL, '197303161992121001@abc.def', 1, 1, 1415361982, 1415619614),
+(301, '197504072005011001', '', '$2y$04$B1IblzAbFshkiuoX81Xw9uA32mI6vhWuv4Cvp/LBL17BZyKieP25u', NULL, '197504072005011001@abc.def', 1, 1, 1415361982, 1415619614),
+(302, '197507171995031003', '', '$2y$04$tyLCkwWPQDUw7IyBvp8i.elAcf6ITj3FB5YKZeemK2SrYrNeBwGN2', NULL, '197507171995031003@abc.def', 1, 1, 1415361982, 1415619614),
+(303, '197604251996022001', '', '$2y$04$k590KKEuzsm7qyfLoLRRguEE2afhtrg4lRnPRpnE04k6bK/Hv0tsK', NULL, '197604251996022001@abc.def', 1, 1, 1415361982, 1415619614),
+(304, '197606081999031002', '', '$2y$04$QobKdshjtkJ.DLYsfVwvt.DcBmUlpO1X47Z1UIcQAxNyHNedUFybC', NULL, '197606081999031002@abc.def', 1, 1, 1415361982, 1415619614),
+(305, '197607021999031003', '', '$2y$04$KCFDcPl9bvVRmsWgMi0Y4ep2MADrm7mN1RJKHtGl22aKr6jJwnfK2', NULL, '197607021999031003@abc.def', 1, 1, 1415361982, 1415619614),
+(306, '197610071996021001', '', '$2y$04$SgBZcevkqcZIA1gTFZA7suM6yBcnvWN.MoAfXKquN6tAJp9wI2z7e', NULL, '197610071996021001@abc.def', 1, 1, 1415361982, 1415619614),
+(307, '197702091999031002', '', '$2y$04$fqTULn50HcLCr7Er6SHiAuVV3fERqf370w7Ur.2nj1gFfulBTQiaC', NULL, '197702091999031002@abc.def', 1, 1, 1415361982, 1415619614),
+(308, '197507111995021001', '', '$2y$04$f4sOMXk3XlMdWpC7CQCtIOysiLiR2I6zPRXDzSSVy.ayIjgfWwlQe', NULL, '197507111995021001@abc.def', 1, 1, 1415361982, 1415619614),
+(309, '197711011998031001', '', '$2y$04$wgwf1GC1iEyRIEBj/N/2vejrhbIgAjH41J7vDvd/tk2NUu6ciA8eS', NULL, '197711011998031001@abc.def', 1, 1, 1415361983, 1415619614),
+(310, '197807021999031001', '', '$2y$04$w.ZE6.L2PzrQJdo35g9TQe8g0rq6nzfL.72KtFnV4GfgTPrmLNbZq', NULL, '197807021999031001@abc.def', 1, 1, 1415361983, 1415619614),
+(311, '197910192005012002', '', '$2y$04$aW26gvh3yfhfe.2fMBWuK.X7hRRICv.AyeImA6fkemPVakVcfgls.', NULL, '197910192005012002@abc.def', 1, 1, 1415361983, 1415619614),
+(312, '198306022010122004', '', '$2y$04$i0zO2MTwLnsRQ0nw.BqvduH3CsxkomGmsHenJP3lw.QZoTix7uGHW', NULL, '198306022010122004@abc.def', 1, 1, 1415361983, 1415619614),
+(313, '198308092009011010', '', '$2y$04$lY0XKFiD7zWVUAQrC6HBp.SeiqPI23Os1Xi3i1mGKpdA/FLslT4Nm', NULL, '198308092009011010@abc.def', 1, 1, 1415361983, 1415619614),
+(314, '198308192010121003', '', '$2y$04$VTTbvWI4RQkVOH06AtX4v.n6KBcFn1nissF7AjhXdj9cTDVdGfNLu', NULL, '198308192010121003@abc.def', 1, 1, 1415361983, 1415619615),
+(315, '198401282010121003', '', '$2y$04$Ifg5C8KlJrm8PoNVls8X4O7n1vrZWz8h814/4Fx14EcFJl3pBFX8C', NULL, '198401282010121003@abc.def', 1, 1, 1415361983, 1415619615),
+(316, '198403262006022002', '', '$2y$04$4kGjgPil2OmZ.SVUqay2Beilq/g6Jo/OBxFX0bvJycfA9QGi5Tjom', NULL, '198403262006022002@abc.def', 1, 1, 1415361983, 1415619615),
+(317, '198407122006021002', '', '$2y$04$Y8ufTICBh6bnz8i2fS3VGuzykp.yfSBtOInZdAR.M7gwKt6eez5CC', NULL, '198407122006021002@abc.def', 1, 1, 1415361983, 1415619615),
+(318, '198502152010121002', '', '$2y$04$kq57gk6aaFks4guNXFL9IuJ4FRD17Dfjp9tsDAQT3lY61A6JJeLrG', NULL, '198502152010121002@abc.def', 1, 1, 1415361983, 1415619615),
+(319, '198503022007011001', '', '$2y$04$/ozWqUd7uT5W7MtIsmLe/eha0Q7Q2rqD6UCVubc4pLVtIOeRNmVEy', NULL, '198503022007011001@abc.def', 1, 1, 1415361983, 1415619615),
+(320, '198504182004121003', '', '$2y$04$9.zmVD0uh/7bwZOCImcAZOC2I6dqLTbcEAucFXbuPuOg/ELXvCZSS', NULL, '198504182004121003@abc.def', 1, 1, 1415361983, 1415619615),
+(321, '198505082007011002', '', '$2y$04$/dXwhnzRDh1fHDJ7ZWZ6auJOnRHAD1x86QwgJ1q3Ep0y7xYoAqJ4i', NULL, '198505082007011002@abc.def', 1, 1, 1415361983, 1415619615),
+(322, '198507222009011006', '', '$2y$04$71KM/mXz0YCy9s6kTJOwQOeB8PuBwxtH4vLN7MfILqQPkXHrkmqR2', NULL, '198507222009011006@abc.def', 1, 1, 1415361983, 1415619615),
+(323, '198508132007011001', '', '$2y$04$2PMIEwf8VrtEPGlOBKagsOjf06fagoB8MKoWJECD034pDpzNWAyja', NULL, '198508132007011001@abc.def', 1, 1, 1415361983, 1415619615),
+(324, '198509182004122002', '', '$2y$04$zs.UMmYcjL4utNoL5dr2JOCz8IH3IvM0MRVjRBSJhERzsE8gYkpyi', NULL, '198509182004122002@abc.def', 1, 1, 1415361983, 1415619615),
+(325, '198510072009012006', '', '$2y$04$bZPmBoEcAKwws/.LAgbD7eK6MbxBSa4PHXgmcbigfhl7kklOsQ5/C', NULL, '198510072009012006@abc.def', 1, 1, 1415361983, 1415619615),
+(326, '198510062010121003', '', '$2y$04$4uXhzF/pjfGrlgh3ODUl2uFmIqFechztlpcLX7QGFZ1JYWqQxsT9O', NULL, '198510062010121003@abc.def', 1, 1, 1415361983, 1415619615),
+(327, '198510222010121005', '', '$2y$04$5XeUEoizUcxIVkRc3fpmteANLwEyj2RqzX9W82.4Wqjn72euTXlO.', NULL, '198510222010121005@abc.def', 1, 1, 1415361983, 1415619615),
+(328, '198511112007101001', '', '$2y$04$H0D9v4R4oLvEMF34HavWC.NhjYhWjm1lbVEpKrymDCNikqIkzQpMi', NULL, '198511112007101001@abc.def', 1, 1, 1415361984, 1415619615),
+(329, '198605182007101003', '', '$2y$04$AhE6RewdyU5tKAW..EXkcOn.fz.cYOV0FNNWZjFQr8u/x4SMtMtUO', NULL, '198605182007101003@abc.def', 1, 1, 1415361984, 1415619615),
+(330, '198605112007101002', '', '$2y$04$hqce43U.GgaXVr44Sfw47OPdrYDVA0COp/4CdxjqvVzfbEhIOaA8i', NULL, '198605112007101002@abc.def', 1, 1, 1415361984, 1415619615),
+(331, '198610272007011001', '', '$2y$04$kVYmQmHjNcij5Im8oN1JzOIjiDAaxdTBUOf0KU/tf2hW7jhtcUUAS', NULL, '198610272007011001@abc.def', 1, 1, 1415361984, 1415619615),
+(332, '198702062007101001', '', '$2y$04$97FgeMu77nx7.hJ67d3y.ugfZAEfFj7tRPgnsqmAyR8yA6lPlDL/e', NULL, '198702062007101001@abc.def', 1, 1, 1415361984, 1415619615),
+(333, '198704112010122003', '', '$2y$04$G6bKWvX0DJounFPwLE.0cOhl7hXFIpfuOmnMDhF97.X4LD0M9nIoC', NULL, '198704112010122003@abc.def', 1, 1, 1415361984, 1415619615),
+(334, '198705112008121002', '', '$2y$04$bRfAgOiUZjFhMeQcc4MGDu6LAvAgPF2inNUFVklT32ikg/1BYSwhC', NULL, '198705112008121002@abc.def', 1, 1, 1415361984, 1415619616),
+(335, '198705142010121004', '', '$2y$04$4WL4jejNu6pTp52EQ74YAOFEcxL1jAo7EVCjuv1PNjpuJc0yY/6oa', NULL, '198705142010121004@abc.def', 1, 1, 1415361984, 1415619616),
+(336, '198707052010121004', '', '$2y$04$4cAyfjYwYwmtW25L1pJ6QefaD.IpdL2yKo0/fxZB0NRojVL5bF4xm', NULL, '198707052010121004@abc.def', 1, 1, 1415361984, 1415619616),
+(337, '198708132008121003', '', '$2y$04$l94ZKFFSBy2f9k5HPZrSu.dLDG.iZdIEVUhq81x.YBdSdA3ITCLVG', NULL, '198708132008121003@abc.def', 1, 1, 1415361984, 1415619616),
+(338, '198802102009121002', '', '$2y$04$oy.6sE.ARZSu/A7oG/o8beU5j671avrlOSCW5dppVKzWusUa.eQR6', NULL, '198802102009121002@abc.def', 1, 1, 1415361984, 1415619616),
+(339, '198803082009121002', '', '$2y$04$R.oLt3fDWWlRa45G6khLxujF8YGcRPe/5E6/dHk12OJYfFO/PEvt2', NULL, '198803082009121002@abc.def', 1, 1, 1415361984, 1415619616),
+(340, '198805272009121004', '', '$2y$04$04VvdlKZ5ONOoJbkNH69iOZwhO8QLMUvLh2QDLcOeOA6kU2U65AU2', NULL, '198805272009121004@abc.def', 1, 1, 1415361984, 1415619616),
+(341, '198805202009121003', '', '$2y$04$20mSdYTGpcSUistLrxcp1eMQ/jD5nvbSQNWV3JlTGw3AyzXLNCscq', NULL, '198805202009121003@abc.def', 1, 1, 1415361984, 1415619616),
+(342, '198807272010121005', '', '$2y$04$xG/SHU5YNkoAfZZp.dPmc.bYKYmsHvQrF1rf/IMR1Ad.r8imuR.0O', NULL, '198807272010121005@abc.def', 1, 1, 1415361984, 1415619616),
+(343, '198809282009121004', '', '$2y$04$T1p6JlWPOcz/CVN.tQVkLeNAGZRPQbpr6y75CKqdwUGKGQ3Uzqomi', NULL, '198809282009121004@abc.def', 1, 1, 1415361984, 1415619616),
+(344, '198809052010121003', '', '$2y$04$3xvaWXZM035B855i7m1t6OZyOoF55J6.D1em4KcBcGofCHlTJfAki', NULL, '198809052010121003@abc.def', 1, 1, 1415361984, 1415619616),
+(345, '198811152009121004', '', '$2y$04$yuJQ0X/1ndmh/YaSGHk6PuJLpyEtkDA1b3g3kHYWLfvLMTi4FdnmS', NULL, '198811152009121004@abc.def', 1, 1, 1415361984, 1415619616),
+(346, '198811172008121001', '', '$2y$04$eQRMwk0Ebvk292Fxc2ziv.iKxraH8UTJUjcgocnvwjqSssN8hGnRS', NULL, '198811172008121001@abc.def', 1, 1, 1415361984, 1415619616),
+(347, '198903262010122002', '', '$2y$04$9/dRlOwOkAiRVp/DDbUWDuS6Kr4zYo0Nm4nK98FeNg6EbMfn9eK8K', NULL, '198903262010122002@abc.def', 1, 1, 1415361984, 1415619616),
+(348, '198903202010122001', '', '$2y$04$i4AIQoNohzCkUoKzdT1buejVBeAYYP4m2K7msjiI9apAuUr6RgYoq', NULL, '198903202010122001@abc.def', 1, 1, 1415361985, 1415619616),
+(349, '198904282010122001', '', '$2y$04$8Z39J./zoe/3ZSGbDWrZO.dNc1Uo.lHXbS01oZu2Qg1KwMJap/V3u', NULL, '198904282010122001@abc.def', 1, 1, 1415361985, 1415619616),
+(350, '198907062010121005', '', '$2y$04$oyoB8m82E8itpZcaa4lftePQqzUExG0C5weRblpyyDpijx227H.ye', NULL, '198907062010121005@abc.def', 1, 1, 1415361985, 1415619616),
+(351, '198907292010122001', '', '$2y$04$Ixjz4zPrdI351AMUKo5Tj.97UvDPo4j2OZ1qAUpXlIDMxy.2VxuYG', NULL, '198907292010122001@abc.def', 1, 1, 1415361985, 1415619616),
+(352, '198908252010121001', '', '$2y$04$8hPTIVdvfSL1.Ayl2GdzDO70ItkdZq0jyWusjhQ6M5LNRqa1glms6', NULL, '198908252010121001@abc.def', 1, 1, 1415361985, 1415619616),
+(353, '199103212013102001', '', '$2y$04$0r06qNd9Mq0mf08xSiCyvOLWBdK7V3QxlC2NQqqBZT2ycNMhSWpqC', NULL, '199103212013102001@abc.def', 1, 1, 1415361985, 1415619617),
+(354, '199110072013101001', '', '$2y$04$Ut6Na3xdd/dPxbOS6BFcruo.o62a2p5kkbX9fJjV5ngx6fGpbDz7a', NULL, '199110072013101001@abc.def', 1, 1, 1415361985, 1415619617),
+(355, '199103292013102001', '', '$2y$04$6R6On2ocPPzL8KALd9ESTuiZ4eLjsAwAJ.plsUmrqc0EZUVSsKrJa', NULL, '199103292013102001@abc.def', 1, 1, 1415361985, 1415619617),
+(356, '195405251977121001', '', '$2y$04$XwkjSKTnPgHsffLHJ5Y.k.3V0/C3xz6xK1YuTmQVzYce39mqa0cVu', NULL, '195405251977121001@abc.def', 1, 1, 1415363811, 1415619530),
+(357, '195505291975071001', '', '$2y$04$dRYJ9tGoInftoMbTN1DMIuVbSwbQ6dzODq/BzdABVHjMlygp7mn8a', NULL, '195505291975071001@abc.def', 1, 1, 1415363811, 1415619530),
+(358, '195104021976091001', '', '$2y$04$oWbKuCNSIezXPuabrc8asON.AA9FGQhmjuohoU7CCPbOF3a/y3q7u', NULL, '195104021976091001@abc.def', 1, 1, 1415363811, 1415619530),
+(359, '196005211983111001', '', '$2y$04$GtOXRyhWwIydAfJmwwzNOeNLQTyST4sht2ccsK9ZzSDHwDdlj/ESO', NULL, '196005211983111001@abc.def', 1, 1, 1415363811, 1415619530),
+(360, '196002151985101001', '', '$2y$04$TQ7wsFE6LCiBRP2HTcqYcOYrcwZhOHT82GbmGtFljK7.EJJ5sMvcK', NULL, '196002151985101001@abc.def', 1, 1, 1415363812, 1415619530),
+(361, '195806201985101001', '', '$2y$04$8msidt1oM77HmiU5Fm6YReWHLiNVVHvVGJOStfCICQx5V4ZhRlsfS', NULL, '195806201985101001@abc.def', 1, 1, 1415363812, 1415619530),
+(362, '196012261982092001', '', '$2y$04$WO8ZsiT0VD1q5ETnKV/S6u52Rca2TAlgbN7UCW0ufq8MU/zCSsVrC', NULL, '196012261982092001@abc.def', 1, 1, 1415363812, 1415619530),
+(363, '196102251985031001', '', '$2y$04$5oWHO0qEoM50yudq24ad4e6D0Zc3.6lQKTrsECYMAQEqZbRpgwV7i', NULL, '196102251985031001@abc.def', 1, 1, 1415363812, 1415619530),
+(364, '196104181983101001', '', '$2y$04$4nPbDgAj5Jty7Hyptx/tL.fkewQsakKUe.o.fCAH6ulC8kDKW1bQC', NULL, '196104181983101001@abc.def', 1, 1, 1415363812, 1415619530),
+(365, '196207081982091001', '', '$2y$04$sg6ujJ8.ObEkqyVkn9.1IuSqGgxdUtKIjCENjErhprzu5DbpUVOzi', NULL, '196207081982091001@abc.def', 1, 1, 1415363812, 1415619530),
+(366, '196207221983101001', '', '$2y$04$OtowqvEoVMAJblMiVU7RUu/QAI5m9n1Uyi99Gur3bCReWksZpeBue', NULL, '196207221983101001@abc.def', 1, 1, 1415363812, 1415619530),
+(367, '196312241993081001', '', '$2y$04$RvPyju0gslHpD7bNy3qQnehNQ10x6IbyMu42rMv5cqN1EAN3YI3Da', NULL, '196312241993081001@abc.def', 1, 1, 1415363812, 1415619530),
+(368, '196209041983022001', '', '$2y$04$608YVDw8iy3VZ6lUBc21nOLFcklLCdRimLRSYK6Yie0t5dGo6OO0G', NULL, '196209041983022001@abc.def', 1, 1, 1415363812, 1415619531),
+(369, '196306221983022001', '', '$2y$04$XJ5bdr.omLEBN1IVTTb8z.hGX0wDcAwhhHqVhKmArN.becb38KUCy', NULL, '196306221983022001@abc.def', 1, 1, 1415363812, 1415619531),
+(370, '196510091987021001', '', '$2y$04$iUXJ0mVIe5ZPCIPcII79xO50ZbAWTItATVknG.mxM0UnsMBzsbKGG', NULL, '196510091987021001@abc.def', 1, 1, 1415363812, 1415619531),
+(371, '196612231999031001', '', '$2y$04$MmUzdGVRdwNAuodtMn.reuMJoMLhyh8ZLGJvDzGCKys0VhsFIdgJe', NULL, '196612231999031001@abc.def', 1, 1, 1415363812, 1415619531),
+(372, '196802121995012001', '', '$2y$04$vYyn4cSIIS/JJeMRQx60YO91Y0Eznc5hPoGIikHmLRaqW2xCfUe0W', NULL, '196802121995012001@abc.def', 1, 1, 1415363812, 1415619531),
+(373, '196803011998032001', '', '$2y$04$bvproGycF.ORKhhGP0ptJesBYYs1u8xBbLNq8Z8j7g88kx7/vj54u', NULL, '196803011998032001@abc.def', 1, 1, 1415363812, 1415619531),
+(374, '196809131995011001', '', '$2y$04$1BGn1tmFPzC6jx3Gj0gnN.yY7MG/6JOa1XEi5e.rgE8lsfWSlSWCW', NULL, '196809131995011001@abc.def', 1, 1, 1415363812, 1415619531),
+(375, '197011051994031001', '', '$2y$04$aVMqLyjmyi46dITL9x9Q4O/Ipqb4Tnwu1CNy/5l1dU6JFRfwSMgyS', NULL, '197011051994031001@abc.def', 1, 1, 1415363812, 1415619531),
+(376, '197102131996031001', '', '$2y$04$IPkQQZ//2mOjLP.lEk2I/OYvDbvz8qWfhHlruyQ4vaafL3krgrCBm', NULL, '197102131996031001@abc.def', 1, 1, 1415363812, 1415619531),
+(377, '197104091998032001', '', '$2y$04$SKqqeVz4E.ZorO493bs3SeDrgbo1Qja8dQ89z1QKNM36VQKyDXKZa', NULL, '197104091998032001@abc.def', 1, 1, 1415363812, 1415619531),
+(378, '196904161995031001', '', '$2y$04$ZbF8cVXUoqyC6Wpymd6XzORkuD99mo.a3IZ1YLoBJEHykxXEdJoty', NULL, '196904161995031001@abc.def', 1, 1, 1415363812, 1415619531);
+INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `role`, `status`, `created_at`, `updated_at`) VALUES
+(379, '197106151994031003', '', '$2y$04$PAaovxSC6IO2wPqaIVcN5OcN9AUQi0sJTzNAFsRGKNP18wbZs6UaC', NULL, '197106151994031003@abc.def', 1, 1, 1415363812, 1415619531),
+(380, '197108081996031001', '', '$2y$04$4mHwSa28U4uIvRsiam2Wlux0nEFWd38GQfGg/c/AKi4XIVSYg/6rG', NULL, '197108081996031001@abc.def', 1, 1, 1415363813, 1415619531),
+(381, '197005161992011001', '', '$2y$04$3FDg4wISxipIHynNG3eElOU.z1ibflGkBVBdjxv/x72wOpBR6EpDa', NULL, '197005161992011001@abc.def', 1, 1, 1415363813, 1415619531),
+(382, '197302151993021001', '', '$2y$04$eXpkuaofmiAHIhvxcHhj.Oa9r5iX4tAC7EagJtB/BbMQqcWzyZkhu', NULL, '197302151993021001@abc.def', 1, 1, 1415363813, 1415619531),
+(383, '197106161992032001', '', '$2y$04$jZs52liDmMfcF.we1pUrAe0e44eFflWeU10ixRBszM0aOne7dDUcK', NULL, '197106161992032001@abc.def', 1, 1, 1415363813, 1415619531),
+(384, '197110151992032001', '', '$2y$04$35zGwVUsLjOmEe4.xPEdE.rNI0gEkuCLj4SiZFoPTaL2k/bdcXsXW', NULL, '197110151992032001@abc.def', 1, 1, 1415363813, 1415619531),
+(385, '197502141995112001', '', '$2y$04$/5VGYFpC6uLmyM/3uD3EU.FxRUqNa41qsh1.ibx8CBRRU.eqa7Rfu', NULL, '197502141995112001@abc.def', 1, 1, 1415363813, 1415619531),
+(386, '197607241999031002', '', '$2y$04$Q3U8UsIz2ExnHH4SsVYoreDMubrkVllYnorJhNA2WWzroOstrN52q', NULL, '197607241999031002@abc.def', 1, 1, 1415363813, 1415619532),
+(387, '197608041997032004', '', '$2y$04$QOC9Ojptoh9oQc0boarZ1e1ZJE1SKdsw2GkOQWiDysmk5aS1FuI6u', NULL, '197608041997032004@abc.def', 1, 1, 1415363813, 1415619532),
+(388, '197408251995031002', '', '$2y$04$Ode7GiLJBlOj/8NpjhaCh.pEyz0qVkVxK9HYQKCR/suPYwfHkQTGu', NULL, '197408251995031002@abc.def', 1, 1, 1415363813, 1415619532),
+(389, '197610031999031001', '', '$2y$04$GdnSiZZiZlZn6hAmqJX2uOLOt97.FnilVE59YJIWTNHeEfSPKKhE.', NULL, '197610031999031001@abc.def', 1, 1, 1415363813, 1415619532),
+(390, '197707131999032002', '', '$2y$04$9SptKF45BSudL7W.OAJVhesZj5qz7QaQJoZQIfCK.CJMWAJJXrDDy', NULL, '197707131999032002@abc.def', 1, 1, 1415363813, 1415619532),
+(391, '197812242000122001', '', '$2y$04$p4eKLg3zYlJDvd7Eu2Zo2OXT3ZhAlY6CrHmYqhKj0lAnzhRBQ8D8G', NULL, '197812242000122001@abc.def', 1, 1, 1415363813, 1415619532),
+(392, '198303272006021001', '', '$2y$04$6Hr3J90n8AAoRNhcWsci1uI7mMH8nmm6dq1jZ0SAMtd8BZcgrj3ty', NULL, '198303272006021001@abc.def', 1, 1, 1415363813, 1415619532),
+(393, '198307202009012008', '', '$2y$04$T4F6jtEGoknSCA3hHGWmteHnJ4WJQfjuxBUnXygcyO1iyPCYAF..e', NULL, '198307202009012008@abc.def', 1, 1, 1415363813, 1415619532),
+(394, '198410022010121002', '', '$2y$04$kFwZmqHwLYMfbrhHvKeaFuhTOCGg2raqjZNNvt.D7of/VRMh.62fm', NULL, '198410022010121002@abc.def', 1, 1, 1415363813, 1415619532),
+(395, '198301312004121001', '', '$2y$04$mZO9HS1BOc4hsw2fi9MEueo4HUfgcxKEe7LRmoCOUjt0kQkAClCzW', NULL, '198301312004121001@abc.def', 1, 1, 1415363813, 1415619532),
+(396, '198502152009012005', '', '$2y$04$jvhhnCu2mAKuzlwHd0S8AuY0NU/y0dtLvOCX.ovy2vwnsxxa8pvDO', NULL, '198502152009012005@abc.def', 1, 1, 1415363813, 1415619532),
+(397, '198503212007102001', '', '$2y$04$Z7boOxfM5B7DEEINUHiG8e3K6vMTkcu2I8nANAnZPQ1WNgt2iMTui', NULL, '198503212007102001@abc.def', 1, 1, 1415363813, 1415619532),
+(398, '198510182010121005', '', '$2y$04$XtcvVcfXV5MPtoBz5/.5eO4tjbICDbO60LD4HAaMZOeh7vxmF7a9y', NULL, '198510182010121005@abc.def', 1, 1, 1415363813, 1415619532),
+(399, '198511042010121006', '', '$2y$04$.nXSQoCBXjJFptHhVFPcmO727dd2zPCNfIi6VkUgDK50nJymRMzwu', NULL, '198511042010121006@abc.def', 1, 1, 1415363813, 1415619532),
+(400, '198512122008121005', '', '$2y$04$xEGyk6EWQ4uSoiL/9oxLEuqWdObgEBxaRmCssEXEk/hBO3JsPdSwq', NULL, '198512122008121005@abc.def', 1, 1, 1415363814, 1415619532),
+(401, '198602082010122003', '', '$2y$04$.g9WkGmMRMyWJ0oQ5Pu.bON1EjqALBKtivC9bjDzDWHdc2l2H4MBu', NULL, '198602082010122003@abc.def', 1, 1, 1415363814, 1415619532),
+(402, '198604142009011004', '', '$2y$04$WbZjPrB8QE3cqJk04M2FaeFFgYt.tTgVbJU6zki/PIFxXBQ238aK2', NULL, '198604142009011004@abc.def', 1, 1, 1415363814, 1415619532),
+(403, '198604232010122004', '', '$2y$04$R1jrW3Rj6kTbg/Li8QjrXuj82HidY7oXIY3F9sto5TD8a82ykM1Ma', NULL, '198604232010122004@abc.def', 1, 1, 1415363814, 1415619532),
+(404, '198605122009121005', '', '$2y$04$mSfdFeN7hycrR3p/SyDJB.Ttg99Xq5SrSMndS1BHVcy0GOuXdI6I.', NULL, '198605122009121005@abc.def', 1, 1, 1415363814, 1415619533),
+(405, '198605132010122003', '', '$2y$04$MbWzQU8HIc63flYBfLC4wOAWP5wfhgqu4QL0Bdu11IZnlQa/I3v0O', NULL, '198605132010122003@abc.def', 1, 1, 1415363814, 1415619533),
+(406, '198606202008121002', '', '$2y$04$Bv4F3S9FlIPcon7nyt.Oaudwm3CTfRvgDqS6rTQ.6QD08P/3fBKN.', NULL, '198606202008121002@abc.def', 1, 1, 1415363814, 1415619533),
+(407, '198609172010121002', '', '$2y$04$vbWkg.1peWRDnznoXLNyAOgP9rhDhAdIuVTcHqBPOaYY1/lb63bJm', NULL, '198609172010121002@abc.def', 1, 1, 1415363814, 1415619533),
+(408, '198601092007011003', '', '$2y$04$h5r8f/H4fmhsfmQ0XxzVJeaKVz2zf6H1E43MgsvhPkbjqviW8WEIS', NULL, '198601092007011003@abc.def', 1, 1, 1415363814, 1415619533),
+(409, '198612142010122003', '', '$2y$04$nS5Oi5.sQhCJ2uE4Y18vauqIa8Z8AfnUowmSXO8j7VNeaBdhb.wQe', NULL, '198612142010122003@abc.def', 1, 1, 1415363814, 1415619533),
+(410, '198704192008122003', '', '$2y$04$55NChseJJezL.OkVq0undeOvlUDKPAdJZyyCHXCtv4btc9p26LJJa', NULL, '198704192008122003@abc.def', 1, 1, 1415363814, 1415619533),
+(411, '198705012007011002', '', '$2y$04$5tboBy7FvRERgsSLSTRWe.XCYuchyzY30S2Nx1lxYBHWzEgARnZX2', NULL, '198705012007011002@abc.def', 1, 1, 1415363814, 1415619533),
+(412, '198709112010122003', '', '$2y$04$aRpyHkIU3Nbhnx8KZqAKaemUqZEoqAQToEyvHIBkIszBMfNRYgbQa', NULL, '198709112010122003@abc.def', 1, 1, 1415363814, 1415619533),
+(413, '198710032009121003', '', '$2y$04$YVpvGIOzzBGfGlxVzDU32eCZeO/8nmLikWD55Zx0GvBk5DW6O1o6i', NULL, '198710032009121003@abc.def', 1, 1, 1415363814, 1415619533),
+(414, '198710032010121009', '', '$2y$04$GGMR2jTmy1.gFSmxcSUsUe1xbVESU/v4/hVAQdm5cH4LukCfIL0aa', NULL, '198710032010121009@abc.def', 1, 1, 1415363814, 1415619533),
+(415, '198801302010122001', '', '$2y$04$g.tGQiCgjPDTm8BVDiZNY.bXVX2OrrARLO6vqsZhmMwIUw6VCj1OW', NULL, '198801302010122001@abc.def', 1, 1, 1415363814, 1415619533),
+(416, '198801302008122001', '', '$2y$04$VegbfciEcHgcSBHoIrGqWus7U0NyfmZ0Q0f/5wIn50uir2S2CgQ3q', NULL, '198801302008122001@abc.def', 1, 1, 1415363814, 1415619533),
+(417, '198803162008121001', '', '$2y$04$zHl7GM8xcZt52IHnUcWtXeDvOqYSuEBIFFksj8uQSHNZ4lLcEILEG', NULL, '198803162008121001@abc.def', 1, 1, 1415363814, 1415619533),
+(418, '198804062008121002', '', '$2y$04$xnPKmKumtnPcRQdJvVXY9uzVQmI5oGJzDP4yluE7WDcL/ZjhbzY2W', NULL, '198804062008121002@abc.def', 1, 1, 1415363815, 1415619533),
+(419, '198805232009121005', '', '$2y$04$4AHoR64GCs/aAs/azhonLueSs3whGV10fNn6RTfsp0UZuRJ5S97iW', NULL, '198805232009121005@abc.def', 1, 1, 1415363815, 1415619533),
+(420, '198805112009121004', '', '$2y$04$ADSH5Sk5tLZT7wmvhAB2gOgTA4FutZMzlUGpjIXhMEvgJb4OOHwya', NULL, '198805112009121004@abc.def', 1, 1, 1415363815, 1415619533),
+(421, '198807142010121001', '', '$2y$04$M.yeazTIbmdp.C7yrtE1dOGJ81JXAZYtnd.L57Y.Vzo9S6ePVwppK', NULL, '198807142010121001@abc.def', 1, 1, 1415363815, 1415619533),
+(422, '198807252009121003', '', '$2y$04$pBhfyqJrlDG9f1MlBQX17.9sfFteWnn04U7.PGGoKcy2aIQePZrZq', NULL, '198807252009121003@abc.def', 1, 1, 1415363815, 1415619533),
+(423, '198807272009121004', '', '$2y$04$0BRs/tsvhj2nC98viKdWQenEPgft9sV/.tsnzq52DRFXNfe.sPlcy', NULL, '198807272009121004@abc.def', 1, 1, 1415363815, 1415619534),
+(424, '198809252009122001', '', '$2y$04$oQslrMpdWihWwUuO9fFVIeD.dnmJ3Jv0mF5PI8r0HJ6dYsdezL0cy', NULL, '198809252009122001@abc.def', 1, 1, 1415363815, 1415619534),
+(425, '198812112010121002', '', '$2y$04$jKMZrGCLYrHwyd3ge82sB.lSjf4xOYh5s5327s5yp3Q3JdNi0MuaO', NULL, '198812112010121002@abc.def', 1, 1, 1415363815, 1415619534),
+(426, '198904172010122002', '', '$2y$04$yERpO8AiRQomU1G81NlDUunN6ZjL36ta/vSY50U4GFpw8oFxvbIwe', NULL, '198904172010122002@abc.def', 1, 1, 1415363815, 1415619534),
+(427, '198908242010121002', '', '$2y$04$7Y..dgSLq92Z7YwtAdULXe3sd9w6nuUo4siW.WBOoly.5MuNxl/X.', NULL, '198908242010121002@abc.def', 1, 1, 1415363815, 1415619534),
+(428, '198910092010122003', '', '$2y$04$RT1zcYXb7h8cZQnyeVg26OTTH18uctVQam1mxpkG14.ObtaP0xOCO', NULL, '198910092010122003@abc.def', 1, 1, 1415363815, 1415619534),
+(429, '198912112009121001', '', '$2y$04$EEwFRToc4LbK321as8HqW.qLQDXDoDFCwzGLmSbug7thO7sbS7g1e', NULL, '198912112009121001@abc.def', 1, 1, 1415363815, 1415619534),
+(430, '199201242013101001', '', '$2y$04$UUCm8b65tOvay4IAWFBHrOCZdL4wlfx/m2a8klDGmV2G7q9DT2FGi', NULL, '199201242013101001@abc.def', 1, 1, 1415363815, 1415619534),
+(431, '199104112013102001', '', '$2y$04$3/ntvHvorYW4ABKThJbUAeQx8brEalX8Jfa9ECST4OzLiVFUqYhIS', NULL, '199104112013102001@abc.def', 1, 1, 1415363815, 1415619534),
+(432, '199107132013102002', '', '$2y$04$McYewxjrlRvnLXufTZqX8OmBLNzu/XE1xyeFgv7CeVFK34ProURiG', NULL, '199107132013102002@abc.def', 1, 1, 1415363815, 1415619534),
+(433, '199105102013101003', '', '$2y$04$x5X2jSkb7VHQPe8CKCwpt.i7TNaGS/DOHBMP/xfdy2SVCOzIZTmUO', NULL, '199105102013101003@abc.def', 1, 1, 1415363815, 1415619534),
+(434, '195807061993031001', '', '$2y$04$BQsK6L7sNzLKeLwr2IFX.eVopbp9DMblI1Kof29eAzvg5wqm/L17W', NULL, '195807061993031001@abc.def', 1, 1, 1415364126, 1415619421),
+(435, '195904191980032001', '', '$2y$04$fd0nglxhENPfhAFj5d77meEFceMOtnzQRcXIYHI8MyLu6u8Sj1FXu', NULL, '195904191980032001@abc.def', 1, 1, 1415364126, 1415619421),
+(436, '195905281983101001', '', '$2y$04$TmX/E23E/49hcnjlm5C6OeWmkLXB/FD/V8pcnVUcwEcQKkoOzd01a', NULL, '195905281983101001@abc.def', 1, 1, 1415364126, 1415619421),
+(437, '196004041985032001', '', '$2y$04$sygY2uBzYiDEynilIHtRN.cs0x5JyuBc5py/VvYZ5g/kXgoELOxdu', NULL, '196004041985032001@abc.def', 1, 1, 1415364126, 1415619422),
+(438, '196008191985011001', '', '$2y$04$U1KhR5VxJW1xm06dt6TqZe.dzcz2YbpQDXoHjpsvWz6Qar3J1DpRW', NULL, '196008191985011001@abc.def', 1, 1, 1415364126, 1415619422),
+(439, '195308091978011001', '', '$2y$04$LI6fnmeB2FbsQYSk6mmhcOqlpuwl.MM6aIp/qq5YC5rjSGo0LDaqK', NULL, '195308091978011001@abc.def', 1, 1, 1415364127, 1415619422),
+(440, '196101091990031001', '', '$2y$04$EcbsuV0rVB3uBtSaK1ac1ewh4mRc9RRnwQ/M7rAKnBsenmb6IZtQy', NULL, '196101091990031001@abc.def', 1, 1, 1415364127, 1415619422),
+(441, '196303251984031001', '', '$2y$04$jRgdiW3AYOPMYn7SmN4rKuGh.RtrHeO878EPb0If4qXU9g0h8Vivq', NULL, '196303251984031001@abc.def', 1, 1, 1415364127, 1415619422),
+(442, '196402061986021009', '', '$2y$04$jR8dsjSaqU6jps0iO/LkPeySem82bpghZxQzqaPG8JLkHwgej4dAi', NULL, '196402061986021009@abc.def', 1, 1, 1415364127, 1415619422),
+(443, '196405011983101001', '', '$2y$04$wnWhZfExH8MAuLsxG0ajxuhH6o8dx8mBs7as7bwgV3Je8Y8v1IdK.', NULL, '196405011983101001@abc.def', 1, 1, 1415364127, 1415619422),
+(444, '196503061998031001', '', '$2y$04$TlqVihnSwMpJkVcoWUMtYuMVc3gPA0E2IzHLjk3nkbPAiKJTz/Mh.', NULL, '196503061998031001@abc.def', 1, 1, 1415364127, 1415619422),
+(445, '196512041998031001', '', '$2y$04$XWlEq1PIBrrq7xQ.AamKRuBg8F/EPHCM9JbQk1O.9g16LQ5zX4fbS', NULL, '196512041998031001@abc.def', 1, 1, 1415364127, 1415619422),
+(446, '196501201989101001', '', '$2y$04$.HlDCePkvj/JT5Avf1VvZ.vFjd/4z6FF30x8svDT1xOw5vZoUGUsS', NULL, '196501201989101001@abc.def', 1, 1, 1415364127, 1415619422),
+(447, '196509041985031001', '', '$2y$04$vPpA7oEI2780rzgXWkHZfu9hnw0YTVtjQTde16hxiNdM4P/taQOt2', NULL, '196509041985031001@abc.def', 1, 1, 1415364127, 1415619422),
+(448, '196712161994031001', '', '$2y$04$zV1XPYW5mzbSQUnYUOAyt.mClAg3WRSJweC2IBDCpMiYDttejxF.W', NULL, '196712161994031001@abc.def', 1, 1, 1415364127, 1415619422),
+(449, '196801152005011011', '', '$2y$04$k.EbIlUUyZia7AI8doBXkuRsV.0VaAw7HXZ2ktdzRt5BZyrUaztbG', NULL, '196801152005011011@abc.def', 1, 1, 1415364127, 1415619422),
+(450, '196801261994032001', '', '$2y$04$B9lggmRgLSqi0qwwVKiCPO3THJm/6XfkfQsA6Ao.MQv13dM5nVNpu', NULL, '196801261994032001@abc.def', 1, 1, 1415364127, 1415619422),
+(451, '196802101994031003', '', '$2y$04$eR.AUxs8HhxSJM2.yayn6eK2RkY11zQl7GwfrqEncR.9FKIWwzjF.', NULL, '196802101994031003@abc.def', 1, 1, 1415364127, 1415619422),
+(452, '196609301992012001', '', '$2y$04$OEGyBIlEXuExNdK8NZPtcO9HL2/AtLISLdTdGAB8fZJh22oSOB3we', NULL, '196609301992012001@abc.def', 1, 1, 1415364127, 1415619422),
+(453, '196702141993102001', '', '$2y$04$GqpRZwdHSNFMb8OGr1AbnuC684ZEx4WUX0/StuHlq3sc9M9Coj3xS', NULL, '196702141993102001@abc.def', 1, 1, 1415364127, 1415619422),
+(454, '196903191996031001', '', '$2y$04$Qe.jhvmmsrBdYWLR08eyc.U2K5RqiNKfHb1tABLN909DYrxPSn13y', NULL, '196903191996031001@abc.def', 1, 1, 1415364127, 1415619423),
+(455, '196706271992011001', '', '$2y$04$AnTdqewg7ZE/VKVn3btUIe6KjpEOZU6BDEOB8cApc9/FCd1aAbtYO', NULL, '196706271992011001@abc.def', 1, 1, 1415364127, 1415619423),
+(456, '196706111988031012', '', '$2y$04$dbAF0SMo9RPWLWD9oEYT1esj.MSHTGwlf0SkvfwsOq4HFeBijOLDu', NULL, '196706111988031012@abc.def', 1, 1, 1415364128, 1415619423),
+(457, '196707031993102001', '', '$2y$04$EasU6RSwI7VAgmpBwy7HrenzvpSv3KC8jZ4rUdHSm5FvkHj630Yju', NULL, '196707031993102001@abc.def', 1, 1, 1415364128, 1415619423),
+(458, '196911241998031001', '', '$2y$04$9VeKGEKZHUtl3uaws8gZ8ez6G0oq.r07Ei2pK0Jtycxa/jgTM2V2.', NULL, '196911241998031001@abc.def', 1, 1, 1415364128, 1415619423),
+(459, '197002151997031001', '', '$2y$04$cZhze1FgxTu.9yMDvgtdguEidB/PQU3iTAB5rUSeGQAT6cGp.Rr7.', NULL, '197002151997031001@abc.def', 1, 1, 1415364128, 1415619423),
+(460, '197005091996032001', '', '$2y$04$E/sQKhy2GVny60/V0uR1QOtOI85u/qGNkwJ6WScBKxY8bGanleudq', NULL, '197005091996032001@abc.def', 1, 1, 1415364128, 1415619423),
+(461, '196806271989031002', '', '$2y$04$kyCS6NrfT1m8lt/X3aSGrOZVF0/CDVROtkmbZcdNQtvqaJK6bmbGy', NULL, '196806271989031002@abc.def', 1, 1, 1415364128, 1415619423),
+(462, '197012261998032001', '', '$2y$04$TSOxQ253bKMVTuZfUXZ0IOMfVyRwDPry.Qn0rzOtlTgKUuKWxsJPC', NULL, '197012261998032001@abc.def', 1, 1, 1415364128, 1415619423),
+(463, '196904111995031001', '', '$2y$04$mPEkXo5AOZ6KJqZsDV2GKuo4xLL5bHJD4Gs0JE6U.VtJaMZMq1I7q', NULL, '196904111995031001@abc.def', 1, 1, 1415364128, 1415619423),
+(464, '197107081997031002', '', '$2y$04$zYABl/tHHr7NH4.0E5DZze.PzeE5LsMge8fcm62V5aPOIfrgzAmam', NULL, '197107081997031002@abc.def', 1, 1, 1415364128, 1415619423),
+(465, '197107091994032002', '', '$2y$04$xnYIjdnqrlIGCUYBHT6GiugJIseQfDu.sS0GA8SoHopqsTcj3dYVG', NULL, '197107091994032002@abc.def', 1, 1, 1415364128, 1415619423),
+(466, '197112011999031001', '', '$2y$04$QTrQej9PBjiLh8lahF4Z2.ILTMkaF1MueOl95IKX2n35i/SkZ9BJ2', NULL, '197112011999031001@abc.def', 1, 1, 1415364128, 1415619423),
+(467, '196912311995031001', '', '$2y$04$FAEHMbxuIomW79R4ebXx7eAOvO0nAq4Ymi6qULVxbiE6dOFmzz5Ee', NULL, '196912311995031001@abc.def', 1, 1, 1415364128, 1415619423),
+(468, '197001011990031003', '', '$2y$04$vYnjb05UHj5LCIJw/9s68u1U5sYABwEiR5G7Its/iH0g51OVkjHzm', NULL, '197001011990031003@abc.def', 1, 1, 1415364128, 1415619423),
+(469, '197202111998031001', '', '$2y$04$wQDBnFGcG/RjnVs7WzcixO5TYlFwf8WH7bDMFyyYU8LU2X2878gZy', NULL, '197202111998031001@abc.def', 1, 1, 1415364128, 1415619423),
+(470, '197004121989121002', '', '$2y$04$l9jFve/Ig/vy0CLNNDIi.ee8kFhEeR6eh6SJs86jxJlqM6Uo48rMK', NULL, '197004121989121002@abc.def', 1, 1, 1415364128, 1415619423),
+(471, '197005101995032001', '', '$2y$04$i66JGyY2A373PkoxLTJY/eMREcG23bauD5srFVf87D6K47brZhgFy', NULL, '197005101995032001@abc.def', 1, 1, 1415364128, 1415619424),
+(472, '197006021996031002', '', '$2y$04$5iT2D8FU4LEi0Gp4u/0eN.YnpWC3CBxTCGyD6/DovAxn5p3loLJ/S', NULL, '197006021996031002@abc.def', 1, 1, 1415364128, 1415619424),
+(473, '197009051992011001', '', '$2y$04$WWLOIanzVIdZ42TsHW6R2u/iVQ3aswvkrx5nKqe2cAW13ZWilokRu', NULL, '197009051992011001@abc.def', 1, 1, 1415364128, 1415619424),
+(474, '197010181995032001', '', '$2y$04$.aQmarAtW4aU90ga49CCD.pnZKEB7w2gcv1IwJ80O4bmIWE30dCT2', NULL, '197010181995032001@abc.def', 1, 1, 1415364128, 1415619424),
+(475, '197011231995032001', '', '$2y$04$A1M6PpKdeoH3aGvkJvco7uFJtCe4L8x60/CC8Qxcupo6C/VEbNEjS', NULL, '197011231995032001@abc.def', 1, 1, 1415364129, 1415619424),
+(476, '197012151992011001', '', '$2y$04$R4Bz0bMX5eogmt0UUA1GruC/ozwzlARVVQe6qlZJaQ.V36wM7Torq', NULL, '197012151992011001@abc.def', 1, 1, 1415364129, 1415619424),
+(477, '197301131994031002', '', '$2y$04$/hYvHy8FYVkq5tFp1JdofuSLE/Y6u2LIrhtUPh5q33..j5VyoP5Be', NULL, '197301131994031002@abc.def', 1, 1, 1415364129, 1415619424),
+(478, '197101231992031001', '', '$2y$04$eJCj2lpGC1wUahUTOf8K9OoGqPpBH08puyvONBKD9nQaBQc6voh46', NULL, '197101231992031001@abc.def', 1, 1, 1415364129, 1415619424),
+(479, '197109081998031001', '', '$2y$04$oKsnTB5lTSPPcMQEsOi13uiy276AvH.P4DAYSmxDacVY.fTkJvOWm', NULL, '197109081998031001@abc.def', 1, 1, 1415364129, 1415619424),
+(480, '197110241992031001', '', '$2y$04$/uITun6EJfZ5Z5TAP5aFV.Qq8rnzchJSv0TC.iRbjYkAzRHcVjDI.', NULL, '197110241992031001@abc.def', 1, 1, 1415364129, 1415619424),
+(481, '197406181995122001', '', '$2y$04$9Do4JqEaaruyEjAX22zCeuQnTtgN3uq5DVaVRWmz9VaAFEgZOWicC', NULL, '197406181995122001@abc.def', 1, 1, 1415364129, 1415619424),
+(482, '197209261993031001', '', '$2y$04$ewFk861Nuy.NgmHpDVKX8uZaTWt4BFNwBwRb3IgnkvCfjZi759k2i', NULL, '197209261993031001@abc.def', 1, 1, 1415364129, 1415619424),
+(483, '197411202005012001', '', '$2y$04$w/2QLLoE6QO8FE/4tUuq9O.kIDY5zEZuMhIsyz9ryICDymI5tBeZa', NULL, '197411202005012001@abc.def', 1, 1, 1415364129, 1415619424),
+(484, '197411211999031001', '', '$2y$04$l53sAmLpm1loRQLFv..GvOBvb25ySrbUhGxjvGyRuswvDCibHv1Nm', NULL, '197411211999031001@abc.def', 1, 1, 1415364129, 1415619424),
+(485, '197412251995111002', '', '$2y$04$OM6DRScHQchJ5c9Qdmf7PuxADwI59SyF14trI1/OkKKle0Cs.Pv.2', NULL, '197412251995111002@abc.def', 1, 1, 1415364129, 1415619424),
+(486, '197501041995112001', '', '$2y$04$KxmRxSaH6zVL0QJuezkHB.Qv6TTWcY86jp.ATDk1rj6W/xtIuwt1a', NULL, '197501041995112001@abc.def', 1, 1, 1415364129, 1415619424),
+(487, '197401081998031002', '', '$2y$04$8yJSgtjL3YU0GDcv6GA5NOSkD2mC/B7dlW5sAUyD5KOe/1KF75lL.', NULL, '197401081998031002@abc.def', 1, 1, 1415364129, 1415619424),
+(488, '197605251996021002', '', '$2y$04$ySL9/1ieCc6XKcsjO06svOU5QfGMrpqyekOMHYkNpRfzFqJCBN0j2', NULL, '197605251996021002@abc.def', 1, 1, 1415364129, 1415619424),
+(489, '197406031995021001', '', '$2y$04$PPk7ymXOJhL9dUOAezY01ezGzqvw1KOnzgVlxYhdFTafxQXkyIoDe', NULL, '197406031995021001@abc.def', 1, 1, 1415364129, 1415619424),
+(490, '197610061998031002', '', '$2y$04$iG44BmklXiCRrcIeMIWn1uC6fb2Xzk7eUF5rxhHEeHnReDQVIaCR6', NULL, '197610061998031002@abc.def', 1, 1, 1415364129, 1415619425),
+(491, '197704271999031001', '', '$2y$04$6ajJAY7ATMz9HhN/K7k6vuu1IG0uXz1r7SWTUtdJ2YQLWW8GjZeFO', NULL, '197704271999031001@abc.def', 1, 1, 1415364129, 1415619425),
+(492, '197705242005011001', '', '$2y$04$bfkINQRSWN6LoJz3cyczO.HWU3wqVR2D3/TsuR3RDdQO/mVt5U4Cm', NULL, '197705242005011001@abc.def', 1, 1, 1415364129, 1415619425),
+(493, '197505241995032001', '', '$2y$04$lWprgXu5cymyuqWfrIw/COtEL/tEIY.8KP/Kcx8np1/LXmQKgqkcG', NULL, '197505241995032001@abc.def', 1, 1, 1415364130, 1415619425),
+(494, '197507241999031001', '', '$2y$04$jMOXOZ48saPooU8Z2pGCdOdkFDFP3XXxTnkCQ639UXifTbqCk8xVi', NULL, '197507241999031001@abc.def', 1, 1, 1415364130, 1415619425),
+(495, '198002201999031002', '', '$2y$04$z.K6Nw9MRAjavVIbwPV3AeW2IWafFsE2r3KRqIy2C/bn/bA6gDWLq', NULL, '198002201999031002@abc.def', 1, 1, 1415364130, 1415619425),
+(496, '198304212004122001', '', '$2y$04$r/RoosWQgDEFl94KhYNSR.VE0Bsd1/YSAEO7F.8EYZq0OdcQcuSCS', NULL, '198304212004122001@abc.def', 1, 1, 1415364130, 1415619425),
+(497, '198305172004122001', '', '$2y$04$ATuqDHmL.WPlT7pZt/fA2OHwsyB6fD0jexNrkWprwuKwv1Rjz1iRK', NULL, '198305172004122001@abc.def', 1, 1, 1415364130, 1415619425),
+(498, '198308172007011001', '', '$2y$04$I3kKQme0NSNEgjFYJ3b1zOWtWVfk/JqR9P9Lx274L2TUGg64pP6da', NULL, '198308172007011001@abc.def', 1, 1, 1415364130, 1415619425),
+(499, '198310092010122003', '', '$2y$04$3L5IQOS/UEGHbWyJeSsUoOItHgy727aE1GSRmnNaivS/u25RxP2OG', NULL, '198310092010122003@abc.def', 1, 1, 1415364130, 1415619425),
+(500, '198403192006022002', '', '$2y$04$fw6hbYSkEXSjBQBrjcf/LuWRILanmPOef/kdiFW./0BuX4OqOjaO.', NULL, '198403192006022002@abc.def', 1, 1, 1415364130, 1415619425),
+(501, '198403122004121002', '', '$2y$04$yuJPVqyq9nFRXtr/Y2iZF.8SaDVuH9mmgk5lHMPz4K1um/ZekLkxS', NULL, '198403122004121002@abc.def', 1, 1, 1415364130, 1415619425),
+(502, '198409172006021002', '', '$2y$04$VJlkFiMqorAoa354XBkYb.FzVxOfFX8SmVbJx04F9h0qd1VV70/Ma', NULL, '198409172006021002@abc.def', 1, 1, 1415364130, 1415619425),
+(503, '198503232007011001', '', '$2y$04$1TNk3EgBmSiX2.OpklSTM.GUov7ri6DRMYEeE9HtGkOS.m37GWcSK', NULL, '198503232007011001@abc.def', 1, 1, 1415364130, 1415619425),
+(504, '198504162010121005', '', '$2y$04$R9cu3wtKkdwQCgacFOFB/Oox74lroQ/RYRCZOuabaoEmM5zDYPv7G', NULL, '198504162010121005@abc.def', 1, 1, 1415364130, 1415619425),
+(505, '198506102010122004', '', '$2y$04$7OWka0LuYcH3cDkhdqOmMu7SSrOzBoenYXk7VgtciZokTL9mgQJDq', NULL, '198506102010122004@abc.def', 1, 1, 1415364130, 1415619425),
+(506, '198506162010122005', '', '$2y$04$ieg7D9HnU/ZW4lsCMJ6/EeU1W/tnzD2bC4mRuu83UDj8MLsjgTi/q', NULL, '198506162010122005@abc.def', 1, 1, 1415364130, 1415619425),
+(507, '198603112010122003', '', '$2y$04$YMJOKj5PyoN8.xvfEbbK2ucVl/w8G4.ZKgjfhfLIrcDV899qcborm', NULL, '198603112010122003@abc.def', 1, 1, 1415364130, 1415619425),
+(508, '198604232009012004', '', '$2y$04$C7auKUfCbAm7mKOh39.AUuVJF.QxQnw76tc8MgyYCLXlCMHVsk9cS', NULL, '198604232009012004@abc.def', 1, 1, 1415364130, 1415619426),
+(509, '198605012009121008', '', '$2y$04$CFxiUpc2pYAWBFeZGZ5VFeMOKxJ5pl1OJiPx/aX3VR1X7yRV7MhpS', NULL, '198605012009121008@abc.def', 1, 1, 1415364130, 1415619426),
+(510, '198608042007101002', '', '$2y$04$KleL.MNOhkHOlhuKd1QgfO.dFNcaWpH03rrkRiNlsYyQ2qkYzXwbi', NULL, '198608042007101002@abc.def', 1, 1, 1415364130, 1415619426),
+(511, '198608202010122003', '', '$2y$04$6JCIaIVSX0woQHVbrSK37OPQepjwrrecJvJeoaRxU9lXFnlKYiZZ2', NULL, '198608202010122003@abc.def', 1, 1, 1415364131, 1415619426),
+(512, '198608082007011004', '', '$2y$04$rBEtRcKCD1PMXq4Gz7BcOO6/ciNUAJbV38/jpSXW87B5KbibHy4gK', NULL, '198608082007011004@abc.def', 1, 1, 1415364131, 1415619426),
+(513, '198609102010122004', '', '$2y$04$zw7Wb.ST3Epj/eqbhDUZzO98JdkIF9I./5i5r8DEoWRoC/cxfzR/2', NULL, '198609102010122004@abc.def', 1, 1, 1415364131, 1415619426),
+(514, '198609212007101002', '', '$2y$04$XCh92RMQRh0uDEXd/.xDkey8Xxs4.pBpNcOgzcqezCSFe5ugKO2DO', NULL, '198609212007101002@abc.def', 1, 1, 1415364131, 1415619426),
+(515, '198701302007011001', '', '$2y$04$FeDdy6kuw1410leoBNebV.2NVZJdg3F2xyyBiXlkLij0LJeZFwKkO', NULL, '198701302007011001@abc.def', 1, 1, 1415364131, 1415619426),
+(516, '198704282010122005', '', '$2y$04$JcQUD0FZTTSLzbMGxM9McefM3KrqJQOl4uM.Q9Lp0Qj.5L7H9O9iu', NULL, '198704282010122005@abc.def', 1, 1, 1415364131, 1415619426),
+(517, '198705302010121001', '', '$2y$04$kgjdnlYIfKm48ZkDoFfO1uD0PQI5oXNn7JAMskDFbLTmzvSzTaP66', NULL, '198705302010121001@abc.def', 1, 1, 1415364131, 1415619426),
+(518, '198701062007011003', '', '$2y$04$Hf5s5uhcVk2DnWwvoFjBQuiwt5bOTgMy75NsNBxZowYeLbFhmx/vy', NULL, '198701062007011003@abc.def', 1, 1, 1415364131, 1415619426),
+(519, '198706022008121001', '', '$2y$04$z/og9N/t0YpxWHI86zG8AO.QwIMqfTbxA8Fh6qp8CWh/BVDBQfS1u', NULL, '198706022008121001@abc.def', 1, 1, 1415364131, 1415619426),
+(520, '198706052007101001', '', '$2y$13$kO54j3l7noayDIhMQoNeZeKiscOvZ.myXlsakE6ykb69DMZgYyVqO', NULL, '198706052007101001@abc.def', 1, 1, 1415364131, 1415680283),
+(521, '198706042009121003', '', '$2y$04$XjpAxDlNnTG08fiDOKszzO03PkgEg4XVrEG.k.gDUjemiM7SRkaka', NULL, '198706042009121003@abc.def', 1, 1, 1415364131, 1415619426),
+(522, '198709222010121001', '', '$2y$04$6M1hgb9A0bfjqSBw3Y0s7uEk/tYPVbFSTSOpKlKB0rzLxc7AwtFTe', NULL, '198709222010121001@abc.def', 1, 1, 1415364131, 1415619426),
+(523, '198712202008122002', '', '$2y$04$qjhP1/rqo7.NSKZ1qwnZJuphAhV7Fx6xR2/n1SXRreA4sMfe9KSJu', NULL, '198712202008122002@abc.def', 1, 1, 1415364131, 1415619426),
+(524, '198802162007101001', '', '$2y$04$1Z5FJ6rkyaYey/u.JP2TxeMJY5HwxDcKWTGFIJX3DTojaufngbIMO', NULL, '198802162007101001@abc.def', 1, 1, 1415364131, 1415619426),
+(525, '198804142009122003', '', '$2y$04$Te6n8WBB7zbzucju/i27Tu5orIuSDyfbzccIXRaESVrvdK/S6GNmi', NULL, '198804142009122003@abc.def', 1, 1, 1415364131, 1415619426),
+(526, '198805242009121005', '', '$2y$04$Lj8s.yl6w7jj8gFIDFJxQuB2kqHVrYAxOgi/89wnyTCIjl5xgIwQq', NULL, '198805242009121005@abc.def', 1, 1, 1415364131, 1415619426),
+(527, '198806042010122006', '', '$2y$04$ZwmC1KTtDEookQMm3Yon3uasqyDcjeR.5vWzKffQW5prHhch/JLWy', NULL, '198806042010122006@abc.def', 1, 1, 1415364131, 1415619427),
+(528, '198806102010121003', '', '$2y$04$KERi5Rkub8/MJEiGrEr6VOkWghmTcoYvD6wV1PW4TBK3sSPkNPyMe', NULL, '198806102010121003@abc.def', 1, 1, 1415364131, 1415619427),
+(529, '198808092009121002', '', '$2y$04$ZzmZKKZ741lV4kWXm44ajOdnP5V7C6U9PzQttgoHhAKKPv1.pu/GK', NULL, '198808092009121002@abc.def', 1, 1, 1415364132, 1415619427),
+(530, '198810092009122003', '', '$2y$04$6unmMn2Yhz/t9juac0STnuU3oTjD3ww1q8gfhfgqzRMjnmLFlXgJa', NULL, '198810092009122003@abc.def', 1, 1, 1415364132, 1415619427),
+(531, '198812302010121004', '', '$2y$04$QaipjPPD5x4NTqADtKpjTO8iEEKpqr54n8M4jkIvAihWGoxAJsqYe', NULL, '198812302010121004@abc.def', 1, 1, 1415364132, 1415619427),
+(532, '198902102009121004', '', '$2y$04$GV4FTXZ27muFh7nNeLA7Cunpmmxxff3IHScXMpI3XrXLS9nUXQRgS', NULL, '198902102009121004@abc.def', 1, 1, 1415364132, 1415619427),
+(533, '198907242010122001', '', '$2y$04$Z7eNkQ/EF5hTxfdgSjQTxORrh7de7C/SLo09AgRX./VrGOIWgOKn.', NULL, '198907242010122001@abc.def', 1, 1, 1415364290, 1415619450),
+(534, '198909072010121004', '', '$2y$04$hwCPipO2n10nlEfw31v6u.K.rgH1XjYIx3.T6ThW.i7.iu.fUDNxK', NULL, '198909072010121004@abc.def', 1, 1, 1415364290, 1415619450),
+(535, '198912312010121002', '', '$2y$04$vRS4rePgsrSfKZbN/74AMOREcBXwtE5SZ07GfZ4wzeYwhLgWvLYjO', NULL, '198912312010121002@abc.def', 1, 1, 1415364290, 1415619451),
+(536, '198912012010121001', '', '$2y$04$Iqjod70t0t/lrfUZEBQpPusuMaAmulaE5dbqwLFFF7prTLhTpsj1G', NULL, '198912012010121001@abc.def', 1, 1, 1415364290, 1415619451),
+(537, '198912262008121001', '', '$2y$04$fLKzFSZcdv4yLvxva5QIJu4i2J0XgHw1syWB/9LHbm1PgJjKEigQC', NULL, '198912262008121001@abc.def', 1, 1, 1415364290, 1415619451),
+(538, '198802262010121005', '', '$2y$04$SWBvZha/Vqqawp5FczaZf.00eKfn4PsB9R0Dd9cHkkaxyRA3raKPW', NULL, '198802262010121005@abc.def', 1, 1, 1415364290, 1415619451),
+(539, '199110312013101002', '', '$2y$04$5U6mUtlHCoj7jon/tOnmx.nJvaglsJtwJ1NJJ4Pu6FghyxwdO6vVC', NULL, '199110312013101002@abc.def', 1, 1, 1415364290, 1415619451),
+(540, '199111092013101002', '', '$2y$04$PemeTEBJmubXFMGpkMklGe.p7G3CbnV/DxQfLzesYUQwprflcznIW', NULL, '199111092013101002@abc.def', 1, 1, 1415364290, 1415619451),
+(541, '199211082013102001', '', '$2y$04$hr8OoDpV6UQYBrYCIN2uT.3nN2gOnODwr8576l9Kg2wOhKx/Hum/m', NULL, '199211082013102001@abc.def', 1, 1, 1415364290, 1415619451),
+(542, '199007202013101004', '', '$2y$04$zjcQQD3zLMtGuq.FHLadt.8CvCdPbYDQrQkv.GSHR9nM8YljqzFaq', NULL, '199007202013101004@abc.def', 1, 1, 1415364290, 1415619451);
 
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `activity`
+--
+ALTER TABLE `activity`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indexes for table `activity_history`
+--
+ALTER TABLE `activity_history`
+ ADD PRIMARY KEY (`id`,`revision`);
+
+--
+-- Indexes for table `activity_room`
+--
+ALTER TABLE `activity_room`
+ ADD PRIMARY KEY (`activity_id`,`room_id`), ADD KEY `tb_room_id` (`room_id`), ADD KEY `tb_training_id` (`activity_id`);
+
+--
+-- Indexes for table `auth_assignment`
+--
+ALTER TABLE `auth_assignment`
+ ADD PRIMARY KEY (`item_name`,`user_id`);
+
+--
+-- Indexes for table `auth_item`
+--
+ALTER TABLE `auth_item`
+ ADD PRIMARY KEY (`name`), ADD KEY `rule_name` (`rule_name`), ADD KEY `idx-auth_item-type` (`type`);
+
+--
+-- Indexes for table `auth_item_child`
+--
+ALTER TABLE `auth_item_child`
+ ADD PRIMARY KEY (`parent`,`child`), ADD KEY `child` (`child`);
+
+--
+-- Indexes for table `auth_rule`
+--
+ALTER TABLE `auth_rule`
+ ADD PRIMARY KEY (`name`);
+
+--
+-- Indexes for table `employee`
+--
+ALTER TABLE `employee`
+ ADD PRIMARY KEY (`person_id`), ADD KEY `user_id` (`user_id`), ADD KEY `organisation_id` (`organisation_id`);
+
+--
+-- Indexes for table `file`
+--
+ALTER TABLE `file`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `issue`
+--
+ALTER TABLE `issue`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `meeting`
+--
+ALTER TABLE `meeting`
+ ADD PRIMARY KEY (`activity_id`), ADD KEY `organisation_id` (`organisation_id`);
+
+--
+-- Indexes for table `menu`
+--
+ALTER TABLE `menu`
+ ADD PRIMARY KEY (`id`), ADD KEY `parent` (`parent`);
+
+--
+-- Indexes for table `message`
+--
+ALTER TABLE `message`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `name_UNIQUE` (`type`);
+
+--
+-- Indexes for table `migration`
+--
+ALTER TABLE `migration`
+ ADD PRIMARY KEY (`version`);
+
+--
+-- Indexes for table `object_file`
+--
+ALTER TABLE `object_file`
+ ADD PRIMARY KEY (`object`,`object_id`,`type`,`file_id`), ADD KEY `file_id` (`file_id`);
+
+--
+-- Indexes for table `object_person`
+--
+ALTER TABLE `object_person`
+ ADD PRIMARY KEY (`object`,`object_id`,`type`), ADD KEY `person_id` (`person_id`);
+
+--
+-- Indexes for table `object_reference`
+--
+ALTER TABLE `object_reference`
+ ADD PRIMARY KEY (`object`,`object_id`,`type`), ADD KEY `reference_id` (`reference_id`);
+
+--
+-- Indexes for table `online`
+--
+ALTER TABLE `online`
+ ADD UNIQUE KEY `person_id` (`person_id`), ADD KEY `person_id_2` (`person_id`);
+
+--
+-- Indexes for table `organisation`
+--
+ALTER TABLE `organisation`
+ ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `person`
+--
+ALTER TABLE `person`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `nid` (`nid`);
+
+--
+-- Indexes for table `person_activity`
+--
+ALTER TABLE `person_activity`
+ ADD UNIQUE KEY `name_UNIQUE` (`activity_id`);
+
+--
+-- Indexes for table `program`
+--
+ALTER TABLE `program`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `program_history`
+--
+ALTER TABLE `program_history`
+ ADD PRIMARY KEY (`id`,`revision`);
+
+--
+-- Indexes for table `program_subject`
+--
+ALTER TABLE `program_subject`
+ ADD PRIMARY KEY (`id`), ADD KEY `fk_tb_program_subject_tb_program1` (`program_id`);
+
+--
+-- Indexes for table `program_subject_history`
+--
+ALTER TABLE `program_subject_history`
+ ADD PRIMARY KEY (`id`,`revision`), ADD KEY `fk_tb_program_subject_tb_program1` (`program_id`);
+
+--
+-- Indexes for table `reference`
+--
+ALTER TABLE `reference`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `role`
+--
+ALTER TABLE `role`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `name` (`name`), ADD KEY `organisation_id` (`organisation_id`);
+
+--
+-- Indexes for table `room`
+--
+ALTER TABLE `room`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `code_UNIQUE` (`code`);
+
+--
+-- Indexes for table `satker`
+--
+ALTER TABLE `satker`
+ ADD PRIMARY KEY (`reference_id`);
+
+--
+-- Indexes for table `student`
+--
+ALTER TABLE `student`
+ ADD PRIMARY KEY (`person_id`), ADD UNIQUE KEY `username` (`username`);
+
+--
+-- Indexes for table `trainer`
+--
+ALTER TABLE `trainer`
+ ADD PRIMARY KEY (`person_id`);
+
+--
+-- Indexes for table `training`
+--
+ALTER TABLE `training`
+ ADD PRIMARY KEY (`activity_id`), ADD KEY `activity_id` (`activity_id`,`program_id`), ADD KEY `program_id` (`program_id`);
+
+--
+-- Indexes for table `training_class`
+--
+ALTER TABLE `training_class`
+ ADD PRIMARY KEY (`id`), ADD KEY `fk_tb_training_assignment_tb_training_subject1` (`training_id`);
+
+--
+-- Indexes for table `training_class_student`
+--
+ALTER TABLE `training_class_student`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `tb_training_id_2` (`training_id`,`training_student_id`), ADD KEY `fk_tb_training_subject_student_tb_training_assignment1` (`training_class_id`), ADD KEY `fk_tb_training_subject_student_tb_student1` (`training_student_id`), ADD KEY `tb_training_id` (`training_id`);
+
+--
+-- Indexes for table `training_class_student_attendance`
+--
+ALTER TABLE `training_class_student_attendance`
+ ADD PRIMARY KEY (`id`), ADD KEY `tb_training_schedule_id` (`training_schedule_id`), ADD KEY `tb_training_class_student_id` (`training_class_student_id`);
+
+--
+-- Indexes for table `training_class_student_certificate`
+--
+ALTER TABLE `training_class_student_certificate`
+ ADD PRIMARY KEY (`training_class_student_id`), ADD KEY `fk_tb_training_certificate_tb_training1` (`training_class_student_id`);
+
+--
+-- Indexes for table `training_class_subject`
+--
+ALTER TABLE `training_class_subject`
+ ADD PRIMARY KEY (`id`), ADD KEY `fk_tb_training_assignment_tb_training_subject1` (`training_class_id`), ADD KEY `fk_tb_training_assignment_tb_trainer1` (`program_subject_id`);
+
+--
+-- Indexes for table `training_class_subject_trainer_evaluation`
+--
+ALTER TABLE `training_class_subject_trainer_evaluation`
+ ADD PRIMARY KEY (`id`), ADD KEY `fk_tb_training_trainer_evaluation_tb_student1` (`student_id`), ADD KEY `tb_training_class_subject_id` (`training_class_subject_id`), ADD KEY `trainer_id` (`trainer_id`);
+
+--
+-- Indexes for table `training_execution_evaluation`
+--
+ALTER TABLE `training_execution_evaluation`
+ ADD PRIMARY KEY (`id`), ADD KEY `fk_tb_training_execution_evaluation_tb_training_student1` (`training_class_student_id`);
+
+--
+-- Indexes for table `training_history`
+--
+ALTER TABLE `training_history`
+ ADD PRIMARY KEY (`activity_id`,`revision`);
+
+--
+-- Indexes for table `training_schedule`
+--
+ALTER TABLE `training_schedule`
+ ADD PRIMARY KEY (`id`), ADD KEY `fk_tb_training_schedule_tb_room1` (`activity_room_id`), ADD KEY `tb_activity_room_id` (`activity_room_id`), ADD KEY `tb_training_class_subject_assignment_id` (`training_class_subject_id`), ADD KEY `tb_training_class_id` (`training_class_id`);
+
+--
+-- Indexes for table `training_schedule_trainer`
+--
+ALTER TABLE `training_schedule_trainer`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `tb_training_schedule_id` (`training_schedule_id`,`trainer_id`), ADD KEY `tb_training_class_subject_assignment_id` (`trainer_id`), ADD KEY `tb_training_class_id` (`training_schedule_id`);
+
+--
+-- Indexes for table `training_student`
+--
+ALTER TABLE `training_student`
+ ADD PRIMARY KEY (`id`), ADD KEY `fk_tb_training_assignment_tb_training_subject1` (`training_id`), ADD KEY `tb_student_id` (`student_id`);
+
+--
+-- Indexes for table `training_student_plan`
+--
+ALTER TABLE `training_student_plan`
+ ADD PRIMARY KEY (`training_id`);
+
+--
+-- Indexes for table `training_subject_trainer_recommendation`
+--
+ALTER TABLE `training_subject_trainer_recommendation`
+ ADD PRIMARY KEY (`id`), ADD KEY `fk_tb_training_subject_trainer_recommendation_tb_training_sub1` (`program_subject_id`), ADD KEY `fk_tb_training_subject_trainer_recommendation_tb_trainer1` (`trainer_id`), ADD KEY `tb_training_id` (`training_id`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `activity`
+--
+ALTER TABLE `activity`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
+--
+-- AUTO_INCREMENT for table `file`
+--
+ALTER TABLE `file`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `issue`
+--
+ALTER TABLE `issue`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
+--
+-- AUTO_INCREMENT for table `menu`
+--
+ALTER TABLE `menu`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=58;
+--
+-- AUTO_INCREMENT for table `message`
+--
+ALTER TABLE `message`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `organisation`
+--
+ALTER TABLE `organisation`
+MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=403;
+--
+-- AUTO_INCREMENT for table `person`
+--
+ALTER TABLE `person`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=554;
+--
+-- AUTO_INCREMENT for table `program`
+--
+ALTER TABLE `program`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT for table `program_subject`
+--
+ALTER TABLE `program_subject`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `reference`
+--
+ALTER TABLE `reference`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=204;
+--
+-- AUTO_INCREMENT for table `role`
+--
+ALTER TABLE `role`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=62;
+--
+-- AUTO_INCREMENT for table `room`
+--
+ALTER TABLE `room`
+MODIFY `id` int(3) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `training_class`
+--
+ALTER TABLE `training_class`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `training_class_student`
+--
+ALTER TABLE `training_class_student`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `training_class_student_attendance`
+--
+ALTER TABLE `training_class_student_attendance`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `training_class_subject`
+--
+ALTER TABLE `training_class_subject`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `training_class_subject_trainer_evaluation`
+--
+ALTER TABLE `training_class_subject_trainer_evaluation`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `training_execution_evaluation`
+--
+ALTER TABLE `training_execution_evaluation`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `training_schedule`
+--
+ALTER TABLE `training_schedule`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `training_schedule_trainer`
+--
+ALTER TABLE `training_schedule_trainer`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `training_student`
+--
+ALTER TABLE `training_student`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `training_subject_trainer_recommendation`
+--
+ALTER TABLE `training_subject_trainer_recommendation`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=551;
 --
 -- Constraints for dumped tables
 --
 
 --
--- Table structure for table `issue`
---
-
-CREATE TABLE IF NOT EXISTS `issue` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `parent_id` int(11) DEFAULT NULL,
-  `subject` varchar(255) NOT NULL,
-  `content` text NOT NULL,
-  `attachment` varchar(255) NOT NULL,
-  `label` varchar(255) DEFAULT NULL,
-  `status` int(1) NOT NULL DEFAULT '1',
-  `created` datetime DEFAULT NULL,
-  `created_by` int(11) DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  `modified_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-
---
 -- Constraints for table `activity_room`
 --
 ALTER TABLE `activity_room`
-  ADD CONSTRAINT `activity_room_ibfk_1` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `activity_room_ibfk_2` FOREIGN KEY (`room_id`) REFERENCES `room` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `activity_room_ibfk_1` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`) ON UPDATE CASCADE,
+ADD CONSTRAINT `activity_room_ibfk_2` FOREIGN KEY (`room_id`) REFERENCES `room` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `auth_assignment`
 --
 ALTER TABLE `auth_assignment`
-  ADD CONSTRAINT `auth_assignment_ibfk_1` FOREIGN KEY (`item_name`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `auth_assignment_ibfk_1` FOREIGN KEY (`item_name`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `auth_item`
 --
 ALTER TABLE `auth_item`
-  ADD CONSTRAINT `auth_item_ibfk_1` FOREIGN KEY (`rule_name`) REFERENCES `auth_rule` (`name`) ON DELETE SET NULL ON UPDATE CASCADE;
+ADD CONSTRAINT `auth_item_ibfk_1` FOREIGN KEY (`rule_name`) REFERENCES `auth_rule` (`name`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `auth_item_child`
 --
 ALTER TABLE `auth_item_child`
-  ADD CONSTRAINT `auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `employee`
 --
 ALTER TABLE `employee`
-  ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `employee_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `employee_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `meeting`
 --
 ALTER TABLE `meeting`
-  ADD CONSTRAINT `meeting_ibfk_1` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `meeting_ibfk_2` FOREIGN KEY (`organisation_id`) REFERENCES `organisation` (`ID`) ON UPDATE CASCADE;
+ADD CONSTRAINT `meeting_ibfk_1` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `meeting_ibfk_2` FOREIGN KEY (`organisation_id`) REFERENCES `organisation` (`ID`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `menu`
 --
 ALTER TABLE `menu`
-  ADD CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `menu` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ADD CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `menu` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `object_file`
 --
 ALTER TABLE `object_file`
-  ADD CONSTRAINT `object_file_ibfk_1` FOREIGN KEY (`file_id`) REFERENCES `file` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `object_file_ibfk_1` FOREIGN KEY (`file_id`) REFERENCES `file` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `object_person`
 --
 ALTER TABLE `object_person`
-  ADD CONSTRAINT `object_person_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `object_person_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `object_reference`
 --
 ALTER TABLE `object_reference`
-  ADD CONSTRAINT `object_reference_ibfk_1` FOREIGN KEY (`reference_id`) REFERENCES `reference` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `object_reference_ibfk_1` FOREIGN KEY (`reference_id`) REFERENCES `reference` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `online`
 --
 ALTER TABLE `online`
-  ADD CONSTRAINT `online_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`);
+ADD CONSTRAINT `online_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`);
 
 --
 -- Constraints for table `program_subject`
 --
 ALTER TABLE `program_subject`
-  ADD CONSTRAINT `program_subject_ibfk_1` FOREIGN KEY (`program_id`) REFERENCES `program` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `program_subject_ibfk_1` FOREIGN KEY (`program_id`) REFERENCES `program` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `role`
 --
 ALTER TABLE `role`
-  ADD CONSTRAINT `role_ibfk_1` FOREIGN KEY (`organisation_id`) REFERENCES `organisation` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `role_ibfk_1` FOREIGN KEY (`organisation_id`) REFERENCES `organisation` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `satker`
 --
 ALTER TABLE `satker`
-  ADD CONSTRAINT `satker_ibfk_1` FOREIGN KEY (`reference_id`) REFERENCES `reference` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `satker_ibfk_1` FOREIGN KEY (`reference_id`) REFERENCES `reference` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `student`
 --
 ALTER TABLE `student`
-  ADD CONSTRAINT `student_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `student_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `trainer`
 --
 ALTER TABLE `trainer`
-  ADD CONSTRAINT `trainer_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `trainer_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training`
 --
 ALTER TABLE `training`
-  ADD CONSTRAINT `training_ibfk_2` FOREIGN KEY (`program_id`) REFERENCES `program` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `training_ibfk_3` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `training_ibfk_2` FOREIGN KEY (`program_id`) REFERENCES `program` (`id`) ON UPDATE CASCADE,
+ADD CONSTRAINT `training_ibfk_3` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training_class`
 --
 ALTER TABLE `training_class`
-  ADD CONSTRAINT `training_class_ibfk_1` FOREIGN KEY (`training_id`) REFERENCES `training` (`activity_id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `training_class_ibfk_1` FOREIGN KEY (`training_id`) REFERENCES `training` (`activity_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training_class_student`
 --
 ALTER TABLE `training_class_student`
-  ADD CONSTRAINT `training_class_student_ibfk_1` FOREIGN KEY (`training_id`) REFERENCES `training` (`activity_id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `training_class_student_ibfk_2` FOREIGN KEY (`training_class_id`) REFERENCES `training_class` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `training_class_student_ibfk_3` FOREIGN KEY (`training_student_id`) REFERENCES `training_student` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `training_class_student_ibfk_1` FOREIGN KEY (`training_id`) REFERENCES `training` (`activity_id`) ON UPDATE CASCADE,
+ADD CONSTRAINT `training_class_student_ibfk_2` FOREIGN KEY (`training_class_id`) REFERENCES `training_class` (`id`) ON UPDATE CASCADE,
+ADD CONSTRAINT `training_class_student_ibfk_3` FOREIGN KEY (`training_student_id`) REFERENCES `training_student` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training_class_student_attendance`
 --
 ALTER TABLE `training_class_student_attendance`
-  ADD CONSTRAINT `training_class_student_attendance_ibfk_1` FOREIGN KEY (`training_class_student_id`) REFERENCES `training_class_student` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `training_class_student_attendance_ibfk_1` FOREIGN KEY (`training_class_student_id`) REFERENCES `training_class_student` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training_class_student_certificate`
 --
 ALTER TABLE `training_class_student_certificate`
-  ADD CONSTRAINT `training_class_student_certificate_ibfk_1` FOREIGN KEY (`training_class_student_id`) REFERENCES `training_class_student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `training_class_student_certificate_ibfk_1` FOREIGN KEY (`training_class_student_id`) REFERENCES `training_class_student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training_class_subject`
 --
 ALTER TABLE `training_class_subject`
-  ADD CONSTRAINT `training_class_subject_ibfk_1` FOREIGN KEY (`training_class_id`) REFERENCES `training_class` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `training_class_subject_ibfk_1` FOREIGN KEY (`training_class_id`) REFERENCES `training_class` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training_class_subject_trainer_evaluation`
 --
 ALTER TABLE `training_class_subject_trainer_evaluation`
-  ADD CONSTRAINT `training_class_subject_trainer_evaluation_ibfk_1` FOREIGN KEY (`training_class_subject_id`) REFERENCES `training_class_subject` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `training_class_subject_trainer_evaluation_ibfk_2` FOREIGN KEY (`student_id`) REFERENCES `student` (`person_id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `training_class_subject_trainer_evaluation_ibfk_3` FOREIGN KEY (`trainer_id`) REFERENCES `trainer` (`person_id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `training_class_subject_trainer_evaluation_ibfk_1` FOREIGN KEY (`training_class_subject_id`) REFERENCES `training_class_subject` (`id`) ON UPDATE CASCADE,
+ADD CONSTRAINT `training_class_subject_trainer_evaluation_ibfk_2` FOREIGN KEY (`student_id`) REFERENCES `student` (`person_id`) ON UPDATE CASCADE,
+ADD CONSTRAINT `training_class_subject_trainer_evaluation_ibfk_3` FOREIGN KEY (`trainer_id`) REFERENCES `trainer` (`person_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training_execution_evaluation`
 --
 ALTER TABLE `training_execution_evaluation`
-  ADD CONSTRAINT `training_execution_evaluation_ibfk_1` FOREIGN KEY (`training_class_student_id`) REFERENCES `training_class_student` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `training_execution_evaluation_ibfk_1` FOREIGN KEY (`training_class_student_id`) REFERENCES `training_class_student` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training_schedule`
 --
 ALTER TABLE `training_schedule`
-  ADD CONSTRAINT `training_schedule_ibfk_1` FOREIGN KEY (`training_class_id`) REFERENCES `training_class` (`id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `training_schedule_ibfk_1` FOREIGN KEY (`training_class_id`) REFERENCES `training_class` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training_schedule_trainer`
 --
 ALTER TABLE `training_schedule_trainer`
-  ADD CONSTRAINT `training_schedule_trainer_ibfk_1` FOREIGN KEY (`training_schedule_id`) REFERENCES `training_schedule` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `training_schedule_trainer_ibfk_2` FOREIGN KEY (`trainer_id`) REFERENCES `trainer` (`person_id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `training_schedule_trainer_ibfk_1` FOREIGN KEY (`training_schedule_id`) REFERENCES `training_schedule` (`id`) ON UPDATE CASCADE,
+ADD CONSTRAINT `training_schedule_trainer_ibfk_2` FOREIGN KEY (`trainer_id`) REFERENCES `trainer` (`person_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training_student`
 --
 ALTER TABLE `training_student`
-  ADD CONSTRAINT `training_student_ibfk_1` FOREIGN KEY (`training_id`) REFERENCES `training` (`activity_id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `training_student_ibfk_2` FOREIGN KEY (`student_id`) REFERENCES `student` (`person_id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `training_student_ibfk_1` FOREIGN KEY (`training_id`) REFERENCES `training` (`activity_id`) ON UPDATE CASCADE,
+ADD CONSTRAINT `training_student_ibfk_2` FOREIGN KEY (`student_id`) REFERENCES `student` (`person_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training_student_plan`
 --
 ALTER TABLE `training_student_plan`
-  ADD CONSTRAINT `training_student_plan_ibfk_1` FOREIGN KEY (`training_id`) REFERENCES `training` (`activity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `training_student_plan_ibfk_1` FOREIGN KEY (`training_id`) REFERENCES `training` (`activity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `training_subject_trainer_recommendation`
 --
 ALTER TABLE `training_subject_trainer_recommendation`
-  ADD CONSTRAINT `training_subject_trainer_recommendation_ibfk_1` FOREIGN KEY (`training_id`) REFERENCES `training` (`activity_id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `training_subject_trainer_recommendation_ibfk_2` FOREIGN KEY (`trainer_id`) REFERENCES `trainer` (`person_id`) ON UPDATE CASCADE;
+ADD CONSTRAINT `training_subject_trainer_recommendation_ibfk_1` FOREIGN KEY (`training_id`) REFERENCES `training` (`activity_id`) ON UPDATE CASCADE,
+ADD CONSTRAINT `training_subject_trainer_recommendation_ibfk_2` FOREIGN KEY (`trainer_id`) REFERENCES `trainer` (`person_id`) ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

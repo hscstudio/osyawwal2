@@ -16,6 +16,7 @@ use backend\models\TrainingScheduleTrainer;
 use backend\models\TrainingScheduleTrainerAttendance;
 use backend\models\TrainingScheduleTrainerAttendanceSearch;
 use backend\models\ProgramSubject;
+use backend\models\ProgramSubjectHistory;
 use backend\models\ObjectReference;
 use backend\models\Reference;
 
@@ -80,6 +81,23 @@ class TrainingScheduleTrainerAttendanceController extends Controller
 		if ($different) {
 			Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Filling attendance should for one class only!');
 			return $this->redirect(['training/index']);
+		}
+		// dah
+
+		// Input tabel attendance dg schedule_id dan student_id
+		for ($i = 0; $i < count($idSchedule); $i++) {						// Ngeloop dulu, siapa tau schedule_id nya lebih dari 1
+			$inspektor = TrainingScheduleTrainer::find()
+				->where([
+					'training_schedule_id' => $idSchedule[$i]
+				])
+				->all();
+			foreach ($inspektor as $baris) {
+				if ($baris->hours === null) {
+					$baris->hours = $modelTrainingSchedule[$i]->hours;
+					$baris->status = 1;
+					$baris->save();
+				}
+			}
 		}
 		// dah
 
@@ -497,7 +515,7 @@ class TrainingScheduleTrainerAttendanceController extends Controller
 		// dah
 
     	// Ambil template
-    	$template = Yii::getAlias('@backend').'/../file/template/bdk/execution/2.13_contoh_daftar_hadir_pengajar_diklat.xls';
+    	$template = Yii::getAlias('@backend').'/../file/template/pusdiklat/execution/2.13_contoh_daftar_hadir_pengajar_diklat.xls';
 		$objPHPExcel = PHPExcel_IOFactory::load($template);
 		//dah
 
@@ -548,11 +566,18 @@ class TrainingScheduleTrainerAttendanceController extends Controller
 
 			// Ngisi nomer urut
 			foreach ($modelTrainingScheduleTrainer as $baris) {
-				
+				$modelTrainingSchedule = $baris->trainingSchedule;
 				// Ngeset Mata Pelajaran
+				$programSubject = \backend\models\ProgramSubjectHistory::find()
+				->where([
+					'id'=>$modelTrainingSchedule->trainingClassSubject->program_subject_id,
+					'program_id'=>$modelTrainingSchedule->trainingClassSubject->trainingClass->training->program_id,
+					'program_revision'=>$modelTrainingSchedule->trainingClassSubject->trainingClass->training->program_revision,
+					'status'=>1
+				])
+				->one();
 				$objPHPExcel->getActiveSheet()->setCellValue('A12', 'Mata Diklat: '.
-					ProgramSubject::findOne($baris->trainingSchedule->trainingClassSubject->program_subject_id)
-					->name
+					$programSubject->name
 				);
 				// dah
 				

@@ -7,7 +7,7 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\modules\pusdiklat\planning\models\PersonSearch */
+/* @var $searchModel backend\modules\bdk\planning\models\PersonSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $controller = $this->context;
