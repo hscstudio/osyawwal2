@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'hAlign'=>'center',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],					
-			],	
+			],
 			[
 				'format' => 'raw',
 				'label' => 'Subject',
@@ -185,6 +185,47 @@ $this->params['breadcrumbs'][] = $this->title;
 					return $icon;						
 				}
 			],
+			[
+				'format' => 'raw',
+				'label' => Yii::t('app', 'BPPK_TEXT_ATTENDANCE'),
+				'vAlign'=>'middle',
+				'hAlign'=>'center',
+				'width'=>'180px',
+				'headerOptions'=>['class'=>'kv-sticky-column'],
+				'contentOptions'=>['class'=>'kv-sticky-column'],
+				'value' => function ($data) use ($model){
+					return '<div class="btn-group">'.
+					
+						Html::a('<i class="fa fa-fw fa-pencil"></i><i class="fa fa-fw fa-tasks"></i>', Url::to(['attendance', 'training_class_id' => $data->id]), [
+							'class' => 'btn btn-default btn-xs',
+							'data-pjax' => '0',
+							'title'=>'Input Data Kehadiran <br>Peserta dan Pengajar',
+							'data-toggle'=>'tooltip',
+							'data-container' => 'body',
+							'data-html'=>'true',
+						]).
+						
+						Html::a('<i class="fa fa-fw fa-print"></i><i class="fa fa-fw fa-child"></i>', Url::to(['recap', 'training_class_id' => $data->id, 'id' => $model->id]), [
+							'class' => 'btn btn-default btn-xs',
+							'data-pjax' => '0',
+							'title' => 'Cetak Rekap Kehadiran Peserta <br>Pada Kelas Ini',
+							'data-toggle'=>'tooltip',
+							'data-container' => 'body',
+							'data-html'=>'true',
+						]).
+						
+						Html::a('<i class="fa fa-fw fa-print"></i><i class="fa fa-fw fa-user-md"></i>', Url::to(['recap-trainer', 'training_class_id' => $data->id, 'id' => $model->id]), [
+							'class' => 'btn btn-default btn-xs',
+							'data-pjax' => '0',
+							'title' => 'Cetak Rekap Kehadiran Pengajar <br>Pada Kelas Ini',
+							'data-toggle'=>'tooltip',
+							'data-container' => 'body',
+							'data-html'=>'true',
+						]).
+						
+						'</div>';
+				}
+			],	
             [
 				'class' => 'kartik\grid\ActionColumn',
 				'template' => '{delete}',

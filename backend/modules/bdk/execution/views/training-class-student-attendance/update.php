@@ -15,9 +15,9 @@ use backend\models\TrainingClassStudentAttendance;
 use backend\models\ObjectReference;
 
 $this->title = 'Update Training Class Student Attendance';
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Activities'), 'url' => ['activity2/index']];
-$this->params['breadcrumbs'][] = ['label' => 'Training Classes', 'url' => ['activity2/class','id'=>$trainingClass->training_id]];
-$this->params['breadcrumbs'][] = ['label' => 'Schedule : Class '.$trainingClass->class, 'url' => ['activity2/attendance','training_class_id'=> $training_class_id]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Activities'), 'url' => ['activity/index']];
+$this->params['breadcrumbs'][] = ['label' => 'Training Classes', 'url' => ['activity/class','id'=>$trainingClass->training_id]];
+$this->params['breadcrumbs'][] = ['label' => 'Schedule : Class '.$trainingClass->class, 'url' => ['activity/attendance','training_class_id'=> $training_class_id]];
 $this->params['breadcrumbs'][] = $this->title;
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
@@ -167,7 +167,7 @@ echo AlertBlock::widget([
 					'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> Attendance</h3>',
 					'before'=>
 						Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back', [
-								'activity2/attendance',
+								'activity/attendance',
 								'training_class_id' => $training_class_id
 							], ['class' => 'btn btn-warning']
 						).
