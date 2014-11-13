@@ -16,6 +16,8 @@ return [
 	'BPPK_TEXT_VALIDATE' => 'Validasi',
 	'BPPK_TEXT_NUMBER' => 'Kode',
 	'BPPK_TEXT_NAME' => 'Nama',
+	'BPPK_TEXT_HOURS' => 'Jamlat',
+	'BPPK_TEXT_DAYS' => 'Hari',
 	'BPPK_TEXT_START' => 'Mulai',
 	'BPPK_TEXT_END' => 'Selesai',
 	'BPPK_TEXT_STUDENT' => 'Peserta',
@@ -38,6 +40,16 @@ return [
 	'BPPK_TEXT_APPROVED_STATUS' => 'Ijin Pusdiklat',
 	'BPPK_TEXT_APPROVED' => 'Disetujui',
 	'BPPK_TEXT_WAITING_APPROVAL' => 'Menunggu',
+	'BPPK_TEXT_HOSTEL' => 'Diasramakan?',
+	'BPPK_TEXT_TEST' => 'Diujikan?',
+	'BPPK_TEXT_VALIDATION_STATUS' => 'Status Validasi',
+	'BPPK_TEXT_VALIDATION_NOTE' => 'Catatan Validasi',
+	'BPPK_TEXT_CATEGORY' => 'Kategori',
+
+	'BPPK_TEXT_TOOLTIP_PROPERTY' => 'Informasi Diklat',
+	'BPPK_TEXT_TOOLTIP_ROOM' => 'Ruangan',
+	'BPPK_TEXT_TOOLTIP_STUDENT' => 'Peserta',
+	'BPPK_TEXT_TOOLTIP_CLASS' => 'Kelas',
 
 	'BPPK_BUTTON_STUDENT_PLAN' => 'Rencana Sebaran Peserta',
 
@@ -51,9 +63,15 @@ return [
 	'SYSTEM_BUTTON_CREATE' => 'Buat Baru',
 	'SYSTEM_BUTTON_PREVIOUS' => 'Mundur',
 	'SYSTEM_BUTTON_NEXT' => 'Maju',
+	'SYSTEM_BUTTON_BACK' => 'Kembali',
 	'SYSTEM_TEXT_DOWNLOAD' => 'Unduh',
 	'SYSTEM_TEXT_PUBLISHED' => 'Tampil',
 	'SYSTEM_TEXT_UNPUBLISHED' => 'Sembunyi',
 	'SYSTEM_TEXT_SHOW_ALL' => 'Semua',
 	'SYSTEM_TEXT_ACTIONS' => 'Tindakan',
+	'SYSTEM_TEXT_UNKNOWN_STATUS' => 'Status tidak dikenali',
+	'SYSTEM_TEXT_CREATED' => 'Dibuat Tanggal',
+	'SYSTEM_TEXT_CREATED_BY' => 'Dibuat Oleh',
+	'SYSTEM_TEXT_MODIFIED' => 'Terakhir Diubah',
+	'SYSTEM_TEXT_MODIFIED_BY' => 'Diubah Oleh'
 ];

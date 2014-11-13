@@ -219,7 +219,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
 				'class' => 'kartik\grid\ActionColumn',
-				'template' => '{dashboard} {update}',
+				'width' => '180px',
+				'template' => '<div class="btn-group">{update}</div> <div class="btn-group">{property}{room}{student}{class}</div>',
 				'buttons' => [
 					'dashboard' => function ($url, $model) {
 								if (in_array($model->status,[2]) and in_array($model->training->approved_status, [1])){
@@ -237,7 +238,58 @@ $this->params['breadcrumbs'][] = $this->title;
 										'class'=>'btn btn-default btn-xs modal-heart',
 										'data-pjax'=>'0',
 										'modal-title' => '<i class="fa fa-fw fa-pencil-square"></i> Ubah Diklat',
-										'modal-size' => 'modal-lg'
+										'modal-size' => 'modal-lg',
+										'data-toggle' => 'tooltip',
+										'data-title' => 'Ubah Diklat',
+										'data-container' => 'body'
+									]);
+								}
+							},
+					'property' => function ($url, $model) {
+								if (in_array($model->status,[2]) and in_array($model->training->approved_status, [1])) {
+									$icon='<span class="fa fa-fw fa-eye"></span>';
+									return Html::a($icon,$url,[
+										'class'=>'btn btn-default btn-xs',
+										'data-pjax'=>'0',
+										'data-toggle' => 'tooltip',
+										'data-title' => Yii::t('app', 'BPPK_TEXT_TOOLTIP_PROPERTY'),
+										'data-container' => 'body'
+									]);
+								}
+							},
+					'room' => function ($url, $model) {
+								if (in_array($model->status,[2]) and in_array($model->training->approved_status, [1])) {
+									$icon='<span class="fa fa-fw fa-home"></span>';
+									return Html::a($icon,$url,[
+										'class'=>'btn btn-default btn-xs',
+										'data-pjax'=>'0',
+										'data-toggle' => 'tooltip',
+										'data-title' => Yii::t('app', 'BPPK_TEXT_TOOLTIP_ROOM'),
+										'data-container' => 'body'
+									]);
+								}
+							},
+					'student' => function ($url, $model) {
+								if (in_array($model->status,[2]) and in_array($model->training->approved_status, [1])) {
+									$icon='<span class="fa fa-fw fa-users"></span>';
+									return Html::a($icon,$url,[
+										'class'=>'btn btn-default btn-xs',
+										'data-pjax'=>'0',
+										'data-toggle' => 'tooltip',
+										'data-title' => Yii::t('app', 'BPPK_TEXT_TOOLTIP_STUDENT'),
+										'data-container' => 'body'
+									]);
+								}
+							},
+					'class' => function ($url, $model) {
+								if (in_array($model->status,[2]) and in_array($model->training->approved_status, [1])) {
+									$icon='<span class="fa fa-fw fa-inbox"></span>';
+									return Html::a($icon,$url,[
+										'class'=>'btn btn-default btn-xs',
+										'data-pjax'=>'0',
+										'data-toggle' => 'tooltip',
+										'data-title' => Yii::t('app', 'BPPK_TEXT_TOOLTIP_CLASS'),
+										'data-container' => 'body'
 									]);
 								}
 							},
