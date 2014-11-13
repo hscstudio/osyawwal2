@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 14, 2014 at 02:46 AM
+-- Generation Time: Nov 14, 2014 at 03:46 AM
 -- Server version: 5.5.39-MariaDB
 -- PHP Version: 5.5.18
 
@@ -3245,8 +3245,8 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 (57, 'Rapat', 45, '/pusdiklat-evaluation/meeting-activity3/index', 2, 'return [''icon''=>''fa fa-briefcase fa-fw'',''path''=>''/meeting-activity3/''];'),
 (101, 'BDK', NULL, NULL, NULL, NULL),
 (102, 'Bagian Tata Usaha [BDK]', 101, '/bdk-general/default/index', 1, 'return [''icon''=>''fa fa-cubes fa-fw'',''path''=>''/bdk-general/''];'),
-(103, 'Bidang Penyelenggaraan [BDK]', 101, '/bdk-execution/default/index', 2, 'return [''icon''=>''fa fa-paper-plane fa-fw'',''path''=>''/bdk-execution/''];'),
-(104, 'Bidang Evaluasi dan Pelaporan Kinerja [BDK]', 101, '/bdk-evaluation/default/index', 3, 'return [''icon''=>''fa fa-check-square-o fa-fw'',''path''=>''/bdk-evaluation/''];'),
+(103, 'Bagian Penyelenggaraan', 101, '/bdk-execution/default/index', 2, 'return [''icon''=>''fa fa-paper-plane fa-fw'',''path''=>''/bdk-execution/''];'),
+(104, 'Bagian Evaluasi dan Pelaporan Kinerja', 101, '/bdk-evaluation/default/index', 3, 'return [''icon''=>''fa fa-check-square-o fa-fw'',''path''=>''/bdk-evaluation/''];'),
 (105, 'Diklat', 103, '/bdk-execution/activity/index', 1, 'return [''icon''=>''fa fa-book fa-fw'',''path''=>''/activity/''];'),
 (106, 'Rapat', 103, '/bdk-execution/meeting-activity/index', 2, 'return [''icon''=>''fa fa-suitcase fa-fw'',''path''=>''/meeting-activity/''];'),
 (107, 'Manajemen Peserta', 103, '/bdk-execution/student/index', 3, 'return [''icon''=>''fa fa-users fa-fw'',''path''=>''/student/''];'),
