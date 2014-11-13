@@ -1,12 +1,12 @@
 <?php
 
-namespace backend\modules\bdkexecution\controllers;
+namespace backend\modules\bdk\execution\controllers;
 
 use Yii;
 use backend\models\Trainer;
-use backend\modules\bdkexecution\models\TrainerSearch;
+use backend\modules\bdk\execution\models\TrainerSearch;
 use backend\models\Person;
-use backend\modules\bdkexecution\models\PersonSearch;
+use backend\modules\bdk\execution\models\PersonSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

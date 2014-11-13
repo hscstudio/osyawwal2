@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 14, 2014 at 02:33 AM
+-- Generation Time: Nov 14, 2014 at 02:46 AM
 -- Server version: 5.5.39-MariaDB
 -- PHP Version: 5.5.18
 
@@ -587,6 +587,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/bdk-execution/default/index', 2, NULL, NULL, NULL, 1415871338, 1415871338),
 ('/bdk-execution/meeting-activity/index', 2, NULL, NULL, NULL, 1415906847, 1415906847),
 ('/bdk-execution/student/index', 2, NULL, NULL, NULL, 1415906874, 1415906874),
+('/bdk-execution/trainer3/index', 2, NULL, NULL, NULL, 1415907731, 1415907731),
 ('/bdk-general/*', 2, NULL, NULL, NULL, 1415755269, 1415755269),
 ('/bdk-general/activity/index', 2, NULL, NULL, NULL, 1415872001, 1415872001),
 ('/bdk-general/activity2/index', 2, NULL, NULL, NULL, 1415872013, 1415872013),
@@ -1118,9 +1119,9 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/pusdiklat2-competency/*', 2, NULL, NULL, NULL, 1415784754, 1415784754),
 ('/pusdiklat2-general/*', 2, NULL, NULL, NULL, 1415786573, 1415786573),
 ('/sekretariat-finance/*', 2, NULL, NULL, NULL, 1413838622, 1413838622),
-('/sekretariat-finance/default/*', 2, NULL, NULL, NULL, 1413838622, 1413838622),
-('/sekretariat-finance/default/index', 2, NULL, NULL, NULL, 1413838622, 1413838622);
+('/sekretariat-finance/default/*', 2, NULL, NULL, NULL, 1413838622, 1413838622);
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
+('/sekretariat-finance/default/index', 2, NULL, NULL, NULL, 1413838622, 1413838622),
 ('/sekretariat-finance/reference-sbu/*', 2, NULL, NULL, NULL, 1413838622, 1413838622),
 ('/sekretariat-finance/reference-sbu/create', 2, NULL, NULL, NULL, 1413838622, 1413838622),
 ('/sekretariat-finance/reference-sbu/delete', 2, NULL, NULL, NULL, 1413838622, 1413838622),
@@ -3178,7 +3179,7 @@ CREATE TABLE IF NOT EXISTS `menu` (
   `route` varchar(256) DEFAULT NULL,
   `order` int(11) DEFAULT NULL,
   `data` text
-) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `menu`
@@ -3248,7 +3249,8 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 (104, 'Bidang Evaluasi dan Pelaporan Kinerja [BDK]', 101, '/bdk-evaluation/default/index', 3, 'return [''icon''=>''fa fa-check-square-o fa-fw'',''path''=>''/bdk-evaluation/''];'),
 (105, 'Diklat', 103, '/bdk-execution/activity/index', 1, 'return [''icon''=>''fa fa-book fa-fw'',''path''=>''/activity/''];'),
 (106, 'Rapat', 103, '/bdk-execution/meeting-activity/index', 2, 'return [''icon''=>''fa fa-suitcase fa-fw'',''path''=>''/meeting-activity/''];'),
-(107, 'Manajemen Peserta', 103, '/bdk-execution/student/index', 3, 'return [''icon''=>''fa fa-users fa-fw'',''path''=>''/student/''];');
+(107, 'Manajemen Peserta', 103, '/bdk-execution/student/index', 3, 'return [''icon''=>''fa fa-users fa-fw'',''path''=>''/student/''];'),
+(108, 'Manajemen Pengajar', 103, '/bdk-execution/trainer3/index', 4, 'return [''icon''=>''fa fa-user-md fa-fw'',''path''=>''/trainer3/''];');
 
 -- --------------------------------------------------------
 
@@ -6513,7 +6515,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=108;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=109;
 --
 -- AUTO_INCREMENT for table `message`
 --
