@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 12, 2014 at 05:30 PM
+-- Generation Time: Nov 13, 2014 at 05:20 PM
 -- Server version: 5.5.39-MariaDB
 -- PHP Version: 5.5.18
 
@@ -577,8 +577,17 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/admin/user/update', 2, NULL, NULL, NULL, 1413763393, 1413763393),
 ('/admin/user/view', 2, NULL, NULL, NULL, 1413763393, 1413763393),
 ('/bdk-evaluation/*', 2, NULL, NULL, NULL, 1415755232, 1415755232),
+('/bdk-evaluation/activity/index', 2, NULL, NULL, NULL, 1415872036, 1415872036),
+('/bdk-evaluation/activity2/index', 2, NULL, NULL, NULL, 1415872047, 1415872047),
+('/bdk-evaluation/activity3/index', 2, NULL, NULL, NULL, 1415872060, 1415872060),
+('/bdk-evaluation/default/index', 2, NULL, NULL, NULL, 1415871348, 1415871348),
 ('/bdk-execution/*', 2, NULL, NULL, NULL, 1415755238, 1415755238),
+('/bdk-execution/activity/index', 2, NULL, NULL, NULL, 1415872071, 1415872071),
+('/bdk-execution/activity2/index', 2, NULL, NULL, NULL, 1415872084, 1415872084),
+('/bdk-execution/default/index', 2, NULL, NULL, NULL, 1415871338, 1415871338),
 ('/bdk-general/*', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/activity/index', 2, NULL, NULL, NULL, 1415872001, 1415872001),
+('/bdk-general/activity2/index', 2, NULL, NULL, NULL, 1415872013, 1415872013),
 ('/bdk-general/activity3/*', 2, NULL, NULL, NULL, 1415755268, 1415755268),
 ('/bdk-general/activity3/create', 2, NULL, NULL, NULL, 1415755268, 1415755268),
 ('/bdk-general/activity3/delete', 2, NULL, NULL, NULL, 1415755268, 1415755268),
@@ -588,6 +597,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/bdk-general/activity3/room', 2, NULL, NULL, NULL, 1415755268, 1415755268),
 ('/bdk-general/activity3/update', 2, NULL, NULL, NULL, 1415755268, 1415755268),
 ('/bdk-general/activity3/view', 2, NULL, NULL, NULL, 1415755268, 1415755268),
+('/bdk-general/assignment0/index', 2, NULL, NULL, NULL, 1415871991, 1415871991),
 ('/bdk-general/default/*', 2, NULL, NULL, NULL, 1415755268, 1415755268),
 ('/bdk-general/default/index', 2, NULL, NULL, NULL, 1415755268, 1415755268),
 ('/bdk-general/employee2/*', 2, NULL, NULL, NULL, 1415755268, 1415755268),
@@ -1109,7 +1119,8 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/sekretariat-finance/default/*', 2, NULL, NULL, NULL, 1413838622, 1413838622),
 ('/sekretariat-finance/default/index', 2, NULL, NULL, NULL, 1413838622, 1413838622),
 ('/sekretariat-finance/reference-sbu/*', 2, NULL, NULL, NULL, 1413838622, 1413838622),
-('/sekretariat-finance/reference-sbu/create', 2, NULL, NULL, NULL, 1413838622, 1413838622),
+('/sekretariat-finance/reference-sbu/create', 2, NULL, NULL, NULL, 1413838622, 1413838622);
+INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
 ('/sekretariat-finance/reference-sbu/delete', 2, NULL, NULL, NULL, 1413838622, 1413838622),
 ('/sekretariat-finance/reference-sbu/index', 2, NULL, NULL, NULL, 1413838622, 1413838622),
 ('/sekretariat-finance/reference-sbu/update', 2, NULL, NULL, NULL, 1413838622, 1413838622),
@@ -1117,8 +1128,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/sekretariat-general/*', 2, NULL, NULL, NULL, 1413838698, 1413838698),
 ('/sekretariat-general/activity-meeting-general/*', 2, NULL, NULL, NULL, 1413838698, 1413838698),
 ('/sekretariat-general/activity-meeting-general/create', 2, NULL, NULL, NULL, 1413838698, 1413838698),
-('/sekretariat-general/activity-meeting-general/delete', 2, NULL, NULL, NULL, 1413838698, 1413838698);
-INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
+('/sekretariat-general/activity-meeting-general/delete', 2, NULL, NULL, NULL, 1413838698, 1413838698),
 ('/sekretariat-general/activity-meeting-general/index', 2, NULL, NULL, NULL, 1413838698, 1413838698),
 ('/sekretariat-general/activity-meeting-general/update', 2, NULL, NULL, NULL, 1413838698, 1413838698),
 ('/sekretariat-general/activity-meeting-general/view', 2, NULL, NULL, NULL, 1413838698, 1413838698),
@@ -3166,7 +3176,7 @@ CREATE TABLE IF NOT EXISTS `menu` (
   `route` varchar(256) DEFAULT NULL,
   `order` int(11) DEFAULT NULL,
   `data` text
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `menu`
@@ -3229,7 +3239,11 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 (54, 'Diklat', 45, '/pusdiklat-evaluation/activity3/index', 1, 'return [''icon''=>''fa fa-book fa-fw'',''path''=>''/activity3/''];'),
 (55, 'Rapat', 43, '/pusdiklat-evaluation/meeting-activity/index', 2, 'return [''icon''=>''fa fa-briefcase fa-fw'',''path''=>''/meeting-activity/''];'),
 (56, 'Rapat', 44, '/pusdiklat-evaluation/meeting-activity2/index', 2, 'return [''icon''=>''fa fa-briefcase fa-fw'',''path''=>''/meeting-activity2/''];'),
-(57, 'Rapat', 45, '/pusdiklat-evaluation/meeting-activity3/index', 2, 'return [''icon''=>''fa fa-briefcase fa-fw'',''path''=>''/meeting-activity3/''];');
+(57, 'Rapat', 45, '/pusdiklat-evaluation/meeting-activity3/index', 2, 'return [''icon''=>''fa fa-briefcase fa-fw'',''path''=>''/meeting-activity3/''];'),
+(101, 'BDK', NULL, NULL, NULL, NULL),
+(102, 'Bagian Tata Usaha [BDK]', 101, '/bdk-general/default/index', 1, 'return [''icon''=>''fa fa-cubes fa-fw'',''path''=>''/bdk-general/''];'),
+(103, 'Bidang Penyelenggaraan [BDK]', 101, '/bdk-execution/default/index', 2, 'return [''icon''=>''fa fa-paper-plane fa-fw'',''path''=>''/bdk-execution/''];'),
+(104, 'Bidang Evaluasi dan Pelaporan Kinerja [BDK]', 101, '/bdk-evaluation/default/index', 3, 'return [''icon''=>''fa fa-check-square-o fa-fw'',''path''=>''/bdk-evaluation/''];');
 
 -- --------------------------------------------------------
 
@@ -4163,7 +4177,7 @@ CREATE TABLE IF NOT EXISTS `online` (
 --
 
 INSERT INTO `online` (`person_id`, `ip`, `time`) VALUES
-(30, '127.0.0.1', '2014-11-12 17:26:07');
+(30, '127.0.0.1', '2014-11-13 17:14:37');
 
 -- --------------------------------------------------------
 
@@ -6501,7 +6515,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=58;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=71;
 --
 -- AUTO_INCREMENT for table `message`
 --
