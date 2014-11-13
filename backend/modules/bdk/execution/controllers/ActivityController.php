@@ -17,6 +17,7 @@ use backend\models\Training;
 use backend\models\TrainingStudentPlan;
 use backend\models\Employee;
 use backend\models\Trainer;
+use backend\models\TrainingSubjectTrainerRecommendation;
 
 use backend\models\TrainingClass;
 use backend\modules\bdk\execution\models\TrainingClassSearch;
@@ -43,6 +44,8 @@ use backend\models\ActivityRoom;
 use backend\modules\bdk\execution\models\ActivityRoomSearch;
 use backend\modules\bdk\execution\models\ActivityRoomExtensionSearch;
 use backend\modules\bdk\execution\models\RoomSearch;
+use backend\modules\pusdiklat\planning\models\TrainingSubjectTrainerRecommendationSearch;
+use backend\modules\pusdiklat\planning\models\TrainerSearch;
 
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -2954,6 +2957,233 @@ class ActivityController extends Controller
 		$objWriter->save('php://output');
 		exit;
 
+    }
+
+
+
+
+
+
+    public function actionSubject($id)
+    {
+        $model = $this->findModel($id);
+		$renders = [];
+		$renders['model'] = $model;
+		
+		$query = ProgramSubjectHistory::find()
+			->where([
+				'program_id' => $model->training->program_id,
+				'program_revision' => $model->training->program_revision,
+				'status'=>1,
+			])
+			->orderBy(['status'=>SORT_DESC,'sort'=>SORT_ASC,]);			
+		
+		$dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);	
+		//$dataProvider->getSort()->defaultOrder = ['type'=>SORT_ASC];		
+		$renders['dataProvider'] = $dataProvider;
+				
+		if (Yii::$app->request->isAjax)
+			return $this->renderAjax('subject', $renders);
+		else
+			return $this->render('subject', $renders);
+    } 
+
+
+
+
+    public function actionSubjectTrainer($id,$subject_id)
+    {
+		$model = $this->findModel($id);
+		$program_subject = ProgramSubjectHistory::find()
+			->where([
+				'id' => $subject_id,
+				'program_id' =>  $model->training->program_id,
+				'program_revision' => $model->training->program_revision,
+			])
+			->one();
+		$renders = [];
+		$renders['model'] = $model;		
+		$renders['program_subject'] = $program_subject;	
+		$searchModel = new TrainingSubjectTrainerRecommendationSearch();
+		$queryParams = Yii::$app->request->getQueryParams();
+		$queryParams['TrainingSubjectTrainerRecommendationSearch']=[
+			'training_id' => $model->id,
+			'program_subject_id' => $subject_id,
+		];
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$dataProvider = $searchModel->search($queryParams);
+		$dataProvider->getSort()->defaultOrder = ['status'=>SORT_DESC,'sort'=>SORT_ASC];
+		$renders['searchModel']=$searchModel;
+		$renders['dataProvider']=$dataProvider;
+        if (Yii::$app->request->isAjax)
+			return $this->renderAjax('subjectTrainer', $renders);
+		else
+			return $this->render('subjectTrainer', $renders);				
+		
+    } 
+	
+	/**
+     * Finds the TrainingSubjectTrainerRecommendation model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return TrainingSubjectTrainerRecommendation the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModelSubjectTrainer($id)
+    {
+        if (($model = TrainingSubjectTrainerRecommendation::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+	
+	/**
+     * Displays a single TrainingSubjectTrainerRecommendation model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionViewSubjectTrainer($id)
+    {
+        if (Yii::$app->request->isAjax)
+			return $this->renderAjax('viewSubjectTrainer', [
+				'model' => $this->findModelSubjectTrainer($id),
+			]);
+		else
+			return $this->render('viewSubjectTrainer', [
+				'model' => $this->findModelSubjectTrainer($id),
+			]);
+
+    }
+	
+	/**
+     * Updates an existing TrainingSubjectTrainerRecommendation model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionUpdateSubjectTrainer($id)
+    {
+        $model = $this->findModelSubjectTrainer($id);
+		$program_subject = ProgramSubjectHistory::find()
+			->where([
+				'id' => $subject_id,
+				'program_id' =>  $model->training->program_id,
+				'program_revision' => $model->training->program_revision,
+			])
+			->one();
+        if ($model->load(Yii::$app->request->post())) {
+            if($model->save()) {
+				Yii::$app->getSession()->setFlash('success', 'Data have updated.');
+			}
+			else{
+				Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
+			}
+			return $this->redirect(['subject-trainer', 'id' => $model->training_id, 'subject_id' => $model->program_subject_id]);
+        } else {
+            return $this->render('updateSubjectTrainer', [
+                'model' => $model,
+				'program_subject' => $program_subject,
+            ]);
+        }
+    }
+	
+	 /**
+     * Deletes an existing TrainingSubjectTrainerRecommendation model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDeleteSubjectTrainer($id)
+    {
+		$model = $this->findModelSubjectTrainer($id);
+		$renders = [
+			'subject-trainer', 'id' => $model->training_id, 'subject_id' => $model->program_subject_id
+		];
+		if($model->delete()) {
+			Yii::$app->getSession()->setFlash('success', 'Data have deleted.');
+		}
+		else{
+			Yii::$app->getSession()->setFlash('error', 'Data is not deleted.');
+		}
+        return $this->redirect($renders);
+    }
+	
+	/**
+     * Lists all Trainer models.
+     * @return mixed
+     */
+    public function actionChooseTrainer($id,$subject_id)
+    {
+		$model = $this->findModel($id);
+		$program_subject = ProgramSubjectHistory::find()
+			->where([
+				'id' => $subject_id,
+				'program_id' =>  $model->training->program_id,
+				'program_revision' => $model->training->program_revision,
+			])
+			->one();
+		$renders = [];
+		$renders['model'] = $model;		
+		$renders['program_subject'] = $program_subject;	
+        $searchModel = new TrainerSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$renders['searchModel']=$searchModel;
+		$renders['dataProvider']=$dataProvider;
+        if (Yii::$app->request->isAjax)
+			return $this->renderAjax('chooseTrainer', $renders);
+		else
+			return $this->render('chooseTrainer', $renders);
+    }
+	
+	/**
+     * Creates a new Trainer model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionSetTrainer($id,$subject_id,$trainer_id)
+    {
+        $model = $this->findModel($id);
+		$program_subject = ProgramSubjectHistory::find()
+			->where([
+				'id' => $subject_id,
+				'program_id' =>  $model->training->program_id,
+				'program_revision' => $model->training->program_revision,
+			])
+			->one();
+		$renders = [];
+		$renders['model'] = $model;		
+		$renders['program_subject'] = $program_subject;	
+		$recommendation = new TrainingSubjectTrainerRecommendation([
+			'training_id'=>$id,
+			'program_subject_id'=>$subject_id,
+			'trainer_id'=>$trainer_id
+		]);
+		$renders['recommendation'] = $recommendation;	
+		
+		$trainer = Trainer::findOne($trainer_id);
+		$renders['trainer'] = $trainer;		
+
+        if (Yii::$app->request->post()){ 
+			$recommendation->load(Yii::$app->request->post());
+			$recommendation->status = 1;
+			if($recommendation->save()) {
+				Yii::$app->getSession()->setFlash('success', 'Trainer have recommendate.');
+			}
+			else{
+				Yii::$app->getSession()->setFlash('error', 'Trainer have not recommendate.');
+			}
+            return $this->redirect(['choose-trainer','id'=>$id,'subject_id'=>$subject_id]);
+        } else {
+			if (Yii::$app->request->isAjax){
+				return $this->renderAjax('setTrainer', $renders);
+			}
+			else{
+				return $this->render('setTrainer', $renders);
+			}
+        }
     }
 
 

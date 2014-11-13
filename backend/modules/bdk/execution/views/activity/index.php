@@ -88,7 +88,38 @@ $this->params['breadcrumbs'][] = $this->title;
 						]);
 				},
             ],
-			
+			[
+				'header' => Html::tag('span','MP',[
+					'data-toggle'=>'tooltip',
+					'title'=>'Mata Pelajaran',
+				]),
+				'vAlign'=>'middle',
+				'hAlign'=>'center',
+				'width'=>'70px',
+				'headerOptions'=>['class'=>'kv-sticky-column'],
+				'contentOptions'=>['class'=>'kv-sticky-column'],
+				'format'=>'raw',
+				'value' => function ($data){
+					$mp = \backend\models\ProgramSubjectHistory::find()
+						->where([
+							'program_id' => $data->training->program_id,
+							'program_revision' => $data->training->program_revision,
+							'status' => 1,
+						])
+						->count();
+					$icon='<span class="fa fa-fw fa-clipboard"></span> - '.$mp;
+					return Html::a(
+						$icon,
+						['subject','id'=>$data->id],
+						[
+							'class'=>'btn btn-default btn-xs',
+							'data-toggle'=>'tooltip',
+							'data-pjax'=>'0',
+							'title'=>'Mata Pelajaran',
+						]
+					);
+				},
+			],			
 			[
 				'format' => 'raw',
 				'label' => 'PIC',
