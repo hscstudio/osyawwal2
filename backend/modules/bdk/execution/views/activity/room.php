@@ -12,7 +12,7 @@ use \kartik\datecontrol\DateControl;
 use kartik\checkbox\CheckboxX;
 use hscstudio\heart\widgets\Box;
 
-$this->title = \yii\helpers\Inflector::camel2words($model->name);
+$this->title = 'Pemesanan Ruangan '.\yii\helpers\Inflector::camel2words($model->name);
 $this->params['breadcrumbs'][] = ['label' => 'Training', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -21,24 +21,15 @@ $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 ?>
 <div class="room-index">
-	<?php
-		Box::begin([
-			'type'=>'small', // ,small, solid, tiles
-			'bgColor'=>'aqua', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
-			'bodyOptions' => [],
-			'icon' => 'fa fa-fw fa-home',
-			'link' => ['dashboard','id'=>$model->id],
-			'footerOptions' => [
-				'class' => 'dashboard-hide',
-			],
-			'footer' => '<i class="fa fa-arrow-circle-left"></i> Back',
-		]);
-		?>
-		<h3>Room</h3>
-		<p>Room of Training</p>
-	<?php
-	Box::end();
-	?>	
+
+	<div class="row">
+		<div class="col-md-12">
+			<?php echo Html::a('<i class="fa fa-fw fa-arrow-left"></i>'.Yii::t('app', 'SYSTEM_BUTTON_BACK'), ['index'], [
+						'class' => 'btn btn-warning margin-bottom-large margin-top-large'
+					]);
+			?>
+		</div>
+	</div>
 
 	<div class="panel panel-default" id="booking-room">
 	<div class="panel-heading">

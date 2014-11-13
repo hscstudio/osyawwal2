@@ -7,37 +7,24 @@ use yii\helpers\Inflector;
 use hscstudio\heart\widgets\Box;
 use kartik\widgets\Select2;
 
-/* @var $this yii\web\View */
-/* @var $searchModel backend\modules\bdk\execution\models\TrainingClassSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 
-$this->title = 'Student #'. Inflector::camel2words($model->name);
+$this->title = 'Katalog Peserta '. Inflector::camel2words($model->name);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Activities'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="training-class-index">
-	<?php
-	Box::begin([
-		'type'=>'small', // ,small, solid, tiles
-		'bgColor'=>'green', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
-		'bodyOptions' => [],
-		'icon' => 'fa fa-user-md',
-		'link' => ['dashboard','id'=>$model->id],
-		'footerOptions' => [
-			'class' => 'dashboard-hide',
-		],
-		'footer' => '<i class="fa fa-arrow-circle-left"></i> Back',
-	]);
-	?>
-	<h3>Student</h3>
-	<p>Student of Training</p>
-	<?php
-	Box::end();
-	?>
+
+	<div class="row">
+		<div class="col-md-12">
+			<?php echo Html::a('<i class="fa fa-fw fa-arrow-left"></i>'.Yii::t('app', 'SYSTEM_BUTTON_BACK'), ['index'], [
+						'class' => 'btn btn-warning margin-bottom-large margin-top-large'
+					]);
+			?>
+		</div>
+	</div>
 	
 	<?php \yii\widgets\Pjax::begin([
 		'id'=>'pjax-gridview',

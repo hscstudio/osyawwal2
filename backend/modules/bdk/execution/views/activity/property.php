@@ -121,7 +121,7 @@ function formatCategory($category) {
 	<div class="row">
 		<div class="col-md-12">
 			<?php echo Html::a('<i class="fa fa-fw fa-arrow-left"></i>'.Yii::t('app', 'SYSTEM_BUTTON_BACK'), ['index'], [
-						'class' => 'btn btn-primary margin-left-large margin-top-large'
+						'class' => 'btn btn-warning margin-left-large margin-top-large'
 					]);
 			?>
 		</div>
