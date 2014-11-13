@@ -12,12 +12,14 @@
 
 return [
 	'BPPK_TEXT_TRAINING' => 'Diklat',
+	'BPPK_TEXT_PROGRAM' => 'Program',
 	'BPPK_TEXT_VALIDATE' => 'Validasi',
 	'BPPK_TEXT_NUMBER' => 'Kode',
 	'BPPK_TEXT_NAME' => 'Nama',
 	'BPPK_TEXT_START' => 'Mulai',
 	'BPPK_TEXT_END' => 'Selesai',
 	'BPPK_TEXT_STUDENT' => 'Peserta',
+	'BPPK_TEXT_DESCRIPTION' => 'Deskripsi',
 	'BPPK_TEXT_TRAINING_ACTIVITIES' => 'Aktivitas Kediklatan',
 	'BPPK_TEXT_SHOW_ALL_EXCEPT_CANCEL' => 'Semua kec. Batal',
 	'BPPK_TEXT_SHOW_ALL' => 'Semua',
@@ -26,6 +28,16 @@ return [
 	'BPPK_TEXT_EXECUTE' => 'Eksekusi',
 	'BPPK_TEXT_CANCEL' => 'Batal',
 	'BPPK_TEXT_YEAR' => 'Tahun',
+	'BPPK_TEXT_CHOOSE_PROGRAM' => 'Pilih Program',
+	'BPPK_TEXT_STUDENT_COUNT_PLAN' => 'Rencana Jumlah Peserta',
+	'BPPK_TEXT_CLASS_COUNT_PLAN' => 'Rencana Jumlah Kelas',
+	'BPPK_TEXT_COST_PLAN' => 'Rencana Biaya',
+	'BPPK_TEXT_COST_SOURCE' => 'Sumber Biaya',
+	'BPPK_TEXT_NOTE' => 'Catatan',
+	'BPPK_TEXT_LOCATION' => 'Lokasi',
+	'BPPK_TEXT_APPROVED_STATUS' => 'Ijin Pusdiklat',
+	'BPPK_TEXT_APPROVED' => 'Disetujui',
+	'BPPK_TEXT_WAITING_APPROVAL' => 'Menunggu',
 
 	'BPPK_BUTTON_STUDENT_PLAN' => 'Rencana Sebaran Peserta',
 
@@ -34,7 +46,11 @@ return [
 	'PAGE_TITLE_TABLE_PROGRAM' => 'Daftar Program',
 
 	'SYSTEM_BUTTON_RESET_GRID' => 'Reset Tabel',
+	'SYSTEM_BUTTON_UPDATE' => 'Simpan Perubahan',
+	'SYSTEM_BUTTON_UPDATE_REVISION' => 'Simpan sebagai Revisi',
 	'SYSTEM_BUTTON_CREATE' => 'Buat Baru',
+	'SYSTEM_BUTTON_PREVIOUS' => 'Mundur',
+	'SYSTEM_BUTTON_NEXT' => 'Maju',
 	'SYSTEM_TEXT_DOWNLOAD' => 'Unduh',
 	'SYSTEM_TEXT_PUBLISHED' => 'Tampil',
 	'SYSTEM_TEXT_UNPUBLISHED' => 'Sembunyi',

@@ -194,7 +194,12 @@ class ActivityController extends Controller
 			}
         } 
 		
-		return $this->render('update', $renders);
+		if (Yii::$app->request->isAjax) {
+			return $this->renderAjax('update', $renders);
+		}
+		else {
+			return $this->render('update', $renders);
+		}
     }
 
    
@@ -218,7 +223,6 @@ class ActivityController extends Controller
 		$model = Program::find()->where([
 			'id'=>$id
 		])
-		->currentSatker()
 		->active()
 		->one();
 		return $model->name;
@@ -2274,6 +2278,82 @@ class ActivityController extends Controller
 		$objWriter->save('php://output');
 		exit;
 		/* return $this->redirect(['student', 'id' => $id, 'status'=>$status]);	 */
+    }
+
+
+
+
+
+
+    public function actionCreate()
+    {
+        $model = new Activity();		
+		$training = new Training();
+		$renders=[];
+		$renders['model'] = $model;
+		$renders['training'] = $training;
+
+        if (Yii::$app->request->post()){ 
+
+			$connection=Yii::$app->getDb();
+			$transaction = $connection->beginTransaction();	
+
+			try{
+
+				if($model->load(Yii::$app->request->post())){
+
+					$model->satker = 'current';
+					if(!empty($model->location)) $model->location = implode('|',$model->location);
+					$model->status = 1; // Ga perlu plan kan, langsung ready
+
+					if($model->save()) {
+
+						Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Activity data have saved.');
+
+						if($training->load(Yii::$app->request->post())){							
+
+							$training->activity_id= $model->id;
+							$training->program_revision = (int)\backend\models\ProgramHistory::getRevision($training->program_id);
+
+							// GENERATE TRAINING NUMBER
+							$year = date('Y',strtotime($model->start));
+							$program = Program::find()->where(['id'=>$training->program_id])->active()->one();
+							$program_owner = sprintf("%02s", $program->satker->sort);
+							$activity_owner = sprintf("%02s", $model->satker->sort);
+
+							if($program_owner==$activity_owner) $activity_owner='00';
+
+							$program_number = $program->number;
+							$training_of_program_this_year = Activity::find()
+								->where('start<=:start and YEAR(start)=:this_year',[':start'=>$model->start,':this_year'=>$year])			
+								->currentSatker()
+								->active()
+								->count()+1;
+							$training->number = $year.'-'.$program_owner.'-'.$activity_owner.'-'.$program_number.'.'.$training_of_program_this_year;
+
+							if($training->save()){								 
+
+								Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Training & activity data have saved.');
+								$transaction->commit();
+								return $this->redirect(['index']);
+
+							}
+						}						
+					}
+					else{
+						Yii::$app->getSession()->setFlash('error', 'Data is NOT saved.');
+					}				
+				}
+			}
+			catch (Exception $e) {
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Roolback transaction. Data is not saved');
+			}
+        } 
+		
+		if (Yii::$app->request->isAjax)
+			return $this->renderAjax('create', $renders);
+		else 
+			return $this->render('create', $renders);
     }
 
 }

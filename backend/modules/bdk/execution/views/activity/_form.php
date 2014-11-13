@@ -36,7 +36,7 @@ use kartik\checkbox\CheckboxX;
 					            'autoclose' => true
 					        ]
 					    ]
-					]); ?>
+					])->label(Yii::t('app', 'BPPK_TEXT_START')); ?>
 				</div>
 				<div class="col-md-3">
 				<?= $form->field($model, 'end')->widget(DateControl::classname(), [
@@ -49,7 +49,7 @@ use kartik\checkbox\CheckboxX;
 					            'autoclose' => true
 					        ]
 					    ]
-					]); ?>
+					])->label(Yii::t('app', 'BPPK_TEXT_END')); ?>
 				</div>
 			</div>
 			
@@ -60,25 +60,25 @@ use kartik\checkbox\CheckboxX;
 			?>
 			<div class="row clearfix">
 				<div class="col-md-3">
-				<?php
-				$data = ArrayHelper::map(
-					\backend\models\Reference::find()
-						->select(['id','name'])
-						->where(['type'=>'satker'])
-						->all(), 
-						'id', 'name'
-				);
-				echo $form->field($model, 'location[0]')->widget(Select2::classname(), [
-					'data' => $data,
-					'options' => ['placeholder' => 'Choose code ...'],
-					'pluginOptions' => [
-						'allowClear' => true
-					],
-				]);
-				?>
+					<?php
+					$data = ArrayHelper::map(
+						\backend\models\Reference::find()
+							->select(['id','name'])
+							->where(['type'=>'satker'])
+							->all(), 
+							'id', 'name'
+					);
+					echo $form->field($model, 'location[0]')->widget(Select2::classname(), [
+						'data' => $data,
+						'options' => ['placeholder' => 'Choose code ...'],
+						'pluginOptions' => [
+							'allowClear' => true
+						],
+					])->label(Yii::t('app', 'BPPK_TEXT_LOCATION'));
+					?>
 				</div>
 				<div class="col-md-9">		
-				<?= $form->field($model, 'location[1]')->textInput(['maxlength' => 250])->label('Catatan Terkait Lokasi'); ?>
+					<?= $form->field($model, 'location[1]')->textInput(['maxlength' => 250])->label('Catatan Terkait Lokasi'); ?>
 				</div>
 			</div>
 			<div class="row clearfix">
@@ -106,43 +106,52 @@ use kartik\checkbox\CheckboxX;
 				]); ?>
 				</div>
 			</div>
-			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#training]').tab('show')">
-				Next 
+			<a class="btn btn-primary" onclick="$('#tab_wizard a[href=#training]').tab('show')">
+				<?php echo Yii::t('app', 'SYSTEM_BUTTON_NEXT'); ?>
 				<i class="fa fa-fw fa-arrow-circle-o-right"></i>
 			</a>
 		</div>
 		<div class="tab-pane fade" id="training">				
 			<div class="row clearfix">
 				<div class="col-md-2">
-				<?= $form->field($training, 'regular')->widget(SwitchInput::classname(), [
-					'pluginOptions' => [
-						'onText' => 'Ya',
-						'offText' => 'Tidak',
-					]
-				]) ?>
+					<?= $form->field($training, 'regular')->widget(SwitchInput::classname(), [
+						'pluginOptions' => [
+							'onText' => 'Ya',
+							'offText' => 'Tidak',
+						]
+					]) ?>
 				</div>
-				<div class="col-md-10">
-				<?= $form->field($training, 'stakeholder')->textInput(['maxlength' => 255]) ?>
+				<div class="col-md-4">
+					<?= $form->field($training, 'stakeholder')->textInput(['maxlength' => 255]) ?>
+				</div>
+				<div class="col-md-3">
+					<?= $form->field($training, 'student_count_plan')->textInput()->label(Yii::t('app', 'BPPK_TEXT_STUDENT_COUNT_PLAN')) ?>
+				</div>
+				<div class="col-md-3">
+					<?= $form->field($training, 'class_count_plan')->textInput()->label(Yii::t('app', 'BPPK_TEXT_CLASS_COUNT_PLAN')) ?>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-md-6">
+					<?= $form->field($training, 'cost_source')->textInput(['maxlength' => 255])->label(Yii::t('app', 'BPPK_TEXT_COST_SOURCE')) ?>
+				</div>
+				<div class="col-md-6">
+					<?= $form->field($training, 'cost_plan')->textInput(['maxlength' => 15])->label(Yii::t('app', 'BPPK_TEXT_COST_PLAN')) ?>
 				</div>
 			</div>		
 			
-			<?= $form->field($training, 'cost_source')->textInput(['maxlength' => 255]) ?>
-
-			<?= $form->field($training, 'cost_plan')->textInput(['maxlength' => 15]) ?>			
-			
 			<?= $form->field($training, 'execution_sk')->textInput(['maxlength' => 255]) ?>
 			
-			<?= $form->field($training, 'cost_real')->textInput(['maxlength' => 15]) ?>
-			
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#activity]').tab('show')">
-				Previous 
 				<i class="fa fa-fw fa-arrow-circle-o-left"></i>
+				<?php echo Yii::t('app', 'SYSTEM_BUTTON_PREVIOUS'); ?>
 			</a>
 			
 			<div class="clearfix"><hr></div>  
 			
 			<div class="form-group">
-				<?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+				<?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'SYSTEM_BUTTON_CREATE') : Yii::t('app', 'SYSTEM_BUTTON_UPDATE'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 			</div>			
 			
 			<?php // EVALUASI ONLY ?>
