@@ -12,14 +12,14 @@ use backend\models\Activity;
  */
 class TrainingActivityAllSearch extends Activity
 {
-    public $year;
+    public $year, $program_id;
 	/**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'satker_id', 'hostel', 'status', 'created_by', 'modified_by'], 'integer'],
+            [['program_id','id', 'satker_id', 'hostel', 'status', 'created_by', 'modified_by'], 'integer'],
             [['name', 'description', 'start', 'end', 'location', 'created', 'modified'], 'safe'],
 			[['year'], 'safe'],
         ];
@@ -57,6 +57,7 @@ class TrainingActivityAllSearch extends Activity
 
         $query->andFilterWhere([
             'id' => $this->id,
+			'program_id' => $this->program_id,
             'start' => $this->start,
             'end' => $this->end,
             'hostel' => $this->hostel,
