@@ -39,7 +39,7 @@ class Module extends \yii\base\Module
 		if($this->checkAccess([
 			'admin-bdk'
 		])){
-			$menus_0 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,12,$callback,true);
+			$menus_0 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,203,$callback,true);
 			if(empty($menus_0)){
 				$menus_0 = [
 					['icon'=>'fa fa-fw fa-plug', 'label' => 'Assignment', 'url' => ['assignment0/index'],'path'=>[
@@ -53,7 +53,7 @@ class Module extends \yii\base\Module
 		if($this->checkAccess([
 			'bdk-general'
 		])){
-			$menus_1 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,14,$callback,true);
+			$menus_1 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,102,$callback,true);
 			if(empty($menus_1)){
 				$menus_1 = [
 					['icon'=>'fa fa-fw fa-book', 'label' => 'Training Activity', 'url' => ['activity/index'],'path'=>[
@@ -79,7 +79,7 @@ class Module extends \yii\base\Module
 		if($this->checkAccess([
 			'bdk-general'
 		])){
-			$menus_2 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,20,$callback,true);
+			$menus_2 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,103,$callback,true);
 			if(empty($menus_2)){
 				$menus_2 = [
 					['icon'=>'fa fa-fw fa-book', 'label' => 'Training Activity', 'url' => ['activity2/index'],'path'=>[
@@ -96,7 +96,7 @@ class Module extends \yii\base\Module
 		if($this->checkAccess([
 			'bdk-general'
 		])){
-			$menus_3 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,23,$callback,true);
+			$menus_3 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,104,$callback,true);
 			if(empty($menus_3)){
 				$menus_3 = [
 					['icon'=>'fa fa-fw fa-book', 'label' => 'Training Activity', 'url' => ['activity3/index'],'path'=>[

@@ -114,13 +114,10 @@ AppAsset::register($this);
 						'bdk-execution',
 						'bdk-evaluation',
 						
-					])){				
+					])){
+						$menus_bdk = \mdm\admin\components\MenuHelper::getAssignedMenu(Yii::$app->user->id,101,$callback,true);
 						$menuItemsLeft[] =
-							['icon'=>'fa fa-university fa-fw','label' => 'BDK', 'url' => ['#'], 'items' => [
-								['icon'=>'fa fa-cubes fa-fw','label'=>'General', 'url'=> ['/bdk-general/default/index'],'path'=>'bdk-general'],
-								['icon'=>'fa fa-paper-plane fa-fw','label'=>'Execution', 'url'=> ['/bdk-execution/default/index'],'path'=>'bdk-execution'],
-								['icon'=>'fa fa-check-square-o fa-fw','label'=>'Evaluation', 'url'=> ['/bdk-evaluation/default/index'],'path'=>'bdk-evaluation'],
-							]];
+							['icon'=>'fa fa-university fa-fw','label' => 'BDK', 'url' => ['#'], 'items' => $menus_bdk];
 					}
 					
 					$menuItemsLeft[] =
