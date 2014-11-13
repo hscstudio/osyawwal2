@@ -7,7 +7,7 @@ use yii\helpers\Url;
 use kartik\widgets\Select2;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\modules\sekretariat\finance\models\ActivityMeetingFinanceSearch */
+/* @var $searchModel backend\modules\sekretariat\general\models\ActivityMeetingGeneralSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $controller = $this->context;
@@ -29,23 +29,12 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?php \yii\widgets\Pjax::begin([
 		'id'=>'pjax-gridview',
 	]); ?>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'kartik\grid\SerialColumn'],
 
-            // 'id',
-            
-				[
-					'attribute' => 'satker_id',
-					'vAlign'=>'middle',
-					'hAlign'=>'center',
-					'headerOptions'=>['class'=>'kv-sticky-column'],
-					'contentOptions'=>['class'=>'kv-sticky-column'],					
-				],
-            
 				[
 					'attribute' => 'name',
 					'vAlign'=>'middle',
@@ -53,7 +42,6 @@ $this->params['breadcrumbs'][] = $this->title;
 					'headerOptions'=>['class'=>'kv-sticky-column'],
 					'contentOptions'=>['class'=>'kv-sticky-column'],					
 				],
-            'description:ntext',
             
 				[
 					'attribute' => 'start',
@@ -70,7 +58,8 @@ $this->params['breadcrumbs'][] = $this->title;
 					'headerOptions'=>['class'=>'kv-sticky-column'],
 					'contentOptions'=>['class'=>'kv-sticky-column'],					
 				],
-           		[
+				
+				[
 					'label' => 'Peserta',				
 					'vAlign'=>'middle',
 					'hAlign'=>'center',
@@ -98,24 +87,13 @@ $this->params['breadcrumbs'][] = $this->title;
 					'headerOptions'=>['class'=>'kv-sticky-column'],
 					'contentOptions'=>['class'=>'kv-sticky-column'],
 					'value' => function ($data){
-						// CEK AUTHORISE ACCESS
-						/*$permit = \hscstudio\heart\helpers\Heart::OrganisationAuthorized(
-							[
-								'1201050302',
-								'1201050202', // CEK KD_UNIT_ORG 1213020100 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
-								'1201050101', // BIDANG RENBANG
-								'1201050000', // BAGIAN UMUM
-							],
-							[
-								1, // 1= HEAD OF KD_UNIT_ORG
-							]
-						);*/
-						$permit = \Yii::$app->user->can('Bagian Umum');
+						
+						$permit = \Yii::$app->user->can('Bagian Keuangan');
 						$object_person=\backend\models\ObjectPerson::find()
 							->where([
 								'object'=>'activity',
 								'object_id'=>$data->id,														
-								'type'=>'organisation_1201050000' //1213010100 CEK KD_UNIT_ORG 1213010100 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
+								'type'=>'organisation_1201020000' //1213010100 CEK KD_UNIT_ORG 1213010100 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
 							])
 							->one();
 						
@@ -147,51 +125,51 @@ $this->params['breadcrumbs'][] = $this->title;
 				],
 				
 				[
-				//'attribute' => 'classCount',
-				'format'=>'raw',
-				'label'=>'Room',
-				'vAlign'=>'middle',
-				'hAlign'=>'center',
-				'width'=>'100px',
-				'headerOptions'=>['class'=>'kv-sticky-column'],
-				'contentOptions'=>['class'=>'kv-sticky-column'],
-				'value' => function ($data) {
-					$activityRoom = \backend\models\ActivityRoom::find()
-								->where('activity_id=:activity_id',
-								[
-									':activity_id' => $data->id
-								]);		
-					if($activityRoom->count()==0){ 
-						return Html::a('View', ['room','activity_id'=>$data->id], 
-							[							
-							'class' => 'label label-warning',
-							'data-pjax'=>0,
-							'source'=>'',
-							'modal-size'=>'modal-lg',
-							]);
-					}		
-					else{
-						$statuss = [
-							'0' => 'Waiting',
-							'1' => 'Process',
-							'2' => 'Approved',
-							'3' => 'Rejected',
-						];
-						
-						$ars = $activityRoom->all();
-						$rooms = [];
-						foreach($ars as $ar){
-							$rooms[] = $ar->room->name.'=>'.$statuss[$ar->status];
-						}
-						$rooms = implode('<br>',$rooms);
-						return Html::a($activityRoom->count(), ['room','activity_id'=>$data->id], [
-							'class' => 'label label-info ',
-							'data-pjax'=>0,
-							'source'=>'',
-							'modal-size'=>'modal-lg',
-							'data-html'=>true,
-							'title'=>$rooms,
-							'data-toggle'=>'tooltip',
+					//'attribute' => 'classCount',
+					'format'=>'raw',
+					'label'=>'Room',
+					'vAlign'=>'middle',
+					'hAlign'=>'center',
+					'width'=>'100px',
+					'headerOptions'=>['class'=>'kv-sticky-column'],
+					'contentOptions'=>['class'=>'kv-sticky-column'],
+					'value' => function ($data) {
+						$activityRoom = \backend\models\ActivityRoom::find()
+									->where('activity_id=:activity_id',
+									[
+										':activity_id' => $data->id
+									]);		
+						if($activityRoom->count()==0){ 
+							return Html::a('SET', ['room','activity_id'=>$data->id], 
+								[							
+								'class' => 'label label-warning modal-heart',
+								'data-pjax'=>0,
+								'source'=>'',
+								'modal-size'=>'modal-lg',
+								]);
+						}		
+						else{
+							$statuss = [
+								'0' => 'Waiting',
+								'1' => 'Process',
+								'2' => 'Approved',
+								'3' => 'Rejected',
+							];
+							
+							$ars = $activityRoom->all();
+							$rooms = [];
+							foreach($ars as $ar){
+								$rooms[] = $ar->room->name.'=>'.$statuss[$ar->status];
+							}
+							$rooms = implode('<br>',$rooms);
+							return Html::a($activityRoom->count(), ['room','activity_id'=>$data->id], [
+								'class' => 'label label-info modal-heart ',
+								'data-pjax'=>0,
+								'source'=>'',
+								'modal-size'=>'modal-lg',
+								'data-html'=>true,
+								'title'=>$rooms,
+								'data-toggle'=>'tooltip',
 							]);
 						}
 					}
@@ -226,8 +204,8 @@ $this->params['breadcrumbs'][] = $this->title;
 						);
 					},
 				],
-
-            ['class' => 'kartik\grid\ActionColumn'],
+			
+				['class' => 'kartik\grid\ActionColumn'],
         ],
 		'panel' => [
 			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
@@ -274,7 +252,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		'responsive'=>true,
 		'hover'=>true,
     ]); ?>
-<?= \hscstudio\heart\widgets\Modal::widget() ?>
+    <?= \hscstudio\heart\widgets\Modal::widget() ?>
 	<?php $this->registerCss('#div-select2-status .select2-container{width:125px !important;}');  ?>
 <?php \yii\widgets\Pjax::end(); ?>
 </div>
