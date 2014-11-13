@@ -32,12 +32,11 @@ class Module extends \yii\base\Module
 		};
 		
 		$menus_1=[];
-		$menus_2=[];
 		
 		if($this->checkAccess([
 			'bdk-execution'
 		])){
-			$menus_1 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,108,$callback,true);
+			$menus_1 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,103,$callback,true);
 			if(empty($menus_1)){
 				$menus_1 = [
 					['icon'=>'fa fa-fw fa-stack-overflow', 'label' => 'Training Activity', 'url' => ['activity/index'],'path'=>[
@@ -51,35 +50,12 @@ class Module extends \yii\base\Module
 					]],
 				];
 			}
-			$menus_1 = ['icon'=>'fa fa-glass fa-fw','label' => 'Penyelenggaraan I', 'url' => ['#'], 'items' => $menus_1 ];
+			$menus_1 = ['icon'=>'fa fa-glass fa-fw','label' => 'Penyelenggaraan', 'url' => ['#'], 'items' => $menus_1 ];
 		}
-		
-		if($this->checkAccess([
-			'bdk-execution'
-		])){
-			$menus_2 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,109,$callback,true);
-			if(empty($menus_2)){
-				$menus_2 = [
-					['icon'=>'fa fa-fw fa-stack-overflow', 'label' => 'Training Activity', 'url' => ['activity2/index'],'path'=>[
-						'/activity2/',
-						'/training-class-student-attendance/',
-						'/training-schedule-trainer-attendance/'
-					]],
-					['icon'=>'fa fa-fw fa-stack-overflow', 'label' => 'Meeting Activity', 'url' => ['meeting-activity2/index'],'path'=>[
-						'/meeting-activity2/',
-					]],
-					['icon'=>'fa fa-fw fa-user-md', 'label' => 'Student', 'url' => ['student2/index'],'path'=>[
-						'/student2/',
-					]],
-				];
-			}
-			$menus_2 = ['icon'=>'fa fa-coffee fa-fw','label' => 'Penyelenggaraan II', 'url' => ['#'], 'items' => $menus_2 ];
-		}
-		
 		$menus[] = ['icon'=>'fa fa-fw fa-dashboard','label' => 'Dashboard', 'url' => ['/'.$this->uniqueId.'/default']];
 
 		if(!empty($menus_1)) $menus[] = $menus_1;	
-		if(!empty($menus_2)) $menus[] = $menus_2;		
 		return $menus;
 	}
+
 }
