@@ -9,15 +9,11 @@ use hscstudio\heart\widgets\Box;
 use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 
-/* @var $this yii\web\View */
-/* @var $searchModel backend\modules\bdk\execution\models\TrainingClassSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 
-$this->title = 'Employee Import ';
+$this->title = Yii::t('app', 'BPPK_TEXT_IMPORT_EMPLOYEE');
 
 ?>
 <div class="training-class-index">
@@ -82,7 +78,7 @@ $this->title = 'Employee Import ';
 					$datas = ArrayHelper::map(
 						\backend\models\Organisation::find()
 							->select(['ID','concat(KD_UNIT_ORG," - ",SUBSTRING(NM_UNIT_ORG,1,20)) as code_name'])
-							->where(['JNS_KANTOR'=>'13'])
+							->where(['JNS_KANTOR'=>'10'])
 							->asArray()
 							->all(), 
 							'ID', 'code_name'

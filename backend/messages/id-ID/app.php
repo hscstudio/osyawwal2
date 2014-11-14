@@ -46,6 +46,7 @@ return [
 	'BPPK_TEXT_VALIDATION_NOTE' => 'Catatan Validasi',
 	'BPPK_TEXT_CATEGORY' => 'Kategori',
 	'BPPK_TEXT_ATTENDANCE' => 'Kehadiran',
+	'BPPK_TEXT_IMPORT_EMPLOYEE' => 'Mass Upload Pegawai',
 
 	'BPPK_TEXT_TOOLTIP_PROPERTY' => 'Informasi Diklat',
 	'BPPK_TEXT_TOOLTIP_ROOM' => 'Ruangan',
