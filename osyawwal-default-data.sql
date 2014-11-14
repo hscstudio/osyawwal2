@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 14, 2014 at 08:51 AM
+-- Generation Time: Nov 14, 2014 at 10:45 AM
 -- Server version: 5.5.39-MariaDB
 -- PHP Version: 5.5.18
 
@@ -583,6 +583,9 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/bdk-evaluation/activity2/index', 2, NULL, NULL, NULL, 1415872047, 1415872047),
 ('/bdk-evaluation/activity3/index', 2, NULL, NULL, NULL, 1415872060, 1415872060),
 ('/bdk-evaluation/default/index', 2, NULL, NULL, NULL, 1415871348, 1415871348),
+('/bdk-evaluation/meeting-activity/index', 2, NULL, NULL, NULL, 1415936262, 1415936262),
+('/bdk-evaluation/meeting-activity2/index', 2, NULL, NULL, NULL, 1415936352, 1415936352),
+('/bdk-evaluation/meeting-activity3/index', 2, NULL, NULL, NULL, 1415936444, 1415936444),
 ('/bdk-execution/*', 2, NULL, NULL, NULL, 1415755238, 1415755238),
 ('/bdk-execution/activity/index', 2, NULL, NULL, NULL, 1415872071, 1415872071),
 ('/bdk-execution/activity2/index', 2, NULL, NULL, NULL, 1415872084, 1415872084),
@@ -605,11 +608,14 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/bdk-general/assignment0/index', 2, NULL, NULL, NULL, 1415871991, 1415871991),
 ('/bdk-general/default/*', 2, NULL, NULL, NULL, 1415755268, 1415755268),
 ('/bdk-general/default/index', 2, NULL, NULL, NULL, 1415755268, 1415755268),
+('/bdk-general/employee/index', 2, NULL, NULL, NULL, 1415934807, 1415934807),
 ('/bdk-general/employee2/*', 2, NULL, NULL, NULL, 1415755268, 1415755268),
 ('/bdk-general/employee2/delete', 2, NULL, NULL, NULL, 1415755268, 1415755268),
 ('/bdk-general/employee2/index', 2, NULL, NULL, NULL, 1415755268, 1415755268),
 ('/bdk-general/employee2/update', 2, NULL, NULL, NULL, 1415755268, 1415755268),
 ('/bdk-general/employee2/view', 2, NULL, NULL, NULL, 1415755268, 1415755268),
+('/bdk-general/meeting-activity/index', 2, NULL, NULL, NULL, 1415934712, 1415934712),
+('/bdk-general/meeting-activity2/index', 2, NULL, NULL, NULL, 1415935351, 1415935351),
 ('/bdk-general/meeting-activity3/*', 2, NULL, NULL, NULL, 1415755269, 1415755269),
 ('/bdk-general/meeting-activity3/create', 2, NULL, NULL, NULL, 1415755268, 1415755268),
 ('/bdk-general/meeting-activity3/delete', 2, NULL, NULL, NULL, 1415755269, 1415755269),
@@ -619,6 +625,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/bdk-general/meeting-activity3/room', 2, NULL, NULL, NULL, 1415755269, 1415755269),
 ('/bdk-general/meeting-activity3/update', 2, NULL, NULL, NULL, 1415755269, 1415755269),
 ('/bdk-general/meeting-activity3/view', 2, NULL, NULL, NULL, 1415755268, 1415755268),
+('/bdk-general/person/index', 2, NULL, NULL, NULL, 1415934761, 1415934761),
 ('/bdk-general/person2/*', 2, NULL, NULL, NULL, 1415755269, 1415755269),
 ('/bdk-general/person2/create', 2, NULL, NULL, NULL, 1415755269, 1415755269),
 ('/bdk-general/person2/delete', 2, NULL, NULL, NULL, 1415755269, 1415755269),
@@ -643,6 +650,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/bdk-general/room3/update', 2, NULL, NULL, NULL, 1415755269, 1415755269),
 ('/bdk-general/room3/update-activity-room', 2, NULL, NULL, NULL, 1415755269, 1415755269),
 ('/bdk-general/room3/view', 2, NULL, NULL, NULL, 1415755269, 1415755269),
+('/bdk-general/user/index', 2, NULL, NULL, NULL, 1415934860, 1415934860),
 ('/bdk-general/user2/*', 2, NULL, NULL, NULL, 1415755269, 1415755269),
 ('/bdk-general/user2/block', 2, NULL, NULL, NULL, 1415755269, 1415755269),
 ('/bdk-general/user2/delete', 2, NULL, NULL, NULL, 1415755269, 1415755269),
@@ -1114,15 +1122,15 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/pusdiklat-planning/trainer3/view-person', 2, NULL, NULL, NULL, 1413838826, 1413838826),
 ('/pusdiklat-planning/training-subject-trainer-recommendation/*', 2, NULL, NULL, NULL, 1413838826, 1413838826),
 ('/pusdiklat-planning/training-subject-trainer-recommendation/crea', 2, NULL, NULL, NULL, 1413838826, 1413838826),
-('/pusdiklat-planning/training-subject-trainer-recommendation/dele', 2, NULL, NULL, NULL, 1413838826, 1413838826),
+('/pusdiklat-planning/training-subject-trainer-recommendation/dele', 2, NULL, NULL, NULL, 1413838826, 1413838826);
+INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
 ('/pusdiklat-planning/training-subject-trainer-recommendation/inde', 2, NULL, NULL, NULL, 1413838826, 1413838826),
 ('/pusdiklat-planning/training-subject-trainer-recommendation/upda', 2, NULL, NULL, NULL, 1413838826, 1413838826),
 ('/pusdiklat-planning/training-subject-trainer-recommendation/view', 2, NULL, NULL, NULL, 1413838826, 1413838826),
 ('/pusdiklat2-competency/*', 2, NULL, NULL, NULL, 1415784754, 1415784754),
 ('/pusdiklat2-general/*', 2, NULL, NULL, NULL, 1415786573, 1415786573),
 ('/sekretariat-finance/*', 2, NULL, NULL, NULL, 1413838622, 1413838622),
-('/sekretariat-finance/default/*', 2, NULL, NULL, NULL, 1413838622, 1413838622);
-INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
+('/sekretariat-finance/default/*', 2, NULL, NULL, NULL, 1413838622, 1413838622),
 ('/sekretariat-finance/default/index', 2, NULL, NULL, NULL, 1413838622, 1413838622),
 ('/sekretariat-finance/reference-sbu/*', 2, NULL, NULL, NULL, 1413838622, 1413838622),
 ('/sekretariat-finance/reference-sbu/create', 2, NULL, NULL, NULL, 1413838622, 1413838622),
@@ -3181,7 +3189,7 @@ CREATE TABLE IF NOT EXISTS `menu` (
   `route` varchar(256) DEFAULT NULL,
   `order` int(11) DEFAULT NULL,
   `data` text
-) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `menu`
@@ -3252,7 +3260,33 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 (105, 'Diklat', 103, '/bdk-execution/activity/index', 1, 'return [''icon''=>''fa fa-book fa-fw'',''path''=>''/activity/''];'),
 (106, 'Rapat', 103, '/bdk-execution/meeting-activity/index', 2, 'return [''icon''=>''fa fa-suitcase fa-fw'',''path''=>''/meeting-activity/''];'),
 (107, 'Manajemen Peserta', 103, '/bdk-execution/student/index', 3, 'return [''icon''=>''fa fa-users fa-fw'',''path''=>''/student/''];'),
-(108, 'Manajemen Pengajar', 103, '/bdk-execution/trainer3/index', 4, 'return [''icon''=>''fa fa-user-md fa-fw'',''path''=>''/trainer3/''];');
+(108, 'Manajemen Pengajar', 103, '/bdk-execution/trainer3/index', 4, 'return [''icon''=>''fa fa-user-md fa-fw'',''path''=>''/trainer3/''];'),
+(109, 'BDK - General - Administrator', 102, '/bdk-general/assignment0/index', NULL, 'return [''icon''=>''fa fa-plug fa-fw'',''path''=>''/assignment0/index/''];'),
+(110, 'BDK - General - I (Pegawai TU Humas)', 102, '/bdk-general/activity/index', NULL, NULL),
+(111, 'BDK - General - II (Keuangan)', 102, '/bdk-general/activity2/index', NULL, NULL),
+(112, 'BDK - General - III (Pengelolaan Aset)', 102, '/bdk-general/activity3/index', NULL, NULL),
+(113, 'Assignment', 109, '/bdk-general/assignment0/index', 1, 'return [''icon''=>''fa fa-plug fa-fw'',''path''=>''/assignment0/''];'),
+(114, 'Diklat', 110, '/bdk-general/activity/index', 1, 'return [''icon''=>''fa fa-book fa-fw'',''path''=>''/activity/''];'),
+(115, 'Rapat', 110, '/bdk-general/meeting-activity/index', 2, 'return [''icon''=>''fa fa-briefcase fa-fw'',''path''=>''/meeting-activity/''];'),
+(116, 'Manajemen Individu', 110, '/bdk-general/person/index', 3, 'return [''icon''=>''fa fa-user fa-fw'',''path''=>''/person/''];'),
+(117, 'Manajemen Pegawai', 110, '/bdk-general/employee/index', 4, 'return [''icon''=>''fa fa-user-md fa-fw'',''path''=>''/employee/''];'),
+(118, 'Manajemen User', 110, '/bdk-general/user/index', 5, 'return [''icon''=>''fa fa-key fa-fw'',''path''=>''/user/''];'),
+(119, 'Diklat', 111, '/bdk-general/activity2/index', 1, 'return [''icon''=>''fa fa-book fa-fw'',''path''=>''/activity2/''];'),
+(120, 'Rapat', 111, '/bdk-general/meeting-activity2/index', 2, 'return [''icon''=>''fa fa-briefcase fa-fw'',''path''=>''/meeting-activity2/''];'),
+(121, 'Diklat', 112, '/bdk-general/activity3/index', 1, 'return [''icon''=>''fa fa-book fa-fw'',''path''=>''/activity3/''];'),
+(122, 'Diklat', 112, '/bdk-general/activity3/index', 1, 'return [''icon''=>''fa fa-book fa-fw'',''path''=>''/activity3/''];'),
+(123, 'Rapat', 112, '/bdk-general/meeting-activity3/index', 2, 'return [''icon''=>''fa fa-briefcase fa-fw'',''path''=>''/meeting-activity3/''];'),
+(124, 'Permintaan Ruangan', 112, '/bdk-general/room-request3/index', 3, 'return [''icon''=>''fa fa-ticket fa-fw'',''path''=>''/room-request3/''];'),
+(125, 'Manajemen Ruangan', 112, '/bdk-general/room3/index', 4, 'return [''icon''=>''fa fa-inbox fa-fw'',''path''=>''/room3/''];'),
+(126, 'BDK - Evaluation - I (Evaluasi Diklat)', 104, '/bdk-evaluation/activity/index', NULL, NULL),
+(127, 'BDK - Evaluation - II (PHD)', 104, '/bdk-evaluation/activity2/index', NULL, NULL),
+(128, 'BDK - Evaluation - III (IPK)', 104, '/bdk-evaluation/activity3/index', NULL, NULL),
+(129, 'Diklat', 126, '/bdk-evaluation/activity/index', 1, 'return [''icon''=>''fa fa-book fa-fw'',''path''=>''/activity/''];'),
+(130, 'Rapat', 126, '/bdk-evaluation/meeting-activity/index', 2, 'return [''icon''=>''fa fa-briefcase fa-fw'',''path''=>''/meeting-activity/''];'),
+(131, 'Diklat', 127, '/bdk-evaluation/activity2/index', 1, 'return [''icon''=>''fa fa-book fa-fw'',''path''=>''/activity2/''];'),
+(132, 'Rapat', 127, '/bdk-evaluation/meeting-activity2/index', 2, 'return [''icon''=>''fa fa-briefcase fa-fw'',''path''=>''/meeting-activity2/''];'),
+(133, 'Diklat', 128, '/bdk-evaluation/activity3/index', 1, 'return [''icon''=>''fa fa-book fa-fw'',''path''=>''/activity3/''];'),
+(134, 'Rapat', 128, '/bdk-evaluation/meeting-activity3/index', 2, 'return [''icon''=>''fa fa-briefcase fa-fw'',''path''=>''/meeting-activity3/''];');
 
 -- --------------------------------------------------------
 
@@ -6519,7 +6553,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=109;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=135;
 --
 -- AUTO_INCREMENT for table `message`
 --
