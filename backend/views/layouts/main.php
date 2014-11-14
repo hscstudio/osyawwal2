@@ -96,16 +96,16 @@ AppAsset::register($this);
 					if(checkAccess([
 						'pusdiklat2-general',
 						'pusdiklat2-competency',
-						/*'pusdiklat2-test',
-						'pusdiklat2-scholarship',*/
+						'pusdiklat2-test',
+						'pusdiklat2-scholarship',
 						
 					])){
 						$menuItemsLeft[] =
 							['icon'=>'fa fa-building fa-fw','label' => 'PSDM', 'url' => ['#'], 'items' => [
 								['icon'=>'fa fa-cubes fa-fw','label'=>'General', 'url'=> ['/pusdiklat2-general/default/index'],'path'=>'pusdiklat2-general' ],
 								['icon'=>'fa fa-calendar fa-fw','label'=>'Competency', 'url'=> ['/pusdiklat2-competency/default/index'],'path'=>'pusdiklat2-competency' ],
-								/*['icon'=>'fa fa-sort-numeric-asc fa-fw','label'=>'Test', 'url'=> ['/pusdiklat2-test/default/index'],'path'=>'pusdiklat2-test' ],
-								['icon'=>'fa fa-graduation-cap fa-fw','label'=>'Scholarship', 'url'=> ['/pusdiklat2-scholarship/default/index'],'path'=>'pusdiklat2-scholarship' ],*/
+								['icon'=>'fa fa-sort-numeric-asc fa-fw','label'=>'Test', 'url'=> ['/pusdiklat2-test/default/index'],'path'=>'pusdiklat2-test' ],
+								['icon'=>'fa fa-graduation-cap fa-fw','label'=>'Scholarship', 'url'=> ['/pusdiklat2-scholarship/default/index'],'path'=>'pusdiklat2-scholarship' ],
 							]];
 					}
 					

@@ -117,6 +117,12 @@ return [
 		'pusdiklat2-competency' => [
             'class' => 'backend\modules\pusdiklat2\competency\Module',
         ],
+		'pusdiklat2-test' => [
+            'class' => 'backend\modules\pusdiklat2\test\Module',
+        ],
+		'pusdiklat2-scholarship' => [
+            'class' => 'backend\modules\pusdiklat2\scholarship\Module',
+        ],
 		/* FINISH PSDM */
 		/* START BDK */
 		'bdk-general' => [
