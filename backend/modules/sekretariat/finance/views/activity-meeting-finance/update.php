@@ -24,8 +24,11 @@ $this->params['breadcrumbs'][] = 'Update';
 		<h1 class="panel-title"><?= Html::encode($this->title) ?></h1>
 	</div>
 	<div class="panel-body">
-		<?= $this->render('_form', [
-			'model' => $model,
-		]) ?>
+		<?php
+		$renders=[];
+		$renders['model'] = $model;
+		$renders['meeting'] = $meeting;
+		echo $this->render('_form', $renders) 
+		?>
 	</div>
 </div>

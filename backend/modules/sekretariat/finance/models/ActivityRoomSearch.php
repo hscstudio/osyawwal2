@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\pusdiklat\planning\models;
+namespace backend\modules\sekretariat\finance\models;
 
 use Yii;
 use yii\base\Model;
@@ -8,20 +8,18 @@ use yii\data\ActiveDataProvider;
 use backend\models\Activity;
 
 /**
- * ActivitySearch represents the model behind the search form about `backend\models\Activity`.
+ * ActivityRoomSearch represents the model behind the search form about `backend\models\Activity`.
  */
-class TrainingActivityAllSearch extends Activity
+class ActivityRoomSearch extends Activity
 {
-    public $year, $program_id;
-	/**
+    /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['program_id','id', 'satker_id', 'hostel', 'status', 'created_by', 'modified_by'], 'integer'],
+            [['id', 'satker_id', 'hostel', 'status', 'created_by', 'modified_by'], 'integer'],
             [['name', 'description', 'start', 'end', 'location', 'created', 'modified'], 'safe'],
-			[['year'], 'safe'],
         ];
     }
 
@@ -43,10 +41,8 @@ class TrainingActivityAllSearch extends Activity
      */
     public function search($params)
     {
-		
-        $query = Activity::find()
-			->joinWith('training',false,'RIGHT JOIN');
-			
+        $query = Activity::find();
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -57,7 +53,7 @@ class TrainingActivityAllSearch extends Activity
 
         $query->andFilterWhere([
             'id' => $this->id,
-			'program_id' => $this->program_id,
+            'satker_id' => $this->satker_id,
             'start' => $this->start,
             'end' => $this->end,
             'hostel' => $this->hostel,
@@ -66,7 +62,6 @@ class TrainingActivityAllSearch extends Activity
             'created_by' => $this->created_by,
             'modified' => $this->modified,
             'modified_by' => $this->modified_by,
-			'YEAR(start)' => $this->year,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
