@@ -37,7 +37,7 @@ class Module extends \yii\base\Module
 		$menus_3=[];
 		
 		if($this->checkAccess([
-			'admin-pusdiklat'
+			'admin-pusdiklat2'
 		])){
 			$menus_0 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,70,$callback,true);
 			if(empty($menus_0)){

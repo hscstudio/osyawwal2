@@ -167,7 +167,7 @@ class RoomRequest3Controller extends Controller
 		$renders['model'] = $model;
 		$object_people_array = [
 			// CEK ID 393 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
-			'organisation_391'=>'PIC Meeting'
+			'organisation_65'=>'PIC Meeting'
 		];
 		$renders['object_people_array'] = $object_people_array;
 		foreach($object_people_array as $object_person=>$label){

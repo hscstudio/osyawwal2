@@ -93,7 +93,7 @@ class Program3Controller extends Controller
 		$renders['model'] = $model;
 		$object_people_array = [
 			//1213020300 CEK KD_UNIT_ORG 1213020300 IN TABLE ORGANISATION IS SUBBIDANG TENAGA PENGAJAR
-			'organisation_1213020300'=>'PIC PROGRAM [BIDANG TENAGA PENGAJAR]'
+			'organisation_1202020100'=>'PIC PROGRAM [SUBBIDANG PERENCANAAN DAN PENGEMBANGAN]'
 		];
 		$renders['object_people_array'] = $object_people_array;
 		foreach($object_people_array as $object_person=>$label){

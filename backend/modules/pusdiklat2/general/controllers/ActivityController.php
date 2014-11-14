@@ -251,7 +251,7 @@ class ActivityController extends Controller
 		$renders = [];
 		$renders['model'] = $model;
 		$object_people_array = [
-			'organisation_1213010100'=>'PIC TRAINING ACTIVITY [SUBBAG TATA USAHA, PEGAWAI, HUMAS]'
+			'organisation_1202010101'=>'PIC TRAINING ACTIVITY [SUBBAG TATA USAHA, PEGAWAI, HUMAS]'
 		];
 		$renders['object_people_array'] = $object_people_array;
 		foreach($object_people_array as $object_person=>$label){

@@ -46,7 +46,7 @@ class MeetingActivityController extends Controller
 		if(empty($year)) $year=date('Y');
 		$searchModel = new MeetingActivitySearch();
 		$queryParams = Yii::$app->request->getQueryParams();
-		$organisation_id = 392;
+		$organisation_id = 67;
 		if($status=='all'){
 			if($year=='all'){
 				$queryParams['MeetingActivitySearch']=[
@@ -108,7 +108,7 @@ class MeetingActivityController extends Controller
 		if(empty($year)) $year=date('Y');
 		$searchModel = new MeetingActivitySearch();
 		$queryParams = Yii::$app->request->getQueryParams();
-		$organisation_id = 392;
+		$organisation_id = 67;
 		if($status=='all'){
 			if($year=='all'){
 				$queryParams['MeetingActivitySearch']=[
@@ -223,7 +223,7 @@ class MeetingActivityController extends Controller
     {
         $model = new Activity();		
 		$meeting = new Meeting([
-			'organisation_id'=>392
+			'organisation_id'=>67
 		]);
 		$renders=[];
 		$renders['model'] = $model;
@@ -240,7 +240,7 @@ class MeetingActivityController extends Controller
 						Yii::$app->getSession()->setFlash('success', 'Activity data have saved.');
 						if($meeting->load(Yii::$app->request->post())){							
 							$meeting->activity_id= $model->id;	
-							$meeting->organisation_id = 392;							
+							$meeting->organisation_id = 67;							
 							if($meeting->save()){								 
 								Yii::$app->getSession()->setFlash('success', 'Meeting & activity data have saved.');
 								$transaction->commit();
@@ -274,7 +274,7 @@ class MeetingActivityController extends Controller
 		$model->end = date('Y-m-d',strtotime($model->end));
 		$meeting = Meeting::findOne([
 			'activity_id'=>$model->id,
-			'organisation_id'=>392
+			'organisation_id'=>67
 		]);
 		$renders=[];
 		$renders['model'] = $model;
@@ -393,7 +393,7 @@ class MeetingActivityController extends Controller
 		$renders['model'] = $model;
 		$object_people_array = [
 			// CEK ID 393 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
-			'organisation_392'=>'PIC Meeting'
+			'organisation_67'=>'PIC Meeting'
 		];
 		$renders['object_people_array'] = $object_people_array;
 		foreach($object_people_array as $object_person=>$label){

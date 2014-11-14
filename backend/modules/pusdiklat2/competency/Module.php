@@ -68,9 +68,9 @@ class Module extends \yii\base\Module
 					['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Training Activity', 'url' => ['planning/activity2/index'],'path'=>[
 						'/planning/activity2/',
 					]],
-					['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Meeting Activity', 'url' => ['planning/meeting-activity2/index'],'path'=>[
+					/*['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Meeting Activity', 'url' => ['planning/meeting-activity2/index'],'path'=>[
 						'/planning/meeting-activity2/',
-					]],
+					]],*/
 				];
 			}
 			$menus_2 = ['icon'=>'fa fa-list fa-fw','label' => 'Kurikulum', 'url' => ['#'], 'items' => $menus_2 ];
@@ -88,9 +88,9 @@ class Module extends \yii\base\Module
 					['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Training Activity', 'url' => ['planning/activity3/index'],'path'=>[
 						'/planning/activity3/',
 					]],
-					['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Meeting Activity', 'url' => ['planning/meeting-activity3/index'],'path'=>[
+					/*['icon'=>'fa fa-fw fa-stack-overflow','label' => 'Meeting Activity', 'url' => ['planning/meeting-activity3/index'],'path'=>[
 						'/planning/meeting-activity3/',
-					]],
+					]],*/
 					['icon'=>'fa fa-fw fa-stack-exchange', 'label' => 'Trainer', 'url' => ['planning/trainer3/index'],'path'=>[
 						'/planning/trainer3/',
 					]],
@@ -129,9 +129,9 @@ class Module extends \yii\base\Module
 						'/execution/training-class-student-attendance/',
 						'/execution/training-schedule-trainer-attendance/'
 					]],
-					['icon'=>'fa fa-fw fa-stack-overflow', 'label' => 'Meeting Activity', 'url' => ['execution/meeting-activity2/index'],'path'=>[
+					/*['icon'=>'fa fa-fw fa-stack-overflow', 'label' => 'Meeting Activity', 'url' => ['execution/meeting-activity2/index'],'path'=>[
 						'/execution/meeting-activity2/',
-					]],
+					]],*/
 					['icon'=>'fa fa-fw fa-user-md', 'label' => 'Student', 'url' => ['execution/student2/index'],'path'=>[
 						'/execution/student2/',
 					]],
@@ -166,9 +166,9 @@ class Module extends \yii\base\Module
 					['icon'=>'fa fa-fw fa-book', 'label' => 'Training Activity', 'url' => ['evaluation/activity2/index'],'path'=>[
 						'/evaluation/activity2/',
 					]],
-					['icon'=>'fa fa-fw fa-briefcase', 'label' => 'Meeting Activity', 'url' => ['evaluation/meeting-activity2/index'],'path'=>[
+					/*['icon'=>'fa fa-fw fa-briefcase', 'label' => 'Meeting Activity', 'url' => ['evaluation/meeting-activity2/index'],'path'=>[
 						'/evaluation/meeting-activity2/',
-					]],
+					]],*/
 				];
 			}
 			$menus_7 = ['icon'=>'fa fa-cloud fa-fw','label' => 'PHD', 'url' => ['#'], 'items' => $menus_7 ];
@@ -183,9 +183,9 @@ class Module extends \yii\base\Module
 					['icon'=>'fa fa-fw fa-book', 'label' => 'Training Activity', 'url' => ['evaluation/activity3/index'],'path'=>[
 						'/evaluation/activity3/',
 					]],
-					['icon'=>'fa fa-fw fa-briefcase', 'label' => 'Meeting Activity', 'url' => ['evaluation/meeting-activity3/index'],'path'=>[
+					/*['icon'=>'fa fa-fw fa-briefcase', 'label' => 'Meeting Activity', 'url' => ['evaluation/meeting-activity3/index'],'path'=>[
 						'/evaluation/meeting-activity3/',
-					]],
+					]],*/
 				];
 			}
 			$menus_8 = ['icon'=>'fa fa-book fa-fw','label' => 'IPK', 'url' => ['#'], 'items' => $menus_8 ];

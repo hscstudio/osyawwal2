@@ -307,7 +307,7 @@ class Activity3Controller extends Controller
 		$renders['model'] = $model;
 		$object_people_array = [
 			//1213010300 CEK KD_UNIT_ORG 1213010300 IN TABLE ORGANISATION 
-			'organisation_1213010300'=>'PIC TRAINING ACTIVITY [SUBBAG RT & ASSET]'
+			'organisation_1202010301'=>'PIC TRAINING ACTIVITY [SUBBAG RT & ASSET]'
 		];
 		$renders['object_people_array'] = $object_people_array;
 		foreach($object_people_array as $object_person=>$label){
