@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 14, 2014 at 10:45 AM
+-- Generation Time: Nov 14, 2014 at 11:11 AM
 -- Server version: 5.5.39-MariaDB
 -- PHP Version: 5.5.18
 
@@ -1923,6 +1923,9 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Pelaksana Bagian Otl', 'sekretariat-badan-organisation'),
 ('Pelaksana Bagian Tik', 'sekretariat-badan-it'),
 ('Pelaksana Bagian Umum', 'sekretariat-badan-general'),
+('Pelaksana Seksi Evaluasi Dan Informasi', 'bdk-evaluation'),
+('Pelaksana Seksi Penyelenggaraan', 'bdk-execution'),
+('Pelaksana Subbag Tata Usaha', 'bdk-general'),
 ('Pelaksana Subbagian Perencanaan Dan Keuangan', 'pusdiklat-general-2'),
 ('Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset', 'pusdiklat-general-3'),
 ('Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas', 'pusdiklat-general-1'),
@@ -2116,10 +2119,10 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('pusdiklat-execution-1', '/pusdiklat-execution/activity/update'),
 ('pusdiklat-execution-1', '/pusdiklat-execution/activity/update-student'),
 ('pusdiklat-execution-1', '/pusdiklat-execution/activity/view'),
-('pusdiklat-execution-1', '/pusdiklat-execution/activity/view-student-plan'),
-('pusdiklat-execution-1', '/pusdiklat-execution/default/*'),
-('pusdiklat-execution-1', '/pusdiklat-execution/default/index');
+('pusdiklat-execution-1', '/pusdiklat-execution/activity/view-student-plan');
 INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
+('pusdiklat-execution-1', '/pusdiklat-execution/default/*'),
+('pusdiklat-execution-1', '/pusdiklat-execution/default/index'),
 ('pusdiklat-execution-1', '/pusdiklat-execution/default/view-employee'),
 ('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/*'),
 ('pusdiklat-execution-1', '/pusdiklat-execution/meeting-activity/create'),
