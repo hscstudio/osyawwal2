@@ -8,9 +8,6 @@ use backend\models\User;
 use backend\models\Reference;
 use backend\models\Organisation;
 use kartik\widgets\SwitchInput;
-/* @var $this yii\web\View */
-/* @var $model backend\models\Employee */
-/* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="employee-form">
@@ -64,7 +61,7 @@ use kartik\widgets\SwitchInput;
 			<?php
 			$data = ArrayHelper::map(Organisation::find()
 					->select(['ID', 'NM_UNIT_ORG'])
-					->where(['JNS_KANTOR'=>13])
+					->where(['JNS_KANTOR'=>10])
 					->asArray()
 					->all()
 					, 'ID', 'NM_UNIT_ORG');
