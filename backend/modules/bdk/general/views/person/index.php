@@ -5,10 +5,6 @@ use yii\grid\GridView as Gridview2;
 use kartik\grid\GridView;
 use yii\helpers\Url;
 
-/* @var $this yii\web\View */
-/* @var $searchModel backend\models\PersonSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
@@ -17,17 +13,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="person-index">
 	
-<!--
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Person',
-]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
--->
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -123,7 +108,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			<div class="col-md-2">
 			<?php
 			echo Html::a('template',
-						Url::to(['/file/download','file'=>'template/pusdiklat/general/employee_upload.xlsx']),
+						Url::to(['/file/download','file'=>'template/pusdiklat/general/employee_upload_bdk.xlsx']),
 						[
 							'class'=>'label label-default',
 							'data-pjax'=>'0',

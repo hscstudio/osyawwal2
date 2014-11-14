@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 14, 2014 at 03:46 AM
+-- Generation Time: Nov 14, 2014 at 08:51 AM
 -- Server version: 5.5.39-MariaDB
 -- PHP Version: 5.5.18
 
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `activity` (
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `modified_by` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `activity`
@@ -65,7 +65,8 @@ INSERT INTO `activity` (`id`, `satker_id`, `name`, `description`, `start`, `end`
 (16, 20, 'DTSD Pajak I Angkatan I', 'DTSD Pajak I dimaksudkan untuk mendidik dan melatih pegawai yang baru masuk dalam organisasi Direktorat Jenderal Pajak dan merupakan lulusan diploma-III untuk dapat meningkatkan pengetahuan, keterampilan, dan sikap pegawai dalam rangka pelaksanaan tugas dan tanggung jawab yang diberikan kepadanya dengan sebaik-baiknya.', '2014-11-24 00:00:00', '2014-12-24 00:00:00', '20|Jalan Sakti Raya Nomor 1 Kemanggisan', 0, 0, '2014-11-11 02:48:43', 520, '2014-11-11 02:48:43', 520),
 (17, 20, 'DTSD Pajak II Angkatan III', 'DTSD Pajak II dimaksudkan untuk mendidik dan melatih pegawai yang baru masuk dalam organisasi Direktorat Jenderal Pajak dan merupakan lulusan sarjana atau pascasarjana untuk dapat meningkatkan pengetahuan, keterampilan, dan sikap pegawai dalam rangka pelaksanaan tugas dan tanggung jawab yang diberikan kepadanya dengan sebaik-baiknya.', '2014-11-24 00:00:00', '2014-12-30 00:00:00', '20|Jalan Sakti Raya Nomor 1 Kemanggisan', 0, 0, '2014-11-11 02:51:42', 520, '2014-11-11 02:51:42', 520),
 (18, 20, 'DTU Orientasi Untuk Pegawai Pajak Angkatan IV', 'DTU Orientasi untuk Pegawai Pajak dimaksudkan untuk meningkatkan pengetahuan dan keterampilan dasar di bidang perpajakan bagi para pegawai baru di lingkungan Direktorat Jenderal Pajak', '2014-11-26 00:00:00', '2014-12-05 00:00:00', '20|Bumi Perkemahan Cibubur', 1, 0, '2014-11-11 02:54:54', 520, '2014-11-11 02:54:54', 520),
-(19, 20, 'DTU Orientasi Untuk Pegawai Pajak Angkatan V', 'DTU Orientasi untuk Pegawai Pajak dimaksudkan untuk meningkatkan pengetahuan dan keterampilan dasar di bidang perpajakan bagi para pegawai baru di lingkungan Direktorat Jenderal Pajak', '2014-12-08 00:00:00', '2014-12-17 00:00:00', '20|Bumi Perkemahan Cibubur', 1, 0, '2014-11-11 02:56:48', 520, '2014-11-11 02:56:48', 520);
+(19, 20, 'DTU Orientasi Untuk Pegawai Pajak Angkatan V', 'DTU Orientasi untuk Pegawai Pajak dimaksudkan untuk meningkatkan pengetahuan dan keterampilan dasar di bidang perpajakan bagi para pegawai baru di lingkungan Direktorat Jenderal Pajak', '2014-12-08 00:00:00', '2014-12-17 00:00:00', '20|Bumi Perkemahan Cibubur', 1, 0, '2014-11-11 02:56:48', 520, '2014-11-11 02:56:48', 520),
+(20, 31, 'DTSD Pajak I ', '', '2014-11-24 00:00:00', '2014-11-27 00:00:00', '31|', 0, 1, '2014-11-14 08:22:19', 16, '2014-11-14 08:22:19', 16);
 
 -- --------------------------------------------------------
 
@@ -113,7 +114,8 @@ INSERT INTO `activity_history` (`id`, `revision`, `satker_id`, `name`, `descript
 (16, 0, 20, 'DTSD Pajak I Angkatan I', 'DTSD Pajak I dimaksudkan untuk mendidik dan melatih pegawai yang baru masuk dalam organisasi Direktorat Jenderal Pajak dan merupakan lulusan diploma-III untuk dapat meningkatkan pengetahuan, keterampilan, dan sikap pegawai dalam rangka pelaksanaan tugas dan tanggung jawab yang diberikan kepadanya dengan sebaik-baiknya.', '2014-11-24 00:00:00', '2014-12-24 00:00:00', '20|Jalan Sakti Raya Nomor 1 Kemanggisan', 0, 0, '2014-11-11 02:48:43', 520, '2014-11-11 02:48:43', 520),
 (17, 0, 20, 'DTSD Pajak II Angkatan III', 'DTSD Pajak II dimaksudkan untuk mendidik dan melatih pegawai yang baru masuk dalam organisasi Direktorat Jenderal Pajak dan merupakan lulusan sarjana atau pascasarjana untuk dapat meningkatkan pengetahuan, keterampilan, dan sikap pegawai dalam rangka pelaksanaan tugas dan tanggung jawab yang diberikan kepadanya dengan sebaik-baiknya.', '2014-11-24 00:00:00', '2014-12-30 00:00:00', '20|Jalan Sakti Raya Nomor 1 Kemanggisan', 0, 0, '2014-11-11 02:51:42', 520, '2014-11-11 02:51:42', 520),
 (18, 0, 20, 'DTU Orientasi Untuk Pegawai Pajak Angkatan IV', 'DTU Orientasi untuk Pegawai Pajak dimaksudkan untuk meningkatkan pengetahuan dan keterampilan dasar di bidang perpajakan bagi para pegawai baru di lingkungan Direktorat Jenderal Pajak', '2014-11-26 00:00:00', '2014-12-05 00:00:00', '20|Bumi Perkemahan Cibubur', 1, 0, '2014-11-11 02:54:54', 520, '2014-11-11 02:54:54', 520),
-(19, 0, 20, 'DTU Orientasi Untuk Pegawai Pajak Angkatan V', 'DTU Orientasi untuk Pegawai Pajak dimaksudkan untuk meningkatkan pengetahuan dan keterampilan dasar di bidang perpajakan bagi para pegawai baru di lingkungan Direktorat Jenderal Pajak', '2014-12-08 00:00:00', '2014-12-17 00:00:00', '20|Bumi Perkemahan Cibubur', 1, 0, '2014-11-11 02:56:48', 520, '2014-11-11 02:56:48', 520);
+(19, 0, 20, 'DTU Orientasi Untuk Pegawai Pajak Angkatan V', 'DTU Orientasi untuk Pegawai Pajak dimaksudkan untuk meningkatkan pengetahuan dan keterampilan dasar di bidang perpajakan bagi para pegawai baru di lingkungan Direktorat Jenderal Pajak', '2014-12-08 00:00:00', '2014-12-17 00:00:00', '20|Bumi Perkemahan Cibubur', 1, 0, '2014-11-11 02:56:48', 520, '2014-11-11 02:56:48', 520),
+(20, 0, 31, 'DTSD Pajak I ', '', '2014-11-24 00:00:00', '2014-11-27 00:00:00', '31|', 0, 1, '2014-11-14 08:22:19', 16, '2014-11-14 08:22:19', 16);
 
 -- --------------------------------------------------------
 
@@ -3244,9 +3246,9 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 (56, 'Rapat', 44, '/pusdiklat-evaluation/meeting-activity2/index', 2, 'return [''icon''=>''fa fa-briefcase fa-fw'',''path''=>''/meeting-activity2/''];'),
 (57, 'Rapat', 45, '/pusdiklat-evaluation/meeting-activity3/index', 2, 'return [''icon''=>''fa fa-briefcase fa-fw'',''path''=>''/meeting-activity3/''];'),
 (101, 'BDK', NULL, NULL, NULL, NULL),
-(102, 'Bagian Tata Usaha [BDK]', 101, '/bdk-general/default/index', 1, 'return [''icon''=>''fa fa-cubes fa-fw'',''path''=>''/bdk-general/''];'),
-(103, 'Bagian Penyelenggaraan', 101, '/bdk-execution/default/index', 2, 'return [''icon''=>''fa fa-paper-plane fa-fw'',''path''=>''/bdk-execution/''];'),
-(104, 'Bagian Evaluasi dan Pelaporan Kinerja', 101, '/bdk-evaluation/default/index', 3, 'return [''icon''=>''fa fa-check-square-o fa-fw'',''path''=>''/bdk-evaluation/''];'),
+(102, 'Subbagian Tata Usaha Dan Kepatuhan Internal', 101, '/bdk-general/default/index', 1, 'return [''icon''=>''fa fa-cubes fa-fw'',''path''=>''/bdk-general/''];'),
+(103, 'Seksi Penyelenggaraan', 101, '/bdk-execution/default/index', 2, 'return [''icon''=>''fa fa-paper-plane fa-fw'',''path''=>''/bdk-execution/''];'),
+(104, 'Seksi Evaluasi Dan Informasi', 101, '/bdk-evaluation/default/index', 3, 'return [''icon''=>''fa fa-check-square-o fa-fw'',''path''=>''/bdk-evaluation/''];'),
 (105, 'Diklat', 103, '/bdk-execution/activity/index', 1, 'return [''icon''=>''fa fa-book fa-fw'',''path''=>''/activity/''];'),
 (106, 'Rapat', 103, '/bdk-execution/meeting-activity/index', 2, 'return [''icon''=>''fa fa-suitcase fa-fw'',''path''=>''/meeting-activity/''];'),
 (107, 'Manajemen Peserta', 103, '/bdk-execution/student/index', 3, 'return [''icon''=>''fa fa-users fa-fw'',''path''=>''/student/''];'),
@@ -5404,7 +5406,8 @@ INSERT INTO `training` (`activity_id`, `program_id`, `program_revision`, `number
 (16, 5, 0, '2014-04-00-2.3.1.1.1', 'Diploma III Umum rekrutmen 2013', 1, 'DJP', 202, 5, NULL, NULL, 'DIPA Pusdiklat Pajak  015.11.1.670142/2014 Tanggal 05 Desember 2013', '779460000.00', NULL, NULL, NULL, NULL, NULL),
 (17, 6, 0, '2014-04-00-2.3.1.1.1', 'Sarjana non Akuntansi rekrutmen 2013', 1, 'DJP', 364, 9, NULL, NULL, 'DIPA Pusdiklat Pajak  015.11.1.670142/2014 Tanggal 05 Desember 2013', '1157576000.00', NULL, NULL, NULL, NULL, NULL),
 (18, 3, 0, '2014-04-00-2.3.2.0.1', 'Diploma I STAN rekrutmen 2013', 1, 'DJP', 806, 20, NULL, NULL, 'DIPA Pusdiklat Pajak  015.11.1.670142/2014 Tanggal 05 Desember 2013', '3715848000.00', NULL, NULL, NULL, NULL, NULL),
-(19, 3, 0, '2014-04-00-2.3.2.0.1', 'Diploma III STAN rekrutmen 2013', 1, 'DJP', 877, 22, NULL, NULL, 'DIPA Pusdiklat Pajak  015.11.1.670142/2014 Tanggal 05 Desember 2013', '3264682000.00', NULL, NULL, NULL, NULL, NULL);
+(19, 3, 0, '2014-04-00-2.3.2.0.1', 'Diploma III STAN rekrutmen 2013', 1, 'DJP', 877, 22, NULL, NULL, 'DIPA Pusdiklat Pajak  015.11.1.670142/2014 Tanggal 05 Desember 2013', '3264682000.00', NULL, NULL, NULL, NULL, NULL),
+(20, 5, 0, '2014-04-15-2.3.1.1.2', '', 1, 'Umum', 30, 2, NULL, NULL, 'DIPA Pusdiklat KU', '21000000.00', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -5605,7 +5608,8 @@ INSERT INTO `training_history` (`activity_id`, `revision`, `program_id`, `progra
 (16, 0, 5, 0, '2014-04-00-2.3.1.1.1', 'Diploma III Umum rekrutmen 2013', 1, 'DJP', 202, 5, NULL, NULL, 'DIPA Pusdiklat Pajak  015.11.1.670142/2014 Tanggal 05 Desember 2013', '779460000.00', NULL, NULL, NULL, NULL, NULL),
 (17, 0, 6, 0, '2014-04-00-2.3.1.1.1', 'Sarjana non Akuntansi rekrutmen 2013', 1, 'DJP', 364, 9, NULL, NULL, 'DIPA Pusdiklat Pajak  015.11.1.670142/2014 Tanggal 05 Desember 2013', '1157576000.00', NULL, NULL, NULL, NULL, NULL),
 (18, 0, 3, 0, '2014-04-00-2.3.2.0.1', 'Diploma I STAN rekrutmen 2013', 1, 'DJP', 806, 20, NULL, NULL, 'DIPA Pusdiklat Pajak  015.11.1.670142/2014 Tanggal 05 Desember 2013', '3715848000.00', NULL, NULL, NULL, NULL, NULL),
-(19, 0, 3, 0, '2014-04-00-2.3.2.0.1', 'Diploma III STAN rekrutmen 2013', 1, 'DJP', 877, 22, NULL, NULL, 'DIPA Pusdiklat Pajak  015.11.1.670142/2014 Tanggal 05 Desember 2013', '3264682000.00', NULL, NULL, NULL, NULL, NULL);
+(19, 0, 3, 0, '2014-04-00-2.3.2.0.1', 'Diploma III STAN rekrutmen 2013', 1, 'DJP', 877, 22, NULL, NULL, 'DIPA Pusdiklat Pajak  015.11.1.670142/2014 Tanggal 05 Desember 2013', '3264682000.00', NULL, NULL, NULL, NULL, NULL),
+(20, 0, 5, 0, '2014-04-15-2.3.1.1.2', '', 1, 'Umum', 30, 2, NULL, NULL, 'DIPA Pusdiklat KU', '21000000.00', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -6500,7 +6504,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `activity`
 --
 ALTER TABLE `activity`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `file`
 --

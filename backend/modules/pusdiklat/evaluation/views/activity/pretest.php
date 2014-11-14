@@ -69,7 +69,13 @@ echo AlertBlock::widget([
 							'type' => 'unit'
 						])
 						->one();
-					return $objectReference->reference->name;
+					
+					if (!empty($objectReference)) {
+						return $objectReference->reference->name;
+					}
+					else {
+						return '';
+					}
 				}
 			],
     		[
