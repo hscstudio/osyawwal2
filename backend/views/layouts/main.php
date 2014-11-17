@@ -101,7 +101,7 @@ AppAsset::register($this);
 						
 					])){
 						$menus_pusdiklat2 = \mdm\admin\components\MenuHelper::getAssignedMenu(Yii::$app->user->id,59,$callback,true);
-						$menuItemsLeft[] = ['icon'=>'fa fa-building fa-fw','label' => 'Pusdiklat', 'url' => ['#'], 'items' => $menus_pusdiklat2];
+						$menuItemsLeft[] = ['icon'=>'fa fa-building fa-fw','label' => 'Pusdiklat PSDM', 'url' => ['#'], 'items' => $menus_pusdiklat2];
 						/*$menuItemsLeft[] =
 							['icon'=>'fa fa-building fa-fw','label' => 'PSDM', 'url' => ['#'], 'items' => [
 								['icon'=>'fa fa-cubes fa-fw','label'=>'General', 'url'=> ['/pusdiklat2-general/default/index'],'path'=>'pusdiklat2-general' ],
