@@ -35,9 +35,14 @@ class Module extends \yii\base\Module
 		$menus_1=[];
 		$menus_2=[];
 		$menus_3=[];
+		$menus_4=[];
+		$menus_5=[];
+		$menus_6=[];
+		$menus_7=[];
+		$menus_8=[];
 		
 		if($this->checkAccess([
-			'pusdiklat2-competency'
+			'pusdiklat2-competency-planning-1'
 		])){
 			$menus_1 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,62,$callback,true);
 			if(empty($menus_1)){
@@ -57,7 +62,7 @@ class Module extends \yii\base\Module
 		}
 		
 		if($this->checkAccess([
-			'pusdiklat2-competency'
+			'pusdiklat2-competency-planning-2'
 		])){
 			$menus_2 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,63,$callback,true);
 			if(empty($menus_2)){
@@ -77,7 +82,7 @@ class Module extends \yii\base\Module
 		}
 		
 		if($this->checkAccess([
-			'pusdiklat2-competency'
+			'pusdiklat2-competency-planning-3'
 		])){
 			$menus_3 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,64,$callback,true);
 			if(empty($menus_3)){
@@ -99,7 +104,7 @@ class Module extends \yii\base\Module
 			$menus_3 = ['icon'=>'fa fa-users fa-fw','label' => 'Tenaga Pengajar', 'url' => ['#'], 'items' => $menus_3 ];
 		}
 		if($this->checkAccess([
-			'pusdiklat2-competency'
+			'pusdiklat2-competency-execution-1'
 		])){
 			$menus_4 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,65,$callback,true);
 			if(empty($menus_4)){
@@ -119,7 +124,7 @@ class Module extends \yii\base\Module
 		}
 		
 		if($this->checkAccess([
-			'pusdiklat2-competency'
+			'pusdiklat2-competency-execution-2'
 		])){
 			$menus_5 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,66,$callback,true);
 			if(empty($menus_5)){
@@ -141,7 +146,7 @@ class Module extends \yii\base\Module
 		}
 		
 		if($this->checkAccess([
-			'pusdiklat2-competency'
+			'pusdiklat2-competency-evaluation-1'
 		])){
 			$menus_6 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,67,$callback,true);
 			if(empty($menus_6)){
@@ -158,7 +163,7 @@ class Module extends \yii\base\Module
 		}
 		
 		if($this->checkAccess([
-			'pusdiklat2-competency'
+			'pusdiklat2-competency-evaluation-2'
 		])){
 			$menus_7 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,68,$callback,true);
 			if(empty($menus_7)){
@@ -175,7 +180,7 @@ class Module extends \yii\base\Module
 		}
 		
 		if($this->checkAccess([
-			'pusdiklat2-competency'
+			'pusdiklat2-competency-evaluation-3'
 		])){
 			$menus_8 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,69,$callback,true);
 			if(empty($menus_8)){

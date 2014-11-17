@@ -123,7 +123,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			<div class="col-md-2">
 			<?php
 			echo Html::a('template',
-						Url::to(['/file/download','file'=>'template/pusdiklat/general/employee_upload.xlsx']),
+						Url::to(['/file/download','file'=>'template/pusdiklat/general/employee_upload_psdm.xlsx']),
 						[
 							'class'=>'label label-default',
 							'data-pjax'=>'0',
