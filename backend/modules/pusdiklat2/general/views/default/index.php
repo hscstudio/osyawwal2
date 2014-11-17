@@ -15,7 +15,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
                         <?php
                         $data = \backend\models\Organisation::find()
                             ->where([
-                                'KD_UNIT_ES2'=>'13',
+                                'KD_UNIT_ES2'=>'02',
                                 'KD_UNIT_ES3'=>'01',
                                 'KD_ESELON'=>'3',
                             ])

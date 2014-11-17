@@ -51,7 +51,7 @@ class Module extends \yii\base\Module
 		}
 		
 		if($this->checkAccess([
-			'pusdiklat2-general'
+			'pusdiklat2-general-1'
 		])){
 			$menus_1 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,71,$callback,true);
 			if(empty($menus_1)){
@@ -77,7 +77,7 @@ class Module extends \yii\base\Module
 		}
 		
 		if($this->checkAccess([
-			'pusdiklat2-general'
+			'pusdiklat2-general-2'
 		])){
 			$menus_2 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,72,$callback,true);
 			if(empty($menus_2)){
@@ -94,7 +94,7 @@ class Module extends \yii\base\Module
 		}
 		
 		if($this->checkAccess([
-			'pusdiklat2-general'
+			'pusdiklat2-general-3'
 		])){
 			$menus_3 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,73,$callback,true);
 			if(empty($menus_3)){

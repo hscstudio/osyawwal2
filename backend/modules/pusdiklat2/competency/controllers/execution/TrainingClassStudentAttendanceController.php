@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\pusdiklat\execution\controllers\execution;
+namespace backend\modules\pusdiklat2\competency\controllers\execution;
 
 use Yii;
 use yii\web\Controller;

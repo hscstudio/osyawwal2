@@ -94,8 +94,8 @@ AppAsset::register($this);
 					}
 					
 					if(checkAccess([
-						'pusdiklat2-general',
-						'pusdiklat2-competency',
+						'pusdiklat2-general-1','pusdiklat2-general-2','pusdiklat2-general-3',
+						'pusdiklat2-competency-planning-1','pusdiklat2-competency-planning-2','pusdiklat2-competency-planning-3',			'pusdiklat2-competency-execution-1','pusdiklat2-competency-execution-2','pusdiklat2-competency-evaluation-1','pusdiklat2-competency-evaluation-2','pusdiklat2-competency-evaluation-3',
 						'pusdiklat2-test',
 						'pusdiklat2-scholarship',
 						
