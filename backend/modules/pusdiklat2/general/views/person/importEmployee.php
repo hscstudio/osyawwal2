@@ -82,7 +82,7 @@ $this->title = 'Employee Import ';
 					$datas = ArrayHelper::map(
 						\backend\models\Organisation::find()
 							->select(['ID','concat(KD_UNIT_ORG," - ",SUBSTRING(NM_UNIT_ORG,1,20)) as code_name'])
-							->where(['JNS_KANTOR'=>'13'])
+							->where(['JNS_KANTOR'=>'3'])
 							->asArray()
 							->all(), 
 							'ID', 'code_name'

@@ -100,6 +100,7 @@ AppAsset::register($this);
 						'pusdiklat2-scholarship',
 						
 					])){
+						//$menus_pusdiklat = \mdm\admin\components\MenuHelper::getAssignedMenu(Yii::$app->user->id,7,$callback,true);
 						$menuItemsLeft[] =
 							['icon'=>'fa fa-building fa-fw','label' => 'PSDM', 'url' => ['#'], 'items' => [
 								['icon'=>'fa fa-cubes fa-fw','label'=>'General', 'url'=> ['/pusdiklat2-general/default/index'],'path'=>'pusdiklat2-general' ],

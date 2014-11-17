@@ -541,14 +541,14 @@ class PersonController extends Controller
 							'password_hash'=>$password,
 							'email'=>$nip.'@abc.def',
 							'role'=>1,
-							'status' => (\Yii::$app->user->can('admin-pusdiklat'))?1:0,
+							'status' => (\Yii::$app->user->can('admin-pusdiklat2'))?1:0,
 						]);
 						if ($user->save()){
 							$user_id = $user->id;
 						}
 					}
 					else{
-						if(\Yii::$app->user->can('admin-pusdiklat')){
+						if(\Yii::$app->user->can('admin-pusdiklat2')){
 							$user=User::findOne($user_id);
 							$user->status=1;
 							$user->save();
@@ -597,44 +597,46 @@ class PersonController extends Controller
 					Heart::objectReference($object_reference,$unit,'person',$employee_id,'unit');
 				}
 				
-				if($user_id>0 and (\Yii::$app->user->can('admin-pusdiklat'))){	
+				if($user_id>0 and (\Yii::$app->user->can('admin-pusdiklat2'))){	
 					if (in_array($jabatan_id,[1,2])){
 						if($jabatan_id==2){
 							$auths = [
-								'387'=>'Pusdiklat',
-								'388'=>'Bagian Tata Usaha',
-								'389'=>'Subbagian Tata Usaha, Kepegawaian, Dan Humas',
-								'390'=>'Subbagian Perencanaan Dan Keuangan',
-								'391'=>'Subbagian Rumah Tangga Dan Pengelolaan Aset',
-								'392'=>'Bidang Perencanaan Dan Pengembangan Diklat',
-								'393'=>'Subbidang Program',
-								'394'=>'Subbidang Kurikulum',
-								'395'=>'Subbidang Tenaga Pengajar',
-								'396'=>'Bidang Penyelenggaraan',
-								'397'=>'Subbidang Penyelenggaraan I',
-								'398'=>'Subbidang Penyelenggaraan II',
-								'399'=>'Bidang Evaluasi Dan Pelaporan Kinerja',
-								'400'=>'Subbidang Evaluasi Diklat',
-								'401'=>'Subbidang Pengolahan Hasil Diklat',
-								'402'=>'Subbidang Informasi Dan Pelaporan Kinerja',								
+								'56'=>'Pusdiklat',
+								'59'=>'Bagian Tata Usaha',
+								'61'=>'Subbagian Tata Usaha, Kepegawaian, Dan Humas',
+								'63'=>'Subbagian Perencanaan Dan Keuangan',
+								'65'=>'Subbagian Rumah Tangga Dan Pengelolaan Aset',
+								'66'=>'Bidang Penjenjangan Pangkat Dan Peningkatan Kompetensi',
+								'67'=>'Subbidang Perencanaan Dan Pengembangan',
+								'68'=>'Subbidang Penyelenggaraan',
+								'69'=>'Subbidang Evaluasi Dan Pelaporan Kinerja',
+								'70'=>'Bidang Pengelolaan Tes Terpadu',
+								'71'=>'Subbidang Perencanaan Tes',
+								'72'=>'Subbidang Penyelenggaraan Tes',
+								'73'=>'Subbidang Evaluasi Hasil Tes',
+								'76'=>'Bidang Pengelolaan Beasiswa',
+								'79'=>'Subbidang Perencanaan Beasiswa',
+								'81'=>'Subbidang Seleksi Dan Penempatan',
+								'82'=>'Subbidang Pemantauan',
 							];
 						}
 						else{
 							$auths = [
-								'389'=>'Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas',
-								'390'=>'Pelaksana Subbagian Perencanaan Dan Keuangan',
-								'391'=>'Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset',
+								'61'=>'Pelaksana Subbagian Tata Usaha, Kepegawaian, Dan Humas',
+								'63'=>'Pelaksana Subbagian Perencanaan Dan Keuangan',
+								'65'=>'Pelaksana Subbagian Rumah Tangga Dan Pengelolaan Aset',
 								
-								'393'=>'Pelaksana Subbidang Program',
-								'394'=>'Pelaksana Subbidang Kurikulum',
-								'395'=>'Pelaksana Subbidang Tenaga Pengajar',
+								'67'=>'Pelaksana Subbidang Perencanaan Dan Pengembangan',
+								'68'=>'Pelaksana Subbidang Penyelenggaraan',
+								'69'=>'Pelaksana Subbidang Evaluasi Dan Pelaporan Kinerja',
 								
-								'397'=>'Pelaksana Subbidang Penyelenggaraan I',
-								'398'=>'Pelaksana Subbidang Penyelenggaraan II',
+								'71'=>'Pelaksana Subbidang Perencanaan Tes',
+								'72'=>'Pelaksana Subbidang Penyelenggaraan Tes',
+								'73'=>'Pelaksana Subbidang Evaluasi Hasil Tes',
 								
-								'400'=>'Pelaksana Subbidang Evaluasi Diklat',
-								'401'=>'Pelaksana Subbidang Pengolahan Hasil Diklat',
-								'402'=>'Pelaksana Subbidang Informasi Dan Pelaporan Kinerja',								
+								'79'=>'Pelaksana Subbidang Perencanaan Beasiswa',
+								'81'=>'Pelaksana Subbidang Seleksi Dan Penempatan',
+								'82'=>'Pelaksana Subbidang Pemantauan',								
 							];
 						}
 												

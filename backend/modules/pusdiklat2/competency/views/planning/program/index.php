@@ -186,7 +186,7 @@ $this->params['breadcrumbs'][] = $this->title;
 							->where([
 								'object'=>'program',
 								'object_id'=>$data->id,
-								'type'=>'organisation_393', // CEK ID 393 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
+								'type'=>'organisation_67', // CEK ID 393 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
 							])
 							->one();
 						if($object_person!=null){						

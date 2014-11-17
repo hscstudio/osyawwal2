@@ -255,7 +255,7 @@ class ProgramController extends Controller
 		$renders['model'] = $model;
 		$object_people_array = [
 			// CEK ID 393 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
-			'organisation_1202020100'=>'PIC PROGRAM [SUBBIDANG PERENCANAAN DAN PENGEMBANGAN]'
+			'organisation_67'=>'PIC PROGRAM [SUBBIDANG PERENCANAAN DAN PENGEMBANGAN]'
 		];
 		$renders['object_people_array'] = $object_people_array;
 		foreach($object_people_array as $object_person=>$label){

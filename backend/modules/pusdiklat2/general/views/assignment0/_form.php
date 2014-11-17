@@ -38,7 +38,7 @@ use backend\models\Employee;
 			])
 			->joinWith('organisation')
 			->where([
-				'JNS_KANTOR' => 13
+				'JNS_KANTOR' => 3
 			])
 			->asArray()
 			->all(), 'name', 'name');

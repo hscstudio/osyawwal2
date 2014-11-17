@@ -81,7 +81,7 @@ class RoomRequest3Controller extends Controller
 		$organisation['all']='- All -';
 		$organisations = yii\helpers\ArrayHelper::map(Organisation::find()
 			->where([
-				'KD_UNIT_ES2'=>'13',
+				'KD_UNIT_ES2'=>'02',
 				'KD_ESELON'=>[2,4],
 			])
 			->asArray()
