@@ -31,7 +31,7 @@ class Module extends \yii\base\Module
 			];
 		};
 		
-		$menus_0=[];
+		//$menus_0=[];
 		$menus_1=[];
 		$menus_2=[];
 		$menus_3=[];
@@ -51,9 +51,9 @@ class Module extends \yii\base\Module
 		}*/
 		
 		if($this->checkAccess([
-			'pusdiklat2-test'
+			'pusdiklat2-test-planning'
 		])){
-			$menus_1 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,71,$callback,true);
+			$menus_1 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,137,$callback,true);
 			if(empty($menus_1)){
 				$menus_1 = [
 					['icon'=>'fa fa-fw fa-suitcase', 'label' => 'Meeting Activity', 'url' => ['meeting-activity/index'],'path'=>[
@@ -61,12 +61,42 @@ class Module extends \yii\base\Module
 					]],
 				];
 			}
-			$menus_1 = ['icon'=>'fa fa-user-md fa-fw','label' => 'Test', 'url' => ['#'], 'items' => $menus_1 ];
+			$menus_1 = ['icon'=>'fa fa-user-md fa-fw','label' => 'Perencanaan Test', 'url' => ['#'], 'items' => $menus_1 ];
+		}
+		
+		if($this->checkAccess([
+			'pusdiklat2-test-execution'
+		])){
+			$menus_2 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,138,$callback,true);
+			if(empty($menus_2)){
+				$menus_2 = [
+					['icon'=>'fa fa-fw fa-suitcase', 'label' => 'Meeting Activity', 'url' => ['meeting-activity2/index'],'path'=>[
+						'/meeting-activity2/',
+					]],
+				];
+			}
+			$menus_2 = ['icon'=>'fa fa-user-md fa-fw','label' => 'Penyelenggaraan Test', 'url' => ['#'], 'items' => $menus_2 ];
+		}
+		
+		if($this->checkAccess([
+			'pusdiklat2-test-evaluation'
+		])){
+			$menus_3 = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,139,$callback,true);
+			if(empty($menus_3)){
+				$menus_3 = [
+					['icon'=>'fa fa-fw fa-suitcase', 'label' => 'Meeting Activity', 'url' => ['meeting-activity3/index'],'path'=>[
+						'/meeting-activity3/',
+					]],
+				];
+			}
+			$menus_3 = ['icon'=>'fa fa-user-md fa-fw','label' => 'Evaluasi Test', 'url' => ['#'], 'items' => $menus_3 ];
 		}
 		
 		$menus[] = ['icon'=>'fa fa-fw fa-dashboard','label' => 'Dashboard', 'url' => ['/'.$this->uniqueId.'/default']];
 		//if(!empty($menus_0)) $menus[] = $menus_0;	
 		if(!empty($menus_1)) $menus[] = $menus_1;	
+		if(!empty($menus_2)) $menus[] = $menus_2;	
+		if(!empty($menus_3)) $menus[] = $menus_3;	
 		return $menus;
 	}
 }

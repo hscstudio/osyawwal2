@@ -95,9 +95,9 @@ AppAsset::register($this);
 					
 					if(checkAccess([
 						'pusdiklat2-general-1','pusdiklat2-general-2','pusdiklat2-general-3',
-						'pusdiklat2-competency-planning-1','pusdiklat2-competency-planning-2','pusdiklat2-competency-planning-3',			'pusdiklat2-competency-execution-1','pusdiklat2-competency-execution-2','pusdiklat2-competency-evaluation-1','pusdiklat2-competency-evaluation-2','pusdiklat2-competency-evaluation-3',
-						'pusdiklat2-test',
-						'pusdiklat2-scholarship',
+						'pusdiklat2-competency-planning-1','pusdiklat2-competency-planning-2','pusdiklat2-competency-planning-3','pusdiklat2-competency-execution-1','pusdiklat2-competency-execution-2','pusdiklat2-competency-evaluation-1','pusdiklat2-competency-evaluation-2','pusdiklat2-competency-evaluation-3',
+						'pusdiklat2-test-planning','pusdiklat2-test-execution','pusdiklat2-test-evaluation',
+						'pusdiklat2-scholarship-planning','pusdiklat2-scholarship-selection','pusdiklat2-scholarship-evacuation',
 						
 					])){
 						$menus_pusdiklat2 = \mdm\admin\components\MenuHelper::getAssignedMenu(Yii::$app->user->id,59,$callback,true);

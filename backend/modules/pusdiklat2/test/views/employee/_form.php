@@ -64,7 +64,7 @@ use kartik\widgets\SwitchInput;
 			<?php
 			$data = ArrayHelper::map(Organisation::find()
 					->select(['ID', 'NM_UNIT_ORG'])
-					->where(['JNS_KANTOR'=>13])
+					->where(['JNS_KANTOR'=>3])
 					->asArray()
 					->all()
 					, 'ID', 'NM_UNIT_ORG');

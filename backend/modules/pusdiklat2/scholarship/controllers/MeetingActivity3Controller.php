@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\pusdiklat2\test\controllers;
+namespace backend\modules\pusdiklat2\scholarship\controllers;
 
 use Yii;
 use backend\models\Activity;
@@ -10,8 +10,8 @@ use backend\models\Room;
 use backend\models\Meeting;
 use backend\models\Reference;
 use backend\models\ObjectPerson;
-use backend\modules\pusdiklat2\test\models\MeetingActivitySearch;
-use backend\modules\pusdiklat2\test\models\RoomSearch;
+use backend\modules\pusdiklat2\scholarship\models\MeetingActivitySearch;
+use backend\modules\pusdiklat2\scholarship\models\RoomSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -22,7 +22,7 @@ use yii\data\ActiveDataProvider;
 /**
  * ActivityController implements the CRUD actions for Activity model.
  */
-class MeetingActivityController extends Controller
+class MeetingActivity3Controller extends Controller
 {
     public $layout = '@hscstudio/heart/views/layouts/column2';
     public function behaviors()
@@ -46,7 +46,7 @@ class MeetingActivityController extends Controller
 		if(empty($year)) $year=date('Y');
 		$searchModel = new MeetingActivitySearch();
 		$queryParams = Yii::$app->request->getQueryParams();
-		$organisation_id = 71;
+		$organisation_id = 82;
 		if($status=='all'){
 			if($year=='all'){
 				$queryParams['MeetingActivitySearch']=[
@@ -135,7 +135,7 @@ class MeetingActivityController extends Controller
     {
         $model = new Activity();		
 		$meeting = new Meeting([
-			'organisation_id'=>71
+			'organisation_id'=>82
 		]);
 		$renders=[];
 		$renders['model'] = $model;
@@ -152,7 +152,7 @@ class MeetingActivityController extends Controller
 						Yii::$app->getSession()->setFlash('success', 'Activity data have saved.');
 						if($meeting->load(Yii::$app->request->post())){							
 							$meeting->activity_id= $model->id;	
-							$meeting->organisation_id = 71;							
+							$meeting->organisation_id = 82;							
 							if($meeting->save()){								 
 								Yii::$app->getSession()->setFlash('success', 'Meeting & activity data have saved.');
 								$transaction->commit();
@@ -186,7 +186,7 @@ class MeetingActivityController extends Controller
 		$model->end = date('Y-m-d',strtotime($model->end));
 		$meeting = Meeting::findOne([
 			'activity_id'=>$model->id,
-			'organisation_id'=>71
+			'organisation_id'=>82
 		]);
 		$renders=[];
 		$renders['model'] = $model;
@@ -304,8 +304,8 @@ class MeetingActivityController extends Controller
 		$renders = [];
 		$renders['model'] = $model;
 		$object_people_array = [
-			// CEK ID 1213010100 IN TABLE ORGANISATION
-			'organisation_1202030100'=>'PIC Meeting'
+			// CEK ID 1213010300 IN TABLE ORGANISATION
+			'organisation_1202040300'=>'PIC Meeting'
 		];
 		$renders['object_people_array'] = $object_people_array;
 		foreach($object_people_array as $object_person=>$label){
@@ -413,7 +413,7 @@ class MeetingActivityController extends Controller
 		if(empty($year)) $year=date('Y');
 		$searchModel = new MeetingActivitySearch();
 		$queryParams = Yii::$app->request->getQueryParams();
-		$organisation_id = 71;
+		$organisation_id = 82;
 		if($status=='all'){
 			if($year=='all'){
 				$queryParams['MeetingActivitySearch']=[
@@ -492,6 +492,4 @@ class MeetingActivityController extends Controller
 		exit;
 		/* return $this->redirect(['student', 'id' => $id, 'status'=>$status]);	 */
     }
-	
-	
 }

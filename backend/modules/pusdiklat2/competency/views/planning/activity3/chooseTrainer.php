@@ -157,7 +157,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	</p>
 	<p class="lead" style="text-align:center">
 	<?php
-	echo Html::a('<i class="fa fa-fw fa-plus"></i> Tambah Data Pengajar Baru ', ['trainer3/create-person'], [
+	echo Html::a('<i class="fa fa-fw fa-plus"></i> Tambah Data Pengajar Baru ', ['planning/trainer3/create-person'], [
 		'class' => 'btn btn-success',
 		'data-confirm' => 'Apakah Anda yakin akan menambah data pengajar baru! pastikan tidak terjadi duplikasi data!',
 	]);
