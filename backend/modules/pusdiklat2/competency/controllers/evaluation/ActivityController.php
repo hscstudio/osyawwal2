@@ -2797,7 +2797,9 @@ class ActivityController extends Controller
     }
 
 
-
-
-
+	public function actionGenerateDokumen($id=NULL) {
+		return $this->render('generateDokumen', [
+            'model' => $this->findModel($id),
+        ]);	
+	}
 }

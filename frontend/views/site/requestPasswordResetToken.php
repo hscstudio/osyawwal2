@@ -13,7 +13,7 @@ $this->title = 'Request password reset';
     <div class="panel  panel-default">
 		<div class="panel-heading"><h1 class="panel-title"><?= Html::encode($this->title) ?></h1></div>
 		<div class="panel-body">			
-			<p>Please fill out your email. A link to reset password will be sent there.</p>
+			<p>Please fill out your email kemenkeu.go.id. A link to reset password will be sent there.</p>
 
 			<div class="row">
 				<div class="col-lg-12">

@@ -4,15 +4,18 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\Inflector;
 use hscstudio\heart\widgets\Box;
+
 /* @var $this yii\web\View */
-/* @var $model backend\models\Activity */
+/* @var $searchModel backend\modules\pusdiklat\execution\models\TrainingClassSubjectSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 
-$this->title = 'Dashboard #'. Inflector::camel2words($model->name);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Activities'), 'url' => ['index']];
+$this->title = 'Generate Dokumen Umum #';
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => '', 'url' => ['class','id'=>1]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="activity-view  panel panel-default">
@@ -38,56 +41,12 @@ $this->params['breadcrumbs'][] = $this->title;
 				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
 			]);
 			?>
-			<h3>Property</h3>
-			<p>Property of Training</p>
+			<h3>Surat Tugas</h3>
+			<p>Surat Tugas Terkait Diklat</p>
 			<?php
 			Box::end();
 			?>
 			</div>
-			
-			<!--
-			<div class="col-md-3">
-			<?php
-			Box::begin([
-				'type'=>'small', // ,small, solid, tiles
-				'bgColor'=>'aqua', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
-				'bodyOptions' => [],
-				'icon' => 'fa fa-fw fa-home',
-				'link' => ['room','id'=>$model->id],
-				'footerOptions' => [
-					'class' => 'dashboard-hide',
-				],
-				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
-			]);
-			?>
-			<h3>Room</h3>
-			<p>Room of Training</p>
-			<?php
-			Box::end();
-			?>
-			</div>
-			
-			<div class="col-md-3">
-			<?php
-			Box::begin([
-				'type'=>'small', // ,small, solid, tiles
-				'bgColor'=>'green', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
-				'bodyOptions' => [],
-				'icon' => 'fa fa-fw fa-user-md',
-				'link' => ['student','id'=>$model->id],
-				'footerOptions' => [
-					'class' => 'dashboard-hide',
-				],
-				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
-			]);
-			?>
-			<h3>Student</h3>
-			<p>Student of Training</p>
-			<?php
-			Box::end();
-			?>
-			</div>
-			--> 
 			
 			<div class="col-md-3">
 			<?php
@@ -103,8 +62,8 @@ $this->params['breadcrumbs'][] = $this->title;
 				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
 			]);
 			?>
-			<h3>Class</h3>
-			<p>Class of Training</p>
+			<h3>Form Penilaian</h3>
+			<p>Form Penilaian Peserta</p>
 			<?php
 			Box::end();
 			?>
@@ -124,8 +83,8 @@ $this->params['breadcrumbs'][] = $this->title;
 				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
 			]);
 			?>
-			<h3>Execution</h3>
-			<p>Evaluation Execution of Training</p>
+			<h3>Daftar Pengajar</h3>
+			<p>Daftar Pengajar</p>
 			<?php
 			Box::end();
 			?>
@@ -145,8 +104,8 @@ $this->params['breadcrumbs'][] = $this->title;
 				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
 			]);
 			?>
-			<h3>Trainer</h3>
-			<p>Evaluation Trainer of Training</p>
+			<h3>Dok.Evaluasi TM</h3>
+			<p>Cetak Dokumen Evaluasi Tatap MuKa</p>
 			<?php
 			Box::end();
 			?>
@@ -165,8 +124,50 @@ $this->params['breadcrumbs'][] = $this->title;
 				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
 			]);
 			?>
-			<h3>Generate Doc</h3>
-			<p>Generate Dokumen Umum</p>
+			<h3>Honor Transport</h3>
+			<p>Cetak Honor Transportasi</p>
+			<?php
+			Box::end();
+			?>
+			</div>
+            
+            <div class="col-md-3">
+			<?php
+			Box::begin([
+				'type'=>'small', // ,small, solid, tiles
+				'bgColor'=>'aqua', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+				'bodyOptions' => [],
+				'icon' => 'fa fa-fw fa-book',
+				'link' => ['generate-dokumen','id'=>$model->id],
+				'footerOptions' => [
+					'class' => 'dashboard-hide',
+				],
+				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+			]);
+			?>
+			<h3>Rekap Monitoring</h3>
+			<p>Rekap Monitoring Diklat Harian</p>
+			<?php
+			Box::end();
+			?>
+			</div>
+            
+            <div class="col-md-3">
+			<?php
+			Box::begin([
+				'type'=>'small', // ,small, solid, tiles
+				'bgColor'=>'green', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+				'bodyOptions' => [],
+				'icon' => 'fa fa-fw fa-book',
+				'link' => ['generate-dokumen','id'=>$model->id],
+				'footerOptions' => [
+					'class' => 'dashboard-hide',
+				],
+				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+			]);
+			?>
+			<h3>Amplop</h3>
+			<p>Amplop Evaluasi Pengajar</p>
 			<?php
 			Box::end();
 			?>

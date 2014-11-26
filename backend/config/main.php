@@ -123,6 +123,10 @@ return [
 		'pusdiklat2-scholarship' => [
             'class' => 'backend\modules\pusdiklat2\scholarship\Module',
         ],
+		
+		'diklat' => [
+            'class' => 'frontend\views\site\diklat\module',
+        ],
 		/* FINISH PSDM */
 		/* START BDK */
 		'bdk-general' => [
