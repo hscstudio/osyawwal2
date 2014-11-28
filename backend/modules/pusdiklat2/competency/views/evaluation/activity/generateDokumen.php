@@ -14,8 +14,8 @@ $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 
 $this->title = 'Generate Dokumen Umum #';
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => '', 'url' => ['class','id'=>1]];
+$this->params['breadcrumbs'][] = ['label' => 'Training Activity', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Dashboard'), 'url' => ['dashboard','id'=>14]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="activity-view  panel panel-default">
@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'bgColor'=>'red', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
 				'bodyOptions' => [],
 				'icon' => 'glyphicon glyphicon-eye-open',
-				'link' => ['property','id'=>$model->id],
+				'link' => ['./evaluation/activity-generate/letter-assignment','id'=>$model->id],
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'bgColor'=>'yellow', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
 				'bodyOptions' => [],
 				'icon' => 'glyphicon glyphicon-home',
-				'link' => ['class','id'=>$model->id],
+				'link' => ['./evaluation/activity-generate/appraisal-form','id'=>$model->id],
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
@@ -76,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'bgColor'=>'navy', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
 				'bodyOptions' => [],
 				'icon' => 'fa fa-fw fa-building-o',
-				'link' => ['execution-evaluation','id'=>$model->id],
+				'link' => ['./evaluation/activity-generate/letter-assignment','id'=>$model->id],
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
@@ -97,7 +97,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'bgColor'=>'maroon', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
 				'bodyOptions' => [],
 				'icon' => 'fa fa-fw fa-graduation-cap',
-				'link' => ['trainer-training-evaluation','id'=>$model->id],
+				'link' => ['./evaluation/activity-generate/evaluation-document','id'=>$model->id],
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
@@ -117,7 +117,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'bgColor'=>'blue', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
 				'bodyOptions' => [],
 				'icon' => 'fa fa-fw fa-book',
-				'link' => ['generate-dokumen','id'=>$model->id],
+				'link' => ['./evaluation/activity-generate/honor-transport','id'=>$model->id],
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
@@ -138,7 +138,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'bgColor'=>'aqua', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
 				'bodyOptions' => [],
 				'icon' => 'fa fa-fw fa-book',
-				'link' => ['generate-dokumen','id'=>$model->id],
+				'link' => ['./evaluation/activity-generate/letter-assignment','id'=>$model->id],
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
@@ -159,7 +159,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'bgColor'=>'green', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
 				'bodyOptions' => [],
 				'icon' => 'fa fa-fw fa-book',
-				'link' => ['generate-dokumen','id'=>$model->id],
+				'link' => ['./evaluation/activity-generate/letter-assignment','id'=>$model->id],
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
