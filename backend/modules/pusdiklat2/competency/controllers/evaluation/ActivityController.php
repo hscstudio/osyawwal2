@@ -2472,10 +2472,6 @@ class ActivityController extends Controller
 
 		}
 	}
-		
-
-
-
 
 	public function actionNilaiAktivitas($training_id, $training_class_id) {
     	// Bikin data provider student dari class schedule
@@ -2544,14 +2540,9 @@ class ActivityController extends Controller
 		else {
 			
 			echo Json::encode(['activity' => 'Peserta diklat tidak ada!'.Yii::$app->request->post('training_class_student_id'), 'error' => 'error']);
-
 		}
 
 	}
-
-
-
-
 
 	public function actionNilaiKehadiran($training_id, $training_class_id) {
     	// Bikin data provider student dari class schedule
@@ -2797,7 +2788,9 @@ class ActivityController extends Controller
     }
 
 
-
-
-
+	public function actionGenerateDokumen($id=NULL) {
+		return $this->render('generateDokumen', [
+            'model' => $this->findModel($id),
+        ]);	
+	}
 }

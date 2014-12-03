@@ -4,6 +4,8 @@ use yii\web\JsExpression;
 use yii\helpers\Url;
 
 use backend\models\Person;
+use backend\models\Employee;
+use backend\models\User;
 use backend\models\ObjectFile;
 use backend\models\Meeting;
 use backend\models\Training;
@@ -267,46 +269,60 @@ else
                                         echo        '</div>';
                                         echo    '</div>';
                                         
-                                        switch ($jenisAktivitas) {
+                                        switch ($jenisAktivitas) {											
                                             case 'bikin_baru':
-                                                echo    '<div class="col-md-9 padding-left-medium">';
-                                                echo        '<p class="text-small open-sans"><strong>'.Person::findOne($aktivitas->created_by)->name.'</strong>';
-                                                
-                                                if (!empty($meeting = Meeting::findOne($aktivitas->id))) {
-                                                    echo            ' telah membuat rapat <span class="label label-success">baru</span>';
-                                                    echo            ' dengan nama <strong>'.$aktivitas->name.'</strong>';
-                                                }
+												$userX = User::findOne($aktivitas->created_by);
+												if(!empty($userX)){
+													$employeeX = Employee::find()->where(['user_id'=>$userX->id])->one();
+													if(!empty($employeeX)){
+														$personX = $employeeX->person;
+														echo    '<div class="col-md-9 padding-left-medium">';
+														echo        '<p class="text-small open-sans"><strong>'.$personX->name.'</strong>';
+														
+														if (!empty($meeting = Meeting::findOne($aktivitas->id))) {
+															echo            ' telah membuat rapat <span class="label label-success">baru</span>';
+															echo            ' dengan nama <strong>'.$aktivitas->name.'</strong>';
+														}
 
-                                                if (!empty($training = Training::findOne($aktivitas->id))) {
-                                                    echo            ' telah membuat diklat <span class="label label-success">baru</span>';
-                                                    echo            ' dengan nama <strong>'.$aktivitas->name.'</strong>';
-                                                }
+														if (!empty($training = Training::findOne($aktivitas->id))) {
+															echo            ' telah membuat diklat <span class="label label-success">baru</span>';
+															echo            ' dengan nama <strong>'.$aktivitas->name.'</strong>';
+														}
 
-                                                echo            '<span class="text-small open-sans block text-muted">'.date('D, d M Y', strtotime($aktivitas->created)).' jam '.date('H:i', strtotime($aktivitas->created));
-                                                echo            '</span>';
-                                                echo        '</p>';
-                                                echo    '</div>';
-                                                break;
+														echo            '<span class="text-small open-sans block text-muted">'.date('D, d M Y', strtotime($aktivitas->created)).' jam '.date('H:i', strtotime($aktivitas->created));
+														echo            '</span>';
+														echo        '</p>';
+														echo    '</div>';
+													}
+                                                }
+												break;
 
                                             case 'perbarui':
-                                                echo    '<div class="col-md-9 padding-left-medium">';
-                                                echo        '<p class="text-small open-sans"><strong>'.Person::findOne($aktivitas->created_by)->name.'</strong>';
-                                                
-                                                if (!empty($meeting = Meeting::findOne($aktivitas->id))) {
-                                                    echo            ' telah melakukan <span class="label label-warning">perubahan</span> pada rapat <strong>'.$aktivitas->name.'</strong>';
-                                                }
+												$userX = User::findOne($aktivitas->modified_by);
+												if(!empty($userX)){
+													$employeeX = Employee::find()->where(['user_id'=>$userX->id])->one();
+													if(!empty($employeeX)){
+														$personX = $employeeX->person;
+														echo    '<div class="col-md-9 padding-left-medium">';
+														echo        '<p class="text-small open-sans"><strong>'.$personX->name.'</strong>';
+														
+														if (!empty($meeting = Meeting::findOne($aktivitas->id))) {
+															echo            ' telah melakukan <span class="label label-warning">perubahan</span> pada rapat <strong>'.$aktivitas->name.'</strong>';
+														}
 
-                                                if (!empty($training = Training::findOne($aktivitas->id))) {
-                                                    echo            ' telah melakukan <span class="label label-warning">perubahan</span> diklat <strong>'.$aktivitas->name.'</strong>';
-                                                }
+														if (!empty($training = Training::findOne($aktivitas->id))) {
+															echo            ' telah melakukan <span class="label label-warning">perubahan</span> diklat <strong>'.$aktivitas->name.'</strong>';
+														}
 
-                                                echo            '<span class="text-small open-sans block text-muted">'.date('D, d M Y', strtotime($aktivitas->modified)).' jam '.date('H:i', strtotime($aktivitas->modified));
-                                                echo            '</span>';
-                                                echo        '</p>';
-                                                echo    '</div>';
+														echo            '<span class="text-small open-sans block text-muted">'.date('D, d M Y', strtotime($aktivitas->modified)).' jam '.date('H:i', strtotime($aktivitas->modified));
+														echo            '</span>';
+														echo        '</p>';
+														echo    '</div>';
+													}
+												}
                                                 break;
                                             default:
-                                                echo 'dobol';
+                                                echo '-';
                                         }
                                         
                                         echo '</div>';
