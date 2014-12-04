@@ -1119,7 +1119,10 @@ class Activity2Controller extends Controller
 		 
 		// fetch orders that are placed by customers who are older than 30  
 		$trainingStudentCount = TrainingStudent::find()
-			->where(['status'=>'1'])
+			->where([
+				'status'=>1,
+				'training_id' => $id
+			])
 			->andWhere([
 				'not in', 'id', $subquery
 			])
@@ -1142,7 +1145,10 @@ class Activity2Controller extends Controller
 					->joinWith('student')
 					->joinWith('student.person')
 					->joinWith('student.person.unit')
-					->where(['training_student.status'=>'1'])
+					->where([
+						'training_student.status'=>'1',
+						'training_id' => $id
+					])
 					->andWhere([
 						'not in', 'training_student.id', $subquery
 					])
@@ -1168,7 +1174,10 @@ class Activity2Controller extends Controller
 				 
 				// fetch orders that are placed by customers who are older than 30  
 				$trainingStudentCount = TrainingStudent::find()
-					->where(['status'=>'1'])
+					->where([
+						'status'=>1,
+						'training_id' => $id
+					])
 					->andWhere([
 						'not in', 'id', $subquery
 					])
