@@ -436,10 +436,11 @@ class ActivityController extends Controller
 		$searchModel = new TrainingClassSearch([
 			'training_id' => $id,
 		]);
+		
+		$queryParams = [];
 		/* $queryParams['TrainingClassSearch']=[
 			'training_id' => $id,
 		]; */
-		$queryParams = [];
 		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
         $dataProvider = $searchModel->search($queryParams);
 		
@@ -449,11 +450,14 @@ class ActivityController extends Controller
 		 
 		// fetch orders that are placed by customers who are older than 30  
 		$trainingStudentCount = TrainingStudent::find()
-			->where(['status'=>'1'])
-			->andWhere([
-				'not in', 'id', $subquery
-			])
-			->count();
+					->where([
+						//'status'=>'1',
+						'training_id' => $id
+					])
+					->andWhere([
+						'not in', 'id', $subquery
+					])
+					->count();
 		
 		if (Yii::$app->request->post()){ 
 			$student = Yii::$app->request->post()['student'];
@@ -520,7 +524,10 @@ class ActivityController extends Controller
 				 
 				// fetch orders that are placed by customers who are older than 30  
 				$trainingStudentCount = TrainingStudent::find()
-					->where(['status'=>'1'])
+					->where([
+						'status'=>'1',
+						'training_id' => $id
+					])
 					->andWhere([
 						'not in', 'id', $subquery
 					])

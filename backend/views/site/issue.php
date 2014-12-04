@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						else{
 							$labelt = '';//<span class="label label-default">-</span>';
 						}
-						return $content.$labelt;
+						return "<a href='".Url::to(['view-issue','id'=>$data->id])."'>".$content.$labelt."</a>";
 					}
                 ],
 				
@@ -79,9 +79,9 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'modified',
             // 'modified_by',
 
-            [
+            /* [
 				'class' => 'kartik\grid\ActionColumn',
-				'template' => '{view} {update}',
+				'template' => '{update}',
 				'buttons'=> [
 					'view' => function ($url, $data){
 						$icon = "<i class='fa fa-fw fa-eye'></i>";
@@ -94,7 +94,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						}
 					}
 				],
-			],
+			], */
         ],
         'panel' => [
             'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',

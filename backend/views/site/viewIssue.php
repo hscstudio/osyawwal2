@@ -74,14 +74,19 @@ $this->params['breadcrumbs'][] = $this->title;
 		?>
     </div>
     <div class="panel-body">	
-		<blockquote style="font-size:17px;">
-			<?php 
+		<blockquote style="font-size:17px;"><?php 
 			echo trim($model->content);
 			if(!empty($model->attachment) and strlen(($model->attachment))>3){
 				echo '<br>';
 				echo Html::a('<i class="fa fa-fw fa-download"></i>  download attachment',Url::to(['/file/download','file'=>'issue/'.$model->id.'/'.$model->attachment]),['class'=>'btn-xs']);
 			}
-			?>
+			
+			if(\Yii::$app->user->can('BPPK') or \Yii::$app->user->id==$model->created_by){
+				echo "<hr>";
+				$icon = "<i class='fa fa-fw fa-pencil'></i>";
+				echo Html::a($icon,['update-issue','id'=>$model->id,'lastId'=>$model->id],['class'=>'btn btn-xs btn-default']);
+			}
+			?>			
 		</blockquote>
 		<?php
 		foreach($modelChildrens as $modelChildren){
@@ -153,10 +158,15 @@ $this->params['breadcrumbs'][] = $this->title;
 					<div class="panel-body">
 						<?php
 						echo '<blockquote style="font-size:15px;margin-bottom:0;">';	
-						echo $modelChildren->content;
+						echo trim($modelChildren->content);
 						echo '<br>';
 						if(!empty($modelChildren->attachment) and strlen(($modelChildren->attachment))>3){
 							echo Html::a('<i class="fa fa-fw fa-download"></i> download attachment',Url::to(['/file/download','file'=>'issue/'.$modelChildren->id.'/'.$modelChildren->attachment]),['class'=>'btn-xs']);
+						}
+						if(\Yii::$app->user->can('BPPK') or \Yii::$app->user->id==$modelChildren->created_by){
+							echo "<hr>";
+							$icon = "<i class='fa fa-fw fa-pencil'></i>";
+							echo Html::a($icon,['update-issue','id'=>$modelChildren->id,'lastId'=>$model->id],['class'=>'btn btn-xs btn-default']);
 						}
 						echo '</blockquote>';
 						?>

@@ -5,13 +5,13 @@ PUSDIKLAT -- GENERAL -- PEGAWAI TU HUMAS
 # Manage Person #
 Merupakan menu yang disediakan untuk mengelola data Pegawai dan data pengelola Aplikasi SIM BPPK (PIC dan Administrator)
 
-![GitHub Logo](images/1.jpg)
+![GitHub Logo](/images/1.jpg)
 
  
 - **Create -- Personal**
 
 Create digunakan untuk membuat akun baru dengan halaman muka di **tab personal** yang berisikan nama, jenis kelamin, tanggal lahir, NPWP, dll.
-![GitHub Logo](images/2.jpg)
+![GitHub Logo](/images/2.jpg)
 
 - **Create -- Contact**
 

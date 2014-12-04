@@ -2345,6 +2345,7 @@ class ActivityController extends Controller
 
 							$training->activity_id= $model->id;
 							$training->program_revision = (int)\backend\models\ProgramHistory::getRevision($training->program_id);
+							$training->approved_status = 1; // PR karena pusdiklat ga ada mekanisme approval status, hihih..tak buatin workaroundnya dulu. hihih
 
 							// GENERATE TRAINING NUMBER
 							$year = date('Y',strtotime($model->start));

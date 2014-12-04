@@ -313,13 +313,9 @@ class SiteController extends Controller
 		$searchModel = new IssueSearch();
 		$queryParams = Yii::$app->request->getQueryParams();
 		if($status=='all'){
-			$queryParams['IssueSearch']=[
-				'parent_id' => NULL,
-			];
 		}
 		else{
 			$queryParams['IssueSearch']=[
-				'parent_id' => NULL,
 				'status' => $status,
 			];			
 		}
@@ -431,7 +427,7 @@ class SiteController extends Controller
 			$model->label = NULL;
 			$model->status = 1;
 			$model->subject=strip_tags($model->subject);
-			$model->content=strip_tags($model->content);
+			$model->content=nl2br(strip_tags($model->content));
 			if($model->validate() and  $model->save()) {
 				Yii::$app->getSession()->setFlash('success', 'New data have saved.');
 				if(!empty($attachment[0])){
@@ -468,24 +464,34 @@ class SiteController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdateIssue($id)
+    public function actionUpdateIssue($id,$lastId=0)
     {
         $model = $this->findModelIssue($id);
 	
         if ($model->load(Yii::$app->request->post())) {
 			$model->subject=strip_tags($model->subject);
-			$model->content=strip_tags($model->content);
+			$model->content=nl2br(strip_tags($model->content));
             if($model->validate() and  $model->save()) {
                 Yii::$app->getSession()->setFlash('success', 'Data have updated.');
             }
             else{
                 Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
             }
-            return $this->redirect(['issue']);
-        } else {
-            return $this->render('updateIssue', [
-                'model' => $model,
-            ]);
+			
+			if($lastId==0){
+				return $this->redirect(['issue']);
+			}
+			else{
+				return $this->redirect([
+					'view-issue',
+					'id' => $lastId,
+				]);
+			}	
+        } else {			
+			return $this->render('updateIssue', [
+				'model' => $model,
+			]);
+			
         }
     }
 
