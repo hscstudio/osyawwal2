@@ -495,7 +495,10 @@ class ActivityController extends Controller
 						->joinWith('student')
 						->joinWith('student.person')
 						->joinWith('student.person.unit')
-						->where(['training_student.status'=>'1'])
+						->where([
+							'training_student.status'=>'1',
+							'training_id' => $id,							
+						])
 						->andWhere([
 							'not in', 'training_student.id', $subquery
 						])
