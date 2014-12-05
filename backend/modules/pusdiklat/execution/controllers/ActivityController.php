@@ -2294,5 +2294,410 @@ class ActivityController extends Controller
 		exit;
 		/* return $this->redirect(['student', 'id' => $id, 'status'=>$status]);	 */
     }
+	
+	public function actionSptjm($id, $class_id, $filetype='docx')
+    {
+		$activity = $this->findModel($id); // Activity
+		$class = $this->findModelClass($class_id); // Class	
+		
+		$model = new \yii\base\DynamicModel([
+			'trainer_id', 'tarif', 'jamlat', 'employee_id',
+		]);
+		$model->addRule(['trainer_id', 'tarif', 'jamlat', 'employee_id'], 'required');
+		$model->addRule(['trainer_id', 'tarif', 'jamlat', 'employee_id'], 'integer');
+	 
+		if ($model->load(Yii::$app->request->post())) {
+			if(!$model->validate()){
+				return false;
+			}
+			/* == */
+			try {
+				$OpenTBS = new \hscstudio\heart\extensions\OpenTBS; // new instance of TBS
+				$path = '';
+				if(isset(Yii::$app->params['uploadPath'])){
+					$path = Yii::$app->params['uploadPath'].DIRECTORY_SEPARATOR;
+				}
+				else{
+					$path = Yii::getAlias('@file').DIRECTORY_SEPARATOR;
+				}
+				$template_path = $path . 'template'.DIRECTORY_SEPARATOR.'pusdiklat'.DIRECTORY_SEPARATOR.'execution'.DIRECTORY_SEPARATOR;
+				$template = $template_path . 'sptjm.'.$filetype;
+				$OpenTBS->LoadTemplate($template); 
+
+				$data = [];
+				/* $idx = 0;
+				$number="";
+				$trainingClassStudentCertificates = TrainingClassStudentCertificate::find()
+					->where([
+						'training_class_student_id' => TrainingClassStudent::find()
+							->where([
+								'training_id'=>$id,
+								'training_class_id'=>$class_id,
+								'status'=>1,
+							])
+							->column(),
+						'status'=>1,
+					])
+					->all();
+
+				$name_signer = '';
+				$nip_signer = '';
+				$position_signer = 'Kepala Pusat Pendidikan dan Pelatihan ';
+				$city_signer = '';
+
+				foreach($trainingClassStudentCertificates as $trainingClassStudentCertificate){
+					if($idx==0){
+						$numbers = explode('-',$trainingClassStudentCertificate->trainingClassStudent->training->number);
+						// 2014-03-00-2.2.1.0.2 to /2.3.1.2.138/07/00/2014
+						$number = '';
+						$seri = '';
+						if(isset($numbers[3]) and strlen($numbers[3])>3){
+							$number .= '/'.$numbers[3];
+							$seri = '/'.$numbers[3];
+						}
+						if(isset($numbers[1]) and strlen($numbers[1])==2){
+							$number .= '/'.$numbers[1];
+						}
+						if(isset($numbers[2]) and strlen($numbers[2])==2){
+							$number .= '/'.$numbers[2];
+						}
+						if(isset($numbers[0]) and strlen($numbers[0])==4){
+							$number .= '/'.$numbers[0];
+						}
+
+						$program = \backend\models\ProgramHistory::find()
+							->where([
+								'id'=>$trainingClassStudentCertificate->trainingClassStudent->training->program_id,
+								'revision'=>$trainingClassStudentCertificate->trainingClassStudent->training->program_revision,
+							])
+							->one();
+
+						$type_graduate = "TELAH MENGIKUTI";
+						if($program->test==1){
+							$type_graduate = "L U L U S";
+						}
+
+						if($program->hours==(int)$program->hours){
+							$hours_program = (int)$program->hours;
+						}
+						else{
+							$hours_program = str_replace('.',',',$program->hours);
+						}
+
+						$name_executor = $trainingClassStudentCertificate->trainingClassStudent->training->activity->satker->name;
+						$name_training = Yii::$app->request->post('name_training');
+						$location_training = Yii::$app->request->post('location_training');
+
+						$signer = (int)Yii::$app->request->post('signer');
+						$city_signer = Yii::$app->request->post('city_signer');
+						$employee = \backend\models\Employee::findOne($signer);
+						if(!empty($employee)){
+							$name_signer = $employee->person->name;
+							$nip_signer = $employee->person->nip;
+							$position_signer = $employee->person->position_desc;                        
+						}
+						$idx++;
+					}
+					
+					$trainingClassStudent = $trainingClassStudentCertificate->trainingClassStudent;
+					$student = $trainingClassStudent->trainingStudent->student;
+					$person = $student->person;
+					$eselon = $student->satker;
+					if(empty($eselon)) $eselon=1;
+					$satker = [
+						'1'=>$person->unit->reference->name.' ',
+						'2'=>$student->eselon2.' ',
+						'3'=>$student->eselon3.' ',
+						'4'=>$student->eselon4.' ',
+					];
+					
+					$instansi='-';
+					if (strlen($satker[$eselon])>=3){
+						$instansi = $satker[$eselon];
+					}
+					
+					$object_file = ObjectFile::find()
+						->where([
+							'object'=>'person',
+							'object_id'=>$person->id,
+							'type'=>'photo',
+						])
+						->one();
+					
+					$photo='';
+					if(!empty($object_file)){
+						$photo = $path.'person'.DIRECTORY_SEPARATOR.$person->id.DIRECTORY_SEPARATOR.$object_file->file->file_name;
+						if (!file_exists($photo) or strlen($object_file->file->file_name)<=3) $photo = '';
+					}
+					
+					$rank_class = '';
+					if(!empty($person->rankClass->reference)){
+						$rank_class = $person->rankClass->reference->name;
+					} 
+
+					$data[] = [
+						// CERTIFICATE DATA
+						'type_certificate'=>$type_certificate,
+						'type_graduate'=>$type_graduate,
+						'seri'=>$trainingClassStudentCertificate->seri.$seri,
+						'number'=>$trainingClassStudentCertificate->number.$number,
+						'year_training'=>date('Y',strtotime($activity->start)),
+						'date_training'=>\hscstudio\heart\helpers\Heart::twodate(
+							date('Y-m-d',strtotime($activity->start)),
+							date('Y-m-d',strtotime($activity->end)),
+							0, // month type
+							0, // year type
+							' ', // delimiter
+							' sampai dengan '
+						),
+						'hours_training'=>$hours_program,
+						'name_executor'=>$name_executor,
+						'name_training'=>$name_training,
+						'location_training'=>$location_training,
+						// STUDENT DATA
+						'name_student'=>$person->name,
+						'nip_student'=>$person->nip,
+						'born_student'=>$person->born,
+						'birthDay_student'=>\hscstudio\heart\helpers\Heart::twodate($person->birthday),
+						'rankClass_student'=>$rank_class,
+						'position_student'=>$person->position_desc,
+						'satker_student'=>$instansi,
+						'photo_student'=>$photo,
+						//SIGNER DATA
+						'city_signer'=>$city_signer,
+						'date_signer'=>\hscstudio\heart\helpers\Heart::twodate($trainingClassStudentCertificate->date),
+						'position_signer'=>$position_signer,
+						'name_signer'=>$name_signer,
+						'nip_signer'=>$nip_signer,
+					];
+				}
+				 */
+				$OpenTBS->MergeBlock('data', $data);
+				// Output the result as a file on the server. You can change output file
+				$OpenTBS->Show(OPENTBS_DOWNLOAD, 'sptjm_'.date('YmdHis').'.'.$filetype); // Also merges all [onshow] automatic fields.
+				exit;
+			} catch (\yii\base\ErrorException $e) {
+				Yii::$app->session->setFlash('error', 'Unable export there are some error');
+			} 
+			/* == */
+			
+			/* if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
+				Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
+			} else {
+				Yii::$app->session->setFlash('error', 'There was an error sending email.');
+			} */
+	 
+			/* return $this->refresh(); */
+		}
+		
+        return $this->renderAjax('sptjm', [
+            'model' => $model,
+            'activity' => $activity,
+            'class' => $class,
+        ]);
+    }
+	
+	public function actionSkph($id, $class_id,  $filetype='docx')
+    {
+		$activity = $this->findModel($id); // Activity
+		$class = $this->findModelClass($class_id); // Class	
+		
+		$model = new \yii\base\DynamicModel([
+			'trainer_id', 'trainer_job', 'trainer_address',
+			'employee_id', 'employee_job', 'employee_address',
+		]);
+		$model->addRule(['trainer_id', 'employee_id'], 'required');
+		$model->addRule(['trainer_id', 'employee_id'], 'integer');
+	 
+		if ($model->load(Yii::$app->request->post())) {
+			if(!$model->validate()){
+				return false;
+			}
+			/* == */
+			try {
+				$OpenTBS = new \hscstudio\heart\extensions\OpenTBS; // new instance of TBS
+				$path = '';
+				if(isset(Yii::$app->params['uploadPath'])){
+					$path = Yii::$app->params['uploadPath'].DIRECTORY_SEPARATOR;
+				}
+				else{
+					$path = Yii::getAlias('@file').DIRECTORY_SEPARATOR;
+				}
+				$template_path = $path . 'template'.DIRECTORY_SEPARATOR.'pusdiklat'.DIRECTORY_SEPARATOR.'execution'.DIRECTORY_SEPARATOR;
+				$template = $template_path . 'skph.'.$filetype;
+				$OpenTBS->LoadTemplate($template); 
+
+				$data = [];
+				/* $idx = 0;
+				$number="";
+				$trainingClassStudentCertificates = TrainingClassStudentCertificate::find()
+					->where([
+						'training_class_student_id' => TrainingClassStudent::find()
+							->where([
+								'training_id'=>$id,
+								'training_class_id'=>$class_id,
+								'status'=>1,
+							])
+							->column(),
+						'status'=>1,
+					])
+					->all();
+
+				$name_signer = '';
+				$nip_signer = '';
+				$position_signer = 'Kepala Pusat Pendidikan dan Pelatihan ';
+				$city_signer = '';
+
+				foreach($trainingClassStudentCertificates as $trainingClassStudentCertificate){
+					if($idx==0){
+						$numbers = explode('-',$trainingClassStudentCertificate->trainingClassStudent->training->number);
+						// 2014-03-00-2.2.1.0.2 to /2.3.1.2.138/07/00/2014
+						$number = '';
+						$seri = '';
+						if(isset($numbers[3]) and strlen($numbers[3])>3){
+							$number .= '/'.$numbers[3];
+							$seri = '/'.$numbers[3];
+						}
+						if(isset($numbers[1]) and strlen($numbers[1])==2){
+							$number .= '/'.$numbers[1];
+						}
+						if(isset($numbers[2]) and strlen($numbers[2])==2){
+							$number .= '/'.$numbers[2];
+						}
+						if(isset($numbers[0]) and strlen($numbers[0])==4){
+							$number .= '/'.$numbers[0];
+						}
+
+						$program = \backend\models\ProgramHistory::find()
+							->where([
+								'id'=>$trainingClassStudentCertificate->trainingClassStudent->training->program_id,
+								'revision'=>$trainingClassStudentCertificate->trainingClassStudent->training->program_revision,
+							])
+							->one();
+
+						$type_graduate = "TELAH MENGIKUTI";
+						if($program->test==1){
+							$type_graduate = "L U L U S";
+						}
+
+						if($program->hours==(int)$program->hours){
+							$hours_program = (int)$program->hours;
+						}
+						else{
+							$hours_program = str_replace('.',',',$program->hours);
+						}
+
+						$name_executor = $trainingClassStudentCertificate->trainingClassStudent->training->activity->satker->name;
+						$name_training = Yii::$app->request->post('name_training');
+						$location_training = Yii::$app->request->post('location_training');
+
+						$signer = (int)Yii::$app->request->post('signer');
+						$city_signer = Yii::$app->request->post('city_signer');
+						$employee = \backend\models\Employee::findOne($signer);
+						if(!empty($employee)){
+							$name_signer = $employee->person->name;
+							$nip_signer = $employee->person->nip;
+							$position_signer = $employee->person->position_desc;                        
+						}
+						$idx++;
+					}
+					
+					$trainingClassStudent = $trainingClassStudentCertificate->trainingClassStudent;
+					$student = $trainingClassStudent->trainingStudent->student;
+					$person = $student->person;
+					$eselon = $student->satker;
+					if(empty($eselon)) $eselon=1;
+					$satker = [
+						'1'=>$person->unit->reference->name.' ',
+						'2'=>$student->eselon2.' ',
+						'3'=>$student->eselon3.' ',
+						'4'=>$student->eselon4.' ',
+					];
+					
+					$instansi='-';
+					if (strlen($satker[$eselon])>=3){
+						$instansi = $satker[$eselon];
+					}
+					
+					$object_file = ObjectFile::find()
+						->where([
+							'object'=>'person',
+							'object_id'=>$person->id,
+							'type'=>'photo',
+						])
+						->one();
+					
+					$photo='';
+					if(!empty($object_file)){
+						$photo = $path.'person'.DIRECTORY_SEPARATOR.$person->id.DIRECTORY_SEPARATOR.$object_file->file->file_name;
+						if (!file_exists($photo) or strlen($object_file->file->file_name)<=3) $photo = '';
+					}
+					
+					$rank_class = '';
+					if(!empty($person->rankClass->reference)){
+						$rank_class = $person->rankClass->reference->name;
+					} 
+
+					$data[] = [
+						// CERTIFICATE DATA
+						'type_certificate'=>$type_certificate,
+						'type_graduate'=>$type_graduate,
+						'seri'=>$trainingClassStudentCertificate->seri.$seri,
+						'number'=>$trainingClassStudentCertificate->number.$number,
+						'year_training'=>date('Y',strtotime($activity->start)),
+						'date_training'=>\hscstudio\heart\helpers\Heart::twodate(
+							date('Y-m-d',strtotime($activity->start)),
+							date('Y-m-d',strtotime($activity->end)),
+							0, // month type
+							0, // year type
+							' ', // delimiter
+							' sampai dengan '
+						),
+						'hours_training'=>$hours_program,
+						'name_executor'=>$name_executor,
+						'name_training'=>$name_training,
+						'location_training'=>$location_training,
+						// STUDENT DATA
+						'name_student'=>$person->name,
+						'nip_student'=>$person->nip,
+						'born_student'=>$person->born,
+						'birthDay_student'=>\hscstudio\heart\helpers\Heart::twodate($person->birthday),
+						'rankClass_student'=>$rank_class,
+						'position_student'=>$person->position_desc,
+						'satker_student'=>$instansi,
+						'photo_student'=>$photo,
+						//SIGNER DATA
+						'city_signer'=>$city_signer,
+						'date_signer'=>\hscstudio\heart\helpers\Heart::twodate($trainingClassStudentCertificate->date),
+						'position_signer'=>$position_signer,
+						'name_signer'=>$name_signer,
+						'nip_signer'=>$nip_signer,
+					];
+				}
+				 */
+				$OpenTBS->MergeBlock('data', $data);
+				// Output the result as a file on the server. You can change output file
+				$OpenTBS->Show(OPENTBS_DOWNLOAD, 'sptjm_'.date('YmdHis').'.'.$filetype); // Also merges all [onshow] automatic fields.
+				exit;
+			} catch (\yii\base\ErrorException $e) {
+				Yii::$app->session->setFlash('error', 'Unable export there are some error');
+			} 
+			/* == */
+			
+			/* if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
+				Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
+			} else {
+				Yii::$app->session->setFlash('error', 'There was an error sending email.');
+			} */
+	 
+			/* return $this->refresh(); */
+		}
+		
+        return $this->renderAjax('skph', [
+            'model' => $model,
+            'activity' => $activity,
+            'class' => $class,
+        ]);
+    }
 
 }
