@@ -72,8 +72,8 @@ use yii\helpers\ArrayHelper;
 		'allowClear' => true
 		],
 	])->label('Employee'); ?>
-	<?php echo $form->field($model, 'trainer_job')->textInput(['value'=>'-'])->label('Pekerjaan'); ?>
-	<?php echo $form->field($model, 'trainer_address')->textInput(['value'=>'-'])->label('Alamat'); ?>
+	<?php echo $form->field($model, 'employee_job')->textInput(['value'=>'-'])->label('Pekerjaan'); ?>
+	<?php echo $form->field($model, 'employee_address')->textInput(['value'=>'-'])->label('Alamat'); ?>
 	<hr>
     <?= Html::submitButton(
 		'<span class="fa fa-fw fa-print"></span> Generate', 

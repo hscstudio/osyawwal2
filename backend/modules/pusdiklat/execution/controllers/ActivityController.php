@@ -2323,155 +2323,63 @@ class ActivityController extends Controller
 				$template_path = $path . 'template'.DIRECTORY_SEPARATOR.'pusdiklat'.DIRECTORY_SEPARATOR.'execution'.DIRECTORY_SEPARATOR;
 				$template = $template_path . 'sptjm.'.$filetype;
 				$OpenTBS->LoadTemplate($template); 
-
-				$data = [];
-				/* $idx = 0;
-				$number="";
-				$trainingClassStudentCertificates = TrainingClassStudentCertificate::find()
-					->where([
-						'training_class_student_id' => TrainingClassStudent::find()
-							->where([
-								'training_id'=>$id,
-								'training_class_id'=>$class_id,
-								'status'=>1,
-							])
-							->column(),
-						'status'=>1,
-					])
-					->all();
-
-				$name_signer = '';
-				$nip_signer = '';
-				$position_signer = 'Kepala Pusat Pendidikan dan Pelatihan ';
-				$city_signer = '';
-
-				foreach($trainingClassStudentCertificates as $trainingClassStudentCertificate){
-					if($idx==0){
-						$numbers = explode('-',$trainingClassStudentCertificate->trainingClassStudent->training->number);
-						// 2014-03-00-2.2.1.0.2 to /2.3.1.2.138/07/00/2014
-						$number = '';
-						$seri = '';
-						if(isset($numbers[3]) and strlen($numbers[3])>3){
-							$number .= '/'.$numbers[3];
-							$seri = '/'.$numbers[3];
-						}
-						if(isset($numbers[1]) and strlen($numbers[1])==2){
-							$number .= '/'.$numbers[1];
-						}
-						if(isset($numbers[2]) and strlen($numbers[2])==2){
-							$number .= '/'.$numbers[2];
-						}
-						if(isset($numbers[0]) and strlen($numbers[0])==4){
-							$number .= '/'.$numbers[0];
-						}
-
-						$program = \backend\models\ProgramHistory::find()
-							->where([
-								'id'=>$trainingClassStudentCertificate->trainingClassStudent->training->program_id,
-								'revision'=>$trainingClassStudentCertificate->trainingClassStudent->training->program_revision,
-							])
-							->one();
-
-						$type_graduate = "TELAH MENGIKUTI";
-						if($program->test==1){
-							$type_graduate = "L U L U S";
-						}
-
-						if($program->hours==(int)$program->hours){
-							$hours_program = (int)$program->hours;
-						}
-						else{
-							$hours_program = str_replace('.',',',$program->hours);
-						}
-
-						$name_executor = $trainingClassStudentCertificate->trainingClassStudent->training->activity->satker->name;
-						$name_training = Yii::$app->request->post('name_training');
-						$location_training = Yii::$app->request->post('location_training');
-
-						$signer = (int)Yii::$app->request->post('signer');
-						$city_signer = Yii::$app->request->post('city_signer');
-						$employee = \backend\models\Employee::findOne($signer);
-						if(!empty($employee)){
-							$name_signer = $employee->person->name;
-							$nip_signer = $employee->person->nip;
-							$position_signer = $employee->person->position_desc;                        
-						}
-						$idx++;
-					}
-					
-					$trainingClassStudent = $trainingClassStudentCertificate->trainingClassStudent;
-					$student = $trainingClassStudent->trainingStudent->student;
-					$person = $student->person;
-					$eselon = $student->satker;
-					if(empty($eselon)) $eselon=1;
-					$satker = [
-						'1'=>$person->unit->reference->name.' ',
-						'2'=>$student->eselon2.' ',
-						'3'=>$student->eselon3.' ',
-						'4'=>$student->eselon4.' ',
-					];
-					
-					$instansi='-';
-					if (strlen($satker[$eselon])>=3){
-						$instansi = $satker[$eselon];
-					}
-					
-					$object_file = ObjectFile::find()
-						->where([
-							'object'=>'person',
-							'object_id'=>$person->id,
-							'type'=>'photo',
-						])
-						->one();
-					
-					$photo='';
-					if(!empty($object_file)){
-						$photo = $path.'person'.DIRECTORY_SEPARATOR.$person->id.DIRECTORY_SEPARATOR.$object_file->file->file_name;
-						if (!file_exists($photo) or strlen($object_file->file->file_name)<=3) $photo = '';
-					}
-					
-					$rank_class = '';
-					if(!empty($person->rankClass->reference)){
-						$rank_class = $person->rankClass->reference->name;
-					} 
-
-					$data[] = [
-						// CERTIFICATE DATA
-						'type_certificate'=>$type_certificate,
-						'type_graduate'=>$type_graduate,
-						'seri'=>$trainingClassStudentCertificate->seri.$seri,
-						'number'=>$trainingClassStudentCertificate->number.$number,
-						'year_training'=>date('Y',strtotime($activity->start)),
-						'date_training'=>\hscstudio\heart\helpers\Heart::twodate(
-							date('Y-m-d',strtotime($activity->start)),
-							date('Y-m-d',strtotime($activity->end)),
-							0, // month type
-							0, // year type
-							' ', // delimiter
-							' sampai dengan '
-						),
-						'hours_training'=>$hours_program,
-						'name_executor'=>$name_executor,
-						'name_training'=>$name_training,
-						'location_training'=>$location_training,
-						// STUDENT DATA
-						'name_student'=>$person->name,
-						'nip_student'=>$person->nip,
-						'born_student'=>$person->born,
-						'birthDay_student'=>\hscstudio\heart\helpers\Heart::twodate($person->birthday),
-						'rankClass_student'=>$rank_class,
-						'position_student'=>$person->position_desc,
-						'satker_student'=>$instansi,
-						'photo_student'=>$photo,
-						//SIGNER DATA
-						'city_signer'=>$city_signer,
-						'date_signer'=>\hscstudio\heart\helpers\Heart::twodate($trainingClassStudentCertificate->date),
-						'position_signer'=>$position_signer,
-						'name_signer'=>$name_signer,
-						'nip_signer'=>$nip_signer,
-					];
+				//Header
+				$satker_id = Yii::$app->user->identity->employee->satker_id;
+				$satker = \backend\models\Reference::findOne($satker_id);
+				$name_satker = strtoupper($satker->name);
+				$address_satker = strtoupper($satker->satker->address.' '.$satker->satker->city);
+				$phone_satker = $satker->satker->phone;
+				$fax_satker = $satker->satker->fax;
+				$web_satker = 'http://www.bppk.kemenkeu.go.id';
+				$OpenTBS->VarRef['name_satker']= $name_satker;
+				$OpenTBS->VarRef['address_satker']= $address_satker;
+				$OpenTBS->VarRef['phone_satker']= $phone_satker;
+				$OpenTBS->VarRef['fax_satker']= $fax_satker;
+				$OpenTBS->VarRef['web_satker']= $web_satker;
+				
+				$bulan = [
+					'','Januari','Februari','Maret','April',
+					'Mei','Juni','Juli','Agustus','September',
+					'Oktober','November','Desember'
+				];
+				$OpenTBS->VarRef['year']= date('Y');
+				$OpenTBS->VarRef['month']= $bulan[date('n')];
+				// Get Employee TTD
+				$employee = \backend\models\Employee::findOne($model->employee_id);
+				if($employee!==null){
+					$name_signer = $employee->person->name;
+					$nip_signer = $employee->person->nip;
+					$satker_id = $employee->satker_id;
+					$satker = \backend\models\Reference::findOne($satker_id);
+					$satker_signer = $satker->name;
 				}
-				 */
+				else{
+					$name_signer = "...";
+					$nip_signer = "...";	
+					$satker_signer = "...";					
+				}
+				$OpenTBS->VarRef['name_signer']= $name_signer;
+				$OpenTBS->VarRef['nip_signer']= $nip_signer;
+				$OpenTBS->VarRef['satker_signer']= $satker_signer;
+				
+				// Get Trainer
+				$trainer = \backend\models\Trainer::findOne($model->trainer_id);
+				if($trainer!==null){
+					$name_trainer = $trainer->person->name;
+				}
+				else{
+					$name_trainer = "...";				
+				}
+				$OpenTBS->VarRef['name_trainer']= $name_trainer;
+				
+				$OpenTBS->VarRef['name_training']= $activity->name;
+				$OpenTBS->VarRef['year_training']= substr($activity->start,0,4);
+				$OpenTBS->VarRef['cost_jp']= number_format($model->tarif,0,'.',',');
+				$OpenTBS->VarRef['jp']= $model->jamlat; 
+				$total_cost_jp = $model->tarif*$model->jamlat;
+				$OpenTBS->VarRef['total_cost_jp']= number_format($total_cost_jp,0,'.',',');
+				$OpenTBS->VarRef['text_total_cost_jp']=$this->numToText($total_cost_jp);
+				$data = [];
 				$OpenTBS->MergeBlock('data', $data);
 				// Output the result as a file on the server. You can change output file
 				$OpenTBS->Show(OPENTBS_DOWNLOAD, 'sptjm_'.date('YmdHis').'.'.$filetype); // Also merges all [onshow] automatic fields.
@@ -2479,15 +2387,6 @@ class ActivityController extends Controller
 			} catch (\yii\base\ErrorException $e) {
 				Yii::$app->session->setFlash('error', 'Unable export there are some error');
 			} 
-			/* == */
-			
-			/* if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-				Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
-			} else {
-				Yii::$app->session->setFlash('error', 'There was an error sending email.');
-			} */
-	 
-			/* return $this->refresh(); */
 		}
 		
         return $this->renderAjax('sptjm', [
@@ -2508,6 +2407,7 @@ class ActivityController extends Controller
 		]);
 		$model->addRule(['trainer_id', 'employee_id'], 'required');
 		$model->addRule(['trainer_id', 'employee_id'], 'integer');
+		$model->addRule(['trainer_job', 'trainer_address','employee_job', 'employee_address'], 'string');
 	 
 		if ($model->load(Yii::$app->request->post())) {
 			if(!$model->validate()){
@@ -2525,172 +2425,75 @@ class ActivityController extends Controller
 				}
 				$template_path = $path . 'template'.DIRECTORY_SEPARATOR.'pusdiklat'.DIRECTORY_SEPARATOR.'execution'.DIRECTORY_SEPARATOR;
 				$template = $template_path . 'skph.'.$filetype;
-				$OpenTBS->LoadTemplate($template); 
-
-				$data = [];
-				/* $idx = 0;
-				$number="";
-				$trainingClassStudentCertificates = TrainingClassStudentCertificate::find()
-					->where([
-						'training_class_student_id' => TrainingClassStudent::find()
-							->where([
-								'training_id'=>$id,
-								'training_class_id'=>$class_id,
-								'status'=>1,
-							])
-							->column(),
-						'status'=>1,
-					])
-					->all();
-
-				$name_signer = '';
-				$nip_signer = '';
-				$position_signer = 'Kepala Pusat Pendidikan dan Pelatihan ';
-				$city_signer = '';
-
-				foreach($trainingClassStudentCertificates as $trainingClassStudentCertificate){
-					if($idx==0){
-						$numbers = explode('-',$trainingClassStudentCertificate->trainingClassStudent->training->number);
-						// 2014-03-00-2.2.1.0.2 to /2.3.1.2.138/07/00/2014
-						$number = '';
-						$seri = '';
-						if(isset($numbers[3]) and strlen($numbers[3])>3){
-							$number .= '/'.$numbers[3];
-							$seri = '/'.$numbers[3];
-						}
-						if(isset($numbers[1]) and strlen($numbers[1])==2){
-							$number .= '/'.$numbers[1];
-						}
-						if(isset($numbers[2]) and strlen($numbers[2])==2){
-							$number .= '/'.$numbers[2];
-						}
-						if(isset($numbers[0]) and strlen($numbers[0])==4){
-							$number .= '/'.$numbers[0];
-						}
-
-						$program = \backend\models\ProgramHistory::find()
-							->where([
-								'id'=>$trainingClassStudentCertificate->trainingClassStudent->training->program_id,
-								'revision'=>$trainingClassStudentCertificate->trainingClassStudent->training->program_revision,
-							])
-							->one();
-
-						$type_graduate = "TELAH MENGIKUTI";
-						if($program->test==1){
-							$type_graduate = "L U L U S";
-						}
-
-						if($program->hours==(int)$program->hours){
-							$hours_program = (int)$program->hours;
-						}
-						else{
-							$hours_program = str_replace('.',',',$program->hours);
-						}
-
-						$name_executor = $trainingClassStudentCertificate->trainingClassStudent->training->activity->satker->name;
-						$name_training = Yii::$app->request->post('name_training');
-						$location_training = Yii::$app->request->post('location_training');
-
-						$signer = (int)Yii::$app->request->post('signer');
-						$city_signer = Yii::$app->request->post('city_signer');
-						$employee = \backend\models\Employee::findOne($signer);
-						if(!empty($employee)){
-							$name_signer = $employee->person->name;
-							$nip_signer = $employee->person->nip;
-							$position_signer = $employee->person->position_desc;                        
-						}
-						$idx++;
-					}
-					
-					$trainingClassStudent = $trainingClassStudentCertificate->trainingClassStudent;
-					$student = $trainingClassStudent->trainingStudent->student;
-					$person = $student->person;
-					$eselon = $student->satker;
-					if(empty($eselon)) $eselon=1;
-					$satker = [
-						'1'=>$person->unit->reference->name.' ',
-						'2'=>$student->eselon2.' ',
-						'3'=>$student->eselon3.' ',
-						'4'=>$student->eselon4.' ',
-					];
-					
-					$instansi='-';
-					if (strlen($satker[$eselon])>=3){
-						$instansi = $satker[$eselon];
-					}
-					
-					$object_file = ObjectFile::find()
-						->where([
-							'object'=>'person',
-							'object_id'=>$person->id,
-							'type'=>'photo',
-						])
-						->one();
-					
-					$photo='';
-					if(!empty($object_file)){
-						$photo = $path.'person'.DIRECTORY_SEPARATOR.$person->id.DIRECTORY_SEPARATOR.$object_file->file->file_name;
-						if (!file_exists($photo) or strlen($object_file->file->file_name)<=3) $photo = '';
-					}
-					
-					$rank_class = '';
-					if(!empty($person->rankClass->reference)){
-						$rank_class = $person->rankClass->reference->name;
-					} 
-
-					$data[] = [
-						// CERTIFICATE DATA
-						'type_certificate'=>$type_certificate,
-						'type_graduate'=>$type_graduate,
-						'seri'=>$trainingClassStudentCertificate->seri.$seri,
-						'number'=>$trainingClassStudentCertificate->number.$number,
-						'year_training'=>date('Y',strtotime($activity->start)),
-						'date_training'=>\hscstudio\heart\helpers\Heart::twodate(
-							date('Y-m-d',strtotime($activity->start)),
-							date('Y-m-d',strtotime($activity->end)),
-							0, // month type
-							0, // year type
-							' ', // delimiter
-							' sampai dengan '
-						),
-						'hours_training'=>$hours_program,
-						'name_executor'=>$name_executor,
-						'name_training'=>$name_training,
-						'location_training'=>$location_training,
-						// STUDENT DATA
-						'name_student'=>$person->name,
-						'nip_student'=>$person->nip,
-						'born_student'=>$person->born,
-						'birthDay_student'=>\hscstudio\heart\helpers\Heart::twodate($person->birthday),
-						'rankClass_student'=>$rank_class,
-						'position_student'=>$person->position_desc,
-						'satker_student'=>$instansi,
-						'photo_student'=>$photo,
-						//SIGNER DATA
-						'city_signer'=>$city_signer,
-						'date_signer'=>\hscstudio\heart\helpers\Heart::twodate($trainingClassStudentCertificate->date),
-						'position_signer'=>$position_signer,
-						'name_signer'=>$name_signer,
-						'nip_signer'=>$nip_signer,
-					];
+				$OpenTBS->LoadTemplate($template);
+				//Header
+				$satker_id = Yii::$app->user->identity->employee->satker_id;
+				$satker = \backend\models\Reference::findOne($satker_id);
+				$name_satker = strtoupper($satker->name);
+				$address_satker = strtoupper($satker->satker->address.' '.$satker->satker->city);
+				$phone_satker = $satker->satker->phone;
+				$fax_satker = $satker->satker->fax;
+				$web_satker = 'http://www.bppk.kemenkeu.go.id';
+				$OpenTBS->VarRef['name_satker']= $name_satker;
+				$OpenTBS->VarRef['address_satker']= $address_satker;
+				$OpenTBS->VarRef['phone_satker']= $phone_satker;
+				$OpenTBS->VarRef['fax_satker']= $fax_satker;
+				$OpenTBS->VarRef['web_satker']= $web_satker;
+				
+				$bulan = [
+					'','Januari','Februari','Maret','April',
+					'Mei','Juni','Juli','Agustus','September',
+					'Oktober','November','Desember'
+				];
+				$OpenTBS->VarRef['year']= date('Y');
+				$OpenTBS->VarRef['month']= $bulan[date('n')];
+				// Get Employee TTD
+				$employee = \backend\models\Employee::findOne($model->employee_id);
+				if($employee!==null){
+					$name_employee = $employee->person->name;
+					$nip_employee = $employee->person->nip;
+					$satker_id = $employee->satker_id;
+					$satker = \backend\models\Reference::findOne($satker_id);
+					$satker_employee = $satker->name;
 				}
-				 */
+				else{
+					$name_employee = "...";
+					$nip_employee = "...";	
+					$satker_employee = "...";					
+				}
+				$OpenTBS->VarRef['name_employee']= $name_employee;
+				$OpenTBS->VarRef['nip_employee']= $nip_employee;
+				$OpenTBS->VarRef['satker_employee']= $satker_employee;
+				$OpenTBS->VarRef['job_employee']= $model->employee_job;
+				$OpenTBS->VarRef['address_employee']= $model->employee_address;
+				
+				// Get Trainer
+				$trainer = \backend\models\Trainer::findOne($model->trainer_id);
+				if($trainer!==null){
+					$name_trainer = $trainer->person->name;
+				}
+				else{
+					$name_trainer = "...";				
+				}
+				$OpenTBS->VarRef['name_trainer']= $name_trainer;
+				$OpenTBS->VarRef['job_trainer']= $model->trainer_job;
+				$OpenTBS->VarRef['address_trainer']= $model->trainer_address;
+				
+				$OpenTBS->VarRef['name_training']= $activity->name;
+				$OpenTBS->VarRef['year_training']= substr($activity->start,0,4);
+				/* $OpenTBS->VarRef['cost_jp']= number_format($model->tarif,0,'.',',');
+				$OpenTBS->VarRef['jp']= $model->jamlat; 
+				$total_cost_jp = $model->tarif*$model->jamlat;
+				$OpenTBS->VarRef['total_cost_jp']= number_format($total_cost_jp,0,'.',',');
+				$OpenTBS->VarRef['text_total_cost_jp']=$this->numToText($total_cost_jp); */
+				$data = [];
 				$OpenTBS->MergeBlock('data', $data);
 				// Output the result as a file on the server. You can change output file
-				$OpenTBS->Show(OPENTBS_DOWNLOAD, 'sptjm_'.date('YmdHis').'.'.$filetype); // Also merges all [onshow] automatic fields.
+				$OpenTBS->Show(OPENTBS_DOWNLOAD, 'skph_'.date('YmdHis').'.'.$filetype); // Also merges all [onshow] automatic fields.
 				exit;
 			} catch (\yii\base\ErrorException $e) {
 				Yii::$app->session->setFlash('error', 'Unable export there are some error');
 			} 
-			/* == */
-			
-			/* if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-				Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
-			} else {
-				Yii::$app->session->setFlash('error', 'There was an error sending email.');
-			} */
-	 
-			/* return $this->refresh(); */
 		}
 		
         return $this->renderAjax('skph', [
@@ -2699,5 +2502,30 @@ class ActivityController extends Controller
             'class' => $class,
         ]);
     }
+	
+	public function numToText($num){
+		$num = abs($num);
+		$angka = array("","satu","dua","tiga","empat","lima","enam","tujuh","delapan","sembilan","sepuluh","sebelas");
+		$temp = "";
+		if($num < 12){
+			$temp = " ".$angka[$num];
+		}else if($num < 20){
+			$temp = $this->numToText($num - 10)." belas";
+		}else if($num < 100){
+			$temp = $this->numToText($num/10)." puluh".$this->numToText($num%10);
+		}else if ($num < 200) {
+			$temp = " seratus".$this->numToText($num - 100);
+		}else if ($num < 1000) {
+			$temp = $this->numToText($num/100). " ratus". $this->numToText($num % 100);
+		}else if ($num < 2000) {
+			$temp = " seribu". $this->numToText($num - 1000);
+		}else if ($num < 1000000) {
+			$temp = $this->numToText($num/1000)." ribu". $this->numToText($num % 1000);
+		}else if ($num < 1000000000) {
+			$temp = $this->numToText($num/1000000)." juta". $this->numToText($num % 1000000);
+		}
+
+		return $temp;
+	}
 
 }
