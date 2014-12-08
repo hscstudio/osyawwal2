@@ -2594,6 +2594,7 @@ class ActivityController extends Controller
 				$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
 				$dataProvider = $searchModel->search($queryParams); 
 				//$dataProvider->getSort()->defaultOrder = ['name'=>SORT_ASC];
+				$dataProvider->setPagination(false);
 				$i = 0;
 				foreach($dataProvider->getModels() as $trainingClassStudent){
 					$data[$i]['break'] = " ";
@@ -2756,6 +2757,7 @@ class ActivityController extends Controller
 				$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
 				$dataProvider = $searchModel->search($queryParams); 
 				//$dataProvider->getSort()->defaultOrder = ['name'=>SORT_ASC];
+				$dataProvider->setPagination(false);
 				$i = 0;
 				foreach($dataProvider->getModels() as $trainingClassStudent){
 					$data[$i]['number'] = $i;
@@ -2775,6 +2777,100 @@ class ActivityController extends Controller
 		}
 		
         return $this->renderAjax('deskplate', [
+            'model' => $model,
+            'activity' => $activity,
+            'class' => $class,
+        ]);
+    }
+	
+	public function actionReceipt($id, $class_id, $filetype='xlsx')
+    {
+		$activity = $this->findModel($id); // Activity
+		$class = $this->findModelClass($class_id); // Class	
+		
+		$model = new \yii\base\DynamicModel([
+			/* 'trainer_id', 'tarif', 'jamlat', 'employee_id', */
+		]);
+		/* $model->addRule(['trainer_id', 'tarif', 'jamlat', 'employee_id'], 'required');
+		$model->addRule(['trainer_id', 'tarif', 'jamlat', 'employee_id'], 'integer'); */
+	 
+		if (Yii::$app->request->post()) {
+			/* if(!$model->validate()){
+				return false;
+			} */
+			/* == */
+			try {				
+				$path = '';
+				if(isset(Yii::$app->params['uploadPath'])){
+					$path = Yii::$app->params['uploadPath'].DIRECTORY_SEPARATOR;
+				}
+				else{
+					$path = Yii::getAlias('@file').DIRECTORY_SEPARATOR;
+				}
+				$template_path = $path . 'template'.DIRECTORY_SEPARATOR.'pusdiklat'.DIRECTORY_SEPARATOR.'execution'.DIRECTORY_SEPARATOR;
+				$template = $template_path . 'receipt.'.$filetype;				
+				$types=['xls'=>'Excel5','xlsx'=>'Excel2007'];
+				$objReader = \PHPExcel_IOFactory::createReader($types[$filetype]);
+				$objPHPExcel = $objReader->load($template);
+				$objPHPExcel->getProperties()->setTitle("Tanda Terima Bahan Ajar + ATK");
+				$objPHPExcel->setActiveSheetIndex(0);
+				$activeSheet = $objPHPExcel->getActiveSheet();
+				
+				$name_training = $activity->name;
+				$year_training = substr($activity->start,0,4);
+				$activeSheet->setCellValue('A2', strtoupper($name_training));
+				$activeSheet->setCellValue('A3', 'TAHUN ANGGARAN '.$year_training);
+				$searchModel = new TrainingClassStudentSearch();
+				$queryParams['TrainingClassStudentSearch']=[				
+					'training_class_id' =>$class_id,
+					'training_class_student.status'=>1,
+				];
+				$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+				$dataProvider = $searchModel->search($queryParams); 
+				$dataProvider->setPagination(false);
+				$idx=0;
+				$baseRow = 12;
+				foreach($dataProvider->getModels() as $trainingClassStudent){
+					$row = $baseRow + $idx;
+					if($idx!=0) $activeSheet->insertNewRowBefore($row,1);
+					$student = $trainingClassStudent->trainingStudent->student;
+					$person = $student->person;					
+					$activeSheet->setCellValue('A'.$row, $idx+1)
+								->setCellValue('B'.$row, $person->name)
+								->setCellValue('E'.$row, ' '.$person->nip)
+								;
+					$activeSheet->mergeCells('B'.$row.':D'.$row);
+					if(($idx+1)%2==1){
+						$activeSheet->setCellValue('G'.$row,'=A'.$row);
+					}
+					else{
+						$activeSheet->mergeCells('G'.($row-1).':G'.($row));
+						$activeSheet->mergeCells('H'.($row-1).':H'.($row));
+						$activeSheet->setCellValue('H'.($row-1),'=A'.$row);
+					}
+					$idx++;
+				}			
+				
+				if(($idx+1)%2<>1){
+					$row = $baseRow + $idx;
+					$activeSheet->insertNewRowBefore($row,1);
+					$activeSheet->mergeCells('B'.$row.':D'.$row);
+					$activeSheet->mergeCells('G'.($row-1).':G'.($row));
+					$activeSheet->mergeCells('H'.($row-1).':H'.($row));
+				}
+				// Redirect output to a client’s web browser
+				header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+				header('Content-Disposition: attachment;filename="receipt.'.date('YmdHis').'.'.$filetype.'"');
+				header('Cache-Control: max-age=0');
+				$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, $types[$filetype]);
+				$objWriter->save('php://output');
+				exit;
+			} catch (\yii\base\ErrorException $e) {
+				Yii::$app->session->setFlash('error', 'Unable export there are some error'.print_r($e));
+			} 
+		}
+		
+        return $this->renderAjax('receipt', [
             'model' => $model,
             'activity' => $activity,
             'class' => $class,

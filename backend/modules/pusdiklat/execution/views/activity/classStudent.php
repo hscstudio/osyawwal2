@@ -349,17 +349,17 @@ $this->params['breadcrumbs'][] = $this->title;
 				?>
 			</td>
 		</tr>
-		<!--
+		
 		<tr>
 			<td><i class="fa fa-fw fa-link"></i></td>
 			<td>Tanda Terima Bahan Ajar & ATK</td>
 			<td>
 				<?php
 				echo Html::a('<i class="fa fa-fw fa-print"></i> Cetak',
-							Url::to(['skph','id'=>$activity->id,'class_id'=>$class->id]),
+							Url::to(['receipt','id'=>$activity->id,'class_id'=>$class->id]),
 							[
 								'class'=>'btn btn-default btn-xs modal-heart',
-								'title'=>'Cetak Surat Kuasa Pengambilan Honor',
+								'title'=>'Cetak Tanda Terima Bahan Ajar & ATK',
 								'data-pjax'=>'0',
 								'data-toggle'=>"tooltip",
 								'data-placement'=>"top",
@@ -368,6 +368,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				?>
 			</td>
 		</tr>
+		<!--
 		<tr>
 			<td><i class="fa fa-fw fa-link"></i></td>
 			<td>Surat Pengembalian Peserta</td>
