@@ -433,16 +433,13 @@ class ActivityController extends Controller
     public function actionClass($id)
     {
         $model = $this->findModel($id);
-		$searchModel = new TrainingClassSearch([
-			'training_id' => $id,
-		]);
-		
-		$queryParams = [];
-		/* $queryParams['TrainingClassSearch']=[
-			'training_id' => $id,
-		]; */
+		$searchModel = new TrainingClassSearch();
+        $queryParams = Yii::$app->request->getQueryParams();
+		$queryParams['TrainingClassSearch']=[
+					'training_id' => $id,
+				];
 		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
-        $dataProvider = $searchModel->search($queryParams);
+		$dataProvider = $searchModel->search($queryParams);
 		
 		$subquery = TrainingClassStudent::find()
 			->select('training_student_id')
