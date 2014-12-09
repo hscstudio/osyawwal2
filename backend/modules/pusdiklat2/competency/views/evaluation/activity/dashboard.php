@@ -151,6 +151,27 @@ $this->params['breadcrumbs'][] = $this->title;
 			Box::end();
 			?>
 			</div>
+            
+            <div class="col-md-3">
+			<?php
+			Box::begin([
+				'type'=>'small', // ,small, solid, tiles
+				'bgColor'=>'blue', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+				'bodyOptions' => [],
+				'icon' => 'fa fa-fw fa-graduation-cap',
+				'link' => ['generate-dokumen','id'=>$model->id],
+				'footerOptions' => [
+					'class' => 'dashboard-hide',
+				],
+				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+			]);
+			?>
+			<h3>Generate Doc</h3>
+			<p>Generate Dokumen Umum</p>
+			<?php
+			Box::end();
+			?>
+			</div>
 		</div>		
 	</div>
 </div>

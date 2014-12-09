@@ -13,7 +13,7 @@ $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 
-$this->title = 'Generate Dokumen Umum #';
+$this->title = 'Generate Dokumen Umum #'.$model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Training Activity', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Dashboard'), 'url' => ['dashboard','id'=>14]];
 $this->params['breadcrumbs'][] = $this->title;
@@ -76,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'bgColor'=>'navy', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
 				'bodyOptions' => [],
 				'icon' => 'fa fa-fw fa-building-o',
-				'link' => ['./evaluation/activity-generate/letter-assignment','id'=>$model->id],
+				'link' => ['./evaluation/activity-generate/training-trainer-list','id'=>$model->id],
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],

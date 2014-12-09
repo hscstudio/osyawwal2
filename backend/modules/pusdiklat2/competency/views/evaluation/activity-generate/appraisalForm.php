@@ -5,7 +5,11 @@ use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
 use backend\models\Person;
 use backend\models\Employee;
+use backend\models\TrainingScheduleTrainer;
+use backend\models\TrainingSchedule;
+use backend\models\TrainingClass;
 use yii\helpers\Url;
+use kartik\widgets\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Program */
@@ -15,7 +19,7 @@ $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 $this->title = Yii::t('app', 'Generate {modelClass}: ', [
     'modelClass' => 'Form Penilaian',]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['./evaluation/activity/generate-dokumen','id'=>14]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['./evaluation/activity/generate-dokumen','id'=>$model->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Form Penilaian'];
 ?>
 <div class="activity-update panel panel-default">
@@ -42,12 +46,32 @@ $this->params['breadcrumbs'][] = ['label' => 'Form Penilaian'];
             
             <?= $form->errorSummary($model) ?> <!-- ADDED HERE -->
             <?php
-				echo Html::beginTag('label',['class'=>'control-label']).'Jenis Form'.Html::endTag('label');
-				echo Html::input('text','student','',['class'=>'form-control','id'=>'count']);
+			$data_form = [
+						'0'=>'Nilai Aktivitas',
+						'1'=>'Nilai Ujian',
+				];
+				echo '<label class="control-label">Jenis Form</label>';
+				echo Select2::widget([
+					'name' => 'jenis_form', 
+					'data' => $data_form,
+					'options' => [
+						'placeholder' => 'Select Jenis Form ...', 
+						'class'=>'form-control', 
+						'multiple' => false,
+						'id'=>'jenis_form',
+					],
+				]);
 			?>	
             <?php
-				echo Html::beginTag('label',['class'=>'control-label']).'Tanggal'.Html::endTag('label');
-				echo Html::input('text','student','',['class'=>'form-control','id'=>'count']);
+				    echo '<label class="control-label">Tanggal</label>';
+					echo DatePicker::widget([
+						'name' => 'tanggal',
+						'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+						'pluginOptions' => [
+						'autoclose'=>true,
+						'format' => 'dd-mm-yyyy'
+						]
+					]);
 			?>	
             <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'Waktu'.Html::endTag('label');
@@ -57,10 +81,18 @@ $this->params['breadcrumbs'][] = ['label' => 'Form Penilaian'];
 			$data = ArrayHelper::map(Person::find()
 				->select(['id', 'name'])
 				->where([
-					'id'=>Employee::find()
-						->select('person_id')
+					'id'=>TrainingScheduleTrainer::find()
+						->select('trainer_id')
 						->where([
-							'organisation_id'=>69, // CEK ID 393 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
+							'training_schedule_id'=>TrainingSchedule::find()
+													->select('id')
+													->where([
+															 'training_class_id'=>TrainingClass::find()
+															 					->select('id')
+																				->where([
+																						 'training_id'=>$model->id
+																						 ])
+															 ]), // CEK ID 393 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
 						])
 						//->currentSatker()
 						->column(),
@@ -69,15 +101,15 @@ $this->params['breadcrumbs'][] = ['label' => 'Form Penilaian'];
 				->asArray()
 				->all()
 				, 'id', 'name');
-			echo '<label class="control-label">Pengajar dan MP</label>';
+			echo '<label class="control-label">Pengajar</label>';
 			echo Select2::widget([
-				'name' => 'baseon', 
+				'name' => 'trainer', 
 				'data' => $data,
 				'options' => [
-					'placeholder' => 'Select Pengajar dan MP ...', 
+					'placeholder' => 'Select Pengajar...', 
 					'class'=>'form-control', 
-					'multiple' => true,
-					'id'=>'baseon',
+					'multiple' => false,
+					'id'=>'trainer',
 				],
 			]);
 			?>

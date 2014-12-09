@@ -3,8 +3,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
-use backend\models\Person;
-use backend\models\Employee;
+use backend\models\TrainingClass;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
@@ -13,10 +12,10 @@ use yii\helpers\Url;
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
-$this->title = Yii::t('app', 'Generate {modelClass}: ', [
-    'modelClass' => 'Honor Transport',]);
+$this->title = Yii::t('app', 'Generate {modelClass}: '.$model->name, [
+    'modelClass' => 'Generate Training Trainer List',]);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['./evaluation/activity/generate-dokumen','id'=>$model->id]];
-$this->params['breadcrumbs'][] = ['label' => 'Honor Transport'];
+$this->params['breadcrumbs'][] = ['label' => 'Generate Training Trainer List'];
 ?>
 <div class="activity-update panel panel-default">
 	
@@ -35,53 +34,31 @@ $this->params['breadcrumbs'][] = ['label' => 'Honor Transport'];
 						'onsubmit'=>'',
 					],
 					'action'=>[
-						'class','id'=>$model->id
+						'training-trainer-list-excel','id'=>$model->id
 					], 
 				]);
 			?>
             
             <?= $form->errorSummary($model) ?> <!-- ADDED HERE -->
+            
             <?php
-				echo Html::beginTag('label',['class'=>'control-label']).'Tempat'.Html::endTag('label');
-				echo Html::input('text','student','',['class'=>'form-control','id'=>'count']);
-			?>	
-           
-            <?php
-			$data = ArrayHelper::map(Person::find()
-				->select(['id', 'name'])
-				->where([
-					'id'=>Employee::find()
-						->select('person_id')
-						->where([
-							'organisation_id'=>69, // CEK ID 393 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
-						])
-						//->currentSatker()
-						->column(),
-				])		
-				->active()
+			$data = ArrayHelper::map(TrainingClass::find()
+				->where(['training_id'=>$model->id])		
 				->asArray()
 				->all()
-				, 'id', 'name');
-			echo '<label class="control-label">TTD</label>';
+				, 'id', 'class');
+			echo '<label class="control-label">Kelas</label>';
 			echo Select2::widget([
-				'name' => 'baseon', 
+				'name' => 'class', 
 				'data' => $data,
 				'options' => [
-					'placeholder' => 'Select TTD ...', 
+					'placeholder' => 'Select Kelas ...', 
 					'class'=>'form-control', 
-					'multiple' => true,
-					'id'=>'baseon',
+					'multiple' => false,
+					'id'=>'class',
 				],
 			]);
 			?>
-            <?php
-				echo Html::beginTag('label',['class'=>'control-label']).'NIP'.Html::endTag('label');
-				echo Html::input('text','student','',['class'=>'form-control','id'=>'count']);
-			?>	
-            <?php
-				echo Html::beginTag('label',['class'=>'control-label']).'Jabatan'.Html::endTag('label');
-				echo Html::input('text','student','',['class'=>'form-control','id'=>'count']);
-			?>	
             
             <div class="clearfix"><hr></div> 
             <div class="form-group">

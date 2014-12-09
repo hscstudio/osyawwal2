@@ -162,7 +162,7 @@ $this->params['breadcrumbs'][] = $this->title;
 									':activity_id' => $data->id
 								]);		
 					if($activityRoom->count()==0){ 
-						return Html::a('SET', ['room','activity_id'=>$data->id], 
+						return Html::a('View', ['room','activity_id'=>$data->id], 
 							[							
 							'class' => 'label label-warning modal-heart',
 							'data-pjax'=>0,

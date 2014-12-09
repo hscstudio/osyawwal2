@@ -493,5 +493,4 @@ class MeetingActivityController extends Controller
 		/* return $this->redirect(['student', 'id' => $id, 'status'=>$status]);	 */
     }
 	
-	
 }

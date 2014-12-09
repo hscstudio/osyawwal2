@@ -98,12 +98,7 @@ if($satker_id!=(int)Yii::$app->user->identity->employee->satker_id){
 							->joinWith('activity')
 							->where([
 								'activity_room.status' =>  [0,1],
-								'room_id' => \backend\models\Room::find()
-									->where([
-										'satker_id' => Yii::$app->user->identity->employee->satker_id,
-										'status' => 1
-									])
-									->column()
+								'room_id' => $data->id
 							])
 							->andWhere('satker_id='.Yii::$app->user->identity->employee->satker_id)
 							->count();
@@ -126,11 +121,7 @@ if($satker_id!=(int)Yii::$app->user->identity->employee->satker_id){
 						->joinWith('activity')
 						->where([
 							'activity_room.status' => [0,1],								
-							'room_id' => \backend\models\Room::find()
-								->where([
-									'status' => [1]
-								])
-								->column()
+							'room_id' => $data->id
 						])
 						->andWhere('satker_id!='.Yii::$app->user->identity->employee->satker_id)
 						->count();

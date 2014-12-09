@@ -15,7 +15,7 @@ $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 $this->title = Yii::t('app', 'Generate {modelClass}: ', [
     'modelClass' => 'Dokumen Evaluasi Tatap Muka',]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['./evaluation/activity/generate-dokumen','id'=>14]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['./evaluation/activity/generate-dokumen','id'=>$model->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Dokumen Evaluasi Tatap Muka'];
 ?>
 <div class="activity-update panel panel-default">

@@ -5,6 +5,8 @@ use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
 use backend\models\Person;
 use backend\models\Employee;
+use backend\models\ActivityRoom;
+use backend\models\Room;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
@@ -15,7 +17,7 @@ $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 $this->title = Yii::t('app', 'Generate {modelClass}: ', [
     'modelClass' => 'Surat Tugas Terkait Diklat',]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['./evaluation/activity/generate-dokumen','id'=>14]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['./evaluation/activity/generate-dokumen','id'=>$model->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Surat Tugas Terkait Diklat'];
 ?>
 <div class="activity-update panel panel-default">
@@ -42,8 +44,23 @@ $this->params['breadcrumbs'][] = ['label' => 'Surat Tugas Terkait Diklat'];
             
             <?= $form->errorSummary($model) ?> <!-- ADDED HERE -->
             <?php
-				echo Html::beginTag('label',['class'=>'control-label']).'Tempat'.Html::endTag('label');
-				echo Html::input('text','student','',['class'=>'form-control','id'=>'count']);
+				$data = ArrayHelper::map(ActivityRoom::find()
+				->joinWith('room')
+				->where(['activity_id'=>$model->id,'activity_room.status'=>2])
+				->asArray()
+				->all()
+				, 'room_id','room.name');
+			echo '<label class="control-label">Tempat</label>';
+			echo Select2::widget([
+				'name' => 'ruang', 
+				'data' => $data,
+				'options' => [
+					'placeholder' => 'Select Room ...', 
+					'class'=>'form-control', 
+					'multiple' => false,
+					'id'=>'ruang',
+				],
+			]);
 			?>	
             <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'Tugas'.Html::endTag('label');
