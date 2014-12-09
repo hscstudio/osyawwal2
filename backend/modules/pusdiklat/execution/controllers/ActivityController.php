@@ -2819,7 +2819,7 @@ class ActivityController extends Controller
 				$name_training = $activity->name;
 				$year_training = substr($activity->start,0,4);
 				$activeSheet->setCellValue('A2', strtoupper($name_training));
-				$activeSheet->setCellValue('A3', 'TAHUN ANGGARAN '.$year_training);
+				$activeSheet->setCellValue('A3', 'KELAS '.$class->class.' TAHUN ANGGARAN '.$year_training);
 				$searchModel = new TrainingClassStudentSearch();
 				$queryParams['TrainingClassStudentSearch']=[				
 					'training_class_id' =>$class_id,
@@ -2871,6 +2871,172 @@ class ActivityController extends Controller
 		}
 		
         return $this->renderAjax('receipt', [
+            'model' => $model,
+            'activity' => $activity,
+            'class' => $class,
+        ]);
+    }
+	
+	public function actionFollowTraining($id, $class_id,  $filetype='docx')
+    {
+		$activity = $this->findModel($id); // Activity
+		$class = $this->findModelClass($class_id); // Class	
+		
+		$model = new \yii\base\DynamicModel([
+			'place_training', 'day_training', 'day_hours_training',
+			'employee_id', 
+		]);
+		$model->addRule(['place_training', 'day_training', 'day_hours_training', 'employee_id'], 'required');
+		$model->addRule(['day_training', 'employee_id', 'day_hours_training'], 'integer');
+		$model->addRule(['place_training'], 'string');
+	 
+		if ($model->load(Yii::$app->request->post())) {
+			if(!$model->validate()){
+				return false;
+			}
+			/* == */
+			try {
+				$OpenTBS = new \hscstudio\heart\extensions\OpenTBS; // new instance of TBS
+				$path = '';
+				if(isset(Yii::$app->params['uploadPath'])){
+					$path = Yii::$app->params['uploadPath'].DIRECTORY_SEPARATOR;
+				}
+				else{
+					$path = Yii::getAlias('@file').DIRECTORY_SEPARATOR;
+				}
+				$template_path = $path . 'template'.DIRECTORY_SEPARATOR.'pusdiklat'.DIRECTORY_SEPARATOR.'execution'.DIRECTORY_SEPARATOR;
+				$template = $template_path . 'surat.keterangan.diklat.'.$filetype;
+				$OpenTBS->LoadTemplate($template);
+				//Header
+				$satker_id = Yii::$app->user->identity->employee->satker_id;
+				$satker = \backend\models\Reference::findOne($satker_id);
+				$name_satker = $satker->name;
+				$address_satker = $satker->satker->address.' '.$satker->satker->city;
+				$phone_satker = $satker->satker->phone;
+				$fax_satker = $satker->satker->fax;
+				$web_satker = 'http://www.bppk.kemenkeu.go.id';
+				$OpenTBS->VarRef['name_satker']= strtoupper($name_satker);
+				$OpenTBS->VarRef['name_satker2']= $name_satker;
+				$OpenTBS->VarRef['address_satker']= $address_satker;
+				$OpenTBS->VarRef['phone_satker']= $phone_satker;
+				$OpenTBS->VarRef['fax_satker']= $fax_satker;
+				$OpenTBS->VarRef['web_satker']= $web_satker;
+				
+				$bulan = [
+					'','Januari','Februari','Maret','April',
+					'Mei','Juni','Juli','Agustus','September',
+					'Oktober','November','Desember'
+				];
+				$OpenTBS->VarRef['year']= date('Y');
+				$OpenTBS->VarRef['month']= $bulan[date('n')];
+				// Get Employee TTD
+				$employee = \backend\models\Employee::findOne($model->employee_id);
+				if($employee!==null){
+					$name_employee = $employee->person->name;
+					$nip_employee = $employee->person->nip;
+					$position_employee = 'Kepala ' . @$employee->organisation->NM_UNIT_ORG;
+					$satker_id = $employee->satker_id;
+					$satker = \backend\models\Reference::findOne($satker_id);
+					$satker_employee = $satker->name;
+				}
+				else{
+					$name_employee = "...";
+					$nip_employee = "...";	
+					$position_employee = "...";	
+					$satker_employee = "...";					
+				}
+				$OpenTBS->VarRef['name_employee']= $name_employee;
+				$OpenTBS->VarRef['nip_employee']= $nip_employee;
+				$OpenTBS->VarRef['position_employee']= $position_employee;
+				$OpenTBS->VarRef['satker_employee']= $satker_employee;
+				
+				$OpenTBS->VarRef['place_training']= $model->place_training;
+				$OpenTBS->VarRef['day_training']= $model->day_training;
+				$OpenTBS->VarRef['day_hours_training']= $model->day_hours_training;
+				
+				$OpenTBS->VarRef['name_training']= $activity->name;
+				$OpenTBS->VarRef['year_training']= substr($activity->start,0,4);
+				$date_training = \hscstudio\heart\helpers\Heart::twodate($activity->start,$activity->end);
+				$OpenTBS->VarRef['date_training']= $date_training;
+				
+				//'place_training', 'day_training', 'day_hours_training',
+				$OpenTBS->VarRef['total_hours_training']= $model->day_training * $model->day_hours_training;
+				// GET STUDENT IN THIS CLASS
+				$data = [];
+				$searchModel = new TrainingClassStudentSearch();
+				$queryParams['TrainingClassStudentSearch']=[				
+					'training_class_id' =>$class_id,
+					'training_class_student.status'=>1,
+				];
+				$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+				$dataProvider = $searchModel->search($queryParams); 
+				//$dataProvider->getSort()->defaultOrder = ['name'=>SORT_ASC];
+				$dataProvider->setPagination(false);
+				$i = 0;
+				foreach($dataProvider->getModels() as $trainingClassStudent){
+					$data[$i]['number'] = '';
+					$student = $trainingClassStudent->trainingStudent->student;
+					$person = $student->person;
+					$front_title = empty($person->front_title)?'':$person->front_title.' ';
+					$back_title = empty($person->back_title)?'':', '.$person->back_title;					
+					$data[$i]['name_student'] = $front_title.$person->name.$back_title;
+					$data[$i]['nip_student'] = $person->nip;
+					//GOL skip
+					$rank_class="-";
+					$or=\backend\models\ObjectReference::find()
+						->where([
+							'object'=>'person',
+							'object_id'=>$student->person_id,
+							'type'=>'rank_class',							
+						])
+						->one();
+					if($or!==null){
+						$reference = $or->reference;
+						if($reference!==null){
+							$rank_class= $reference->name;							
+						}
+					}	
+					$data[$i]['rank_class_student'] = $rank_class;					
+					$data[$i]['position_desc_student'] = $person->position_desc;
+					
+						
+					$eselon1="-";
+					$or=\backend\models\ObjectReference::find()
+						->where([
+							'object'=>'person',
+							'object_id'=>$student->person_id,
+							'type'=>'unit',							
+						])
+						->one();
+					if($or!==null){
+						$reference = $or->reference;
+						if($reference!==null){
+							$eselon1= $reference->name;							
+						}
+					}
+					$data[$i]['eselon1_student'] = $eselon1;
+					$data[$i]['eselon2_student'] = $student->eselon2;
+					$data[$i]['eselon3_student'] = $student->eselon3;
+					$data[$i]['eselon4_student'] = $student->eselon4;
+					
+					$data[$i]['office_address_student'] = $person->office_address;
+					$data[$i]['office_phone_student'] = $person->office_phone;
+					$data[$i]['address_student'] = $person->address;
+					$data[$i]['phone_student'] = $person->phone;
+					$data[$i]['email_student'] = $person->email;
+					$data[$i]['graduate_desc_student'] = $person->graduate_desc; 
+					$i++;
+				}
+				$OpenTBS->MergeBlock('data', $data);
+				// Output the result as a file on the server. You can change output file
+				$OpenTBS->Show(OPENTBS_DOWNLOAD, 'follow_training_'.date('YmdHis').'.'.$filetype); // Also merges all [onshow] automatic fields.
+				exit;
+			} catch (\yii\base\ErrorException $e) {
+				Yii::$app->session->setFlash('error', 'Unable export there are some error'.print_r($e));
+			} 
+		}
+		
+        return $this->renderAjax('followTraining', [
             'model' => $model,
             'activity' => $activity,
             'class' => $class,

@@ -368,6 +368,24 @@ $this->params['breadcrumbs'][] = $this->title;
 				?>
 			</td>
 		</tr>
+		<tr>
+			<td><i class="fa fa-fw fa-link"></i></td>
+			<td>Surat Mengikuti Diklat</td>
+			<td>
+				<?php
+				echo Html::a('<i class="fa fa-fw fa-print"></i> Cetak',
+							Url::to(['follow-training','id'=>$activity->id,'class_id'=>$class->id]),
+							[
+								'class'=>'btn btn-primary btn-xs modal-heart',
+								'title'=>'Cetak Surat Mengikuti Diklat',
+								'data-pjax'=>'0',
+								'data-toggle'=>"tooltip",
+								'data-placement'=>"top",
+							]
+						);
+				?>
+			</td>
+		</tr>
 		<!--
 		<tr>
 			<td><i class="fa fa-fw fa-link"></i></td>
@@ -387,24 +405,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				?>
 			</td>
 		</tr>
-		<tr>
-			<td><i class="fa fa-fw fa-link"></i></td>
-			<td>Surat Mengikuti Diklat</td>
-			<td>
-				<?php
-				echo Html::a('<i class="fa fa-fw fa-print"></i> Cetak',
-							Url::to(['skph','id'=>$activity->id,'class_id'=>$class->id]),
-							[
-								'class'=>'btn btn-default btn-xs modal-heart',
-								'title'=>'Cetak Surat Kuasa Pengambilan Honor',
-								'data-pjax'=>'0',
-								'data-toggle'=>"tooltip",
-								'data-placement'=>"top",
-							]
-						);
-				?>
-			</td>
-		</tr>
+		
 		<tr>
 			<td><i class="fa fa-fw fa-link"></i></td>
 			<td>Database Peserta Diklat</td>
