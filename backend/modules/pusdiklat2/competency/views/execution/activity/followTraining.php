@@ -37,7 +37,7 @@ use yii\helpers\ArrayHelper;
 				[
 					':satker_id'=>$satker_id,
 					':organisation_id'=>[
-						387,396,397,398
+						56,66,67,68,69
 					],
 				]
 			)
