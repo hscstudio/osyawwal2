@@ -172,8 +172,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
 				'class' => 'kartik\grid\ActionColumn',
-				'width' => '180px',
-				'template' => '<div class="btn-group">{dashboard} {update}</div> {nilai-akhir} {cetak}',
+				'width' => '200px',
+				'template' => '<div class="btn-group">{dashboard} {update}</div> {nilai-akhir} {cetak} {dokumengenerator}',
 				'buttons' => [
 					'dashboard' => function ($url, $model) {
 								$icon='<span class="fa fa-fw fa-dashboard"></span>';
@@ -252,6 +252,24 @@ $this->params['breadcrumbs'][] = $this->title;
 									}
 									$tembolok .= '</ul>';
 									$tembolok .= '</div>';
+									return $tembolok;
+								}
+							},
+					'dokumengenerator' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-download"></span>';
+								if (in_array($model->status,[2])) {
+
+									$tembolok = Html::a($icon, $url,[
+										'class'=>'btn btn-default btn-xs modal-heart',
+										'modal-title' => '<i class="fa fa-fw fa-download"></i>Dokumen Generator',
+										'title' => 'Dokumen Generator',
+										'data-toggle' => 'tooltip',
+										'data-placement' => 'top',
+										'data-container' => 'body',
+										'data-pjax'=>'0',
+										'modal-size' => 'modal-lg'
+									]);
+
 									return $tembolok;
 								}
 							},

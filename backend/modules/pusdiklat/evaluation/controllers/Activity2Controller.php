@@ -2289,4 +2289,196 @@ class Activity2Controller extends Controller
 		exit;
 
     }
+
+
+
+
+    public function actionDokumengenerator($id) {
+    	if (Yii::$app->request->isAjax) {
+	    	return $this->renderAjax('dokumenGenerator', [
+	    			'activity_id' => $id
+				]);
+    	}
+    	else {
+    		return $this->render('dokumenGenerator', [
+	    			'activity_id' => $id
+				]);
+    	}
+    }
+
+
+
+
+    public function actionDokumenCertificateReceipt($activity_id, $filetype = 'xlsx') {
+    	// Ngambil Class
+    	$modelTrainingClass = TrainingClass::find()
+    		->where([
+    			'training_id' => $activity_id
+    		])
+    		->all();
+    	// all
+
+    	// Ambil template
+		$template = Yii::getAlias('@file').DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'pusdiklat'.
+			DIRECTORY_SEPARATOR.'evaluation'.DIRECTORY_SEPARATOR.'certificate.receipt.'.$filetype;
+		$types=['xls'=>'Excel5','xlsx'=>'Excel2007'];
+		$objReader = \PHPExcel_IOFactory::createReader($types[$filetype]);
+		$objPHPExcel = $objReader->load($template);
+		// dah
+
+		$pointerKelas = 0;
+		
+		// Bikin semua sheet
+		foreach ($modelTrainingClass as $baris) {
+
+			if ($pointerKelas != 0) {
+
+				$objClonedWorksheet = clone $objPHPExcel->getSheetByName('Sheet1');
+
+				$v = $pointerKelas + 1;
+
+				$objClonedWorksheet->setTitle('Sheet'.$v);
+
+				$objPHPExcel->addSheet($objClonedWorksheet);
+			}
+
+			$pointerKelas += 1;
+		}
+		// dah
+
+		$pointerKelas = 0;
+
+		// Ngisi konten
+		foreach ($modelTrainingClass as $baris) {
+
+			$objPHPExcel->setActiveSheetIndex($pointerKelas);
+
+			$objPHPExcel->getActiveSheet($pointerKelas)->setTitle('Kelas '.$baris->class);
+
+			$objPHPExcel->getActiveSheet($pointerKelas)->setCellValue('C6', strtoupper($baris->training->activity->name));
+
+			// Ngambil data student pada current class
+			$modelTrainingClassStudent = TrainingClassStudent::find()
+				->where([
+					'training_class_student.training_id' => $activity_id,
+					'training_class_id' => $baris->id
+				])
+				->joinWith('trainingStudent')
+	    		->joinWith([
+	    			'trainingStudent.student' => function ($query) {
+	    				$query->where(['student.status' => 1]); // cuma ngambil student yang published doank. Perlu diimprove lebih lanjut, misal cm ngambil student yang ga di block
+	    			}
+	    		])
+	    		->joinWith([
+	    			'trainingStudent.student.person' => function ($query) {
+	    				$query->orderBy('name ASC');
+	    			}
+	    		])
+				->all();
+			// dah
+
+			$namaHari = [
+				'Mon' => 'Senin',
+				'Tue' => 'Selasa',
+				'Wed' => 'Rabu',
+				'Thu' => 'Kami',
+				'Fri' => 'Jumat',
+				'Sat' => 'Sabtu',
+				'Sun' => 'Minggu'
+			];
+
+			$namaBulan = [
+				'January' => 'Januari',
+				'February' => 'Febuari',
+				'March' => 'Maret',
+				'April' => 'April',
+				'May' => 'Mei',
+				'June' => 'Juni',
+				'July' => 'Juli',
+				'August' => 'Agustus',
+				'September' => 'September',
+				'October' => 'Oktober',
+				'November' => 'November',
+				'December' => 'Desember'
+			];
+
+			$pointerBaris = 12;
+			$jumlahBaris = 0;
+
+			foreach ($modelTrainingClassStudent as $barisStudent) {
+
+				// Insert row
+				$objPHPExcel->getActiveSheet($pointerKelas)->insertNewRowBefore($pointerBaris + 1, 1);
+				// dah
+
+				// Ngisi nomer urut
+				$objPHPExcel->getActiveSheet($pointerKelas)->setCellValue('A'.$pointerBaris, $pointerBaris-11);
+				// dah
+
+				// Ngisi nama
+				$objPHPExcel->getActiveSheet($pointerKelas)->setCellValue('B'.$pointerBaris, 
+					$barisStudent->trainingStudent->student->person->name
+				);
+				// dah
+
+				// Ngisi nip
+				$objPHPExcel->getActiveSheet($pointerKelas)->setCellValueExplicit('C'.$pointerBaris, 
+					$barisStudent->trainingStudent->student->person->nid, 
+					PHPExcel_Cell_DataType::TYPE_STRING
+				);
+				// dah
+
+				// Ngisi unit				
+				$objPHPExcel->getActiveSheet($pointerKelas)->setCellValue('D'.$pointerBaris, 
+					$barisStudent->trainingStudent->student->person->organisation
+				);
+				// dah
+
+				$pointerBaris += 1;
+
+			}
+			// dah
+
+			// Ngemerger kolom ttd
+			for ($i=0; $i < $pointerBaris; $i++) {
+				
+				$objPHPExcel->getActiveSheet()->mergeCells('E'.($i + 12).':E'.($i + 1 + 12));
+				$objPHPExcel->getActiveSheet()->setCellValue('E'.($i + 12), ($i + 1));
+
+				$objPHPExcel->getActiveSheet()->mergeCells('F'.($i + 12).':F'.($i + 1 + 12));
+				$objPHPExcel->getActiveSheet()->setCellValue('F'.($i + 12), ($i + 2));
+
+				if ($pointerBaris % 2 == 0) {
+					if (($i + 2 + 12) >= $pointerBaris) {
+						break;
+					}
+				}
+				else {
+					if (($i + 1 + 12) >= $pointerBaris) {
+						break;
+					}
+				}
+
+				$i++;
+			}
+			// dah
+
+			// Pindah ke kelas selanjutnya
+			$pointerKelas += 1;
+			// dah
+
+		}
+		
+		if($filetype=='xls') 
+			header('Content-Type: application/vnd.ms-excel');
+		else 
+			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+			
+		header('Content-Disposition: attachment;filename="tanda_terima_sertifikat_'.Activity::findOne($activity_id)->name.'_'.date('YmdHis').'.'.$filetype.'"');
+		header('Cache-Control: max-age=0');
+		$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, $types[$filetype]);
+		$objWriter->save('php://output');
+		exit;
+
+    }
 }
