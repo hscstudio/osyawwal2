@@ -731,19 +731,61 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 	<i class="fa fa-fw fa-refresh upload"></i> Document Generator
 	</div>
     <div class="panel-body">
-		<div class="row clearfix">
-			<div class="col-md-2">
-			<?php
-			echo Html::a('<i class="fa fa-fw fa-file"></i> Jadwal Diklat',
-						Url::to(['export-class-schedule','id'=>$activity->id,'class_id'=>$class->id]),
-						[
-							'class'=>'btn btn-default',
-							'data-pjax'=>'0',
-						]
-					);
-			?>
-			</div>			
-			
-		</div>
+		<table class="table table-striped table-condensed table-hover">
+		<tr>
+			<td style="width:50px"><i class="fa fa-fw fa-link"></i></td>
+			<td>Jadwal Diklat Kelas <?= $class->class ?></td>
+			<td style="width:150px;">
+				<?php
+				echo Html::a('<i class="fa fa-fw fa-print"></i> Cetak',
+							Url::to(['export-class-schedule','id'=>$activity->id,'class_id'=>$class->id]),
+							[
+								'class'=>'btn btn-primary btn-xs',
+								'title'=>'Cetak Jadwal Diklat Kelas',
+								'data-pjax'=>0,
+								'data-toggle'=>"tooltip",
+								'data-placement'=>"top",
+							]
+						);
+				?>
+			</td>
+		</tr>
+		<tr>
+			<td><i class="fa fa-fw fa-link"></i></td>
+			<td>Surat Pernyataan Tanggung Jawab Mutlak</td>
+			<td>
+				<?php
+				echo Html::a('<i class="fa fa-fw fa-print"></i> Cetak',
+							Url::to(['sptjm','id'=>$activity->id,'class_id'=>$class->id]),
+							[
+								'class'=>'btn btn-default btn-xs modal-heart',
+								'title'=>'Cetak Surat Pernyataan Tanggung Jawab Mutlak',
+								'data-pjax'=>'0',
+								'data-toggle'=>"tooltip",
+								'data-placement'=>"top",
+							]
+						);
+				?>
+			</td>
+		</tr>
+		<tr>
+			<td><i class="fa fa-fw fa-link"></i></td>
+			<td>Surat Kuasa Pengambilan Honor</td>
+			<td>
+				<?php
+				echo Html::a('<i class="fa fa-fw fa-print"></i> Cetak',
+							Url::to(['skph','id'=>$activity->id,'class_id'=>$class->id]),
+							[
+								'class'=>'btn btn-primary btn-xs modal-heart',
+								'title'=>'Cetak Surat Kuasa Pengambilan Honor',
+								'data-pjax'=>'0',
+								'data-toggle'=>"tooltip",
+								'data-placement'=>"top",
+							]
+						);
+				?>
+			</td>
+		</tr>
+		</table>
 	</div>
 </div>
