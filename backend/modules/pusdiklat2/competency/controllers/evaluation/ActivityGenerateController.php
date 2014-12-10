@@ -6,6 +6,7 @@ use Yii;
 use backend\models\Activity;
 use backend\models\TrainingClass;
 use backend\models\TrainingClassSubject;
+use backend\models\TrainingClassStudent;
 use backend\models\TrainingSchedule;
 use backend\models\TrainingScheduleTrainer;
 use backend\models\Person;
@@ -15,6 +16,9 @@ use backend\modules\pusdiklat2\competency\models\evaluation\TrainingClassSubject
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use backend\models\File;
+use hscstudio\heart\helpers\Heart;
+use yii\data\ActiveDataProvider;
 
 /**
  * ActivityGenerateController implements the CRUD actions for Activity model.
@@ -103,14 +107,10 @@ class ActivityGenerateController extends Controller
 	public function actionTrainingTrainerListExcel($id,$status='nocancel',$filetype='xlsx')
     {
 		$kelas=$_POST['class'];
-		//$user = TrainingSchedule::find()->where(['training_class_id' => $kelas])->one()->id;
-		//echo $user;
-		//echo $kelas;
 		$searchModel = new TrainingClassSubjectSearch();
 		$queryParams = Yii::$app->request->getQueryParams();
 		if($status!='all'){
 			$queryParams['TrainingClassSubjectSearch']=[
-				//'status'=>$status,
 				'training_class_id' => $kelas,
 			];
 		}
@@ -192,7 +192,6 @@ class ActivityGenerateController extends Controller
 					$idx2++;
 				}
 			}
-			//$objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $data_trainer." ");
 			$idx++;
 		}
 	
@@ -206,5 +205,191 @@ class ActivityGenerateController extends Controller
 		$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, $types[$filetype]);
 		$objWriter->save('php://output');
 		exit;
+    }
+	
+	public function actionDailyTrainingMonitoring($id)
+    {
+        return $this->render('dailyTrainingMonitoring', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+	
+	public function actionDailyTrainingMonitoringExcel($id,$status='nocancel',$filetype='xlsx')
+    {
+        $kelas=$_POST['class'];
+		//////////////////////////////////////////////////////////////////////////////////////////////////////		
+		$types=['xls'=>'Excel5','xlsx'=>'Excel2007'];
+		$objReader = \PHPExcel_IOFactory::createReader($types[$filetype]);
+		$template = Yii::getAlias('@file').DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'pusdiklat'.
+			DIRECTORY_SEPARATOR.'evaluation'.DIRECTORY_SEPARATOR.'template.rekap.monitoring.harian.'.$filetype;
+		$objPHPExcel = $objReader->load($template);
+		//$objPHPExcel->getProperties()->setTitle("Daftar Program");
+		$objPHPExcel->setActiveSheetIndex(0);
+		////////////Mulai//////////////////////////////////////////////////////////////////////////////////////
+		$searchModel = new ActivitySearch();
+		$queryParams = Yii::$app->request->getQueryParams();
+		$queryParams['ActivitySearch']=[
+				'id' => $id,
+			];
+		
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+        $dataProvider = $searchModel->search($queryParams);        
+		$dataProvider->getSort()->defaultOrder = [
+			'status'=>SORT_DESC,		
+		];
+		$dataProvider->setPagination(false);
+		foreach($dataProvider->getModels() as $data){
+			$name_training_capital = strtoupper($data->name);
+			$satker = strtoupper(Reference::findOne(['id'=>$data->satker_id])->name);
+			$year_training = date('Y',strtotime($data->start));
+			$lokasi = explode('|',$data->location);
+			$lokasi_diklat = strtoupper(Reference::findOne(['id'=>$lokasi[0]])->name);
+			$date_exec = $data->start.' s.d '.$data->end;
+			$count_student = TrainingClassStudent::find()->where(['training_id'=>$data->id,'training_class_id'=>$kelas])->count();
+		}
+		///////////////////////////////////////////////////////////////////////////////////////////////////////
+		$objPHPExcel->setActiveSheetIndex(0);
+		$objPHPExcel->getActiveSheet()->setCellValue('B3', $satker );
+		$objPHPExcel->getActiveSheet()->setCellValue('A6', $name_training_capital );
+		$objPHPExcel->getActiveSheet()->setCellValue('A7', 'TAHUN ANGGARAN '.$year_training );
+		$objPHPExcel->getActiveSheet()->setCellValue('D9', '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$lokasi_diklat );
+		$objPHPExcel->getActiveSheet()->setCellValue('D10', $date_exec );
+		$objPHPExcel->getActiveSheet()->setCellValue('D11', $count_student );
+		
+		$objPHPExcel->setActiveSheetIndex(1);
+		$objPHPExcel->getActiveSheet()->setCellValue('B3', $satker );
+		$objPHPExcel->getActiveSheet()->setCellValue('A6', $name_training_capital );
+		$objPHPExcel->getActiveSheet()->setCellValue('A7', 'TAHUN ANGGARAN '.$year_training );
+		$objPHPExcel->getActiveSheet()->setCellValue('D9', '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$lokasi_diklat );
+		$objPHPExcel->getActiveSheet()->setCellValue('D10', $date_exec );
+		$objPHPExcel->getActiveSheet()->setCellValue('D11', $count_student );
+		$objPHPExcel->getActiveSheet()->setCellValue('D38', "Jakarta,                                 ".date("Y") );
+		$objPHPExcel->getActiveSheet()->setCellValue('D42', '' );
+		
+		$objPHPExcel->setActiveSheetIndex(2);
+		$objPHPExcel->getActiveSheet()->setCellValue('B3', $satker );
+		$objPHPExcel->getActiveSheet()->setCellValue('A6', $name_training_capital );
+		$objPHPExcel->getActiveSheet()->setCellValue('A7', 'TAHUN ANGGARAN '.$year_training );
+		$objPHPExcel->getActiveSheet()->setCellValue('C24', "Jakarta,                                 ".date("Y") );
+		$objPHPExcel->getActiveSheet()->setCellValue('C29', '' );
+		
+		//$objPHPExcel->getActiveSheet()->setCellValue('B3', '             ' );
+
+		// Redirect output to a client’s web browser (Excel2007)
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="rekap_monitoring_diklat_harian.xlsx"');
+		header('Cache-Control: max-age=0');
+		$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, $types[$filetype]);
+		$objWriter->save('php://output');
+		exit;
+    }
+	
+	public function actionTrainerEvaluationEnvelope($id)
+    {
+        return $this->render('trainerEvaluationEnvelope', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+	
+	public function actionTrainerEvaluationEnvelopeWord($id,$filetype='docx')
+    {
+        $kelas=$_POST['class'];
+		$dataProvider = new ActiveDataProvider([
+            'query' => TrainingScheduleTrainer::find()
+												->where(['training_schedule_id'=>
+														 TrainingSchedule::find()
+														 	->select('id')
+															->where(['training_class_id'=>$kelas])
+														 ])
+												->groupBy('trainer_id'),
+        ]);
+		
+		try {
+			$templates=[
+				'docx'=>'ms-word.docx',
+				'odt'=>'open-document.odt',
+				'xlsx'=>'ms-excel.xlsx'
+			];
+			// Initalize the TBS instance
+			$OpenTBS = new \hscstudio\heart\extensions\OpenTBS; // new instance of TBS
+			// Change with Your template kaka
+			$template = Yii::getAlias('@file').'/template/pusdiklat/evaluation/template.amplop.evaluasi.pengajar.docx';
+			
+			$OpenTBS->LoadTemplate($template); // Also merge some [onload] automatic fields (depends of the type of document).
+			$OpenTBS->VarRef['modelName']= "ActivityGenerate";
+			$data1[] = [
+						'name_training' => Activity::findOne(['id'=>$id])->name,
+						'year_training' => date('Y',strtotime(Activity::findOne(['id'=>$id])->start)),
+					];
+	
+			$OpenTBS->MergeBlock('onshow', $data1);	
+			$idx=0;
+			$data = [];
+			foreach($dataProvider->getModels() as $trainer){
+				$data[] = [
+					'name_trainer'=>strtoupper($trainer->trainer->person->name),
+					'wi'=>$trainer->trainer->person->position_desc,
+					'address_trainer'=>$trainer->trainer->person->office_address,					
+				];
+				$idx++;
+			}
+			$OpenTBS->MergeBlock('data', $data);
+			// Output the result as a file on the server. You can change output file
+			$OpenTBS->Show(OPENTBS_DOWNLOAD, 'amplop.evaluasi.pengajar.'.$filetype); // Also merges all [onshow] automatic fields.			
+			exit;
+		} catch (\yii\base\ErrorException $e) {
+			 Yii::$app->session->setFlash('error', 'Unable export there are some error');
+		}	
+    }
+	
+	public function actionLetterAssignmentWord($id)
+    {
+        $kelas=$_POST['class'];
+		$dataProvider = new ActiveDataProvider([
+            'query' => TrainingScheduleTrainer::find()
+												->where(['training_schedule_id'=>
+														 TrainingSchedule::find()
+														 	->select('id')
+															->where(['training_class_id'=>$kelas])
+														 ])
+												->groupBy('trainer_id'),
+        ]);
+		
+		try {
+			$templates=[
+				'docx'=>'ms-word.docx',
+				'odt'=>'open-document.odt',
+				'xlsx'=>'ms-excel.xlsx'
+			];
+			// Initalize the TBS instance
+			$OpenTBS = new \hscstudio\heart\extensions\OpenTBS; // new instance of TBS
+			// Change with Your template kaka
+			$template = Yii::getAlias('@file').'/template/pusdiklat/evaluation/template.amplop.evaluasi.pengajar.docx';
+			
+			$OpenTBS->LoadTemplate($template); // Also merge some [onload] automatic fields (depends of the type of document).
+			$OpenTBS->VarRef['modelName']= "ActivityGenerate";
+			$data1[] = [
+						'name_training' => Activity::findOne(['id'=>$id])->name,
+						'year_training' => date('Y',strtotime(Activity::findOne(['id'=>$id])->start)),
+					];
+	
+			$OpenTBS->MergeBlock('onshow', $data1);	
+			$idx=0;
+			$data = [];
+			foreach($dataProvider->getModels() as $trainer){
+				$data[] = [
+					'name_trainer'=>strtoupper($trainer->trainer->person->name),
+					'wi'=>$trainer->trainer->person->position_desc,
+					'address_trainer'=>$trainer->trainer->person->office_address,					
+				];
+				$idx++;
+			}
+			$OpenTBS->MergeBlock('data', $data);
+			// Output the result as a file on the server. You can change output file
+			$OpenTBS->Show(OPENTBS_DOWNLOAD, 'amplop.evaluasi.pengajar.'.$filetype); // Also merges all [onshow] automatic fields.			
+			exit;
+		} catch (\yii\base\ErrorException $e) {
+			 Yii::$app->session->setFlash('error', 'Unable export there are some error');
+		}	
     }
 }

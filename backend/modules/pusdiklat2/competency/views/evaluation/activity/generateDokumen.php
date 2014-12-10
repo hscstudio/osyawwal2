@@ -138,7 +138,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'bgColor'=>'aqua', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
 				'bodyOptions' => [],
 				'icon' => 'fa fa-fw fa-book',
-				'link' => ['./evaluation/activity-generate/letter-assignment','id'=>$model->id],
+				'link' => ['./evaluation/activity-generate/daily-training-monitoring','id'=>$model->id],
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
@@ -159,7 +159,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'bgColor'=>'green', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
 				'bodyOptions' => [],
 				'icon' => 'fa fa-fw fa-book',
-				'link' => ['./evaluation/activity-generate/letter-assignment','id'=>$model->id],
+				'link' => ['./evaluation/activity-generate/trainer-evaluation-envelope','id'=>$model->id],
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
