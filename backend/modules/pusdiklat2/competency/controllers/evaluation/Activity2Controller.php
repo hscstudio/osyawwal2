@@ -336,7 +336,7 @@ class Activity2Controller extends Controller
 		$renders['model'] = $model;
 		$object_people_array = [
 			//1213030100 CEK KD_UNIT_ORG 1213030100 IN TABLE ORGANISATION IS SUBBIDANG PENYEL I
-			'organisation_1213040200'=>'PIC TRAINING ACTIVITY'
+			'organisation_1202020300'=>'PIC TRAINING ACTIVITY'
 		];
 		$renders['object_people_array'] = $object_people_array;
 		foreach($object_people_array as $object_person=>$label){

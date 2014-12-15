@@ -10,6 +10,8 @@ use backend\models\TrainingClassStudent;
 use backend\models\TrainingSchedule;
 use backend\models\TrainingScheduleTrainer;
 use backend\models\Person;
+use backend\models\ObjectReference;
+use backend\models\Satker;
 use backend\models\Room;
 use backend\models\Reference;
 use backend\modules\pusdiklat\evaluation\models\ActivitySearch;
@@ -250,25 +252,25 @@ class ActivityGenerateController extends Controller
 		}
 		///////////////////////////////////////////////////////////////////////////////////////////////////////
 		$objPHPExcel->setActiveSheetIndex(0);
-		$objPHPExcel->getActiveSheet()->setCellValue('B3', $satker );
+		$objPHPExcel->getActiveSheet()->setCellValue('B3', "             ".$satker );
 		$objPHPExcel->getActiveSheet()->setCellValue('A6', $name_training_capital );
 		$objPHPExcel->getActiveSheet()->setCellValue('A7', 'TAHUN ANGGARAN '.$year_training );
-		$objPHPExcel->getActiveSheet()->setCellValue('D9', '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$lokasi_diklat );
+		$objPHPExcel->getActiveSheet()->setCellValue('D9', $lokasi_diklat );
 		$objPHPExcel->getActiveSheet()->setCellValue('D10', $date_exec );
 		$objPHPExcel->getActiveSheet()->setCellValue('D11', $count_student );
 		
 		$objPHPExcel->setActiveSheetIndex(1);
-		$objPHPExcel->getActiveSheet()->setCellValue('B3', $satker );
+		$objPHPExcel->getActiveSheet()->setCellValue('B3', "             ".$satker );
 		$objPHPExcel->getActiveSheet()->setCellValue('A6', $name_training_capital );
 		$objPHPExcel->getActiveSheet()->setCellValue('A7', 'TAHUN ANGGARAN '.$year_training );
-		$objPHPExcel->getActiveSheet()->setCellValue('D9', '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$lokasi_diklat );
+		$objPHPExcel->getActiveSheet()->setCellValue('D9', $lokasi_diklat );
 		$objPHPExcel->getActiveSheet()->setCellValue('D10', $date_exec );
 		$objPHPExcel->getActiveSheet()->setCellValue('D11', $count_student );
 		$objPHPExcel->getActiveSheet()->setCellValue('D38', "Jakarta,                                 ".date("Y") );
 		$objPHPExcel->getActiveSheet()->setCellValue('D42', '' );
 		
 		$objPHPExcel->setActiveSheetIndex(2);
-		$objPHPExcel->getActiveSheet()->setCellValue('B3', $satker );
+		$objPHPExcel->getActiveSheet()->setCellValue('B3', "             ".$satker );
 		$objPHPExcel->getActiveSheet()->setCellValue('A6', $name_training_capital );
 		$objPHPExcel->getActiveSheet()->setCellValue('A7', 'TAHUN ANGGARAN '.$year_training );
 		$objPHPExcel->getActiveSheet()->setCellValue('C24', "Jakarta,                                 ".date("Y") );
@@ -348,10 +350,14 @@ class ActivityGenerateController extends Controller
         $ruang = Yii::$app->request->post()['ruang'];
 		$ttd = Yii::$app->request->post()['ttd'];
 		$tugas = Yii::$app->request->post()['tugas'];
+		$satker = Yii::$app->user->identity->employee->satker_id;
 		$admin = Yii::$app->request->post()['admin'];
 		$admins = implode(",", $admin);
 		$start = Yii::$app->request->post()['start'];
 		$finish = Yii::$app->request->post()['finish'];
+		$days = array('Minggu','Senin','Selasa','Rabu','Kamis','Jum\'at','Sabtu');
+		$months = array('Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember');
+		$month = $months[date("m")-1];
 		
 		/*echo Room::findOne(['id'=>$ruang])->name."<br>";
 		echo $tugas."<br>";
@@ -376,31 +382,48 @@ class ActivityGenerateController extends Controller
 			$OpenTBS->LoadTemplate($template); // Also merge some [onload] automatic fields (depends of the type of document).
 			$OpenTBS->VarRef['modelName']= "ActivityGenerate";
 			$data1[] = [
-						'name_execution_long_titlecase' => '',
+						'name_execution_long_titlecase' => Person::findOne(['id'=>$ttd])->position_desc,
+						'name_execution_head' =>strtoupper(Reference::findOne(['id'=>$satker])->name),
+						'address_execution' => Satker::findOne(['reference_id'=>$satker])->address,
+						'phone_execution' => Satker::findOne(['reference_id'=>$satker])->phone,
+						'fax_execution' => Satker::findOne(['reference_id'=>$satker])->fax,
+						'web_execution' => Satker::findOne(['reference_id'=>$satker])->website,
 						'assignments' => $tugas,
 						'name_training' =>Activity::findOne(['id'=>$id])->name,
-						'location_training' =>Room::findOne(['id'=>$ruang])->name,
+						'location_training' =>$ruang,
 						'year_training' =>date('Y',strtotime(Activity::findOne(['id'=>$id])->start)),
 						'month' =>date('M'),
 						'year' =>date('Y'),
-						'position_signature' =>'',
-						'name_signature' =>'',
-						'nip_signature' =>'',
+						'position_signature' =>'Kepala '.Person::findOne(['id'=>$ttd])->position_desc,
+						'name_signature' =>Person::findOne(['id'=>$ttd])->name,
+						'nip_signature' =>Person::findOne(['id'=>$ttd])->nip,
+						'tembusan' =>'Kepala Bagian Tata Usaha',
+						'no_execution'=> Satker::findOne(['reference_id'=>$satker])->letter_number,
 					];
 	
 			$OpenTBS->MergeBlock('onshow', $data1);	
 			//$idx=0;
 			$data = [];
+			$data2 = [];
 			for($i=0;$i<=count($admin)-1;$i++){
 				$data[] = [
+					'no'=>$i+1,
 					'name_admin'=>strtoupper(Person::findOne(['id'=>$admin[$i]])->name),
 					'nip_admin'=>Person::findOne(['id'=>$admin[$i]])->nip,
-					//'position_admin'=>$trainer->trainer->person->position_desc,
+					'position_admin'=>Person::findOne(['id'=>$admin[$i]])->position_desc,
 					'date'=>$start[Person::findOne(['id'=>$admin[$i]])->id]." - ".$finish[Person::findOne(['id'=>$admin[$i]])->id],					
 				];
-				//$idx++;
+				$data2[] = [
+					'no'=>$i+1,
+					'name_admin'=>strtoupper(Person::findOne(['id'=>$admin[$i]])->name),
+					//'nip_admin'=>Person::findOne(['id'=>$admin[$i]])->nip,
+					//'position_admin'=>Person::findOne(['id'=>$admin[$i]])->position_desc,
+					'tanggal'=>'',					
+				];
 			}
+			
 			$OpenTBS->MergeBlock('data', $data);
+			$OpenTBS->MergeBlock('data2', $data2);
 			// Output the result as a file on the server. You can change output file
 			$OpenTBS->Show(OPENTBS_DOWNLOAD, 'surat.tugas.terkait.diklat.'.$filetype); // Also merges all [onshow] automatic fields.			
 			exit;
@@ -424,6 +447,8 @@ class ActivityGenerateController extends Controller
 		$waktu = Yii::$app->request->post()['waktu'];
 		$trainer = Yii::$app->request->post()['trainer'];
 		$mapel = Yii::$app->request->post()['mapel'];
+		$days = array('Minggu','Senin','Selasa','Rabu','Kamis','Jum\'at','Sabtu');
+		$months = array('Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember');
 		/////////EXCELL///////////
 		$types=['xls'=>'Excel5','xlsx'=>'Excel2007'];
 		$objReader = \PHPExcel_IOFactory::createReader($types[$filetype]);
@@ -456,14 +481,55 @@ class ActivityGenerateController extends Controller
 		}
 		///////////////////////////////////////////////////////////////////////////////////////////////////////
 		$objPHPExcel->setActiveSheetIndex(0);
-		$objPHPExcel->getActiveSheet()->setCellValue('B3', $satker );
-		$objPHPExcel->getActiveSheet()->setCellValue('A6', $name_training_capital );
-		$objPHPExcel->getActiveSheet()->setCellValue('A7', 'TAHUN ANGGARAN '.$year_training );
-		$objPHPExcel->getActiveSheet()->setCellValue('D9', '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$lokasi_diklat );
-		$objPHPExcel->getActiveSheet()->setCellValue('D10', $date_exec );
-		$objPHPExcel->getActiveSheet()->setCellValue('D11', $count_student );		
-		//$objPHPExcel->getActiveSheet()->setCellValue('B3', '             ' );
-
+		$objPHPExcel->getActiveSheet()->setCellValue('A1', $jenis_form=0?'NILAI AKTIFITAS PESERTA':'NILAI UJIAN PESERTA');
+		$objPHPExcel->getActiveSheet()->setCellValue('A2', $name_training_capital." Kelas ".TrainingClass::findOne(['id'=>$kelas])->class);
+		$objPHPExcel->getActiveSheet()->setCellValue('A3', 'TAHUN ANGGARAN '.$year_training );
+		////
+		//$date = normalizedate($_POST['date'],0);
+		$tgl = $days[date("w",strtotime($tanggal))].", ".date("j",strtotime($tanggal))." ".$months[date("n",strtotime($tanggal))-1]." ".date("Y",strtotime($tanggal));
+		$objPHPExcel->getActiveSheet()->setCellValue('D5',$tgl )
+									  ->setCellValue('D6',$waktu)
+									  ->setCellValue('D7',$mapel)
+									  ->setCellValue('G12', 'Jakarta,   - '.$months[date("n",strtotime($tanggal))-1].' - '.date("Y",strtotime($tanggal)) )
+									  ->setCellValue('G17',"( ".Person::findOne(['id'=>$trainer])->name." )");
+		///////////Student////////
+		$idx=0;
+		$baseRow = 10;
+		
+		$data_student = TrainingClassStudent::find()
+						->where(['training_id'=>$id,'training_class_id'=>$kelas])
+						//->asArray()
+						->all();
+				foreach($data_student as $student){					
+					$row = $baseRow + $idx;
+					if($idx!==0) $objPHPExcel->getActiveSheet()->insertNewRowBefore($row,1);
+					$nip_student=$student->trainingStudent->student->person->nip;
+					//198604 30 198604 
+					if(substr($nip_student,0,6)==substr($nip_student,8,6)){
+						$nip_student="-";
+					}
+					$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $idx+1)
+	                              ->setCellValue('B'.$row, stripslashes($student->trainingStudent->student->person->name))
+	                              ->setCellValue('E'.$row, $nip_student.' ')
+	                              ->setCellValue('F'.$row, '')
+								  ->mergeCells('B'.$row.':D'.$row);
+					if(($idx+1)%2==1){
+						$objPHPExcel->getActiveSheet()->setCellValue('G'.$row,'=A'.$row);
+					}
+					else{
+						$objPHPExcel->getActiveSheet()->mergeCells('G'.($row-1).':G'.($row))
+													->mergeCells('H'.($row-1).':H'.($row))
+													->setCellValue('H'.($row-1),'=A'.$row);
+					}
+					$idx++;
+				}
+				if(($idx+1)%2<>1){
+					$row = $baseRow + $idx;
+					$objPHPExcel->getActiveSheet()->insertNewRowBefore($row,1)
+												->mergeCells('B'.$row.':D'.$row)
+												->mergeCells('G'.($row-1).':G'.($row))
+												->mergeCells('H'.($row-1).':H'.($row));
+				}
 		// Redirect output to a client’s web browser (Excel2007)
 		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 		header('Content-Disposition: attachment;filename="evaluasi.peserta.xlsx"');
@@ -483,6 +549,7 @@ class ActivityGenerateController extends Controller
 		$ruang = Yii::$app->request->post()['ruang'];
 		$ttd = Yii::$app->request->post()['ttd'];
 		$nip = Yii::$app->request->post()['ttdnip'];
+		$satker = Yii::$app->user->identity->employee->satker_id;
 		
 		//echo $ruang.$ttd.$nip;
 		
@@ -502,8 +569,13 @@ class ActivityGenerateController extends Controller
 			$data[] = [
 						'name_execution_titlecase' => Person::findOne(['id'=>$ttd])->position_desc,
 						'evaluation_head' => 'Kepala Bidang Penjenjangan Pangkat Dan Peningkatan Kompetensi',
+						'name_execution_head' =>strtoupper(Reference::findOne(['id'=>$satker])->name),
+						'address_execution' => Satker::findOne(['reference_id'=>$satker])->address,
+						'phone_execution' => Satker::findOne(['reference_id'=>$satker])->phone,
+						'fax_execution' => Satker::findOne(['reference_id'=>$satker])->fax,
+						'web_execution' => Satker::findOne(['reference_id'=>$satker])->website,
 						'name_training' =>Activity::findOne(['id'=>$id])->name,
-						'place_training' =>Room::findOne(['id'=>$ruang])->name,
+						'place_training' =>$ruang,
 						'year_training' =>date('Y',strtotime(Activity::findOne(['id'=>$id])->start)),
 						'division_head' => 'Kepala Bidang',
 						'general_head' => 'Kapala Bagian Tata Usaha',
@@ -513,6 +585,8 @@ class ActivityGenerateController extends Controller
 						'name_signature' =>strtoupper(Person::findOne(['id'=>$ttd])->name),
 						'nip_signature' =>$nip,
 						'position_signature' => 'Kepala '.Person::findOne(['id'=>$ttd])->position_desc,
+						'no_execution'=> Satker::findOne(['reference_id'=>$satker])->letter_number,
+						'date'=>'TAHUN ANGGARAN '.date('Y',strtotime(Activity::findOne(['id'=>$id])->start)),
 					];
 	
 			$OpenTBS->MergeBlock('onshow', $data);				
@@ -524,27 +598,22 @@ class ActivityGenerateController extends Controller
 		}		
 	}
 	
-	public function actionTrainingHonorTransportExcel($id,$filetype='xlsx'){
+	public function actionTrainingHonorTransportExcel($id,$filetype='xlsx')
+	{
+		
 		$pembayaran = Yii::$app->request->post()['pembayaran'];
 		$txtsurat = Yii::$app->request->post()['txtsurat'];
 		$nosurat = Yii::$app->request->post()['nosurat'];
 		$tgl_surat = Yii::$app->request->post()['tgl_surat'];
 		$ttd = Yii::$app->request->post()['ttd'];
 		$nip = Yii::$app->request->post()['ttdnip'];
+		$days = array('Minggu','Senin','Selasa','Rabu','Kamis','Jum\'at','Sabtu');
+		$months = array('Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember');
 		$satker = Yii::$app->user->identity->employee->satker_id;
 		$admin = Yii::$app->request->post()['admin'];
 		$admins = implode(",", $admin);
 		$frek = Yii::$app->request->post()['frek'];
-		$data = [];
-			for($i=0;$i<=count($admin)-1;$i++){
-				$data[] = [
-					'name_admin'=>strtoupper(Person::findOne(['id'=>$admin[$i]])->name),
-					'nip_admin'=>Person::findOne(['id'=>$admin[$i]])->nip,
-					//'position_admin'=>$trainer->trainer->person->position_desc,
-					'frek'=>$frek[Person::findOne(['id'=>$admin[$i]])->id],					
-				];
-				//$idx++;
-			}
+		
 		/////////
 		$types=['xls'=>'Excel5','xlsx'=>'Excel2007'];
 		$objReader = \PHPExcel_IOFactory::createReader($types[$filetype]);
@@ -559,18 +628,33 @@ class ActivityGenerateController extends Controller
 		$objPHPExcel->getActiveSheet()->setCellValue('E4', "".$txtsurat."");	
 		$objPHPExcel->getActiveSheet()->setCellValue('E3', $pembayaran)
 							  ->setCellValue('F5', $nosurat)
-							  ->setCellValue('F6', "")
-							  ->setCellValue('K17', "Jakarta, .... ")
+							  ->setCellValue('F6', date("j",strtotime($tgl_surat))." ".$months[date("n",strtotime($tgl_surat))-1]." ".date("Y",strtotime($tgl_surat))."")
+							  ->setCellValue('K17', "Jakarta, .... ".$months[date("n")-1]." ".date("Y")."")
 							  ->setCellValue('K19', "")
 							  ->setCellValue('K20', "")
-							  ->setCellValue('H19', "")
-							  ->setCellValue('H20', "")
+							  ->setCellValue('H19', Person::findOne(['id'=>$ttd])->name)
+							  ->setCellValue('H20', $nip)
 							  ->setCellValue('D19', "")
 							  ->setCellValue('D20', "")
 							  ->setCellValue('B19', "")
 							  ->setCellValue('B20', "");
-		//$objPHPExcel->getActiveSheet()->setCellValue('B3', '             ' );
-
+		///////////
+		$idx=0;
+		$baseRow = 12;
+		$total_frek=0;
+		$total_jumlah_kotor=0;
+		$total_pajak=0;
+		$total_jumlah_bersih=0;
+			for($i=0;$i<=count($admin)-1;$i++){
+				$row = $baseRow + $idx;
+				if($idx>0) $objPHPExcel->getActiveSheet()->insertNewRowBefore($row,1);
+				$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $idx+1);
+				$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, strtoupper(Person::findOne(['id'=>$admin[$i]])->name));
+				$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, Reference::findOne(['id'=>$satker])->name);
+				//$objPHPExcel->getActiveSheet()->setCellValue('D'.$row, ObjectReference::findOne(['object_id'=>$admin[$i],'object'=>'person','type'=>'rank_class'])->reference_id);
+				
+				$idx++;
+			}
 		// Redirect output to a client’s web browser (Excel2007)
 		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 		header('Content-Disposition: attachment;filename="honor.transport.diklat.xlsx"');

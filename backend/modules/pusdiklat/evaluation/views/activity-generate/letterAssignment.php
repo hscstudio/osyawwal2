@@ -19,7 +19,7 @@ $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 $this->title = Yii::t('app', 'Generate {modelClass}: '.$model->name, [
     'modelClass' => 'Surat Tugas Terkait Diklat',]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['./evaluation/activity/generate-dokumen','id'=>$model->id]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['activity/generate-dokumen','id'=>$model->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Surat Tugas Terkait Diklat'];
 ?>
 <div class="activity-update panel panel-default">
@@ -53,22 +53,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Surat Tugas Terkait Diklat'];
             
             <?= $form->errorSummary($model) ?> <!-- ADDED HERE -->
             <?php
-				$data = ArrayHelper::map(ActivityRoom::find()
-				->joinWith('room')
-				->where(['activity_id'=>$model->id,'activity_room.status'=>2])
-				->asArray()
-				->all()
-				, 'room_id','room.name');
-			echo Select2::widget([
-				'name' => 'ruang', 
-				'data' => $data,
-				'options' => [
-					'placeholder' => 'Select Room ...', 
-					'class'=>'form-control', 
-					'multiple' => false,
-					'id'=>'ruang',
-				],
-			]);
+			echo Html::input('text','ruang','',['class'=>'form-control','id'=>'ruang']);
 			?>	
                 </div>
                 <div class="col-md-4">
@@ -84,7 +69,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Surat Tugas Terkait Diklat'];
 					'id'=>Employee::find()
 						->select('person_id')
 						->where([
-							'satker_id'=>18,
+							'satker_id'=>Yii::$app->user->identity->employee->satker_id,
 							'chairman'=>1,// CEK ID 393 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
 						])
 						->column(),
@@ -120,25 +105,28 @@ $this->params['breadcrumbs'][] = ['label' => 'Surat Tugas Terkait Diklat'];
 			<?php
 			$dataProvider = new ActiveDataProvider([
             'query' => Employee::find()
-									->where(['organisation_id'=>'69'])
+									->where(['organisation_id'=>'400'])
 			]);
 			$no=1;
 			foreach($dataProvider->getModels() as $person){
 				echo "<div class='row clearfix'>";
 				echo "<div class='col-md-3'><input type='checkbox' name='admin[]' value='".$person->person_id."'> ".$person->person->name."</div>";
 				echo "<div class='col-md-3'>".$person->person->nip."</div>";
-				echo "<div class='col-md-6'>".DatePicker::widget([
+				echo "<div class='col-md-3'>".DatePicker::widget([
 						'name' => 'start['.$person->person_id.']',
 						'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+						'value' => date('d-M-Y'),
 						'pluginOptions' => [
 							'autoclose'=>true,
 							'format' => 'dd-M-yyyy',
 							'todayHighlight' => true
 						]
-					])." s.d ".
+					])."</div>";
+				echo "<div class='col-md-3'>".
 						DatePicker::widget([
 						'name' => 'finish['.$person->person_id.']',
 						'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+						'value' => date('d-M-Y'),
 						'pluginOptions' => [
 							'autoclose'=>true,
 							'format' => 'dd-M-yyyy',

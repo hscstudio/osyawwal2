@@ -17,7 +17,7 @@ $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 $this->title = Yii::t('app', 'Generate {modelClass}: ', [
     'modelClass' => 'Honor Transport',]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['./evaluation/activity/generate-dokumen','id'=>$model->id]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['activity/generate-dokumen','id'=>$model->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Honor Transport'];
 ?>
 <div class="activity-update panel panel-default">
@@ -78,7 +78,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Honor Transport'];
             <?php
 			$dataProvider = new ActiveDataProvider([
             'query' => Employee::find()
-									->where(['organisation_id'=>'69'])
+									->where(['organisation_id'=>'400'])
 			]);
 			$no=1;
 			foreach($dataProvider->getModels() as $person){
@@ -98,7 +98,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Honor Transport'];
 					'id'=>Employee::find()
 						->select('person_id')
 						->where([
-							'satker_id'=>18,
+							'satker_id'=>Yii::$app->user->identity->employee->satker_id,
 							'chairman'=>1,// CEK ID 393 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
 						])
 						->column(),

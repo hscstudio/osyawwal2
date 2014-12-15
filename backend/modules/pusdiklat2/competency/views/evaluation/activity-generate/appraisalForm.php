@@ -97,7 +97,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Form Penilaian'];
 			?>	
             <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'Waktu'.Html::endTag('label');
-				echo Html::input('text','waktu','',['class'=>'form-control','id'=>'waktu']);
+				echo Html::input('text','waktu','08:00-12:00 WIB',['class'=>'form-control','id'=>'waktu']);
 			?>	
             <?php
 			$data = ArrayHelper::map(Person::find()

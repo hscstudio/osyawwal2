@@ -45,23 +45,8 @@ $this->params['breadcrumbs'][] = ['label' => 'Dokumen Evaluasi Tatap Muka'];
             
             <?= $form->errorSummary($model) ?> <!-- ADDED HERE -->
             <?php
-				$data = ArrayHelper::map(ActivityRoom::find()
-				->joinWith('room')
-				->where(['activity_id'=>$model->id,'activity_room.status'=>2])
-				->asArray()
-				->all()
-				, 'room_id','room.name');
-			echo '<label class="control-label">Tempat</label>';
-			echo Select2::widget([
-				'name' => 'ruang', 
-				'data' => $data,
-				'options' => [
-					'placeholder' => 'Select Room ...', 
-					'class'=>'form-control', 
-					'multiple' => false,
-					'id'=>'ruang',
-				],
-			]);
+				echo Html::beginTag('label',['class'=>'control-label']).'Tempat'.Html::endTag('label');
+				echo Html::input('text','ruang','',['class'=>'form-control','id'=>'ruang']);
 			?>	
            
             <?php

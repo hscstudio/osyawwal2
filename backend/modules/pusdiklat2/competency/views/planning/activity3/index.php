@@ -146,7 +146,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						->where([
 							'object'=>'activity',
 							'object_id'=>$data->id,														
-							'type'=>'organisation_1213020300' //1213020300 CEK KD_UNIT_ORG 1213020300 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
+							'type'=>'organisation_1202020100' //1213020300 CEK KD_UNIT_ORG 1213020300 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
 						])
 						->one();
 					if($permit){

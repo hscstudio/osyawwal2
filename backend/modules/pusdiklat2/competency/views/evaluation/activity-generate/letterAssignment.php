@@ -53,22 +53,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Surat Tugas Terkait Diklat'];
             
             <?= $form->errorSummary($model) ?> <!-- ADDED HERE -->
             <?php
-				$data = ArrayHelper::map(ActivityRoom::find()
-				->joinWith('room')
-				->where(['activity_id'=>$model->id,'activity_room.status'=>2])
-				->asArray()
-				->all()
-				, 'room_id','room.name');
-			echo Select2::widget([
-				'name' => 'ruang', 
-				'data' => $data,
-				'options' => [
-					'placeholder' => 'Select Room ...', 
-					'class'=>'form-control', 
-					'multiple' => false,
-					'id'=>'ruang',
-				],
-			]);
+			echo Html::input('text','ruang','',['class'=>'form-control','id'=>'ruang']);
 			?>	
                 </div>
                 <div class="col-md-4">
@@ -127,18 +112,21 @@ $this->params['breadcrumbs'][] = ['label' => 'Surat Tugas Terkait Diklat'];
 				echo "<div class='row clearfix'>";
 				echo "<div class='col-md-3'><input type='checkbox' name='admin[]' value='".$person->person_id."'> ".$person->person->name."</div>";
 				echo "<div class='col-md-3'>".$person->person->nip."</div>";
-				echo "<div class='col-md-6'>".DatePicker::widget([
+				echo "<div class='col-md-3'>".DatePicker::widget([
 						'name' => 'start['.$person->person_id.']',
 						'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+						'value' => date('d-M-Y'),
 						'pluginOptions' => [
 							'autoclose'=>true,
 							'format' => 'dd-M-yyyy',
 							'todayHighlight' => true
 						]
-					])." s.d ".
+					])."</div>";
+				echo "<div class='col-md-3'>".
 						DatePicker::widget([
 						'name' => 'finish['.$person->person_id.']',
 						'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+						'value' => date('d-M-Y'),
 						'pluginOptions' => [
 							'autoclose'=>true,
 							'format' => 'dd-M-yyyy',

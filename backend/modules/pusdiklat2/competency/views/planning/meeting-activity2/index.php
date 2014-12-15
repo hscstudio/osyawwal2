@@ -115,7 +115,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						->where([
 							'object'=>'activity',
 							'object_id'=>$data->id,														
-							'type'=>'organisation_1213020200' //1213010100 CEK KD_UNIT_ORG 1213010100 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
+							'type'=>'organisation_68' //1213010100 CEK KD_UNIT_ORG 1213010100 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
 						])
 						->one();
 					

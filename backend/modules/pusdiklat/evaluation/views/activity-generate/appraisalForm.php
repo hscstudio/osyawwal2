@@ -20,7 +20,7 @@ $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 $this->title = Yii::t('app', 'Generate {modelClass}: ', [
     'modelClass' => 'Form Penilaian',]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['./evaluation/activity/generate-dokumen','id'=>$model->id]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['activity/generate-dokumen','id'=>$model->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Form Penilaian'];
 ?>
 <div class="activity-update panel panel-default">
@@ -97,7 +97,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Form Penilaian'];
 			?>	
             <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'Waktu'.Html::endTag('label');
-				echo Html::input('text','waktu','',['class'=>'form-control','id'=>'waktu']);
+				echo Html::input('text','waktu','08:00-12:00 WIB',['class'=>'form-control','id'=>'waktu']);
 			?>	
             <?php
 			$data = ArrayHelper::map(Person::find()
