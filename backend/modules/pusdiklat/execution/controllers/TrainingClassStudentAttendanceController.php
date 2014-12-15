@@ -24,6 +24,7 @@ use backend\models\ObjectReference;
 use backend\models\Reference;
 
 use backend\modules\pusdiklat\execution\models\TrainingClassStudentSearch;
+use hscstudio\heart\helpers\Heart;
 
 class TrainingClassStudentAttendanceController extends Controller
 {
@@ -481,7 +482,7 @@ class TrainingClassStudentAttendanceController extends Controller
 
 
 
-	public function actionPrint($training_schedule_id) {
+	public function actionPrint($training_schedule_id,$filetype='xlsx') {
 
 		// Casting argumen ke array
 		$training_schedule_id = explode('_', $training_schedule_id);
@@ -504,7 +505,7 @@ class TrainingClassStudentAttendanceController extends Controller
 		$namaKelas = '';
 		$namaUnit = '';
 		$tanggalMentah = ''; // Ragu ... mungkin gak sih schedule2 yang diquery tanggal major nya beda??
-		
+		$class_id = 0;
 		foreach ($modelSchedule as $row) {
 			
 			if ($referenceClass == '') {
@@ -518,11 +519,14 @@ class TrainingClassStudentAttendanceController extends Controller
 			$namaDiklat = $row->trainingClass->training->activity->name;
 
 			$namaKelas = $row->trainingClass->class;
+			$class_id =  $row->trainingClass->id;
 
 			$namaUnit = Reference::findOne($row->trainingClass->training->activity->satker_id)->name;
 
 			$tanggalMentah = date('Y-m-d', strtotime($row->start));
-
+			
+			
+			//
 		}
 
 		if ($different) {
@@ -532,18 +536,130 @@ class TrainingClassStudentAttendanceController extends Controller
 		// dah
 
     	// Ambil template
-    	$template = Yii::getAlias('@backend').'/../file/template/pusdiklat/execution/2.12_contoh_daftar_hadir_peserta_diklat_27082014.xls';
-		$objPHPExcel = PHPExcel_IOFactory::load($template);
+		$types=['xls'=>'Excel5','xlsx'=>'Excel2007'];
+		$objReader = \PHPExcel_IOFactory::createReader($types[$filetype]);
+		$template = Yii::getAlias('@file').DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'pusdiklat'.DIRECTORY_SEPARATOR.'execution'.DIRECTORY_SEPARATOR.'student_attendance.'.$filetype;
+		$objPHPExcel = $objReader->load($template);
 		//dah
-
+		$objPHPExcel->setActiveSheetIndex(0);
+		$activeSheet = $objPHPExcel->getActiveSheet();
 		// Ngisi konten
-		$objPHPExcel->getActiveSheet()->setCellValue('A3', $namaUnit);
-		$objPHPExcel->getActiveSheet()->setCellValue('A8', strtoupper($namaDiklat));
-		$objPHPExcel->getActiveSheet()->setCellValue('A9', 'Kelas '.$namaKelas);
-		$objPHPExcel->getActiveSheet()->setCellValue('A10', 'TAHUN ANGGARAN '.date('Y', strtotime($tanggalMentah)));
-		$objPHPExcel->getActiveSheet()->setCellValue('A12', 'Hari / Tanggal: '.date('D, d F Y', strtotime($tanggalMentah)));
-
-
+		$activeSheet->setCellValue('B3', $namaUnit)
+			->setCellValue('A8', strtoupper($namaDiklat))
+			->setCellValue('A9', 'KELAS '.$namaKelas)
+			->setCellValue('A10', 'TAHUN ANGGARAN '.date('Y', strtotime($tanggalMentah)));
+		
+		$weeks = ['','Senin','Selasa','Rabu','Kamis',"Jum'at",'Sabtu','Minggu'];
+		$week = $weeks[date('N',strtotime($tanggalMentah))];
+		$months = ['','Januari','Februari','Maret','April','Mei','Juni','July','Agustus','September','Oktober','November','Desember'];
+		$month = $months[date('n',strtotime($tanggalMentah))];
+		$date = $week.', '.date('j',strtotime($tanggalMentah)).' '.$month.' '.date('Y',strtotime($tanggalMentah));
+		$activeSheet->setCellValue('C12', $date);
+		
+		// GET MP
+		$idx=0;
+		$baseCol = 4;
+		$baseRow = 18;
+		foreach ($modelSchedule as $schedule) {
+			$col = (int)$baseCol + $idx;
+			$cols = Heart::abjad($col);
+			if($idx!=0){
+				$activeSheet->insertNewColumnBefore($cols[$col]);
+				$activeSheet->getColumnDimension($cols[$col])->setWidth(15);
+			}
+			$activeSheet->setCellValue($cols[$col].'13', 'MP '.($idx+1).' ('.$schedule->hours.'JP)');
+			$activeSheet->setCellValue($cols[$col].'14', date('H:i',strtotime($schedule->start)).' - '. date('H:i',strtotime($schedule->end)));
+			
+			$trainer = "";
+			$trainers = \backend\models\TrainingScheduleTrainer::find()
+				->where([
+					'type' => [113,114],
+					'training_schedule_id' => $schedule->id,
+					'status' => 1
+				])
+				->one();
+			if($trainers!==null) $trainer=$trainers->trainer->person->name;
+			$activeSheet->setCellValue($cols[$col].'16', $trainer);
+			
+			$row = (int)$baseRow + $idx;
+			$subject_name ="";
+			$programSubject= \backend\models\ProgramSubjectHistory::find()
+			->where([
+				'id' => $schedule->trainingClassSubject->program_subject_id,
+				'program_revision' => $schedule->trainingClassSubject->trainingClass->training->program_revision,
+				'status'=>1
+			])
+			->one();
+			if(null!=$programSubject){
+				$subject_name = $programSubject->name;
+			}
+			$activeSheet->setCellValue('A'.$row, 'MP '.($idx+1))
+						->setCellValue('B'.$row, $subject_name);
+						
+						
+			$idx++;
+		}
+		
+		// GET STUDENT
+		$searchModel = new TrainingClassStudentSearch();
+		$queryParams['TrainingClassStudentSearch']=[				
+			'training_class_id' =>$class_id,
+			'training_class_student.status'=>1,
+		];
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$dataProvider = $searchModel->search($queryParams); 
+		$dataProvider->setPagination(false);
+		$idx=0;
+		$baseRow = 15;
+		foreach($dataProvider->getModels() as $trainingClassStudent){
+			$row = $baseRow + $idx;
+			if($idx!=0) $activeSheet->insertNewRowBefore($row,1);
+			$student = $trainingClassStudent->trainingStudent->student;
+			$person = $student->person;					
+						
+			$eselon1="-";
+			$or=\backend\models\ObjectReference::find()
+				->where([
+					'object'=>'person',
+					'object_id'=>$student->person_id,
+					'type'=>'unit',							
+				])
+				->one();
+			if($or!==null){
+				$reference = $or->reference;
+				if($reference!==null){
+					$eselon1= $reference->name;							
+				}
+			}
+			$unit_kerja = $eselon1;
+			if($student->satker==4 && strlen($student->eselon4)>3) $unit_kerja = $student->eselon4;
+			if($student->satker==3 && strlen($student->eselon3)>3) $unit_kerja = $student->eselon3;
+			if($student->satker==2 && strlen($student->eselon2)>3) $unit_kerja = $student->eselon2;
+			$activeSheet->setCellValue('A'.$row, $idx+1)
+						->setCellValue('B'.$row, $person->name)
+						->setCellValue('C'.$row, ' '.$person->nip)
+						->setCellValue('D'.$row, $unit_kerja)
+						;
+			//$activeSheet->mergeCells('B'.$row.':D'.$row);
+			if(($idx+1)%2==1){
+				//$activeSheet->setCellValue('G'.$row,'=A'.$row);
+			}
+			else{
+				//$activeSheet->mergeCells('G'.($row-1).':G'.($row));
+				//$activeSheet->mergeCells('H'.($row-1).':H'.($row));
+				//$activeSheet->setCellValue('H'.($row-1),'=A'.$row);
+			}
+			$idx++;
+		}			
+		
+		if(($idx+1)%2<>1){
+			$row = $baseRow + $idx;
+			$activeSheet->insertNewRowBefore($row,1);
+			//$activeSheet->mergeCells('B'.$row.':D'.$row);
+			//$activeSheet->mergeCells('G'.($row-1).':G'.($row));
+			//$activeSheet->mergeCells('H'.($row-1).':H'.($row));
+		}
+		/* 
 		$pointerKolomMP = ord('E');
 
 		$jumlahBaris = 0;
@@ -710,8 +826,8 @@ class TrainingClassStudentAttendanceController extends Controller
 			->getAlignment()
 			->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER)
 			->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-
-		$objPHPExcel->getActiveSheet()->mergeCells('A1:'.chr($pointerKolomMP - 1).'1');
+ */
+		/* $objPHPExcel->getActiveSheet()->mergeCells('A1:'.chr($pointerKolomMP - 1).'1');
 		$objPHPExcel->getActiveSheet()->mergeCells('A2:'.chr($pointerKolomMP - 1).'2');
 		$objPHPExcel->getActiveSheet()->mergeCells('A3:'.chr($pointerKolomMP - 1).'3');
 		$objPHPExcel->getActiveSheet()->mergeCells('A4:'.chr($pointerKolomMP - 1).'4');
@@ -726,24 +842,15 @@ class TrainingClassStudentAttendanceController extends Controller
 
 		$objPHPExcel->getActiveSheet()->removeRow(17 + $jumlahBaris,1);
 
-		$objPHPExcel->getActiveSheet()->getRowDimension(17 + $jumlahBaris)->setRowHeight(90);
+		$objPHPExcel->getActiveSheet()->getRowDimension(17 + $jumlahBaris)->setRowHeight(90); */
 		// dah
 		
+				
 		// Redirect output to a client’s web browser
-		header('Content-Type: application/vnd.ms-excel');
-
-		header('Content-Disposition: attachment;filename="attendance_class_'.$namaKelas.'_'.$namaDiklat.'.xls"');
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="student_attendance_class_'.$namaKelas.'_'.date('YmdHis').'.'.$filetype.'"');
 		header('Cache-Control: max-age=0');
-		// If you're serving to IE 9, then the following may be needed
-		header('Cache-Control: max-age=1');
-
-		// If you're serving to IE over SSL, then the following may be needed
-		header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-		header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
-		header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
-		header ('Pragma: public'); // HTTP/1.0
-		
-		$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+		$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, $types[$filetype]);
 		$objWriter->save('php://output');
 		exit;
 
