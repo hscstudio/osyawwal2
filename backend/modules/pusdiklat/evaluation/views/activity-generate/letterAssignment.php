@@ -17,9 +17,9 @@ use kartik\widgets\DatePicker;
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
-$this->title = Yii::t('app', 'Generate {modelClass}: ', [
+$this->title = Yii::t('app', 'Generate {modelClass}: '.$model->name, [
     'modelClass' => 'Surat Tugas Terkait Diklat',]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['./activity/generate-dokumen','id'=>$model->id]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['./evaluation/activity/generate-dokumen','id'=>$model->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Surat Tugas Terkait Diklat'];
 ?>
 <div class="activity-update panel panel-default">
@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Surat Tugas Terkait Diklat'];
 						'onsubmit'=>'',
 					],
 					'action'=>[
-						'leeter-assignment-word','id'=>$model->id
+						'letter-assignment-word','id'=>$model->id
 					], 
 				]);
 			?>
@@ -73,7 +73,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Surat Tugas Terkait Diklat'];
                 </div>
                 <div class="col-md-4">
                 <?php
-				echo Html::input('text','student','menjadi pengamat dan pengawas ujian',['class'=>'form-control','id'=>'count']);
+				echo Html::input('text','tugas','menjadi pengamat dan pengawas ujian',['class'=>'form-control','id'=>'tugas']);
 				?>	
                 </div>
                 <div class="col-md-4">
@@ -95,13 +95,13 @@ $this->params['breadcrumbs'][] = ['label' => 'Surat Tugas Terkait Diklat'];
 				, 'id', 'name');
 			
 			echo Select2::widget([
-				'name' => 'baseon', 
+				'name' => 'ttd', 
 				'data' => $data,
 				'options' => [
 					'placeholder' => 'Select TTD ...', 
 					'class'=>'form-control', 
 					'multiple' => false,
-					'id'=>'baseon_satu',
+					'id'=>'ttd',
 				],
 			]);
 			?>	
@@ -128,19 +128,21 @@ $this->params['breadcrumbs'][] = ['label' => 'Surat Tugas Terkait Diklat'];
 				echo "<div class='col-md-3'><input type='checkbox' name='admin[]' value='".$person->person_id."'> ".$person->person->name."</div>";
 				echo "<div class='col-md-3'>".$person->person->nip."</div>";
 				echo "<div class='col-md-6'>".DatePicker::widget([
-						'name' => 'start['.$person->person->nip.']',
+						'name' => 'start['.$person->person_id.']',
 						'type' => DatePicker::TYPE_COMPONENT_PREPEND,
 						'pluginOptions' => [
 							'autoclose'=>true,
-							'format' => 'dd-M-yyyy'
+							'format' => 'dd-M-yyyy',
+							'todayHighlight' => true
 						]
 					])." s.d ".
 						DatePicker::widget([
-						'name' => 'finish['.$person->person->nip.']',
+						'name' => 'finish['.$person->person_id.']',
 						'type' => DatePicker::TYPE_COMPONENT_PREPEND,
 						'pluginOptions' => [
 							'autoclose'=>true,
-							'format' => 'dd-M-yyyy'
+							'format' => 'dd-M-yyyy',
+							'todayHighlight' => true
 						]
 					])."</div>";
 				echo "</div>";

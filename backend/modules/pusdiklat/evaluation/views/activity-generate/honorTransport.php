@@ -6,6 +6,8 @@ use yii\helpers\ArrayHelper;
 use backend\models\Person;
 use backend\models\Employee;
 use yii\helpers\Url;
+use kartik\widgets\DatePicker;
+use yii\data\ActiveDataProvider;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Program */
@@ -15,7 +17,7 @@ $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 $this->title = Yii::t('app', 'Generate {modelClass}: ', [
     'modelClass' => 'Honor Transport',]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['./activity/generate-dokumen','id'=>$model->id]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['./evaluation/activity/generate-dokumen','id'=>$model->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Honor Transport'];
 ?>
 <div class="activity-update panel panel-default">
@@ -35,55 +37,100 @@ $this->params['breadcrumbs'][] = ['label' => 'Honor Transport'];
 						'onsubmit'=>'',
 					],
 					'action'=>[
-						'class','id'=>$model->id
+						'training-honor-transport-excel','id'=>$model->id
 					], 
 				]);
 			?>
             
             <?= $form->errorSummary($model) ?> <!-- ADDED HERE -->
             <?php
-				echo Html::beginTag('label',['class'=>'control-label']).'Tempat'.Html::endTag('label');
-				echo Html::input('text','student','',['class'=>'form-control','id'=>'count']);
+				echo Html::beginTag('label',['class'=>'control-label']).'Pembayaran'.Html::endTag('label');
+				echo Html::input('textarea','pembayaran','Pembayaran Uang Transport Monitoring '.$model->name,['class'=>'form-control','id'=>'pembayaran']);
 			?>	
            
             <?php
+				echo Html::beginTag('label',['class'=>'control-label']).'Surat'.Html::endTag('label');
+			?>	
+            <div class="row clearfix">
+                <div class="col-md-4"><?php echo Html::input('text','txtsurat','Surat Keputusan Kepala ',['class'=>'form-control','id'=>'txtsurat']);?></div>
+                <div class="col-md-4"><?php echo Html::input('text','nosurat','ST-   /PP.',['class'=>'form-control','id'=>'nosurat']);?></div>
+                <div class="col-md-4"><?php
+                echo DatePicker::widget([
+						'name' => 'tgl_surat',
+						'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+						'pluginOptions' => [
+							'autoclose'=>true,
+							'format' => 'dd-M-yyyy',
+							'todayHighlight' => true
+						]
+					]);?>
+				</div>                
+            </div>
+            <div class="row clearfix">
+                <div class="col-md-12">Yang Ditugaskan</div>                
+            </div>
+            <div class="clearfix"><hr></div>
+            <div class="row clearfix">
+                <div class="col-md-4">NAMA</div>
+                <div class="col-md-4">NIP</div>
+                <div class="col-md-4">FREK</div>
+            </div>
+            <?php
+			$dataProvider = new ActiveDataProvider([
+            'query' => Employee::find()
+									->where(['organisation_id'=>'69'])
+			]);
+			$no=1;
+			foreach($dataProvider->getModels() as $person){
+				echo "<div class='row clearfix'>";
+				echo "<div class='col-md-4'><input type='checkbox' name='admin[]' value='".$person->person_id."'> ".$person->person->name."</div>";
+				echo "<div class='col-md-4'>".$person->person->nip."</div>";
+				echo "<div class='col-md-4'>".Html::input('textarea','frek['.$person->person_id.']','1',['class'=>'form-control','id'=>'frek'])."</div>";
+				echo "</div>";
+				$no++;
+			} 			
+			?>
+            <div class="clearfix"><hr></div>
+            <?php
 			$data = ArrayHelper::map(Person::find()
-				->select(['id', 'name'])
+				->select(['id','name'])
 				->where([
 					'id'=>Employee::find()
 						->select('person_id')
 						->where([
-							'organisation_id'=>69, // CEK ID 393 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
+							'satker_id'=>18,
+							'chairman'=>1,// CEK ID 393 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
 						])
-						//->currentSatker()
 						->column(),
 				])		
 				->active()
 				->asArray()
 				->all()
 				, 'id', 'name');
-			echo '<label class="control-label">TTD</label>';
+			echo '<label class="control-label">Atasan Pembuat Daftar</label>';
 			echo Select2::widget([
-				'name' => 'baseon', 
+				'name' => 'ttd', 
 				'data' => $data,
 				'options' => [
-					'placeholder' => 'Select TTD ...', 
+					'placeholder' => 'Select TTD ...',
+					'onchange'=>'
+						$.post( "'.Url::to(['ttdnip']).'?id="+$(this).val(), 
+							function( data ) {
+							  $( "input#ttdnip" ).val( data + " ");
+							  $( "input#ttdnip" ).focus();
+							});
+					',
 					'class'=>'form-control', 
-					'multiple' => true,
-					'id'=>'baseon',
+					'multiple' => false,
+					'id'=>'ttd',
 				],
 			]);
-			?>
+			?>	
             <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'NIP'.Html::endTag('label');
-				echo Html::input('text','student','',['class'=>'form-control','id'=>'count']);
+				echo Html::input('text','ttdnip','',['class'=>'form-control','id'=>'ttdnip']);
 			?>	
-            <?php
-				echo Html::beginTag('label',['class'=>'control-label']).'Jabatan'.Html::endTag('label');
-				echo Html::input('text','student','',['class'=>'form-control','id'=>'count']);
-			?>	
-            
-            <div class="clearfix"><hr></div> 
+            <div class="clearfix"><hr></div>
             <div class="form-group">
                 <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Generate') : Yii::t('app', 'Generate'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
             </div>
