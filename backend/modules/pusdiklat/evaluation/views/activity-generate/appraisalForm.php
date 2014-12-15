@@ -10,7 +10,6 @@ use backend\models\TrainingSchedule;
 use backend\models\TrainingClass;
 use yii\helpers\Url;
 use kartik\widgets\DatePicker;
-use kartik\widgets\DepDrop;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Program */
@@ -20,7 +19,7 @@ $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 $this->title = Yii::t('app', 'Generate {modelClass}: ', [
     'modelClass' => 'Form Penilaian',]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['./evaluation/activity/generate-dokumen','id'=>$model->id]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['./activity/generate-dokumen','id'=>$model->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Form Penilaian'];
 ?>
 <div class="activity-update panel panel-default">
@@ -40,13 +39,12 @@ $this->params['breadcrumbs'][] = ['label' => 'Form Penilaian'];
 						'onsubmit'=>'',
 					],
 					'action'=>[
-						'form-student-evaluation-excel','id'=>$model->id
+						'class','id'=>$model->id
 					], 
 				]);
 			?>
             
             <?= $form->errorSummary($model) ?> <!-- ADDED HERE -->
-            
             <?php
 			$data_form = [
 						'0'=>'Nilai Aktivitas',
@@ -64,26 +62,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Form Penilaian'];
 					],
 				]);
 			?>	
-            
-            <?php
-			$data = ArrayHelper::map(TrainingClass::find()
-				->where(['training_id'=>$model->id])		
-				->asArray()
-				->all()
-				, 'id', 'class');
-			echo '<label class="control-label">Kelas</label>';
-			echo Select2::widget([
-				'name' => 'class', 
-				'data' => $data,
-				'options' => [
-					'placeholder' => 'Select Kelas ...', 
-					'class'=>'form-control', 
-					'multiple' => false,
-					'id'=>'class',
-				],
-			]);
-			?>
-            
             <?php
 				    echo '<label class="control-label">Tanggal</label>';
 					echo DatePicker::widget([
@@ -97,7 +75,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Form Penilaian'];
 			?>	
             <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'Waktu'.Html::endTag('label');
-				echo Html::input('text','waktu','',['class'=>'form-control','id'=>'waktu']);
+				echo Html::input('text','student','',['class'=>'form-control','id'=>'count']);
 			?>	
             <?php
 			$data = ArrayHelper::map(Person::find()
@@ -129,13 +107,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Form Penilaian'];
 				'data' => $data,
 				'options' => [
 					'placeholder' => 'Select Pengajar...', 
-					'onchange'=>'
-						$.post( "'.Url::to(['mapelku']).'?id="+$(this).val(), 
-							function( data ) {
-							  $( "input#mapel" ).val( data + " ");
-							  $( "input#mapel" ).focus();
-							});
-					',
 					'class'=>'form-control', 
 					'multiple' => false,
 					'id'=>'trainer',
@@ -144,7 +115,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Form Penilaian'];
 			?>
             <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'Mata Pelajaran'.Html::endTag('label');
-				echo Html::input('text','mapel','',['class'=>'form-control','id'=>'mapel']);
+				echo Html::input('text','student','',['class'=>'form-control','id'=>'count']);
 			?>	
             
             <div class="clearfix"><hr></div> 

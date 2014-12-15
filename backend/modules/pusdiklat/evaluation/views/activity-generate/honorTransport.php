@@ -6,9 +6,6 @@ use yii\helpers\ArrayHelper;
 use backend\models\Person;
 use backend\models\Employee;
 use yii\helpers\Url;
-use backend\models\ActivityRoom;
-use kartik\widgets\DepDrop;
-
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Program */
@@ -17,9 +14,9 @@ $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 $this->title = Yii::t('app', 'Generate {modelClass}: ', [
-    'modelClass' => 'Dokumen Evaluasi Tatap Muka',]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['./evaluation/activity/generate-dokumen','id'=>$model->id]];
-$this->params['breadcrumbs'][] = ['label' => 'Dokumen Evaluasi Tatap Muka'];
+    'modelClass' => 'Honor Transport',]);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['./activity/generate-dokumen','id'=>$model->id]];
+$this->params['breadcrumbs'][] = ['label' => 'Honor Transport'];
 ?>
 <div class="activity-update panel panel-default">
 	
@@ -38,42 +35,27 @@ $this->params['breadcrumbs'][] = ['label' => 'Dokumen Evaluasi Tatap Muka'];
 						'onsubmit'=>'',
 					],
 					'action'=>[
-						'training-direct-evaluation-word','id'=>$model->id
+						'class','id'=>$model->id
 					], 
 				]);
 			?>
             
             <?= $form->errorSummary($model) ?> <!-- ADDED HERE -->
             <?php
-				$data = ArrayHelper::map(ActivityRoom::find()
-				->joinWith('room')
-				->where(['activity_id'=>$model->id,'activity_room.status'=>2])
-				->asArray()
-				->all()
-				, 'room_id','room.name');
-			echo '<label class="control-label">Tempat</label>';
-			echo Select2::widget([
-				'name' => 'ruang', 
-				'data' => $data,
-				'options' => [
-					'placeholder' => 'Select Room ...', 
-					'class'=>'form-control', 
-					'multiple' => false,
-					'id'=>'ruang',
-				],
-			]);
+				echo Html::beginTag('label',['class'=>'control-label']).'Tempat'.Html::endTag('label');
+				echo Html::input('text','student','',['class'=>'form-control','id'=>'count']);
 			?>	
            
             <?php
 			$data = ArrayHelper::map(Person::find()
-				->select(['id','name'])
+				->select(['id', 'name'])
 				->where([
 					'id'=>Employee::find()
 						->select('person_id')
 						->where([
-							'satker_id'=>18,
-							'chairman'=>1,// CEK ID 393 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
+							'organisation_id'=>69, // CEK ID 393 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
 						])
+						//->currentSatker()
 						->column(),
 				])		
 				->active()
@@ -82,28 +64,25 @@ $this->params['breadcrumbs'][] = ['label' => 'Dokumen Evaluasi Tatap Muka'];
 				, 'id', 'name');
 			echo '<label class="control-label">TTD</label>';
 			echo Select2::widget([
-				'name' => 'ttd', 
+				'name' => 'baseon', 
 				'data' => $data,
 				'options' => [
-					'placeholder' => 'Select TTD ...',
-					'onchange'=>'
-						$.post( "'.Url::to(['ttdnip']).'?id="+$(this).val(), 
-							function( data ) {
-							  $( "input#ttdnip" ).val( data + " ");
-							  $( "input#ttdnip" ).focus();
-							});
-					',
+					'placeholder' => 'Select TTD ...', 
 					'class'=>'form-control', 
-					'multiple' => false,
-					'id'=>'ttd',
+					'multiple' => true,
+					'id'=>'baseon',
 				],
 			]);
-			?>	
+			?>
             <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'NIP'.Html::endTag('label');
-				echo Html::input('text','ttdnip','',['class'=>'form-control','id'=>'ttdnip']);
+				echo Html::input('text','student','',['class'=>'form-control','id'=>'count']);
 			?>	
-           
+            <?php
+				echo Html::beginTag('label',['class'=>'control-label']).'Jabatan'.Html::endTag('label');
+				echo Html::input('text','student','',['class'=>'form-control','id'=>'count']);
+			?>	
+            
             <div class="clearfix"><hr></div> 
             <div class="form-group">
                 <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Generate') : Yii::t('app', 'Generate'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
