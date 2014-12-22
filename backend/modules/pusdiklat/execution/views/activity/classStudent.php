@@ -72,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				'header' => '<div style="text-align:center;">NPP</div>',
 				'vAlign'=>'middle',
-				'attribute'=>'nip',
+				'attribute'=>'number',
 				'width'=>'150px',
 				'hAlign'=>'center',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
@@ -80,7 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'format'=>'raw',
 				'value' => function ($data){
 					return Html::tag('span',
-						$data->training->number."-".$data->number,
+						$data->training->number."-".str_pad($data->number,4,'0',STR_PAD_LEFT),
 						[
 							'class'=>'label label-info',
 							'data-toggle'=>'tooltip',

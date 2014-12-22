@@ -60,9 +60,9 @@ $this->params['breadcrumbs'][] = ['label' => 'NPP Peserta'];
             </div>
             <div class="row clearfix">
                 <div class="col-md-4">NAMA PEGAWAI</div>
-                <div class="col-md-4">NIP</div>
+                <div class="col-md-3">NIP</div>
                 <div class="col-md-3">NPP</div>
-                <div class="col-md-1"></div>
+                <div class="col-md-2"></div>
             </div>
             <?php
 			$dataProvider = new ActiveDataProvider([
@@ -77,9 +77,9 @@ $this->params['breadcrumbs'][] = ['label' => 'NPP Peserta'];
 			foreach($dataProvider->getModels() as $person){
 				echo "<div class='row clearfix'>";
 				echo "<div class='col-md-4'><input type='checkbox' checked='checked' name='admin[]' value='".$person->id."'> ".$person->trainingStudent->student->person->name."</div>";
-				echo "<div class='col-md-4'>".$person->trainingStudent->student->person->nip."</div>";
+				echo "<div class='col-md-3'>".$person->trainingStudent->student->person->nip."</div>";
 				echo "<div class='col-md-3'>".Html::input('text','number_training',$model->training->number."-",['class'=>'form-control','disabled'=>true,'id'=>'number_training'])."</div>";
-				echo "<div class='col-md-1'>".Html::input('text','number['.$person->id.']',$no,['class'=>'form-control','id'=>'number['.$person->id.']'])."</div>";
+				echo "<div class='col-md-2'>".Html::input('text','number['.$person->id.']',str_pad($no,4,'0',STR_PAD_LEFT),['class'=>'form-control','id'=>'number['.$person->id.']'])."</div>";
 				echo "</div>";
 				$no++;
 			} 

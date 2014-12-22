@@ -15,7 +15,7 @@ $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 $this->title = Yii::t('app', 'Generate {modelClass}: ', [
     'modelClass' => 'Form A',]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Form A'), 'url' => ['./evaluation/activity/generate-dokumen','id'=>$model->id]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Form A'), 'url' => ['./evaluation/activity/generate-dokumen','id'=>$model->activity_id]];
 $this->params['breadcrumbs'][] = ['label' => 'Form A'];
 ?>
 <div class="activity-update panel panel-default">
@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Form A'];
 						'onsubmit'=>'',
 					],
 					'action'=>[
-						'forma-generate','id'=>$model->id
+						'generate-forma','id'=>$model->activity_id
 					], 
 				]);
 			?>
@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Form A'];
                 <div class="col-md-12">
                 <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'Nomor Form A'.Html::endTag('label');
-				echo Html::input('text','nomor_forma','',['class'=>'form-control','id'=>'nomor_forma']);
+				echo Html::input('text','nomor_forma',$model->number_forma,['class'=>'form-control','id'=>'nomor_forma']);
 				?>
                 </div>               
             </div>
@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Form A'];
                 <div class="col-md-12">
                 <?php
 				$jml_peserta = TrainingClassStudent::find()
-							->where(['training_id'=>$model->id])
+							->where(['training_id'=>$model->activity_id])
 							->count();
 				echo Html::beginTag('label',['class'=>'control-label']).'Jumlah Peserta Diklat'.Html::endTag('label');
 				echo Html::input('text','jml_peserta',$jml_peserta,['class'=>'form-control','disabled'=>true,'id'=>'nomor_forma']);
@@ -64,13 +64,13 @@ $this->params['breadcrumbs'][] = ['label' => 'Form A'];
                 <div class="col-md-6">
                 <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'NPP Diklat Awal'.Html::endTag('label');
-                echo Html::input('text','npp_awal',$model->training->number."-".$npp_awal,['class'=>'form-control','disabled'=>true,'id'=>'npp_awal']);
+                echo Html::input('text','npp_awal',$model->number."-".str_pad($npp_awal,4,'0',STR_PAD_LEFT),['class'=>'form-control','disabled'=>true,'id'=>'npp_awal']);
 				?>
                 </div> 
                 <div class="col-md-6">
                 <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'NPP Diklat Akhir'.Html::endTag('label');
-				echo Html::input('text','npp_akhir',$model->training->number."-".$npp_akhir,['class'=>'form-control','disabled'=>true,'id'=>'npp_akhir']);
+				echo Html::input('text','npp_akhir',$model->number."-".str_pad($npp_akhir,4,'0',STR_PAD_LEFT),['class'=>'form-control','disabled'=>true,'id'=>'npp_akhir']);
 				?>
                 </div>               
             </div>

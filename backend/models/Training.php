@@ -52,7 +52,7 @@ class Training extends \yii\db\ActiveRecord
                 'class'=>HistoryBehavior::className(),
                 'attributes'=>[
 					'activity_id', 'program_id', 'program_revision', 'regular', 'student_count_plan', 'class_count_plan', 'approved_status', 'approved_by',
-					'cost_plan', 'cost_real','approved_date','number','note', 'stakeholder', 'execution_sk', 'result_sk', 'cost_source', 'approved_note',				
+					'cost_plan', 'cost_real','approved_date','number','note','number_forma', 'stakeholder', 'execution_sk', 'result_sk', 'cost_source', 'approved_note',				
 				],
 				'historyClass'=>TrainingHistory::className(),
 				'primaryField'=>'activity_id',
@@ -70,6 +70,7 @@ class Training extends \yii\db\ActiveRecord
             [['activity_id', 'program_id', 'program_revision', 'regular', 'student_count_plan', 'class_count_plan', 'approved_status', 'approved_by'], 'integer'],
             [['cost_plan', 'cost_real'], 'number'],
             [['approved_date'], 'safe'],
+			[['number_forma'], 'string', 'max' => 5],
             [['number'], 'string', 'max' => 100],
             [['note', 'stakeholder', 'execution_sk', 'result_sk', 'cost_source', 'approved_note'], 'string', 'max' => 255]
         ];
@@ -84,6 +85,7 @@ class Training extends \yii\db\ActiveRecord
             'activity_id' => Yii::t('app', 'Activity ID'),
             'program_id' => Yii::t('app', 'Program ID'),
             'program_revision' => Yii::t('app', 'Program Revision'),
+			'number_forma' => Yii::t('app', 'Number Forma'),
             'number' => Yii::t('app', 'Number'),
             'note' => Yii::t('app', 'Note'),
             'regular' => Yii::t('app', 'Regular'),

@@ -3043,14 +3043,14 @@ class ActivityController extends Controller
 	public function actionForma($id)
     {
 		$npp_awal=TrainingClassStudent::find()
-							->where(['training_id'=>$id])->min('number');
+							->where(['training_id'=>$id])->min('number*1');
 		
 		$npp_akhir = TrainingClassStudent::find()
-							->where(['training_id'=>$id])->max('number');
+							->where(['training_id'=>$id])->max('number*1');
 		
 		if (Yii::$app->request->isAjax)
 				return $this->renderAjax('forma',[
-            'model' => $this->findModel($id),
+            'model' => Training::findOne(['activity_id'=>$id]),
 			'npp_awal' =>$npp_awal,
 			'npp_akhir' =>$npp_akhir,
         ]);
@@ -3063,7 +3063,7 @@ class ActivityController extends Controller
         $data = TrainingClassStudent::find()
 							->where(['training_id'=>$id,'training_class_id'=>$class_id]);
 		$max_npp = TrainingClassStudent::find()
-							->where(['training_id'=>$id])->max('number');
+							->where(['training_id'=>$id])->max('number*1');
 		
 		if(!empty($max_npp))
 		{$max_npp_awal=$max_npp+1;}
@@ -3092,6 +3092,67 @@ class ActivityController extends Controller
 			}
 			Yii::$app->getSession()->setFlash('success', 'Data have updated.');
 			return $this->redirect(['class-student', 'id' => $id,'class_id'=>$class_id]);            
+    }
+	
+	public function actionGenerateForma($id,$filetype='docx')
+    {
+		$nomor_forma = Yii::$app->request->post()['nomor_forma'];
+		//echo $id."-".$nomor_forma;
+		$data_training = Training::findOne(['activity_id'=>$id]);
+		$data_training->number_forma = $nomor_forma;
+		$data_training->update();
+		
+		try {
+			$templates=[
+				'docx'=>'ms-word.docx',
+				'odt'=>'open-document.odt',
+				'xlsx'=>'ms-excel.xlsx'
+			];
+			// Initalize the TBS instance
+			$OpenTBS = new \hscstudio\heart\extensions\OpenTBS; // new instance of TBS
+			// Change with Your template kaka
+			$template = Yii::getAlias('@file').'/template/pusdiklat/execution/template_forma.docx';
+			
+			$OpenTBS->LoadTemplate($template); // Also merge some [onload] automatic fields (depends of the type of document).
+			$OpenTBS->VarRef['modelName']= "Generate Form A";
+			$data[] = [
+						'nama_diklat' => Activity::findOne(['id'=>$id])->name,
+						'year_training' => date('Y',strtotime(Activity::findOne(['id'=>$id])->start)),
+						'jenis_forma' => Activity::findOne(['id'=>$id])->id,
+						'no_forma'=> Activity::findOne(['id'=>$id])->id,
+						'jenis_diklat'=> Activity::findOne(['id'=>$id])->id,
+						'nama_satker'=> Activity::findOne(['id'=>$id])->id,
+						'tanggal_penyelenggaraan_diklat'=> Activity::findOne(['id'=>$id])->id,
+						'lokasi_diklat'=> Activity::findOne(['id'=>$id])->id,
+						'lama_diklat'=> Activity::findOne(['id'=>$id])->id,
+						'diasramakan'=> Activity::findOne(['id'=>$id])->id,
+						'jml_mp_jamlat'=> Activity::findOne(['id'=>$id])->id,
+						'jml_crmh_jamlat'=> Activity::findOne(['id'=>$id])->id,
+						'jml_pkl_jamlat'=> Activity::findOne(['id'=>$id])->id,
+						'jml_peserta_diklat'=> Activity::findOne(['id'=>$id])->id,
+						'jml_kelas'=> Activity::findOne(['id'=>$id])->id,
+						'npp_diklat'=> Activity::findOne(['id'=>$id])->id,
+						'jml_pengajar'=> Activity::findOne(['id'=>$id])->id,
+						'sk_diklat'=> Activity::findOne(['id'=>$id])->id,
+						'rencana_biaya'=> Activity::findOne(['id'=>$id])->id,
+						'sumber_biaya'=> Activity::findOne(['id'=>$id])->id,
+						'keterangan_lain'=> Activity::findOne(['id'=>$id])->id,
+						'city'=> Activity::findOne(['id'=>$id])->id,
+						'tgl_diklat'=> Activity::findOne(['id'=>$id])->id,
+						'nama_kepala_satker'=> Activity::findOne(['id'=>$id])->id,
+						'nip_kepala_satker'=> Activity::findOne(['id'=>$id])->id,
+						'nama_kepala_bidang'=> Activity::findOne(['id'=>$id])->id,
+						'nip_kepala_bidang'=> Activity::findOne(['id'=>$id])->id,
+						'jml_form'=> Activity::findOne(['id'=>$id])->id,
+					];
+	
+			$OpenTBS->MergeBlock('onshow', $data);	
+			// Output the result as a file on the server. You can change output file
+			$OpenTBS->Show(OPENTBS_DOWNLOAD, 'generate.forma.'.$filetype); // Also merges all [onshow] automatic fields.			
+			exit;
+		} catch (\yii\base\ErrorException $e) {
+			 Yii::$app->session->setFlash('error', 'Unable export there are some error');
+		}	
     }
 	
 }
