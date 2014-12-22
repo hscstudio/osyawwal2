@@ -2020,11 +2020,16 @@ class ActivityController extends Controller
 	
 	public function actionExecutionEvaluation($id)
     {
-		$model = $this->findModel($id);
-		$searchModel = new TrainingClassSearch([
-			'training_id' => $id,
-		]);
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		//$model = $this->findModel($id);
+		$model = TrainingClass::findOne(['training_id'=>$id]);
+		$searchModel = new TrainingClassSearch();
+        $queryParams = Yii::$app->request->getQueryParams();
+		$queryParams['TrainingClassSearch']=[
+					'training_id' => $id,
+				];
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$dataProvider = $searchModel->search($queryParams);
+		
         return $this->render('executionEvaluation', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -2034,12 +2039,16 @@ class ActivityController extends Controller
 	
 	public function actionStudentExecutionEvaluation($training_id=NULL,$training_class_id=NULL)
     {
-		$model = $this->findModel($training_id);
-		$searchModel = new TrainingClassStudentSearch([
-			'training_id' => $training_id,
-			'training_class_id' => $training_class_id,
-		]);
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$model = TrainingClassStudent::findOne(['training_id'=>$training_id,'training_class_id'=>$training_class_id]);
+		$searchModel = new TrainingClassStudentSearch();
+        $queryParams = Yii::$app->request->getQueryParams();
+		$queryParams['TrainingClassStudentSearch']=[
+					'training_class_student.training_id' => $training_id,
+					'training_class_student.training_class_id' => $training_class_id,
+				];
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$dataProvider = $searchModel->search($queryParams);
+		
         return $this->render('studentExecutionEvaluation', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -2051,11 +2060,15 @@ class ActivityController extends Controller
 	
 	public function actionTrainerTrainingEvaluation($id)
     {
-		$model = $this->findModel($id);
-		$searchModel = new TrainingClassSearch([
-			'training_id' => $id,
-		]);
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$model = TrainingClass::findOne(['training_id'=>$id]);
+		$searchModel = new TrainingClassSearch();
+        $queryParams = Yii::$app->request->getQueryParams();
+		$queryParams['TrainingClassSearch']=[
+					'training_id' => $id,
+				];
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$dataProvider = $searchModel->search($queryParams);
+		
         return $this->render('trainerTrainingEvaluation', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -2065,12 +2078,18 @@ class ActivityController extends Controller
 	
 	public function actionTrainerExecutionEvaluation($training_id=NULL,$training_class_id=NULL)
     {
-		$model = $this->findModel($training_id);
-		$searchModel = new TrainingClassStudentSearch([
-			'training_id' => $training_id,
-			'training_class_id' => $training_class_id,
-		]);
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		//$model = $this->findModel($training_id);
+		$model = TrainingClassStudent::findOne(['training_id'=>$training_id,'training_class_id'=>$training_class_id]);
+		$searchModel = new TrainingClassStudentSearch();
+        $queryParams = Yii::$app->request->getQueryParams();
+		$queryParams['TrainingClassStudentSearch']=[
+					'training_class_student.training_id' => $training_id,
+					'training_class_student.training_class_id' => $training_class_id,
+				];
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$dataProvider = $searchModel->search($queryParams);
+		///////////////
+		
         return $this->render('trainerExecutionEvaluation', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

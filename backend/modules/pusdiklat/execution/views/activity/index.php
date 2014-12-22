@@ -186,7 +186,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
 				'class' => 'kartik\grid\ActionColumn',
-				'template' => '{dashboard} {update}',
+				'template' => '{dashboard} {update} {forma}',
 				'buttons' => [
 					'dashboard' => function ($url, $model) {
 								$icon='<span class="fa fa-fw fa-dashboard"></span>';
@@ -204,6 +204,21 @@ $this->params['breadcrumbs'][] = $this->title;
 										'class'=>'btn btn-default btn-xs',
 										'data-pjax'=>'0',
 									]);
+								}
+							},
+					'forma' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-book"></span>';
+								$options = [
+									'class'=>'btn btn-default btn-xs modal-heart',
+									'data-toggle'=>'tooltip',
+									'data-pjax'=>'0',
+									'data-html'=>'true',
+									'title'=>'Generate Form A',
+									'modal-title'=>'Generate Form A',
+									'modal-size'=>'modal-md',
+								];
+								if (in_array($model->status,[2])){
+									return Html::a($icon,$url,$options);
 								}
 							},
 				],		

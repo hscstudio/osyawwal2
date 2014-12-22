@@ -3040,4 +3040,58 @@ class ActivityController extends Controller
         ]);
     }
 	
+	public function actionForma($id)
+    {
+		$npp_awal=TrainingClassStudent::find()
+							->where(['training_id'=>$id])->min('number');
+		
+		$npp_akhir = TrainingClassStudent::find()
+							->where(['training_id'=>$id])->max('number');
+		
+		if (Yii::$app->request->isAjax)
+				return $this->renderAjax('forma',[
+            'model' => $this->findModel($id),
+			'npp_awal' =>$npp_awal,
+			'npp_akhir' =>$npp_akhir,
+        ]);
+        else
+				return $this->render('forma', $renders);
+    }
+	
+	public function actionGenerateNpp($id,$class_id)
+    {
+        $data = TrainingClassStudent::find()
+							->where(['training_id'=>$id,'training_class_id'=>$class_id]);
+		$max_npp = TrainingClassStudent::find()
+							->where(['training_id'=>$id])->max('number');
+		
+		if(!empty($max_npp))
+		{$max_npp_awal=$max_npp+1;}
+		else
+		{$max_npp_awal=1;}
+		
+		if (Yii::$app->request->isAjax)
+				return $this->renderAjax('generateNpp',[
+            'model' => $data->one(),
+			'max_npp_awal' => $max_npp_awal,
+        ]);
+        else
+				return $this->render('generateNpp', $renders);
+    }
+	
+	public function actionNppGenerate($id,$class_id)
+    {
+        $npp = Yii::$app->request->post()['number'];
+		$admin = Yii::$app->request->post()['admin'];
+		
+			for($i=0;$i<=count($admin)-1;$i++)
+			{
+				$model=TrainingClassStudent::findOne($admin[$i]);
+				$model->number = $npp[$admin[$i]];
+				$model->update();
+			}
+			Yii::$app->getSession()->setFlash('success', 'Data have updated.');
+			return $this->redirect(['class-student', 'id' => $id,'class_id'=>$class_id]);            
+    }
+	
 }

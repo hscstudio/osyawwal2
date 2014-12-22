@@ -15,7 +15,7 @@ $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 
-$this->title = 'Student #'. Inflector::camel2words($model->name);
+$this->title = 'Student #'. Inflector::camel2words($model->training->activity->name);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Activities'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		'bgColor'=>'maroon', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
 		'bodyOptions' => [],
 		'icon' => 'fa fa-fw fa-graduation-cap',
-		'link' => ['dashboard','id'=>$model->id],
+		'link' => ['dashboard','id'=>$model->training_id],
 		'footerOptions' => [
 			'class' => 'dashboard-hide',
 		],
