@@ -13,9 +13,9 @@ use backend\models\TrainingClassStudent;
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
-$this->title = Yii::t('app', 'Generate {modelClass}: ', [
+$this->title = Yii::t('app', 'Generate {modelClass}: '.$model->activity->name, [
     'modelClass' => 'Form A',]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Form A'), 'url' => ['./evaluation/activity/generate-dokumen','id'=>$model->activity_id]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Dashboard'), 'url' => ['dashboard','id'=>$model->activity_id]];
 $this->params['breadcrumbs'][] = ['label' => 'Form A'];
 ?>
 <div class="activity-update panel panel-default">

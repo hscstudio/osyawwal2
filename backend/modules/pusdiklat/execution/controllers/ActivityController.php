@@ -3050,14 +3050,12 @@ class ActivityController extends Controller
 		$npp_akhir = TrainingClassStudent::find()
 							->where(['training_id'=>$id])->max('number*1');
 		
-		if (Yii::$app->request->isAjax)
-				return $this->renderAjax('forma',[
+		return $this->render('forma',[
             'model' => Training::findOne(['activity_id'=>$id]),
 			'npp_awal' =>$npp_awal,
 			'npp_akhir' =>$npp_akhir,
         ]);
-        else
-				return $this->render('forma', $renders);
+        
     }
 	
 	public function actionGenerateNpp($id,$class_id)

@@ -172,6 +172,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			Box::end();
 			?>
 			</div>
+            
 		</div>		
 	</div>
 </div>
