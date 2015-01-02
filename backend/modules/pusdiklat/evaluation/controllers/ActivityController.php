@@ -2805,4 +2805,218 @@ class ActivityController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
+
+
+    public function actionGenerateDokumenKhusus($id)
+    {
+        return $this->render('generateDokumenKhusus', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
+
+
+    public function actionGenerateDokumenHandler($id, $k, $filetype = 'xlsx') {
+    	switch ($k) {
+    		case 1:
+    			break;
+    		case 2:
+    			break;
+    		case 3:
+    			// check, data kelas uda ada ga?
+    			if (Yii::$app->request->post('training_class_id') != '') {
+    				// klo ada, berati tinggal bikin report nya
+    				
+			    	// Ngambil Class
+			    	$modelTrainingClass = TrainingClass::find()
+			    		->where([
+			    			'id' => Yii::$app->request->post('training_class_id'),
+			    			'training_id' => $id
+			    		])
+			    		->all();
+			    	// all
+
+			    	// Ambil template
+					$template = Yii::getAlias('@file').DIRECTORY_SEPARATOR.'template'.DIRECTORY_SEPARATOR.'pusdiklat'.
+						DIRECTORY_SEPARATOR.'evaluation'.DIRECTORY_SEPARATOR.'daftar.hadir.ujian.'.$filetype;
+					$types=['xls'=>'Excel5','xlsx'=>'Excel2007'];
+					$objReader = \PHPExcel_IOFactory::createReader($types[$filetype]);
+					$objPHPExcel = $objReader->load($template);
+					// dah
+
+					$pointerKelas = 0;
+					
+					// Ngisi konten
+					foreach ($modelTrainingClass as $baris) {
+
+						$objPHPExcel->setActiveSheetIndex($pointerKelas);
+
+						$objPHPExcel->getActiveSheet($pointerKelas)->setTitle('Kelas '.$baris->class);
+
+						$objPHPExcel->getActiveSheet($pointerKelas)->setCellValue('A2', strtoupper($baris->training->activity->name));
+						
+						$objPHPExcel->getActiveSheet($pointerKelas)->setCellValue('A3', strtoupper('tahun anggaran '.date('Y', strtotime($baris->training->activity->start))));
+
+						// Ngambil data student pada current class
+						$modelTrainingClassStudent = TrainingClassStudent::find()
+							->where([
+								'training_class_student.training_id' => $id,
+								'training_class_id' => $baris->id
+							])
+							->joinWith('trainingStudent')
+				    		->joinWith([
+				    			'trainingStudent.student' => function ($query) {
+				    				$query->where(['student.status' => 1]); // cuma ngambil student yang published doank. Perlu diimprove lebih lanjut, misal cm ngambil student yang ga di block
+				    			}
+				    		])
+				    		->joinWith([
+				    			'trainingStudent.student.person' => function ($query) {
+				    				$query->orderBy('name ASC');
+				    			}
+				    		])
+							->all();
+						// dah
+
+						$namaHari = [
+							'Mon' => 'Senin',
+							'Tue' => 'Selasa',
+							'Wed' => 'Rabu',
+							'Thu' => 'Kami',
+							'Fri' => 'Jumat',
+							'Sat' => 'Sabtu',
+							'Sun' => 'Minggu'
+						];
+
+						$namaBulan = [
+							'January' => 'Januari',
+							'February' => 'Febuari',
+							'March' => 'Maret',
+							'April' => 'April',
+							'May' => 'Mei',
+							'June' => 'Juni',
+							'July' => 'Juli',
+							'August' => 'Agustus',
+							'September' => 'September',
+							'October' => 'Oktober',
+							'November' => 'November',
+							'December' => 'Desember'
+						];
+
+						$pointerBaris = 10;
+						$jumlahBaris = 0;
+
+						foreach ($modelTrainingClassStudent as $barisStudent) {
+
+							// Insert row
+							$objPHPExcel->getActiveSheet($pointerKelas)->insertNewRowBefore($pointerBaris + 1, 1);
+							// dah
+
+							// Ngisi nomer urut
+							$objPHPExcel->getActiveSheet($pointerKelas)->setCellValue('A'.$pointerBaris, $pointerBaris-9);
+							// dah
+
+							// Ngisi nama
+							$objPHPExcel->getActiveSheet($pointerKelas)->setCellValue('B'.$pointerBaris, 
+								$barisStudent->trainingStudent->student->person->name
+							);
+							// dah
+
+							// Ngisi nip
+							$objPHPExcel->getActiveSheet($pointerKelas)->setCellValueExplicit('E'.$pointerBaris, 
+								$barisStudent->trainingStudent->student->person->nid, 
+								PHPExcel_Cell_DataType::TYPE_STRING
+							);
+							// dah
+
+							// Ngisi unit				
+							$objPHPExcel->getActiveSheet($pointerKelas)->setCellValue('F'.$pointerBaris, 
+								$barisStudent->trainingStudent->student->person->organisation
+							);
+							// dah
+
+							$pointerBaris += 1;
+
+						}
+						// dah
+
+						// Ngemerger kolom nama
+						for ($i=0; $i < $pointerBaris; $i++) {
+
+							$objPHPExcel->getActiveSheet()->mergeCells('B'.($i + 10).':D'.($i + 10));
+
+						}
+						// dah
+
+						// Ngemerger kolom ttd
+						for ($i=0; $i < $pointerBaris; $i++) {
+							
+							$objPHPExcel->getActiveSheet()->mergeCells('G'.($i + 10).':G'.($i + 1 + 10));
+							$objPHPExcel->getActiveSheet()->setCellValue('G'.($i + 10), ($i + 1));
+
+							$objPHPExcel->getActiveSheet()->mergeCells('H'.($i + 10).':H'.($i + 1 + 10));
+							$objPHPExcel->getActiveSheet()->setCellValue('H'.($i + 10), ($i + 2));
+
+							if ($pointerBaris % 2 == 0) {
+								if (($i + 2 + 10) >= $pointerBaris) {
+									break;
+								}
+							}
+							else {
+								if (($i + 1 + 10) >= $pointerBaris) {
+									break;
+								}
+							}
+
+							$i++;
+						}
+						// dah
+
+					}
+					
+					if($filetype=='xls') 
+						header('Content-Type: application/vnd.ms-excel');
+					else 
+						header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+						
+					header('Content-Disposition: attachment;filename="daftar_hadir_ujian'.Activity::findOne($id)->name.'_'.date('YmdHis').'.'.$filetype.'"');
+					header('Cache-Control: max-age=0');
+					$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, $types[$filetype]);
+					$objWriter->save('php://output');
+					exit;
+    			}
+    			else {
+	    			$modelKelas = TrainingClass::find()->where(['training_id' => $id])->all();
+
+	    			if (empty($modelKelas)) {
+	    				// Artinya kelas belum dibuat, lempar
+	    				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Kelas belum ada. Hubungi bidang penyelenggaraan');
+	    				return $this->redirect('activity/index');
+	    			}
+
+	    			$data = ArrayHelper::map(TrainingClass::find()
+						->select(['id','class'])
+						->where([
+							'training_id'=>$id
+						])
+						->asArray()
+						->all()
+					, 'id', 'class');
+
+	    			return $this->render('formDaftarHadirUjian', [
+	    					'id' => $id,
+	    					'model' => $this->findModel($id),
+	    					'modelKelas' => $modelKelas,
+	    					'data' => $data
+	    				]);
+	    		}
+    			break;
+    		case 4:
+    			break;
+    		case 5:
+    			break;
+    		default:
+    			Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Jenis dokumen yang Anda minta tidak ada dalam katalog kami');
+	    		return $this->redirect('activity/index');
+    	}
+    }
 }
