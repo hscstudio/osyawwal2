@@ -17,7 +17,7 @@ use backend\models\Employee;
 use backend\models\TrainingStudentPlan;
 
 use backend\models\TrainingClass;
-use backend\modules\pusdiklat2\competency\models\evaluationTrainingClassSearch;
+use backend\modules\pusdiklat2\competency\models\evaluation\TrainingClassSearch;
 
 use backend\models\TrainingClassSubject;
 use backend\modules\pusdiklat2\competency\models\evaluation\TrainingClassSubjectSearch;
@@ -2291,5 +2291,13 @@ class Activity2Controller extends Controller
 		$objWriter->save('php://output');
 		exit;
 
+    }
+	
+	public function actionSetKelulusanPeserta($id,$class_id)
+    {
+        return $this->render('setKelulusanPeserta', [
+            'model' => $this->findModel($id),
+			'class_id' => $class_id,
+        ]);
     }
 }

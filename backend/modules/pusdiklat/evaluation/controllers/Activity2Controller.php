@@ -2484,4 +2484,12 @@ class Activity2Controller extends Controller
 		exit;
 
     }
+	
+	public function actionSetKelulusanPeserta($id,$class_id)
+    {
+        return $this->render('setKelulusanPeserta', [
+            'model' => $this->findModel($id),
+			'class_id' => $class_id,
+        ]);
+    }
 }

@@ -17,13 +17,36 @@ use backend\models\Employee;
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
-$this->title = Yii::t('app', 'Generate {modelClass}: '.$model->activity->name, [
-    'modelClass' => 'Form A',]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Dashboard'), 'url' => ['dashboard','id'=>$model->activity_id]];
-$this->params['breadcrumbs'][] = ['label' => 'Form A'];
+$this->title = Yii::t('app', 'Generate {modelClass}: '.$model->name, [
+    'modelClass' => 'Form B',]);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['activity2/dashboard','id'=>$model->id]];
+$this->params['breadcrumbs'][] = ['label' => 'Form B'];
 ?>
 <div class="activity-update panel panel-default">
-	
+	<?php
+
+
+
+    /* @var $this yii\web\View */
+    /* @var $model backend\models\TrainingClassStudentCertificate */
+    /* @var $form yii\widgets\ActiveForm */
+    $training = $model->training;
+    $numbers = explode('-',$training->number);
+    // 2014-03-00-2.2.1.0.2 to /2.3.1.2.138/07/00/2014
+    $number = '';
+    if(isset($numbers[3]) and strlen($numbers[3])>3){
+        $number .= '/'.$numbers[3];
+    }
+    if(isset($numbers[1]) and strlen($numbers[1])==2){
+        $number .= '/'.$numbers[1];
+    }
+    if(isset($numbers[2]) and strlen($numbers[2])==2){
+        $number .= '/'.$numbers[2];
+    }
+    if(isset($numbers[0]) and strlen($numbers[0])==4){
+        $number .= '/'.$numbers[0];
+    }
+    ?>
     <div class="panel-heading">		
 		<div class="pull-right">
         <?= (Yii::$app->request->isAjax)?'':Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back', ['index'], ['class' => 'btn btn-xs btn-primary']) ?>
@@ -35,11 +58,11 @@ $this->params['breadcrumbs'][] = ['label' => 'Form A'];
 			<?php
 				$form = ActiveForm::begin([
 					'options'=>[
-						'id'=>'myform',
+						'id'=>'myformb',
 						'onsubmit'=>'',
 					],
 					'action'=>[
-						'generate-forma','id'=>$model->activity_id
+						'generate-formb','id'=>$model->id
 					], 
 				]);
 			?>
@@ -48,33 +71,22 @@ $this->params['breadcrumbs'][] = ['label' => 'Form A'];
             <div class="row clearfix">
                 <div class="col-md-12">
                 <?php
-				echo Html::beginTag('label',['class'=>'control-label']).'Nomor Form A'.Html::endTag('label');
-				echo Html::input('text','nomor_forma',$model->number_forma,['class'=>'form-control','id'=>'nomor_forma']);
-				?>
-                </div>               
-            </div>
-            <div class="row clearfix">
-                <div class="col-md-12">
-                <?php
-				$jml_peserta = TrainingClassStudent::find()
-							->where(['training_id'=>$model->activity_id])
-							->count();
-				echo Html::beginTag('label',['class'=>'control-label']).'Jumlah Peserta Diklat'.Html::endTag('label');
-				echo Html::input('text','jml_peserta',$jml_peserta,['class'=>'form-control','disabled'=>true,'id'=>'nomor_forma']);
+				echo Html::beginTag('label',['class'=>'control-label']).'Nomor Form B'.Html::endTag('label');
+				echo Html::input('text','nomor_formb',$model->training->number_formb,['class'=>'form-control','id'=>'nomor_formb']);
 				?>
                 </div>               
             </div>
             <div class="row clearfix">
                 <div class="col-md-6">
                 <?php
-				echo Html::beginTag('label',['class'=>'control-label']).'NPP Diklat Awal'.Html::endTag('label');
-                echo Html::input('text','npp_awal',$model->number."-".str_pad($npp_awal,4,'0',STR_PAD_LEFT),['class'=>'form-control','disabled'=>true,'id'=>'npp_awal']);
+				echo Html::beginTag('label',['class'=>'control-label']).'SKPP Diklat Awal'.Html::endTag('label');
+                echo Html::input('text','skpp_awal',$skpp_awal.$number,['class'=>'form-control','id'=>'skpp_awal']);
 				?>
                 </div> 
                 <div class="col-md-6">
                 <?php
-				echo Html::beginTag('label',['class'=>'control-label']).'NPP Diklat Akhir'.Html::endTag('label');
-				echo Html::input('text','npp_akhir',$model->number."-".str_pad($npp_akhir,4,'0',STR_PAD_LEFT),['class'=>'form-control','disabled'=>true,'id'=>'npp_akhir']);
+				echo Html::beginTag('label',['class'=>'control-label']).'SKPP Diklat Akhir'.Html::endTag('label');
+				echo Html::input('text','skpp_akhir',$skpp_akhir.$number,['class'=>'form-control','id'=>'skpp_akhir']);
 				?>
                 </div>               
             </div>
@@ -88,7 +100,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Form A'];
                 <div class="col-md-6">
                 <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'Jabatan Penandatangan II'.Html::endTag('label');
-				echo Html::input('text','jabatan_ttd_dua','Kepala Bidang Penyelenggaraan',['class'=>'form-control','id'=>'jabatan_ttd_dua']);
+				echo Html::input('text','jabatan_ttd_dua','Kepala Bidang Penjenjangan Pangkat dan Peningkatan Kompetensi',['class'=>'form-control','id'=>'jabatan_ttd_dua']);
 				?>
                 </div>
             </div>  
@@ -96,13 +108,13 @@ $this->params['breadcrumbs'][] = ['label' => 'Form A'];
                 <div class="col-md-6">
                 <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'Nama Penandatangan I'.Html::endTag('label');
-				echo Html::input('text','nama_ttd_satu',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'387','chairman'=>'1'])->person_id])->name,['class'=>'form-control','id'=>'ttd_satu']);
+				echo Html::input('text','nama_ttd_satu',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'56','chairman'=>'1'])->person_id])->name,['class'=>'form-control','id'=>'ttd_satu']);
 				?>
                 </div>
                 <div class="col-md-6">
                 <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'Nama Penandatangan II'.Html::endTag('label');
-				echo Html::input('text','nama_ttd_dua',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'396','chairman'=>'1'])->person_id])->name,['class'=>'form-control','id'=>'ttd_dua']);
+				echo Html::input('text','nama_ttd_dua',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'66','chairman'=>'1'])->person_id])->name,['class'=>'form-control','id'=>'ttd_dua']);
 				?>
                 </div>
             </div>    
@@ -110,20 +122,20 @@ $this->params['breadcrumbs'][] = ['label' => 'Form A'];
                 <div class="col-md-6">
                 <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'NIP Penandatangan I'.Html::endTag('label');
-				echo Html::input('text','nip_ttd_satu',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'387','chairman'=>'1'])->person_id])->nip,['class'=>'form-control','id'=>'nip_ttd_satu']);
+				echo Html::input('text','nip_ttd_satu',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'56','chairman'=>'1'])->person_id])->nip,['class'=>'form-control','id'=>'nip_ttd_satu']);
 				?>
                 </div>
                 <div class="col-md-6">
                 <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'NIP Penandatangan II'.Html::endTag('label');
-				echo Html::input('text','nip_ttd_dua',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'396','chairman'=>'1'])->person_id])->nip,['class'=>'form-control','id'=>'nip_ttd_dua']);
+				echo Html::input('text','nip_ttd_dua',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'66','chairman'=>'1'])->person_id])->nip,['class'=>'form-control','id'=>'nip_ttd_dua']);
 				?>
                 </div>
-            </div>     
+            </div>
                  
             <div class="clearfix"><hr></div> 
             <div class="form-group">
-                <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Generate') : Yii::t('app', 'Generate'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+                <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Generate') : Yii::t('app', 'Generate Form B'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
             </div>
         
             <?php ActiveForm::end(); ?>

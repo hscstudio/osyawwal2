@@ -88,7 +88,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Form A'];
                 <div class="col-md-6">
                 <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'Jabatan Penandatangan II'.Html::endTag('label');
-				echo Html::input('text','jabatan_ttd_dua','Kepala Bidang Penyelenggaraan',['class'=>'form-control','id'=>'jabatan_ttd_dua']);
+				echo Html::input('text','jabatan_ttd_dua','Kepala Bidang Penjenjangan Pangkat dan Peningkatan Kompetensi',['class'=>'form-control','id'=>'jabatan_ttd_dua']);
 				?>
                 </div>
             </div>  
@@ -96,13 +96,13 @@ $this->params['breadcrumbs'][] = ['label' => 'Form A'];
                 <div class="col-md-6">
                 <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'Nama Penandatangan I'.Html::endTag('label');
-				echo Html::input('text','nama_ttd_satu',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'387','chairman'=>'1'])->person_id])->name,['class'=>'form-control','id'=>'ttd_satu']);
+				echo Html::input('text','nama_ttd_satu',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'56','chairman'=>'1'])->person_id])->name,['class'=>'form-control','id'=>'ttd_satu']);
 				?>
                 </div>
                 <div class="col-md-6">
                 <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'Nama Penandatangan II'.Html::endTag('label');
-				echo Html::input('text','nama_ttd_dua',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'396','chairman'=>'1'])->person_id])->name,['class'=>'form-control','id'=>'ttd_dua']);
+				echo Html::input('text','nama_ttd_dua',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'66','chairman'=>'1'])->person_id])->name,['class'=>'form-control','id'=>'ttd_dua']);
 				?>
                 </div>
             </div>    
@@ -110,17 +110,16 @@ $this->params['breadcrumbs'][] = ['label' => 'Form A'];
                 <div class="col-md-6">
                 <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'NIP Penandatangan I'.Html::endTag('label');
-				echo Html::input('text','nip_ttd_satu',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'387','chairman'=>'1'])->person_id])->nip,['class'=>'form-control','id'=>'nip_ttd_satu']);
+				echo Html::input('text','nip_ttd_satu',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'56','chairman'=>'1'])->person_id])->nip,['class'=>'form-control','id'=>'nip_ttd_satu']);
 				?>
                 </div>
                 <div class="col-md-6">
                 <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'NIP Penandatangan II'.Html::endTag('label');
-				echo Html::input('text','nip_ttd_dua',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'396','chairman'=>'1'])->person_id])->nip,['class'=>'form-control','id'=>'nip_ttd_dua']);
+				echo Html::input('text','nip_ttd_dua',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'66','chairman'=>'1'])->person_id])->nip,['class'=>'form-control','id'=>'nip_ttd_dua']);
 				?>
                 </div>
             </div>     
-                 
             <div class="clearfix"><hr></div> 
             <div class="form-group">
                 <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Generate') : Yii::t('app', 'Generate'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

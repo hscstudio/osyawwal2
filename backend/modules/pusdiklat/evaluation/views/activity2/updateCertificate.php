@@ -6,7 +6,7 @@ use yii\helpers\Inflector;
 use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
-
+use backend\models\Reference;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\TrainingClassStudentCertificate */
@@ -94,12 +94,13 @@ echo \kartik\widgets\AlertBlock::widget([
                                 ],
                             ],
                         ]); ?>
+                      
                         <?= $form->field($model, 'status')->widget(\kartik\widgets\SwitchInput::classname(), [
-                            'pluginOptions' => [
-                                'onText' => 'On',
-                                'offText' => 'Off',
-                            ]
-                        ]) ?>
+					'pluginOptions' => [
+						'onText' => 'On',
+						'offText' => 'Off',
+					]
+				]) ?>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label"></label>

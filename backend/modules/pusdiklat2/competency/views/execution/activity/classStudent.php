@@ -70,6 +70,26 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 			],
 			[
+				'header' => '<div style="text-align:center;">NPP</div>',
+				'vAlign'=>'middle',
+				'attribute'=>'number',
+				'width'=>'150px',
+				'hAlign'=>'center',
+				'headerOptions'=>['class'=>'kv-sticky-column'],
+				'contentOptions'=>['class'=>'kv-sticky-column'],
+				'format'=>'raw',
+				'value' => function ($data){
+					return Html::tag('span',
+						$data->training->number."-".str_pad($data->number,4,'0',STR_PAD_LEFT),
+						[
+							'class'=>'label label-info',
+							'data-toggle'=>'tooltip',
+							'data-html'=>'true',
+						]
+					);
+				},
+			],
+			[
 				'header' => '<div style="text-align:center;">Satker</div>',
 				'vAlign'=>'middle',
 				'hAlign'=>'left',
@@ -272,6 +292,22 @@ $this->params['breadcrumbs'][] = $this->title;
 			<?php
 			echo Html::beginTag('label',['class'=>'control-label']).' '.Html::endTag('label');
 			echo Html::submitButton('Get', ['class' => 'btn btn-success','style'=>'display:block;']);
+			?>
+			</div>
+            <div class="col-md-2">
+            <?php
+			echo Html::beginTag('label',['class'=>'control-label']).'Generate NPP Peserta'.Html::endTag('label');
+			echo Html::a('<i class="fa fa-fw fa-check"></i> Generate NPP',
+							Url::to(['generate-npp','id'=>$activity->id,'class_id'=>$class->id]),
+							[
+								'class'=>'btn btn-default btn-xs modal-heart',
+								'title'=>'Generate NPP Peserta',
+								'modal-size'=>'modal-lg',
+								'data-pjax'=>'0',
+								'data-toggle'=>"tooltip",
+								'data-placement'=>"top",
+							]
+						);
 			?>
 			</div>
 		</div>

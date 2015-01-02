@@ -6,6 +6,10 @@ use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use backend\models\TrainingClassStudent;
+use backend\models\Reference;
+use backend\models\Organisation;
+use backend\models\Person;
+use backend\models\Employee;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Program */
@@ -68,7 +72,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Form B'];
                 <div class="col-md-12">
                 <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'Nomor Form B'.Html::endTag('label');
-				echo Html::input('text','nomor_forma','',['class'=>'form-control','id'=>'nomor_forma']);
+				echo Html::input('text','nomor_formb',$model->training->number_formb,['class'=>'form-control','id'=>'nomor_formb']);
 				?>
                 </div>               
             </div>
@@ -76,15 +80,57 @@ $this->params['breadcrumbs'][] = ['label' => 'Form B'];
                 <div class="col-md-6">
                 <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'SKPP Diklat Awal'.Html::endTag('label');
-                echo Html::input('text','npp_awal',$skpp_awal.$number,['class'=>'form-control','disabled'=>true,'id'=>'npp_awal']);
+                echo Html::input('text','skpp_awal',$skpp_awal.$number,['class'=>'form-control','id'=>'skpp_awal']);
 				?>
                 </div> 
                 <div class="col-md-6">
                 <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'SKPP Diklat Akhir'.Html::endTag('label');
-				echo Html::input('text','npp_akhir',$skpp_akhir.$number,['class'=>'form-control','disabled'=>true,'id'=>'npp_akhir']);
+				echo Html::input('text','skpp_akhir',$skpp_akhir.$number,['class'=>'form-control','id'=>'skpp_akhir']);
 				?>
                 </div>               
+            </div>
+            <div class="row clearfix">
+                <div class="col-md-6">
+                <?php
+				echo Html::beginTag('label',['class'=>'control-label']).'Jabatan Penandatangan I'.Html::endTag('label');
+				echo Html::input('text','jabatan_ttd_satu','Kepala '.Reference::findOne(['id'=>Yii::$app->user->identity->employee->satker_id])->name,['class'=>'form-control','id'=>'jabatan_ttd_satu']);
+				?>
+                </div>
+                <div class="col-md-6">
+                <?php
+				echo Html::beginTag('label',['class'=>'control-label']).'Jabatan Penandatangan II'.Html::endTag('label');
+				echo Html::input('text','jabatan_ttd_dua','Kepala Bidang Evaluasi dan Pelaporan Kinerja',['class'=>'form-control','id'=>'jabatan_ttd_dua']);
+				?>
+                </div>
+            </div>  
+            <div class="row clearfix">
+                <div class="col-md-6">
+                <?php
+				echo Html::beginTag('label',['class'=>'control-label']).'Nama Penandatangan I'.Html::endTag('label');
+				echo Html::input('text','nama_ttd_satu',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'387','chairman'=>'1'])->person_id])->name,['class'=>'form-control','id'=>'ttd_satu']);
+				?>
+                </div>
+                <div class="col-md-6">
+                <?php
+				echo Html::beginTag('label',['class'=>'control-label']).'Nama Penandatangan II'.Html::endTag('label');
+				echo Html::input('text','nama_ttd_dua',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'399','chairman'=>'1'])->person_id])->name,['class'=>'form-control','id'=>'ttd_dua']);
+				?>
+                </div>
+            </div>    
+            <div class="row clearfix">
+                <div class="col-md-6">
+                <?php
+				echo Html::beginTag('label',['class'=>'control-label']).'NIP Penandatangan I'.Html::endTag('label');
+				echo Html::input('text','nip_ttd_satu',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'387','chairman'=>'1'])->person_id])->nip,['class'=>'form-control','id'=>'nip_ttd_satu']);
+				?>
+                </div>
+                <div class="col-md-6">
+                <?php
+				echo Html::beginTag('label',['class'=>'control-label']).'NIP Penandatangan II'.Html::endTag('label');
+				echo Html::input('text','nip_ttd_dua',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'399','chairman'=>'1'])->person_id])->nip,['class'=>'form-control','id'=>'nip_ttd_dua']);
+				?>
+                </div>
             </div>
                  
             <div class="clearfix"><hr></div> 

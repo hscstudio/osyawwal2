@@ -4,9 +4,12 @@ namespace backend\modules\pusdiklat2\competency\controllers\evaluation;
 
 use Yii;
 use backend\models\Activity;
+use backend\models\Training;
 use backend\models\TrainingClass;
 use backend\models\TrainingClassSubject;
 use backend\models\TrainingClassStudent;
+use backend\models\TrainingStudent;
+use backend\models\TrainingClassStudentCertificate;
 use backend\models\TrainingSchedule;
 use backend\models\TrainingScheduleTrainer;
 use backend\models\Person;
@@ -14,6 +17,8 @@ use backend\models\ObjectReference;
 use backend\models\Satker;
 use backend\models\Room;
 use backend\models\Reference;
+use backend\models\ProgramSubject;
+use backend\models\Employee;
 use backend\modules\pusdiklat2\competency\models\evaluation\ActivitySearch;
 use backend\modules\pusdiklat2\competency\models\evaluation\TrainingClassSubjectSearch;
 use yii\web\Controller;
@@ -663,4 +668,157 @@ class ActivityGenerateController extends Controller
 		$objWriter->save('php://output');
 		exit;
 	}
+	
+	public function actionFormb($id)
+    {
+		$skpp_awal = TrainingClassStudentCertificate::find()
+							->where(['training_class_student_id'=>
+									 TrainingclassStudent::find()
+									 ->select('id')
+									 ->where(['training_id'=>$id])
+									 ])
+							->min('number*1');
+		
+		$skpp_akhir = TrainingClassStudentCertificate::find()
+							->where(['training_class_student_id'=>
+									 TrainingclassStudent::find()
+									 ->select('id')
+									 ->where(['training_id'=>$id])
+									 ])
+							->max('number*1');
+        return $this->render('formb', [
+            'model' => $this->findModel($id),
+			'skpp_awal' => $skpp_awal,
+			'skpp_akhir' => $skpp_akhir,
+        ]);
+    }
+	
+	public function actionGenerateFormb($id,$filetype='docx')
+    {
+        $nomor_formb = Yii::$app->request->post()['nomor_formb'];
+		$skpp_awal = Yii::$app->request->post()['skpp_awal'];
+		$skpp_akhir = Yii::$app->request->post()['skpp_akhir'];
+		$jabatan_ttd_satu = Yii::$app->request->post()['jabatan_ttd_satu'];
+		$jabatan_ttd_dua = Yii::$app->request->post()['jabatan_ttd_dua'];
+		$nama_ttd_satu = Yii::$app->request->post()['nama_ttd_satu'];
+		$nama_ttd_dua = Yii::$app->request->post()['nama_ttd_dua'];
+		$nip_ttd_satu = Yii::$app->request->post()['nip_ttd_satu'];
+		$nip_ttd_dua = Yii::$app->request->post()['nip_ttd_dua'];
+		
+		$data_training = Training::findOne(['activity_id'=>$id]);
+		$data_training->number_formb = $nomor_formb;
+		$data_training->update();
+		$satker = $data_training->activity->satker_id;
+		
+		$jml_mp_jamlat = ProgramSubject::find()
+						->where(['program_id'=>$data_training->program_id,'type'=>'109']);
+						
+		$jml_crmh_jamlat = ProgramSubject::find()
+						->where(['program_id'=>$data_training->program_id,'type'=>'110']);
+		
+		$jml_pkl_jamlat = ProgramSubject::find()
+						->where(['program_id'=>$data_training->program_id,'type'=>'112']);
+		
+		$jml_peserta_diklat = TrainingClassStudent::find()
+						->where(['training_id'=>$id]);
+						
+		$jml_kelas_diklat = TrainingClass::find()
+						->where(['training_id'=>$id])->count();
+		
+		$jml_trainer = TrainingScheduleTrainer::find()
+						->where(['training_schedule_id'=>
+								 TrainingSchedule::find()
+								 ->select('id')
+								 ->where(['training_class_id'=>
+										  Trainingclass::find()
+										  ->select('id')
+										  ->where(['training_id'=>$id])
+										  ])
+								 ])->count();
+		
+		$months = array('Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember');
+		
+		try {
+			$templates=[
+				'docx'=>'ms-word.docx',
+				'odt'=>'open-document.odt',
+				'xlsx'=>'ms-excel.xlsx'
+			];
+			// Initalize the TBS instance
+			$OpenTBS = new \hscstudio\heart\extensions\OpenTBS; // new instance of TBS
+			// Change with Your template kaka
+			if($data_training->regular=='1')
+			{$template = Yii::getAlias('@file').'/template/pusdiklat/evaluation/template_formb.docx';}
+			else
+			{$template = Yii::getAlias('@file').'/template/pusdiklat/evaluation/template_formb2.docx';}
+			
+			$OpenTBS->LoadTemplate($template); // Also merge some [onload] automatic fields (depends of the type of document).
+			$OpenTBS->VarRef['modelName']= "Generate Form B";
+			$data[] = [
+						'nama_diklat' => Activity::findOne(['id'=>$id])->name,
+						'year_training' => date('Y',strtotime(Activity::findOne(['id'=>$id])->start)),
+						'jenis_formb' => $data_training->regular=='1'?"B1":"B2",
+						'no_formb'=> $data_training->number_formb."/".Satker::findOne(['reference_id'=>$satker])->letter_number.".3"."/".date('Y',strtotime(Activity::findOne(['id'=>$id])->start)),
+						'jenis_diklat'=> $data_training->regular=='1'?"REGULAR":"PARALEL",
+						'nama_satker'=> strtoupper($data_training->activity->satker->name),
+						'nama_satker_dua'=> $data_training->activity->satker->name,
+						'tanggal_penyelenggaraan_diklat'=> date("d",strtotime($data_training->activity->start))." ".$months[date("n",strtotime($data_training->activity->start))-1]." s.d ".date("d",strtotime($data_training->activity->end))." ".$months[date("n",strtotime($data_training->activity->end))-1].' '.date("Y",strtotime($data_training->activity->end)),
+						'lokasi_diklat'=> $data_training->activity->location,
+						'lama_diklat'=> $data_training->program->days." Hari",
+						'diasramakan'=> Activity::findOne(['id'=>$id])->hostel=='1'?"Ya":"Tidak",
+						'jml_mp_jamlat'=> $jml_mp_jamlat->count()." Mata Pelajaran / ".$jml_mp_jamlat->sum('hours')." Jamlat",
+						'jml_crmh_jamlat'=> $jml_crmh_jamlat->count()." Ceramah / ".$jml_crmh_jamlat->sum('hours')." Jamlat",
+						'jml_pkl_jamlat'=> $jml_pkl_jamlat->sum('hours')." Jamlat",
+						'jml_kelas'=> $jml_kelas_diklat." Kelas",
+						'nomor_skpp'=> $skpp_awal." s.d  ".$skpp_akhir,
+						'jml_pengajar'=> $jml_trainer." Orang",
+						'sk_diklat'=> $data_training->execution_sk,
+						'rencana_biaya'=> $data_training->cost_plan,
+						'sumber_biaya'=> $data_training->cost_source,
+						'rekan_kerjasama'=> $data_training->stakeholder,
+						'jml_lulus'=>TrainingClassStudent::find()->where(['training_id'=>$id,'status'=>1])->count()." Orang",
+						'jml_tdk_lulus'=>TrainingClassStudent::find()->where(['training_id'=>$id,'status'=>2])->count()." Orang",
+						'jml_ulang'=>TrainingClassStudent::find()->where(['training_id'=>$id,'status'=>3])->count()." Orang",
+						'jml_undur_diri'=>TrainingStudent::find()->where(['training_id'=>$id,'status'=>3])->count()." Orang",
+						'jml_tdk_syarat'=>TrainingStudent::find()->where(['training_id'=>$id,'status'=>0])->count()." Orang",
+						'keterangan_lain'=> $data_training->note,
+						'city'=> Satker::findOne(['reference_id'=>$satker])->city,
+						'tgl_diklat'=> date("d").' '.$months[date("n")-1].' '.date("Y"),
+						'jabatan_kepala_satker'=>$jabatan_ttd_satu,
+						'jabatan_kepala_bidang'=>$jabatan_ttd_dua,
+						'nama_kepala_satker'=> $nama_ttd_satu,
+						'nip_kepala_satker'=> $nip_ttd_satu,
+						'nama_kepala_bidang'=> $nama_ttd_dua,
+						'nip_kepala_bidang'=> $nip_ttd_dua,
+					];
+	
+			$OpenTBS->MergeBlock('onshow', $data);	
+			// Output the result as a file on the server. You can change output file
+			$OpenTBS->Show(OPENTBS_DOWNLOAD, 'generate.formb.'.$filetype); // Also merges all [onshow] automatic fields.			
+			exit;
+		} catch (\yii\base\ErrorException $e) {
+			 Yii::$app->session->setFlash('error', 'Unable export there are some error');
+		}	
+    }
+	
+	public function actionSetKelulusanPesertaDiklat($id,$class_id)
+    {
+        $admin = Yii::$app->request->post()['admin'];
+		$status_lulus = Yii::$app->request->post()['status_lulus'];
+		
+			for($i=0;$i<=count($admin)-1;$i++)
+			{
+				/*echo strtoupper(Person::findOne(['id'=>
+												 TrainingStudent::find()
+												 ->select('student_id')
+												 ->where(['id'=>$admin[$i]])
+												 ])
+								->name)." / ".$status_lulus[$admin[$i]]." / ".$admin[$i]."<br>";*/
+				$model=TrainingClassStudent::findOne($admin[$i]);
+				$model->status = $status_lulus[$admin[$i]];
+				$model->update();				
+			}
+		Yii::$app->getSession()->setFlash('success', 'Data have updated.');
+		return $this->redirect(['./activity2/set-kelulusan-peserta', 'id' => $id,'class_id'=>$class_id]);
+    }
 }

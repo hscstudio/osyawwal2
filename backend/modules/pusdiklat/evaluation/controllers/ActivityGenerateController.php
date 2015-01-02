@@ -4,9 +4,11 @@ namespace backend\modules\pusdiklat\evaluation\controllers;
 
 use Yii;
 use backend\models\Activity;
+use backend\models\Training;
 use backend\models\TrainingClass;
 use backend\models\TrainingClassSubject;
 use backend\models\TrainingClassStudent;
+use backend\models\TrainingStudent;
 use backend\models\TrainingClassStudentCertificate;
 use backend\models\TrainingSchedule;
 use backend\models\TrainingScheduleTrainer;
@@ -15,6 +17,8 @@ use backend\models\ObjectReference;
 use backend\models\Satker;
 use backend\models\Room;
 use backend\models\Reference;
+use backend\models\ProgramSubject;
+use backend\models\Employee;
 use backend\modules\pusdiklat\evaluation\models\ActivitySearch;
 use backend\modules\pusdiklat\evaluation\models\TrainingClassSubjectSearch;
 use yii\web\Controller;
@@ -689,12 +693,20 @@ class ActivityGenerateController extends Controller
         ]);
     }
 	
-	public function actionGenerateFormb($id)
+	public function actionGenerateFormb($id,$filetype='docx')
     {
         $nomor_formb = Yii::$app->request->post()['nomor_formb'];
+		$skpp_awal = Yii::$app->request->post()['skpp_awal'];
+		$skpp_akhir = Yii::$app->request->post()['skpp_akhir'];
+		$jabatan_ttd_satu = Yii::$app->request->post()['jabatan_ttd_satu'];
+		$jabatan_ttd_dua = Yii::$app->request->post()['jabatan_ttd_dua'];
+		$nama_ttd_satu = Yii::$app->request->post()['nama_ttd_satu'];
+		$nama_ttd_dua = Yii::$app->request->post()['nama_ttd_dua'];
+		$nip_ttd_satu = Yii::$app->request->post()['nip_ttd_satu'];
+		$nip_ttd_dua = Yii::$app->request->post()['nip_ttd_dua'];
 		
 		$data_training = Training::findOne(['activity_id'=>$id]);
-		$data_training->number_forma = $nomor_forma;
+		$data_training->number_formb = $nomor_formb;
 		$data_training->update();
 		$satker = $data_training->activity->satker_id;
 		
@@ -736,12 +748,12 @@ class ActivityGenerateController extends Controller
 			$OpenTBS = new \hscstudio\heart\extensions\OpenTBS; // new instance of TBS
 			// Change with Your template kaka
 			if($data_training->regular=='1')
-			{$template = Yii::getAlias('@file').'/template/pusdiklat/execution/template_formb.docx';}
+			{$template = Yii::getAlias('@file').'/template/pusdiklat/evaluation/template_formb.docx';}
 			else
-			{$template = Yii::getAlias('@file').'/template/pusdiklat/execution/template_formb2.docx';}
+			{$template = Yii::getAlias('@file').'/template/pusdiklat/evaluation/template_formb2.docx';}
 			
 			$OpenTBS->LoadTemplate($template); // Also merge some [onload] automatic fields (depends of the type of document).
-			$OpenTBS->VarRef['modelName']= "Generate Form A";
+			$OpenTBS->VarRef['modelName']= "Generate Form B";
 			$data[] = [
 						'nama_diklat' => Activity::findOne(['id'=>$id])->name,
 						'year_training' => date('Y',strtotime(Activity::findOne(['id'=>$id])->start)),
@@ -757,20 +769,27 @@ class ActivityGenerateController extends Controller
 						'jml_mp_jamlat'=> $jml_mp_jamlat->count()." Mata Pelajaran / ".$jml_mp_jamlat->sum('hours')." Jamlat",
 						'jml_crmh_jamlat'=> $jml_crmh_jamlat->count()." Ceramah / ".$jml_crmh_jamlat->sum('hours')." Jamlat",
 						'jml_pkl_jamlat'=> $jml_pkl_jamlat->sum('hours')." Jamlat",
-						'jml_kelas'=> $jml_kelas_diklat,
-						'skpp_diklat'=> '',
+						'jml_kelas'=> $jml_kelas_diklat." Kelas",
+						'nomor_skpp'=> $skpp_awal." s.d  ".$skpp_akhir,
 						'jml_pengajar'=> $jml_trainer." Orang",
 						'sk_diklat'=> $data_training->execution_sk,
 						'rencana_biaya'=> $data_training->cost_plan,
 						'sumber_biaya'=> $data_training->cost_source,
 						'rekan_kerjasama'=> $data_training->stakeholder,
+						'jml_lulus'=>TrainingClassStudent::find()->where(['training_id'=>$id,'status'=>1])->count()." Orang",
+						'jml_tdk_lulus'=>TrainingClassStudent::find()->where(['training_id'=>$id,'status'=>2])->count()." Orang",
+						'jml_ulang'=>TrainingClassStudent::find()->where(['training_id'=>$id,'status'=>3])->count()." Orang",
+						'jml_undur_diri'=>TrainingStudent::find()->where(['training_id'=>$id,'status'=>3])->count()." Orang",
+						'jml_tdk_syarat'=>TrainingStudent::find()->where(['training_id'=>$id,'status'=>0])->count()." Orang",
 						'keterangan_lain'=> $data_training->note,
 						'city'=> Satker::findOne(['reference_id'=>$satker])->city,
 						'tgl_diklat'=> date("d").' '.$months[date("n")-1].' '.date("Y"),
-						'nama_kepala_satker'=> Person::findOne(['id'=>Employee::findOne(['satker_id'=>$data_training->activity->satker_id,'organisation_id'=>'387','chairman'=>'1'])->person_id])->name,
-						'nip_kepala_satker'=> Person::findOne(['id'=>Employee::findOne(['satker_id'=>$data_training->activity->satker_id,'organisation_id'=>'387','chairman'=>'1'])->person_id])->nip,
-						'nama_kepala_bidang'=> Person::findOne(['id'=>Employee::findOne(['satker_id'=>$data_training->activity->satker_id,'organisation_id'=>'399','chairman'=>'1'])->person_id])->name,
-						'nip_kepala_bidang'=> Person::findOne(['id'=>Employee::findOne(['satker_id'=>$data_training->activity->satker_id,'organisation_id'=>'399','chairman'=>'1'])->person_id])->nip,
+						'jabatan_kepala_satker'=>$jabatan_ttd_satu,
+						'jabatan_kepala_bidang'=>$jabatan_ttd_dua,
+						'nama_kepala_satker'=> $nama_ttd_satu,
+						'nip_kepala_satker'=> $nip_ttd_satu,
+						'nama_kepala_bidang'=> $nama_ttd_dua,
+						'nip_kepala_bidang'=> $nip_ttd_dua,
 					];
 	
 			$OpenTBS->MergeBlock('onshow', $data);	
@@ -780,5 +799,26 @@ class ActivityGenerateController extends Controller
 		} catch (\yii\base\ErrorException $e) {
 			 Yii::$app->session->setFlash('error', 'Unable export there are some error');
 		}	
+    }
+	
+	public function actionSetKelulusanPesertaDiklat($id,$class_id)
+    {
+        $admin = Yii::$app->request->post()['admin'];
+		$status_lulus = Yii::$app->request->post()['status_lulus'];
+		
+			for($i=0;$i<=count($admin)-1;$i++)
+			{
+				/*echo strtoupper(Person::findOne(['id'=>
+												 TrainingStudent::find()
+												 ->select('student_id')
+												 ->where(['id'=>$admin[$i]])
+												 ])
+								->name)." / ".$status_lulus[$admin[$i]]." / ".$admin[$i]."<br>";*/
+				$model=TrainingClassStudent::findOne($admin[$i]);
+				$model->status = $status_lulus[$admin[$i]];
+				$model->update();				
+			}
+		Yii::$app->getSession()->setFlash('success', 'Data have updated.');
+		return $this->redirect(['./activity2/set-kelulusan-peserta', 'id' => $id,'class_id'=>$class_id]);
     }
 }
