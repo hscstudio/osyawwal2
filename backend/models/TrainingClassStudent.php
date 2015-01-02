@@ -49,8 +49,8 @@ class TrainingClassStudent extends \yii\db\ActiveRecord
             [['training_id', 'training_class_id', 'training_student_id'], 'required'],
             [['training_id', 'training_class_id', 'training_student_id', 'head_class', 'status', 'created_by', 'modified_by'], 'integer'],
             [['activity', 'presence', 'pre_test', 'post_test', 'test'], 'number'],
+			[['number'], 'string', 'max' => 5],
             [['created', 'modified'], 'safe'],
-            [['number'], 'string', 'max' => 255],
             [['training_id', 'training_student_id'], 'unique', 'targetAttribute' => ['training_id', 'training_student_id'], 'message' => 'The combination of Training ID and Training Student ID has already been taken.']
         ];
     }

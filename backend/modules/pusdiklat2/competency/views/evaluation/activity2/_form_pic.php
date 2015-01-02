@@ -56,7 +56,7 @@ use yii\helpers\Url;
 	foreach($object_people_array as $object_person=>$label){;
 		$data = \hscstudio\heart\helpers\Heart::OrganisationAuthorized(
 			[
-				'1213040200', // CEK KD_UNIT_ORG 1213030100 IN TABLE ORGANISATION 
+				'1202020300', // CEK KD_UNIT_ORG 1213030100 IN TABLE ORGANISATION 
 			],
 			[
 				0, // 1= HEAD OF KD_UNIT_ORG

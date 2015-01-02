@@ -60,7 +60,7 @@ use yii\helpers\Url;
 					'id'=>Employee::find()
 						->select('person_id')
 						->where([
-							'organisation_id'=>400, // CEK ID 393 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
+							'organisation_id'=>69, // CEK ID 393 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
 						])
 						->currentSatker()						
 						->column(),

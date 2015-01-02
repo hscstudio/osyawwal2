@@ -6,6 +6,9 @@ use yii\helpers\ArrayHelper;
 use backend\models\Person;
 use backend\models\Employee;
 use yii\helpers\Url;
+use backend\models\ActivityRoom;
+use kartik\widgets\DepDrop;
+
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Program */
@@ -15,7 +18,7 @@ $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 $this->title = Yii::t('app', 'Generate {modelClass}: ', [
     'modelClass' => 'Dokumen Evaluasi Tatap Muka',]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['./evaluation/activity/generate-dokumen','id'=>14]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Generate Dokumen Umum'), 'url' => ['./evaluation/activity/generate-dokumen','id'=>$model->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Dokumen Evaluasi Tatap Muka'];
 ?>
 <div class="activity-update panel panel-default">
@@ -35,7 +38,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Dokumen Evaluasi Tatap Muka'];
 						'onsubmit'=>'',
 					],
 					'action'=>[
-						'class','id'=>$model->id
+						'training-direct-evaluation-word','id'=>$model->id
 					], 
 				]);
 			?>
@@ -43,19 +46,19 @@ $this->params['breadcrumbs'][] = ['label' => 'Dokumen Evaluasi Tatap Muka'];
             <?= $form->errorSummary($model) ?> <!-- ADDED HERE -->
             <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'Tempat'.Html::endTag('label');
-				echo Html::input('text','student','',['class'=>'form-control','id'=>'count']);
+				echo Html::input('text','ruang','',['class'=>'form-control','id'=>'ruang']);
 			?>	
            
             <?php
 			$data = ArrayHelper::map(Person::find()
-				->select(['id', 'name'])
+				->select(['id','name'])
 				->where([
 					'id'=>Employee::find()
 						->select('person_id')
 						->where([
-							'organisation_id'=>69, // CEK ID 393 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
+							'satker_id'=>18,
+							'chairman'=>1,// CEK ID 393 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
 						])
-						//->currentSatker()
 						->column(),
 				])		
 				->active()
@@ -64,25 +67,28 @@ $this->params['breadcrumbs'][] = ['label' => 'Dokumen Evaluasi Tatap Muka'];
 				, 'id', 'name');
 			echo '<label class="control-label">TTD</label>';
 			echo Select2::widget([
-				'name' => 'baseon', 
+				'name' => 'ttd', 
 				'data' => $data,
 				'options' => [
-					'placeholder' => 'Select TTD ...', 
+					'placeholder' => 'Select TTD ...',
+					'onchange'=>'
+						$.post( "'.Url::to(['ttdnip']).'?id="+$(this).val(), 
+							function( data ) {
+							  $( "input#ttdnip" ).val( data + " ");
+							  $( "input#ttdnip" ).focus();
+							});
+					',
 					'class'=>'form-control', 
-					'multiple' => true,
-					'id'=>'baseon',
+					'multiple' => false,
+					'id'=>'ttd',
 				],
 			]);
-			?>
+			?>	
             <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'NIP'.Html::endTag('label');
-				echo Html::input('text','student','',['class'=>'form-control','id'=>'count']);
+				echo Html::input('text','ttdnip','',['class'=>'form-control','id'=>'ttdnip']);
 			?>	
-            <?php
-				echo Html::beginTag('label',['class'=>'control-label']).'Jabatan'.Html::endTag('label');
-				echo Html::input('text','student','',['class'=>'form-control','id'=>'count']);
-			?>	
-            
+           
             <div class="clearfix"><hr></div> 
             <div class="form-group">
                 <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Generate') : Yii::t('app', 'Generate'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

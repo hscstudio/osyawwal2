@@ -70,6 +70,26 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 			],
 			[
+				'header' => '<div style="text-align:center;">NPP</div>',
+				'vAlign'=>'middle',
+				'attribute'=>'number',
+				'width'=>'150px',
+				'hAlign'=>'center',
+				'headerOptions'=>['class'=>'kv-sticky-column'],
+				'contentOptions'=>['class'=>'kv-sticky-column'],
+				'format'=>'raw',
+				'value' => function ($data){
+					return Html::tag('span',
+						$data->training->number."-".str_pad($data->number,4,'0',STR_PAD_LEFT),
+						[
+							'class'=>'label label-info',
+							'data-toggle'=>'tooltip',
+							'data-html'=>'true',
+						]
+					);
+				},
+			],
+			[
 				'header' => '<div style="text-align:center;">Satker</div>',
 				'vAlign'=>'middle',
 				'hAlign'=>'left',
@@ -274,6 +294,22 @@ $this->params['breadcrumbs'][] = $this->title;
 			echo Html::submitButton('Get', ['class' => 'btn btn-success','style'=>'display:block;']);
 			?>
 			</div>
+            <div class="col-md-2">
+            <?php
+			echo Html::beginTag('label',['class'=>'control-label']).'Generate NPP Peserta'.Html::endTag('label');
+			echo Html::a('<i class="fa fa-fw fa-check"></i> Generate NPP',
+							Url::to(['generate-npp','id'=>$activity->id,'class_id'=>$class->id]),
+							[
+								'class'=>'btn btn-default btn-xs modal-heart',
+								'title'=>'Generate NPP Peserta',
+								'modal-size'=>'modal-lg',
+								'data-pjax'=>'0',
+								'data-toggle'=>"tooltip",
+								'data-placement'=>"top",
+							]
+						);
+			?>
+			</div>
 		</div>
 		<?php \yii\bootstrap\ActiveForm::end(); ?>
 		<?php
@@ -304,5 +340,127 @@ $this->params['breadcrumbs'][] = $this->title;
 			});
 		");
 		?>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+	<i class="fa fa-fw fa-refresh upload"></i> Document Generator
+	</div>
+    <div class="panel-body">
+		<table class="table table-striped table-condensed table-hover">
+		<tr>
+			<td style="width:50px"><i class="fa fa-fw fa-link"></i></td>
+			<td>Data Registrasi</td>
+			<td>
+				<?php
+				echo Html::a('<i class="fa fa-fw fa-print"></i> Cetak',
+							Url::to(['registration','id'=>$activity->id,'class_id'=>$class->id]),
+							[
+								'class'=>'btn btn-default btn-xs modal-heart',
+								'title'=>'Cetak Data Registrasi Peserta',
+								'data-pjax'=>'0',
+								'data-toggle'=>"tooltip",
+								'data-placement'=>"top",
+							]
+						);
+				?>
+			</td>
+		</tr>
+		<tr>
+			<td><i class="fa fa-fw fa-link"></i></td>
+			<td>Deskplate Peserta</td>
+			<td>
+				<?php
+				echo Html::a('<i class="fa fa-fw fa-print"></i> Cetak',
+							Url::to(['deskplate','id'=>$activity->id,'class_id'=>$class->id]),
+							[
+								'class'=>'btn btn-primary btn-xs modal-heart',
+								'title'=>'Cetak Deskplate Peserta',
+								'data-pjax'=>'0',
+								'data-toggle'=>"tooltip",
+								'data-placement'=>"top",
+							]
+						);
+				?>
+			</td>
+		</tr>
+		
+		<tr>
+			<td><i class="fa fa-fw fa-link"></i></td>
+			<td>Tanda Terima Bahan Ajar & ATK</td>
+			<td>
+				<?php
+				echo Html::a('<i class="fa fa-fw fa-print"></i> Cetak',
+							Url::to(['receipt','id'=>$activity->id,'class_id'=>$class->id]),
+							[
+								'class'=>'btn btn-default btn-xs modal-heart',
+								'title'=>'Cetak Tanda Terima Bahan Ajar & ATK',
+								'data-pjax'=>'0',
+								'data-toggle'=>"tooltip",
+								'data-placement'=>"top",
+							]
+						);
+				?>
+			</td>
+		</tr>
+		<tr>
+			<td><i class="fa fa-fw fa-link"></i></td>
+			<td>Surat Mengikuti Diklat</td>
+			<td>
+				<?php
+				echo Html::a('<i class="fa fa-fw fa-print"></i> Cetak',
+							Url::to(['follow-training','id'=>$activity->id,'class_id'=>$class->id]),
+							[
+								'class'=>'btn btn-primary btn-xs modal-heart',
+								'title'=>'Cetak Surat Mengikuti Diklat',
+								'data-pjax'=>'0',
+								'data-toggle'=>"tooltip",
+								'data-placement'=>"top",
+							]
+						);
+				?>
+			</td>
+		</tr>
+		<!--
+		<tr>
+			<td><i class="fa fa-fw fa-link"></i></td>
+			<td>Surat Pengembalian Peserta</td>
+			<td>
+				<?php
+				echo Html::a('<i class="fa fa-fw fa-print"></i> Cetak',
+							Url::to(['skph','id'=>$activity->id,'class_id'=>$class->id]),
+							[
+								'class'=>'btn btn-primary btn-xs modal-heart',
+								'title'=>'Cetak Surat Kuasa Pengambilan Honor',
+								'data-pjax'=>'0',
+								'data-toggle'=>"tooltip",
+								'data-placement'=>"top",
+							]
+						);
+				?>
+			</td>
+		</tr>
+		
+		<tr>
+			<td><i class="fa fa-fw fa-link"></i></td>
+			<td>Database Peserta Diklat</td>
+			<td>
+				<?php
+				echo Html::a('<i class="fa fa-fw fa-print"></i> Cetak',
+							Url::to(['skph','id'=>$activity->id,'class_id'=>$class->id]),
+							[
+								'class'=>'btn btn-primary btn-xs modal-heart',
+								'title'=>'Cetak Surat Kuasa Pengambilan Honor',
+								'data-pjax'=>'0',
+								'data-toggle'=>"tooltip",
+								'data-placement'=>"top",
+							]
+						);
+				?>
+			</td>
+		</tr>
+		-->
+		</table>
 	</div>
 </div>

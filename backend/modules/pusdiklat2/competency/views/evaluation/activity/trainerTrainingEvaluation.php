@@ -7,6 +7,7 @@ use yii\helpers\Url;
 use yii\helpers\Inflector;
 use hscstudio\heart\widgets\Box;
 use kartik\widgets\Select2;
+use backend\models\TrainingClassStudent;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\modules\pusdiklat\execution\models\TrainingClassSearch */
@@ -16,7 +17,7 @@ $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 
-$this->title = 'Kelola Evaluasi Pengajar Diklat #'. Inflector::camel2words($model->name);
+$this->title = 'Kelola Evaluasi Pengajar Diklat #'. Inflector::camel2words($model->training->activity->name);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Activities'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -27,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		'bgColor'=>'maroon', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
 		'bodyOptions' => [],
 		'icon' => 'fa fa-fw fa-graduation-cap',
-		'link' => ['dashboard','id'=>$model->id],
+		'link' => ['dashboard','id'=>$model->training_id],
 		'footerOptions' => [
 			'class' => 'dashboard-hide',
 		],
@@ -60,7 +61,8 @@ $this->params['breadcrumbs'][] = $this->title;
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'value' => function ($data){
-					return Html::a($data->training->student_count_plan,['trainer-execution-evaluation','training_id'=>$data->training_id,'training_class_id'=>$data->id],
+					$jumlah_student = TrainingClassStudent::find()->where(['training_id'=>$data->training_id,'training_class_id'=>$data->id])->count();
+					return Html::a($jumlah_student,['trainer-execution-evaluation','training_id'=>$data->training_id,'training_class_id'=>$data->id],
 						[
 							'class'=>'label label-primary',
 							'data-pjax'=>'0',

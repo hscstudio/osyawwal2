@@ -4,6 +4,15 @@ $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 ?>
+
+	<div class="alert alert-info">
+		<p>
+			<strong>Apakah admin telah membuat user untuk sub bagian atau sub bidang?</strong>
+			<br>
+			Jika bdk belum memiliki user untuk subbidang dan sub bagian, silahkan membuatnya dengan mengikuti 
+			<strong><?php echo Html::a('<i class="fa fa-fw fa-download"></i> tutorial SIMBPPM', '/backend/web/file/free-download.aspx?file=guide%2Fmanual-admin-pengelolaan-pegawai.pdf'); ?></strong>
+		</p>
+	</div>
     <div class="panel panel-default">
         <div class="panel-heading">
             <i class="fa fa-sitemap fa-fw"></i> Struktur Organisasi

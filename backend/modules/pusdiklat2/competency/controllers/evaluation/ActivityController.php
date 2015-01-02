@@ -338,7 +338,7 @@ class ActivityController extends Controller
 		$renders['model'] = $model;
 		$object_people_array = [
 			//1213030100 CEK KD_UNIT_ORG 1213030100 IN TABLE ORGANISATION IS SUBBIDANG PENYEL I
-			'organisation_1213040100'=>'PIC TRAINING ACTIVITY'
+			'organisation_1202020300'=>'PIC TRAINING ACTIVITY'
 		];
 		$renders['object_people_array'] = $object_people_array;
 		foreach($object_people_array as $object_person=>$label){
@@ -438,10 +438,13 @@ class ActivityController extends Controller
     public function actionClass($id)
     {
         $model = $this->findModel($id);
-		$searchModel = new TrainingClassSearch([
-			'training_id' => $id,
-		]);
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$searchModel = new TrainingClassSearch();
+        $queryParams = Yii::$app->request->getQueryParams();
+		$queryParams['TrainingClassSearch']=[
+					'training_id' => $id,
+				];
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$dataProvider = $searchModel->search($queryParams);
 		
 		$subquery = TrainingClassStudent::find()
 			->select('training_student_id')
@@ -2017,11 +2020,16 @@ class ActivityController extends Controller
 	
 	public function actionExecutionEvaluation($id)
     {
-		$model = $this->findModel($id);
-		$searchModel = new TrainingClassSearch([
-			'training_id' => $id,
-		]);
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		//$model = $this->findModel($id);
+		$model = TrainingClass::findOne(['training_id'=>$id]);
+		$searchModel = new TrainingClassSearch();
+        $queryParams = Yii::$app->request->getQueryParams();
+		$queryParams['TrainingClassSearch']=[
+					'training_id' => $id,
+				];
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$dataProvider = $searchModel->search($queryParams);
+		
         return $this->render('executionEvaluation', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -2031,12 +2039,16 @@ class ActivityController extends Controller
 	
 	public function actionStudentExecutionEvaluation($training_id=NULL,$training_class_id=NULL)
     {
-		$model = $this->findModel($training_id);
-		$searchModel = new TrainingClassStudentSearch([
-			'training_id' => $training_id,
-			'training_class_id' => $training_class_id,
-		]);
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$model = TrainingClassStudent::findOne(['training_id'=>$training_id,'training_class_id'=>$training_class_id]);
+		$searchModel = new TrainingClassStudentSearch();
+        $queryParams = Yii::$app->request->getQueryParams();
+		$queryParams['TrainingClassStudentSearch']=[
+					'training_class_student.training_id' => $training_id,
+					'training_class_student.training_class_id' => $training_class_id,
+				];
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$dataProvider = $searchModel->search($queryParams);
+		
         return $this->render('studentExecutionEvaluation', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -2048,11 +2060,15 @@ class ActivityController extends Controller
 	
 	public function actionTrainerTrainingEvaluation($id)
     {
-		$model = $this->findModel($id);
-		$searchModel = new TrainingClassSearch([
-			'training_id' => $id,
-		]);
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$model = TrainingClass::findOne(['training_id'=>$id]);
+		$searchModel = new TrainingClassSearch();
+        $queryParams = Yii::$app->request->getQueryParams();
+		$queryParams['TrainingClassSearch']=[
+					'training_id' => $id,
+				];
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$dataProvider = $searchModel->search($queryParams);
+		
         return $this->render('trainerTrainingEvaluation', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -2062,12 +2078,18 @@ class ActivityController extends Controller
 	
 	public function actionTrainerExecutionEvaluation($training_id=NULL,$training_class_id=NULL)
     {
-		$model = $this->findModel($training_id);
-		$searchModel = new TrainingClassStudentSearch([
-			'training_id' => $training_id,
-			'training_class_id' => $training_class_id,
-		]);
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		//$model = $this->findModel($training_id);
+		$model = TrainingClassStudent::findOne(['training_id'=>$training_id,'training_class_id'=>$training_class_id]);
+		$searchModel = new TrainingClassStudentSearch();
+        $queryParams = Yii::$app->request->getQueryParams();
+		$queryParams['TrainingClassStudentSearch']=[
+					'training_class_student.training_id' => $training_id,
+					'training_class_student.training_class_id' => $training_class_id,
+				];
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$dataProvider = $searchModel->search($queryParams);
+		///////////////
+		
         return $this->render('trainerExecutionEvaluation', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -2472,6 +2494,10 @@ class ActivityController extends Controller
 
 		}
 	}
+		
+
+
+
 
 	public function actionNilaiAktivitas($training_id, $training_class_id) {
     	// Bikin data provider student dari class schedule
@@ -2540,9 +2566,14 @@ class ActivityController extends Controller
 		else {
 			
 			echo Json::encode(['activity' => 'Peserta diklat tidak ada!'.Yii::$app->request->post('training_class_student_id'), 'error' => 'error']);
+
 		}
 
 	}
+
+
+
+
 
 	public function actionNilaiKehadiran($training_id, $training_class_id) {
     	// Bikin data provider student dari class schedule
@@ -2787,10 +2818,10 @@ class ActivityController extends Controller
 
     }
 
-
-	public function actionGenerateDokumen($id=NULL) {
-		return $this->render('generateDokumen', [
+	public function actionGenerateDokumen($id)
+    {
+        return $this->render('generateDokumen', [
             'model' => $this->findModel($id),
-        ]);	
-	}
+        ]);
+    }
 }

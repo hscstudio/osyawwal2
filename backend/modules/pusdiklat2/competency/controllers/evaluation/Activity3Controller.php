@@ -330,7 +330,7 @@ class Activity3Controller extends Controller
 		$renders['model'] = $model;
 		$object_people_array = [
 			//1213030100 CEK KD_UNIT_ORG 1213030100 IN TABLE ORGANISATION IS SUBBIDANG PENYEL I
-			'organisation_1213040100'=>'PIC TRAINING ACTIVITY'
+			'organisation_1202020300'=>'PIC TRAINING ACTIVITY'
 		];
 		$renders['object_people_array'] = $object_people_array;
 		foreach($object_people_array as $object_person=>$label){
@@ -430,10 +430,13 @@ class Activity3Controller extends Controller
     public function actionClass($id)
     {
         $model = $this->findModel($id);
-		$searchModel = new TrainingClassSearch([
-			'training_id' => $id,
-		]);
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$searchModel = new TrainingClassSearch();
+        $queryParams = Yii::$app->request->getQueryParams();
+		$queryParams['TrainingClassSearch']=[
+					'training_id' => $id,
+				];
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$dataProvider = $searchModel->search($queryParams);
 		
 		$subquery = TrainingClassStudent::find()
 			->select('training_student_id')

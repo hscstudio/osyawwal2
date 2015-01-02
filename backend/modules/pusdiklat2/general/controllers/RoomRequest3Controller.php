@@ -11,7 +11,7 @@ use backend\models\Meeting;
 use backend\models\Reference;
 use backend\models\Organisation;
 use backend\models\ObjectPerson;
-use backend\modules\pusdiklat2\general\models\MeetingActivitySearch as ActivitySearch;;
+use backend\modules\pusdiklat2\general\models\MeetingActivitySearch as ActivitySearch;
 use backend\modules\pusdiklat2\general\models\RoomSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -42,7 +42,7 @@ class RoomRequest3Controller extends Controller
      * Lists all Activity models.
      * @return mixed
      */
-    public function actionIndex($year='',$status=1, $organisation_id='387')
+    public function actionIndex($year='',$status=1, $organisation_id='56')
     {
 		if(empty($year)) $year=date('Y');
 		$searchModel = new ActivitySearch();
@@ -82,7 +82,7 @@ class RoomRequest3Controller extends Controller
 		$organisations = yii\helpers\ArrayHelper::map(Organisation::find()
 			->where([
 				'KD_UNIT_ES2'=>'02',
-				'KD_ESELON'=>[2,4],
+				'KD_ESELON'=>[2,3,4],
 			])
 			->asArray()
 			->all(), 'ID', 'NM_UNIT_ORG');
