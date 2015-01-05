@@ -2934,6 +2934,7 @@ class ActivityController extends Controller
 						exit;
 					} catch (\yii\base\ErrorException $e) {
 						 Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Terdapat kesalahan pada pembuatan laporan');
+						 return $this->redirect(['generate-dokumen-khusus','id' => $id]);
 					}	
 			    }
     			else {
@@ -3046,6 +3047,7 @@ class ActivityController extends Controller
 						exit;
 					} catch (\yii\base\ErrorException $e) {
 						 Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Terdapat kesalahan pada pembuatan laporan');
+						 return $this->redirect(['generate-dokumen-khusus','id' => $id]);
 					}	
 			    }
     			else {
@@ -3307,6 +3309,7 @@ class ActivityController extends Controller
 						exit;
 					} catch (\yii\base\ErrorException $e) {
 						 Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Terdapat kesalahan pada pembuatan laporan');
+						 return $this->redirect(['generate-dokumen-khusus','id' => $id]);
 					}	
 			    }
     			else {
@@ -3404,7 +3407,7 @@ class ActivityController extends Controller
 						$jumlahPengajar = 1;
 						foreach ($modelTrainingSubjectTrainerRecommendation as $baris) {
 							$daftar_pengajar .= $jumlahPengajar.". ".$baris->trainer->person->name;
-							$daftar_pengajar .= "\n";
+							$daftar_pengajar .= "\r";
 							$jumlahPengajar++;
 						}
 
@@ -3449,7 +3452,9 @@ class ActivityController extends Controller
 						$OpenTBS->Show(OPENTBS_DOWNLOAD, 'surat.permintaan.koreksi.'.$modelTrainingClass->training->activity->name.'.docx'); // Also merges all [onshow] automatic fields.			
 						exit;
 					} catch (\yii\base\ErrorException $e) {
-						 Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Terdapat kesalahan pada pembuatan laporan');
+						Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Terdapat kesalahan pada pembuatan laporan');
+						return $this->redirect(['generate-dokumen-khusus','id' => $id]);
+
 					}	
 			    }
     			else {
