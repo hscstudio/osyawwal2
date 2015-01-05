@@ -696,6 +696,7 @@ class ActivityGenerateController extends Controller
 	public function actionGenerateFormb($id,$filetype='docx')
     {
         $nomor_formb = Yii::$app->request->post()['nomor_formb'];
+		$note_formb = Yii::$app->request->post()['note_formb'];
 		$skpp_awal = Yii::$app->request->post()['skpp_awal'];
 		$skpp_akhir = Yii::$app->request->post()['skpp_akhir'];
 		$jabatan_ttd_satu = Yii::$app->request->post()['jabatan_ttd_satu'];
@@ -707,6 +708,7 @@ class ActivityGenerateController extends Controller
 		
 		$data_training = Training::findOne(['activity_id'=>$id]);
 		$data_training->number_formb = $nomor_formb;
+		$data_training->note_formb = $note_formb;
 		$data_training->update();
 		$satker = $data_training->activity->satker_id;
 		
@@ -781,7 +783,7 @@ class ActivityGenerateController extends Controller
 						'jml_ulang'=>TrainingClassStudent::find()->where(['training_id'=>$id,'status'=>3])->count()." Orang",
 						'jml_undur_diri'=>TrainingStudent::find()->where(['training_id'=>$id,'status'=>3])->count()." Orang",
 						'jml_tdk_syarat'=>TrainingStudent::find()->where(['training_id'=>$id,'status'=>0])->count()." Orang",
-						'keterangan_lain'=> $data_training->note,
+						'keterangan_lain'=> $data_training->note_formb,
 						'city'=> Satker::findOne(['reference_id'=>$satker])->city,
 						'tgl_diklat'=> date("d").' '.$months[date("n")-1].' '.date("Y"),
 						'jabatan_kepala_satker'=>$jabatan_ttd_satu,

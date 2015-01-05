@@ -73,6 +73,7 @@ $this->params['breadcrumbs'][] = ['label' => 'NPP Peserta'];
 									->where(['training_class_student.training_id'=>$model->training_id,'training_class_student.training_class_id'=>$model->training_class_id])
 									->orderBy('name')
 			]);
+			$dataProvider->setPagination(false);
 			$no=$max_npp_awal;
 			foreach($dataProvider->getModels() as $person){
 				echo "<div class='row clearfix'>";

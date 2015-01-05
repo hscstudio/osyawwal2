@@ -132,6 +132,14 @@ $this->params['breadcrumbs'][] = ['label' => 'Form B'];
 				?>
                 </div>
             </div>
+            <div class="row clearfix">
+                <div class="col-md-12">
+                <?php
+				echo Html::beginTag('label',['class'=>'control-label']).'Keterangan Lain'.Html::endTag('label');
+				echo Html::input('text','note_formb',$model->training->note_formb,['class'=>'form-control','id'=>'note_formb']);
+				?>
+                </div>               
+            </div>
                  
             <div class="clearfix"><hr></div> 
             <div class="form-group">
