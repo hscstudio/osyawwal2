@@ -223,6 +223,20 @@ $this->params['breadcrumbs'][] = $this->title;
 									'data-toggle'=>'tooltip',
 								]);
 					} */
+				}				
+			],			
+			[
+				'format' => 'raw',
+				'label' => 'Kelulusan',
+				'vAlign'=>'middle',
+				'hAlign'=>'center',
+				'width'=>'80px',
+				'headerOptions'=>['class'=>'kv-sticky-column'],
+				'contentOptions'=>['class'=>'kv-sticky-column'],
+				'value' => function ($data){
+					return Html::a('SET',
+						Url::to(['set-kelulusan-peserta','id'=>$data->training_id,'class_id'=>$data->id,]),
+						['class'=>'label label-default', 'data-pjax' => '0']);
 				}
 			],
         ],

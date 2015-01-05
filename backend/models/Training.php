@@ -52,7 +52,7 @@ class Training extends \yii\db\ActiveRecord
                 'class'=>HistoryBehavior::className(),
                 'attributes'=>[
 					'activity_id', 'program_id', 'program_revision', 'regular', 'student_count_plan', 'class_count_plan', 'approved_status', 'approved_by',
-					'cost_plan', 'cost_real','approved_date','number','note','number_forma', 'stakeholder', 'execution_sk', 'result_sk', 'cost_source', 'approved_note',				
+					'cost_plan', 'cost_real','approved_date','number','note','note_formb','number_forma','number_formb', 'stakeholder', 'execution_sk', 'result_sk', 'cost_source', 'approved_note',				
 				],
 				'historyClass'=>TrainingHistory::className(),
 				'primaryField'=>'activity_id',
@@ -70,9 +70,9 @@ class Training extends \yii\db\ActiveRecord
             [['activity_id', 'program_id', 'program_revision', 'regular', 'student_count_plan', 'class_count_plan', 'approved_status', 'approved_by'], 'integer'],
             [['cost_plan', 'cost_real'], 'number'],
             [['approved_date'], 'safe'],
-			[['number_forma'], 'string', 'max' => 5],
+			[['number_forma','number_formb'], 'string', 'max' => 5],
             [['number'], 'string', 'max' => 100],
-            [['note', 'stakeholder', 'execution_sk', 'result_sk', 'cost_source', 'approved_note'], 'string', 'max' => 255]
+            [['note','note_formb', 'stakeholder', 'execution_sk', 'result_sk', 'cost_source', 'approved_note'], 'string', 'max' => 255]
         ];
     }
 
@@ -86,8 +86,10 @@ class Training extends \yii\db\ActiveRecord
             'program_id' => Yii::t('app', 'Program ID'),
             'program_revision' => Yii::t('app', 'Program Revision'),
 			'number_forma' => Yii::t('app', 'Number Forma'),
+			'number_formb' => Yii::t('app', 'Number Formb'),
             'number' => Yii::t('app', 'Number'),
             'note' => Yii::t('app', 'Note'),
+			'note_formb' => Yii::t('app', 'Note Formb'),
             'regular' => Yii::t('app', 'Regular'),
             'stakeholder' => Yii::t('app', 'Stakeholder'),
             'student_count_plan' => Yii::t('app', 'Student Count Plan'),
