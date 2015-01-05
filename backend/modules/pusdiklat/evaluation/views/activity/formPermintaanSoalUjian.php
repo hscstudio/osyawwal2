@@ -6,6 +6,7 @@ use yii\widgets\DetailView;
 
 use kartik\widgets\ActiveForm;
 use kartik\widgets\Select2;
+use kartik\widgets\DatePicker;
 
 use hscstudio\heart\widgets\Box;
 
@@ -70,16 +71,59 @@ $this->params['breadcrumbs'][] = $this->title;
 						$form = ActiveForm::begin(
 						[
 						    'enableAjaxValidation' => true,
-						    'type' => ActiveForm::TYPE_VERTICAL
+						    'type' => ActiveForm::TYPE_HORIZONTAL
 						]);
 						
 						echo '<div class="col-md-12">';
 							echo '<div class="form-group">';
-								echo Html::input('text', 'Jabatan', $nama_ujian, [
-										'placeholder' => 'Nama Ujian',
-										'class' => 'form-control'
+								echo '<div class="col-md-4">';
+									echo Html::label('Deadline', 'tanggal_deadline');
+								echo '</div>';
+								echo '<div class="col-md-8">';
+									echo DatePicker::widget([
+									    'name' => 'tanggal_deadline',
+									    'type' => DatePicker::TYPE_INPUT,
+									    'value' => $tanggal_deadline,
+									    'pluginOptions' => [
+									        'autoclose'=>true,
+									        'format' => 'dd-M-yyyy'
+									    ]
 									]);
+								echo '</div>';
 							echo '</div>';
+							echo '<div class="form-group">';
+								echo '<div class="col-md-4">';
+									echo Html::label('TTD', 'ttd');
+								echo '</div>';
+								echo '<div class="col-md-8">';
+									echo Html::dropDownList('ttd', 0, $ttd, [
+											'placeholder' => 'TTD',
+											'class' => 'form-control'
+										]);
+								echo '</div>';
+							echo '</div>';
+							/*echo '<div class="form-group">';
+								echo '<div class="col-md-4">';
+									echo Html::label('NIP', 'nip');
+								echo '</div>';
+								echo '<div class="col-md-8">';
+									echo Html::input('text', 'nip', $nip, [
+											'placeholder' => 'NIP',
+											'class' => 'form-control'
+										]);
+								echo '</div>';
+							echo '</div>';
+							echo '<div class="form-group">';
+								echo '<div class="col-md-4">';
+									echo Html::label('Jabatan', 'jabatan');
+								echo '</div>';
+								echo '<div class="col-md-8">';
+									echo Html::input('text', 'jabatan', $jabatan, [
+											'placeholder' => 'Jabatan',
+											'class' => 'form-control'
+										]);
+								echo '</div>';
+							echo '</div>';*/
 						echo '</div>';
 
 						echo '<div class="col-md-8">';
