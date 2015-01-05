@@ -2943,7 +2943,7 @@ class ActivityController extends Controller
 	    			if (empty($modelKelas)) {
 	    				// Artinya kelas belum dibuat, lempar
 	    				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Kelas belum ada. Hubungi bidang penyelenggaraan');
-	    				return $this->redirect('activity/index');
+	    				return $this->redirect(['activity/generate-dokumen-khusus', 'id' => $id]);
 	    			}
 
 	    			$data = ArrayHelper::map(TrainingClass::find()
@@ -3056,7 +3056,7 @@ class ActivityController extends Controller
 	    			if (empty($modelKelas)) {
 	    				// Artinya kelas belum dibuat, lempar
 	    				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Kelas belum ada. Hubungi bidang penyelenggaraan');
-	    				return $this->redirect('activity/index');
+	    				return $this->redirect(['activity/generate-dokumen-khusus', 'id' => $id]);
 	    			}
 
 	    			$data = ArrayHelper::map(TrainingClass::find()
@@ -3250,7 +3250,7 @@ class ActivityController extends Controller
 	    			if (empty($modelKelas)) {
 	    				// Artinya kelas belum dibuat, lempar
 	    				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Kelas belum ada. Hubungi bidang penyelenggaraan');
-	    				return $this->redirect('activity/index');
+	    				return $this->redirect(['activity/generate-dokumen-khusus', 'id' => $id]);
 	    			}
 
 	    			$data = ArrayHelper::map(TrainingClass::find()
@@ -3318,7 +3318,7 @@ class ActivityController extends Controller
 	    			if (empty($modelKelas)) {
 	    				// Artinya kelas belum dibuat, lempar
 	    				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Kelas belum ada. Hubungi bidang penyelenggaraan');
-	    				return $this->redirect('activity/index');
+	    				return $this->redirect(['activity/generate-dokumen-khusus', 'id' => $id]);
 	    			}
 
 	    			$data = ArrayHelper::map(TrainingClass::find()
@@ -3463,7 +3463,7 @@ class ActivityController extends Controller
 	    			if (empty($modelKelas)) {
 	    				// Artinya kelas belum dibuat, lempar
 	    				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Kelas belum ada. Hubungi bidang penyelenggaraan');
-	    				return $this->redirect('activity/index');
+	    				return $this->redirect(['activity/generate-dokumen-khusus', 'id' => $id]);
 	    			}
 
 	    			$data = ArrayHelper::map(TrainingClass::find()
@@ -3500,7 +3500,7 @@ class ActivityController extends Controller
     			break;
     		default:
     			Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Jenis dokumen yang Anda minta tidak ada dalam katalog kami');
-	    		return $this->redirect('activity/index');
+	    		return $this->redirect(['activity/generate-dokumen-khusus', 'id' => $id]);
     	}
     }
 }
