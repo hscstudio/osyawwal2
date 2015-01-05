@@ -304,6 +304,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <ul class="nav nav-tabs" role="tablist">
             <li class="active"><a href="#sertifikat" role="tab" data-toggle="tab">Sertifikat</a></li>
             <li><a href="#document" role="tab" data-toggle="tab">Document</a></li>
+            <li><a href="#kelulusan" role="tab" data-toggle="tab">Status Kelulusan</a></li>
         </ul>
 
         <!-- Tab panes -->
@@ -320,6 +321,28 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="tab-pane fade" id="document">
                 <div class="jumbotron">
                     <h1>Coming soon :)</h1>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="kelulusan">
+                <div class="jumbotron">
+                <div class="row clearfix">
+                <div class="col-md-2">
+                    <?php
+					echo Html::beginTag('label',['class'=>'control-label']).'Status Kelulusan Peserta'.Html::endTag('label');
+					echo Html::a('<i class="fa fa-fw fa-check"></i> Set Status Kelulusan Peserta',
+									Url::to(['set-kelulusan-peserta','id'=>$activity->id,'class_id'=>$class->id]),
+									[
+										'class'=>'btn btn-default btn-xs',
+										'title'=>'Set Status Kelulusan Peserta',
+										//'modal-size'=>'modal-lg',
+										'data-pjax'=>'0',
+										'data-toggle'=>"tooltip",
+										'data-placement'=>"top",
+									]
+								);
+					?>
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>

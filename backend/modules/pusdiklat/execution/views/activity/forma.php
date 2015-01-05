@@ -6,6 +6,10 @@ use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use backend\models\TrainingClassStudent;
+use backend\models\Reference;
+use backend\models\Organisation;
+use backend\models\Person;
+use backend\models\Employee;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Program */
@@ -74,6 +78,48 @@ $this->params['breadcrumbs'][] = ['label' => 'Form A'];
 				?>
                 </div>               
             </div>
+            <div class="row clearfix">
+                <div class="col-md-6">
+                <?php
+				echo Html::beginTag('label',['class'=>'control-label']).'Jabatan Penandatangan I'.Html::endTag('label');
+				echo Html::input('text','jabatan_ttd_satu','Kepala '.Reference::findOne(['id'=>Yii::$app->user->identity->employee->satker_id])->name,['class'=>'form-control','id'=>'jabatan_ttd_satu']);
+				?>
+                </div>
+                <div class="col-md-6">
+                <?php
+				echo Html::beginTag('label',['class'=>'control-label']).'Jabatan Penandatangan II'.Html::endTag('label');
+				echo Html::input('text','jabatan_ttd_dua','Kepala Bidang Penyelenggaraan',['class'=>'form-control','id'=>'jabatan_ttd_dua']);
+				?>
+                </div>
+            </div>  
+            <div class="row clearfix">
+                <div class="col-md-6">
+                <?php
+				echo Html::beginTag('label',['class'=>'control-label']).'Nama Penandatangan I'.Html::endTag('label');
+				echo Html::input('text','nama_ttd_satu',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'387','chairman'=>'1'])->person_id])->name,['class'=>'form-control','id'=>'ttd_satu']);
+				?>
+                </div>
+                <div class="col-md-6">
+                <?php
+				echo Html::beginTag('label',['class'=>'control-label']).'Nama Penandatangan II'.Html::endTag('label');
+				echo Html::input('text','nama_ttd_dua',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'396','chairman'=>'1'])->person_id])->name,['class'=>'form-control','id'=>'ttd_dua']);
+				?>
+                </div>
+            </div>    
+            <div class="row clearfix">
+                <div class="col-md-6">
+                <?php
+				echo Html::beginTag('label',['class'=>'control-label']).'NIP Penandatangan I'.Html::endTag('label');
+				echo Html::input('text','nip_ttd_satu',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'387','chairman'=>'1'])->person_id])->nip,['class'=>'form-control','id'=>'nip_ttd_satu']);
+				?>
+                </div>
+                <div class="col-md-6">
+                <?php
+				echo Html::beginTag('label',['class'=>'control-label']).'NIP Penandatangan II'.Html::endTag('label');
+				echo Html::input('text','nip_ttd_dua',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'396','chairman'=>'1'])->person_id])->nip,['class'=>'form-control','id'=>'nip_ttd_dua']);
+				?>
+                </div>
+            </div>     
                  
             <div class="clearfix"><hr></div> 
             <div class="form-group">

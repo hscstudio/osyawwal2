@@ -52,6 +52,7 @@ return [
 	'BPPK_TEXT_TOOLTIP_ROOM' => 'Ruangan',
 	'BPPK_TEXT_TOOLTIP_STUDENT' => 'Peserta',
 	'BPPK_TEXT_TOOLTIP_CLASS' => 'Kelas',
+	'BPPK_TEXT_TOOLTIP_FORMA' =>'Form A',
 
 	'BPPK_BUTTON_STUDENT_PLAN' => 'Rencana Sebaran Peserta',
 

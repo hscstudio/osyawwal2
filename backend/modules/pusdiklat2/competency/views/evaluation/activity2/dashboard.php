@@ -88,6 +88,26 @@ $this->params['breadcrumbs'][] = $this->title;
 			Box::end();
 			?>
 			</div>
+            <div class="col-md-3">
+			<?php
+			Box::begin([
+				'type'=>'small', // ,small, solid, tiles
+				'bgColor'=>'teal', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+				'bodyOptions' => [],
+				'icon' => 'fa fa-fw fa-check',
+				'link' => ['./evaluation/activity-generate/formb','id'=>$model->id],
+				'footerOptions' => [
+					'class' => 'dashboard-hide',
+				],
+				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+			]);
+			?>
+			<h3>Form B</h3>
+			<p>Form B</p>
+			<?php
+			Box::end();
+			?>
+			</div>
 		</div>		
 	</div>
 </div>

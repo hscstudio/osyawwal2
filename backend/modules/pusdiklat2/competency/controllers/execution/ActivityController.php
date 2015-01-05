@@ -6,8 +6,10 @@ use backend\models\Activity;
 use backend\modules\pusdiklat2\competency\models\execution\TrainingActivitySearch;
 use yii\helpers\Html;
 use backend\models\Person;
+use backend\models\Employee;
 use backend\models\ObjectPerson;
 use backend\models\ObjectFile;
+use backend\models\Satker;
 use backend\models\Program;
 use backend\models\ProgramSubject;
 use backend\models\ProgramSubjectHistory;
@@ -704,14 +706,24 @@ class ActivityController extends Controller
      * Lists all TrainingClass models.
      * @return mixed
      */
-    public function actionStudent($id,$status=1)
+    public function actionStudent($id,$status=NULL)
     {
         $model = $this->findModel($id);
 		$searchModel = new TrainingStudentSearch();
-		$queryParams['TrainingStudentSearch']=[
-			'training_id' => $id,
-			'status' => $status
-		]; 
+		if(empty($status)&&$status!=0)
+		{
+			$queryParams['TrainingStudentSearch']=[
+				'training_id' => $id,
+				'not',['status' => [0,3]]
+			]; 
+		}
+		else
+		{
+			$queryParams['TrainingStudentSearch']=[
+				'training_id' => $id,
+				'status' => $status,
+			]; 
+		}
 		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
 		$dataProvider = $searchModel->search($queryParams); 
 		$dataProvider->getSort()->defaultOrder = [
@@ -3040,5 +3052,165 @@ class ActivityController extends Controller
         ]);
     }
 	
+	public function actionForma($id)
+    {
+		$npp_awal=TrainingClassStudent::find()
+							->where(['training_id'=>$id])->min('number*1');
+		
+		$npp_akhir = TrainingClassStudent::find()
+							->where(['training_id'=>$id])->max('number*1');
+		
+		return $this->render('forma',[
+            'model' => Training::findOne(['activity_id'=>$id]),
+			'npp_awal' =>$npp_awal,
+			'npp_akhir' =>$npp_akhir,
+        ]);
+        
+    }
+	
+	public function actionGenerateNpp($id,$class_id)
+    {
+        $data = TrainingClassStudent::find()
+							->where(['training_id'=>$id,'training_class_id'=>$class_id]);
+		
+		$number = Training::findOne(['activity_id'=>$id])->number;
+		
+		$max_npp = TrainingClassStudent::find()
+							->where(['training_id'=>
+									 Training::find()
+									 ->select('activity_id')
+									 ->where(['number'=>$number])
+									 ])->max('number*1');
+		
+		if(!empty($max_npp))
+		{$max_npp_awal=$max_npp+1;}
+		else
+		{$max_npp_awal=1;}
+		
+		if (Yii::$app->request->isAjax)
+				return $this->renderAjax('generateNpp',[
+            'model' => $data->one(),
+			'max_npp_awal' => $max_npp_awal,
+        ]);
+        else
+				return $this->render('generateNpp', $renders);
+    }
+	
+	public function actionNppGenerate($id,$class_id)
+    {
+        $npp = Yii::$app->request->post()['number'];
+		$admin = Yii::$app->request->post()['admin'];
+		
+			for($i=0;$i<=count($admin)-1;$i++)
+			{
+				$model=TrainingClassStudent::findOne($admin[$i]);
+				$model->number = $npp[$admin[$i]];
+				$model->update();
+			}
+			Yii::$app->getSession()->setFlash('success', 'Data have updated.');
+			return $this->redirect(['class-student', 'id' => $id,'class_id'=>$class_id]);            
+    }
+	
+	public function actionGenerateForma($id,$filetype='docx')
+    {
+		$nomor_forma = Yii::$app->request->post()['nomor_forma'];
+		$jabatan_ttd_satu = Yii::$app->request->post()['jabatan_ttd_satu'];
+		$jabatan_ttd_dua = Yii::$app->request->post()['jabatan_ttd_dua'];
+		$nama_ttd_satu = Yii::$app->request->post()['nama_ttd_satu'];
+		$nama_ttd_dua = Yii::$app->request->post()['nama_ttd_dua'];
+		$nip_ttd_satu = Yii::$app->request->post()['nip_ttd_satu'];
+		$nip_ttd_dua = Yii::$app->request->post()['nip_ttd_dua'];
+		
+		$data_training = Training::findOne(['activity_id'=>$id]);
+		$data_training->number_forma = $nomor_forma;
+		$data_training->update();
+		$satker = $data_training->activity->satker_id;
+		
+		$jml_mp_jamlat = ProgramSubject::find()
+						->where(['program_id'=>$data_training->program_id,'type'=>'109']);
+						
+		$jml_crmh_jamlat = ProgramSubject::find()
+						->where(['program_id'=>$data_training->program_id,'type'=>'110']);
+		
+		$jml_pkl_jamlat = ProgramSubject::find()
+						->where(['program_id'=>$data_training->program_id,'type'=>'112']);
+		
+		$jml_peserta_diklat = TrainingClassStudent::find()
+						->where(['training_id'=>$id]);
+						
+		$jml_kelas_diklat = TrainingClass::find()
+						->where(['training_id'=>$id])->count();
+		
+		$jml_trainer = TrainingScheduleTrainer::find()
+						->where(['training_schedule_id'=>
+								 TrainingSchedule::find()
+								 ->select('id')
+								 ->where(['training_class_id'=>
+										  Trainingclass::find()
+										  ->select('id')
+										  ->where(['training_id'=>$id])
+										  ])
+								 ])->count();
+		
+		$months = array('Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember');
+		
+		try {
+			$templates=[
+				'docx'=>'ms-word.docx',
+				'odt'=>'open-document.odt',
+				'xlsx'=>'ms-excel.xlsx'
+			];
+			// Initalize the TBS instance
+			$OpenTBS = new \hscstudio\heart\extensions\OpenTBS; // new instance of TBS
+			// Change with Your template kaka
+			if($data_training->regular=='1')
+			{$template = Yii::getAlias('@file').'/template/pusdiklat/execution/template_forma.docx';}
+			else
+			{$template = Yii::getAlias('@file').'/template/pusdiklat/execution/template_forma2.docx';}
+			
+			$OpenTBS->LoadTemplate($template); // Also merge some [onload] automatic fields (depends of the type of document).
+			$OpenTBS->VarRef['modelName']= "Generate Form A";
+			$data[] = [
+						'nama_diklat' => Activity::findOne(['id'=>$id])->name,
+						'year_training' => date('Y',strtotime(Activity::findOne(['id'=>$id])->start)),
+						'jenis_forma' => $data_training->regular=='1'?"A1":"A2",
+						'no_forma'=> $data_training->number_forma."/".Satker::findOne(['reference_id'=>$satker])->letter_number.".3"."/".date('Y',strtotime(Activity::findOne(['id'=>$id])->start)),
+						'jenis_diklat'=> $data_training->regular=='1'?"REGULAR":"PARALEL",
+						'nama_satker'=> strtoupper($data_training->activity->satker->name),
+						'nama_satker_dua'=> $data_training->activity->satker->name,
+						'tanggal_penyelenggaraan_diklat'=> date("d",strtotime($data_training->activity->start))." ".$months[date("n",strtotime($data_training->activity->start))-1]." s.d ".date("d",strtotime($data_training->activity->end))." ".$months[date("n",strtotime($data_training->activity->end))-1].' '.date("Y",strtotime($data_training->activity->end)),
+						'lokasi_diklat'=> $data_training->activity->location,
+						'lama_diklat'=> $data_training->program->days." Hari",
+						'diasramakan'=> Activity::findOne(['id'=>$id])->hostel=='1'?"Ya":"Tidak",
+						'jml_mp_jamlat'=> $jml_mp_jamlat->count()." Mata Pelajaran / ".$jml_mp_jamlat->sum('hours')." Jamlat",
+						'jml_crmh_jamlat'=> $jml_crmh_jamlat->count()." Ceramah / ".$jml_crmh_jamlat->sum('hours')." Jamlat",
+						'jml_pkl_jamlat'=> $jml_pkl_jamlat->sum('hours')." Jamlat",
+						'jml_peserta_diklat'=> $jml_peserta_diklat->count()." Orang",
+						'jml_kelas'=> $jml_kelas_diklat,
+						'npp_diklat'=> $data_training->number."-".$jml_peserta_diklat->min('number*1')." s.d ".$data_training->number."-".$jml_peserta_diklat->max('number*1'),
+						'jml_pengajar'=> $jml_trainer." Orang",
+						'sk_diklat'=> $data_training->execution_sk,
+						'rencana_biaya'=> $data_training->cost_plan,
+						'sumber_biaya'=> $data_training->cost_source,
+						'rekan_kerjasama'=> $data_training->stakeholder,
+						'keterangan_lain'=> $data_training->note,
+						'city'=> Satker::findOne(['reference_id'=>$satker])->city,
+						'tgl_diklat'=> date("d").' '.$months[date("n")-1].' '.date("Y"),
+						'jabatan_kepala_satker'=>$jabatan_ttd_satu,
+						'jabatan_kepala_bidang'=>$jabatan_ttd_dua,
+						'nama_kepala_satker'=> $nama_ttd_satu,
+						'nip_kepala_satker'=> $nip_ttd_satu,
+						'nama_kepala_bidang'=> $nama_ttd_dua,
+						'nip_kepala_bidang'=> $nip_ttd_dua,
+					];
+	
+			$OpenTBS->MergeBlock('onshow', $data);	
+			// Output the result as a file on the server. You can change output file
+			$OpenTBS->Show(OPENTBS_DOWNLOAD, 'generate.forma.'.$filetype); // Also merges all [onshow] automatic fields.			
+			exit;
+		} catch (\yii\base\ErrorException $e) {
+			 Yii::$app->session->setFlash('error', 'Unable export there are some error');
+		}	
+    }
 
 }

@@ -171,7 +171,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'label' => 'Status',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
-				'width'=>'75px',
+				'width'=>'55px',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'format'=>'raw',
@@ -250,8 +250,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
 				'class' => 'kartik\grid\ActionColumn',
-				'width' => '180px',
-				'template' => '<div class="btn-group">{update}</div> <div class="btn-group">{property}{room}{student}{class}</div>',
+				'width' => '200px',
+				'template' => '<div class="btn-group">{update}</div> <div class="btn-group">{property}{room}{student}{class}{forma}</div>',
 				'buttons' => [
 					'dashboard' => function ($url, $model) {
 								if (in_array($model->status,[2]) and in_array($model->training->approved_status, [1])){
@@ -320,6 +320,18 @@ $this->params['breadcrumbs'][] = $this->title;
 										'data-pjax'=>'0',
 										'data-toggle' => 'tooltip',
 										'data-title' => Yii::t('app', 'BPPK_TEXT_TOOLTIP_CLASS'),
+										'data-container' => 'body'
+									]);
+								}
+							},
+					'forma' => function ($url, $model) {
+								if (in_array($model->status,[2]) and in_array($model->training->approved_status, [1])) {
+									$icon='<span class="fa fa-fw fa-book"></span>';
+									return Html::a($icon,$url,[
+										'class'=>'btn btn-default btn-xs',
+										'data-pjax'=>'0',
+										'data-toggle' => 'tooltip',
+										'data-title' => Yii::t('app', 'BPPK_TEXT_TOOLTIP_FORMA'),
 										'data-container' => 'body'
 									]);
 								}

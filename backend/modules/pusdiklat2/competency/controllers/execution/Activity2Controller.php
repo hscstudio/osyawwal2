@@ -727,14 +727,24 @@ class Activity2Controller extends Controller
      * Lists all TrainingClass models.
      * @return mixed
      */
-    public function actionStudent($id,$status=1)
+    public function actionStudent($id,$status=NULL)
     {
         $model = $this->findModel($id);
 		$searchModel = new TrainingStudentSearch();
-		$queryParams['TrainingStudentSearch']=[
-			'training_id' => $id,
-			'status' => $status
-		]; 
+		if(empty($status)&&$status!=0)
+		{
+			$queryParams['TrainingStudentSearch']=[
+				'training_id' => $id,
+				'not',['status' => [0,3]]
+			]; 
+		}
+		else
+		{
+			$queryParams['TrainingStudentSearch']=[
+				'training_id' => $id,
+				'status' => $status,
+			]; 
+		}
 		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
 		$dataProvider = $searchModel->search($queryParams); 
 		$dataProvider->getSort()->defaultOrder = [

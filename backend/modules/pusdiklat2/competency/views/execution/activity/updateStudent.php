@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\widgets\SwitchInput;
+use kartik\widgets\Select2;
 /* @var $this yii\web\View */
 /* @var $model backend\models\TrainingStudent */
 
@@ -30,15 +31,16 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 		<?php $form = ActiveForm::begin(); ?>
 		<?= $form->errorSummary($training_student) ?> <!-- ADDED HERE -->
 		<div class="row clearfix">
-			<div class="col-md-2">
-			<?= $form->field($training_student, 'status')->widget(SwitchInput::classname(), [
+			<div class="col-md-4">
+			<?= $form->field($training_student, 'status')->widget(Select2::classname(), [
+					'data' => [0=>'Cancel',1=>'Baru (Active)',2=>'Mengulang (Active)',3=>'Mengundurkan Diri'],
+					'options' => ['placeholder' => 'Choose Status ...'],
 					'pluginOptions' => [
-						'onText' => 'Active',
-						'offText' => 'Cancel',
-					]
+					'allowClear' => true
+					],
 				])->label('Status') ?>
 			</div>
-			<div class="col-md-10">
+			<div class="col-md-8">
 			<?= $form->field($training_student, 'note')->textInput(['maxlength' => 255])->label('Catatan'); ?>
 			</div>
 		</div>

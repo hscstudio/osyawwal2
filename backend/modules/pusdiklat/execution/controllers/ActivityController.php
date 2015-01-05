@@ -706,14 +706,24 @@ class ActivityController extends Controller
      * Lists all TrainingClass models.
      * @return mixed
      */
-    public function actionStudent($id,$status=1)
+    public function actionStudent($id,$status=NULL)
     {
         $model = $this->findModel($id);
 		$searchModel = new TrainingStudentSearch();
-		$queryParams['TrainingStudentSearch']=[
-			'training_id' => $id,
-			'status' => $status
-		]; 
+		if(empty($status)&&$status!=0)
+		{
+			$queryParams['TrainingStudentSearch']=[
+				'training_id' => $id,
+				'not',['status' => [0,3]]
+			]; 
+		}
+		else
+		{
+			$queryParams['TrainingStudentSearch']=[
+				'training_id' => $id,
+				'status' => $status,
+			]; 
+		}
 		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
 		$dataProvider = $searchModel->search($queryParams); 
 		$dataProvider->getSort()->defaultOrder = [
@@ -3104,6 +3114,12 @@ class ActivityController extends Controller
 	public function actionGenerateForma($id,$filetype='docx')
     {
 		$nomor_forma = Yii::$app->request->post()['nomor_forma'];
+		$jabatan_ttd_satu = Yii::$app->request->post()['jabatan_ttd_satu'];
+		$jabatan_ttd_dua = Yii::$app->request->post()['jabatan_ttd_dua'];
+		$nama_ttd_satu = Yii::$app->request->post()['nama_ttd_satu'];
+		$nama_ttd_dua = Yii::$app->request->post()['nama_ttd_dua'];
+		$nip_ttd_satu = Yii::$app->request->post()['nip_ttd_satu'];
+		$nip_ttd_dua = Yii::$app->request->post()['nip_ttd_dua'];
 		
 		$data_training = Training::findOne(['activity_id'=>$id]);
 		$data_training->number_forma = $nomor_forma;
@@ -3180,10 +3196,12 @@ class ActivityController extends Controller
 						'keterangan_lain'=> $data_training->note,
 						'city'=> Satker::findOne(['reference_id'=>$satker])->city,
 						'tgl_diklat'=> date("d").' '.$months[date("n")-1].' '.date("Y"),
-						'nama_kepala_satker'=> Person::findOne(['id'=>Employee::findOne(['satker_id'=>$data_training->activity->satker_id,'organisation_id'=>'387','chairman'=>'1'])->person_id])->name,
-						'nip_kepala_satker'=> Person::findOne(['id'=>Employee::findOne(['satker_id'=>$data_training->activity->satker_id,'organisation_id'=>'387','chairman'=>'1'])->person_id])->nip,
-						'nama_kepala_bidang'=> Person::findOne(['id'=>Employee::findOne(['satker_id'=>$data_training->activity->satker_id,'organisation_id'=>'396','chairman'=>'1'])->person_id])->name,
-						'nip_kepala_bidang'=> Person::findOne(['id'=>Employee::findOne(['satker_id'=>$data_training->activity->satker_id,'organisation_id'=>'396','chairman'=>'1'])->person_id])->nip,
+						'jabatan_kepala_satker'=>$jabatan_ttd_satu,
+						'jabatan_kepala_bidang'=>$jabatan_ttd_dua,
+						'nama_kepala_satker'=> $nama_ttd_satu,
+						'nip_kepala_satker'=> $nip_ttd_satu,
+						'nama_kepala_bidang'=> $nama_ttd_dua,
+						'nip_kepala_bidang'=> $nip_ttd_dua,
 					];
 	
 			$OpenTBS->MergeBlock('onshow', $data);	
