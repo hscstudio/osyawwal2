@@ -3337,6 +3337,161 @@ class ActivityController extends Controller
 	    		}
     			break;
     		case 5:
+
+    			// check, data kelas uda ada ga?
+    			if (Yii::$app->request->post('training_class_id') != '') {
+					$kelas_id = Yii::$app->request->post('training_class_id');
+					$modelTrainingClass = TrainingClass::find()
+											->where(['id' => Yii::$app->request->post('training_class_id')])
+											->joinWith('training')
+											->one();
+					try {
+						$templates=[
+							'docx'=>'ms-word.docx',
+							'odt'=>'open-document.odt',
+							'xlsx'=>'ms-excel.xlsx'
+						];
+						$namaHari = [
+							'Mon' => 'Senin',
+							'Tue' => 'Selasa',
+							'Wed' => 'Rabu',
+							'Thu' => 'Kamis',
+							'Fri' => 'Jumat',
+							'Sat' => 'Sabtu',
+							'Sun' => 'Minggu'
+						];
+
+						$namaBulan = [
+							'January' => 'Januari',
+							'February' => 'Febuari',
+							'March' => 'Maret',
+							'April' => 'April',
+							'May' => 'Mei',
+							'June' => 'Juni',
+							'July' => 'Juli',
+							'August' => 'Agustus',
+							'September' => 'September',
+							'October' => 'Oktober',
+							'November' => 'November',
+							'December' => 'Desember'
+						];
+						// Initalize the TBS instance
+						$OpenTBS = new OpenTBS; // new instance of TBS
+						// Change with Your template kaka
+						$template = Yii::getAlias('@file').'/template/pusdiklat/evaluation/template.dok.khusus.surat.permintaan.koreksi.docx';
+						
+						$OpenTBS->LoadTemplate($template); // Also merge some [onload] automatic fields (depends of the type of document).
+						$OpenTBS->VarRef['modelName']= "ActivityGenerate";
+
+						$lokasi = explode('|', $modelTrainingClass->training->activity->location);
+						$lokasi[0] = Satker::findOne($modelTrainingClass->training->activity->satker_id)->city;
+
+						if (Employee::findOne(Yii::$app->request->post('ttd'))->chairman == 1) {
+							$chairmanStatus = 'Kepala';
+						}
+						else {
+							$chairmanStatus = 'Pelaksana';
+						}
+
+						$modelTrainingSubjectTrainerRecommendation = TrainingSubjectTrainerRecommendation::find()
+							->where([
+								'training_id' => $id
+							])
+							->joinWith('trainer')
+							->all();
+
+						$daftar_pengajar = "";
+						$jumlahPengajar = 1;
+						foreach ($modelTrainingSubjectTrainerRecommendation as $baris) {
+							$daftar_pengajar .= $jumlahPengajar.". ".$baris->trainer->person->name;
+							$daftar_pengajar .= "\n";
+							$jumlahPengajar++;
+						}
+
+						$data1[] = [
+									'nama_instansi' => strtoupper(Reference::findOne($modelTrainingClass->training->activity->satker_id)->name),
+									'nama_instansi_kecil' => Reference::findOne($modelTrainingClass->training->activity->satker_id)->name,
+									'alamat_instansi' => Satker::findOne($modelTrainingClass->training->activity->satker_id)->address,
+									'kontak_instansi' => 	'TELEPON:'.Satker::findOne($modelTrainingClass->training->activity->satker_id)->phone.
+															' FAX:'.Satker::findOne($modelTrainingClass->training->activity->satker_id)->fax.
+															' WEBSITE:'.Satker::findOne($modelTrainingClass->training->activity->satker_id)->website,
+									'nama_diklat' => $modelTrainingClass->training->activity->name,
+									'tahun_diklat' => date('Y', strtotime($modelTrainingClass->training->activity->start)),
+									'tahun_anggaran_diklat' => ucwords('tahun anggaran ').date('Y', strtotime($modelTrainingClass->training->activity->start)),
+									'tanggal_surat' => '     '.$namaBulan[date('F')].
+														date(' Y'),
+									'lokasi' => $lokasi[1].' '.$lokasi[0],
+									'jadwal_ujian' => $namaHari[date('D', strtotime($modelTrainingClass->training->activity->start))].
+														date(' d ', strtotime($modelTrainingClass->training->activity->start)).
+														$namaBulan[date('F', strtotime($modelTrainingClass->training->activity->start))].
+														date(' Y', strtotime($modelTrainingClass->training->activity->start)).
+														' sampai dengan '.
+														$namaHari[date('D', strtotime($modelTrainingClass->training->activity->end))].
+														date(' d ', strtotime($modelTrainingClass->training->activity->end)).
+														$namaBulan[date('F', strtotime($modelTrainingClass->training->activity->end))].
+														date(' Y', strtotime($modelTrainingClass->training->activity->end)),
+									'tanggal_deadline' => $namaHari[date('D', strtotime(Yii::$app->request->post('tanggal_deadline')))].
+														date(' d ', strtotime(Yii::$app->request->post('tanggal_deadline'))).
+														$namaBulan[date('F', strtotime(Yii::$app->request->post('tanggal_deadline')))].
+														date(' Y', strtotime(Yii::$app->request->post('tanggal_deadline'))),
+									'email_instansi' => Satker::findOne($modelTrainingClass->training->activity->satker_id)->email,
+									'nama_pic' => Employee::findOne(Yii::$app->request->post('ttd'))->person->name,
+									'nip_pic' => Employee::findOne(Yii::$app->request->post('ttd'))->person->nip,
+									'pp_instansi' => Satker::findOne($modelTrainingClass->training->activity->satker_id)->letter_number,
+									'daftar_pengajar' => '',
+									'chairman_or_no' => $chairmanStatus,
+									'nama_bagian' => ucwords(Organisation::findOne(Employee::findOne(Yii::$app->request->post('ttd'))->organisation_id)->NM_UNIT_ORG),
+									'daftar_pengajar' => $daftar_pengajar
+								];
+				
+						$OpenTBS->MergeBlock('onshow', $data1);	
+						// Output the result as a file on the server. You can change output file
+						$OpenTBS->Show(OPENTBS_DOWNLOAD, 'surat.permintaan.koreksi.'.$modelTrainingClass->training->activity->name.'.docx'); // Also merges all [onshow] automatic fields.			
+						exit;
+					} catch (\yii\base\ErrorException $e) {
+						 Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Terdapat kesalahan pada pembuatan laporan');
+					}	
+			    }
+    			else {
+	    			$modelKelas = TrainingClass::find()->where(['training_id' => $id])->all();
+
+	    			if (empty($modelKelas)) {
+	    				// Artinya kelas belum dibuat, lempar
+	    				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Kelas belum ada. Hubungi bidang penyelenggaraan');
+	    				return $this->redirect('activity/index');
+	    			}
+
+	    			$data = ArrayHelper::map(TrainingClass::find()
+						->select(['id','class'])
+						->where([
+							'training_id'=>$id
+						])
+						->asArray()
+						->all()
+					, 'id', 'class');
+
+	    			$ttd = ArrayHelper::map(Employee::find()
+						->select(['person_id','person.name', 'person.nip', 'person.position'])
+						->where([
+							'satker_id' => Activity::findOne($id)->satker_id // baikin ya :DDDD
+						])
+						->joinWith('person')
+						->asArray()
+						->all()
+					, 'person_id', 'person.name', 'person.nip', 'person.position');
+
+	    			return $this->render('formPermintaanKoreksiHasilUjian', [
+	    					'id' => $id,
+	    					'model' => $this->findModel($id),
+	    					'modelKelas' => $modelKelas,
+	    					'data' => $data,
+	    					'tanggal_deadline' => date('d-M-Y'),
+	    					'ttd' => '',
+	    					'nip' => '',
+	    					'jabatan' => '',
+	    					'ttd' => $ttd
+	    				]);
+	    		}
     			break;
     		default:
     			Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Jenis dokumen yang Anda minta tidak ada dalam katalog kami');
