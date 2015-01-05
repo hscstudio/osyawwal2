@@ -7,6 +7,7 @@ use backend\modules\pusdiklat\evaluation\models\TrainingActivitySearch;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use backend\models\Person;
+use backend\models\Satker;
 use backend\models\ObjectPerson;
 use backend\models\ObjectFile;
 use backend\models\Program;
@@ -56,6 +57,7 @@ use hscstudio\heart\helpers\Heart;
 use yii\data\ArrayDataProvider;
 
 use PHPExcel_Cell_DataType;
+use hscstudio\heart\extensions\OpenTBS;
 /**
  * ActivityController implements the CRUD actions for Activity model.
  */
@@ -2821,6 +2823,107 @@ class ActivityController extends Controller
     		case 1:
     			break;
     		case 2:
+    			// check, data kelas uda ada ga?
+    			if (Yii::$app->request->post('training_class_id') != '') {
+					$kelas_id = Yii::$app->request->post('training_class_id');
+					$modelTrainingClass = TrainingClass::find()
+											->where(['id' => Yii::$app->request->post('training_class_id')])
+											->joinWith('training')
+											->one();
+					try {
+						$templates=[
+							'docx'=>'ms-word.docx',
+							'odt'=>'open-document.odt',
+							'xlsx'=>'ms-excel.xlsx'
+						];
+						$namaHari = [
+							'Mon' => 'Senin',
+							'Tue' => 'Selasa',
+							'Wed' => 'Rabu',
+							'Thu' => 'Kami',
+							'Fri' => 'Jumat',
+							'Sat' => 'Sabtu',
+							'Sun' => 'Minggu'
+						];
+
+						$namaBulan = [
+							'January' => 'Januari',
+							'February' => 'Febuari',
+							'March' => 'Maret',
+							'April' => 'April',
+							'May' => 'Mei',
+							'June' => 'Juni',
+							'July' => 'Juli',
+							'August' => 'Agustus',
+							'September' => 'September',
+							'October' => 'Oktober',
+							'November' => 'November',
+							'December' => 'Desember'
+						];
+						// Initalize the TBS instance
+						$OpenTBS = new OpenTBS; // new instance of TBS
+						// Change with Your template kaka
+						$template = Yii::getAlias('@file').'/template/pusdiklat/evaluation/template.dok.khusus.berita.acara.validasi.soal.docx';
+						
+						$OpenTBS->LoadTemplate($template); // Also merge some [onload] automatic fields (depends of the type of document).
+						$OpenTBS->VarRef['modelName']= "ActivityGenerate";
+						$data1[] = [
+									'nama_instansi' => strtoupper(Reference::findOne($modelTrainingClass->training->activity->satker_id)->name),
+									'alamat_instansi' => Satker::findOne($modelTrainingClass->training->activity->satker_id)->address,
+									'kontak_instansi' => 	'TELEPON:'.Satker::findOne($modelTrainingClass->training->activity->satker_id)->phone.
+															' FAX:'.Satker::findOne($modelTrainingClass->training->activity->satker_id)->fax.
+															' WEBSITE:'.Satker::findOne($modelTrainingClass->training->activity->satker_id)->website,
+									'nama_diklat' => $modelTrainingClass->training->activity->name,
+									'tahun_diklat' => date('Y', strtotime($modelTrainingClass->training->activity->start)),
+									'tanggal_validasi_soal' => $namaHari[date('D', strtotime(Yii::$app->request->post('tanggal_validasi_soal')))].
+																date(', d ', strtotime(Yii::$app->request->post('tanggal_validasi_soal'))).
+																$namaBulan[date('F', strtotime(Yii::$app->request->post('tanggal_validasi_soal')))].
+																date(' Y', strtotime(Yii::$app->request->post('tanggal_validasi_soal'))),
+									'jumlah_soal_valid' => Yii::$app->request->post('jumlah_soal_valid'),
+									'jumlah_soal_tidak_valid' => Yii::$app->request->post('jumlah_soal_tidak_valid'),
+									'pic_1' => Yii::$app->request->post('pic_1'),
+									'pic_2' => Yii::$app->request->post('pic_2'),
+								];
+				
+						$OpenTBS->MergeBlock('onshow', $data1);	
+						// Output the result as a file on the server. You can change output file
+						$OpenTBS->Show(OPENTBS_DOWNLOAD, 'berita.acara.validasi.soal.'.$modelTrainingClass->training->activity->name.'.docx'); // Also merges all [onshow] automatic fields.			
+						exit;
+					} catch (\yii\base\ErrorException $e) {
+						 Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Terdapat kesalahan pada pembuatan laporan');
+					}	
+			    }
+    			else {
+	    			$modelKelas = TrainingClass::find()->where(['training_id' => $id])->all();
+
+	    			if (empty($modelKelas)) {
+	    				// Artinya kelas belum dibuat, lempar
+	    				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Kelas belum ada. Hubungi bidang penyelenggaraan');
+	    				return $this->redirect('activity/index');
+	    			}
+
+	    			$data = ArrayHelper::map(TrainingClass::find()
+						->select(['id','class'])
+						->where([
+							'training_id'=>$id
+						])
+						->asArray()
+						->all()
+					, 'id', 'class');
+
+	    			return $this->render('formBeritaAcaraValidasiUjian', [
+	    					'id' => $id,
+	    					'model' => $this->findModel($id),
+	    					'modelKelas' => $modelKelas,
+	    					'data' => $data,
+	    					'nama_diklat' => Activity::findOne($id)->name,
+	    					'tanggal_validasi_soal' => date('d-M-Y'),
+	    					'jumlah_soal_valid' => 0,
+	    					'jumlah_soal_tidak_valid' => 0,
+	    					'pic_1' => '',
+	    					'pic_2' => '',
+	    				]);
+	    		}
     			break;
     		case 3:
     			// check, data kelas uda ada ga?
@@ -2949,7 +3052,7 @@ class ActivityController extends Controller
 
 						// Ngemerger kolom ttd
 						for ($i=0; $i < $pointerBaris; $i++) {
-							
+
 							$objPHPExcel->getActiveSheet()->mergeCells('G'.($i + 10).':G'.($i + 1 + 10));
 							$objPHPExcel->getActiveSheet()->setCellValue('G'.($i + 10), ($i + 1));
 
@@ -3011,6 +3114,72 @@ class ActivityController extends Controller
 	    		}
     			break;
     		case 4:
+    			// check, data kelas uda ada ga?
+    			if (Yii::$app->request->post('training_class_id') != '') {
+					$kelas_id = Yii::$app->request->post('training_class_id');
+					$modelTrainingClass = TrainingClass::find()
+											->where(['id' => Yii::$app->request->post('training_class_id')])
+											->joinWith('training')
+											->one();
+					try {
+						$templates=[
+							'docx'=>'ms-word.docx',
+							'odt'=>'open-document.odt',
+							'xlsx'=>'ms-excel.xlsx'
+						];
+						// Initalize the TBS instance
+						$OpenTBS = new OpenTBS; // new instance of TBS
+						// Change with Your template kaka
+						$template = Yii::getAlias('@file').'/template/pusdiklat/evaluation/template.dok.khusus.berita.acara.ujian.docx';
+						
+						$OpenTBS->LoadTemplate($template); // Also merge some [onload] automatic fields (depends of the type of document).
+						$OpenTBS->VarRef['modelName']= "ActivityGenerate";
+						$data1[] = [
+									'nama_instansi' => strtoupper(Reference::findOne($modelTrainingClass->training->activity->satker_id)->name),
+									'alamat_instansi' => Satker::findOne($modelTrainingClass->training->activity->satker_id)->address,
+									'kontak_instansi' => 	'TELEPON:'.Satker::findOne($modelTrainingClass->training->activity->satker_id)->phone.
+															' FAX:'.Satker::findOne($modelTrainingClass->training->activity->satker_id)->fax.
+															' WEBSITE:'.Satker::findOne($modelTrainingClass->training->activity->satker_id)->website,
+									'nama_diklat' => strtoupper($modelTrainingClass->training->activity->name),
+									'tahun_diklat' => strtoupper('tahun ').date('Y', strtotime($modelTrainingClass->training->activity->start)),
+									'tahun_anggaran_diklat' => strtoupper('tahun anggaran ').date('Y', strtotime($modelTrainingClass->training->activity->start)),
+									'nama_ujian' => Yii::$app->request->post('nama_ujian'),
+								];
+				
+						$OpenTBS->MergeBlock('onshow', $data1);	
+						// Output the result as a file on the server. You can change output file
+						$OpenTBS->Show(OPENTBS_DOWNLOAD, 'berita.acara.ujian.'.$modelTrainingClass->training->activity->name.'.docx'); // Also merges all [onshow] automatic fields.			
+						exit;
+					} catch (\yii\base\ErrorException $e) {
+						 Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Terdapat kesalahan pada pembuatan laporan');
+					}	
+			    }
+    			else {
+	    			$modelKelas = TrainingClass::find()->where(['training_id' => $id])->all();
+
+	    			if (empty($modelKelas)) {
+	    				// Artinya kelas belum dibuat, lempar
+	    				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Kelas belum ada. Hubungi bidang penyelenggaraan');
+	    				return $this->redirect('activity/index');
+	    			}
+
+	    			$data = ArrayHelper::map(TrainingClass::find()
+						->select(['id','class'])
+						->where([
+							'training_id'=>$id
+						])
+						->asArray()
+						->all()
+					, 'id', 'class');
+
+	    			return $this->render('formBeritaAcaraUjian', [
+	    					'id' => $id,
+	    					'model' => $this->findModel($id),
+	    					'modelKelas' => $modelKelas,
+	    					'data' => $data,
+	    					'nama_ujian' => Activity::findOne($id)->name
+	    				]);
+	    		}
     			break;
     		case 5:
     			break;
