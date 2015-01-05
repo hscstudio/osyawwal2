@@ -201,7 +201,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'<div class="pull-right" style="margin-right:5px;">'.
 				Select2::widget([
 					'name' => 'status', 
-					'data' => ['1'=>'Active','0'=>'Cancel'],
+					'data' => [1=>'Baru (Active)',2=>'Mengulang (Active)',3=>'Mengundurkan Diri',0=>'Cancel'],
 					'value' => $status,
 					'options' => [
 						'placeholder' => 'Status ...', 
