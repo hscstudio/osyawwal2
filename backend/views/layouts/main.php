@@ -72,11 +72,11 @@ AppAsset::register($this);
 					}
 					
 					if(checkAccess([
-						'sekretariat-badan-finance',
-						'sekretariat-badan-hrd',
+						'sekretariat-finance-anggaran','sekretariat-finance-perbendaharaan','sekretariat-finance-akuntansi',
+						'sekretariat-hrd-general','sekretariat-hrd-development','sekretariat-hrd-jafung','sekretariat-hrd-ki',
 						'sekretariat-badan-organisation',
-						'sekretariat-badan-tik',
-						'sekretariat-badan-general'
+						'sekretariat-it-si','sekretariat-it-duktek','sekretariat-it-komlik',
+						'sekretariat-general-tu','sekretariat-general-asset','sekretariat-general-rumah-tangga',
 					])){
 						$menus_sekretariat = \mdm\admin\components\MenuHelper::getAssignedMenu(\Yii::$app->user->id,1,$callback,true);
 						$menuItemsLeft[] = ['icon'=>'fa fa-jsfiddle fa-fw','label' => 'Sekretariat', 'url' => ['#'], 'items' => $menus_sekretariat ];

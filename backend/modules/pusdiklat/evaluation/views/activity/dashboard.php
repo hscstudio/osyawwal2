@@ -158,7 +158,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'type'=>'small', // ,small, solid, tiles
 				'bgColor'=>'blue', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
 				'bodyOptions' => [],
-				'icon' => 'fa fa-fw fa-graduation-cap',
+				'icon' => 'fa fa-fw fa-book',
 				'link' => ['generate-dokumen','id'=>$model->id],
 				'footerOptions' => [
 					'class' => 'dashboard-hide',

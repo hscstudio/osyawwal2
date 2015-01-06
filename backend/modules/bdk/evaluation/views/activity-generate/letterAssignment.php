@@ -105,8 +105,9 @@ $this->params['breadcrumbs'][] = ['label' => 'Surat Tugas Terkait Diklat'];
 			<?php
 			$dataProvider = new ActiveDataProvider([
             'query' => Employee::find()
-									->where(['organisation_id'=>'400'])
+									->where(['organisation_id'=>'347','satker_id'=>Yii::$app->user->identity->employee->satker_id])
 			]);
+			$dataProvider->setPagination(false);
 			$no=1;
 			foreach($dataProvider->getModels() as $person){
 				echo "<div class='row clearfix'>";

@@ -1,5 +1,4 @@
 <?php
-
 use yii\helpers\Html;
 use yii\grid\GridView as Gridview2;
 use kartik\grid\GridView;
@@ -88,12 +87,12 @@ $this->params['breadcrumbs'][] = $this->title;
 					'contentOptions'=>['class'=>'kv-sticky-column'],
 					'value' => function ($data){
 						
-						$permit = \Yii::$app->user->can('Bagian Teknologi dan Informasi Komunikasi');
+						$permit = \Yii::$app->user->can('sekretariat-it-si');
 					$object_person=\backend\models\ObjectPerson::find()
 						->where([
 							'object'=>'activity',
 							'object_id'=>$data->id,														
-							'type'=>'organisation_1201040003' //1213010100 CEK KD_UNIT_ORG 1213010100 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
+							'type'=>'organisation_1201040103' //1213010100 CEK KD_UNIT_ORG 1213010100 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
 						])
 						->one();
 						
@@ -125,55 +124,55 @@ $this->params['breadcrumbs'][] = $this->title;
 				],
 				
 				[
-					//'attribute' => 'classCount',
-					'format'=>'raw',
-					'label'=>'Room',
-					'vAlign'=>'middle',
-					'hAlign'=>'center',
-					'width'=>'100px',
-					'headerOptions'=>['class'=>'kv-sticky-column'],
-					'contentOptions'=>['class'=>'kv-sticky-column'],
-					'value' => function ($data) {
-						$activityRoom = \backend\models\ActivityRoom::find()
-									->where('activity_id=:activity_id',
-									[
-										':activity_id' => $data->id
-									]);		
-						if($activityRoom->count()==0){ 
-							return Html::a('SET', ['room','activity_id'=>$data->id], 
-								[							
-								'class' => 'label label-warning modal-heart',
-								'data-pjax'=>0,
-								'source'=>'',
-								'modal-size'=>'modal-lg',
-								]);
-						}		
-						else{
-							$statuss = [
-								'0' => 'Waiting',
-								'1' => 'Process',
-								'2' => 'Approved',
-								'3' => 'Rejected',
-							];
-							
-							$ars = $activityRoom->all();
-							$rooms = [];
-							foreach($ars as $ar){
-								$rooms[] = $ar->room->name.'=>'.$statuss[$ar->status];
-							}
-							$rooms = implode('<br>',$rooms);
-							return Html::a($activityRoom->count(), ['room','activity_id'=>$data->id], [
-								'class' => 'label label-info modal-heart ',
-								'data-pjax'=>0,
-								'source'=>'',
-								'modal-size'=>'modal-lg',
-								'data-html'=>true,
-								'title'=>$rooms,
-								'data-toggle'=>'tooltip',
+				//'attribute' => 'classCount',
+				'format'=>'raw',
+				'label'=>'Room',
+				'vAlign'=>'middle',
+				'hAlign'=>'center',
+				'width'=>'100px',
+				'headerOptions'=>['class'=>'kv-sticky-column'],
+				'contentOptions'=>['class'=>'kv-sticky-column'],
+				'value' => function ($data) {
+					$activityRoom = \backend\models\ActivityRoom::find()
+								->where('activity_id=:activity_id',
+								[
+									':activity_id' => $data->id
+								]);		
+					if($activityRoom->count()==0){ 
+						return Html::a('View', ['room','activity_id'=>$data->id], 
+							[							
+							'class' => 'label label-warning modal-heart',
+							'data-pjax'=>0,
+							'source'=>'',
+							'modal-size'=>'modal-lg',
 							]);
+					}		
+					else{
+						$statuss = [
+							'0' => 'Waiting',
+							'1' => 'Process',
+							'2' => 'Approved',
+							'3' => 'Rejected',
+						];
+						
+						$ars = $activityRoom->all();
+						$rooms = [];
+						foreach($ars as $ar){
+							$rooms[] = $ar->room->name.'=>'.$statuss[$ar->status];
 						}
+						$rooms = implode('<br>',$rooms);
+						return Html::a($activityRoom->count(), ['room','activity_id'=>$data->id], [
+							'class' => 'label label-info modal-heart',
+							'data-pjax'=>0,
+							'source'=>'',
+							'modal-size'=>'modal-lg',
+							'data-html'=>true,
+							'title'=>$rooms,
+							'data-toggle'=>'tooltip',
+						]);
 					}
-				],
+				}
+			],
 				
 				[
 					'attribute' => 'status',
@@ -256,6 +255,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?php $this->registerCss('#div-select2-status .select2-container{width:125px !important;}');  ?>
 <?php \yii\widgets\Pjax::end(); ?>
 </div>
+
 <div class="panel panel-default">
 	<div class="panel-heading">
 	<i class="fa fa-fw fa-refresh"></i> Document Generator

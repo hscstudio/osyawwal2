@@ -16,7 +16,11 @@ class Module extends \yii\base\Module
 	public function getMenuItems(){
 		return [
 			['icon'=>'fa fa-fw fa-dashboard','label' => 'Dashboard', 'url' => ['/'.$this->uniqueId.'/default']],
-			['icon'=>'fa fa-fw fa-list-alt','label' => 'Referensi', 'url' => '#','items'=>[
+			['icon'=>'fa fa-fw fa-list-alt','label' => 'Organisasi', 'url' => '#','items'=>[
+				['icon'=>'fa fa-fw fa-suitcase','label' => 'Rapat', 'url' => ['/'.$this->uniqueId.'/activity-meeting-organisation2/index'],'path'=>[
+				'/activity-meeting-organisation2/',]],
+			]],
+			['icon'=>'fa fa-fw fa-list-alt','label' => 'Tata Laksana', 'url' => '#','items'=>[
 			['icon'=>'fa fa-fw fa-graduation-cap','label' => 'Graduate', 'url' => ['/'.$this->uniqueId.'/reference-graduate/index'],'path'=>'reference-graduate/'],
 			['icon'=>'fa fa-fw fa-sliders','label' => 'Program Code', 'url' => ['/'.$this->uniqueId.'/reference-program-code/index'],'path'=>'reference-program-code/'],
 			['icon'=>'fa fa-fw fa-empire', 'label' => 'Religion', 'url' => ['/'.$this->uniqueId.'/reference-religion/index'],'path'=>'reference-religion/'],
@@ -24,10 +28,16 @@ class Module extends \yii\base\Module
 			['icon'=>'fa fa-fw fa-institution', 'label' => 'Satker', 'url' => ['/'.$this->uniqueId.'/reference-satker/index'],'path'=>'reference-satker/'],
 			['icon'=>'fa fa-fw fa-building', 'label' => 'Unit', 'url' => ['/'.$this->uniqueId.'/reference-unit/index'],'path'=>'reference-unit/'],	
 			['icon'=>'fa fa-fw fa-tags', 'label' => 'Subject Type', 'url' => ['/'.$this->uniqueId.'/reference-subject-type/index'],'path'=>'reference-subject-type/'],
-			['icon'=>'fa fa-fw fa-user-md', 'label' => 'Trainer Type', 'url' => ['/'.$this->uniqueId.'/reference-trainer-type/index'],'path'=>'reference-trainer-type/']],
-			 ],
+			['icon'=>'fa fa-fw fa-user-md', 'label' => 'Trainer Type', 'url' => ['/'.$this->uniqueId.'/reference-trainer-type/index'],'path'=>'reference-trainer-type/'],
 			['icon'=>'fa fa-fw fa-suitcase','label' => 'Rapat', 'url' => ['/'.$this->uniqueId.'/activity-meeting-organisation/index'],'path'=>[
 				'/activity-meeting-organisation/',
+			]],
+			
+			 ]],
+			
+			['icon'=>'fa fa-fw fa-list-alt','label' => 'Hukker', 'url' => '#','items'=>[
+				['icon'=>'fa fa-fw fa-suitcase','label' => 'Rapat', 'url' => ['/'.$this->uniqueId.'/activity-meeting-organisation3/index'],'path'=>[
+				'/activity-meeting-organisation3/',]],
 			]],
 		];
 	}
