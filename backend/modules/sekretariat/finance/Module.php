@@ -85,23 +85,4 @@ class Module extends \yii\base\Module
 		if(!empty($menus_3)) $menus[] = $menus_3;	
 		return $menus;
 	}
-	/*public function getMenuItems(){
-		return [
-			['icon'=>'fa fa-fw fa-dashboard','label' => 'Dashboard', 'url' => ['/'.$this->uniqueId.'/default']],
-			['icon'=>'fa fa-fw fa-list-alt','label' => 'Penyusunan Anggaran', 'url' => '#','items'=>[
-				['icon'=>'fa fa-fw fa-money','label' => 'Sbu', 'url' => ['/'.$this->uniqueId.'/reference-sbu/index'],'path'=>[
-					'/reference-sbu/',]],
-				['icon'=>'fa fa-fw fa-suitcase','label' => 'Rapat', 'url' => ['/'.$this->uniqueId.'/activity-meeting-finance/index'],'path'=>[
-				'/activity-meeting-finance/',]],
-			]],
-			['icon'=>'fa fa-fw fa-list-alt','label' => 'Perbendaharaan', 'url' => '#','items'=>[
-				['icon'=>'fa fa-fw fa-suitcase','label' => 'Rapat', 'url' => ['/'.$this->uniqueId.'/activity-meeting-finance2/index'],'path'=>[
-				'/activity-meeting-finance/',]],
-			]],
-			['icon'=>'fa fa-fw fa-list-alt','label' => 'Akuntansi dan Pelaporan', 'url' => '#','items'=>[
-				['icon'=>'fa fa-fw fa-suitcase','label' => 'Rapat', 'url' => ['/'.$this->uniqueId.'/activity-meeting-finance3/index'],'path'=>[
-				'/activity-meeting-finance/',]],
-			]],
-		];
-	}*/
 }
