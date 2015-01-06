@@ -40,9 +40,9 @@ class Meeting extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'activity_id' => Yii::t('app', 'Activity ID'),
-            'attendance_count_plan' => Yii::t('app', 'Attendance Count Plan'),
-			'organisation_id' => Yii::t('app', 'Organisation ID'),
+            'activity_id' => Yii::t('app', 'BPPK_TEXT_ACTIVITY_ID'),
+            'attendance_count_plan' => Yii::t('app', 'BPPK_TEXT_ATTENDANCE_COUNT_PLAN'),
+			'organisation_id' => Yii::t('app', 'BPPK_TEXT_ORGANISATION_ID'),
         ];
     }
 

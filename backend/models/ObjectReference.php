@@ -43,10 +43,10 @@ class ObjectReference extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'object' => Yii::t('app', 'Object'),
-            'object_id' => Yii::t('app', 'Object ID'),
-            'type' => Yii::t('app', 'Type'),
-            'reference_id' => Yii::t('app', 'Reference ID'),
+            'object' => Yii::t('app', 'SYSTEM_TEXT_OBJECT'),
+            'object_id' => Yii::t('app', 'SYSTEM_TEXT_OBJECT_ID'),
+            'type' => Yii::t('app', 'BPPK_TEXT_TYPE'),
+            'reference_id' => Yii::t('app', 'SYSTEM_TEXT_REFERENCE_ID'),
         ];
     }
 

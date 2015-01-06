@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
    <div class="panel-heading"> 
 		<div class="pull-right">
         <?=
- Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back', ['index'], ['class' => 'btn btn-xs btn-primary']) ?>
+ Html::a('<i class="fa fa-fw fa-arrow-left"></i> '.Yii::t('app', 'SYSTEM_BUTTON_BACK'), ['index'], ['class' => 'btn btn-xs btn-primary']) ?>
 		</div>
 		<h1 class="panel-title"><?= Html::encode($this->title) ?></h1> 
 	</div>
@@ -27,11 +27,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
 		<!--
 		<p>
-			<?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-			<?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
+			<?= Html::a(Yii::t('app', 'SYSTEM_TEXT_UPDATE'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+			<?= Html::a(Yii::t('app', 'SYSTEM_TEXT_DELETE'), ['delete', 'id' => $model->id], [
 				'class' => 'btn btn-danger',
 				'data' => [
-					'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+					'confirm' => Yii::t('app', 'BPPK_TEXT_CONFIRM_DELETE'),
 					'method' => 'post',
 				],
 			]) ?>

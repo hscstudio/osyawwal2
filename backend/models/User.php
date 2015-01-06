@@ -79,15 +79,15 @@ class User extends \yii\db\ActiveRecord  implements IdentityInterface
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'username' => Yii::t('app', 'Username'),
-            'auth_key' => Yii::t('app', 'Auth Key'),
-            'password_hash' => Yii::t('app', 'Password Hash'),
-            'password_reset_token' => Yii::t('app', 'Password Reset Token'),
-            'email' => Yii::t('app', 'Email'),
-            'role' => Yii::t('app', 'Role'),
-            'status' => Yii::t('app', 'Status'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
+            'username' => Yii::t('app', 'SYSTEM_TEXT_USERNAME'),
+            'auth_key' => Yii::t('app', 'SYSTEM_TEXT_AUTH_KEY'),
+            'password_hash' => Yii::t('app', 'SYSTEM_TEXT_PASSWORD_HASH'),
+            'password_reset_token' => Yii::t('app', 'SYSTEM_TEXT_PASSWORD_RESET_TOKEN'),
+            'email' => Yii::t('app', 'BPPK_TEXT_EMAIL'),
+            'role' => Yii::t('app', 'SYSTEM_TEXT_ROLE'),
+            'status' => Yii::t('app', 'SYSTEM_TEXT_STATUS'),
+            'created_at' => Yii::t('app', 'SYSTEM_TEXT_CREATED'),
+            'updated_at' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED'),
         ];
     }
 

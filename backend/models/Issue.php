@@ -82,15 +82,15 @@ class Issue extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'parent_id' => 'Parent ID',
-            'subject' => 'Subject',
-            'content' => 'Content',
-            'label' => 'Label',
-            'status' => 'Status',
-            'created' => 'Created',
-            'created_by' => 'Created By',
-            'modified' => 'Modified',
-            'modified_by' => 'Modified By',
+            'parent_id' => Yii::t('app', 'SYSTEM_TEXT_PARENT_ID'),
+            'subject' => Yii::t('app', 'SYSTEM_TEXT_SUBJECT'),
+            'content' => Yii::t('app', 'SYSTEM_TEXT_CONTENT'),
+            'label' => Yii::t('app', 'SYSTEM_TEXT_LABEL'),
+            'status' => Yii::t('app', 'SYSTEM_TEXT_STATUS'),
+            'created' => Yii::t('app', 'SYSTEM_TEXT_CREATED'),
+            'created_by' => Yii::t('app', 'SYSTEM_TEXT_CREATED_BY'),
+            'modified' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED'),
+            'modified_by' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED_BY'),
         ];
     }
 	

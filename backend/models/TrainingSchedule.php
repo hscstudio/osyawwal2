@@ -58,19 +58,19 @@ class TrainingSchedule extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'training_class_id' => Yii::t('app', 'Training Class ID'),
-            'training_class_subject_id' => Yii::t('app', 'Training Class Subject ID'),
-            'activity_room_id' => Yii::t('app', 'Activity Room ID'),
-            'activity' => Yii::t('app', 'Activity'),
-            'pic' => Yii::t('app', 'Pic'),
-            'hours' => Yii::t('app', 'Hours'),
-            'start' => Yii::t('app', 'Start'),
-            'end' => Yii::t('app', 'End'),
-            'status' => Yii::t('app', 'Status'),
-            'created' => Yii::t('app', 'Created'),
-            'created_by' => Yii::t('app', 'Created By'),
-            'modified' => Yii::t('app', 'Modified'),
-            'modified_by' => Yii::t('app', 'Modified By'),
+            'training_class_id' => Yii::t('app', 'BPPK_TEXT_TRAINING_CLASS_ID'),
+            'training_class_subject_id' => Yii::t('app', 'BPPK_TEXT_TRAINING_CLASS_SUBJECT_ID'),
+            'activity_room_id' => Yii::t('app', 'BPPK_TEXT_ACTIVITY_ROOM_ID'),
+            'activity' => Yii::t('app', 'BPPK_TEXT_ACTIVITY'),
+            'pic' => Yii::t('app', 'BPPK_TEXT_PIC'),
+            'hours' => Yii::t('app', 'BPPK_TEXT_HOURS'),
+            'start' => Yii::t('app', 'BPPK_TEXT_START'),
+            'end' => Yii::t('app', 'BPPK_TEXT_END'),
+            'status' => Yii::t('app', 'BPPK_TEXT_STATUS'),
+            'created' => Yii::t('app', 'SYSTEM_TEXT_CREATED'),
+            'created_by' => Yii::t('app', 'SYSTEM_TEXT_CREATED_BY'),
+            'modified' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED'),
+            'modified_by' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED_BY'),
         ];
     }
 

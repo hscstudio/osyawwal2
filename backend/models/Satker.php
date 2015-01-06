@@ -51,15 +51,15 @@ class Satker extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'reference_id' => 'Reference ID',
-            'letter_number' => 'Letter Number',
-            'eselon' => 'Eselon',
-            'address' => 'Address',
-            'city' => 'City',
-            'phone' => 'Phone',
-            'fax' => 'Fax',
-            'email' => 'Email',
-            'website' => 'Website',
+            'reference_id' => Yii::t('app', 'SYSTEM_TEXT_REFERENCE_ID'),
+            'letter_number' => Yii::t('app', 'BPPK_TEXT_LETTER_NUMBER'),
+            'eselon' => Yii::t('app', 'BPPK_TEXT_ESELON'),
+            'address' => Yii::t('app', 'BPPK_TEXT_ADDRESS'),
+            'city' => Yii::t('app', 'BPPK_TEXT_CITY'),
+            'phone' => Yii::t('app', 'BPPK_TEXT_PHONE'),
+            'fax' => Yii::t('app', 'BPPK_TEXT_FAX'),
+            'email'Yii::t('app', 'BPPK_TEXT_EMAIL'),
+            'website' => Yii::t('app', 'BPPK_TEXT_HOMEPAGE'),
         ];
     }
 

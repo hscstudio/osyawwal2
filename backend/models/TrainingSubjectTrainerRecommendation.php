@@ -53,17 +53,17 @@ class TrainingSubjectTrainerRecommendation extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'training_id' => Yii::t('app', 'Training ID'),
-            'program_subject_id' => Yii::t('app', 'Program Subject ID'),
-            'type' => Yii::t('app', 'Type'),
-            'trainer_id' => Yii::t('app', 'Trainer ID'),
-            'note' => Yii::t('app', 'Note'),
-            'sort' => Yii::t('app', 'Sort'),
-            'status' => Yii::t('app', 'Status'),
-            'created' => Yii::t('app', 'Created'),
-            'created_by' => Yii::t('app', 'Created By'),
-            'modified' => Yii::t('app', 'Modified'),
-            'modified_by' => Yii::t('app', 'Modified By'),
+            'training_id' => Yii::t('app', 'BPPK_TEXT_TRAINING_ID'),
+            'program_subject_id' => Yii::t('app', 'BPPK_TEXT_PROGRAM_SUBJECT_ID'),
+            'type' => Yii::t('app', 'BPPK_TEXT_TYPE'),
+            'trainer_id' => Yii::t('app', 'BPPK_TEXT_TRAINER_ID'),
+            'note' => Yii::t('app', 'BPPK_TEXT_NOTE'),
+            'sort' => Yii::t('app', 'BPPK_TEXT_SORT'),
+            'status' => Yii::t('app', 'BPPK_TEXT_STATUS'),
+            'created' => Yii::t('app', 'SYSTEM_TEXT_CREATED'),
+            'created_by' => Yii::t('app', 'SYSTEM_TEXT_CREATED_BY'),
+            'modified' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED'),
+            'modified_by' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED_BY'),
         ];
     }
 

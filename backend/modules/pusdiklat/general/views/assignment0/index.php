@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
             
 			[
-				'label' => 'Employee',
+				'label' => Yii::t('app', 'BPPK_TEXT_EMPLOYEE'),
 				'format' => 'raw',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'value' => function ($data){
 					$employee = \backend\models\Employee::find()
 						->where([
-							'user_id'=>$data->id,							
+							'user_id'=>$data->id,
 						])
 						->one();
 					if(null!=$employee){
@@ -105,12 +105,14 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'created_at',
             // 'updated_at',
 
-            ['class' => 'kartik\grid\ActionColumn'],
+            [
+            	'class' => 'kartik\grid\ActionColumn'
+            ],
         ],
 		'panel' => [
 			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
 			'before'=>' ',
-			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
+			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> '.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'responsive'=>true,

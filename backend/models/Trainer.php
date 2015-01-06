@@ -47,11 +47,11 @@ class Trainer extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'person_id' => Yii::t('app', 'Person ID'),
-            'category' => Yii::t('app', 'Category'),
-            'education_history' => Yii::t('app', 'Education History'),
-            'training_history' => Yii::t('app', 'Training History'),
-            'experience_history' => Yii::t('app', 'Experience History'),
+            'person_id' => Yii::t('app', 'SYSTEM_TEXT_PERSON_ID'),
+            'category' => Yii::t('app', 'BPPK_TEXT_CATEGORY'),
+            'education_history' => Yii::t('app', 'BPPK_TEXT_EDUCATION_HISTORY'),
+            'training_history' => Yii::t('app', 'BPPK_TEXT_TRAINING_HISTORY'),
+            'experience_history' => Yii::t('app', 'BPPK_TEXT_EXPERIENCE_HISTORY'),
         ];
     }
 

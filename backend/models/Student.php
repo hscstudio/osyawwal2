@@ -60,16 +60,16 @@ class Student extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'person_id' => Yii::t('app', 'Person ID'),
-            'username' => Yii::t('app', 'Username'),
-            'password_hash' => Yii::t('app', 'Password Hash'),
-            'auth_key' => Yii::t('app', 'Auth Key'),
-            'eselon2' => Yii::t('app', 'Eselon2'),
-            'eselon3' => Yii::t('app', 'Eselon3'),
-            'eselon4' => Yii::t('app', 'Eselon4'),
-            'satker' => Yii::t('app', 'Satker'),
-            'no_sk' => Yii::t('app', 'No Sk'),
-            'tmt_sk' => Yii::t('app', 'Tmt Sk'),
+            'person_id' => Yii::t('app', 'SYSTEM_TEXT_PERSON_ID'),
+            'username' => Yii::t('app', 'SYSTEM_TEXT_USERNAME'),
+            'password_hash' => Yii::t('app', 'SYSTEM_TEXT_PASSWORD_HASH'),
+            'auth_key' => Yii::t('app', 'SYSTEM_TEXT_AUTH_KEY'),
+            'eselon2' => Yii::t('app', 'BPPK_TEXT_ESELON2'),
+            'eselon3' => Yii::t('app', 'BPPK_TEXT_ESELON3'),
+            'eselon4' => Yii::t('app', 'BPPK_TEXT_ESELON4'),
+            'satker' => Yii::t('app', 'BPPK_TEXT_SATKER'),
+            'no_sk' => Yii::t('app', 'BPPK_TEXT_NO_SK'),
+            'tmt_sk' => Yii::t('app', 'BPPK_TEXT_TMT_SK'),
         ];
     }
 

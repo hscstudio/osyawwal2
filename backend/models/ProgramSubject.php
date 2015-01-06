@@ -89,20 +89,21 @@ class ProgramSubject extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'program_id' => Yii::t('app', 'Program ID'),
-            'program_revision' => Yii::t('app', 'Program Revision'),
-            'type' => Yii::t('app', 'Type'),
-            'name' => Yii::t('app', 'Name'),
-            'hours' => Yii::t('app', 'Hours'),
-            'sort' => Yii::t('app', 'Sort'),
-            'test' => Yii::t('app', 'Test'),
-            'stage' => Yii::t('app', 'Stage'),
-            'status' => Yii::t('app', 'Status'),
-            'created' => Yii::t('app', 'Created'),
-            'created_by' => Yii::t('app', 'Created By'),
-            'modified' => Yii::t('app', 'Modified'),
-            'modified_by' => Yii::t('app', 'Modified By'),
+            'id' => Yii::t('app', 'BPPK_TEXT_ID'),
+            'revision' => Yii::t('app', 'BPPK_TEXT_REVISION'),
+            'program_id' => Yii::t('app', 'BPPK_TEXT_PROGRAM_ID'),
+            'program_revision' => Yii::t('app', 'BPPK_TEXT_PROGRAM_REVISION'),
+            'type' => Yii::t('app', 'BPPK_TEXT_TYPE'),
+            'name' => Yii::t('app', 'BPPK_TEXT_NAME'),
+            'hours' => Yii::t('app', 'BPPK_TEXT_HOURS'),
+            'sort' => Yii::t('app', 'BPPK_TEXT_SORT'),
+            'test' => Yii::t('app', 'BPPK_TEXT_TEST'),
+            'stage' => Yii::t('app', 'BPPK_TEXT_STAGE'),
+            'status' => Yii::t('app', 'BPPK_TEXT_STATUS'),
+            'created' => Yii::t('app', 'SYSTEM_TEXT_CREATED'),
+            'created_by' => Yii::t('app', 'SYSTEM_TEXT_CREATED_ID'),
+            'modified' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED'),
+            'modified_by' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED_BY'),
         ];
     }
 

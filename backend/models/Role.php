@@ -45,10 +45,10 @@ class Role extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'parent_id' => 'Parent ID',
-            'name' => 'Name',
-            'eselon' => 'Eselon',
-            'organisation_id' => 'Organisation ID',
+            'parent_id' => 'SYSTEM_TEXT_PARENT_ID',
+            'name' => 'BPPK_TEXT_NAME',
+            'eselon' => 'BPPK_TEXT_ESELON',
+            'organisation_id' => 'BPPK_TEXT_ORGANISATION_ID',
         ];
     }
 

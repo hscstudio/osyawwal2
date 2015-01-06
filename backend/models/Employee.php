@@ -42,11 +42,11 @@ class Employee extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'person_id' => Yii::t('app', 'Person ID'),
-            'user_id' => Yii::t('app', 'User ID'),
-			'satker_id' => Yii::t('app', 'Satker'),
-			'organisation_id' => Yii::t('app', 'Organisation ID'),
-            'chairman' => Yii::t('app', 'Chairman'),
+            'person_id' => Yii::t('app', 'SYSTEM_TEXT_PERSON_ID'),
+            'user_id' => Yii::t('app', 'SYSTEM_TEXT_USER_ID'),
+			'satker_id' => Yii::t('app', 'BPPK_TEXT_SATKER'),
+			'organisation_id' => Yii::t('app', 'BPPK_TEXT_ORGANISATION_ID'),
+            'chairman' => Yii::t('app', 'BPPK_TEXT_CHAIRMAN'),
         ];
     }
 

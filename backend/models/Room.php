@@ -85,19 +85,19 @@ class Room extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'satker_id' => Yii::t('app', 'Satker ID'),
-            'code' => Yii::t('app', 'Code'),
-            'name' => Yii::t('app', 'Name'),
-            'capacity' => Yii::t('app', 'Capacity'),
-            'owner' => Yii::t('app', 'Owner'),
-            'computer' => Yii::t('app', 'Computer'),
-            'hostel' => Yii::t('app', 'Hostel'),
-            'address' => Yii::t('app', 'Address'),
-            'status' => Yii::t('app', 'Status'),
-            'created' => Yii::t('app', 'Created'),
-            'created_by' => Yii::t('app', 'Created By'),
-            'modified' => Yii::t('app', 'Modified'),
-            'modified_by' => Yii::t('app', 'Modified By'),
+            'satker_id' => Yii::t('app', 'BPPK_TEXT_SATKER_ID'),
+            'code' => Yii::t('app', 'BPPK_TEXT_CODE'),
+            'name' => Yii::t('app', 'BPPK_TEXT_NAME'),
+            'capacity' => Yii::t('app', 'BPPK_TEXT_CAPACITY'),
+            'owner' => Yii::t('app', 'BPPK_TEXT_OWNER'),
+            'computer' => Yii::t('app', 'BPPK_TEXT_COMPUTER'),
+            'hostel' => Yii::t('app', 'BPPK_TEXT_HOSTEL'),
+            'address' => Yii::t('app', 'BPPK_TEXT_ADDRESS'),
+            'status' => Yii::t('app', 'BPPK_TEXT_STATUS'),
+            'created' => Yii::t('app', 'SYSTEM_TEXT_CREATED'),
+            'created_by' => Yii::t('app', 'SYSTEM_TEXT_CREATED_BY'),
+            'modified' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED'),
+            'modified_by' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED_BY'),
         ];
     }
 

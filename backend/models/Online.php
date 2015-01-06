@@ -44,9 +44,9 @@ class Online extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'person_id' => 'Person ID',
-            'ip' => 'Ip',
-            'time' => 'Time',
+            'person_id' => Yii::t('app', 'SYSTEM_TEXT_PERSON_ID'),
+            'ip' => Yii::t('app', 'SYSTEM_TEXT_IP'),
+            'time' => Yii::t('app', 'SYSTEM_TEXT_TIME'),
         ];
     }
 

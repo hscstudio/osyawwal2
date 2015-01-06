@@ -49,13 +49,13 @@ class TrainingClassSubject extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'training_class_id' => Yii::t('app', 'Training Class ID'),
-            'program_subject_id' => Yii::t('app', 'Program Subject ID'),
-            'status' => Yii::t('app', 'Status'),
-            'created' => Yii::t('app', 'Created'),
-            'created_by' => Yii::t('app', 'Created By'),
-            'modified' => Yii::t('app', 'Modified'),
-            'modified_by' => Yii::t('app', 'Modified By'),
+            'training_class_id' => Yii::t('app', 'BPPK_TEXT_TRAINING_CLASS_ID'),
+            'program_subject_id' => Yii::t('app', 'BPPK_TEXT_PROGRAM_SUBJECT_ID'),
+            'status' => Yii::t('app', 'BPPK_TEXT_STATUS'),
+            'created' => Yii::t('app', 'SYSTEM_TEXT_CREATED'),
+            'created_by' => Yii::t('app', 'SYSTEM_TEXT_CREATED_BY'),
+            'modified' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED'),
+            'modified_by' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED_BY'),
         ];
     }
 

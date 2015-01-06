@@ -52,16 +52,16 @@ class Reference extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'parent_id' => Yii::t('app', 'Parent ID'),
-			'type' => Yii::t('app', 'Type'),
-            'name' => Yii::t('app', 'Name'),
-            'value' => Yii::t('app', 'Value'),
-			'sort' => Yii::t('app', 'Sort'),
-            'status' => Yii::t('app', 'Status'),
-            'created' => Yii::t('app', 'Created'),
-            'created_by' => Yii::t('app', 'Created By'),
-            'modified' => Yii::t('app', 'Modified'),
-            'modified_by' => Yii::t('app', 'Modified By'),
+            'parent_id' => Yii::t('app', 'SYSTEM_TEXT_PARENT_ID'),
+			'type' => Yii::t('app', 'BPPK_TEXT_TYPE'),
+            'name' => Yii::t('app', 'BPPK_TEXT_NAME'),
+            'value' => Yii::t('app', 'BPPK_TEXT_VALUE'),
+			'sort' => Yii::t('app', 'BPPK_TEXT_SORT'),
+            'status' => Yii::t('app', 'BPPK_TEXT_STATUS'),
+            'created' => Yii::t('app', 'SYSTEM_TEXT_CREATED'),
+            'created_by' => Yii::t('app', 'SYSTEM_TEXT_CREATED_BY'),
+            'modified' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED'),
+            'modified_by' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED_BY'),
         ];
     }
 

@@ -50,15 +50,15 @@ class Message extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'type' => Yii::t('app', 'Type'),
-            'category' => Yii::t('app', 'Category'),
-            'author' => Yii::t('app', 'Author'),
-            'recipient' => Yii::t('app', 'Recipient'),
-            'subject' => Yii::t('app', 'Subject'),
-            'content' => Yii::t('app', 'Content'),
-            'status' => Yii::t('app', 'Status'),
-            'created' => Yii::t('app', 'Created'),
-            'created_by' => Yii::t('app', 'Created By'),
+            'type' => Yii::t('app', 'BPPK_TEXT_TYPE'),
+            'category' => Yii::t('app', 'BPPK_TEXT_CATEGORY'),
+            'author' => Yii::t('app', 'BPPK_TEXT_AUTHOR'),
+            'recipient' => Yii::t('app', 'BPPK_TEXT_RECIPIENT'),
+            'subject' => Yii::t('app', 'SYSTEM_TEXT_SUBJECT'),
+            'content' => Yii::t('app', 'SYSTEM_TEXT_CONTENT'),
+            'status' => Yii::t('app', 'SYSTEM_TEXT_STATUS'),
+            'created' => Yii::t('app', 'SYSTEM_TEXT_CREATED'),
+            'created_by' => Yii::t('app', 'SYSTEM_TEXT_CREATED_BY'),
         ];
     }
 }

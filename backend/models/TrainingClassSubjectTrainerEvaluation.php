@@ -54,16 +54,16 @@ class TrainingClassSubjectTrainerEvaluation extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'training_class_subject_id' => Yii::t('app', 'Training Class Subject ID'),
-            'trainer_id' => Yii::t('app', 'Trainer ID'),
-            'student_id' => Yii::t('app', 'Student ID'),
-            'value' => Yii::t('app', 'Value'),
-            'comment' => Yii::t('app', 'Comment'),
-            'status' => Yii::t('app', 'Status'),
-            'created' => Yii::t('app', 'Created'),
-            'created_by' => Yii::t('app', 'Created By'),
-            'modified' => Yii::t('app', 'Modified'),
-            'modified_by' => Yii::t('app', 'Modified By'),
+            'training_class_subject_id' => Yii::t('app', 'BPPK_TEXT_TRAINING_CLASS_SUBJECT_ID'),
+            'trainer_id' => Yii::t('app', 'BPPK_TEXT_TRAINER_ID'),
+            'student_id' => Yii::t('app', 'BPPK_TEXT_STUDENT_ID'),
+            'value' => Yii::t('app', 'BPPK_TEXT_VALUE'),
+            'comment' => Yii::t('app', 'BPPK_TEXT_COMMENT'),
+            'status' => Yii::t('app', 'BPPK_TEXT_STATUS'),
+            'created' => Yii::t('app', 'SYSTEM_TEXT_CREATED'),
+            'created_by' => Yii::t('app', 'SYSTEM_TEXT_CREATED_BY'),
+            'modified' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED'),
+            'modified_by' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED_BY'),
         ];
     }
 

@@ -44,13 +44,13 @@ class PersonActivity extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'person_id' => Yii::t('app', 'Person ID'),
-            'activity_id' => Yii::t('app', 'Activity ID'),
-            'status' => Yii::t('app', 'Status'),
-            'created' => Yii::t('app', 'Created'),
-            'created_by' => Yii::t('app', 'Created By'),
-            'modified' => Yii::t('app', 'Modified'),
-            'modified_by' => Yii::t('app', 'Modified By'),
+            'person_id' => Yii::t('app', 'SYSTEM_TEXT_PERSON_ID'),
+            'activity_id' => Yii::t('app', 'SYSTEM_TEXT_ACTIVITY_ID'),
+            'status' => Yii::t('app', 'SYSTEM_TEXT_STATUS'),
+            'created' => Yii::t('app', 'SYSTEM_TEXT_CREATED'),
+            'created_by' => Yii::t('app', 'SYSTEM_TEXT_CREATED_BY'),
+            'modified' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED'),
+            'modified_by' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED_BY'),
         ];
     }
 }

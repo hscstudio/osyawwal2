@@ -43,10 +43,10 @@ class ObjectPerson extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'object' => Yii::t('app', 'Object'),
-            'object_id' => Yii::t('app', 'Object ID'),
-            'type' => Yii::t('app', 'Type'),
-            'person_id' => Yii::t('app', 'Person ID'),
+            'object' => Yii::t('app', 'SYSTEM_TEXT_OBJECT'),
+            'object_id' => Yii::t('app', 'SYSTEM_TEXT_OBJECT_ID'),
+            'type' => Yii::t('app', 'BPPK_TEXT-TYPE'),
+            'person_id' => Yii::t('app', 'SYSTEM_TEXT_PERSON_ID'),
         ];
     }
 

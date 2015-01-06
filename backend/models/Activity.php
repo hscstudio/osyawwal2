@@ -103,17 +103,17 @@ class Activity extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
-            'description' => Yii::t('app', 'Description'),
-            'start' => Yii::t('app', 'Start'),
-            'end' => Yii::t('app', 'End'),
-            'location' => Yii::t('app', 'Location'),
-            'hostel' => Yii::t('app', 'Hostel'),
-            'status' => Yii::t('app', 'Status'),
-            'created' => Yii::t('app', 'Created'),
-            'created_by' => Yii::t('app', 'Created By'),
-            'modified' => Yii::t('app', 'Modified'),
-            'modified_by' => Yii::t('app', 'Modified By'),
+            'name' => Yii::t('app', 'BPPK_TEXT_NAME'),
+            'description' => Yii::t('app', 'BPPK_TEXT_DESCRIPTION'),
+            'start' => Yii::t('app', 'BPPK_TEXT_START'),
+            'end' => Yii::t('app', 'BPPK_TEXT_END'),
+            'location' => Yii::t('app', 'BPPK_TEXT_LOCATION'),
+            'hostel' => Yii::t('app', 'BPPK_TEXT_HOSTEL'),
+            'status' => Yii::t('app', 'BPPK_TEXT_STATUS'),
+            'created' => Yii::t('app', 'SYSTEM_TEXT_CREATED'),
+            'created_by' => Yii::t('app', 'SYSTEM_TEXT_CREATED_BY'),
+            'modified' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED'),
+            'modified_by' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED_BY'),
         ];
     }
 

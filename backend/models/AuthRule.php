@@ -43,10 +43,10 @@ class AuthRule extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'name' => Yii::t('app', 'Name'),
-            'data' => Yii::t('app', 'Data'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
+            'name' => Yii::t('app', 'BPPK_TEXT_NAME'),
+            'data' => Yii::t('app', 'BPPK_TEXT_DATA'),
+            'created_at' => Yii::t('app', 'SYSTEM_TEXT_CREATED'),
+            'updated_at' => Yii::t('app', 'SYSTEM_TEXT_UPDATED'),
         ];
     }
 

@@ -48,11 +48,11 @@ class Menu extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
-            'parent' => Yii::t('app', 'Parent'),
-            'route' => Yii::t('app', 'Route'),
-            'order' => Yii::t('app', 'Order'),
-            'data' => Yii::t('app', 'Data'),
+            'name' => Yii::t('app', 'BPPK_TEXT_NAME'),
+            'parent' => Yii::t('app', 'SYSTEM_TEXT_PARENT'),
+            'route' => Yii::t('app', 'SYSTEM_TEXT_ROUTE'),
+            'order' => Yii::t('app', 'SYSTEM_TEXT_ORDER'),
+            'data' => Yii::t('app', 'BPPK_TEXT_DATA'),
         ];
     }
 

@@ -50,16 +50,16 @@ class ActivityRoom extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'activity_id' => Yii::t('app', 'Activity ID'),
-            'room_id' => Yii::t('app', 'Room ID'),
-            'start' => Yii::t('app', 'Start'),
-            'end' => Yii::t('app', 'End'),
-            'note' => Yii::t('app', 'Note'),
-            'status' => Yii::t('app', 'Status'),
-            'created' => Yii::t('app', 'Created'),
-            'created_by' => Yii::t('app', 'Created By'),
-            'modified' => Yii::t('app', 'Modified'),
-            'modified_by' => Yii::t('app', 'Modified By'),
+            'activity_id' => Yii::t('app', 'BPPK_TEXT_ACTIVITY_ID'),
+            'room_id' => Yii::t('app', 'BPPK_TEXT_ROOM_ID'),
+            'start' => Yii::t('app', 'BPPK_TEXT_START'),
+            'end' => Yii::t('app', 'BPPK_TEXT_END'),
+            'note' => Yii::t('app', 'BPPK_TEXT_NOTE'),
+            'status' => Yii::t('app', 'BPPK_TEXT_STATUS'),
+            'created' => Yii::t('app', 'SYSTEM_TEXT_CREATED'),
+            'created_by' => Yii::t('app', 'SYSTEM_TEXT_CREATED_BY'),
+            'modified' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED'),
+            'modified_by' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED_BY'),
         ];
     }
 

@@ -136,16 +136,16 @@ class File extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
-            'file_name' => Yii::t('app', 'File Name'),
-            'file_type' => Yii::t('app', 'File Type'),
-            'file_size' => Yii::t('app', 'File Size'),
-            'description' => Yii::t('app', 'Description'),
+            'name' => Yii::t('app', 'BPPK_TEXT_NAME'),
+            'file_name' => Yii::t('app', 'SYSTEM_TEXT_FILENAME'),
+            'file_type' => Yii::t('app', 'SYSTEM_TEXT_FILETYPE'),
+            'file_size' => Yii::t('app', 'SYSTEM_TEXT_FILESIZE'),
+            'description' => Yii::t('app', 'BPPK_TEXT_DESCRIPTION'),
             'status' => Yii::t('app', 'Status'),
-            'created' => Yii::t('app', 'Created'),
-            'created_by' => Yii::t('app', 'Created By'),
-            'modified' => Yii::t('app', 'Modified'),
-            'modified_by' => Yii::t('app', 'Modified By'),
+            'created' => Yii::t('app', 'SYSTEM_TEXT_CREATED'),
+            'created_by' => Yii::t('app', 'SYSTEM_TEXT_CREATED_BY'),
+            'modified' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED'),
+            'modified_by' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED_BY'),
         ];
     }
 

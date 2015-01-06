@@ -22,13 +22,13 @@ class SignupForm extends Model
         return [
             ['username', 'filter', 'filter' => 'trim'],
             ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\backend\models\User', 'message' => 'This username has already been taken.'],
+            ['username', 'unique', 'targetClass' => '\backend\models\User', 'message' => Yii::t('app', 'SYSTEM_TEXT_USERNAME_EXISTS')],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email', 'email'],
-            ['email', 'unique', 'targetClass' => '\backend\models\User', 'message' => 'This email address has already been taken.'],
+            ['email', 'unique', 'targetClass' => '\backend\models\User', 'message' => Yii::t('app', 'SYSTEM_TEXT_EMAIL_EXISTS')],
 
             ['password', 'required'],
             ['password', 'string', 'min' => 6],

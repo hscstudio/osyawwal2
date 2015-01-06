@@ -51,15 +51,15 @@ class TrainingClassStudentAttendance extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'training_schedule_id' => Yii::t('app', 'Training Schedule ID'),
-            'training_class_student_id' => Yii::t('app', 'Training Class Student ID'),
-            'hours' => Yii::t('app', 'Hours'),
-            'reason' => Yii::t('app', 'Reason'),
-            'status' => Yii::t('app', 'Status'),
-            'created' => Yii::t('app', 'Created'),
-            'created_by' => Yii::t('app', 'Created By'),
-            'modified' => Yii::t('app', 'Modified'),
-            'modified_by' => Yii::t('app', 'Modified By'),
+            'training_schedule_id' => Yii::t('app', 'BPPK_TEXT_TRAINING_SCHEDULE_ID'),
+            'training_class_student_id' => Yii::t('app', 'BPPK_TEXT_TRAINING_CLASS_STUDENT_ID'),
+            'hours' => Yii::t('app', 'BPPK_TEXT_HOURS'),
+            'reason' => Yii::t('app', 'BPPK_TEXT_REASON'),
+            'status' => Yii::t('app', 'BPPK_TEXT_STATUS'),
+            'created' => Yii::t('app', 'SYSTEM_TEXT_CREATED'),
+            'created_by' => Yii::t('app', 'SYSTEM_TEXT_CREATED_BY'),
+            'modified' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED'),
+            'modified_by' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED_BY'),
         ];
     }
 

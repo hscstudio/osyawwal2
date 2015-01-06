@@ -46,13 +46,13 @@ class TrainingStudentPlan extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'training_id' => Yii::t('app', 'Training ID'),
-            'spread' => Yii::t('app', 'Spread'),
-            'status' => Yii::t('app', 'Status'),
-            'created' => Yii::t('app', 'Created'),
-            'created_by' => Yii::t('app', 'Created By'),
-            'modified' => Yii::t('app', 'Modified'),
-            'modified_by' => Yii::t('app', 'Modified By'),
+            'training_id' => Yii::t('app', 'BPPK_TEXT_TRAINING_ID'),
+            'spread' => Yii::t('app', 'BPPK_TEXT_SPREAD'),
+            'status' => Yii::t('app', 'BPPK_TEXT_STATUS'),
+            'created' => Yii::t('app', 'SYSTEM_TEXT_CREATED'),
+            'created_by' => Yii::t('app', 'SYSTEM_TEXT_CREATED_BY'),
+            'modified' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED'),
+            'modified_by' => Yii::t('app', 'SYSTEM_TEXT_MODIFIED_BY'),
         ];
     }
 

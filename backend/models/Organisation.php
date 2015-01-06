@@ -50,18 +50,18 @@ class Organisation extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'ID' => Yii::t('app', 'ID'),
-            'KD_UNIT_ORG' => Yii::t('app', 'Kd  Unit  Org'),
-            'KD_UNIT_ES1' => Yii::t('app', 'Kd  Unit  Es1'),
-            'KD_UNIT_ES2' => Yii::t('app', 'Kd  Unit  Es2'),
-            'KD_UNIT_ES3' => Yii::t('app', 'Kd  Unit  Es3'),
-            'KD_UNIT_ES4' => Yii::t('app', 'Kd  Unit  Es4'),
-            'KD_UNIT_ES5' => Yii::t('app', 'Kd  Unit  Es5'),
-            'JNS_KANTOR' => Yii::t('app', 'Jns  Kantor'),
-            'NM_UNIT_ORG' => Yii::t('app', 'Nm  Unit  Org'),
-            'KD_ESELON' => Yii::t('app', 'Kd  Eselon'),
-            'KD_SURAT_ORG' => Yii::t('app', 'Kd  Surat  Org'),
-            'TKT_ESELON' => Yii::t('app', 'Tkt  Eselon'),
+            'ID' => Yii::t('app', 'BPPK_TEXT_ID'),
+            'KD_UNIT_ORG' => Yii::t('app', 'BPPK_TEXT_KD_UNIT_ORG'),
+            'KD_UNIT_ES1' => Yii::t('app', 'BPPK_TEXT_KD_UNIT_ES1'),
+            'KD_UNIT_ES2' => Yii::t('app', 'BPPK_TEXT_KD_UNIT_ES2'),
+            'KD_UNIT_ES3' => Yii::t('app', 'BPPK_TEXT_KD_UNIT_ES3'),
+            'KD_UNIT_ES4' => Yii::t('app', 'BPPK_TEXT_KD_UNIT_ES4'),
+            'KD_UNIT_ES5' => Yii::t('app', 'BPPK_TEXT_KD_UNIT_ES5'),
+            'JNS_KANTOR' => Yii::t('app', 'BPPK_TEXT_JNS_KANTOR'),
+            'NM_UNIT_ORG' => Yii::t('app', 'BPPK_TEXT_NM_UNIT_ORG'),
+            'KD_ESELON' => Yii::t('app', 'BPPK_TEXT_KD_ESELON'),
+            'KD_SURAT_ORG' => Yii::t('app', 'BPPK_TEXT_KD_SURAT_ORG'),
+            'TKT_ESELON' => Yii::t('app', 'BPPK_TEXT_TKT_ESELON'),
         ];
     }
 }
