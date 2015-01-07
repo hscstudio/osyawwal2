@@ -12,21 +12,10 @@ use kartik\widgets\Select2;
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
-$this->title = Yii::t('app', 'Meeting Activities');
+$this->title = Yii::t('app', 'BPPK_TEXT_MEETING');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="activity-index">
-	
-<!--
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Activity',
-]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
--->
 	<?php \yii\widgets\Pjax::begin([
 		'id'=>'pjax-gridview',
 	]); ?>
@@ -149,7 +138,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				//'attribute' => 'classCount',
 				'format'=>'raw',
-				'label'=>'Room',
+				'label'=>'Ruangan',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'100px',
@@ -162,20 +151,21 @@ $this->params['breadcrumbs'][] = $this->title;
 									':activity_id' => $data->id
 								]);		
 					if($activityRoom->count()==0){ 
-						return Html::a('SET', ['room','activity_id'=>$data->id], 
+						return Html::a('Pesan', ['room','activity_id'=>$data->id], 
 							[							
 							'class' => 'label label-warning modal-heart',
-							'data-pjax'=>0,
+							'modal-title' => '<i class="fa fa-fw fa-suitcase"></i> Pesan Ruang untuk Rapat',
+							'data-pjax'=> '0',
 							'source'=>'',
 							'modal-size'=>'modal-lg',
 							]);
 					}		
 					else{
 						$statuss = [
-							'0' => 'Waiting',
-							'1' => 'Process',
-							'2' => 'Approved',
-							'3' => 'Rejected',
+							'0' => 'Menunggu',
+							'1' => 'Proses',
+							'2' => 'Disetujui',
+							'3' => 'Ditolak',
 						];
 						
 						$ars = $activityRoom->all();
@@ -258,7 +248,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					'data' => $year_meeting,
 					'value' => $year,
 					'options' => [
-						'placeholder' => 'Year ...', 
+						'placeholder' => 'Tahun ...', 
 						'class'=>'form-control', 
 						'onchange'=>'
 							$.pjax.reload({
@@ -294,7 +284,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					'data' => $organisations,
 					'value' => $organisation_id,
 					'options' => [
-						'placeholder' => 'Organisation ...', 
+						'placeholder' => 'Organisasi ...', 
 						'class'=>'form-control', 
 						'onchange'=>'
 							$.pjax.reload({
@@ -307,7 +297,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				]).
 				'</div>',
 			'after'=>
-				Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
+				Html::a('<i class="fa fa-fw fa-repeat"></i> '.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'responsive'=>true,

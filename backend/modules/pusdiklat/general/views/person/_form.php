@@ -53,29 +53,35 @@ use yii\helpers\Url;
 			<h3>Informasi Pribadi</h3>
 			<div class="row clearfix">
 				<div class="col-md-3">
-				<?= $form->field($model, 'front_title')->textInput(['maxlength' => 25]) ?>
-				</div>
-				<div class="col-md-6">
-				<?= $form->field($model, 'name')->textInput(['maxlength' => 100]) ?>
+					<?= $form->field($model, 'front_title')->textInput(['maxlength' => 25]) ?>
 				</div>
 				<div class="col-md-3">
-				<?= $form->field($model, 'back_title')->textInput(['maxlength' => 25]) ?>
+					<?= $form->field($model, 'name')->textInput(['maxlength' => 100]) ?>
+				</div>
+				<div class="col-md-3">
+					<?= $form->field($model, 'back_title')->textInput(['maxlength' => 25]) ?>
+				</div>
+				<div class="col-md-3">
+					<?= $form->field($model, 'nickname')->textInput(['maxlength' => 25]) ?>
 				</div>
 			</div>
 			<div class="row clearfix">
-				<div class="col-md-3">
-				<?= $form->field($model, 'nickname')->textInput(['maxlength' => 25]) ?>
-				</div>
 				<div class="col-md-3">
 				<?= $form->field($model, 'gender')->widget(SwitchInput::classname(), [
 					'pluginOptions' => [
-						'onText' => 'Male',
-						'offText' => 'Female',
+						'onText' => 'Pria',
+						'offText' => 'Wanita',
 					]
 				]) ?>
 				</div>
-			</div>
-			<div class="row clearfix">
+				<div class="col-md-3">
+					<?= $form->field($model, 'married')->widget(SwitchInput::classname(), [
+						'pluginOptions' => [
+							'onText' => 'Ya',
+							'offText' => 'Tidak',
+						]
+					]) ?>
+				</div>
 				<div class="col-md-3">
 				<?= $form->field($model, 'born')->textInput(['maxlength' => 50]) ?>
 				</div>
@@ -86,34 +92,26 @@ use yii\helpers\Url;
 				</div>
 			</div>
 			<div class="row clearfix">
-				<div class="col-md-3">
-				<?= $form->field($model, 'married')->widget(SwitchInput::classname(), [
-					'pluginOptions' => [
-						'onText' => 'On',
-						'offText' => 'Off',
-					]
-				]) ?>
+				<div class="col-md-2">
+					<?= $form->field($model, 'blood')->textInput(['maxlength' => 25]) ?>
+				</div>
+				<div class="col-md-2">
+					<?= $field['religion'] ?>
+				</div>
+				<div class="col-md-5">
+					<?= $form->field($model, 'nid')->textInput(['maxlength' => 100]) ?>
 				</div>
 				<div class="col-md-3">
-				<?= $form->field($model, 'blood')->textInput(['maxlength' => 25]) ?>
-				</div>
-				<div class="col-md-3">
-				<?= $field['religion'] ?>
-				</div>
-			</div>
-			<div class="row clearfix">
-				<div class="col-md-4">
-				<?= $form->field($model, 'nid')->textInput(['maxlength' => 100]) ?>
-				</div>
-				<div class="col-md-4">
-				<?= $form->field($model, 'npwp')->textInput(['maxlength' => 100]) ?>
+					<?= $form->field($model, 'npwp')->textInput(['maxlength' => 100]) ?>
 				</div>
 			</div>
 
-			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#contact_information]').tab('show')">
-				Next
-				<i class="fa fa-fw fa-arrow-circle-o-right"></i>
-			</a>
+			<div class="tendangKePojok">
+				<a class="btn btn-default" onclick="$('#tab_wizard a[href=#contact_information]').tab('show')">
+					Berikutnya
+					<i class="fa fa-fw fa-arrow-circle-o-right"></i>
+				</a>
+			</div>
 		</div>
 		<div class="tab-pane fade" id="contact_information">
 
@@ -121,27 +119,35 @@ use yii\helpers\Url;
 
 			<div class="row clearfix">
 				<div class="col-md-4">
-				<?= $form->field($model, 'phone')->textInput(['maxlength' => 50]) ?>
+					<?= $form->field($model, 'phone')->textInput(['maxlength' => 50]) ?>
 				</div>
 				<div class="col-md-4">
-				<?= $form->field($model, 'email')->textInput(['maxlength' => 100]) ?>
+					<?= $form->field($model, 'email')->textInput(['maxlength' => 100]) ?>
+				</div>
+				<div class="col-md-4">
+					<?= $form->field($model, 'homepage')->textInput(['maxlength' => 255]) ?>
 				</div>
 			</div>
 
-			<?= $form->field($model, 'homepage')->textInput(['maxlength' => 255]) ?>
+			<div class="row clearfix">
+				<div class="col-md-6">
+					<?= $form->field($model, 'address')->textInput(['maxlength' => 255]) ?>
+				</div>
+				<div class="col-md-6">
+					<?= $form->field($model, 'bank_account')->textInput(['maxlength' => 255]) ?>
+				</div>
+			</div>
 
-			<?= $form->field($model, 'address')->textInput(['maxlength' => 255]) ?>
-
-			<?= $form->field($model, 'bank_account')->textInput(['maxlength' => 255]) ?>
-
-			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#personal_information]').tab('show')">
-				Previous
-				<i class="fa fa-fw fa-arrow-circle-o-left"></i>
-			</a>
-			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#employee_information]').tab('show')">
-				Next
-				<i class="fa fa-fw fa-arrow-circle-o-right"></i>
-			</a>
+			<div class="tendangKePojok">
+				<a class="btn btn-default" onclick="$('#tab_wizard a[href=#personal_information]').tab('show')">
+					Sebelumnya
+					<i class="fa fa-fw fa-arrow-circle-o-left"></i>
+				</a>
+				<a class="btn btn-default" onclick="$('#tab_wizard a[href=#employee_information]').tab('show')">
+					Berikutnya
+					<i class="fa fa-fw fa-arrow-circle-o-right"></i>
+				</a>
+			</div>
 
 		</div>
 		<div class="tab-pane fade" id="employee_information">
@@ -149,22 +155,24 @@ use yii\helpers\Url;
 			<h3>Informasi Kepegawaian (PNS Only)</h3>
 
 			<div class="row clearfix">
-				<div class="col-md-3">
-				<?= $form->field($model, 'nip')->textInput(['maxlength' => 25])->label('NIP') ?>
+				<div class="col-md-6">
+					<?= $form->field($model, 'nip')->textInput(['maxlength' => 25])->label('NIP') ?>
+				</div>
+				<div class="col-md-6">
+					<?= $field['rank_class'] ?>
 				</div>
 			</div>
 
-			<?= $field['rank_class'] ?>
-
-			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#contact_information]').tab('show')">
-				Previous
-				<i class="fa fa-fw fa-arrow-circle-o-left"></i>
-			</a>
-			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#office_information]').tab('show')">
-				Next
-				<i class="fa fa-fw fa-arrow-circle-o-right"></i>
-			</a>
-
+			<div class="tendangKePojok">
+				<a class="btn btn-default" onclick="$('#tab_wizard a[href=#contact_information]').tab('show')">
+					Sebelumnya
+					<i class="fa fa-fw fa-arrow-circle-o-left"></i>
+				</a>
+				<a class="btn btn-default" onclick="$('#tab_wizard a[href=#office_information]').tab('show')">
+					Berikutnya
+					<i class="fa fa-fw fa-arrow-circle-o-right"></i>
+				</a>
+			</div>
 		</div>
 		<div class="tab-pane fade" id="office_information">
 
@@ -209,15 +217,16 @@ use yii\helpers\Url;
 
 			<?= $form->field($model, 'office_address')->textInput(['maxlength' => 255]) ?>
 
-			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#employee_information]').tab('show')">
-				Previous
-				<i class="fa fa-fw fa-arrow-circle-o-left"></i>
-			</a>
-			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#education_information]').tab('show')">
-				Next
-				<i class="fa fa-fw fa-arrow-circle-o-right"></i>
-			</a>
-
+			<div class="tendangKePojok">
+				<a class="btn btn-default" onclick="$('#tab_wizard a[href=#employee_information]').tab('show')">
+					Sebelumnya
+					<i class="fa fa-fw fa-arrow-circle-o-left"></i>
+				</a>
+				<a class="btn btn-default" onclick="$('#tab_wizard a[href=#education_information]').tab('show')">
+					Berikutnya
+					<i class="fa fa-fw fa-arrow-circle-o-right"></i>
+				</a>
+			</div>
 		</div>
 		<div class="tab-pane fade" id="education_information">
 
@@ -232,15 +241,16 @@ use yii\helpers\Url;
 				</div>
 			</div>
 
-			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#office_information]').tab('show')">
-				Previous
-				<i class="fa fa-fw fa-arrow-circle-o-left"></i>
-			</a>
-			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#photo_document]').tab('show')">
-				Next
-				<i class="fa fa-fw fa-arrow-circle-o-right"></i>
-			</a>
-
+			<div class="tendangKePojok">
+				<a class="btn btn-default" onclick="$('#tab_wizard a[href=#office_information]').tab('show')">
+					Sebelumnya
+					<i class="fa fa-fw fa-arrow-circle-o-left"></i>
+				</a>
+				<a class="btn btn-default" onclick="$('#tab_wizard a[href=#photo_document]').tab('show')">
+					Berikutnya
+					<i class="fa fa-fw fa-arrow-circle-o-right"></i>
+				</a>
+			</div>
 		</div>
 		<div class="tab-pane fade" id="photo_document">
 			<h3>Foto dan Dokumen</h3>
@@ -308,19 +318,21 @@ use yii\helpers\Url;
 
 			<div class="clearfix"></div>
 
-			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#education_information]').tab('show')">
-				Previous
-				<i class="fa fa-fw fa-arrow-circle-o-left"></i>
-			</a>
-			<?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary','onclick'=>'if($("#agreement_status").prop("checked")==false){ alert("Anda harus menyetujui Pakta Integritas!"); return false; }']) ?>
+			<div class="tendangKePojok">
+				<a class="btn btn-default" onclick="$('#tab_wizard a[href=#education_information]').tab('show')">
+					Sebelumnya
+					<i class="fa fa-fw fa-arrow-circle-o-left"></i>
+				</a>
+				<?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'SYSTEM_BUTTON_CREATE') : '<i class="fa fa-fw fa-save"></i>'.Yii::t('app', 'SYSTEM_BUTTON_UPDATE'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary','onclick'=>'if($("#agreement_status").prop("checked")==false){ alert("Anda harus menyetujui Pakta Integritas!"); return false; }']) ?>
+			</div>
 		</div>
 	</div>
-	<div class="clearfix"><hr></div>
+	<div class="clearfix"></div>
 
     <?= $form->field($model, 'status')->widget(SwitchInput::classname(), [
 		'pluginOptions' => [
-			'onText' => 'On',
-			'offText' => 'Off',
+			'onText' => 'Aktif',
+			'offText' => 'Banned',
 		]
 	]) ?>
 
@@ -328,3 +340,13 @@ use yii\helpers\Url;
 
 	<?php $this->registerCss('label{display:block !important;}'); ?>
 </div>
+
+<?php
+	$this->registerCss('
+		.tendangKePojok {
+			position: absolute;
+			top: 30px;
+			right: 30px;
+		}
+	');
+?>

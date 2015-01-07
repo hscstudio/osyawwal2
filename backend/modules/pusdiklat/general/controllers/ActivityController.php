@@ -110,9 +110,16 @@ class ActivityController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+    	if (Yii::$app->request->isAjax) {
+			return $this->renderAjax('view', [
+	            'model' => $this->findModel($id),
+	        ]);
+		}
+		else {
+	        return $this->render('view', [
+	            'model' => $this->findModel($id),
+	        ]);
+	    }
     }
 
     
@@ -251,7 +258,7 @@ class ActivityController extends Controller
 		$renders = [];
 		$renders['model'] = $model;
 		$object_people_array = [
-			'organisation_1213010100'=>'PIC TRAINING ACTIVITY [SUBBAG TATA USAHA, PEGAWAI, HUMAS]'
+			'organisation_1213010100'=>'PIC Diklat [SUBBAG TATA USAHA, PEGAWAI, HUMAS]'
 		];
 		$renders['object_people_array'] = $object_people_array;
 		foreach($object_people_array as $object_person=>$label){
@@ -279,12 +286,12 @@ class ActivityController extends Controller
 				$person_id = (int)Yii::$app->request->post('ObjectPerson')[$object_person]['person_id'];
 				Heart::objectPerson($object_people[$object_person],$person_id,'activity',$id,$object_person);
 			}	
-			Yii::$app->getSession()->setFlash('success', 'Pic have updated.');
+			Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> PIC telah diperbarui');
 			if (!Yii::$app->request->isAjax) {
-				return $this->redirect(['view', 'id' => $model->id]);	
+				return $this->redirect(['index']);	
 			}
 			else{
-				echo 'Pic have updated.';
+				echo '<i class="fa fa-fw fa-check-circle"></i> PIC telah diperbarui';
 			}
         } else {
 			if (Yii::$app->request->isAjax)

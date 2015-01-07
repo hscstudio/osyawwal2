@@ -9,7 +9,7 @@ use kartik\widgets\AlertBlock;
 /* @var $searchModel backend\models\RoomSearch */
 
 $this->title = $activity->name;
-$this->params['breadcrumbs'][] = ['label' => 'Meetings', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_MEETING'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 $controller = $this->context;
@@ -84,7 +84,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				'format' => 'raw',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
-				'label' => 'Availability',
+				'label' => 'Ketersediaan',
 				'width'=>'80px',
 				'value' => function ($data) use ($activity) {
 					$start = $activity->start;
@@ -121,12 +121,12 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 							$satker_id = (int)Yii::$app->user->identity->employee->satker_id;
 							if($data->satker_id==$satker_id){
 								return 
-									Html::a('<span class="fa fa-check"></span>', ['set-room','activity_id'=>$activity->id,'room_id'=>$data->id,'status'=>2], ['class' => 'label label-success link-post','data-pjax'=>0,'title'=>'click to approve it!','data-toggle'=>"tooltip",'data-placement'=>"top",]).' '.
-									Html::a('<span class="fa fa-times"></span>', ['set-room','activity_id'=>$activity->id,'room_id'=>$data->id,'status'=>3], ['class' => 'label label-danger link-post','data-pjax'=>0,'title'=>'click to rejected it!','data-toggle'=>"tooltip",'data-placement'=>"top",]);;
+									Html::a('<span class="fa fa-check"></span>', [Yii::t('app', 'BPPK_TEXT_SET_ROOM'),'activity_id'=>$activity->id,'room_id'=>$data->id,'status'=>2], ['class' => 'label label-success link-post','data-pjax'=>0,'title'=>'Klik untuk Approve!','data-toggle'=>"tooltip",'data-placement'=>"top",]).' '.
+									Html::a('<span class="fa fa-times"></span>', [Yii::t('app', 'BPPK_TEXT_SET_ROOM'),'activity_id'=>$activity->id,'room_id'=>$data->id,'status'=>3], ['class' => 'label label-danger link-post','data-pjax'=>0,'title'=>'Klik untuk Menolak!','data-toggle'=>"tooltip",'data-placement'=>"top",]);;
 							}
 							else{
 								return 
-									Html::a('<span class="fa fa-square-o"></span>', ['set-room','activity_id'=>$activity->id,'room_id'=>$data->id], ['class' => 'label label-info link-post','data-pjax'=>0,'title'=>'click to set it!','data-toggle'=>"tooltip",'data-placement'=>"top",]);
+									Html::a('<span class="fa fa-square-o"></span>', [Yii::t('app', 'BPPK_TEXT_SET_ROOM'),'activity_id'=>$activity->id,'room_id'=>$data->id], ['class' => 'label label-info link-post','data-pjax'=>0,'title'=>'Klik untuk Pilih!','data-toggle'=>"tooltip",'data-placement'=>"top",]);
 							}	
 						}
 						else{
@@ -165,30 +165,31 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 			],
         ],
 		'panel' => [
-			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> Set Room</h3>',
+			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Yii::t('app', 'BPPK_TEXT_SET_ROOM').'</h3>',
 			//'type'=>'primary',
 			'before'=>
 				'<div class="pull-right" style="margin-right:5px;">'.
-				Select2::widget([
-					'name' => 'satker_id', 
-					'data' => $satkers,
-					'value' => $satker_id,
-					'options' => [
-						'width'=> '200px;',
-						'placeholder' => 'Satker ...', 
-						'class'=>'form-control', 
-						'id'=>'select2-satker_id',
-						'onchange'=>'
-							$.pjax.reload({
-								url: "'.\yii\helpers\Url::to(['room','activity_id'=>$activity_id]).'&satker_id="+$(this).val(), 
-								container: "#pjax-gridview-room", 
-								timeout: 1000,
-							});
-						',	
-					],
-				]).
-				'</div>',
-			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', ['room','activity_id'=>$activity_id,'satker_id'=>$satker_id], ['class' => 'btn btn-info']),
+					Select2::widget([
+						'name' => 'satker_id', 
+						'data' => $satkers,
+						'value' => $satker_id,
+						'options' => [
+							'width'=> '200px;',
+							'placeholder' => 'Satker ...', 
+							'class'=>'form-control', 
+							'id'=>'select2-satker_id',
+							'onchange'=>'
+								$.pjax.reload({
+									url: "'.\yii\helpers\Url::to(['room','activity_id'=>$activity_id]).'&satker_id="+$(this).val(), 
+									container: "#pjax-gridview-room", 
+									timeout: 1000,
+								});
+							',	
+						],
+					]).
+				'</div>'.
+				Html::a('<i class="fa fa-fw fa-arrow-left"></i> '.Yii::t('app', 'SYSTEM_BUTTON_BACK'), ['index'], ['class' => 'btn btn-warning']),
+			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> '.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), ['room','activity_id'=>$activity_id,'satker_id'=>$satker_id], ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'responsive'=>true,

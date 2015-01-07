@@ -12,22 +12,11 @@ use yii\helpers\Url;
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
-$this->title = Yii::t('app', 'Employees');
+$this->title = Yii::t('app', 'BPPK_TEXT_EMPLOYEE');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="employee-index">
 	
-<!--
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Employee',
-]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
--->
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -88,12 +77,43 @@ $this->params['breadcrumbs'][] = $this->title;
 				}
 			],
 
-            ['class' => 'kartik\grid\ActionColumn'],
+            [
+				'class' => 'kartik\grid\ActionColumn',
+				'template' => '<div class="btn-group">{view} {update} {delete}</div>',
+				'width' => '120px',
+				'buttons' => [
+					'view' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-eye"></span>';
+								return Html::a($icon,$url,[
+									'class'=>'btn btn-default btn-xs modal-heart',
+									'modal-title' => '<i class="fa fa-fw fa-eye"></i> Informasi '.$model->person->name,
+									'data-pjax'=>'0',
+								]);
+							},
+					'update' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-pencil"></span>';
+								return Html::a($icon,$url,[
+									'class'=>'btn btn-default btn-xs modal-heart',
+									'modal-title' => '<i class="fa fa-fw fa-pencil"></i> Ubah '.$model->person->name,
+									'data-pjax'=>'0',
+									'modal-size' => 'modal-lg'
+								]);
+							},
+					'delete' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-trash-o"></span>';
+								return Html::a($icon,$url,[
+									'class'=>'btn btn-default btn-xs',
+									'data-pjax'=>'0',
+									'data-method' => 'post'
+								]);
+							},
+				],
+			],
         ],
 		'panel' => [
 			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
 			'before'=>' ',
-			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
+			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> '.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'responsive'=>true,

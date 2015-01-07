@@ -20,7 +20,7 @@ use backend\models\Employee;
 	
 	<?= $form->field($model, 'username')->textInput(['maxlength' => 255]) ?>
 
-	<?= $form->field($model, 'new_password')->passwordInput(['maxlength' => 255]) ?>
+	<?= $form->field($model, 'new_password')->passwordInput(['maxlength' => 255])->label('Sandi Baru') ?>
 
 	<?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
 
@@ -28,13 +28,13 @@ use backend\models\Employee;
 	
 	<?= $form->field($model, 'status')->widget(SwitchInput::classname(), [
 		'pluginOptions' => [
-			'onText' => 'Active',
-			'offText' => 'Blocked',
+			'onText' => 'Aktif',
+			'offText' => 'Banned',
 		]
 	]) ?> 
 	
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'SYSTEM_BUTTON_CREATE') : '<i class="fa fa-fw fa-save"></i>'.Yii::t('app', 'SYSTEM_BUTTON_UPDATE'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

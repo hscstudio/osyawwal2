@@ -13,26 +13,15 @@ use kartik\widgets\Select2;
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
-$this->title = Yii::t('app', 'Rooms');
+$this->title = Yii::t('app', 'BPPK_TEXT_ROOM');
 $this->params['breadcrumbs'][] = $this->title;
 
-$template = '{view} {update} {delete}';
+$template = '<div class="btn-group">{view} {update} {delete}</div>';
 if($satker_id!=(int)Yii::$app->user->identity->employee->satker_id){
 	$template = '';
 }
 ?>
 <div class="room-index">
-	
-<!--
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Room',
-]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
--->
 	<?php \yii\widgets\Pjax::begin([
 		'id'=>'pjax-gridview',
 	]); ?>
@@ -71,20 +60,50 @@ if($satker_id!=(int)Yii::$app->user->identity->employee->satker_id){
 		
 			[
 				'attribute' => 'computer',
+				'format' => 'raw',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'100px',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
+				'value' => function($model) {
+					$computer_icons = [
+						1=>'<i class="fa fa-fw fa-check-circle"></i>',
+						0=>'<i class="fa fa-fw fa-times-circle"></i>'
+					];
+					$computer_classes = ['1'=>'success','0'=>'danger'];
+					return Html::tag(
+						'div',
+						$computer_icons[$model->computer],
+						[
+							'class'=>'label label-'.$computer_classes[$model->computer],
+						]
+					);
+				}
 			],
 		
 			[
 				'attribute' => 'hostel',
+				'format' => 'raw',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'100px',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
+				'value' => function($model) {
+					$hostel_icons = [
+						'1'=>'<i class="fa fa-fw fa-check-circle"></i>',
+						'0'=>'<i class="fa fa-fw fa-times-circle"></i>'
+					];
+					$hostel_classes = ['1'=>'success','0'=>'danger'];
+					return Html::tag(
+						'div',
+						$hostel_icons[$model->hostel],
+						[
+							'class'=>'label label-'.$hostel_classes[$model->hostel],
+						]
+					);
+				}
 			],
 			[
 				'format' => 'raw',
@@ -150,13 +169,47 @@ if($satker_id!=(int)Yii::$app->user->identity->employee->satker_id){
 
             [
 			'class' => 'kartik\grid\ActionColumn',
-			'template'=>$template
+			'template'=>$template,
+			'width' => '120px',
+				'buttons' => [
+					'view' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-eye"></span>';
+								return Html::a($icon,$url,[
+									'class'=>'btn btn-default btn-xs modal-heart',
+									'modal-title' => '<i class="fa fa-fw fa-eye"></i> Informasi '.$model->name,
+									'data-pjax'=>'0',
+									'modal-size' => 'modal-lg'
+								]);
+							},
+					'update' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-pencil"></span>';
+								return Html::a($icon,$url,[
+									'class'=>'btn btn-default btn-xs modal-heart',
+									'modal-title' => '<i class="fa fa-fw fa-pencil"></i> Ubah '.$model->name,
+									'data-pjax'=>'0',
+									'modal-size' => 'modal-lg'
+								]);
+							},
+					'delete' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-trash-o"></span>';
+								return Html::a($icon,$url,[
+									'class'=>'btn btn-default btn-xs',
+									'data-pjax'=>'0',
+									'data-confirm' => 'Yakin ingin menghapus?',
+									'data-method' => 'post'
+								]);
+							},
+				],
 			],
         ],
 		'panel' => [
 			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
 			'before'=>
-				Html::a('<i class="fa fa-fw fa-plus"></i> Create ', ['create'], ['class' => 'btn btn-success']). ' '.
+				Html::a('<i class="fa fa-fw fa-plus"></i> '.Yii::t('app', 'SYSTEM_BUTTON_CREATE'), ['create'], [
+					'class' => 'btn btn-success modal-heart',
+					'modal-title' => '<i class="fa fa-fw fa-plus-circle"></i>'.Yii::t('app', 'SYSTEM_BUTTON_CREATE'),
+					'data-pjax' => '0',
+				]). ' '.
 				'<div class="pull-right" style="margin-right:5px;">'.
 				Select2::widget([
 					'name' => 'status', 
@@ -194,7 +247,7 @@ if($satker_id!=(int)Yii::$app->user->identity->employee->satker_id){
 					],
 				]).
 				'</div>',
-			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
+			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> '.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'responsive'=>true,

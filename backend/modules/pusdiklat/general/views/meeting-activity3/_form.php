@@ -22,8 +22,8 @@ use kartik\checkbox\CheckboxX;
 	<?= $form->errorSummary($model) ?> <!-- ADDED HERE -->
 	
 	<ul class="nav nav-tabs" role="tablist" id="tab_wizard">
-		<li class="active"><a href="#activity" role="tab" data-toggle="tab">Activity <span class='label label-info'>1</span></a></li>
-		<li class=""><a href="#meeting" role="tab" data-toggle="tab">Meeting <span class='label label-warning'>2</span></a></li>
+		<li class="active"><a href="#activity" role="tab" data-toggle="tab">Data Umum <span class='label label-info'>1</span></a></li>
+		<li class=""><a href="#meeting" role="tab" data-toggle="tab">Data Rapat <span class='label label-warning'>2</span></a></li>
 	</ul>
 	<div class="tab-content" style="border: 1px solid #ddd; border-top-color: transparent; padding:10px; background-color: #fff;">
 		<div class="tab-pane fade-in active" id="activity">
@@ -33,78 +33,75 @@ use kartik\checkbox\CheckboxX;
 			<?= $form->field($model, 'description')->textarea(['rows' => 3]) ?>
 
 			<div class="row clearfix">
-				<div class="col-md-3">
+				<div class="col-md-4">
 				<?= $form->field($model, 'start')->widget(DateControl::classname(), [
 						'type' => DateControl::FORMAT_DATE,
 					]); ?>
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-4">
 				<?= $form->field($model, 'end')->widget(DateControl::classname(), [
 						'type' => DateControl::FORMAT_DATE,
 					]); ?>
 				</div>
+				<div class="col-md-4">
+					<?php 
+					$model->location=explode('|',$model->location); 
+					if(empty($model->location[0]))
+						$model->location = [(int)Yii::$app->user->identity->employee->satker_id];
+					?>
+					<?php
+					$data = ArrayHelper::map(
+						\backend\models\Reference::find()
+							->select(['id','name'])
+							->where(['type'=>'satker'])
+							->all(), 
+							'id', 'name'
+					);
+					echo $form->field($model, 'location[0]')->widget(Select2::classname(), [
+						'data' => $data,
+						'options' => ['placeholder' => 'Choose code ...'],
+						'pluginOptions' => [
+							'allowClear' => true
+						],
+					]);
+					?>
+				</div>
 			</div>
 
-			<?php 
-			$model->location=explode('|',$model->location); 
-			if(empty($model->location[0]))
-				$model->location = [(int)Yii::$app->user->identity->employee->satker_id];
-			?>
 			<div class="row clearfix">
 				<div class="col-md-3">
-				<?php
-				$data = ArrayHelper::map(
-					\backend\models\Reference::find()
-						->select(['id','name'])
-						->where(['type'=>'satker'])
-						->all(), 
-						'id', 'name'
-				);
-				echo $form->field($model, 'location[0]')->widget(Select2::classname(), [
-					'data' => $data,
-					'options' => ['placeholder' => 'Choose code ...'],
-					'pluginOptions' => [
-						'allowClear' => true
-					],
-				]);
-				?>
+					<?= $form->field($model, 'hostel')->widget(SwitchInput::classname(), [
+						'pluginOptions' => [
+							'onText' => 'Ya',
+							'offText' => 'Tidak',
+						]
+					])->label('Diasramakan?') ?>
 				</div>
-				<div class="col-md-9">		
-				<?= $form->field($model, 'location[1]')->textInput(['maxlength' => 250])->label('Catatan Terkait Lokasi'); ?>
+				<div class="col-md-6">		
+					<?= $form->field($model, 'location[1]')->textInput(['maxlength' => 250])->label('Catatan Terkait Lokasi'); ?>
 				</div>
-			</div>
-			
-			<?= $form->field($model, 'hostel')->widget(SwitchInput::classname(), [
-				'pluginOptions' => [
-					'onText' => 'Ya',
-					'offText' => 'Tidak',
-				]
-			])->label('Diasramakan?') ?>
-
-			<?php if(!$model->isNewRecord){ ?>
-			<div class='row'>
-				<div class='col-md-6'>				
+				<?php if(!$model->isNewRecord){ ?>
+				<div class='col-md-3'>
 				<?php
 				$data = [
-						'0'=>'DRAFT',
-						'1'=>'PUBLISH',
+						'0'=>'Draft',
+						'1'=>'Publish',
 				];
 				echo $form->field($model, 'status')->widget(Select2::classname(), [
 					'data' => $data,
-					'options' => ['placeholder' => 'Choose Status ...'],
+					'options' => ['placeholder' => 'Pilih status ...'],
 					'pluginOptions' => [
 						'allowClear' => true,
 					],
 				]); ?>
 				</div>
-				<div class='col-md-6'>
-
-				</div>	
+				<?php } ?>
 			</div>
-			<?php } ?>
 			
-			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#meeting]').tab('show')">
-				Next 
+
+			
+			<a class="btn btn-default tendangKePojok" onclick="$('#tab_wizard a[href=#meeting]').tab('show')">
+				Berikutnya 
 				<i class="fa fa-fw fa-arrow-circle-o-right"></i>
 			</a>
 		</div>
@@ -135,15 +132,15 @@ use kartik\checkbox\CheckboxX;
 			
 			
 			
-			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#activity]').tab('show')">
-				Previous 
+			<a class="btn btn-default tendangKePojok" onclick="$('#tab_wizard a[href=#activity]').tab('show')">
+				Sebelumnya 
 				<i class="fa fa-fw fa-arrow-circle-o-left"></i>
 			</a>
 			
 			<div class="clearfix"><hr></div>  
 			
 			<div class="form-group">
-				<?= Html::submitButton('<i class="fa fa-fw fa-save"></i> '. ($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update')), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+				<?= Html::submitButton('<i class="fa fa-fw fa-save"></i> '. ($model->isNewRecord ? Yii::t('app', 'SYSTEM_BUTTON_CREATE') : Yii::t('app', 'SYSTEM_BUTTON_UPDATE')), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 			</div>
 			<?php // PENYELENGGARAAN ONLY ?>
 			<?php // $form->field($meeting, 'execution_sk')->textInput(['maxlength' => 255]) ?>
@@ -165,3 +162,13 @@ use kartik\checkbox\CheckboxX;
 	<?php $this->registerCss('label{display:block !important;}'); ?>
 
 </div>
+
+<?php
+	$this->registerCss('
+		.tendangKePojok {
+			position: absolute;
+			top: 30px;
+			right: 30px;
+		}
+	');
+?>

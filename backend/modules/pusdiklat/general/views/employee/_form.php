@@ -55,8 +55,8 @@ use kartik\widgets\SwitchInput;
 		<div class="col-md-3">
 		<?= $form->field($model, 'chairman')->widget(SwitchInput::classname(), [
 			'pluginOptions' => [
-				'onText' => 'On',
-				'offText' => 'Off',
+				'onText' => 'Ya',
+				'offText' => 'Tidak',
 			]
 		]) ?> 
 		</div>
@@ -90,7 +90,7 @@ use kartik\widgets\SwitchInput;
 		echo '<div class="col-md-4">';		
 		echo $form->field(${$object_reference}, '['.$object_reference.']reference_id')->widget(Select2::classname(), [
 			'data' => $data,
-			'options' => ['placeholder' => 'Choose '.$label.' ...'],
+			'options' => ['placeholder' => 'Pilih '.$label.' ...'],
 			'pluginOptions' => [
 			'allowClear' => true
 			],
@@ -100,7 +100,7 @@ use kartik\widgets\SwitchInput;
 	?>
 	</div>
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'SYSTEM_BUTTON_CREATE') : '<i class="fa fa-fw fa-save"></i>'.Yii::t('app', 'SYSTEM_BUTTON_UPDATE'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -14,22 +14,11 @@ use kartik\widgets\Select2;
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
-$this->title = Yii::t('app', 'Student Plan');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Activities'), 'url' => ['index']];
+$this->title = Yii::t('app', 'BPPK_TEXT_STUDENT_PLAN');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_TRAINING'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="activity-index">
-	
-<!--
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Activity',
-]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
--->
 	<?php
 	$grid_columns = [
 		['class' => 'kartik\grid\SerialColumn'],        
@@ -171,14 +160,14 @@ $this->params['breadcrumbs'][] = $this->title;
 		'panel' => [
 			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
 			'before'=>
-				Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back', ['index'], ['class' => 'btn btn-warning']).
+				Html::a('<i class="fa fa-fw fa-arrow-left"></i> '. Yii::t('app', 'SYSTEM_BUTTON_BACK'), ['index'], ['class' => 'btn btn-warning']).
 				'<div class="pull-right" style="margin-right:5px;">'.
 				Select2::widget([
 					'name' => 'year', 
 					'data' => $year_training,
 					'value' => $year,
 					'options' => [
-						'placeholder' => 'Year ...', 
+						'placeholder' => 'Tahun ...', 
 						'class'=>'form-control', 
 						'onchange'=>'
 							$.pjax.reload({
@@ -192,8 +181,8 @@ $this->params['breadcrumbs'][] = $this->title;
 				'</div>'.
 				'<div class="pull-right" style="margin-right:5px;">'.
 				Select2::widget([
-					'name' => 'status', 
-					'data' => ['nocancel'=>'All -Cancel','all'=>'All','0'=>'Plan','1'=>'Ready','2'=>'Execute','3'=>'Cancel'],
+					'name' => 'status',  
+					'data' => ['nocancel'=>'Semua - kec Batal','all'=>'Semua','0'=>'Rencana','1'=>'Siap','2'=>'Berjalan','3'=>'Batal'],
 					'value' => $status,
 					'options' => [
 						'placeholder' => 'Status ...', 
@@ -208,7 +197,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					],
 				]).
 				'</div>',
-			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
+			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> '.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'responsive'=>true,

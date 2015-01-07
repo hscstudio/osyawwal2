@@ -52,9 +52,16 @@ class EmployeeController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        if (Yii::$app->request->isAjax) {
+            return $this->renderAjax('view', [
+                'model' => $this->findModel($id),
+            ]);
+        }
+        else {
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+            ]);
+        }
     }
 
     /**
@@ -94,19 +101,24 @@ class EmployeeController extends Controller
 			$model->chairman = Yii::$app->request->post('Employee')['chairman'];
 			$model->organisation_id = Yii::$app->request->post('Employee')['organisation_id'];
             if($model->save()) {
-				Yii::$app->getSession()->setFlash('success', 'Data have updated.');
+				Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Data berhasil diperbarui.');
 				foreach($object_references_array as $object_reference=>$label){
 					$reference_id = Yii::$app->request->post('ObjectReference')[$object_reference]['reference_id'];
 					Heart::objectReference($object_references[$object_reference],$reference_id,'employee',$model->person_id,$object_reference);
 				}
-				return $this->redirect(['view', 'id' => $model->person_id]);
+				return $this->redirect(['index']);
 			}
 			else{
-				Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
-				return $this->render('update', $renders);
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Data tidak tersimpan');
+                return $this->render('update', $renders);
 			}			
         } else {
-            return $this->render('update', $renders);
+            if (Yii::$app->request->isAjax) {
+                return $this->renderAjax('update', $renders);
+            }
+            else {
+                return $this->render('update', $renders);
+            }
         }
     }
 
@@ -119,11 +131,11 @@ class EmployeeController extends Controller
     public function actionDelete($id)
     {
 		if($this->findModel($id)->delete()) {
-			Yii::$app->getSession()->setFlash('success', 'Data have deleted.');
-		}
-		else{
-			Yii::$app->getSession()->setFlash('error', 'Data is not deleted.');
-		}
+			Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Individu berhasil dihapus');
+        }
+        else{
+            Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Data tidak terhapus');
+        }
         return $this->redirect(['index']);
     }
 

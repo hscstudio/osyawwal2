@@ -51,9 +51,16 @@ class UserController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        if (Yii::$app->request->isAjax) {
+            return $this->renderAjax('view', [
+                'model' => $this->findModel($id),
+            ]);
+        }
+        else {
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+            ]);
+        }
     }
 
     /**
@@ -72,16 +79,23 @@ class UserController extends Controller
 			}
 			
             if($model->save()) {
-				Yii::$app->getSession()->setFlash('success', 'Data have updated.');
+				Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Data berhasil diperbarui');
 			}
 			else{
-				Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Data gagal disimpan');
 			}
-			return $this->redirect(['view', 'id' => $model->id]);
+			return $this->redirect(['index']);
         } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            if (Yii::$app->request->isAjax) {
+                return $this->renderAjax('update', [
+                    'model' => $model,
+                ]);
+            }
+            else {
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
+            }
         }
     }
 
@@ -101,12 +115,12 @@ class UserController extends Controller
 		])
 		->one()
 		->delete();
-		if($model->delete()) {
-			Yii::$app->getSession()->setFlash('success', 'Data have deleted.');
-		}
-		else{
-			Yii::$app->getSession()->setFlash('error', 'Data is not deleted.');
-		}
+        if($model->delete()) {          
+            Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Individu berhasil dihapus');
+        }
+        else{
+            Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Data tidak terhapus');
+        }
         return $this->redirect(['index']);
     }
 

@@ -21,30 +21,30 @@ use kartik\widgets\SwitchInput;
 		</div>
 	</div>
 	<div class="row clearfix">
-		<div class="col-md-2">
+		<div class="col-md-3">
 		<?= $form->field($model, 'capacity')->textInput() ?>
 		</div>
-		<div class="col-md-2">
+		<div class="col-md-3">
 		<?= $form->field($model, 'computer')->widget(SwitchInput::classname(), [
 			'pluginOptions' => [
-				'onText' => 'On',
-				'offText' => 'Off',
+				'onText' => 'Ya',
+				'offText' => 'Tidak',
 			]
 		]) ?>
 		</div>
-		<div class="col-md-2">
+		<div class="col-md-3">
 		<?= $form->field($model, 'hostel')->widget(SwitchInput::classname(), [
 			'pluginOptions' => [
-				'onText' => 'On',
-				'offText' => 'Off',
+				'onText' => 'Ya',
+				'offText' => 'Tidak',
 			]
 		]) ?>
 		</div>
-		<div class="col-md-2">
+		<div class="col-md-3">
 		<?= $form->field($model, 'owner')->widget(SwitchInput::classname(), [
 			'pluginOptions' => [
-				'onText' => 'On',
-				'offText' => 'Off',
+				'onText' => 'Ya',
+				'offText' => 'Tidak',
 			]
 		]) ?>
 		</div>
@@ -60,7 +60,7 @@ use kartik\widgets\SwitchInput;
 		]
 	]) ?>
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? '<i class="fa fa-fw fa-save"></i>'.Yii::t('app', 'SYSTEM_BUTTON_CREATE') : '<i class="fa fa-fw fa-save"></i>'.Yii::t('app', 'SYSTEM_BUTTON_UPDATE'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

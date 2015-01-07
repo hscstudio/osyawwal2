@@ -12,22 +12,11 @@ use yii\helpers\Url;
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
-$this->title = Yii::t('app', 'People');
+$this->title = Yii::t('app', 'BPPK_TEXT_PEOPLE');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="person-index">
 	
-<!--
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Person',
-]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
--->
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -64,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					}
 					else{
 						return Html::a('<i class="fa fa-fw fa-plus"></i>',['./employee/create','person_id'=>$data->id],
-								['class'=>'badge','title'=>'Create Employee Base On Person','data-toggle'=>'tooltip']);
+								['class'=>'badge','title'=>'Ciptakan Pegawai dari Individu','data-toggle'=>'tooltip']);
 					}					
 					
 				}
@@ -97,12 +86,49 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'modified',
             // 'modified_by',
 
-            ['class' => 'kartik\grid\ActionColumn'],
+            [
+				'class' => 'kartik\grid\ActionColumn',
+				'template' => '<div class="btn-group">{view} {update} {delete}</div>',
+				'width' => '120px',
+				'buttons' => [
+					'view' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-eye"></span>';
+								return Html::a($icon,$url,[
+									'class'=>'btn btn-default btn-xs modal-heart',
+									'modal-title' => '<i class="fa fa-fw fa-eye"></i> Informasi '.$model->name,
+									'data-pjax'=>'0',
+								]);
+							},
+					'update' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-pencil"></span>';
+								return Html::a($icon,$url,[
+									'class'=>'btn btn-default btn-xs modal-heart',
+									'modal-title' => '<i class="fa fa-fw fa-pencil"></i> Ubah '.$model->name,
+									'data-pjax'=>'0',
+									'modal-size' => 'modal-lg'
+								]);
+							},
+					'delete' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-trash-o"></span>';
+								return Html::a($icon,$url,[
+									'class'=>'btn btn-default btn-xs',
+									'data-pjax'=>'0',
+									'data-confirm'=>'Yakin ingin menghapus?',
+									'data-method' => 'post'
+								]);
+							},
+				],
+			],
         ],
 		'panel' => [
 			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
-			'before'=>Html::a('<i class="fa fa-fw fa-plus"></i> Create ', ['create'], ['class' => 'btn btn-success']),
-			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
+			'before'=>Html::a('<i class="fa fa-fw fa-plus"></i> '.Yii::t('app', 'SYSTEM_BUTTON_CREATE'), ['create'], [
+					'class' => 'btn btn-success modal-heart',
+					'modal-size' => 'modal-lg',
+					'modal-title' => '<i class="fa fa-fw fa-plus-circle"></i> Buat Individu Baru',
+					'data-pjax' => '0'
+				]),
+			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> '.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'responsive'=>true,
@@ -113,25 +139,22 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-	<i class="glyphicon glyphicon-upload"></i> Batch Upload
+	<i class="glyphicon glyphicon-upload"></i> Unggah Pegawai Massal
 	</div>
     <div class="panel-body">
 		<div class="row clearfix">
-			<div class="col-md-2">
-			Upload Pegawai
-			</div>
-			<div class="col-md-2">
+			<div class="col-md-3">
 			<?php
-			echo Html::a('template',
+			echo Html::a('<i class="fa fa-fw fa-download"></i>Unduh Template',
 						Url::to(['/file/download','file'=>'template/pusdiklat/general/employee_upload.xlsx']),
 						[
-							'class'=>'label label-default',
+							'class'=>'btn btn-default',
 							'data-pjax'=>'0',
 						]
 					);
 			?>
 			</div>
-			<div class="col-md-8">
+			<div class="col-md-9">
 			<?php
 			$form = \yii\bootstrap\ActiveForm::begin([
 				'options'=>['enctype'=>'multipart/form-data'],
@@ -142,7 +165,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				//'options' => ['multiple' => true], 
 				'pluginOptions' => [
 					'previewFileType' => 'any',
-					'uploadLabel'=>"Import Excel",
+					'uploadLabel'=>"Impor Excel",
 				]
 			]);
 			\yii\bootstrap\ActiveForm::end();

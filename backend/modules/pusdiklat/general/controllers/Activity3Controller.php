@@ -110,9 +110,16 @@ class Activity3Controller extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+    	if (Yii::$app->request->isAjax) {
+			return $this->renderAjax('view', [
+	            'model' => $this->findModel($id),
+	        ]);
+		}
+		else {
+	        return $this->render('view', [
+	            'model' => $this->findModel($id),
+	        ]);
+	    }
     }
 
     /**
@@ -147,25 +154,25 @@ class Activity3Controller extends Controller
 				if($model->load(Yii::$app->request->post())){
 					$model->satker = 'current';								
 					if($model->save()) {
-						Yii::$app->getSession()->setFlash('success', 'Activity data have saved.');
+						Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Aktivitas berhasil disimpan');
 						if($training->load(Yii::$app->request->post())){							
 							$training->activity_id= $model->id;
 							/* $training->program_revision = (int)\backend\models\ProgramHistory::getRevision($training->program_id); */
 							
-							if($training->save()){								 
-								Yii::$app->getSession()->setFlash('success', 'Training & activity data have saved.');
+							if($training->save()){								 							 
+								Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Diklat berhasil diperbarui');
 								$transaction->commit();
 								return $this->redirect(['view', 'id' => $model->id]);
 							}
 						}						
 					}
 					else{
-						Yii::$app->getSession()->setFlash('error', 'Data is NOT saved.');
+						Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Diklat gagal diperbarui');
 					}				
 				}
 			}
 			catch (Exception $e) {
-				Yii::$app->getSession()->setFlash('error', 'Roolback transaction. Data is not saved');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Diklat gagal disimpan');
 			}
         } 
 		

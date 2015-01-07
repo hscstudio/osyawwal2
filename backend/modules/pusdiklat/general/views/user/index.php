@@ -12,21 +12,10 @@ use yii\helpers\Url;
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
-$this->title = Yii::t('app', 'Users');
+$this->title = Yii::t('app', 'BPPK_TEXT_USERS');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
-	
-<!--
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'User',
-]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
--->
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -34,7 +23,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'kartik\grid\SerialColumn'],
 
-            
 			[
 				'attribute' => 'username',
 				'vAlign'=>'middle',
@@ -44,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
             
 			[
-				'label' => 'Employee',
+				'label' => Yii::t('app', 'BPPK_TEXT_EMPLOYEE'),
 				'format' => 'raw',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
@@ -77,20 +65,20 @@ $this->params['breadcrumbs'][] = $this->title;
 				'format' => 'raw',
 				'value' => function ($data){
 					if($data->status==1){
-						return Html::a('Active',['block','id'=>$data->id],[
+						return Html::a('Aktif',['block','id'=>$data->id],[
 							'data-method'=>'post',
-							'data-confirm'=>'Do You sure block this user?',
+							'data-confirm'=>'Yakin ingin mem-banned pengguna ini?',
 							'class'=>'label label-success',
-							'title'=>'Click to block',
+							'title'=>'Klik untuk mem-Banned',
 							'data-toggle'=>'tooltip',
 						]);
 					}
 					else{
-						return Html::a('Block',['unblock','id'=>$data->id],[
+						return Html::a('Banned',['unblock','id'=>$data->id],[
 							'data-method'=>'post',
-							'data-confirm'=>'Do You sure unblock this user?',
+							'data-confirm'=>'Yakin ingin meng-unbanned pengguna ini?',
 							'class'=>'label label-danger',
-							'title'=>'Click to unblock',
+							'title'=>'Klik untuk Unbanned',
 							'data-toggle'=>'tooltip',
 						]);
 					}
@@ -101,12 +89,44 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'created_at',
             // 'updated_at',
 
-            ['class' => 'kartik\grid\ActionColumn'],
+            [
+				'class' => 'kartik\grid\ActionColumn',
+				'template' => '<div class="btn-group">{view} {update} {delete}</div>',
+				'width' => '120px',
+				'buttons' => [
+					'view' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-eye"></span>';
+								return Html::a($icon,$url,[
+									'class'=>'btn btn-default btn-xs modal-heart',
+									'modal-title' => '<i class="fa fa-fw fa-eye"></i> Informasi Pengguna',
+									'data-pjax'=>'0',
+								]);
+							},
+					'update' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-pencil"></span>';
+								return Html::a($icon,$url,[
+									'class'=>'btn btn-default btn-xs modal-heart',
+									'modal-title' => '<i class="fa fa-fw fa-pencil"></i> Ubah Pengguna',
+									'data-pjax'=>'0',
+									'modal-size' => 'modal-lg'
+								]);
+							},
+					'delete' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-trash-o"></span>';
+								return Html::a($icon,$url,[
+									'class'=>'btn btn-default btn-xs',
+									'data-pjax'=>'0',
+									'data-confirm'=>'Yakin ingin menghapus?',
+									'data-method' => 'post'
+								]);
+							},
+				],
+			],
         ],
 		'panel' => [
 			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
 			'before'=>' ',
-			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
+			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> '.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'responsive'=>true,

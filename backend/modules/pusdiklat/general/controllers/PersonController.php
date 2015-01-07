@@ -56,9 +56,16 @@ class PersonController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+    	if (Yii::$app->request->isAjax) {
+	        return $this->renderAjax('view', [
+	            'model' => $this->findModel($id),
+	        ]);
+    	}
+    	else {
+    		return $this->render('view', [
+	            'model' => $this->findModel($id),
+	        ]);
+    	}
     }
 
     /**
@@ -96,7 +103,7 @@ class PersonController extends Controller
 			$connection=Yii::$app->getDb();
 			$transaction = $connection->beginTransaction();			
 			if($model->save()) {
-				Yii::$app->getSession()->setFlash('success', 'New data have saved.');
+				Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Data berhasil disimpan');
 				
 				foreach($object_references_array as $object_reference=>$label){
 					$reference_id = Yii::$app->request->post('ObjectReference')[$object_reference]['reference_id'];
@@ -142,22 +149,28 @@ class PersonController extends Controller
 						$employee->save();
 					}				
 					$transaction->commit();
-					return $this->redirect(['view', 'id' => $model->id]);
+					return $this->redirect(['index']);
 				} 
 				catch (Exception $e) {
-					Yii::$app->getSession()->setFlash('error', 'Roolback transaction. Data is not saved');
+					Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Data tidak berhasil dibuat');
 					return $this->render('create', $renders);
 				}
 				
 			}
 			else{
-				Yii::$app->getSession()->setFlash('error', 'New data is not saved.');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Data tidak berhasil dibuat');
 				return $this->render('create', $renders);
 			}
 				
             
         } else {
-            return $this->render('create', $renders);
+        	if (Yii::$app->request->isAjax) {
+		        return $this->renderAjax('create', $renders);
+	    	}
+	    	else {
+	    		return $this->render('create', $renders);
+	    	}
+            
         }
     }
 
@@ -247,15 +260,20 @@ class PersonController extends Controller
 						);					
 					}
 				}
-				return $this->redirect(['view', 'id' => $model->id]);
+				return $this->redirect(['index']);
 			}
 			else{
-				Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Data tidak tersimpan');
 				return $this->render('update', $renders);
 			}
 			
         } else {
-            return $this->render('update', $renders);
+        	if (Yii::$app->request->isAjax) {
+		        return $this->renderAjax('update', $renders);
+	    	}
+	    	else {
+	    		return $this->render('update', $renders);
+	    	}
         }
     }
 
@@ -313,10 +331,10 @@ class PersonController extends Controller
 		);
 		
 		if($model->delete()) {			
-			Yii::$app->getSession()->setFlash('success', 'Data have deleted.');
+			Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Individu berhasil dihapus');
 		}
 		else{
-			Yii::$app->getSession()->setFlash('error', 'Data is not deleted.');
+			Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Data tidak terhapus');
 		}
         return $this->redirect(['index']);
     }
