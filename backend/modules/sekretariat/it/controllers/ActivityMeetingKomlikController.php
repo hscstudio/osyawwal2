@@ -337,7 +337,7 @@ class ActivityMeetingKomlikController extends Controller
 		$renders['model'] = $model;
 		$object_people_array = [
 			// CEK ID 1213010300 IN TABLE ORGANISATION
-			'organisation_37'=>'PIC Meeting'
+			'organisation_1201040203'=>'PIC Meeting'
 		];
 		$renders['object_people_array'] = $object_people_array;
 		foreach($object_people_array as $object_person=>$label){

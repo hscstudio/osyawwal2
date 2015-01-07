@@ -46,7 +46,7 @@ class ActivityMeetingFinance3Controller extends Controller
         if(empty($year)) $year=date('Y');
 		$searchModel = new ActivityMeetingFinanceSearch();
 		$queryParams = Yii::$app->request->getQueryParams();
-		$organisation_id = 22;
+		$organisation_id = 26;
 		if($status=='all'){
 			if($year=='all'){
 				$queryParams['ActivityMeetingFinanceSearch']=[
@@ -150,7 +150,7 @@ class ActivityMeetingFinance3Controller extends Controller
 						Yii::$app->getSession()->setFlash('success', 'Activity data have saved.');
 						if($meeting->load(Yii::$app->request->post())){							
 							$meeting->activity_id= $model->id;	
-							$meeting->organisation_id = 22;							
+							$meeting->organisation_id = 26;							
 							if($meeting->save()){								 
 								Yii::$app->getSession()->setFlash('success', 'Meeting & activity data have saved.');
 								$transaction->commit();
@@ -184,7 +184,7 @@ class ActivityMeetingFinance3Controller extends Controller
 		$model->end = date('Y-m-d',strtotime($model->end));
 		$meeting = Meeting::findOne([
 			'activity_id'=>$model->id,
-			'organisation_id'=>22
+			'organisation_id'=>26
 		]);
 		$renders=[];
 		$renders['model'] = $model;
@@ -337,7 +337,7 @@ class ActivityMeetingFinance3Controller extends Controller
 		$renders['model'] = $model;
 		$object_people_array = [
 			// CEK ID 1213010300 IN TABLE ORGANISATION
-			'organisation_1201050000'=>'PIC Meeting'
+			'organisation_1201030302'=>'PIC Meeting'
 		];
 		$renders['object_people_array'] = $object_people_array;
 		foreach($object_people_array as $object_person=>$label){

@@ -164,7 +164,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					if($activityRoom->count()==0){ 
 						return Html::a('View', ['room','activity_id'=>$data->id], 
 							[							
-							'class' => 'label label-warning',
+							'class' => 'label label-warning modal-heart',
 							'data-pjax'=>0,
 							'source'=>'',
 							'modal-size'=>'modal-lg',
@@ -185,7 +185,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						}
 						$rooms = implode('<br>',$rooms);
 						return Html::a($activityRoom->count(), ['room','activity_id'=>$data->id], [
-							'class' => 'label label-info ',
+							'class' => 'label label-info modal-heart',
 							'data-pjax'=>0,
 							'source'=>'',
 							'modal-size'=>'modal-lg',

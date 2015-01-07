@@ -12,6 +12,7 @@ use backend\models\Activity;
  */
 class ActivityMeetingOrganisationSearch extends Activity
 {
+    public $year, $organisation_id;
     /**
      * @inheritdoc
      */
@@ -19,7 +20,7 @@ class ActivityMeetingOrganisationSearch extends Activity
     {
         return [
             [['id', 'satker_id', 'hostel', 'status', 'created_by', 'modified_by'], 'integer'],
-            [['name', 'description', 'start', 'end', 'location', 'created', 'modified'], 'safe'],
+            [['name', 'description', 'start', 'end', 'location', 'created', 'modified', 'organisation_id','year'], 'safe'],
         ];
     }
 
@@ -41,10 +42,13 @@ class ActivityMeetingOrganisationSearch extends Activity
      */
     public function search($params)
     {
-       $satker_id = (int)Yii::$app->user->identity->employee->satker_id;
-	   $query = Activity::find()
-				->joinWith('meeting',false,'RIGHT JOIN')
-				->where(['satker_id'=>$satker_id,'organisation_id'=>10]);
+        $satker_id = (int)Yii::$app->user->identity->employee->satker_id;
+		/* die($this->organisation_id); */
+        $query = Activity::find()
+			->joinWith('meeting',false,'RIGHT JOIN')
+			->where([
+				'satker_id' => $satker_id,
+			]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -65,6 +69,8 @@ class ActivityMeetingOrganisationSearch extends Activity
             'created_by' => $this->created_by,
             'modified' => $this->modified,
             'modified_by' => $this->modified_by,
+			'YEAR(start)' => $this->year,
+			'organisation_id' => $this->organisation_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

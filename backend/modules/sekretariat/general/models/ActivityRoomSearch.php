@@ -12,14 +12,15 @@ use backend\models\Activity;
  */
 class ActivityRoomSearch extends Activity
 {
-    /**
+    public $year, $organisation_id;
+	/**
      * @inheritdoc
      */
     public function rules()
     {
         return [
             [['id', 'satker_id', 'hostel', 'status', 'created_by', 'modified_by'], 'integer'],
-            [['name', 'description', 'start', 'end', 'location', 'created', 'modified'], 'safe'],
+            [['name', 'description', 'start', 'end', 'location', 'created', 'modified', 'organisation_id','year'], 'safe'],
         ];
     }
 
@@ -64,6 +65,8 @@ class ActivityRoomSearch extends Activity
             'created_by' => $this->created_by,
             'modified' => $this->modified,
             'modified_by' => $this->modified_by,
+			'YEAR(start)' => $this->year,
+			'organisation_id' => $this->organisation_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

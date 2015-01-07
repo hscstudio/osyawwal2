@@ -87,7 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					'contentOptions'=>['class'=>'kv-sticky-column'],
 					'value' => function ($data){
 						
-						$permit = \Yii::$app->user->can('sekretariat-it-si');
+						$permit = \Yii::$app->user->can('SUBBAGIAN SISTEM INFORMASI');
 					$object_person=\backend\models\ObjectPerson::find()
 						->where([
 							'object'=>'activity',

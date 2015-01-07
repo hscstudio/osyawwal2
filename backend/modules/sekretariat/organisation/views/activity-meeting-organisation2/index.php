@@ -88,12 +88,12 @@ $this->params['breadcrumbs'][] = $this->title;
 					'contentOptions'=>['class'=>'kv-sticky-column'],
 					'value' => function ($data){
 						
-					$permit = \Yii::$app->user->can('BAGIAN ORGANISASI DAN TATALAKSANA');
+					$permit = \Yii::$app->user->can('SUBBAGIAN ORGANISASI');
 					$object_person=\backend\models\ObjectPerson::find()
 						->where([
 							'object'=>'activity',
 							'object_id'=>$data->id,														
-							'type'=>'organisation_1201020002' //1213010100 CEK KD_UNIT_ORG 1213010100 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
+							'type'=>'organisation_1201020102' //1213010100 CEK KD_UNIT_ORG 1213010100 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
 						])
 						->one();
 						
@@ -140,7 +140,7 @@ $this->params['breadcrumbs'][] = $this->title;
 										':activity_id' => $data->id
 									]);		
 						if($activityRoom->count()==0){ 
-							return Html::a('SET', ['room','activity_id'=>$data->id], 
+							return Html::a('View', ['room','activity_id'=>$data->id], 
 								[							
 								'class' => 'label label-warning modal-heart',
 								'data-pjax'=>0,

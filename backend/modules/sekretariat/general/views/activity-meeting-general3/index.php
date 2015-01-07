@@ -87,24 +87,13 @@ $this->params['breadcrumbs'][] = $this->title;
 					'headerOptions'=>['class'=>'kv-sticky-column'],
 					'contentOptions'=>['class'=>'kv-sticky-column'],
 					'value' => function ($data){
-						// CEK AUTHORISE ACCESS
-						/*$permit = \hscstudio\heart\helpers\Heart::OrganisationAuthorized(
-							[
-								'1201050302',
-								'1201050202', // CEK KD_UNIT_ORG 1213020100 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
-								'1201050101', // BIDANG RENBANG
-								'1201050000', // BAGIAN UMUM
-							],
-							[
-								1, // 1= HEAD OF KD_UNIT_ORG
-							]
-						);*/
-						$permit = \Yii::$app->user->can('Bagian Umum');
+						
+						$permit = \Yii::$app->user->can('SUBBAGIAN PENGELOLAAN ASET');
 						$object_person=\backend\models\ObjectPerson::find()
 							->where([
 								'object'=>'activity',
 								'object_id'=>$data->id,														
-								'type'=>'organisation_1201050000' //1213010100 CEK KD_UNIT_ORG 1213010100 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
+								'type'=>'organisation_1201050202' //1213010100 CEK KD_UNIT_ORG 1213010100 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
 							])
 							->one();
 						
@@ -151,7 +140,7 @@ $this->params['breadcrumbs'][] = $this->title;
 										':activity_id' => $data->id
 									]);		
 						if($activityRoom->count()==0){ 
-							return Html::a('SET', ['room','activity_id'=>$data->id], 
+							return Html::a('View', ['room','activity_id'=>$data->id], 
 								[							
 								'class' => 'label label-warning modal-heart',
 								'data-pjax'=>0,

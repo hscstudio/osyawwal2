@@ -10,7 +10,7 @@ use backend\models\Room;
 use backend\models\Meeting;
 use backend\models\Reference;
 use backend\models\ObjectPerson;
-use backend\modules\sekretariat\organisation\models\ActivityMeetingOrganisationSearch as ActivitySearch;
+use backend\modules\sekretariat\organisation\models\ActivityMeetingOrganisationSearch;
 use backend\modules\sekretariat\organisation\models\RoomSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -44,17 +44,17 @@ class ActivityMeetingOrganisation3Controller extends Controller
     public function actionIndex($year='',$status='all')
     {
         if(empty($year)) $year=date('Y');
-		$searchModel = new ActivitySearch();
+		$searchModel = new ActivityMeetingOrganisationSearch();
 		$queryParams = Yii::$app->request->getQueryParams();
-		$organisation_id = 10;
+		$organisation_id = 19;
 		if($status=='all'){
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
+				$queryParams['ActivityMeetingOrganisationSearch']=[
 					'organisation_id' => $organisation_id
 				];
 			}
 			else{
-				$queryParams['ActivitySearch']=[
+				$queryParams['ActivityMeetingOrganisationSearch']=[
 					'year' => $year,
 					'organisation_id' => $organisation_id
 				];
@@ -62,13 +62,13 @@ class ActivityMeetingOrganisation3Controller extends Controller
 		}
 		else{
 			if($year=='all'){
-				$queryParams['ActivitySearch']=[
+				$queryParams['ActivityMeetingOrganisationSearch']=[
 					'status' => $status,
 					'organisation_id' => $organisation_id
 				];
 			}
 			else{
-				$queryParams['ActivitySearch']=[
+				$queryParams['ActivityMeetingOrganisationSearch']=[
 					'year' => $year,
 					'status' => $status,
 					'organisation_id' => $organisation_id
@@ -150,7 +150,7 @@ class ActivityMeetingOrganisation3Controller extends Controller
 						Yii::$app->getSession()->setFlash('success', 'Activity data have saved.');
 						if($meeting->load(Yii::$app->request->post())){							
 							$meeting->activity_id= $model->id;	
-							$meeting->organisation_id = 10;							
+							$meeting->organisation_id = 19;							
 							if($meeting->save()){								 
 								Yii::$app->getSession()->setFlash('success', 'Meeting & activity data have saved.');
 								$transaction->commit();
@@ -184,7 +184,7 @@ class ActivityMeetingOrganisation3Controller extends Controller
 		$model->end = date('Y-m-d',strtotime($model->end));
 		$meeting = Meeting::findOne([
 			'activity_id'=>$model->id,
-			'organisation_id'=>10
+			'organisation_id'=>19
 		]);
 		$renders=[];
 		$renders['model'] = $model;
@@ -337,7 +337,7 @@ class ActivityMeetingOrganisation3Controller extends Controller
 		$renders['model'] = $model;
 		$object_people_array = [
 			// CEK ID 1213010300 IN TABLE ORGANISATION
-			'organisation_1201050000'=>'PIC Meeting'
+			'organisation_1201020302'=>'PIC Meeting'
 		];
 		$renders['object_people_array'] = $object_people_array;
 		foreach($object_people_array as $object_person=>$label){
