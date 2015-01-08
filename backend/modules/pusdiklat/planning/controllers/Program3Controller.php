@@ -93,7 +93,7 @@ class Program3Controller extends Controller
 		$renders['model'] = $model;
 		$object_people_array = [
 			//1213020300 CEK KD_UNIT_ORG 1213020300 IN TABLE ORGANISATION IS SUBBIDANG TENAGA PENGAJAR
-			'organisation_1213020300'=>'PIC PROGRAM [BIDANG TENAGA PENGAJAR]'
+			'organisation_1213020300'=>'PIC Program [BIDANG TENAGA PENGAJAR]'
 		];
 		$renders['object_people_array'] = $object_people_array;
 		foreach($object_people_array as $object_person=>$label){
@@ -119,12 +119,12 @@ class Program3Controller extends Controller
 				$person_id = (int)Yii::$app->request->post('ObjectPerson')[$object_person]['person_id'];
 				Heart::objectPerson($object_people[$object_person],$person_id,'program',$id,$object_person);
 			}	
-			Yii::$app->getSession()->setFlash('success', 'Pic have updated.');
+			Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> PIC berhasil diperbarui');
 			if (!Yii::$app->request->isAjax) {
-				return $this->redirect(['view', 'id' => $model->id]);	
+				return $this->redirect(['index']);	
 			}
 			else{
-				echo 'Pic have updated.';
+				echo 'Pic telah diperbarui';
 			}
         } else {
 			if (Yii::$app->request->isAjax)
@@ -207,10 +207,10 @@ class Program3Controller extends Controller
 			$program_subject->load(Yii::$app->request->post());	
 			$program_subject->stage = implode('|',$program_subject->stage);
 			if($program_subject->save()){
-				Yii::$app->getSession()->setFlash('success', 'Subject have saved.');					
+					Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Mata pelajaran berhasil disimpan');						
 			}
 			else{
-				Yii::$app->getSession()->setFlash('error', 'Subject is not saved.');
+					Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Mata pelajaran gagal disimpan');
 			}				
         }
 		
@@ -232,10 +232,10 @@ class Program3Controller extends Controller
 		
 		
 		if(null!=$program_subject){
-			if ($program_subject->delete()) Yii::$app->getSession()->setFlash('success', 'Data have deleted.');
-			else Yii::$app->getSession()->setFlash('error', 'Data is not deleted.');
+			if ($program_subject->delete()) Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Mata pelajaran berhasil dihapus');
+			else Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Mata pelajaran gagal dihapus');
 		}
-		else Yii::$app->getSession()->setFlash('error', 'Data is not deleted.');
+		else Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Mata pelajaran gagal dihapus');
         return $this->redirect(['subject','id'=>$model->id]);
     }
 	
@@ -253,10 +253,10 @@ class Program3Controller extends Controller
 		if(null!=$program_subject){
 			$status = ($status==1)?0:1;
 			$program_subject->status = $status;
-			if ($program_subject->save()) Yii::$app->getSession()->setFlash('success', 'Status updated.');
-			else Yii::$app->getSession()->setFlash('error', 'Status is not updated.');
+			if ($program_subject->save()) Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Status diperbarui');
+			else Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Status gagal diperbarui');
 		}
-		else Yii::$app->getSession()->setFlash('error', 'Status is not updates.');
+		else Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Status gagal diperbarui');
         return $this->redirect(['subject','id'=>$model->id]);
     }
 	

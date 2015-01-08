@@ -99,7 +99,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Training');
 						'3'=>'<span class="glyphicon glyphicon-remove"></span>'
 					];
 					$status_classes = ['0'=>'warning','1'=>'info','2'=>'success','3'=>'danger'];
-					$status_title = ['0'=>'Plan','1'=>'Ready','2'=>'Execution','3'=>'Cancel'];
+					$status_title = ['0'=>'Rencana','1'=>'Siap','2'=>'Berjalan','3'=>'Batal'];
 					return Html::tag(
 						'span',
 						$status_icons[$data->status],

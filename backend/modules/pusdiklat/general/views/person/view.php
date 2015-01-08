@@ -49,19 +49,19 @@ $birthday = $namaHari[date('D', strtotime($model->birthday))].
                   $namaBulan[date('F', strtotime($model->birthday))].
                   date(' Y', strtotime($model->birthday)).
                   ' - pukul '.
-                  date('H:m', strtotime($model->birthday));
+                  date('H:i', strtotime($model->birthday));
 $created = $namaHari[date('D', strtotime($model->created))].
                   date(', d ', strtotime($model->created)).
                   $namaBulan[date('F', strtotime($model->created))].
                   date(' Y', strtotime($model->created)).
                   ' - pukul '.
-                  date('H:m', strtotime($model->created));
+                  date('H:i', strtotime($model->created));
 $modified = $namaHari[date('D', strtotime($model->modified))].
                   date(', d ', strtotime($model->modified)).
                   $namaBulan[date('F', strtotime($model->modified))].
                   date(' Y', strtotime($model->modified)).
                   ' - pukul '.
-                  date('H:m', strtotime($model->modified));
+                  date('H:i', strtotime($model->modified));
 
 $jabatan_icons = [
       '1'=>'Eselon 1',

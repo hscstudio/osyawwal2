@@ -110,9 +110,16 @@ class Activity2Controller extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        if (Yii::$app->request->isAjax) {
+	        return $this->renderAjax('view', [
+	            'model' => $this->findModel($id),
+	        ]);
+		}
+		else {
+	        return $this->render('view', [
+	            'model' => $this->findModel($id),
+	        ]);
+		}
     }
 
     /**
@@ -147,29 +154,34 @@ class Activity2Controller extends Controller
 				if($model->load(Yii::$app->request->post())){
 					$model->satker = 'current';								
 					if($model->save()) {
-						Yii::$app->getSession()->setFlash('success', 'Activity data have saved.');
+						Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Diklat berhasil diperbarui');
 						if($training->load(Yii::$app->request->post())){							
 							$training->activity_id= $model->id;
 							/* $training->program_revision = (int)\backend\models\ProgramHistory::getRevision($training->program_id); */
 							
 							if($training->save()){								 
-								Yii::$app->getSession()->setFlash('success', 'Training & activity data have saved.');
+								Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Diklat berhasil diperbarui');
 								$transaction->commit();
-								return $this->redirect(['view', 'id' => $model->id]);
+								return $this->redirect(['index']);
 							}
 						}						
 					}
 					else{
-						Yii::$app->getSession()->setFlash('error', 'Data is NOT saved.');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Diklat gagal diperbarui');
 					}				
 				}
 			}
 			catch (Exception $e) {
-				Yii::$app->getSession()->setFlash('error', 'Roolback transaction. Data is not saved');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Diklat gagal diperbarui');
 			}
         } 
 		
-		return $this->render('update', $renders);
+		if (Yii::$app->request->isAjax) {
+			return $this->renderAjax('update', $renders);
+		}
+		else {
+			return $this->render('update', $renders);
+		}
     }
 
    
@@ -307,7 +319,7 @@ class Activity2Controller extends Controller
 		$renders['model'] = $model;
 		$object_people_array = [
 			//1213020200 CEK KD_UNIT_ORG 1213020200 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
-			'organisation_1213020200'=>'PIC TRAINING ACTIVITY [BIDANG KURIKULUM]'
+			'organisation_1213020200'=>'PIC Diklat [BIDANG KURIKULUM]'
 		];
 		$renders['object_people_array'] = $object_people_array;
 		foreach($object_people_array as $object_person=>$label){
@@ -335,12 +347,12 @@ class Activity2Controller extends Controller
 				$person_id = (int)Yii::$app->request->post('ObjectPerson')[$object_person]['person_id'];
 				Heart::objectPerson($object_people[$object_person],$person_id,'activity',$id,$object_person);
 			}	
-			Yii::$app->getSession()->setFlash('success', 'Pic have updated.');
+			Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> PIC berhasil diperbarui');
 			if (!Yii::$app->request->isAjax) {
-				return $this->redirect(['view', 'id' => $model->id]);	
+				return $this->redirect(['index']);	
 			}
 			else{
-				echo 'Pic have updated.';
+				echo 'Pic telah diperbarui';
 			}
         } else {
 			if (Yii::$app->request->isAjax)

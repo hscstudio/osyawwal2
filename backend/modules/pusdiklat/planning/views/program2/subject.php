@@ -17,11 +17,11 @@ $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 
-$this->title = Yii::t('app', 'Subject {modelClass}: ', [
+$this->title = Yii::t('app', 'Mata Pelajaran {modelClass}: ', [
     'modelClass' => 'Program',
 ]) . ' ' . Inflector::camel2words($model->name);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Programs'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'PAGE_TITLE_SUB_BID_PROGRAM'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = Yii::t('app', 'BPPK_TEXT_SUBJECT');
 ?>
 <div class="program-update panel panel-default">
 	
@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 		
 		if($program_subject->isNewRecord and $countTraining>0){
 			echo '<div class="alert alert-warning">';
-			echo '<blockquote>Program pada revisi ini sudah digunakan oleh diklat dan status execute</blockquote>';
+			echo '<blockquote>Program pada revisi ini sudah digunakan oleh diklat dan status sedang berjalan</blockquote>';
 			echo '</div>';
 		}
 		else{
@@ -66,7 +66,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 					echo $form->field($program_subject, 'type')->widget(Select2::classname(), [
 						'data' => $data,
 						'options' => [
-							'placeholder' => 'Choose type ...',
+							'placeholder' => 'Pilih tipe ...',
 							'disabled' => $disabled,
 						],
 						'pluginOptions' => [
@@ -94,8 +94,8 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 								'disabled' => $disabled,
 							],
 							'pluginOptions' => [
-								'onText' => 'On',
-								'offText' => 'Off',
+								'onText' => 'Ya',
+								'offText' => 'Tidak',
 							]
 						]) ?>
 					</div>				
@@ -111,7 +111,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 					echo $form->field($program_subject, 'stage')->widget(Select2::classname(), [
 						'data' => $data,
 						'options' => [
-							'placeholder' => 'Choose stage ...',
+							'placeholder' => 'Pilih rumpun ...',
 							'multiple' => true,
 						],
 						'pluginOptions' => [
@@ -133,14 +133,14 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 								'disabled' => $disabled,
 							],
 							'pluginOptions' => [
-								'onText' => 'On',
-								'offText' => 'Off',
+								'onText' => 'Ya',
+								'offText' => 'Tidak',
 							]
 						]) ?>
 					</div>
 					<div class="col-md-2">
 						<label class="control-label" style="display:block">&nbsp;</label>
-						<?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
+						<?= Html::submitButton(Yii::t('app', 'SYSTEM_BUTTON_ADD'), ['class' => 'btn btn-success']) ?>
 					</div>
 				</div>
 			<?php ActiveForm::end(); ?>
@@ -220,11 +220,11 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 				'value' => function ($data){
 					if($data->test==1) {
 						$icon='<span class="glyphicon glyphicon-check"></span>';
-						return Html::a($icon,'#',['class'=>'label label-default','data-toggle'=>'tooltip','data-pjax'=>"0",'title'=>'Diklat dengan Ujian Akhir']);
+						return Html::a($icon,'#',['class'=>'label label-success','data-toggle'=>'tooltip','data-pjax'=>"0",'title'=>'Diklat dengan Ujian Akhir']);
 					}
 					else{
 						$icon='<span class="glyphicon glyphicon-minus"></span>';
-						return Html::a($icon,'#',['class'=>'badge','data-toggle'=>'tooltip','data-pjax'=>"0",'title'=>'Diklat tanpa Ujian Akhir']);
+						return Html::a($icon,'#',['class'=>'label label-danger','data-toggle'=>'tooltip','data-pjax'=>"0",'title'=>'Diklat tanpa Ujian Akhir']);
 					}
 				},
 			],
@@ -255,7 +255,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 					$icon = ($data->status==1)?'<span class="glyphicon glyphicon-ok"></span>':'<span class="glyphicon glyphicon-remove"></span>';		
 					return Html::tag('span', $icon, [
 						'class'=>($data->status==1)?'label label-info':'label label-warning',
-						'title'=>'Current status is '.(($data->status==1)?'publish':'draft'),
+						'title'=>(($data->status==1)?'publish':'draft'),
 						'data-toggle'=>'tooltip',
 					]);
 				},
@@ -273,8 +273,9 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 								'data-method'=>'post',
 								'class'=>'btn btn-default btn-xs',
 								'data-pjax'=>'0',
-								'data-confirm'=>"Are you sure to delete this item?",
-								'title'=>'Click to delete'
+								'data-confirm'=>"Yakin ingin menghapus?",
+								'data-toggle' => 'tooltip',
+								'title'=>'Klik untuk hapus'
 							]);
 						}
 						else{
@@ -289,7 +290,8 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 							return Html::a($icon,['subject','id'=>$data->program_id,'action'=>'update','subject_id'=>$data->id],[
 								'class'=>'btn btn-default btn-xs',
 								'data-pjax'=>'0',
-								'title'=>'Click to update'
+								'data-toggle' => 'tooltip',
+								'title'=>'Klik untuk memperbarui'
 							]);
 						}
 						else{
@@ -302,12 +304,12 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 		'panel' => [
 			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).' ('.$model->hours.' JP) '.'</h3>',
 			'before'=>
-				Html::a('<i class="fa fa-fw fa-arrow-circle-left"></i> Back', Url::to(['index']), ['class' => 'btn btn-warning','data-pjax'=>'0']).' '.
-				Html::a('<i class="fa fa-fw fa-arrow-circle-up"></i> Create', ['subject','id'=>$model->id,'action'=>'create'], ['class' => 'btn btn-success','data-pjax'=>'0','onclick'=>"$('#div_formX').slideToggle('slow');return true;"]).' '.
+				Html::a('<i class="fa fa-fw fa-arrow-circle-left"></i> '.Yii::t('app', 'SYSTEM_BUTTON_BACK'), Url::to(['index']), ['class' => 'btn btn-warning','data-pjax'=>'0']).' '.
+				Html::a('<i class="fa fa-fw fa-arrow-circle-up"></i> '.Yii::t('app', 'SYSTEM_BUTTON_CREATE'), ['subject','id'=>$model->id,'action'=>'create'], ['class' => 'btn btn-success','data-pjax'=>'0','onclick'=>"$('#div_formX').slideToggle('slow');return true;"]).' '.
 				'<div class="pull-right" style="margin-right:5px;width:125px;">'.
 				Select2::widget([
 					'name' => 'status', 
-					'data' => ['1'=>'Published','0'=>'Unpublished','all'=>'All'],
+					'data' => ['1'=>'Aktif','0'=>'Non Aktif','all'=>'Semua'],
 					'value' => $status,
 					'options' => [
 						'placeholder' => 'Status ...', 
@@ -322,7 +324,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Subject');
 					],
 				]).
 				'</div>',
-			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
+			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> '.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'showPageSummary' => true,

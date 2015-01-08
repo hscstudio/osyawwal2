@@ -40,54 +40,59 @@ if($countTrainingSubject>0){
 	<?= $form->errorSummary($model) ?> <!-- ADDED HERE -->
 	
 	<ul class="nav nav-tabs" role="tablist" id="tab_wizard">
-		<li class="active"><a href="#activity" role="tab" data-toggle="tab">Activity <span class='label label-info'>1</span></a></li>
-		<li class=""><a href="#training" role="tab" data-toggle="tab">Training <span class='label label-warning'>2</span></a></li>
+		<li class="active"><a href="#activity" role="tab" data-toggle="tab">Data Umum <span class='label label-info'>1</span></a></li>
+		<li class=""><a href="#training" role="tab" data-toggle="tab">Data Diklat <span class='label label-warning'>2</span></a></li>
 	</ul>
 	<div class="tab-content" style="border: 1px solid #ddd; border-top-color: transparent; padding:10px; background-color: #fff;">
 		<div class="tab-pane fade-in active" id="activity">
-			<?php
-			$data = ArrayHelper::map(
-				Program::find()
-					->select([
-						'id','name', 'num_name' => 'CONCAT(number," - ",name)'
-					])
-					->currentSatker()
-					->active()
-					->asArray()
-					->all(), 'id', 'num_name');
-					
-			echo $form->field($training, 'program_id')->widget(Select2::classname(), [
-				'data' => $data,
-				'options' => [
-					'placeholder' => 'Choose Program ...',
-					'onchange'=>'
-						$.post( "'.Url::to(['program-name']).'?id="+$(this).val(), function( data ) {
-						  $( "input#activity-name" ).val( data + " ");
-						  $( "input#activity-name" ).focus();
-						});
-					',
-					'disabled' => (in_array($edited,[2,3]))?true:false,
-				],
-				'pluginOptions' => [
-					'allowClear' => true,
-				],
-			]); ?>
-			
-			
-			<?php
-			if (!$model->isNewRecord){ 
-				echo $form->field($training, 'program_revision')->widget(Select2::classname(), [
-					'data' => $program_revisions, 
-					'options' => [
-						'placeholder' => 'Choose revision ...',
-						'disabled' => (in_array($edited,[2,3]))?true:false,
-					],
-					'pluginOptions' => [
-						'allowClear' => true,
-					],
-				]);
-			}
-			?>
+			<div class="row">
+				<div class="col-md-6">
+					<?php
+					$data = ArrayHelper::map(
+						Program::find()
+							->select([
+								'id','name', 'num_name' => 'CONCAT(number," - ",name)'
+							])
+							->currentSatker()
+							->active()
+							->asArray()
+							->all(), 'id', 'num_name');
+							
+					echo $form->field($training, 'program_id')->widget(Select2::classname(), [
+						'data' => $data,
+						'options' => [
+							'placeholder' => 'Pilih Program ...',
+							'onchange'=>'
+								$.post( "'.Url::to(['program-name']).'?id="+$(this).val(), function( data ) {
+								  $( "input#activity-name" ).val( data + " ");
+								  $( "input#activity-name" ).focus();
+								});
+							',
+							'disabled' => (in_array($edited,[2,3]))?true:false,
+						],
+						'pluginOptions' => [
+							'allowClear' => true,
+						],
+					]); ?>
+				</div>	
+				
+				<div class="col-md-6">
+					<?php
+					if (!$model->isNewRecord){ 
+						echo $form->field($training, 'program_revision')->widget(Select2::classname(), [
+							'data' => $program_revisions, 
+							'options' => [
+								'placeholder' => 'Pilih revisi ...',
+								'disabled' => (in_array($edited,[2,3]))?true:false,
+							],
+							'pluginOptions' => [
+								'allowClear' => true,
+							],
+						]);
+					}
+					?>
+				</div>
+			</div>
 			
 			<?= $form->field($model, 'name')->textInput([
 				'maxlength' => 255,
@@ -103,8 +108,8 @@ if($countTrainingSubject>0){
 				]
 			])->label('Diasramakan?') ?>
 			
-			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#training]').tab('show')">
-				Next 
+			<a class="btn btn-default tendangKePojok" onclick="$('#tab_wizard a[href=#training]').tab('show')">
+				Berikutnya 
 				<i class="fa fa-fw fa-arrow-circle-o-right"></i>
 			</a>
 		</div>
@@ -123,13 +128,19 @@ if($countTrainingSubject>0){
 				</div>
 			</div>		
 			
-			<?= $form->field($training, 'cost_source')->textInput(['maxlength' => 255]) ?>
+			<div class='row'>
+				<div class="col-md-6">
+					<?= $form->field($training, 'cost_source')->textInput(['maxlength' => 255]) ?>
+				</div>
 
-			<?= $form->field($training, 'cost_plan')->textInput(['maxlength' => 15]) ?>			
+				<div class="col-md-6">
+					<?= $form->field($training, 'cost_plan')->textInput(['maxlength' => 15]) ?>
+				</div>
+			</div>
 			
 			<?= $form->field($training, 'note')->textInput(['maxlength' => 255]) ?>
 			
-			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#activity]').tab('show')">
+			<a class="btn btn-default tendangKePojok" onclick="$('#tab_wizard a[href=#activity]').tab('show')">
 				Previous 
 				<i class="fa fa-fw fa-arrow-circle-o-left"></i>
 			</a>
@@ -137,7 +148,7 @@ if($countTrainingSubject>0){
 			<div class="clearfix"><hr></div>  
 			
 			<div class="form-group">
-				<?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+				<?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'SYSTEM_BUTTON_CREATE') : '<i class="fa fa-fw fa-save"></i>'.Yii::t('app', 'SYSTEM_BUTTON_UPDATE'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 			</div>
 			<?php // PENYELENGGARAAN ONLY ?>
 			<?php // $form->field($training, 'execution_sk')->textInput(['maxlength' => 255]) ?>
@@ -159,3 +170,13 @@ if($countTrainingSubject>0){
 	<?php $this->registerCss('label{display:block !important;}'); ?>
 
 </div>
+
+<?php
+	$this->registerCss('
+		.tendangKePojok {
+			position: absolute;
+			top: 30px;
+			right: 30px;
+		}
+	');
+?>

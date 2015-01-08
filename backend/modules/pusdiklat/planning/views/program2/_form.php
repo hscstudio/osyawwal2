@@ -45,7 +45,7 @@ if(!$model->isNewRecord){
 	
 	echo $form->field($model, 'number')->widget(Select2::classname(), [
 		'data' => $data,
-		'options' => ['placeholder' => 'Choose code ...','disabled'=>$disabled,],
+		'options' => ['placeholder' => 'Pilih kode ...','disabled'=>$disabled,],
 		'pluginOptions' => [
 			'allowClear' => true
 		],
@@ -107,7 +107,7 @@ if(!$model->isNewRecord){
 	echo $form->field($model, 'category')->widget(Select2::classname(), [
 		'data' => $data,
 		'options' => [
-			'placeholder' => 'Choose category ...',
+			'placeholder' => 'Pilih kategori ...',
 		],
 		'pluginOptions' => [
 			'allowClear' => true,
@@ -140,11 +140,11 @@ if(!$model->isNewRecord){
 			])
 			->count();
 		if($countTrainingSubject==0){
-			echo Html::submitButton('<i class="fa fa-fw fa-save"></i> '.Yii::t('app', 'Update'), ['class' => 'btn btn-primary']);
+			echo Html::submitButton('<i class="fa fa-fw fa-save"></i> '.Yii::t('app', 'SYSTEM_BUTTON_UPDATE'), ['class' => 'btn btn-primary']);
 		}
 		?>
 		<?php if (!$model->isNewRecord){ ?>
-		<?= Html::submitButton('<i class="fa fa-fw fa-save"></i> '. Yii::t('app', 'Update as Revision'), ['class' => 'btn btn-warning', 'name' => 'create_revision',]) ?>
+		<?= Html::submitButton('<i class="fa fa-fw fa-save"></i> '. Yii::t('app', 'SYSTEM_BUTTON_UPDATE_REVISION'), ['class' => 'btn btn-warning', 'name' => 'create_revision',]) ?>
 		<?php } ?>
 	</div>
 	<div class="">
@@ -158,7 +158,7 @@ if(!$model->isNewRecord){
 			echo "<blockquote>Program ini telah digunakan oleh diklat</blockquote>";
 		}
 		?>
-		<blockquote>Update as Revision artinya jika Anda menginginkan agar data lama tetap tersimpan dalam history. Fungsi ini sebaiknya Anda gunakan apabila perubahan yang Anda lakukan memang sangat mendasar atau signifikan. Adapun perubahan kecil seperti salah penulisan atau ejaan, maka cukup gunakan fungsi Update saja.</blockquote>
+		<blockquote><?php echo Yii::t('app', 'SYSTEM_BUTTON_UPDATE_REVISION');?> artinya jika Anda menginginkan agar data lama tetap tersimpan dalam history. Fungsi ini sebaiknya Anda gunakan apabila perubahan yang Anda lakukan memang sangat mendasar atau signifikan. Adapun perubahan kecil seperti salah penulisan atau ejaan, maka cukup gunakan fungsi Update saja.</blockquote>
 	</div>
 
     <?php ActiveForm::end(); ?>

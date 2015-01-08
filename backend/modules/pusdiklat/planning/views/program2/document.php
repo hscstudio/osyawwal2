@@ -16,17 +16,17 @@ $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 
-$this->title = Yii::t('app', 'Document {modelClass}: ', [
+$this->title = Yii::t('app', 'Dokumen {modelClass}: ', [
     'modelClass' => 'Program',
 ]) . ' ' . Inflector::camel2words($model->name);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Programs'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Document');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_PROGRAM'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = Yii::t('app', 'BPPK_TEXT_DOCUMENT');
 ?>
 <div class="program-update panel panel-default">
 	
     <div class="panel-heading">		
 		<div class="pull-right">
-        <?= (Yii::$app->request->isAjax)?'':Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back', ['index'], ['class' => 'btn btn-xs btn-primary']) ?>
+        <?= (Yii::$app->request->isAjax)?'':Html::a('<i class="fa fa-fw fa-arrow-left"></i> '.Yii::t('app', 'SYSTEM_BUTTON_BACK'), ['index'], ['class' => 'btn btn-xs btn-primary']) ?>
 		</div>
 		<h1 class="panel-title"><?= Html::encode($this->title) ?></h1>
 	</div>
@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Document');
 				echo $form->field($object_file, 'type')->widget(Select2::classname(), [
 					'data' => $data,
 					'options' => [
-						'placeholder' => 'Choose type ...',
+						'placeholder' => 'Pilih tipe ...',
 					],
 					'pluginOptions' => [
 						'allowClear' => true,
@@ -65,7 +65,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Document');
 				</div>
 				<div class="col-md-3">
 					<label class="control-label" style="display:block">&nbsp;</label>
-					<?= Html::submitButton(Yii::t('app', 'Upload'), ['class' => 'btn btn-success']) ?>
+					<?= Html::submitButton(Yii::t('app', 'SYSTEM_BUTTON_UPLOAD'), ['class' => 'btn btn-success']) ?>
 				</div>
 			</div>
 		<?php ActiveForm::end(); ?>
@@ -93,7 +93,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Document');
 				},
 			],
 			[
-				'label' => 'Document Download',
+				'label' => 'Unduh Dokumen',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
@@ -111,14 +111,44 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Document');
 				},
 			],
 			[
-				'label' => 'Upload Time',
+				'label' => 'Waktu Upload',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'format'=>'raw',
 				'value' => function($data){
-					return $data->file->created;
+					$namaHari = [
+						'Mon' => 'Senin',
+						'Tue' => 'Selasa',
+						'Wed' => 'Rabu',
+						'Thu' => 'Kamis',
+						'Fri' => 'Jumat',
+						'Sat' => 'Sabtu',
+						'Sun' => 'Minggu'
+					];
+
+					$namaBulan = [
+						'January' => 'Januari',
+						'February' => 'Febuari',
+						'March' => 'Maret',
+						'April' => 'April',
+						'May' => 'Mei',
+						'June' => 'Juni',
+						'July' => 'Juli',
+						'August' => 'Agustus',
+						'September' => 'September',
+						'October' => 'Oktober',
+						'November' => 'November',
+						'December' => 'Desember'
+					];
+
+					return $namaHari[date('D', strtotime($data->file->created))].
+								date(', d ', strtotime($data->file->created)).
+								$namaBulan[date('F', strtotime($data->file->created))].
+								date(' Y', strtotime($data->file->created)).
+								' - pukul '.
+								date('H:i', strtotime($data->file->created));
 				},
 			],
 			[
@@ -169,8 +199,8 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Document');
 								'data-method'=>'post',
 								'class'=>'btn btn-default btn-xs',
 								'data-pjax'=>'0',
-								'data-confirm'=>"Are you sure to delete this item?",
-								'title'=>'Click to delete'
+								'data-confirm'=>"Yakin ingin menghapus?",
+								'title'=>'Klik untuk menghapus'
 							]);
 						}
 						else{
@@ -183,11 +213,11 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Document');
 		'panel' => [
 			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
 			'before'=>	
-				Html::a('<i class="fa fa-fw fa-arrow-circle-left"></i> Back', Url::to(['index']), ['class' => 'btn btn-warning','data-pjax'=>'0']).' '.
+				Html::a('<i class="fa fa-fw fa-arrow-circle-left"></i> '.Yii::t('app', 'SYSTEM_BUTTON_BACK'), Url::to(['index']), ['class' => 'btn btn-warning','data-pjax'=>'0']).' '.
 				'<div class="pull-right" style="margin-right:5px;width:125px;">'.
 				Select2::widget([
 					'name' => 'status', 
-					'data' => ['1'=>'Published','0'=>'Unpublished','all'=>'All'],
+					'data' => ['1'=>'Aktif','0'=>'Non Aktif','all'=>'Semua'],
 					'value' => $status,
 					'options' => [
 						'placeholder' => 'Status ...', 
@@ -202,7 +232,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Document');
 					],
 				]).
 				'</div>',
-			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
+			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i>'.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'responsive'=>true,

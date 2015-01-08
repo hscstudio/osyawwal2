@@ -118,11 +118,11 @@ class ProgramController extends Controller
 			$model->satker = 'current';
 			/* $model->stage = implode(',',$model->stage); */
 			if($model->save()) {
-				Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>New data have saved.');
+				Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Program berhasil dibuat');
 				return $this->redirect(['index']);
 			}
 			else{
-				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>New data is not saved.');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Program tidak bisa dibuat');
 				return $this->render('create', $renders);
 			}            
         } else {
@@ -148,12 +148,12 @@ class ProgramController extends Controller
         if ($model->load(Yii::$app->request->post())) {
 			$model->satker = 'current';
             if($model->save()) {
-				Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Data have updated.');
+				Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Program berhasil diperbarui');
 				
 				return $this->redirect(['index']);
 			}
 			else{
-				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Data is not updated.');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Program gagal diperbarui');
 				return $this->render('update', $renders);
 			}
 			
@@ -209,7 +209,7 @@ class ProgramController extends Controller
         if ($model->load(Yii::$app->request->post())) {
 			$model->satker = 'current';
             if($model->save()) {
-				Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Data have updated.');
+				Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Data berhasil diperbarui');
 				$uploaded_files = [];					
 				foreach($object_file_array as $object_file=>$label){
 					$uploaded_files[$object_file] = \yii\web\UploadedFile::getInstance($files[$object_file], 'file_name['.$object_file.']');						
@@ -230,7 +230,7 @@ class ProgramController extends Controller
 				return $this->redirect(['index']);
 			}
 			else{
-				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Data is not updated.');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Data gagal diperbarui');
 				return $this->render('validation', $renders);
 			}
 			
@@ -281,12 +281,12 @@ class ProgramController extends Controller
 				$person_id = (int)Yii::$app->request->post('ObjectPerson')[$object_person]['person_id'];
 				Heart::objectPerson($object_people[$object_person],$person_id,'program',$id,$object_person);
 			}	
-			Yii::$app->getSession()->setFlash('success', 'Pic have updated.');
+			Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> PIC berhasil diperbarui');
 			if (!Yii::$app->request->isAjax) {
-				return $this->redirect(['view', 'id' => $model->id]);	
+				return $this->redirect(['index']);	
 			}
 			else{
-				echo 'Pic have updated.';
+				echo 'Pic telah diperbarui';
 			}
         } else {
 			if (Yii::$app->request->isAjax)
@@ -305,10 +305,10 @@ class ProgramController extends Controller
     public function actionDelete($id)
     {
 		if($this->findModel($id)->delete()) {
-			Yii::$app->getSession()->setFlash('success', 'Data have deleted.');
+			Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Program berhasil dihapus');
 		}
 		else{
-			Yii::$app->getSession()->setFlash('error', 'Data is not deleted.');
+			Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Program gagal dihapus');
 		}
         return $this->redirect(['index']);
     }

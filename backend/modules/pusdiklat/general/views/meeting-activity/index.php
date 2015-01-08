@@ -245,7 +245,8 @@ $this->params['breadcrumbs'][] = $this->title;
 								return Html::a($icon,$url,[
 									'class'=>'btn btn-default btn-xs',
 									'data-pjax'=>'0',
-									'data-method' => 'post'
+									'data-method' => 'post',
+									'data-confirm' => 'Yakin ingin menghapus?'
 								]);
 							},
 				],

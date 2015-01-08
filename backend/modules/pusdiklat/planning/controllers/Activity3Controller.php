@@ -117,9 +117,16 @@ class Activity3Controller extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        if (Yii::$app->request->isAjax) {
+	        return $this->renderAjax('view', [
+	            'model' => $this->findModel($id),
+	        ]);
+		}
+		else {
+	        return $this->render('view', [
+	            'model' => $this->findModel($id),
+	        ]);
+		}
     }
 
     /**
@@ -256,7 +263,7 @@ class Activity3Controller extends Controller
 		$renders['model'] = $model;
 		$object_people_array = [
 			//1213020300 CEK KD_UNIT_ORG 1213020300 IN TABLE ORGANISATION IS SUBBIDANG KURIKULUM
-			'organisation_1213020300'=>'PIC TRAINING ACTIVITY [BIDANG TENAGA PENGAJAR]'
+			'organisation_1213020300'=>'PIC Diklat [BIDANG TENAGA PENGAJAR]'
 		];
 		$renders['object_people_array'] = $object_people_array;
 		foreach($object_people_array as $object_person=>$label){
@@ -284,12 +291,12 @@ class Activity3Controller extends Controller
 				$person_id = (int)Yii::$app->request->post('ObjectPerson')[$object_person]['person_id'];
 				Heart::objectPerson($object_people[$object_person],$person_id,'activity',$id,$object_person);
 			}	
-			Yii::$app->getSession()->setFlash('success', 'Pic have updated.');
+			Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> PIC berhasil diperbarui');
 			if (!Yii::$app->request->isAjax) {
-				return $this->redirect(['view', 'id' => $model->id]);	
+				return $this->redirect(['index']);	
 			}
 			else{
-				echo 'Pic have updated.';
+				echo 'Pic telah diperbarui';
 			}
         } else {
 			if (Yii::$app->request->isAjax)
@@ -420,10 +427,10 @@ class Activity3Controller extends Controller
 			->one();
         if ($model->load(Yii::$app->request->post())) {
             if($model->save()) {
-				Yii::$app->getSession()->setFlash('success', 'Data have updated.');
+				Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Data telah diperbarui');
 			}
 			else{
-				Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Data gagal diperbarui');
 			}
 			return $this->redirect(['subject-trainer', 'id' => $model->training_id, 'subject_id' => $model->program_subject_id]);
         } else {
@@ -447,10 +454,10 @@ class Activity3Controller extends Controller
 			'subject-trainer', 'id' => $model->training_id, 'subject_id' => $model->program_subject_id
 		];
 		if($model->delete()) {
-			Yii::$app->getSession()->setFlash('success', 'Data have deleted.');
+			Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>	Data berhasil dihapus');
 		}
 		else{
-			Yii::$app->getSession()->setFlash('error', 'Data is not deleted.');
+			Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Data gagal dihapus');
 		}
         return $this->redirect($renders);
     }
@@ -514,10 +521,10 @@ class Activity3Controller extends Controller
 			$recommendation->load(Yii::$app->request->post());
 			$recommendation->status = 1;
 			if($recommendation->save()) {
-				Yii::$app->getSession()->setFlash('success', 'Trainer have recommendate.');
+				Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Pengajar tersebut telah direkomendasikan');
 			}
 			else{
-				Yii::$app->getSession()->setFlash('error', 'Trainer have not recommendate.');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Gagal merekomendasikan pengajar');
 			}
             return $this->redirect(['choose-trainer','id'=>$id,'subject_id'=>$subject_id]);
         } else {
@@ -591,7 +598,7 @@ class Activity3Controller extends Controller
 		$activeSheet = $objPHPExcel->getActiveSheet();
 		$activeSheet->setCellValue('A3', strtoupper(\Yii::$app->user->identity->employee->satker->name));
 		$idx=7; // line 7
-		$status_arr = ['0'=>'Planning','1'=>'Ready','2'=>'Execute','3'=>'Cancel'];
+		$status_arr = ['0'=>'Rencana','1'=>'Siap','2'=>'Berjalan','3'=>'Batal'];
 		foreach($dataProvider->getModels() as $data){		
 			if($idx==7){
 				$activeSheet->setCellValue('A4', date('Y',strtotime($data->start)));

@@ -68,7 +68,7 @@ use yii\helpers\Url;
 
 		echo $form->field(${$object_person}, '['.$object_person.']person_id')->widget(Select2::classname(), [
 			'data' => $data,
-			'options' => ['placeholder' => 'Choose '.$label.' ...'],
+			'options' => ['placeholder' => 'Pilih '.$label.' ...'],
 			'pluginOptions' => [
 			'allowClear' => true
 			],
@@ -78,7 +78,7 @@ use yii\helpers\Url;
 	<?php } ?>
 	
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? '<i class="fa fa-fw fa-plus-circle"></i>'.Yii::t('app', 'SYSTEM_BUTTON_CREATE') : '<i class="fa fa-fw fa-save"></i>'.Yii::t('app', 'SYSTEM_BUTTON_UPDATE'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

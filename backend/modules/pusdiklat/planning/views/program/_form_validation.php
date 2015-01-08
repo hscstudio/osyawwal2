@@ -28,9 +28,9 @@ use yii\helpers\Url;
 		<div class="col-md-3">
 		<?php
 		$permit = \Yii::$app->user->can('pusdiklat-planning-1');
-		$data = ['0'=>'Draft','1'=>'Process','2'=>'Valid','3'=>'Reject'];
+		$data = ['0'=>'Rencana','1'=>'Proses','2'=>'Valid','3'=>'Tidak Valid'];
 		if($permit){	
-			$options['placeholder']='Choose validation status ...';
+			$options['placeholder']='Pilih status validasi  ...';
 		}
 		else{
 			$options['disabled']='disabled';
@@ -95,7 +95,7 @@ use yii\helpers\Url;
 	<?php } ?>
 	
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', '<i class="fa fa-fw fa-plus-circle"></i> Buat') : Yii::t('app', '<i class="fa fa-fw fa-save"></i> Perbarui'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

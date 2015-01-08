@@ -49,13 +49,13 @@ $start = $namaHari[date('D', strtotime($model->start))].
 			$namaBulan[date('F', strtotime($model->start))].
 			date(' Y', strtotime($model->start)).
 			' - pukul '.
-			date('H:m', strtotime($model->start));
+			date('H:i', strtotime($model->start));
 $end = $namaHari[date('D', strtotime($model->end))].
 			date(', d ', strtotime($model->end)).
 			$namaBulan[date('F', strtotime($model->end))].
 			date(' Y', strtotime($model->end)).
 			' - pukul '.
-			date('H:m', strtotime($model->end));
+			date('H:i', strtotime($model->end));
 
 $lokasi = explode('|', $model->location);
 $lokasi[0] = Reference::findOne($model->location)->name;

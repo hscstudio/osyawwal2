@@ -15,8 +15,8 @@ $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 
-$this->title = 'History of #'.Inflector::camel2words($model->name);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Programs'), 'url' => ['index']];
+$this->title = 'Riwayat '.Inflector::camel2words($model->name);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_PROGRAM'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $program_code = ArrayHelper::map(
 	\backend\models\Reference::find()
@@ -109,6 +109,7 @@ $program_code = ArrayHelper::map(
 					[
 						'class'=>'modal-heart btn btn-default btn-xs',
 						'modal-size' => 'modal-lg',
+						'modal-title' => '<i class="fa fa-fw fa-eye"></i> Informasi Riwayat Mata Pelajaran',
 						'data-toggle'=>'tooltip',
 						'data-pjax'=>'0',
 						'title'=>'Mata Pelajaran',
@@ -144,7 +145,7 @@ $program_code = ArrayHelper::map(
 						'modal-size' => 'modal-lg',
 						'data-toggle'=>'tooltip',
 						'data-pjax'=>'0',
-						'title'=>'Program Document',
+						'title'=>'Dokumen Program',
 					]
 				);
 			},
@@ -175,7 +176,7 @@ $program_code = ArrayHelper::map(
 							'data-toggle'=>'tooltip',
 							'data-pjax'=>'0',
 							'data-html'=>'true',
-							'title'=>'CURRENT PIC PROGRAM <br> '.$object_person->person->name,
+							'title'=>'PIC Program <br> '.$object_person->person->name,
 						]);								
 				}
 				else{
@@ -185,7 +186,7 @@ $program_code = ArrayHelper::map(
 							'data-toggle'=>'tooltip',
 							'data-pjax'=>'0',
 							'data-html'=>'true',
-							'title'=>'PIC PROGRAM IS UNSET'
+							'title'=>'PIC Program belum dipilih'
 						]);
 				}
 			}
@@ -227,16 +228,16 @@ $program_code = ArrayHelper::map(
 					$icon='<span class="fa fa-fw fa-eye"></span>';
 					return Html::a($icon,['view-history','id'=>$model->id,'revision'=>$model->revision],
 					['class'=>'btn btn-default btn-xs modal-heart',
-					'data-pjax'=>"0",'title'=>'View History of '.$model->name,'modal-size'=>'modal-lg']);
+					'data-pjax'=>"0",'title'=>'Informasi '.$model->name,'modal-size'=>'modal-lg']);
 				},
 			],
 		],
 	],
 	'panel' => [
 		'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
-		'before'=>	Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back', ['index'], ['class' => 'btn btn-warning']),
+		'before'=>	Html::a('<i class="fa fa-fw fa-arrow-left"></i>'.Yii::t('app', 'SYSTEM_BUTTON_BACK'), ['index'], ['class' => 'btn btn-warning']),
 			
-		'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
+		'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i>'.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), Url::to(''), ['class' => 'btn btn-info']),
 		'showFooter'=>false
 	],
 	'responsive'=>true,

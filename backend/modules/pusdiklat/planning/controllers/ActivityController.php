@@ -224,10 +224,19 @@ class ActivityController extends Controller
         ]);
 		$dataProvider->getSort()->defaultOrder = ['revision'=>SORT_DESC];
 		
-		return $this->render('view', [
-            'model' => $this->findModel($id),
-			'dataProvider' => $dataProvider,
-        ]);
+
+        if (Yii::$app->request->isAjax) {
+			return $this->renderAjax('view', [
+	            'model' => $this->findModel($id),
+				'dataProvider' => $dataProvider,
+	        ]);
+		}
+		else {
+			return $this->render('view', [
+	            'model' => $this->findModel($id),
+				'dataProvider' => $dataProvider,
+	        ]);
+		}
     }
 
     /**
@@ -258,7 +267,7 @@ class ActivityController extends Controller
 
 					if($model->save()) {
 
-						Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Activity data have saved.');
+						Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Diklat berhasil dibuat');
 
 						if($training->load(Yii::$app->request->post())){							
 
@@ -283,7 +292,7 @@ class ActivityController extends Controller
 
 							if($training->save()){								 
 
-								Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Training & activity data have saved.');
+								Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Diklat berhasil dibuat');
 								$transaction->commit();
 								return $this->redirect(['index']);
 
@@ -291,12 +300,12 @@ class ActivityController extends Controller
 						}						
 					}
 					else{
-						Yii::$app->getSession()->setFlash('error', 'Data is NOT saved.');
+						Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Diklat tidak tersimpan');
 					}				
 				}
 			}
 			catch (Exception $e) {
-				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Roolback transaction. Data is not saved');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Diklat gagal dibuat');
 			}
         } 
 		
@@ -338,7 +347,7 @@ class ActivityController extends Controller
 					}
 
                     if($model->save()) {
-						Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Activity data have saved.');
+						Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Diklat berhasil diperbarui');
 						if($training->load(Yii::$app->request->post())){							
 							$training->activity_id= $model->id;
 							if (isset(Yii::$app->request->post()['create_revision'])){
@@ -362,23 +371,28 @@ class ActivityController extends Controller
 							}
 							
 							if($training->save()){								 
-								Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Training & activity data have saved.');
+								Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Diklat berhasil diperbarui');
 								$transaction->commit();
 								return $this->redirect(['index']);
 							}
 						}						
 					}
 					else{
-						Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Data is NOT saved.');
+						Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Diklat gagal diperbarui');
 					}				
 				}
 			}
 			catch (Exception $e) {
-				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Roolback transaction. Data is not saved');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Diklat gagal diperbarui');
 			}
         }
 		
-		return $this->render('update', $renders);
+		if (Yii::$app->request->isAjax) {
+			return $this->renderAjax('update', $renders);
+		}
+		else {
+			return $this->render('update', $renders);
+		}
     }
 
     /**
@@ -390,10 +404,10 @@ class ActivityController extends Controller
     public function actionDelete($id)
     {
 		if($this->findModel($id)->delete()) {
-			Yii::$app->getSession()->setFlash('success', 'Data have deleted.');
+			Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Diklat berhasil dihapus');
 		}
 		else{
-			Yii::$app->getSession()->setFlash('error', 'Data is not deleted.');
+			Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Diklat gagal dihapus');
 		}
         return $this->redirect(['index']);
     }
@@ -517,18 +531,18 @@ class ActivityController extends Controller
 				$trainingStudentPlan->jsonSpread = $trainingStudentPlan->spread;
 				$trainingStudentPlan->status = 1;					
 				if($trainingStudentPlan->save()){
-					Yii::$app->getSession()->setFlash('success', 'Student spread data have saved.');
+					Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Sebaran peserta berhasil disimpan');
 					$training->student_count_plan = $studentCount;
 					$training->save();
 					$transaction->commit();
 					return $this->redirect(['index-student-plan']);
 				}				
 				else{
-					Yii::$app->getSession()->setFlash('error', 'Data is NOT saved.');
+					Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Sebaran peserta gagal disimpan');
 				}
 			}
 			catch (Exception $e) {
-				Yii::$app->getSession()->setFlash('error', 'Roolback transaction. Data is not saved');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Sebaran peserta gagal disimpan');
 			}
         } 
 		
@@ -576,7 +590,7 @@ class ActivityController extends Controller
 		$renders['model'] = $model;
 		$object_people_array = [
 			// CEK ID 393 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
-			'organisation_393'=>'PIC Training'
+			'organisation_393'=>'PIC Diklat'
 		];
 		$renders['object_people_array'] = $object_people_array;
 		foreach($object_people_array as $object_person=>$label){
@@ -604,12 +618,12 @@ class ActivityController extends Controller
 				$person_id = (int)Yii::$app->request->post('ObjectPerson')[$object_person]['person_id'];
 				Heart::objectPerson($object_people[$object_person],$person_id,'activity',$id,$object_person);
 			}	
-			Yii::$app->getSession()->setFlash('success', 'Pic have updated.');
+			Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> PIC berhasil diperbarui');
 			if (!Yii::$app->request->isAjax) {
-				return $this->redirect(['view', 'id' => $model->id]);	
+				return $this->redirect(['index']);
 			}
 			else{
-				echo 'Pic have updated.';
+				echo 'Pic telah diperbarui';
 			}
         } else {
 			if (Yii::$app->request->isAjax)

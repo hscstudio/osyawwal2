@@ -70,7 +70,7 @@ if(!$model->isNewRecord){
 			echo $form->field($model, 'category')->widget(Select2::classname(), [
 				'data' => $data,
 				'options' => [
-					'placeholder' => 'Tentukan kategori program ...',
+					'placeholder' => 'Pilih kategori program ...',
 				],
 				'pluginOptions' => [
 					'allowClear' => true,
@@ -137,7 +137,7 @@ if(!$model->isNewRecord){
 	<?php } ?>
 	
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', '<i class="fa fa-fw fa-plus-circle"></i> Buat') : Yii::t('app', '<i class="fa fa-fw fa-save"></i> Perbarui	'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? '<i class="fa fa-fw fa-plus-circle"></i>'.Yii::t('app', 'SYSTEM_BUTTON_CREATE') : '<i class="fa fa-fw fa-save"></i>'.Yii::t('app', 'SYSTEM_BUTTON_UPDATE'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

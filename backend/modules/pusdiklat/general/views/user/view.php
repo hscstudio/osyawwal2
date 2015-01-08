@@ -47,13 +47,13 @@ $created = $namaHari[date('D', strtotime($model->created_at))].
                   $namaBulan[date('F', strtotime($model->created_at))].
                   date(' Y', strtotime($model->created_at)).
                   ' - pukul '.
-                  date('H:m', strtotime($model->created_at));
+                  date('H:i', strtotime($model->created_at));
 $modified = $namaHari[date('D', strtotime($model->updated_at))].
                   date(', d ', strtotime($model->updated_at)).
                   $namaBulan[date('F', strtotime($model->updated_at))].
                   date(' Y', strtotime($model->updated_at)).
                   ' - pukul '.
-                  date('H:m', strtotime($model->updated_at));
+                  date('H:i', strtotime($model->updated_at));
 
 $status_icons = [
       '0'=>'<i class="fa fa-fw fa-fire"></i> Banned',

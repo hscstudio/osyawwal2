@@ -86,13 +86,12 @@ $owner =  Html::tag(
 
 
 $status_icons = [
-	'0'=>'<i class="fa fa-fw fa-fire"></i> Rencana',
-	'1'=>'<i class="fa fa-fw fa-refresh"></i> Siap',
+	'0'=>'<i class="fa fa-fw fa-fire"></i> Non Aktif',
+	'1'=>'<i class="fa fa-fw fa-refresh"></i> Aktif',
 	'2'=>'<i class="fa fa-fw fa-check-circle"></i> Berjalan',
 	'3'=>'<i class="fa fa-fw fa-times-circle"></i> Batal'
 ];
 $status_classes = ['0'=>'warning','1'=>'info','2'=>'success','3'=>'danger'];
-$status_title = ['0'=>'Rencana','1'=>'Siap','2'=>'Berjalan','3'=>'Batal'];
 $status = Html::tag(
 	'div',
 	$status_icons[$model->status],

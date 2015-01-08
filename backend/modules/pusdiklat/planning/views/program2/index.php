@@ -14,21 +14,11 @@ use kartik\widgets\Select2;
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
-$this->title = Yii::t('app', 'Programs');
+$this->title = Yii::t('app', 'PAGE_TITLE_SUB_BID_PROGRAM');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="program-index">
 	
-<!--
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Program',
-]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
--->
 	<?php
 	$program_code = ArrayHelper::map(
 		\backend\models\Reference::find()
@@ -172,7 +162,7 @@ $this->params['breadcrumbs'][] = $this->title;
 							'class'=>'btn btn-default btn-xs',
 							'data-toggle'=>'tooltip',
 							'data-pjax'=>'0',
-							'title'=>'Program Document',
+							'title'=>'Dokumen Program',
 						]
 					);
 				},
@@ -206,8 +196,8 @@ $this->params['breadcrumbs'][] = $this->title;
 									'data-toggle'=>'tooltip',
 									'data-pjax'=>'0',
 									'data-html'=>'true',
-									'title'=>'CURRENT PIC PROGRAM <br> '.$object_person->person->name.'.<br> CLICK TO SET PIC PROGRAM',
-									'modal-title'=>'Change PIC',
+									'title'=>'PIC Program : '.$object_person->person->name.'.<br> Klik untuk mengubah PIC program',
+									'modal-title'=>'Ubah PIC',
 									'modal-size'=>'modal-md',
 								]);								
 						}
@@ -218,8 +208,8 @@ $this->params['breadcrumbs'][] = $this->title;
 									'data-toggle'=>'tooltip',
 									'data-pjax'=>'0',
 									'data-html'=>'true',
-									'title'=>'CLICK TO SET PIC PROGRAM',
-									'modal-title'=>'Set PIC',
+									'title'=>'Klik untuk memilih PIC Program',
+									'modal-title'=>'Pilih PIC',
 									'modal-size'=>'modal-md'
 								]);
 						}
@@ -232,7 +222,7 @@ $this->params['breadcrumbs'][] = $this->title;
 									'data-toggle'=>'tooltip',
 									'data-pjax'=>'0',
 									'data-html'=>'true',
-									'title'=>'CURRENT PIC PROGRAM <br> '.$object_person->person->name,
+									'title'=>'PIC PROGRAM <br> '.$object_person->person->name,
 								]);								
 						}
 						else{
@@ -242,7 +232,7 @@ $this->params['breadcrumbs'][] = $this->title;
 									'data-toggle'=>'tooltip',
 									'data-pjax'=>'0',
 									'data-html'=>'true',
-									'title'=>'PIC PROGRAM IS UNSET'
+									'title'=>'PIC Program belum dipilih'
 								]);
 						}
 					}
@@ -278,20 +268,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
 				'class' => 'kartik\grid\ActionColumn',
-				'template' => '{history} {view} {update}',
+				'template' => '<div class="btn-group">{history} {view} {update}</div>',
 				'width'=>'110px',
 				'buttons' => [
 					'history' => function ($url, $model) {
 						$icon='<span class="fa fa-fw fa-h-square"></span>';
-						return Html::a($icon,$url,['class'=>'btn btn-default btn-xs','data-pjax'=>"0",'title'=>'History of '.$model->name]);
+						return Html::a($icon,$url,['class'=>'btn btn-default btn-xs', 'data-toggle' => 'tooltip', 'data-container' => 'body', 'data-pjax'=>"0",'title'=>'Riwayat revisi '.$model->name]);
 					},
 					'view' => function ($url, $model) {
 						$icon='<span class="fa fa-fw fa-eye"></span>';
-						return Html::a($icon,$url,['class'=>'btn btn-default btn-xs modal-heart','data-pjax'=>"0",'title'=>'View '.$model->name,'modal-size'=>'modal-lg']);
+						return Html::a($icon,$url,['class'=>'btn btn-default btn-xs modal-heart', 'data-toggle' => 'tooltip', 'data-container' => 'body', 'data-pjax'=>"0",'modal-title'=>'<i class="fa fa-fw fa-eye"></i>Informasi '.$model->name, 'title'=>'Informasi '.$model->name,'modal-size'=>'modal-lg']);
 					},
 					'update' => function ($url, $model) {
 						$icon='<span class="fa fa-fw fa-pencil"></span>';
-						return Html::a($icon,$url,['class'=>'btn btn-default btn-xs modal-heart','data-pjax'=>"0",'title'=>'Edit '.$model->name,'modal-size'=>'modal-lg']);
+						return Html::a($icon,$url,['class'=>'btn btn-default btn-xs modal-heart', 'data-toggle' => 'tooltip', 'data-container' => 'body', 'data-pjax'=>"0",'modal-title'=>'<i class="fa fa-fw fa-pencil"></i>Ubah '.$model->name,'modal-size'=>'modal-lg']);
 					},
 				],
 			],
@@ -302,7 +292,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'<div class="pull-right" style="margin-right:5px;">'.
 				Select2::widget([
 					'name' => 'status', 
-					'data' => ['1'=>'Published','0'=>'Unpublished','all'=>'All'],
+					'data' => ['1'=>'Aktif','0'=>'Non Aktif','all'=>'Semua'],
 					'value' => $status,
 					'options' => [
 						'placeholder' => 'Status ...', 
@@ -317,7 +307,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					],
 				]).
 				'</div>',
-			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
+			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> '.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'responsive'=>true,
@@ -330,7 +320,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <div class="panel panel-default">
 	<div class="panel-heading">
-	<i class="fa fa-fw fa-refresh"></i> Document Generator
+	<i class="fa fa-fw fa-refresh"></i> Dokumen Generator
 	</div>
     <div class="panel-body">
 		<?php
@@ -338,7 +328,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			'method'=>'get',
 			'action'=>['export-program','status'=>$status],
 		]);
-		echo Html::submitButton('<i class="fa fa-fw fa-download"></i> Download Data Program', ['class' => 'btn btn-default','style'=>'display:block;']);
+		echo Html::submitButton('<i class="fa fa-fw fa-download"></i> Unduh Data Program', ['class' => 'btn btn-default','style'=>'display:block;']);
 		\yii\bootstrap\ActiveForm::end(); 
 		?>
 	</div>

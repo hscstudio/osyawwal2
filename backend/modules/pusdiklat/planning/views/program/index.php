@@ -196,8 +196,8 @@ $this->params['breadcrumbs'][] = $this->title;
 									'data-toggle'=>'tooltip',
 									'data-pjax'=>'0',
 									'data-html'=>'true',
-									'title'=>'Current PIC Program : '.$object_person->person->name.'.<br> Click to change pic program',
-									'modal-title'=>'Change PIC',
+									'title'=>'PIC Program : '.$object_person->person->name.'.<br> Klik untuk mengubah PIC program',
+									'modal-title'=>'Ubah PIC',
 									'modal-size'=>'modal-md',
 								]);								
 						}
@@ -208,8 +208,8 @@ $this->params['breadcrumbs'][] = $this->title;
 									'data-toggle'=>'tooltip',
 									'data-pjax'=>'0',
 									'data-html'=>'true',
-									'title'=>'Click to set PIC program',
-									'modal-title'=>'Set PIC',
+									'title'=>'Klik untuk memilih PIC Program',
+									'modal-title'=>'Pilih PIC',
 									'modal-size'=>'modal-md'
 								]);
 						}
@@ -259,6 +259,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
 				'class' => 'kartik\grid\ActionColumn',
 				'width' => '120px',
+				'template' => '<div class="btn-group">{view} {update} {delete}</div>',
 				'buttons' => [
 					'view' => function ($url, $model) {
 						$icon='<span class="fa fa-fw fa-eye"></span>';
@@ -277,7 +278,7 @@ $this->params['breadcrumbs'][] = $this->title;
 							])
 							->count();
 						$msg = '';
-						if ($countTraining>0) $msg ='. This program have used by '.$countTraining.' training';
+						if ($countTraining>0) $msg ='. Program ini telah dipakai pada '.$countTraining.' diklat';
 						return Html::a($icon,$url,[
 							'class'=>'modal-heart btn btn-default btn-xs',
 							'data-pjax'=>"0",
@@ -299,8 +300,8 @@ $this->params['breadcrumbs'][] = $this->title;
 								'data-method'=>'post',
 								'class'=>'btn btn-default btn-xs',
 								'data-pjax'=>'0',
-								'data-confirm'=>"Are you sure to delete this item?",
-								'title'=>'Click to delete'
+								'data-confirm'=>"Yakin ingin menghapus?",
+								'title'=>'Klik untuk hapus'
 							]);
 						}
 					},
@@ -349,7 +350,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-	<i class="fa fa-fw fa-print"></i> Document Generator
+	<i class="fa fa-fw fa-print"></i> Dokumen Generator
 	</div>
     <div class="panel-body">
 		<?php

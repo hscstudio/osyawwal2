@@ -216,7 +216,7 @@ class MeetingActivityController extends Controller
 					$model->satker = 'current';
 					$model->location = implode('|',$model->location);									
 					if($model->save()) {
-						Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Activity data have saved.');
+						Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Rapat berhasil di perbarui');
 						if($meeting->load(Yii::$app->request->post())){							
 							$meeting->activity_id= $model->id;
 							if (isset(Yii::$app->request->post()['create_revision'])){

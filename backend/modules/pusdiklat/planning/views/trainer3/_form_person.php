@@ -23,16 +23,16 @@ use yii\helpers\Url;
 	<?= $form->errorSummary($model) ?> <!-- ADDED HERE -->
 	
 	<ul class="nav nav-tabs" role="tablist" id="tab_wizard">
-		<li class="active"><a href="#personal_information" role="tab" data-toggle="tab">Personal</a></li>
+		<li class="active"><a href="#personal_information" role="tab" data-toggle="tab">Pribadi</a></li>
 		<?php 
 		if(!$trainer->isNewRecord){ ?>
-		<li class=""><a href="#trainer_information" role="tab" data-toggle="tab">Trainer</a></li>
+		<li class=""><a href="#trainer_information" role="tab" data-toggle="tab">Pengajar</a></li>
 		<?php } ?>
-		<li class=""><a href="#contact_information" role="tab" data-toggle="tab">Contact</a></li>
-		<li class=""><a href="#employee_information" role="tab" data-toggle="tab">Employee</a></li>
-		<li class=""><a href="#office_information" role="tab" data-toggle="tab">Office</a></li>
-		<li class=""><a href="#education_information" role="tab" data-toggle="tab">Education</a></li>
-		<li class=""><a href="#photo_document" role="tab" data-toggle="tab">Photo & Document</a></li>
+		<li class=""><a href="#contact_information" role="tab" data-toggle="tab">Kontak</a></li>
+		<li class=""><a href="#employee_information" role="tab" data-toggle="tab">Kepegawaian</a></li>
+		<li class=""><a href="#office_information" role="tab" data-toggle="tab">Kantor</a></li>
+		<li class=""><a href="#education_information" role="tab" data-toggle="tab">Pendidikan</a></li>
+		<li class=""><a href="#photo_document" role="tab" data-toggle="tab">Foto & Dokumen</a></li>
 	</ul>
 	<div class="tab-content" style="border: 1px solid #ddd; border-top-color: transparent; padding:10px; background-color: #fff;">
 		<?php
@@ -57,29 +57,35 @@ use yii\helpers\Url;
 			<h3>Informasi Pribadi</h3>
 			<div class="row clearfix">
 				<div class="col-md-3">
-				<?= $form->field($model, 'front_title')->textInput(['maxlength' => 25]) ?>
-				</div>
-				<div class="col-md-6">
-				<?= $form->field($model, 'name')->textInput(['maxlength' => 100]) ?>
+					<?= $form->field($model, 'front_title')->textInput(['maxlength' => 25]) ?>
 				</div>
 				<div class="col-md-3">
-				<?= $form->field($model, 'back_title')->textInput(['maxlength' => 25]) ?>
+					<?= $form->field($model, 'name')->textInput(['maxlength' => 100]) ?>
+				</div>
+				<div class="col-md-3">
+					<?= $form->field($model, 'back_title')->textInput(['maxlength' => 25]) ?>
+				</div>
+				<div class="col-md-3">
+					<?= $form->field($model, 'nickname')->textInput(['maxlength' => 25]) ?>
 				</div>
 			</div>
 			<div class="row clearfix">
 				<div class="col-md-3">
-				<?= $form->field($model, 'nickname')->textInput(['maxlength' => 25]) ?>
-				</div>
-				<div class="col-md-3">
 				<?= $form->field($model, 'gender')->widget(SwitchInput::classname(), [
 					'pluginOptions' => [
-						'onText' => 'Male',
-						'offText' => 'Female',
+						'onText' => 'Pria',
+						'offText' => 'Wanita',
 					]
-				]) ?> 
+				]) ?>
 				</div>
-			</div>						
-			<div class="row clearfix">
+				<div class="col-md-3">
+					<?= $form->field($model, 'married')->widget(SwitchInput::classname(), [
+						'pluginOptions' => [
+							'onText' => 'Ya',
+							'offText' => 'Tidak',
+						]
+					]) ?>
+				</div>
 				<div class="col-md-3">
 				<?= $form->field($model, 'born')->textInput(['maxlength' => 50]) ?>
 				</div>
@@ -90,34 +96,26 @@ use yii\helpers\Url;
 				</div>
 			</div>
 			<div class="row clearfix">
-				<div class="col-md-3">
-				<?= $form->field($model, 'married')->widget(SwitchInput::classname(), [
-					'pluginOptions' => [
-						'onText' => 'On',
-						'offText' => 'Off',
-					]
-				]) ?> 
+				<div class="col-md-2">
+					<?= $form->field($model, 'blood')->textInput(['maxlength' => 25]) ?>
+				</div>
+				<div class="col-md-2">
+					<?= $field['religion'] ?>
+				</div>
+				<div class="col-md-5">
+					<?= $form->field($model, 'nid')->textInput(['maxlength' => 100]) ?>
 				</div>
 				<div class="col-md-3">
-				<?= $form->field($model, 'blood')->textInput(['maxlength' => 25]) ?>
-				</div>
-				<div class="col-md-3">
-				<?= $field['religion'] ?> 
+					<?= $form->field($model, 'npwp')->textInput(['maxlength' => 100]) ?>
 				</div>
 			</div>
-			<div class="row clearfix">
-				<div class="col-md-4">
-				<?= $form->field($model, 'nid')->textInput(['maxlength' => 100]) ?>
-				</div>
-				<div class="col-md-4">
-				<?= $form->field($model, 'npwp')->textInput(['maxlength' => 100]) ?>
-				</div>
-			</div>						
-			
-			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#<?= (!$trainer->isNewRecord)? 'trainer_information' : 'contact_information'; ?>]').tab('show')">
-				Next 
-				<i class="fa fa-fw fa-arrow-circle-o-right"></i>
-			</a>
+
+			<div class="tendangKePojok">
+				<a class="btn btn-default" onclick="$('#tab_wizard a[href=#contact_information]').tab('show')">
+					Berikutnya
+					<i class="fa fa-fw fa-arrow-circle-o-right"></i>
+				</a>
+			</div>
 		</div>
 		
 		<?php 

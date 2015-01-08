@@ -31,40 +31,46 @@ if(!$model->isNewRecord){
 	<?= $form->errorSummary($model) ?> <!-- ADDED HERE -->
 	
 	<ul class="nav nav-tabs" role="tablist" id="tab_wizard">
-		<li class="active"><a href="#activity" role="tab" data-toggle="tab">Activity <span class='label label-info'>1</span></a></li>
-		<li class=""><a href="#training" role="tab" data-toggle="tab">Training <span class='label label-warning'>2</span></a></li>
+		<li class="active"><a href="#activity" role="tab" data-toggle="tab">Data Umum <span class='label label-info'>1</span></a></li>
+		<li class=""><a href="#training" role="tab" data-toggle="tab">Data Diklat <span class='label label-warning'>2</span></a></li>
 	</ul>
 	<div class="tab-content" style="border: 1px solid #ddd; border-top-color: transparent; padding:10px; background-color: #fff;">
 		<div class="tab-pane fade-in active" id="activity">
-			<?php
-			$data = ArrayHelper::map(
-				Program::find()
-					->select([
-						'id','name', 'num_name' => 'CONCAT(number," - ",name)'
-					])
-					->currentSatker()
-					->active()
-					->asArray()
-					->all(), 'id', 'num_name');
-					
-			echo $form->field($training, 'program_id')->widget(Select2::classname(), [
-				'data' => $data,
-				'options' => [
-					'placeholder' => 'Choose Program ...',
-					'onchange'=>'
-						$.post( "'.Url::to(['program-name']).'?id="+$(this).val(), function( data ) {
-						  $( "input#activity-name" ).val( data + " ");
-						  $( "input#activity-name" ).focus();
-						});
-					',
-					'disabled' => (in_array($edited,[2,3]))?true:false,
-				],
-				'pluginOptions' => [
-					'allowClear' => true,
-				],
-			]); ?>
 
-			<?= $form->field($model, 'name')->textInput(['maxlength' => 255,'disabled' => (in_array($edited,[2,3]))?true:false,]) ?>
+			<div class="row clearfix">
+				<div class="col-md-4">
+					<?php
+					$data = ArrayHelper::map(
+						Program::find()
+							->select([
+								'id','name', 'num_name' => 'CONCAT(number," - ",name)'
+							])
+							->currentSatker()
+							->active()
+							->asArray()
+							->all(), 'id', 'num_name');		
+					echo $form->field($training, 'program_id')->widget(Select2::classname(), [
+						'data' => $data,
+						'options' => [
+							'placeholder' => 'Pilih Program ...',
+							'onchange'=>'
+								$.post( "'.Url::to(['program-name']).'?id="+$(this).val(), function( data ) {
+								  $( "input#activity-name" ).val( data + " ");
+								  $( "input#activity-name" ).focus();
+								});
+							',
+							'disabled' => (in_array($edited,[2,3]))?true:false,
+						],
+						'pluginOptions' => [
+							'allowClear' => true,
+						],
+					]); ?>
+				</div>
+				<div class="col-md-8">
+					<?= $form->field($model, 'name')->textInput(['maxlength' => 255,'disabled' => (in_array($edited,[2,3]))?true:false,]) ?>
+				</div>
+			</div>
+
 
 			<?= $form->field($model, 'description')->textarea(['rows' => 3]) ?>
 			
@@ -99,15 +105,28 @@ if(!$model->isNewRecord){
 				    ]
 				]); ?>
 				</div>
+				<div class="col-md-3">
+					<?php 
+					$model->location=explode('|',$model->location);
+
+					if(empty($model->location[0]))
+						$model->location = [(int)Yii::$app->user->identity->employee->satker_id];
+					?>
+				</div>
+				<div class="col-md-3">
+					<?= $form->field($model, 'hostel')->widget(SwitchInput::classname(), [
+						'pluginOptions' => [
+							'onText' => 'Ya',
+							'offText' => 'Tidak',
+						],
+						'options'=>[
+							'disabled' => (in_array($edited,[2,3]))?true:false,
+						]
+					])->label('Diasramakan?') ?>
+				</div>
 			</div>
 			<?php } ?>
 
-			<?php 
-			$model->location=explode('|',$model->location);
-
-			if(empty($model->location[0]))
-				$model->location = [(int)Yii::$app->user->identity->employee->satker_id];
-			?>
 			<div class="row clearfix">
 				<div class="col-md-3">
 				<?php
@@ -120,7 +139,7 @@ if(!$model->isNewRecord){
 				);
 				echo $form->field($model, 'location[0]')->widget(Select2::classname(), [
 					'data' => $data,
-					'options' => ['placeholder' => 'Choose code ...'],
+					'options' => ['placeholder' => 'Pilih code ...'],
 					'pluginOptions' => [
 						'allowClear' => true
 					],
@@ -135,15 +154,6 @@ if(!$model->isNewRecord){
 				</div>
 			</div>
 			
-			<?= $form->field($model, 'hostel')->widget(SwitchInput::classname(), [
-				'pluginOptions' => [
-					'onText' => 'Ya',
-					'offText' => 'Tidak',
-				],
-				'options'=>[
-					'disabled' => (in_array($edited,[2,3]))?true:false,
-				]
-			])->label('Diasramakan?') ?>
 
 			<?php 
 			$permit = \Yii::$app->user->can('pusdiklat-planning-1');
@@ -154,14 +164,14 @@ if(!$model->isNewRecord){
 					<div class='col-md-3'>				
 					<?php
 					$data = [
-							'0'=>'PLAN',
-							'1'=>'READY',
+							'0'=>'Rencana',
+							'1'=>'Siap',
 							//'2'=>'EXECUTE',
-							'3'=>'CANCEL'
+							'3'=>'Batal'
 					];
 					echo $form->field($model, 'status')->widget(Select2::classname(), [
 						'data' => $data,
-						'options' => ['placeholder' => 'Choose Status ...'],
+						'options' => ['placeholder' => 'Pilih Status ...'],
 						'pluginOptions' => [
 							'allowClear' => true,
 						],
@@ -176,8 +186,8 @@ if(!$model->isNewRecord){
 			}
 			?>
 			
-			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#training]').tab('show')">
-				Next 
+			<a class="btn btn-default tendangKePojok" onclick="$('#tab_wizard a[href=#training]').tab('show')">
+				Berikutnya
 				<i class="fa fa-fw fa-arrow-circle-o-right"></i>
 			</a>
 		</div>
@@ -211,36 +221,38 @@ if(!$model->isNewRecord){
 			</div>
 			
 			<div class="row clearfix">
-				<div class="col-md-2">
-				<?= $form->field($training, 'student_count_plan')->textInput() ?>
+				<div class="col-md-3">
+					<?= $form->field($training, 'student_count_plan')->textInput() ?>
 				</div>
-				<div class="col-md-2">
-				<?= $form->field($training, 'class_count_plan')->textInput() ?>
+				<div class="col-md-3">
+					<?= $form->field($training, 'class_count_plan')->textInput() ?>
+				</div>
+				<div class="col-md-3">
+					<?= $form->field($training, 'cost_source')->textInput(['maxlength' => 255]) ?>
+				</div>
+				<div class="col-md-3">
+					<?= $form->field($training, 'cost_plan')->textInput(['maxlength' => 15]) ?>
 				</div>
 			</div>			
 			
-			<?= $form->field($training, 'cost_source')->textInput(['maxlength' => 255]) ?>
-
-			<?= $form->field($training, 'cost_plan')->textInput(['maxlength' => 15]) ?>			
-			
 			<?= $form->field($training, 'note')->textInput(['maxlength' => 255]) ?>
 			
-			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#activity]').tab('show')">
-				Previous 
+			<a class="btn btn-default tendangKePojok" onclick="$('#tab_wizard a[href=#activity]').tab('show')">
+				Sebelumnya 
 				<i class="fa fa-fw fa-arrow-circle-o-left"></i>
 			</a>
 			
 			<div class="clearfix"><hr></div>  
 			
 			<div class="form-group">
-				<?= Html::submitButton('<i class="fa fa-fw fa-save"></i> '. ($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update')), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+				<?= Html::submitButton('<i class="fa fa-fw fa-save"></i> '. ($model->isNewRecord ? Yii::t('app', 'SYSTEM_BUTTON_CREATE') : Yii::t('app', 'SYSTEM_BUTTON_UPDATE')), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 				<?php if (!$model->isNewRecord){ ?>
-				<?= Html::submitButton('<i class="fa fa-fw fa-save"></i> '. Yii::t('app', 'Update as Revision'), ['class' => 'btn btn-warning', 'name' => 'create_revision',]) ?>
+				<?= Html::submitButton('<i class="fa fa-fw fa-save"></i> '. Yii::t('app', 'SYSTEM_BUTTON_UPDATE_REVISION'), ['class' => 'btn btn-warning', 'name' => 'create_revision',]) ?>
 				<?php } ?>
 			</div>
 			<?php if (!$model->isNewRecord){ ?>
 				<div class="well">
-					Update as Revision artinya jika Anda menginginkan agar data lama tetap tersimpan dalam history. Fungsi ini sebaiknya Anda gunakan 
+					<?php echo Yii::t('app', 'SYSTEM_BUTTON_UPDATE_REVISION');?> artinya jika Anda menginginkan agar data lama tetap tersimpan dalam history. Fungsi ini sebaiknya Anda gunakan 
 					apabila perubahan yang Anda lakukan memang sangat mendasar atau signifikan. Adapun perubahan kecil seperti salah penulisan atau ejaan, maka 
 					cukup gunakan fungsi Update saja.
 				</div>
@@ -265,3 +277,13 @@ if(!$model->isNewRecord){
 	<?php $this->registerCss('label{display:block !important;}'); ?>
 
 </div>
+
+<?php
+	$this->registerCss('
+		.tendangKePojok {
+			position: absolute;
+			top: 30px;
+			right: 30px;
+		}
+	');
+?>
