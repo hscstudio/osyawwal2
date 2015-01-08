@@ -4,7 +4,7 @@
 
 Pilih Menu Bar Pusdiklat | Bagian Tata usaha
 
-![GitHub Logo](/images/77.jpg)
+![GitHub Logo](./images/77.jpg)
 
 - Struktur Oraganisasi Bagian Tata usaha
 
