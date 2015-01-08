@@ -70,9 +70,9 @@ class Person extends \yii\db\ActiveRecord
             [['homepage', 'address', 'office_address', 'bank_account', 'graduate_desc', 'position_desc', 'organisation'], 'string', 'max' => 255],
 			
 			['nid', 'filter', 'filter' => 'trim'],
-            ['nid', 'unique', 'targetClass' => '\backend\models\Person', 'message' => 'This NID has already been taken.'],
+            ['nid', 'unique', 'targetClass' => '\backend\models\Person', 'message' => 'NID ini telah dipakai'],
 			['nip', 'filter', 'filter' => 'trim'],
-            ['nip', 'unique', 'targetClass' => '\backend\models\Person', 'message' => 'This NIP has already been taken.'],
+            ['nip', 'unique', 'targetClass' => '\backend\models\Person', 'message' => 'NIP ini telah dipakai'],
             
         ];
     }

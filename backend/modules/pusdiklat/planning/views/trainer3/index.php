@@ -25,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
             
 			[
 				'attribute' => 'name',
+				'label' => 'Nama',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
@@ -37,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			[
 				'attribute' => 'phone',
+				'label' => 'Telepon',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
@@ -50,6 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			
 			[
 				'attribute' => 'organisation',
+				'label' => 'Organisasi',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
