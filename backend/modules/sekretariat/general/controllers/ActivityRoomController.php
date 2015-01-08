@@ -11,7 +11,7 @@ use backend\models\Meeting;
 use backend\models\Reference;
 use backend\models\Organisation;
 use backend\models\ObjectPerson;
-use backend\modules\sekretariat\general\models\ActivityRoomSearch as ActivityRoomSearch;
+use backend\modules\sekretariat\general\models\ActivityRoomSearch;
 use backend\modules\sekretariat\general\models\RoomSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
