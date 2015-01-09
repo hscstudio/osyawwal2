@@ -540,4 +540,31 @@ class StudentController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+	
+	public function actionPasswordStudent($id)
+    {
+        $model = $this->findModel($id);
+		
+		//echo $new_password;
+        if(!empty(Yii::$app->request->post()['password_hash'])) {
+			
+			$model->password_hash = Yii::$app->security->generatePasswordHash(Yii::$app->request->post()['password_hash']);
+            if($model->save()) {
+				Yii::$app->getSession()->setFlash('success', 'Data have updated.');
+			}
+			else{
+				Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
+			}
+			return $this->redirect(['index']);
+			
+        } else {
+			
+			if (Yii::$app->request->isAjax)
+				{return $this->renderAjax('change_password_student', [
+                'model' => $model,]);}
+            else
+            	{return $this->render('change_password_student', [
+                'model' => $model,]);}
+        }
+    }
 }

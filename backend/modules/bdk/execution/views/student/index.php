@@ -65,7 +65,27 @@ $this->params['breadcrumbs'][] = $this->title;
 					return $satker;
 				}				
 			],
-				
+			
+			[
+				'format' => 'raw',
+				'label' => 'Password',
+				'vAlign'=>'middle',
+				'hAlign'=>'center',				
+				'headerOptions'=>['class'=>'kv-sticky-column'],
+				'contentOptions'=>['class'=>'kv-sticky-column'],
+				'value' => function ($data){	
+					$options = [
+									'class'=>'label label-info modal-heart',
+									'data-toggle'=>'tooltip',
+									'data-pjax'=>'0',
+									'data-html'=>'true',
+									'title'=>'CLICK HERE TO CHANGE PASSWORD STUDENT',
+									'modal-title'=>'CHANGE PASSWORD STUDENT',
+									'modal-size'=>'modal-md',
+								];
+						return Html::a('Change Password',['password-student','id'=>$data->person_id],$options);
+				}
+			],	
             // 'eselon4',
             // 'satker',
             // 'no_sk',
@@ -83,5 +103,5 @@ $this->params['breadcrumbs'][] = $this->title;
 		'responsive'=>true,
 		'hover'=>true,
     ]); ?>
-
+<?= \hscstudio\heart\widgets\Modal::widget() ?>
 </div>
