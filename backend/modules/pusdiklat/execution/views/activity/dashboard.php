@@ -12,13 +12,13 @@ $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 
 $this->title = 'Dashboard #'. Inflector::camel2words($model->name);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Activities'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_TRAINING_ACTIVITIES'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="activity-view  panel panel-default">
    <div class="panel-heading"> 
 		<div class="pull-right">
-        <?= (Yii::$app->request->isAjax)?'':Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back', ['index'], ['class' => 'btn btn-xs btn-primary']) ?>
+        <?= (Yii::$app->request->isAjax)?'':Html::a('<i class="fa fa-fw fa-arrow-left"></i> '.Yii::t('app', 'SYSTEM_BUTTON_BACK'), ['index'], ['class' => 'btn btn-xs btn-primary']) ?>
 		</div>
 		<h1 class="panel-title"><?= Html::encode($this->title) ?></h1> 
 	</div>
@@ -35,11 +35,11 @@ $this->params['breadcrumbs'][] = $this->title;
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
-				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+				'footer' => 'Buka <i class="fa fa-arrow-circle-right"></i>',
 			]);
 			?>
-			<h3>Property</h3>
-			<p>Property of Training</p>
+			<h3>Informasi</h3>
+			<p>Lihat semua data pada diklat ini, termasuk dokumen dan mata diklat</p>
 			<?php
 			Box::end();
 			?>
@@ -51,16 +51,16 @@ $this->params['breadcrumbs'][] = $this->title;
 				'type'=>'small', // ,small, solid, tiles
 				'bgColor'=>'aqua', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
 				'bodyOptions' => [],
-				'icon' => 'fa fa-fw fa-home',
+				'icon' => 'fa fa-fw fa-inbox',
 				'link' => ['room','id'=>$model->id],
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
-				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+				'footer' => 'Buka <i class="fa fa-arrow-circle-right"></i>',
 			]);
 			?>
-			<h3>Room</h3>
-			<p>Room of Training</p>
+			<h3>Ruangan</h3>
+			<p>Pesan ruangan untuk diklat ini dan pantau progress-nya</p>
 			<?php
 			Box::end();
 			?>
@@ -72,16 +72,16 @@ $this->params['breadcrumbs'][] = $this->title;
 				'type'=>'small', // ,small, solid, tiles
 				'bgColor'=>'green', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
 				'bodyOptions' => [],
-				'icon' => 'fa fa-fw fa-user-md',
+				'icon' => 'fa fa-fw fa-users',
 				'link' => ['student','id'=>$model->id],
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
-				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+				'footer' => 'Buka <i class="fa fa-arrow-circle-right"></i>',
 			]);
 			?>
-			<h3>Student</h3>
-			<p>Student of Training</p>
+			<h3>Peserta</h3>
+			<p>Input data peserta untuk dikumpulkan dahulu sebelum input Kelas</p>
 			<?php
 			Box::end();
 			?>
@@ -98,11 +98,11 @@ $this->params['breadcrumbs'][] = $this->title;
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
-				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+				'footer' => 'Buka <i class="fa fa-arrow-circle-right"></i>',
 			]);
 			?>
-			<h3>Class</h3>
-			<p>Class of Training</p>
+			<h3>Kelas</h3>
+			<p>Kelola kelas, jadwal, dan assign pengajar ke jadwal. Semua pada fitur ini</p>
 			<?php
 			Box::end();
 			?>
@@ -118,11 +118,11 @@ $this->params['breadcrumbs'][] = $this->title;
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
-				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+				'footer' => 'Buka <i class="fa fa-arrow-circle-right"></i>',
 			]);
 			?>
 			<h3>Form A</h3>
-			<p>Form A</p>
+			<p>Kelola Form A</p>
 			<?php
 			Box::end();
 			?>

@@ -11,12 +11,12 @@ $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 
-$this->title = Yii::t('app', 'Update {modelClass}: ', [
+$this->title = Yii::t('app', 'Perbarui {modelClass}: ', [
     'modelClass' => 'Training Student',
 ]) . ' ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Students'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_STUDENT'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+$this->params['breadcrumbs'][] = Yii::t('app', 'Perbarui');
 ?>
 <div class="training-student-update panel panel-default">
 	
@@ -33,8 +33,8 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 		<div class="row clearfix">
 			<div class="col-md-4">
 			<?= $form->field($training_student, 'status')->widget(Select2::classname(), [
-					'data' => [0=>'Cancel',1=>'Baru (Active)',2=>'Mengulang (Active)',3=>'Mengundurkan Diri'],
-					'options' => ['placeholder' => 'Choose Status ...'],
+					'data' => [0=>'Batal',1=>'Baru (Aktif)',2=>'Mengulang (Aktif)',3=>'Mengundurkan Diri'],
+					'options' => ['placeholder' => 'Pilih Status ...'],
 					'pluginOptions' => [
 					'allowClear' => true
 					],
@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 			</div>
 		</div>
 		<div class="form-group">
-			<?= Html::submitButton($training_student->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $training_student->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+			<?= Html::submitButton($training_student->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'SYSTEM_BUTTON_UPDATE'), ['class' => $training_student->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 		</div>
 
 		<?php ActiveForm::end(); ?>

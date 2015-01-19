@@ -15,22 +15,20 @@ use yii\helpers\Url;
 
 /* @var $searchModel backend\models\RoomSearch */
 
-$this->title = 'Schedule Class #'. $class->class;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Activities'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => Inflector::camel2words($activity->name), 'url' => ['class','id'=>$activity->id]];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Jadwal Diklat';
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_TRAINING_ACTIVITIES'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Kelas '.Inflector::camel2words($activity->name), 'url' => ['class','id'=>$activity->id]];
+$this->params['breadcrumbs'][] = Yii::t('app', 'BPPK_TEXT_CLASS').' '.$class->class;
 
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 ?>
 <div class="schedule-index">
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 	
 	<div class="panel panel-default" id="booking-schedule">
 	<div class="panel-heading">
-		 <h3 class="panel-title"><i class="fa fa-fw fa-plus"></i> Add Activity</h3>
+		 <h3 class="panel-title"><i class="fa fa-fw fa-plus"></i> Tambah Kegiatan</h3>
 	</div>
 	<div class="kv-panel-before">
 	
@@ -83,10 +81,10 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 	?>
 	<table class="table table-striped table-condensed table-hover">
 	<tr>
-		<th style="width:280px;">Start Time</th>
-		<th>Activity</th>
-		<th style="width:100px;">Hours</th>
-		<th style="width:100px;">Action</th>
+		<th style="width:280px;"><?php echo Yii::t('app', 'BPPK_TEXT_START');?></th>
+		<th><?php echo Yii::t('app', 'BPPK_TEXT_ACTIVITY');?></th>
+		<th style="width:100px;"><?php echo Yii::t('app', 'BPPK_TEXT_HOURS');?></th>
+		<th style="width:100px;"><?php echo Yii::t('app', 'SYSTEM_TEXT_ACTIONS');?></th>
 	</tr>
 	<tr>
 		<td>
@@ -159,9 +157,9 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 			}
 		}
 		
-		$data[-1] = 'Coffe Break';
+		$data[-1] = 'Coffee Break';
 		$data[-2] = 'Ishoma';
-		$data[-3] = 'Others';
+		$data[-3] = 'Lain-lain';
 		
 		
 		// The controller action that will render the list
@@ -184,14 +182,14 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 		echo $form->field($trainingScheduleExtSearch, 'training_class_subject_id')->widget(Select2::classname(), [
 			'data' => $data,
 			'options' => [
-				'placeholder' => 'Choose Training Class Subject ...',
+				'placeholder' => 'Pilih '.Yii::t('app', 'BPPK_TEXT_SUBJECT').' ...',
 				'onchange'=>'
 					$("#trainingscheduleextsearch-activity").prop("disabled",false);
 					$("#trainingscheduleextsearch-pic").prop("disabled",false);
 					$("#trainingscheduleextsearch-minutes").prop("disabled",false)
 					$("#trainingscheduleextsearch-hours").prop("disabled",true);
 					if($(this).val()==-1){
-						$("#trainingscheduleextsearch-activity").val("Coffe Break");
+						$("#trainingscheduleextsearch-activity").val("Coffee Break");
 						$("#trainingscheduleextsearch-pic").val("-");	
 						$("#trainingscheduleextsearch-minutes").val("15");	
 						$("#trainingscheduleextsearch-minutes").select();
@@ -203,7 +201,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 						$("#trainingscheduleextsearch-minutes").select();
 					}
 					else if ($(this).val()==-3){
-						$("#trainingscheduleextsearch-activity").val("Nama Kegiatan??");
+						$("#trainingscheduleextsearch-activity").val("Nama Kegiatan?");
 						$("#trainingscheduleextsearch-pic").val("PIC Kegiatan");
 						$("#trainingscheduleextsearch-minutes").val("30");	
 						$("#trainingscheduleextsearch-activity").select();												
@@ -265,7 +263,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 		echo $form->field($trainingScheduleExtSearch, 'activity_room_id')->widget(Select2::classname(), [
 			'data' => $dataRoom,
 			'options' => [
-				'placeholder' => 'Choose Activity Room ...',
+				'placeholder' => 'Pilih Ruangan ...',
 				'onchange'=>'
 				',
 			],
@@ -278,12 +276,12 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 		</td>
 		<td>
 		<div id="other-activity">
-			<?php echo $form->field($trainingScheduleExtSearch, 'activity')->textInput(['placeholder' => 'Other Activity',])->label(false) ?>			
-			<?php echo $form->field($trainingScheduleExtSearch, 'pic')->textInput(['placeholder' => 'PIC Activity',])->label(false) ?>
+			<?php echo $form->field($trainingScheduleExtSearch, 'activity')->textInput(['placeholder' => 'Kegiatan Lain',])->label(false) ?>			
+			<?php echo $form->field($trainingScheduleExtSearch, 'pic')->textInput(['placeholder' => 'PIC',])->label(false) ?>
 		</div>
 		</td>
 		<td>
-			<?php echo $form->field($trainingScheduleExtSearch, 'minutes')->textInput(['placeholder' => 'In Minute',])->label(false) ?>
+			<?php echo $form->field($trainingScheduleExtSearch, 'minutes')->textInput(['placeholder' => 'dalam Menit',])->label(false) ?>
 		</td>
 	</table>
 	<?php ActiveForm::end(); ?>
@@ -309,7 +307,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
         'columns' => [
             ['class' => 'kartik\grid\SerialColumn'],
 			[
-				'label' => 'Datetime',
+				'label' => 'Waktu',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'200px',
@@ -336,7 +334,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				}
 			],
 			[
-				'label' => 'Activity',
+				'label' => Yii::t('app', 'BPPK_TEXT_ACTIVITY'),
 				'vAlign'=>'middle',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
@@ -383,7 +381,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				}
 			],
 			[
-				'label' => 'Hours',
+				'label' => Yii::t('app', 'BPPK_TEXT_HOURS'),
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'50px',
@@ -409,7 +407,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				'value'=>function($data)use ($activity, $class){
 					if($data->training_class_subject_id>0){
 						// FIND PENGAJAR pada tb_training_schedule_trainer (id, tb_training_schedule_id, tb_trainer_id, status);
-						$content = Html::a('<i class="fa fa-plus"></i> Add',
+						$content = Html::a('<i class="fa fa-plus"></i> Tambah',
 						[
 						'trainer-class-schedule',
 						'id'=>$activity->id,
@@ -419,10 +417,11 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 						[
 							'class' => 'label label-success modal-heart',
 							'data-pjax'=>0,
-							'title'=>'Click to add trainer!',
+							'title'=>'Klik untuk menambah pengajar',
 							'data-toggle'=>"tooltip",
 							'data-placement'=>"top",
 							'modal-size' => 'modal-lg',
+							'modal-title' => '<i class="fa fa-fw fa-user-md"></i> Menambah Pengajar'
 						]);
 						
 						$trainingScheduleTrainer = \backend\models\TrainingScheduleTrainer::find()
@@ -456,10 +455,11 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 							[
 							'class' => 'label label-danger link-post',
 							'data-pjax'=>0,
-							'title'=>'click to delete it!',
+							'title'=>'Klik untuk menghapus',
 							//'data-confirm'=>'Are sure delete it!',
 							'data-toggle'=>"tooltip",
 							'data-placement'=>"top",
+							'data-container' => 'body'
 							]);	
 							$content .="</div>";							
 						}
@@ -473,7 +473,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				}
 			],
 			[
-				'label' => 'Room',
+				'label' => Yii::t('app', 'BPPK_TEXT_ROOM'),
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'10px;',
@@ -506,7 +506,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 							'title'=>$room,
 							'data-toggle'=>"tooltip",
 							'data-placement'=>"top",
-							'modal-title'=>'Set Room',
+							'modal-title'=> Yii::t('app', 'BPPK_TEXT_SET_ROOM'),
 						]);
 					}
 					else{
@@ -520,8 +520,9 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 						[
 							'class' => 'label label-warning modal-heart',
 							'data-pjax'=>0,
-							'title'=>'Click to set room!',
+							'title'=>'Klik untuk mengatur ruangan',
 							'data-toggle'=>"tooltip",
+							'modal-title' => '<i class="fa fa-fw fa-inbox"></i> Ubah Ruangan untuk Kegiatan ini',
 							'data-placement'=>"top",
 						]);
 					}
@@ -530,7 +531,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 			
 			[
 				'format' => 'raw',
-				'label' => 'Action',
+				'label' => Yii::t('app', 'SYSTEM_TEXT_ACTIONS'),
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'80px',
@@ -554,7 +555,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 							[
 							'class' => 'label label-danger link-post',
 							'data-pjax'=>0,
-							'title'=>'click to delete it!',
+							'title'=>'Klik untuk menghapus',
 							'data-toggle'=>"tooltip",
 							'data-placement'=>"top",
 							]);
@@ -564,10 +565,10 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 			
         ],
 		'panel' => [
-			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> Schedule</h3>',
+			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-clock-o"></i> Jadwal Diklat pada Kelas '.$class->class.'</h3>',
 			'before'=>
-				Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back', ['class','id'=>$activity->id], ['class' => 'btn btn-warning']).' '.
-				Html::a('<i class="fa fa-fw fa-plus"></i> Add Activity', '#', ['class' => 'btn btn-success','onclick'=>"$('#booking-schedule').slideToggle('slow');return false;",'pjax'=>0]).' '.
+				Html::a('<i class="fa fa-fw fa-arrow-left"></i> '.Yii::t('app', 'SYSTEM_BUTTON_BACK'), ['class','id'=>$activity->id], ['class' => 'btn btn-warning']).' '.
+				Html::a('<i class="fa fa-fw fa-plus"></i> Tambah Kegiatan', '#', ['class' => 'btn btn-success','onclick'=>"$('#booking-schedule').slideToggle('slow');return false;",'pjax'=>0]).' '.
 				'<div class="pull-right" style="margin-right:5px; width:150px;">'.
 				$form->field($trainingScheduleExtSearch, 'scheduleDate')->widget(DateControl::classname(), [
 					'type'=>DateControl::FORMAT_DATE,
@@ -609,7 +610,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 					]
 				])->label(false).
 				'</div>',
-			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', ['class-schedule','id'=>$activity->id,'class_id'=>$class->id], ['class' => 'btn btn-info']),
+			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> '.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), ['class-schedule','id'=>$activity->id,'class_id'=>$class->id], ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'responsive'=>true,
@@ -632,7 +633,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 			}
 		
 			$( "a.link-post" ).click(function() {	
-				if(!confirm("Are you sure delete it??")) return false;	
+				if(!confirm("Yakin ingin menghapus ?")) return false;	
 				var link = $(this)
 				$.ajax({
 					url: link.attr("href"),
@@ -728,7 +729,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 </div>
 <div class="panel panel-default">
 	<div class="panel-heading">
-	<i class="fa fa-fw fa-refresh upload"></i> Document Generator
+	<i class="fa fa-fw fa-refresh upload"></i> Dokumen Generator
 	</div>
     <div class="panel-body">
 		<table class="table table-striped table-condensed table-hover">
@@ -740,7 +741,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				echo Html::a('<i class="fa fa-fw fa-print"></i> Cetak',
 							Url::to(['export-class-schedule','id'=>$activity->id,'class_id'=>$class->id]),
 							[
-								'class'=>'btn btn-primary btn-xs',
+								'class'=>'btn btn-default btn-xs',
 								'title'=>'Cetak Jadwal Diklat Kelas',
 								'data-pjax'=>0,
 								'data-toggle'=>"tooltip",
@@ -776,7 +777,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				echo Html::a('<i class="fa fa-fw fa-print"></i> Cetak',
 							Url::to(['skph','id'=>$activity->id,'class_id'=>$class->id]),
 							[
-								'class'=>'btn btn-primary btn-xs modal-heart',
+								'class'=>'btn btn-default btn-xs modal-heart',
 								'title'=>'Cetak Surat Kuasa Pengambilan Honor',
 								'data-pjax'=>'0',
 								'data-toggle'=>"tooltip",

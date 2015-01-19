@@ -12,37 +12,134 @@ use \kartik\datecontrol\DateControl;
 use kartik\checkbox\CheckboxX;
 use hscstudio\heart\widgets\Box;
 
-$this->title = \yii\helpers\Inflector::camel2words($model->name);
-$this->params['breadcrumbs'][] = ['label' => 'Training', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Pesan Ruangan';
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_TRAINING_ACTIVITIES'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = 'Pesan Ruangan '.\yii\helpers\Inflector::camel2words($model->name);
 
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 ?>
 <div class="room-index">
-	<?php
-		Box::begin([
-			'type'=>'small', // ,small, solid, tiles
-			'bgColor'=>'aqua', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
-			'bodyOptions' => [],
-			'icon' => 'fa fa-fw fa-home',
-			'link' => ['dashboard','id'=>$model->id],
-			'footerOptions' => [
-				'class' => 'dashboard-hide',
-			],
-			'footer' => '<i class="fa fa-arrow-circle-left"></i> Back',
-		]);
-		?>
-		<h3>Room</h3>
-		<p>Room of Training</p>
-	<?php
-	Box::end();
-	?>	
+	<div class="panel panel-default">
+	   	<div class="panel-heading"> 
+			<div class="pull-right">
+	        	<?= (Yii::$app->request->isAjax)?'':Html::a('<i class="fa fa-fw fa-arrow-left"></i> '.Yii::t('app', 'SYSTEM_BUTTON_BACK'), ['index'], ['class' => 'btn btn-xs btn-primary']) ?>
+			</div>
+			<h1 class="panel-title"><i class="fa fa-fw fa-ellipsis-h"></i>Navigasi</h1> 
+		</div>
+
+		<div class="row clearfix">
+			<div class="col-md-3">
+			<?php
+			Box::begin([
+				'type'=>'small', // ,small, solid, tiles
+				'bgColor'=>'red', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+				'bodyOptions' => [],
+				'icon' => 'glyphicon glyphicon-eye-open',
+				'link' => ['property','id'=>$model->id],
+				'footerOptions' => [
+					'class' => 'dashboard-hide',
+				],
+				'footer' => 'Buka <i class="fa fa-arrow-circle-right"></i>',
+			]);
+			?>
+			<h3>Informasi</h3>
+			<p>Informasi Diklat</p>
+			<?php
+			Box::end();
+			?>
+			</div>
+			
+			<div class="col-md-2 margin-top-small">
+			<?php
+			Box::begin([
+				'type'=>'small', // ,small, solid, tiles
+				'bgColor'=>'aqua', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+				'bodyOptions' => [],
+				'icon' => 'fa fa-fw fa-inbox',
+				'link' => ['room','id'=>$model->id],
+				'footerOptions' => [
+					'class' => 'dashboard-hide',
+				],
+				'footer' => 'Buka <i class="fa fa-arrow-circle-right"></i>',
+			]);
+			?>
+			<h3>Ruangan</h3>
+			<p>Anda Disini</p>
+			<?php
+			Box::end();
+			?>
+			</div>
+			
+			<div class="col-md-2">
+			<?php
+			Box::begin([
+				'type'=>'small', // ,small, solid, tiles
+				'bgColor'=>'green', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+				'bodyOptions' => [],
+				'icon' => 'fa fa-fw fa-users',
+				'link' => ['student','id'=>$model->id],
+				'footerOptions' => [
+					'class' => 'dashboard-hide',
+				],
+				'footer' => 'Buka <i class="fa fa-arrow-circle-right"></i>',
+			]);
+			?>
+			<h3>Peserta</h3>
+			<p>Input data peserta</p>
+			<?php
+			Box::end();
+			?>
+			</div>
+			
+			<div class="col-md-2">
+			<?php
+			Box::begin([
+				'type'=>'small', // ,small, solid, tiles
+				'bgColor'=>'yellow', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+				'bodyOptions' => [],
+				'icon' => 'glyphicon glyphicon-home',
+				'link' => ['class','id'=>$model->id],
+				'footerOptions' => [
+					'class' => 'dashboard-hide',
+				],
+				'footer' => 'Buka <i class="fa fa-arrow-circle-right"></i>',
+			]);
+			?>
+			<h3>Kelas</h3>
+			<p>Kelola kelas</p>
+			<?php
+			Box::end();
+			?>
+			</div>
+			<div class="col-md-3">
+			<?php
+			Box::begin([
+				'type'=>'small', // ,small, solid, tiles
+				'bgColor'=>'teal', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+				'bodyOptions' => [],
+				'icon' => 'fa fa-fw fa-check',
+				'link' => ['forma','id'=>$model->id],
+				'footerOptions' => [
+					'class' => 'dashboard-hide',
+				],
+				'footer' => 'Buka <i class="fa fa-arrow-circle-right"></i>',
+			]);
+			?>
+			<h3>Form A</h3>
+			<p>Kelola Form A</p>
+			<?php
+			Box::end();
+			?>
+			</div>
+			
+		</div>
+	</div>
 
 	<div class="panel panel-default" id="booking-room">
 	<div class="panel-heading">
-		 <h3 class="panel-title"><i class="fa fa-fw fa-search"></i> Find Available Room</h3>
+		 <h3 class="panel-title"><i class="fa fa-fw fa-search"></i> Cari Ruang yang Tersedia</h3>
 	</div>
 	<div class="kv-panel-before">
 	<div class="row">
@@ -73,7 +170,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 		]); 
 		?>
 		<?php
-		echo '<label class="control-label">Start Time</label>';		
+		echo '<label class="control-label">Waktu Mulai</label>';		
 		echo "<div class='clearfix' style='width:275px;'>";
 		echo "<div style='width:150px;' class='pull-left'>";
 		echo $form->field($searchActivityRoomModel, 'startDateX')->widget(DateControl::classname(), [
@@ -111,7 +208,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 		?>
 		
 		<?php
-		echo '<label class="control-label">End Time</label>';		
+		echo '<label class="control-label">Waktu Selesai</label>';		
 		echo "<div class='clearfix' style='width:275px;'>";
 		echo "<div style='width:150px;' class='pull-left'>";
 		echo $form->field($searchActivityRoomModel, 'endDateX')->widget(DateControl::classname(), [
@@ -155,18 +252,18 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 			'options'=>[
 				//'value'=>1
 			],
-		]); ?>
+		])->label('Ada fasilitas komputer'); ?>
 		</div>
 		<div class="col-md-6">
 		<?= $form->field($searchActivityRoomModel, 'hostel')->widget(CheckboxX::classname(), [
 			'pluginOptions'=>['threeState'=>false,'size'=>'sm','inline'=>true, ]
-		]); ?>
+		])->label('Bisa menginap/asrama'); ?>
 		</div>
 		</div>
 		
 		<div class="row clearfix">
 			<div class="col-md-4">
-			<?= $form->field($searchActivityRoomModel, 'capacity')->textInput(['maxlength' => 5]) ?>
+			<?= $form->field($searchActivityRoomModel, 'capacity')->textInput(['maxlength' => 5])->label('Berapa daya tampung?') ?>
 			</div>
 		</div>
 		
@@ -176,19 +273,19 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 			echo $form->field($searchActivityRoomModel, 'location')->widget(Select2::classname(), [
 				'data' => $satkers,
 				'options' => [
-					'placeholder' => 'Choose Satker ...'
+					'placeholder' => 'Pilih Satker ...'
 				],
 				'pluginOptions' => [
 					'allowClear' => true
 				],
-			]); 
+			])->label('Lokasi');
 			
 			?>
 			</div>
 		</div>
 		
 		<?= Html::submitButton(
-			'<span class="fa fa-fw fa-search"></span> Search', 
+			'<span class="fa fa-fw fa-search"></span> Cari', 
 			['class' => 'btn btn-primary']) ?>
 		</div>			
 		<div class="col-md-8" id="available-room">
@@ -244,7 +341,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				}
 			],
 			[
-				'header' => '<div class="kv-sticky-column kv-align-center kv-align-middle">Room</div>',
+				'header' => '<div class="kv-sticky-column kv-align-center kv-align-middle">Ruang</div>',
 				'vAlign'=>'middle',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
@@ -269,26 +366,26 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				'value' => function ($data){									
 					if ($data->status==1){
 						$label='label label-info';
-						$title='Process';
+						$title='Proses';
 					}	
 					else if ($data->status==2){ 
 						$label='label label-success';
-						$title='Approved';
+						$title='Disetujui';
 					}
 					else if ($data->status==3){ 
 						$label='label label-danger';
-						$title='Rejected';
+						$title='Ditolak';
 					}
 					else {
 						$label='label label-warning';
-						$title='Waiting';
+						$title='Menunggu';
 					}
 					return Html::tag('span', $title, ['class'=>$label,'title'=>$data->note,'data-toggle'=>"tooltip",'data-placement'=>"top",'style'=>'cursor:pointer']);
 				}
 			],
 			[
 				'format' => 'raw',
-				'label' => 'Action',
+				'label' => 'Tindakan',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'80px',
@@ -313,7 +410,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 							], 
 							[
 							'class' => 'label label-danger link-post-2','data-pjax'=>0,
-							'title'=>'click to unset it!',
+							'title'=>'Klik untuk membatalkan pesanan',
 							'data-toggle'=>"tooltip",
 							'data-placement'=>"top",
 							'data-method' => "post",
@@ -324,9 +421,9 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 			
         ],
 		'panel' => [
-			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> List of Booked Room</h3>',
-			'before'=>Html::a('<i class="fa fa-fw fa-plus"></i> Booking Room', '#', ['class' => 'btn btn-success','onclick'=>"$('#booking-room').slideToggle('slow');return false;",'pjax'=>0]),
-			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', ['room','id'=>$model->id], ['class' => 'btn btn-info']),
+			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> Daftar Ruangan yang Telah Dipesan</h3>',
+			'before'=>Html::a('<i class="fa fa-fw fa-plus"></i> Pesan Ruangan', '#', ['class' => 'btn btn-success','onclick'=>"$('#booking-room').slideToggle('slow');return false;",'pjax'=>0]),
+			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i>'.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), ['room','id'=>$model->id], ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'responsive'=>true,

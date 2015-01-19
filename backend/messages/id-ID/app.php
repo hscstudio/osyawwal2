@@ -71,6 +71,7 @@ return [
 	'BPPK_TEXT_ORGANISATION_ID' => 'ID Organisasi',
 	'BPPK_TEXT_CHAIRMAN' => 'Pejabat',
 	'BPPK_TEXT_ACTIVITY_ID' => 'ID Aktivitas',
+	'BPPK_TEXT_ACTIVITY' => 'Aktivitas',
 	'BPPK_TEXT_STAGE' => 'Rumpun',
 	'BPPK_TEXT_RECIPIENT' => 'Penerima',
 	'BPPK_TEXT_AUTHOR' => 'Pembuat',
@@ -109,6 +110,7 @@ return [
     'BPPK_TEXT_OFFICE_PHONE' => 'Telepon Kantor',
     'BPPK_TEXT_OFFICE_FAX' => 'Fax Kantor',
     'BPPK_TEXT_OFFICE_EMAIL' => 'Email Kantor',
+    'BPPK_TEXT_COST_REAL' => 'Realisasi Biaya',
     'BPPK_TEXT_OFFICE_ADDRESS' => 'Alamat Kantor',
     'BPPK_TEXT_BANK_ACCOUNT' => 'Nomor Rekening Bank',
     'BPPK_TEXT_MARRIED' => 'Menikah',
@@ -158,8 +160,10 @@ return [
     'BPPK_TEXT_PRE_TEST' => 'Pre Test',
     'BPPK_TEXT_POST_TEST' => 'Post Test',
     'BPPK_TEXT_TRAINING_SCHEDULE_ID' => 'ID Jadwal Diklat',
+    'BPPK_TEXT_SCHEDULE' => 'Jadwal Diklat',
     'BPPK_TEXT_SPREAD' => 'Sebaran',
     'BPPK_TEXT_TRAINING_CLASS_STUDENT_ID' => 'ID Peserta Kelas Diklat',
+    'BPPK_TEXT_NPP' => 'Nomor Pokok Peserta',
     'BPPK_TEXT_SERI' => 'Seri',
     'BPPK_TEXT_DATE' => 'Tanggal',
     'BPPK_TEXT_REASON' => 'Alasan',
@@ -169,6 +173,8 @@ return [
     'BPPK_TEXT_TEXT4' => 'Teks 4',
     'BPPK_TEXT_TEXT5' => 'Teks 5',
     'BPPK_TEXT_OVERALL' => 'Keseluruhan',
+
+    'BPPK_BUTTON_GENERATE_FORM_A' => 'Buat Form A',
 
 	'BPPK_TEXT_CONFIRM_DELETE' => 'Anda yakin ingin menghapus?',
 
