@@ -13,6 +13,19 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 $this->title = 'Update #'.$model->person_id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Students'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+// ngeformat
+$status_icon = [
+	0 => '<i class="fa fa-fw fa-ban"></i> Diblokir',
+	1 => '<i class="fa fa-fw fa-check-circle"></i> Aktif'
+];
+$status_class = [
+	0 => 'danger',
+	1 => 'success'
+];
+$status = '<div class="label label-'.$status_class[$model->status].'">'.$status_icon[$model->status].'</div>';
+// dah
+
 ?>
 <div class="student-view  panel panel-default">
 
@@ -24,34 +37,25 @@ $this->params['breadcrumbs'][] = $this->title;
 		<h1 class="panel-title"><?= Html::encode($this->title) ?></h1> 
 	</div>
 	<div class="panel-body">
-
-		<!--
-		<p>
-			<?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->person_id], ['class' => 'btn btn-primary']) ?>
-			<?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->person_id], [
-				'class' => 'btn btn-danger',
-				'data' => [
-					'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-					'method' => 'post',
-				],
-			]) ?>
-		</p>
-		-->
 			<?= DetailView::widget([
 				'model' => $model,
 				'attributes' => [
 		            'person_id',
-            'username',
-            'password_hash',
-            'auth_key',
-            'password_reset_token',
-            'eselon2',
-            'eselon3',
-            'eselon4',
-            'satker',
-            'no_sk',
-            'tmt_sk',
-            'status',
+		            'username',
+		            'password_hash',
+		            'auth_key',
+		            'password_reset_token',
+		            'eselon2',
+		            'eselon3',
+		            'eselon4',
+		            'satker',
+		            'no_sk',
+		            'tmt_sk',
+		            [
+		            	'label' => 'Status',
+		            	'format' => 'raw',
+		            	'value' => $status
+		            ]
 				],
 			]) ?>
 	</div>

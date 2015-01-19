@@ -23,16 +23,16 @@ use yii\helpers\Url;
 	<?= $form->errorSummary($model) ?> <!-- ADDED HERE -->
 	
 	<ul class="nav nav-tabs" role="tablist" id="tab_wizard">
-		<li class="active"><a href="#personal_information" role="tab" data-toggle="tab">Personal</a></li>
+		<li class="active"><a href="#personal_information" role="tab" data-toggle="tab">Pribadi</a></li>
 		<?php 
 		if(!$student->isNewRecord){ ?>
-		<li class=""><a href="#student_information" role="tab" data-toggle="tab">Student</a></li>
+		<li class=""><a href="#student_information" role="tab" data-toggle="tab">Peserta</a></li>
 		<?php } ?>
-		<li class=""><a href="#contact_information" role="tab" data-toggle="tab">Contact</a></li>
-		<li class=""><a href="#employee_information" role="tab" data-toggle="tab">Employee</a></li>
-		<li class=""><a href="#office_information" role="tab" data-toggle="tab">Office</a></li>
-		<li class=""><a href="#education_information" role="tab" data-toggle="tab">Education</a></li>
-		<li class=""><a href="#photo_document" role="tab" data-toggle="tab">Photo & Document</a></li>
+		<li class=""><a href="#contact_information" role="tab" data-toggle="tab">Kontak</a></li>
+		<li class=""><a href="#employee_information" role="tab" data-toggle="tab">Kepegawaian</a></li>
+		<li class=""><a href="#office_information" role="tab" data-toggle="tab">Kantor</a></li>
+		<li class=""><a href="#education_information" role="tab" data-toggle="tab">Pendidikan</a></li>
+		<li class=""><a href="#photo_document" role="tab" data-toggle="tab">Foto & Dokumen</a></li>
 	</ul>
 	<div class="tab-content" style="border: 1px solid #ddd; border-top-color: transparent; padding:10px; background-color: #fff;">
 		<?php
@@ -46,7 +46,7 @@ use yii\helpers\Url;
 					
 			$field[$object_reference] = $form->field(${$object_reference}, '['.$object_reference.']reference_id')->widget(Select2::classname(), [
 				'data' => $data,
-				'options' => ['placeholder' => 'Choose '.$label.' ...'],
+				'options' => ['placeholder' => 'Pilih '.$label.' ...'],
 				'pluginOptions' => [
 				'allowClear' => true
 				],
@@ -73,8 +73,8 @@ use yii\helpers\Url;
 				<div class="col-md-3">
 				<?= $form->field($model, 'gender')->widget(SwitchInput::classname(), [
 					'pluginOptions' => [
-						'onText' => 'Male',
-						'offText' => 'Female',
+						'onText' => 'Pria',
+						'offText' => 'Wanita',
 					]
 				]) ?> 
 				</div>
@@ -93,8 +93,8 @@ use yii\helpers\Url;
 				<div class="col-md-3">
 				<?= $form->field($model, 'married')->widget(SwitchInput::classname(), [
 					'pluginOptions' => [
-						'onText' => 'On',
-						'offText' => 'Off',
+						'onText' => 'Ya',
+						'offText' => 'Tidak',
 					]
 				]) ?> 
 				</div>
@@ -115,7 +115,7 @@ use yii\helpers\Url;
 			</div>						
 			
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#<?= (!$student->isNewRecord)? 'student_information' : 'contact_information'; ?>]').tab('show')">
-				Next 
+				Berikutnya 
 				<i class="fa fa-fw fa-arrow-circle-o-right"></i>
 			</a>
 		</div>
@@ -139,11 +139,11 @@ use yii\helpers\Url;
 			<?= $form->field($student, 'tmt_sk')->textInput(['maxlength' => 255]) ?>
 			
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#personal_information]').tab('show')">
-				Previous 
+				Sebelumnya 
 				<i class="fa fa-fw fa-arrow-circle-o-left"></i>
 			</a>
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#contact_information]').tab('show')">
-				Next 
+				Berikutnya 
 				<i class="fa fa-fw fa-arrow-circle-o-right"></i>
 			</a>
 		</div>
@@ -168,11 +168,11 @@ use yii\helpers\Url;
 			<?= $form->field($model, 'bank_account')->textInput(['maxlength' => 255]) ?>
 			
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#<?= (!$student->isNewRecord)? 'student_information' : 'personal_information'; ?>]').tab('show')">
-				Previous 
+				Sebelumnya 
 				<i class="fa fa-fw fa-arrow-circle-o-left"></i>
 			</a>
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#employee_information]').tab('show')">
-				Next 
+				Berikutnya 
 				<i class="fa fa-fw fa-arrow-circle-o-right"></i>
 			</a>
 			
@@ -190,11 +190,11 @@ use yii\helpers\Url;
 			<?= $field['rank_class'] ?> 
 			
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#contact_information]').tab('show')">
-				Previous 
+				Sebelumnya 
 				<i class="fa fa-fw fa-arrow-circle-o-left"></i>
 			</a>
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#office_information]').tab('show')">
-				Next 
+				Berikutnya 
 				<i class="fa fa-fw fa-arrow-circle-o-right"></i>
 			</a>
 			
@@ -206,10 +206,10 @@ use yii\helpers\Url;
 			<div class="row clearfix">
 				<div class="col-md-4">
 				<?php
-				$data = ['5' => 'Pelaksana / Others','4' => 'Eselon 4','3' => 'Eselon 3','2' => 'Eselon 2','1' => 'Eselon 1'];
+				$data = ['5' => 'Pelaksana / Lainnya','4' => 'Eselon 4','3' => 'Eselon 3','2' => 'Eselon 2','1' => 'Eselon 1'];
 				echo $form->field($model, 'position')->widget(Select2::classname(), [
 					'data' => $data,
-					'options' => ['placeholder' => 'Choose position ...'],
+					'options' => ['placeholder' => 'Pilih Jabatan ...'],
 					'pluginOptions' => [
 					'allowClear' => true
 					],
@@ -237,11 +237,11 @@ use yii\helpers\Url;
 			<?= $form->field($model, 'office_address')->textInput(['maxlength' => 255]) ?>
 			
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#employee_information]').tab('show')">
-				Previous 
+				Sebelumnya 
 				<i class="fa fa-fw fa-arrow-circle-o-left"></i>
 			</a>
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#education_information]').tab('show')">
-				Next 
+				Berikutnya 
 				<i class="fa fa-fw fa-arrow-circle-o-right"></i>
 			</a>
 			
@@ -260,11 +260,11 @@ use yii\helpers\Url;
 			</div>
 			
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#office_information]').tab('show')">
-				Previous 
+				Sebelumnya 
 				<i class="fa fa-fw fa-arrow-circle-o-left"></i>
 			</a>
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#photo_document]').tab('show')">
-				Next 
+				Berikutnya 
 				<i class="fa fa-fw fa-arrow-circle-o-right"></i>
 			</a>
 			
@@ -336,10 +336,10 @@ use yii\helpers\Url;
 			<div class="clearfix"></div>
 			
 			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#education_information]').tab('show')">
-				Previous 
+				Sebelumnya 
 				<i class="fa fa-fw fa-arrow-circle-o-left"></i>
 			</a>
-			<?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary','onclick'=>'if($("#agreement_status").prop("checked")==false){ alert("Anda harus menyetujui Pakta Integritas!"); return false; }']) ?>
+			<?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'SYSTEM_BUTTON_CREATE') : Yii::t('app', 'SYSTEM_BUTTON_UPDATE'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary','onclick'=>'if($("#agreement_status").prop("checked")==false){ alert("Anda harus menyetujui Pakta Integritas!"); return false; }']) ?>
 		</div>
 	</div>
 	<div class="clearfix"><hr></div>

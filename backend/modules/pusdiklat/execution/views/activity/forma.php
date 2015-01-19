@@ -10,25 +10,135 @@ use backend\models\Reference;
 use backend\models\Organisation;
 use backend\models\Person;
 use backend\models\Employee;
+use hscstudio\heart\widgets\Box;
 
-/* @var $this yii\web\View */
-/* @var $model backend\models\Program */
-/* @var $form yii\widgets\ActiveForm */
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
-$this->title = Yii::t('app', 'Generate {modelClass}: '.$model->activity->name, [
+$this->title = Yii::t('app', 'Generate {modelClass}', [
     'modelClass' => 'Form A',]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Dashboard'), 'url' => ['dashboard','id'=>$model->activity_id]];
-$this->params['breadcrumbs'][] = ['label' => 'Form A'];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_TRAINING_ACTIVITIES'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = 'Form A '. Inflector::camel2words($model->activity->name);
 ?>
+<div class="panel panel-default">
+    <div class="panel-heading"> 
+        <div class="pull-right">
+            <?= (Yii::$app->request->isAjax)?'':Html::a('<i class="fa fa-fw fa-arrow-left"></i> '.Yii::t('app', 'SYSTEM_BUTTON_BACK'), ['index'], ['class' => 'btn btn-xs btn-primary']) ?>
+        </div>
+        <h1 class="panel-title"><i class="fa fa-fw fa-ellipsis-h"></i>Navigasi</h1> 
+    </div>
+
+    <div class="row clearfix">
+        <div class="col-md-3">
+        <?php
+        Box::begin([
+            'type'=>'small', // ,small, solid, tiles
+            'bgColor'=>'red', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+            'bodyOptions' => [],
+            'icon' => 'glyphicon glyphicon-eye-open',
+            'link' => ['property','id'=>$model->activity->id],
+            'footerOptions' => [
+                'class' => 'dashboard-hide',
+            ],
+            'footer' => 'Buka <i class="fa fa-arrow-circle-right"></i>',
+        ]);
+        ?>
+        <h3>Informasi</h3>
+        <p>Informasi Diklat</p>
+        <?php
+        Box::end();
+        ?>
+        </div>
+        
+        <div class="col-md-2">
+        <?php
+        Box::begin([
+            'type'=>'small', // ,small, solid, tiles
+            'bgColor'=>'aqua', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+            'bodyOptions' => [],
+            'icon' => 'fa fa-fw fa-inbox',
+            'link' => ['room','id'=>$model->activity->id],
+            'footerOptions' => [
+                'class' => 'dashboard-hide',
+            ],
+            'footer' => 'Buka <i class="fa fa-arrow-circle-right"></i>',
+        ]);
+        ?>
+        <h3>Ruangan</h3>
+        <p>Pesan Ruangan</p>
+        <?php
+        Box::end();
+        ?>
+        </div>
+        
+        <div class="col-md-2">
+        <?php
+        Box::begin([
+            'type'=>'small', // ,small, solid, tiles
+            'bgColor'=>'green', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+            'bodyOptions' => [],
+            'icon' => 'fa fa-fw fa-users',
+            'link' => ['student','id'=>$model->activity->id],
+            'footerOptions' => [
+                'class' => 'dashboard-hide',
+            ],
+            'footer' => 'Buka <i class="fa fa-arrow-circle-right"></i>',
+        ]);
+        ?>
+        <h3>Peserta</h3>
+        <p>Input Data Peserta</p>
+        <?php
+        Box::end();
+        ?>
+        </div>
+        
+        <div class="col-md-2">
+        <?php
+        Box::begin([
+            'type'=>'small', // ,small, solid, tiles
+            'bgColor'=>'yellow', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+            'bodyOptions' => [],
+            'icon' => 'glyphicon glyphicon-home',
+            'link' => ['class','id'=>$model->activity->id],
+            'footerOptions' => [
+                'class' => 'dashboard-hide',
+            ],
+            'footer' => 'Buka <i class="fa fa-arrow-circle-right"></i>',
+        ]);
+        ?>
+        <h3>Kelas</h3>
+        <p>Kelola kelas</p>
+        <?php
+        Box::end();
+        ?>
+        </div>
+        <div class="col-md-3 margin-top-small">
+        <?php
+        Box::begin([
+            'type'=>'small', // ,small, solid, tiles
+            'bgColor'=>'teal', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+            'bodyOptions' => [],
+            'icon' => 'fa fa-fw fa-check',
+            'link' => ['forma','id'=>$model->activity->id],
+            'footerOptions' => [
+                'class' => 'dashboard-hide',
+            ],
+            'footer' => 'Buka <i class="fa fa-arrow-circle-right"></i>',
+        ]);
+        ?>
+        <h3>Form A</h3>
+        <p>Anda Disini</p>
+        <?php
+        Box::end();
+        ?>
+        </div>
+        
+    </div>
+</div>
 <div class="activity-update panel panel-default">
 	
-    <div class="panel-heading">		
-		<div class="pull-right">
-        <?= (Yii::$app->request->isAjax)?'':Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back', ['index'], ['class' => 'btn btn-xs btn-primary']) ?>
-		</div>
-		<h1 class="panel-title"><?= Html::encode($this->title) ?></h1>
+    <div class="panel-heading">
+		<h1 class="panel-title"><i class="fa fa-fw fa-gear"></i>Pengaturan</h1>
 	</div>
 	<div class="panel-body">
 		<div class="letter-assignment-form">
@@ -102,7 +212,13 @@ $this->params['breadcrumbs'][] = ['label' => 'Form A'];
                 <div class="col-md-6">
                 <?php
 				echo Html::beginTag('label',['class'=>'control-label']).'Nama Penandatangan II'.Html::endTag('label');
-				echo Html::input('text','nama_ttd_dua',Person::findOne(['id'=>Employee::findOne(['satker_id'=>Yii::$app->user->identity->employee->satker_id,'organisation_id'=>'396','chairman'=>'1'])->person_id])->name,['class'=>'form-control','id'=>'ttd_dua']);
+				echo Html::input('text','nama_ttd_dua',Person::findOne([
+                    'id'=>Employee::findOne([
+                        'satker_id'=>Yii::$app->user->identity->employee->satker_id,
+                        'organisation_id'=>'396',
+                        'chairman'=>'1'
+                    ])->person_id
+                ])->name,['class'=>'form-control','id'=>'ttd_dua']);
 				?>
                 </div>
             </div>    
@@ -123,7 +239,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Form A'];
                  
             <div class="clearfix"><hr></div> 
             <div class="form-group">
-                <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Generate') : Yii::t('app', 'Generate'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+                <?= Html::submitButton($model->isNewRecord ? '<i class="fa fa-fw fa-file-o"></i>'.Yii::t('app', 'BPPK_BUTTON_GENERATE_FORM_A') : '<i class="fa fa-fw fa-file-o"></i>'.Yii::t('app', 'BPPK_BUTTON_GENERATE_FORM_A'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
             </div>
         
             <?php ActiveForm::end(); ?>

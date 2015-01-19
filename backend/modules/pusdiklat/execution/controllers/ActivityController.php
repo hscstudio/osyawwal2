@@ -174,29 +174,34 @@ class ActivityController extends Controller
 					$model->satker = 'current';
 					$model->location = implode('|',$model->location);							
 					if($model->save()) {
-						Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Activity data have saved.');
+						Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Diklat berhasil diperbarui');
 						if($training->load(Yii::$app->request->post())){							
 							$training->activity_id= $model->id;
 							/* $training->program_revision = (int)\backend\models\ProgramHistory::getRevision($training->program_id); */
 							
 							if($training->save()){								 
-								Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Training & activity data have saved.');
+								Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Diklat berhasil diperbarui');
 								$transaction->commit();
 								return $this->redirect(['index']);
 							}
 						}						
 					}
 					else{
-						Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Data is NOT saved.');
+						Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Diklat gagal diperbarui');
 					}				
 				}
 			}
 			catch (Exception $e) {
-				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Roolback transaction. Data is not saved');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Diklat gagal diperbarui');
 			}
         } 
 		
-		return $this->render('update', $renders);
+		if (Yii::$app->request->isAjax) {
+			return $this->renderAjax('update', $renders);
+		}
+		else {
+			return $this->render('update', $renders);
+		}
     }
 
    
@@ -334,7 +339,7 @@ class ActivityController extends Controller
 		$renders['model'] = $model;
 		$object_people_array = [
 			//1213030100 CEK KD_UNIT_ORG 1213030100 IN TABLE ORGANISATION IS SUBBIDANG PENYEL I
-			'organisation_1213030100'=>'PIC TRAINING ACTIVITY [BIDANG PENYELENGGARAAN I]'
+			'organisation_1213030100'=>'PIC Diklat [BIDANG PENYELENGGARAAN I]'
 		];
 		$renders['object_people_array'] = $object_people_array;
 		foreach($object_people_array as $object_person=>$label){
@@ -362,12 +367,12 @@ class ActivityController extends Controller
 				$person_id = (int)Yii::$app->request->post('ObjectPerson')[$object_person]['person_id'];
 				Heart::objectPerson($object_people[$object_person],$person_id,'activity',$id,$object_person);
 			}	
-			Yii::$app->getSession()->setFlash('success', 'Pic have updated.');
+			Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> PIC berhasil diperbarui');
 			if (!Yii::$app->request->isAjax) {
-				return $this->redirect(['view', 'id' => $model->id]);	
+				return $this->redirect(['index']);
 			}
 			else{
-				echo 'Pic have updated.';
+				echo '<i class="fa fa-fw fa-check-circle"></i>PIC berhasil diperbarui';
 			}
         } else {
 			if (Yii::$app->request->isAjax)
@@ -386,9 +391,15 @@ class ActivityController extends Controller
     {
 		$model = $this->findModel($id);
 		
-        return $this->render('dashboard', [
-            'model' => $model,
-        ]);
+		if (Yii::$app->request->isAjax) {
+	        return $this->renderAjax('dashboard', [
+	            'model' => $model,
+	        ]);
+	    } else {
+	    	return $this->render('dashboard', [
+	            'model' => $model,
+	        ]);
+	    }
     }
 	
 	/**
@@ -469,13 +480,13 @@ class ActivityController extends Controller
 			$trainingClassCount = (int) $objectTrainingClass->count();
 			
 			if($student>$trainingStudentCount){
-				Yii::$app->session->setFlash('error', 'Your request more than stock!');
+				Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Jumlah peserta yang akan diacak terlalu besar');
 			}
 			else if($trainingClassCount==0){
-				Yii::$app->session->setFlash('error', 'There is no class!');
+				Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Kelas belum ada');
 			}
 			else if($baseon==0 or count($baseon)==0){
-				Yii::$app->session->setFlash('error', 'Select base on random!');
+				Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Pilih kriteria pengacakan terlebih dahulu');
 			}
 			else{				
 				$baseon = implode(',',$baseon);
@@ -518,7 +529,7 @@ class ActivityController extends Controller
 					$idx++;
 				}
 				
-				Yii::$app->session->setFlash('success', $student.' student added!');
+				Yii::$app->session->setFlash('success', $student.'<i class="fa fa-fw fa-check-circle"></i> Peserta berhasil ditambahkan');
 				
 				$subquery = TrainingClassStudent::find()
 					->select('training_student_id')
@@ -578,14 +589,14 @@ class ActivityController extends Controller
 			}
 			
 			if($failed>0){
-				Yii::$app->session->setFlash('warning', '<i class="fa fa-fw fa-times-circle"></i>'.$created.' class created but '.$failed.' class failed');
+				Yii::$app->session->setFlash('warning', '<i class="fa fa-fw fa-times-circle"></i>'.$created.' kelas dibuat tapi gagal membuat '.$failed.' kelas');
 			}
 			else{
-				Yii::$app->session->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>'.$created.' class created');
+				Yii::$app->session->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>'.$created.' kelas dibuat');
 			}
 		}
 		else{
-			Yii::$app->session->setFlash('warning', '<i class="fa fa-fw fa-times-circle"></i>No class created');
+			Yii::$app->session->setFlash('warning', '<i class="fa fa-fw fa-times-circle"></i> Tidak ada kelas yang dibuat');
 		}
 		
 		return $this->redirect(['class', 'id' => $id]);
@@ -601,7 +612,7 @@ class ActivityController extends Controller
     {
         $model = $this->findModelClass($class_id);
 		$model->delete();
-		Yii::$app->getSession()->setFlash('success', 'Data have deleted.');
+		Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Data berhasil dihapus');
         return $this->redirect(['class', 'id' => $id]);
     }
 	
@@ -689,13 +700,13 @@ class ActivityController extends Controller
 		}
 		
 		if($failed>0){
-			Yii::$app->session->setFlash('warning', $created.' class subject created but '.$failed.' class failed');
+			Yii::$app->session->setFlash('warning', '<i class="fa fa-fw fa-exclamation-circle"></i> '.$created.' mata pelajaran berhasil dibuat, tapi '.$failed.' gagal');
 		}
 		else if($created==0){
-			Yii::$app->session->setFlash('warning', 'No class subject created');
+			Yii::$app->session->setFlash('warning', '<i class="fa fa-fw fa-exclamation-circle"></i>Mata pelajaran gagal dibuat');
 		}
 		else{
-			Yii::$app->session->setFlash('success', $created.' class subject created, awesome :)');
+			Yii::$app->session->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> '.$created.' mata pelajaran berhasil dibuat');
 		}
 		
 		return $this->redirect(['class', 'id' => $id]);	
@@ -859,10 +870,10 @@ class ActivityController extends Controller
 			->one();
         if ($training_student->load(Yii::$app->request->post())) {
             if($training_student->save()) {
-				Yii::$app->getSession()->setFlash('success', 'Data have updated.');
+				Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Data berhasil diperbarui');
 			}
 			else{
-				Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Data gagal diperbarui');
 			}
 			return $this->redirect(['student', 'id' => $model->id]);
         } 
@@ -911,10 +922,10 @@ class ActivityController extends Controller
 
         if (Yii::$app->request->post()){ 
 			if($training_student->save()) {
-				Yii::$app->getSession()->setFlash('success', 'New data have saved.');
+				Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Data berhasil disimpan');
 			}
 			else{
-				Yii::$app->getSession()->setFlash('error', 'New data is not saved.');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Data gagal disimpan');
 			}
             return $this->redirect(['choose-student', 'id' => $model->id]);
         } else {
@@ -943,7 +954,7 @@ class ActivityController extends Controller
     {
         $model = $this->findModelStudent($training_student_id);
 		$model->delete();
-		Yii::$app->getSession()->setFlash('success', 'Data have deleted.');
+		Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Data berhasil dihapus');
         return $this->redirect(['student', 'id' => $id]);
     }
 	
@@ -1458,17 +1469,17 @@ class ActivityController extends Controller
 			
 			$start = date('Y-m-d H:i',strtotime($post['startDateX'].' '.$post['startTimeX'])); 
 			$end = date('Y-m-d H:i',strtotime($post['endDateX'].' '.$post['endTimeX'])); 
-			echo "<label><strong>List of Available Room</strong></label>";
+			echo "<label><strong>Daftar Ruang yang Tersedia</strong></label>";
 			echo '<div class="table-responsive">
 			<table class="table table-hover table-bordered table-striped table-condensed">
 			<thead>
 			<tr>
 				<th class="kv-sticky-column kv-align-center kv-align-middle" style="width:60px;">No</th>
-				<th class="kv-sticky-column kv-align-center kv-align-middle">Room</th>
-				<th class="kv-sticky-column kv-align-center kv-align-middle" style="width:60px;">Capa</th>
-				<th class="kv-sticky-column kv-align-center kv-align-middle" style="width:60px;">Comp</th>
-				<th class="kv-sticky-column kv-align-center kv-align-middle" style="width:60px;">Host</th>
-				<th class="kv-sticky-column kv-align-center kv-align-middle" style="width:60px;">Action</th>
+				<th class="kv-sticky-column kv-align-center kv-align-middle">Ruang</th>
+				<th class="kv-sticky-column kv-align-center kv-align-middle" style="width:60px;">Kapasitas</th>
+				<th class="kv-sticky-column kv-align-center kv-align-middle" style="width:60px;">Komputer</th>
+				<th class="kv-sticky-column kv-align-center kv-align-middle" style="width:60px;">Menginap</th>
+				<th class="kv-sticky-column kv-align-center kv-align-middle" style="width:60px;">Tindakan</th>
 			</th>
 			</thead>
 			<tbody>';
@@ -1517,8 +1528,42 @@ class ActivityController extends Controller
 						}
 						echo '</td>';
 						echo '<td class="kv-sticky-column kv-align-center kv-align-middle">'.$data->capacity.'</td>';
-						echo '<td class="kv-sticky-column kv-align-center kv-align-middle">'.$data->computer.'</td>';
-						echo '<td class="kv-sticky-column kv-align-center kv-align-middle">'.$data->hostel.'</td>';
+
+						$computer_icon = [
+							0 => '<i class="fa fa-fw fa-times-circle"></i>',
+							1 => '<i class="fa fa-fw fa-check-circle"></i>',
+						];
+						$computer_class = [
+							0 => 'danger',
+							1 => 'success',
+						];
+						$computer_text = [
+							0 => 'Tidak',
+							1 => 'Ya',
+						];
+						echo '<td class="kv-sticky-column kv-align-center kv-align-middle">
+								<div class="label label-'.$computer_class[$data->computer].'">
+									'.$computer_icon[$data->computer].$computer_text[$data->computer].'
+								</div>
+							</td>';
+
+						$hostel_icon = [
+							0 => '<i class="fa fa-fw fa-times-circle"></i>',
+							1 => '<i class="fa fa-fw fa-check-circle"></i>',
+						];
+						$hostel_class = [
+							0 => 'danger',
+							1 => 'success',
+						];
+						$hostel_text = [
+							0 => 'Tidak',
+							1 => 'Ya',
+						];
+						echo '<td class="kv-sticky-column kv-align-center kv-align-middle">
+								<div class="label label-'.$hostel_class[$data->hostel].'">
+									'.$hostel_icon[$data->hostel].$hostel_text[$data->hostel].'
+								</div>
+							</td>';
 						echo '<td class="kv-sticky-column kv-align-center kv-align-middle">';
 						echo Html::a('<span class="fa fa-square-o"></span>', 
 							[
@@ -1528,8 +1573,9 @@ class ActivityController extends Controller
 							], 
 							[
 							'class' => 'label label-info link-post','data-pjax'=>0,
-							'title'=>'click to set it!',
+							'title'=>'Klik untuk memesan',
 							'data-toggle'=>"tooltip",
+							'data-container' => 'body',
 							'data-placement'=>"top",
 							]);
 						echo '</td>';
@@ -1544,7 +1590,7 @@ class ActivityController extends Controller
 				// IS NOT AVAILABLE	
 				else{
 					echo '<tr>';
-					echo '<td colspan="6">unavailable.. coming soon :)</td>';
+					echo '<td colspan="6">Belum tersedia</td>';
 					echo '</tr>';
 				}
 			}
@@ -1555,7 +1601,7 @@ class ActivityController extends Controller
 			<hr>';
 			echo '<script>			
 					$( "a.link-post" ).click(function() {
-						if(!confirm("Are you sure set it??")) return false;	
+						if(!confirm("Yakin ingin memesan ruang ini?")) return false;	
 						$.ajax({
 							url: $(this).attr("href"),
 							type: "post",

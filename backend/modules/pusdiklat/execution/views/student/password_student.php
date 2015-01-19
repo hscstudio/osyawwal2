@@ -15,29 +15,29 @@ use kartik\widgets\SwitchInput;
 	<?= $form->errorSummary($model) ?> <!-- ADDED HERE -->
 	
     <?php
-		echo Html::beginTag('label',['class'=>'control-label']).'Student'.Html::endTag('label');
+		echo Html::beginTag('label',['class'=>'control-label']).Yii::t('app', 'BPPK_TEXT_STUDENT').Html::endTag('label');
 		echo Html::input('text','person_id',$model->person->name,['class'=>'form-control','disabled'=>true,'id'=>'person_id']);
 	?>
 	
 	<?php
-		echo Html::beginTag('label',['class'=>'control-label']).'Username'.Html::endTag('label');
+		echo Html::beginTag('label',['class'=>'control-label']).Yii::t('app', 'SYSTEM_TEXT_USERNAME').Html::endTag('label');
 		echo Html::input('text','username',$model->username,['class'=>'form-control','disabled'=>true,'id'=>'username']);
 	?>
     
 	<?php
-		echo Html::beginTag('label',['class'=>'control-label']).'New Password'.Html::endTag('label');
+		echo Html::beginTag('label',['class'=>'control-label']).'Sandi Baru'.Html::endTag('label');
 		echo Html::input('text','password_hash','',['class'=>'form-control','id'=>'password_hash']);
 	?>
 	
 	<?= $form->field($model, 'status')->widget(SwitchInput::classname(), [
 		'pluginOptions' => [
-			'onText' => 'On',
-			'offText' => 'Off',
+			'onText' => 'Aktif',
+			'offText' => 'Blokir',
 		]
 	]) ?> 
 	
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'SYSTEM_BUTTON_CREATE') : Yii::t('app', 'SYSTEM_BUTTON_UPDATE'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

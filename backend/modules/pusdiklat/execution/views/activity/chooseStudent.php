@@ -12,24 +12,12 @@ $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 
-$this->title = Yii::t('app', 'Choose Student');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Activities'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', ''.Inflector::camel2words($model->training->activity->name)), 'url' => ['student','id'=>$model->id]];
-/* $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Trainer Recommendation : '.$program_subject->name), 'url' => ['subject-trainer','id' => $model->id, 'subject_id' => $program_subject->id]];  */
+$this->title = Yii::t('app', 'Pilih Peserta');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_TRAINING_ACTIVITIES'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Peserta '.Inflector::camel2words($model->training->activity->name)), 'url' => ['student','id'=>$model->id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="trainer-index">
-	
-<!--
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Trainer',
-]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
--->
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -39,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
             
 			[
 				'attribute' => 'name',
-				'header' => '<div style="text-align:center">Name</div>',
+				'header' => '<div style="text-align:center">Nama</div>',
 				'vAlign'=>'middle',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],	
@@ -51,6 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			[
 				'attribute' => 'phone',
+				'label' => 'Telepon',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
@@ -63,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			
 			[
-				'attribute' => 'nid',
+				'attribute' => Yii::t('app', 'BPPK_TEXT_NID'),
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'150px',
@@ -76,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			
 			[
-				'attribute' => 'nip',
+				'attribute' => Yii::t('app', 'BPPK_TEXT_NIP'),
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'150px',
@@ -88,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				}					
 			],
             [
-				'label' => 'Action',
+				'label' => 'Tindakan',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'100px',
@@ -125,10 +114,10 @@ $this->params['breadcrumbs'][] = $this->title;
 			],		
         ],
 		'panel' => [
-			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
+			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> Daftar Peserta yang Dapat Dipilih </h3>',
 			'before'=>
-				Html::a('<i class="fa fa-fw fa-arrow-circle-left"></i> Back ', ['student','id'=>$model->id], ['class' => 'btn btn-warning']).' ',
-			 'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
+				Html::a('<i class="fa fa-fw fa-arrow-circle-left"></i> '.Yii::t('app', 'SYSTEM_BUTTON_BACK'), ['student','id'=>$model->id], ['class' => 'btn btn-warning']).' ',
+			 'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> '.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'responsive'=>true,
@@ -138,19 +127,3 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?= \hscstudio\heart\widgets\Modal::widget() ?>
 
 </div>
-
-<!--
-<div class="well">
-	<p class="lead">
-	Jika data peserta tidak ditemukan, maka Anda di perkenankan untuk memasukkan data peserta baru.
-	</p>
-	<p class="lead" style="text-align:center">
-	<?php
-	echo Html::a('<i class="fa fa-fw fa-plus"></i> Tambah Data Peserta Baru ', ['activity/create-person'], [
-		'class' => 'btn btn-success',
-		'data-confirm' => 'Apakah Anda yakin akan menambah data peserta baru! pastikan tidak terjadi duplikasi data!',
-	]);
-	?>
-	</p>
-</div>
--->

@@ -194,10 +194,10 @@ use yii\helpers\Url;
 			<div class="row clearfix">
 				<div class="col-md-4">
 				<?php
-				$data = ['5' => 'Pelaksana / Others','4' => 'Eselon 4','3' => 'Eselon 3','2' => 'Eselon 2','1' => 'Eselon 1'];
+				$data = ['5' => 'Pelaksana / Lainnya','4' => 'Eselon 4','3' => 'Eselon 3','2' => 'Eselon 2','1' => 'Eselon 1'];
 				echo $form->field($model, 'position')->widget(Select2::classname(), [
 					'data' => $data,
-					'options' => ['placeholder' => 'Choose position ...'],
+					'options' => ['placeholder' => 'Pilih Jabatan ...'],
 					'pluginOptions' => [
 					'allowClear' => true
 					],

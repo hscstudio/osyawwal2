@@ -138,7 +138,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				//'attribute' => 'classCount',
 				'format'=>'raw',
-				'label'=>'Ruangan',
+				'label'=> Yii::t('app', 'BPPK_TEXT_ROOM'),
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'100px',

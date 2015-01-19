@@ -12,7 +12,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 $this->title = Yii::t('app', 'Update {modelClass}: ', [
     'modelClass' => 'Student',
 ]) . ' ' . $model->person_id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Students'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_STUDENT'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->person_id, 'url' => ['view', 'id' => $model->person_id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>

@@ -73,10 +73,10 @@ class Trainer3Controller extends Controller
 
         if ($model->load(Yii::$app->request->post())){ 
 			if($model->save()) {
-				Yii::$app->getSession()->setFlash('success', 'New data have saved.');
+				Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Data baru berhasil disimpan');
 			}
 			else{
-				Yii::$app->getSession()->setFlash('error', 'New data is not saved.');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Data baru gagal disimpan');
 			}
             return $this->redirect(['person']);
         } else {
@@ -127,10 +127,10 @@ class Trainer3Controller extends Controller
     public function actionDelete($id)
     {
 		if($this->findModel($id)->delete()) {
-			Yii::$app->getSession()->setFlash('success', 'Data have deleted.');
+			Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Data berhasil dihapus');
 		}
 		else{
-			Yii::$app->getSession()->setFlash('error', 'Data is not deleted.');
+			Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Data gagal dihapus');
 		}
         return $this->redirect(['index']);
     }
