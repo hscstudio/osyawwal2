@@ -66,9 +66,9 @@ use yii\helpers\ArrayHelper;
 			echo "<tr>";
 			echo "<th style='width:30px;'>#</th>";
 			echo "<th>"."<strong>".$tstr->reference->name."</strong>"."</th>";
-			echo "<th>Phone</th>";
-			echo "<th>Organisation</th>";
-			echo "<th style='width:50px;'>Set</th>";
+			echo "<th>Telepon</th>";
+			echo "<th>Organisasi</th>";
+			echo "<th style='width:50px;'>Tindakan</th>";
 			$type=$tstr->type;
 			$idx=1;
 		}
@@ -94,7 +94,7 @@ use yii\helpers\ArrayHelper;
 				])
 				->all();
 		$available = true;
-		$available_info = "available to this time";
+		$available_info = "tersedia";
 		foreach($trainingSchedule2 as $ts2){
 			$trainingScheduleTrainer = \backend\models\TrainingScheduleTrainer::find()
 			->where([
@@ -107,7 +107,7 @@ use yii\helpers\ArrayHelper;
 				$available = false;
 				$satker = $trainingScheduleTrainer->trainingSchedule->trainingClass->training->activity->satker->name;
 				$training = $trainingScheduleTrainer->trainingSchedule->trainingClass->training->activity->name;
-				$available_info = "This trainer have booked by ".$satker." for ".$training;
+				$available_info = "Pengajar ini telah ditugasi oleh ".$satker." untuk mengajar pada diklat ".$training;
 			}
 		}	
 		echo "</td>";
@@ -144,7 +144,7 @@ use yii\helpers\ArrayHelper;
     </div>
 	<?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
     <?= Html::submitButton(
-		'<span class="fa fa-fw fa-save"></span> Add', 
+		'<span class="fa fa-fw fa-save"></span> Tambah Pengajar', 
 		['class' => 'btn btn-primary']) ?>
 	
     <?php ActiveForm::end(); ?>

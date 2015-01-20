@@ -13,22 +13,26 @@ use yii\widgets\ActiveForm;
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
-$this->title = Yii::t('app', 'Select People');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Students'), 'url' => ['index']];
+$this->title = 'Tambah Peserta Baru';
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_STUDENT'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="person-index">
-	
-<!--
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Person',
-]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
--->
+<div class="well">
+	<p class="lead">
+	Jika data peserta tidak ditemukan, maka Anda di perkenankan untuk memasukkan data peserta baru.
+	</p>
+	<p class="lead" style="text-align:center">
+	<?php
+	echo Html::a('<i class="fa fa-fw fa-plus"></i> Tambah Data Peserta Baru ', ['create-person'], [
+		'class' => 'btn btn-success',
+		'data-confirm' => 'Apakah Anda yakin akan menambah data peserta baru! pastikan tidak terjadi duplikasi data!',
+	]);
+	?>
+	</p>
+</div>
+
+<div class="person-index">
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -71,7 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions'=>['class'=>'kv-sticky-column'],					
 			],
 			[
-				'label' => 'Student',
+				'label' => Yii::t('app', 'BPPK_TEXT_STUDENT'),
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'100px',
@@ -82,7 +86,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					if(null != $data->student){
 						return Html::tag('span', '<i class="fa fa-fw fa-check-square-o"></i>', [
 							'class'=>'label label-success',
-							'title'=>'This person is student',
+							'title'=>'Orang ini adalah peserta diklat',
 							'data-toggle'=>'tooltip',
 						]);
 					}
@@ -92,7 +96,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						'data-toggle'=>'tooltip',
 						'data-pjax'=>'0',
 						'data-html'=>'true',
-						'title'=>'Set this person as student',
+						'title'=>'Masukkan orang ini sebagai peserta diklat',
 						'modal-title'=>'',
 						'modal-size'=>'modal-lg'
 					]);
@@ -126,10 +130,10 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'modified_by',
         ],
 		'panel' => [
-			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
+			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> Daftar Pegawai yang Dapat Dimasukkan sebagai Peserta Diklat</h3>',
 			'before'=>
-				Html::a('<i class="fa fa-fw fa-arrow-circle-left"></i> Back', Url::to(['index']), ['class' => 'btn btn-warning','data-pjax'=>'0']).' ',				
-			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(['person']), ['class' => 'btn btn-info']),
+				Html::a('<i class="fa fa-fw fa-arrow-circle-left"></i> '.Yii::t('app', 'SYSTEM_BUTTON_BACK'), Url::to(['index']), ['class' => 'btn btn-warning','data-pjax'=>'0']).' ',				
+			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> '.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), Url::to(['person']), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'responsive'=>true,

@@ -12,21 +12,10 @@ use yii\helpers\Url;
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
-$this->title = Yii::t('app', 'Students');
+$this->title = Yii::t('app', 'BPPK_TEXT_STUDENT');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="student-index">
-	
-<!--
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Student',
-]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
--->
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -72,12 +61,64 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'tmt_sk',
             // 'status',
 
-            ['class' => 'kartik\grid\ActionColumn'],
+            [
+				'class' => 'kartik\grid\ActionColumn',
+				'width' => '125px',
+				'template' => '<div class="btn-group">{view} {update} {delete}</div>',
+				'buttons' => [
+					'view' => function($url,$model,$key){
+						$icon = '<i class="fa fa-fw fa-eye"></i>';
+						return Html::a(
+							$icon,
+							['view','id'=>$model->person_id],
+							[
+								'class'=>'btn btn-default btn-xs modal-heart',
+								'modal-title' => '<i class="fa fa-fw fa-eye"></i> Informasi '.$model->person->name,
+								'data-pjax'=>'0',
+								'data-toggle'=>'tooltip',
+								'data-container' => 'body',
+								'title'=>'Informasi',
+							]
+						);							
+					},
+					'update' => function($url,$model,$key){
+						$icon = '<i class="fa fa-fw fa-pencil"></i>';
+						return Html::a(
+							$icon,
+							['update','id'=>$model->person_id],
+							[
+								'class'=>'btn btn-default btn-xs',
+								'title'=>'Ubah',
+								'data-pjax'=>'0',
+								'data-toggle'=>'tooltip',
+								'data-container' => 'body',
+								'modal-size' => 'modal-lg'
+							]
+						);							
+					},
+					'delete' => function($url,$model,$key){
+						$icon = '<i class="fa fa-fw fa-trash"></i>';
+						return Html::a(
+							$icon,
+							$url,
+							[
+								'class'=>'btn btn-default btn-xs',
+								'title'=>'Hapus',
+								'data-pjax'=>'0',
+								'data-toggle'=>'tooltip',
+								'data-container' => 'body',
+								'data-method'=>'post',
+								'data-confirm'=>'Apakah Anda yakin akan menghapus pengajar ini!'
+							]
+						);	
+					}
+				]
+			],
         ],
 		'panel' => [
-			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
-			'before'=>Html::a('<i class="fa fa-fw fa-plus"></i> Create ', ['person'], ['class' => 'btn btn-success']),
-			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
+			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> Daftar '.Html::encode($this->title).'</h3>',
+			'before'=>Html::a('<i class="fa fa-fw fa-plus"></i> '.Yii::t('app', 'SYSTEM_BUTTON_CREATE'), ['person'], ['class' => 'btn btn-success']),
+			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> '.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'responsive'=>true,

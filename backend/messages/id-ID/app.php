@@ -146,7 +146,7 @@ return [
     'BPPK_TEXT_NUMBER_FORM_A' => 'Nomor Form A',
     'BPPK_TEXT_NUMBER_FORM_B' => 'Nomor Form B',
     'BPPK_TEXT_NOTE_FORM_B' => 'Catatan Form B',
-    'BPPK_TEXT_REGULAR' => 'Diklat Biasa',
+    'BPPK_TEXT_REGULAR' => 'Diklat Reguler',
     'BPPK_TEXT_STAKEHOLDER' => 'Stakeholder',
     'BPPK_TEXT_EXECUTION_SK' => 'SK Penyelenggaraan',
     'BPPK_TEXT_CAPACITY' => 'Kapasitas',

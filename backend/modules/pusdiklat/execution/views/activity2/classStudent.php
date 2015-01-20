@@ -15,23 +15,13 @@ $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 
-$this->title = 'Student Class #'. $class->class;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Activities'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => Inflector::camel2words($activity->name), 'url' => ['class','id'=>$activity->id]];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Peserta';
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_TRAINING_ACTIVITIES'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Kelas '.Inflector::camel2words($activity->name), 'url' => ['class','id'=>$activity->id]];
+$this->params['breadcrumbs'][] = Yii::t('app', 'BPPK_TEXT_CLASS').' '.$class->class;
 ?>
 <div class="training-class-subject-index">
 	
-<!--
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Training Class Subject',
-]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
--->
 	<?php \yii\widgets\Pjax::begin([
 		'id'=>'pjax-gridview',
 	]); ?>
@@ -41,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'kartik\grid\SerialColumn'],
 			[
-				'header' => '<div style="text-align:center;">Name</div>',
+				'header' => '<div style="text-align:center;">Nama</div>',
 				'attribute'=>'name',
 				'vAlign'=>'middle',
 				'hAlign'=>'left',
@@ -55,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 			],
 			[
-				'header' => '<div style="text-align:center;">NIP</div>',
+				'header' => Yii::t('app', 'BPPK_TEXT_NIP'),
 				'vAlign'=>'middle',
 				'attribute'=>'nip',
 				'width'=>'150px',
@@ -102,7 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			[
 				'class' => 'kartik\grid\ActionColumn',
-				'template' => '{class} {delete}',
+				'template' => '<div class="btn-group">{class} {delete}</div>',
 				'buttons' => [
 					'delete' => function ($url, $model) {
 						$icon='<span class="fa fa-fw fa-trash"></span>';
@@ -111,103 +101,36 @@ $this->params['breadcrumbs'][] = $this->title;
 							[
 								'class'=>'btn btn-default btn-xs',
 								'data-pjax'=>'0',
-								'data-confirm'=>'Are you sure you want delete this item!',
+								'data-confirm'=>'Yakin ingin menghapus?',
 								'data-method'=>'post',
 							]
 						);
 					},
 					'class' => function ($url, $model) {
-						$icon='<span class="fa fa-fw fa-trello"></span>';
+						$icon='<span class="fa fa-fw fa-sign-out"></span>';
 						return Html::a($icon,
 							['change-class-student','id'=>$model->training_id,'class_id'=>$model->training_class_id,'training_class_student_id'=>$model->id],
 							[
 								'class'=>'modal-heart btn btn-default btn-xs',
 								'data-pjax'=>'0',
+								'data-toggle' => 'tooltip',
 								'modal-size'=>'modal-md',
-								'modal-title'=>'Move To Another Class',
+								'data-container' => 'body',
+								'title' => 'Pindahkan ke Kelas Lain',
+								'modal-title'=>'<i class="fa fa-fw fa-sign-out"></i>Pindahkan Peserta ke Kelas lain',
 								
 							]
 						);
 					},
 				]
 			]
-           /*  
-			[
-				'header' => '<div style="text-align:center">Name</div>',
-				'vAlign'=>'middle',
-				'hAlign'=>'left',
-				'headerOptions'=>['class'=>'kv-sticky-column'],
-				'contentOptions'=>['class'=>'kv-sticky-column'],
-				'format'=>'raw',
-				'value' => function ($data){
-					$programSubject= \backend\models\ProgramSubject::find()
-					->where([
-						'id' => $data->program_subject_id,
-						'status'=>1
-					])
-					->one();
-					if(null!=$programSubject){
-						return Html::tag('span',$programSubject->name,[
-							'class'=>'','data-toggle'=>'tooltip','title'=>''
-						]);
-					}
-				},
-			],
-			[
-				'label' => 'hours',
-				'vAlign'=>'middle',
-				'hAlign'=>'center',
-				'width'=>'75px',
-				'headerOptions'=>['class'=>'kv-sticky-column'],
-				'contentOptions'=>['class'=>'kv-sticky-column'],
-				'format'=>'raw',
-				'value' => function ($data){
-					$programSubject= \backend\models\ProgramSubject::find()
-					->where([
-						'id' => $data->program_subject_id,
-						'status'=>1
-					])
-					->one();
-					if(null!=$programSubject){
-						return Html::tag('span',$programSubject->hours,[
-							'class'=>'label label-default','data-toggle'=>'tooltip','title'=>''
-						]);
-					}
-				},
-			],
-			
-			[
-				'label' => 'test',
-				'vAlign'=>'middle',
-				'hAlign'=>'center',
-				'width'=>'75px',
-				'headerOptions'=>['class'=>'kv-sticky-column'],
-				'contentOptions'=>['class'=>'kv-sticky-column'],
-				'format'=>'raw',
-				'value' => function ($data){
-					$programSubject= \backend\models\ProgramSubject::find()
-					->where([
-						'id' => $data->program_subject_id,
-						'status'=>1
-					])
-					->one();
-					if(null!=$programSubject){						
-						$icon = ($programSubject->test==1)?'<span class="glyphicon glyphicon-ok"></span>':'<span class="glyphicon glyphicon-remove"></span>';		
-						return Html::tag('span', $icon, [
-							'class'=>($programSubject->test==1)?'label label-info':'label label-warning',
-							'title'=>' '.(($programSubject->status==1)?'Ujian':'Tanpa Ujian'),
-							'data-toggle'=>'tooltip',
-						]);
-					}
-				},
-			], */
 			
         ],
 		'panel' => [
-			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
+			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> Daftar Peserta pada Kelas '.$class->class.'</h3>',
 			'before'=>
-				Html::a('<i class="fa fa-fw fa-arrow-circle-left"></i> Back ', ['class','id'=>$activity->id], ['class' => 'btn btn-warning']).' ',
-			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
+				Html::a('<i class="fa fa-fw fa-arrow-circle-left"></i> '.Yii::t('app', 'SYSTEM_BUTTON_BACK'), ['class','id'=>$activity->id], ['class' => 'btn btn-warning']).' ',
+			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> '.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'responsive'=>true,
@@ -219,7 +142,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-	<i class="glyphicon glyphicon-upload"></i> Get Random Student
+	<i class="glyphicon glyphicon-upload"></i> Fitur Pembagian Peserta ke Kelas
 	</div>
     <div class="panel-body">
 		<?php
@@ -237,30 +160,30 @@ $this->params['breadcrumbs'][] = $this->title;
 		]);
 		?>
 		<div class="row clearfix">
-			<div class="col-md-2">
+			<div class="col-md-3">
 			<?php
-			echo Html::beginTag('label',['class'=>'control-label']).'Stock'.Html::endTag('label');
+			echo Html::beginTag('label',['class'=>'control-label']).'Peserta belum mendapatkan kelas'.Html::endTag('label');
 			echo Html::input('text','',$trainingStudentCount,['class'=>'form-control','disabled'=>'disabled','id'=>'stock']);
 			?>
 			</div>
-			<div class="col-md-2">
+			<div class="col-md-3">
 			<?php
-			echo Html::beginTag('label',['class'=>'control-label']).'Jumlah'.Html::endTag('label');
+			echo Html::beginTag('label',['class'=>'control-label']).'Jumlah peserta yang diacak ke kelas'.Html::endTag('label');
 			echo Html::input('text','student','',['class'=>'form-control','id'=>'count']);
 			?>
 			</div>
 			<div class="col-md-3">
 			<?php
-			echo '<label class="control-label">Berdasarkan</label>';
+			echo '<label class="control-label">Kriteria Pembagian Acak</label>';
 			echo Select2::widget([
 				'name' => 'baseon', 
 				'data' => [
 					'person.name' =>'Nama', 
-					'person.gender' => 'Gender', 
+					'person.gender' => 'Jenis Kelamin', 
 					'object_reference.reference_id' => 'Unit',					
 				],
 				'options' => [
-					'placeholder' => 'Select base on ...', 
+					'placeholder' => 'Acak berdasarkan ...', 
 					'class'=>'form-control', 
 					'multiple' => true,
 					'id'=>'baseon',
@@ -271,7 +194,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			<div class="col-md-3">
 			<?php
 			echo Html::beginTag('label',['class'=>'control-label']).' '.Html::endTag('label');
-			echo Html::submitButton('Get', ['class' => 'btn btn-success','style'=>'display:block;']);
+			echo Html::submitButton('<i class="fa fa-fw fa-random"></i>Bagi', ['class' => 'btn btn-success','style'=>'display:block;']);
 			?>
 			</div>
 		</div>
@@ -309,7 +232,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-	<i class="fa fa-fw fa-refresh upload"></i> Document Generator
+	<i class="fa fa-fw fa-refresh upload"></i> Dokumen Generator
 	</div>
     <div class="panel-body">
 		<table class="table table-striped table-condensed table-hover">
@@ -339,7 +262,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				echo Html::a('<i class="fa fa-fw fa-print"></i> Cetak',
 							Url::to(['deskplate','id'=>$activity->id,'class_id'=>$class->id]),
 							[
-								'class'=>'btn btn-primary btn-xs modal-heart',
+								'class'=>'btn btn-default btn-xs modal-heart',
 								'title'=>'Cetak Deskplate Peserta',
 								'data-pjax'=>'0',
 								'data-toggle'=>"tooltip",
@@ -376,7 +299,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				echo Html::a('<i class="fa fa-fw fa-print"></i> Cetak',
 							Url::to(['follow-training','id'=>$activity->id,'class_id'=>$class->id]),
 							[
-								'class'=>'btn btn-primary btn-xs modal-heart',
+								'class'=>'btn btn-default btn-xs modal-heart',
 								'title'=>'Cetak Surat Mengikuti Diklat',
 								'data-pjax'=>'0',
 								'data-toggle'=>"tooltip",
@@ -386,45 +309,6 @@ $this->params['breadcrumbs'][] = $this->title;
 				?>
 			</td>
 		</tr>
-		<!--
-		<tr>
-			<td><i class="fa fa-fw fa-link"></i></td>
-			<td>Surat Pengembalian Peserta</td>
-			<td>
-				<?php
-				echo Html::a('<i class="fa fa-fw fa-print"></i> Cetak',
-							Url::to(['skph','id'=>$activity->id,'class_id'=>$class->id]),
-							[
-								'class'=>'btn btn-primary btn-xs modal-heart',
-								'title'=>'Cetak Surat Kuasa Pengambilan Honor',
-								'data-pjax'=>'0',
-								'data-toggle'=>"tooltip",
-								'data-placement'=>"top",
-							]
-						);
-				?>
-			</td>
-		</tr>
-		
-		<tr>
-			<td><i class="fa fa-fw fa-link"></i></td>
-			<td>Database Peserta Diklat</td>
-			<td>
-				<?php
-				echo Html::a('<i class="fa fa-fw fa-print"></i> Cetak',
-							Url::to(['skph','id'=>$activity->id,'class_id'=>$class->id]),
-							[
-								'class'=>'btn btn-primary btn-xs modal-heart',
-								'title'=>'Cetak Surat Kuasa Pengambilan Honor',
-								'data-pjax'=>'0',
-								'data-toggle'=>"tooltip",
-								'data-placement'=>"top",
-							]
-						);
-				?>
-			</td>
-		</tr>
-		-->
 		</table>
 	</div>
 </div>

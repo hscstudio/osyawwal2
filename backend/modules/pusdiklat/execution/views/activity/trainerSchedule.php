@@ -91,7 +91,7 @@ use yii\helpers\ArrayHelper;
 				])
 				->all();
 		$available = true;
-		$available_info = "available to this time";
+		$available_info = "tersedia";
 		foreach($trainingSchedule2 as $ts2){
 			$trainingScheduleTrainer = \backend\models\TrainingScheduleTrainer::find()
 			->where([

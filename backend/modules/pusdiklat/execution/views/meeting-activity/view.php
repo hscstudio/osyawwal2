@@ -215,12 +215,10 @@ $terakhirDiubahOleh = Person::findOne($model->modified_by)->name; // baikin ya :
 							'contentOptions'=>['class'=>'kv-sticky-column'],
 							'format'=>'raw',
 							'value' => function ($data){
-								return Html::a($data->meeting->attendance_count_plan,'#',
+								return Html::a($data->meeting->attendance_count_plan,null,
 									[
 										'class'=>'label label-primary',
 										'data-pjax'=>'0',
-										'data-toggle'=>'tooltip',
-										'title' => 'Click to view student spread plan',
 									]);
 							},
 						],

@@ -50,8 +50,5 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'View Student Plan');
 		}
 		?>
 		</table>
-		<button type="button" class="btn btn-info" data-dismiss="modal">
-			Close
-		</button>
 	</div>
 </div>

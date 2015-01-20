@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\helpers\Inflector;
 use yii\web\JsExpression;
 use kartik\widgets\ActiveForm;
 use kartik\widgets\AlertBlock;
@@ -12,10 +13,10 @@ use backend\models\ProgramSubjectHistory;
 use backend\models\TrainingSchedule;
 use backend\models\TrainingScheduleTrainer;
 
-$this->title = 'Update Trainer Attendance';
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Activities'), 'url' => ['activity2/index']];
-$this->params['breadcrumbs'][] = ['label' => 'Training Classes', 'url' => ['activity2/class','id'=>$trainingClass->training_id]];
-$this->params['breadcrumbs'][] = ['label' => 'Schedule : Class '.$trainingClass->class, 'url' => ['activity2/attendance','training_class_id'=> $training_class_id]];
+$this->title = 'Pengajar';
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_TRAINING_ACTIVITIES'), 'url' => ['activity2/index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_CLASS').' '.Inflector::camel2words($trainingClass->training->activity->name), 'url' => ['activity2/class','id'=>$trainingClass->training_id]];
+$this->params['breadcrumbs'][] = ['label' => 'Input Kehadiran Kelas '.$trainingClass->class, 'url' => ['activity2/attendance','training_class_id'=> $training_class_id]];
 $this->params['breadcrumbs'][] = $this->title;
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
@@ -35,7 +36,7 @@ echo AlertBlock::widget([
     		['class' => 'kartik\grid\SerialColumn'],
 
     		[
-    			'label' => 'Name',
+    			'label' => Yii::t('app', 'BPPK_TEXT_NAME'),
 				'vAlign'=>'middle',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
@@ -45,7 +46,7 @@ echo AlertBlock::widget([
 			],
 
     		[
-    			'label' => 'NIP',
+    			'label' => Yii::t('app', 'BPPK_TEXT_NIP'),
 				'vAlign'=>'middle',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
@@ -55,7 +56,7 @@ echo AlertBlock::widget([
 			],
 
     		[
-    			'label' => 'Organization',
+    			'label' => Yii::t('app', 'BPPK_TEXT_ORGANISATION'),
 				'vAlign'=>'middle',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
@@ -101,7 +102,7 @@ echo AlertBlock::widget([
 										$.growl({
 											icon: "fa fa-fw fa-exclamation-circle",
 											title: " <strong>Jamlat error!</strong> ",
-											message: "Jamlat value should not greater than " + maxVal,
+											message: "Jamlat tidak boleh lebih dari " + maxVal,
 										}, {
 											type: "warning",
 										});
@@ -120,8 +121,8 @@ echo AlertBlock::widget([
 												if (data.error != "max") {
 													$.growl({
 														icon: "fa fa-fw fa-check-circle",
-														title: " <strong>Saved!</strong> ",
-														message: "New value is " + data.hours,
+														title: " <strong>Berhasil disimpan!</strong> ",
+														message: "Nilai yang disimpan adalah " + data.hours,
 													}, {
 														type: "success",
 													});
@@ -130,7 +131,7 @@ echo AlertBlock::widget([
 													$.growl({
 														icon: "fa fa-fw fa-exclamation-circle",
 														title: " <strong>Jamlat error!</strong> ",
-														message: "Jamlat value should not greater than " + data.hours,
+														message: "Jamlat tidak boleh lebih dari " + data.hours,
 													}, {
 														type: "warning",
 													});
@@ -156,14 +157,14 @@ echo AlertBlock::widget([
     			'hover' => true,
     			'responsive' => true,
     			'panel' => [
-					'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> Attendance</h3>',
+					'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> Absen Pengajar</h3>',
 					'before'=>
-						Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back', [
+						Html::a('<i class="fa fa-fw fa-arrow-left"></i> '.Yii::t('app', 'SYSTEM_BUTTON_BACK'), [
 								'activity2/attendance',
 								'training_class_id' => $training_class_id
 							], ['class' => 'btn btn-warning']
 						).
-						Html::a('<i class="fa fa-fw fa-print"></i> Print Form Attendance', [
+						Html::a('<i class="fa fa-fw fa-print"></i> Cetak Form Kehadiran/Absensi', [
 								'print',
 								'training_schedule_id' => $training_schedule_id
 							],
@@ -178,8 +179,8 @@ echo AlertBlock::widget([
 				'beforeHeader'=>[
 			        [
 			            'columns'=>[
-			                ['content'=>'Student', 'options'=>['colspan'=>4, 'class'=>'text-center warning']], 
-			                ['content'=>'Attendance', 'options'=>['colspan'=>count($idSchedule), 'class'=>'text-center warning']], 
+			                ['content'=>'Pengajar', 'options'=>['colspan'=>4, 'class'=>'text-center warning']], 
+			                ['content'=>'Input Kehadiran', 'options'=>['colspan'=>count($idSchedule), 'class'=>'text-center warning']], 
 			            ],
 			            'options'=>['class'=>'skip-export'] // remove this row from export
 			        ]
@@ -189,3 +190,9 @@ echo AlertBlock::widget([
     ?>
 
 </div>
+<?php
+	$this->registerCss('
+		.grid-view th {
+			white-space:normal;
+		}
+	');

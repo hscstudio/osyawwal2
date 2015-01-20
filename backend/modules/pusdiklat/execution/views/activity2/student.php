@@ -15,29 +15,107 @@ $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 
-$this->title = 'Student #'. Inflector::camel2words($model->name);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Activities'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Peserta Diklat';
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_TRAINING_ACTIVITIES'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = 'Peserta Diklat '. Inflector::camel2words($model->name);
 ?>
 <div class="training-class-index">
-	<?php
-	Box::begin([
-		'type'=>'small', // ,small, solid, tiles
-		'bgColor'=>'green', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
-		'bodyOptions' => [],
-		'icon' => 'fa fa-user-md',
-		'link' => ['dashboard','id'=>$model->id],
-		'footerOptions' => [
-			'class' => 'dashboard-hide',
-		],
-		'footer' => '<i class="fa fa-arrow-circle-left"></i> Back',
-	]);
-	?>
-	<h3>Student</h3>
-	<p>Student of Training</p>
-	<?php
-	Box::end();
-	?>
+	<div class="panel panel-default">
+		<div class="panel-heading"> 
+			<div class="pull-right">
+	        	<?= (Yii::$app->request->isAjax)?'':Html::a('<i class="fa fa-fw fa-arrow-left"></i> '.Yii::t('app', 'SYSTEM_BUTTON_BACK'), ['index'], ['class' => 'btn btn-xs btn-primary']) ?>
+			</div>
+			<h1 class="panel-title"><i class="fa fa-fw fa-ellipsis-h"></i>Navigasi</h1> 
+		</div>
+		
+		<div class="row clearfix">
+			<div class="col-md-3">
+			<?php
+			Box::begin([
+				'type'=>'small', // ,small, solid, tiles
+				'bgColor'=>'red', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+				'bodyOptions' => [],
+				'icon' => 'glyphicon glyphicon-eye-open',
+				'link' => ['property','id'=>$model->id],
+				'footerOptions' => [
+					'class' => 'dashboard-hide',
+				],
+				'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
+			]);
+			?>
+			<h3>Informasi</h3>
+			<p>Informasi Diklat</p>
+			<?php
+			Box::end();
+			?>
+			</div>
+			
+			<div class="col-md-3 margin-top-small">
+			<?php
+			Box::begin([
+				'type'=>'small', // ,small, solid, tiles
+				'bgColor'=>'green', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+				'bodyOptions' => [],
+				'icon' => 'fa fa-fw fa-users',
+				'link' => ['student','id'=>$model->id],
+				'footerOptions' => [
+					'class' => 'dashboard-hide',
+				],
+				'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
+			]);
+			?>
+			<h3>Peserta</h3>
+			<p>Anda disini</p>
+			<?php
+			Box::end();
+			?>
+			</div>
+			
+			<div class="col-md-3">
+			<?php
+			Box::begin([
+				'type'=>'small', // ,small, solid, tiles
+				'bgColor'=>'yellow', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+				'bodyOptions' => [],
+				'icon' => 'glyphicon glyphicon-home',
+				'link' => ['class','id'=>$model->id],
+				'footerOptions' => [
+					'class' => 'dashboard-hide',
+				],
+				'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
+			]);
+			?>
+			<h3>Kelas</h3>
+			<p>Kelola kelas</p>
+			<?php
+			Box::end();
+			?>
+			</div>
+			<div class="col-md-3">
+			<?php
+			Box::begin([
+				'type'=>'small', // ,small, solid, tiles
+				'bgColor'=>'purple', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+				'bodyOptions' => [
+					'onclick'=>'alert()',
+				],
+				'icon' => 'fa fa-fw fa-money',
+				'link' => ['honorarium','id'=>$model->id],
+				'footerOptions' => [
+					'class' => 'dashboard-hide',
+				],
+				'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
+			]);
+			?>
+			<h3>Honor</h3>
+			<p>Kelola honorarium</p>
+			<?php
+			Box::end();
+			?>
+			</div>
+
+		</div>
+	</div>
 	
 	<?php \yii\widgets\Pjax::begin([
 		'id'=>'pjax-gridview',
@@ -68,7 +146,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			[
 				'attribute'=>'nip',
-				'header' => '<div style="text-align:center">NIP</div>',
+				'header' => '<div style="text-align:center">Nomor Induk Pegawai</div>',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'150px',
@@ -87,7 +165,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 			],
 			[
-				'header' => '<div style="text-align:center">SATKER</div>',
+				'header' => '<div style="text-align:center">Satker</div>',
 				'vAlign'=>'middle',
 				'hAlign'=>'left',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
@@ -131,7 +209,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 			],
 			[
-				'header' => '<div style="text-align:center">CLASS</div>',
+				'header' => '<div style="text-align:center">Kelas</div>',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'50px',
@@ -148,6 +226,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					$options = [
 							'class'=>'label label-info',
 							'data-toggle'=>'tooltip',
+							'data-pjax' => '0',
 							'data-html'=>'true',
 						];
 					if(!empty($trainingClassStudent)){
@@ -171,7 +250,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
             [
 				'class' => 'kartik\grid\ActionColumn',
-				'template' => '{update} {delete}',
+				'template' => '<div class="btn-group">{update} {delete}</div>',
 				'buttons' => [
 					'delete' => function ($url, $model) {
 								$icon='<span class="fa fa-fw fa-trash"></span>';
@@ -183,7 +262,7 @@ $this->params['breadcrumbs'][] = $this->title;
 									[
 										'class'=>'btn btn-default btn-xs',
 										'data-pjax'=>'0',
-										'data-confirm'=>'Areyou sure you want delete this item!',
+										'data-confirm'=>'Yakin ingin menghapus?',
 										'data-method'=>'post',
 									]
 								);
@@ -195,7 +274,7 @@ $this->params['breadcrumbs'][] = $this->title;
 									[
 										'class'=>'modal-heart btn btn-default btn-xs',
 										'data-pjax'=>'0',
-										'modal-title'=>'',
+										'modal-title'=>'<i class="fa fa-fw fa-pencil"></i> Ubah Status',
 										'modal-size'=>'modal-lg'
 									]
 								);
@@ -214,7 +293,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'<div class="pull-right" style="margin-right:5px;">'.
 				Select2::widget([
 					'name' => 'status', 
-					'data' => [1=>'Baru (Active)',2=>'Mengulang (Active)',3=>'Mengundurkan Diri',0=>'Cancel'],
+					'data' => [1=>'Baru (Aktif)',2=>'Mengulang (Aktif)',3=>'Mengundurkan Diri',0=>'Batal'],
 					'value' => $status,
 					'options' => [
 						'placeholder' => 'Status ...', 
@@ -229,7 +308,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					],
 				]).
 				'</div>',
-			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
+			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> '.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'responsive'=>true,
@@ -241,7 +320,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-	<i class="fa fa-fw fa-refresh upload"></i> Document Generator
+	<i class="fa fa-fw fa-refresh upload"></i> Dokumen Generator
 	</div>
     <div class="panel-body">
 		<div class="row clearfix">
@@ -263,19 +342,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-	<i class="glyphicon glyphicon-upload"></i> Batch Upload
+	<i class="glyphicon glyphicon-upload"></i> Unggah Peserta Massal
 	</div>
     <div class="panel-body">
 		<div class="row clearfix">
 			<div class="col-md-2">
-			Upload Student
-			</div>
-			<div class="col-md-2">
 			<?php
-			echo Html::a('template',
+			echo Html::a('<i class="fa fa-fw fa-download"></i>Unduh Template',
 						Url::to(['/file/download','file'=>'template/pusdiklat/execution/student_upload.xlsx']),
 						[
-							'class'=>'label label-default',
+							'class'=>'btn btn-default',
 							'data-pjax'=>'0',
 						]
 					);

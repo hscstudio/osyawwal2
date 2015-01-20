@@ -236,7 +236,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 		<?php \yii\widgets\Pjax::end(); ?>
 		</td>
 		<td>
-		<?php echo $form->field($trainingScheduleExtSearch, 'hours')->textInput(['placeholder' => 'In JP',])->label(false)  ?>
+		<?php echo $form->field($trainingScheduleExtSearch, 'hours')->textInput(['placeholder' => 'dlm JP',])->label(false)  ?>
 		</td>
 		<td rowspan="2">
 			<?= Html::submitButton(
@@ -281,7 +281,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 		</div>
 		</td>
 		<td>
-			<?php echo $form->field($trainingScheduleExtSearch, 'minutes')->textInput(['placeholder' => 'dalam Menit',])->label(false) ?>
+			<?php echo $form->field($trainingScheduleExtSearch, 'minutes')->textInput(['placeholder' => 'Menit',])->label(false) ?>
 		</td>
 	</table>
 	<?php ActiveForm::end(); ?>
