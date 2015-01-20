@@ -4,11 +4,51 @@ $this->title = 'SIMBPPK';
 ?>
 <div class="site-index">
 
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
+    <div class="container-fluid">
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
+        <div class="row">
+            
+            <div class="col-md-10">
 
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
+                <div class="row">
+                    
+                    <div class="col-md-4">
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+								<div class="jumbotron">
+                                    <h1>Selamat Datang</h1>
+                            
+                                    <p class="lead">Di Aplikasi Kediklatan SIMBPPK</p>
+                            
+                                    <p><a class="btn btn-lg btn-success" href="<?php echo Yii::$app->homeUrl."/site/login.aspx";?>">Login Peserta</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-2 bg-gelap panel-kanan">
+                
+                <div class="row">
+                
+                    <div class="col-md-12">
+                        OK
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
     </div>
 </div>

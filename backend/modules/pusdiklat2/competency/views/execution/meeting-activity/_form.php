@@ -81,9 +81,7 @@ use kartik\checkbox\CheckboxX;
 				]
 			])->label('Diasramakan?') ?>
 
-			<?php 
-			$permit = \Yii::$app->user->can('Subbidang Penyelenggaraan I');
-			if(!$model->isNewRecord and $permit){ ?>
+			<?php if(!$model->isNewRecord){ ?>
 			<div class='row'>
 				<div class='col-md-6'>				
 				<?php

@@ -8,6 +8,7 @@ use kartik\grid\GridView;
 use yii\helpers\Url;
 use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
+
 /* @var $this yii\web\View */
 /* @var $model backend\models\Activity */
 
@@ -50,8 +51,11 @@ $this->params['breadcrumbs'][] = $this->title;
 				<?= DetailView::widget([
 				'model' => $model,
 				'attributes' => [
-		            'id',
-					'satker_id',
+		            //'id',
+					[
+					 'attribute'=>'satker_id',
+					 'value'=>$model->satker->name,
+					 ],
 					'name',
 					'description:ntext',
 					'start',
@@ -59,10 +63,10 @@ $this->params['breadcrumbs'][] = $this->title;
 					'location',
 					'hostel',
 					'status',
-					'created',
+					/*'created',
 					'created_by',
 					'modified',
-					'modified_by',
+					'modified_by',*/
 					],
 				]) ?>
 			</div>
@@ -70,22 +74,26 @@ $this->params['breadcrumbs'][] = $this->title;
 				<?= DetailView::widget([
 				'model' => $program,
 				'attributes' => [
-		            'id',
+		           // 'id',
 					'number',
 					'name',
 					'hours',
 					'days',
-					'test',
+					//'test',
+					[
+					 'attribute'=>'test',
+					 'value'=>$program->test=0?'Tidak':'Ya',
+					 ],
 					'note',
 					'stage',
 					'category',
-					'validation_status',
-					'validation_note',
+					//'validation_status',
+					//'validation_note',
 					'status',
-					'created',
+					/*'created',
 					'created_by',
 					'modified',
-					'modified_by',
+					'modified_by',*/
 					],
 				]) ?>
 			</div>

@@ -60,24 +60,29 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 			],
 		
 			[
-				
+				//'class' => 'kartik\grid\EditableColumn',
 				'attribute' => 'computer',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'100px',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
-				
+				'value'=>function ($data){
+					return $data->computer==0?'-':'Ada';
+				}
 			],
 		
 			[
-				
+				//'class' => 'kartik\grid\EditableColumn',
 				'attribute' => 'hostel',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'100px',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
+				'value'=>function ($data){
+					return $data->hostel==0?'-':'Ada';
+				}
 			],
 			[
 				'format' => 'raw',

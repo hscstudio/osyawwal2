@@ -67,7 +67,9 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				'width'=>'100px',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
-				
+				'value'=>function ($data){
+					return $data->computer==0?'-':'Ada';
+				},
 			],
 		
 			[
@@ -78,6 +80,9 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				'width'=>'100px',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
+				'value'=>function ($data){
+					return $data->hostel==0?'-':'Ada';
+				},
 			],
 			[
 				'format' => 'raw',

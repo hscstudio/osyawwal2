@@ -96,6 +96,11 @@ class Activity extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Meeting::className(), ['activity_id' => 'id']);
     }
+	
+	public function getSatker()
+    {
+        return $this->hasOne(Reference::className(), ['id' => 'satker_id']);
+    }
 
     /**
      * @return \yii\db\ActiveQuery
