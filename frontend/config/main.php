@@ -9,6 +9,7 @@ $params = array_merge(
 return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
+	'language' => 'id-ID',
     'bootstrap' => ['log','heart'],
 	'homeUrl' => '/github/osyawwal2',
     'controllerNamespace' => 'frontend\controllers',
@@ -30,6 +31,17 @@ return [
         ],
 	],
     'components' => [
+		'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/error' => 'error.php',
+                    ],
+                ],
+            ],
+        ],
         'user' => [
             'identityClass' => 'frontend\models\Student',
             'enableAutoLogin' => true,

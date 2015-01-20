@@ -110,12 +110,12 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'value' => function ($data){
 					// CEK AUTHORISE ACCESS
-					$permit = \Yii::$app->user->can('Subbagian Rumah Tangga Dan Pengelolaan Aset');
+					$permit = \Yii::$app->user->can('Subbagian Rumah Tangga Dan Pengelolaan Aset  [PSDM]');
 					$object_person=\backend\models\ObjectPerson::find()
 						->where([
 							'object'=>'activity',
 							'object_id'=>$data->id,
-							'type'=>'organisation_65', // CEK KD_UNIT_ORG 1213020100 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
+							'type'=>'organisation_1202010301', // CEK KD_UNIT_ORG 1213020100 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
 						])
 						->one();
 					
