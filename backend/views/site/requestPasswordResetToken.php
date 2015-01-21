@@ -20,7 +20,7 @@ $this->title = 'Request password reset';
 					<?php $form = ActiveForm::begin(['id' => 'request-password-reset-form']); ?>
 						<?= $form->field($model, 'email', [
 						  'template' => "{input}\n{label}\n{hint}\n{error}"
-						])->textInput(array('placeholder' => 'Masukkan email Anda', 'class' => 'form-control input-lg'))->label('<i class="fa fa-fw fa-envelope"></i>Email'); // fajar ?>
+						])->textInput(array('placeholder' => 'Masukkan email Anda', 'class' => 'form-control input-lg'))->label('<i class="fa fa-fw fa-envelope"></i>Email'); // modipikasi ?>
 						
 						<div class="form-group">
 							<?= Html::submitButton('<i class="fa fa-fw fa-send-o"></i>Kirim', ['class' => 'btn btn-block btn-lg bg-cyan-pucat']) ?>

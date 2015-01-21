@@ -22,18 +22,18 @@ $this->params['breadcrumbs'][] = $this->title;
 						
 						<?= $form->field($model, 'username', [
 						  'template' => "{input}\n{label}\n{hint}\n{error}"
-						])->textInput(array('placeholder' => 'Masukkan NIP Anda', 'class' => 'form-control input-lg'))->label('<i class="fa fa-fw fa-user"></i>USER'); // fajar ?>
+						])->textInput(array('placeholder' => 'Masukkan NIP Anda', 'class' => 'form-control input-lg'))->label('<i class="fa fa-fw fa-user"></i>USER'); // modipikasi ?>
 						
 						<?= $form->field($model, 'password', [
 						  'template' => "{input}\n{label}\n{hint}\n{error}"
-						])->passwordInput(array('placeholder' => 'Masukkan kata sandi', 'class' => 'form-control input-lg'))->label('<i class="fa fa-fw fa-key"></i>Sandi'); // fajar ?>
+						])->passwordInput(array('placeholder' => 'Masukkan kata sandi', 'class' => 'form-control input-lg'))->label('<i class="fa fa-fw fa-key"></i>Sandi'); // modipikasi ?>
 						
 						<?= $form->field($model, 'rememberMe')->checkbox(); ?>
 						<div class="form-group">
 							<?= Html::submitButton('Masuk <i class="fa fa-fw fa-sign-in"></i>', [
 								'class' => 'btn btn-block btn-lg bg-cyan-pucat', 
 								'name' => 'login-button'
-							]) // fajar?>
+							]) // modipikasi?>
 						</div>
 						<div class="lupasandi">
 							<?= Html::a('Saya lupa kata sandi', ['site/request-password-reset']) ?>
