@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						
 						<?= $form->field($model, 'password', [
 						  'template' => "{input}\n{label}\n{hint}\n{error}"
-						])->passwordInput(array('placeholder' => 'Masukkan kata sandi', 'class' => 'form-control input-lg'))->label('<i class="fa fa-fw fa-key"></i>Sandi'); // modipikasi ?>
+						])->passwordInput(array('placeholder' => 'Masukkan kata sandi', 'class' => 'form-control input-lg', 'autocomplete' => 'off'))->label('<i class="fa fa-fw fa-key"></i>Sandi'); // modipikasi ?>
 						
 						<?= $form->field($model, 'rememberMe')->checkbox(); ?>
 						<div class="form-group">
