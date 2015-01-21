@@ -75,7 +75,7 @@ class StudentController extends Controller
     {
 		$person = Person::findOne($person_id);
 		if (null==$person){  
-			throw new NotFoundHttpException('The requested page does not exist.');
+			throw new NotFoundHttpException(Yii::t('app','SYSTEM_TEXT_PAGE_NOT_FOUND'));
 		}
 		
         $model = new Student([
@@ -122,7 +122,7 @@ class StudentController extends Controller
         $model = $this->findModel($id);
 		$person = Person::findOne($model->person_id);
 		if (null==$person){  
-			throw new NotFoundHttpException('The requested page does not exist.');
+			throw new NotFoundHttpException(Yii::t('app','SYSTEM_TEXT_PAGE_NOT_FOUND'));
 		}
 		$renders = [];
 		$renders['model'] = $model;
@@ -252,7 +252,7 @@ class StudentController extends Controller
         if (($model = Student::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('app','SYSTEM_TEXT_PAGE_NOT_FOUND'));
         }
     }
 	
@@ -547,7 +547,7 @@ class StudentController extends Controller
         if (($model = Person::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('app','SYSTEM_TEXT_PAGE_NOT_FOUND'));
         }
     }
 	

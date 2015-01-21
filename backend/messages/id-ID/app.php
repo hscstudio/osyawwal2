@@ -208,6 +208,7 @@ return [
 	'SYSTEM_TEXT_USER_ID' => 'ID Pengguna',
 	'SYSTEM_TEXT_PUBLISHED' => 'Tampil',
 	'SYSTEM_TEXT_UNPUBLISHED' => 'Sembunyi',
+	'SYSTEM_TEXT_PAGE_NOT_FOUND' => 'Halaman tidak ditemukan.',
 	'SYSTEM_TEXT_SHOW_ALL' => 'Semua',
 	'SYSTEM_TEXT_ACTIONS' => 'Tindakan',
 	'SYSTEM_TEXT_UNKNOWN_STATUS' => 'Status tidak dikenali',
