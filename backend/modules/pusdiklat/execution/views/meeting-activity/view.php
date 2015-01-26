@@ -245,7 +245,7 @@ $terakhirDiubahOleh = Person::findOne($model->modified_by)->name; // baikin ya :
 											'data-toggle'=>'tooltip',
 											'data-pjax'=>'0',
 											'data-html'=>'true',
-											'title'=>($object_person!=null)?'CURRENT PIC PROGRAM <br> '.$object_person->person->name.'':'PIC IS UNAVAILABLE',
+											'title'=>($object_person!=null)?'PIC Program <br> '.$object_person->person->name.'':'PIC tidak tersedia',
 										];
 								$person_name = ($object_person!=null)?substr($object_person->person->name,0,5).'.':'-';
 								return Html::tag('span',$person_name,$options);
@@ -271,7 +271,7 @@ $terakhirDiubahOleh = Person::findOne($model->modified_by)->name; // baikin ya :
 									'3'=>'<span class="glyphicon glyphicon-remove"></span>'
 								];
 								$status_classes = ['0'=>'warning','1'=>'info','2'=>'success','3'=>'danger'];
-								$status_title = ['0'=>'Plan','1'=>'Ready','2'=>'Execution','3'=>'Cancel'];
+								$status_title = ['0'=>'Rencana','1'=>'Siap','2'=>'Berjalan','3'=>'Batal'];
 								return Html::tag(
 									'span',
 									$status_icons[$data->status],

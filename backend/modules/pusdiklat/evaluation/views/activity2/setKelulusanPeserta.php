@@ -18,14 +18,16 @@ $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 $this->title = Yii::t('app', 'Set Kelulusan {modelClass}: ', [
     'modelClass' => 'Peserta',]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Class Student'), 'url' => ['class-student','id'=>$model->id,'class_id'=>$class_id]];
-$this->params['breadcrumbs'][] = ['label' => 'Set Kelulusan Peserta'];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_TRAINING_ACTIVITIES'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Kelas '.Inflector::camel2words($activity->name), 'url' => ['class','id'=>$activity->id]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_CLASS').' '.$class->class, 'url' => ['class-student','id'=>$activity->id,'class_id'=>$class->id]];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="activity-update panel panel-default">
 	
     <div class="panel-heading">		
 		<div class="pull-right">
-        <?= (Yii::$app->request->isAjax)?'':Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back', ['class-student','id'=>$model->id,'class_id'=>$class_id], ['class' => 'btn btn-xs btn-primary']) ?>
+        <?= (Yii::$app->request->isAjax)?'':Html::a('<i class="fa fa-fw fa-arrow-left"></i> '.Yii::t('app', 'SYSTEM_BUTTON_BACK'), ['class-student','id'=>$model->id,'class_id'=>$class_id], ['class' => 'btn btn-xs btn-primary']) ?>
 		</div>
 		<h1 class="panel-title"><?= Html::encode($this->title) ?></h1>
 	</div>
@@ -98,7 +100,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Set Kelulusan Peserta'];
 			?>                          
             <div class="clearfix"><hr></div> 
             <div class="form-group">
-                <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Update') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+                <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'SYSTEM_BUTTON_UPDATE') : Yii::t('app', 'SYSTEM_BUTTON_UPDATE'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
             </div>
         
 

@@ -1319,7 +1319,7 @@ class ActivityController extends Controller
         $model = $this->findModelClassStudent($training_class_student_id);
 		$model->delete();
 		
-		Yii::$app->getSession()->setFlash('success', 'Data have deleted.');
+		Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Data berhasil dihapus');
         return $this->redirect(['class-student', 'id' => $id, 'class_id' => $class_id]);
     }
 	
@@ -1350,21 +1350,21 @@ class ActivityController extends Controller
 		if (Yii::$app->request->post()) {			
 			$model->load(Yii::$app->request->post());
 			if($model->save()){
-				Yii::$app->getSession()->setFlash('success', 'Student have moved.');
+				Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Peserta berhasil dipindahkan');
 				if (!Yii::$app->request->isAjax){
 					return $this->redirect(['class-student', 'id' => $id, 'class_id'=>$class_id]);	
 				}
 				else{
-					echo 'Student have moved.';
+					echo '<i class="fa fa-fw fa-check-circle"></i> Peserta berhasil dipindahkan.';
 				}
 			}
 			else{
-				Yii::$app->getSession()->setFlash('failed', 'Student have not moved.');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Peserta gagal dipindahkan');
 				if (!Yii::$app->request->isAjax) {
 					return $this->redirect(['class-student', 'id' => $id, 'class_id'=>$class_id]);	
 				}
 				else{
-					echo 'Student have not moved.';
+					echo '<i class="fa fa-fw fa-times-circle"></i> Peserta gagal dipindahkan';
 				}
 			}
         } else {
@@ -1427,7 +1427,7 @@ class ActivityController extends Controller
 			
         $dataProvider2 = $searchModel2->search(Yii::$app->request->queryParams); */
 		
-		$satkers['all']='--- All ---';
+		$satkers['all']='--- Semua ---';
 		$satkers = ArrayHelper::map(Reference::find()
 			->where([
 				'type'=>'satker',
@@ -1646,14 +1646,14 @@ class ActivityController extends Controller
 		$activityRoom->status = $status;
 		
         if($activityRoom->save()) {
-			Yii::$app->session->setFlash('success', 'Room have setted');
+			Yii::$app->session->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Ruangan telah dipilih');
 		}
 		else{
-			 Yii::$app->session->setFlash('error', 'Unable set, there are some error');
+			 Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Gagal memilih ruangan');
 		}
 		
 		if (Yii::$app->request->isAjax){	
-			return ('Room have setted');
+			return ('Ruangan telah dipilih');
 		}
 		else{
 			return $this->redirect(['room', 'id' => $id]);
@@ -1676,27 +1676,27 @@ class ActivityController extends Controller
 		
 		if($room->satker_id==$satker_id and $activityRoom->status!=1){
 			if (Yii::$app->request->isAjax){	
-				$msg = ('You have not privileges to unset this data.');
+				$msg = ('<i class="fa fa-fw fa-times-circle"></i>Anda tidak memiliki wewenang untuk mengosongkan data ini');
 			}
 			else{
-				Yii::$app->session->setFlash('error', 'You have not privileges to unset this data.');
+				Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Anda tidak memiliki wewenang untuk mengosongkan data ini');
 			}
 		}
 		else if($room->satker_id!=$satker_id and $activityRoom->status!=0){
 			if (Yii::$app->request->isAjax){	
-				$msg = ('You have not privileges to unset this data..');
+				$msg = ('<i class="fa fa-fw fa-times-circle"></i>Anda tidak memiliki wewenang untuk mengosongkan data ini');
 			}
 			else{
-				Yii::$app->session->setFlash('error', 'You have not privileges to unset this data..');
+				Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Anda tidak memiliki wewenang untuk mengosongkan data ini');
 			}
 		}
 		else
 		{
 			if($activityRoom->delete()) {
-				Yii::$app->session->setFlash('success', 'Room have unset');
+				Yii::$app->session->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Ruangan berhasil dilepas');
 			}
 			else{
-				 Yii::$app->session->setFlash('error', 'Unable unset there are some error');
+				 Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Gagal melepas ruangan');
 			}
 		}
 
@@ -2015,11 +2015,11 @@ class ActivityController extends Controller
 			//CHECKING SATKER
 			$satker_id = (int)Yii::$app->user->identity->employee->satker_id;
 			if ($satker_id!=$activity->satker_id){
-				die('|0|You have not privileges');
+				die('|0|Anda tidak memiliki wewenang');
 			}
 			
 			if(empty($training_class_subject_id) or $training_class_subject_id==0){
-				die('|0|You must select activity!');
+				die('|0|Anda harus memilih kegiatan dulu');
 			}
 			else if ($training_class_subject_id>0){
 				$hours = $post['hours'];
@@ -2027,7 +2027,7 @@ class ActivityController extends Controller
 					$minutes = (int)($hours * 45);
 				}
 				else{
-					die('|0|Hours have more than 0');
+					die('|0|Jam harus lebih dari 0');
 				}
 			}
 			else{
@@ -2037,7 +2037,7 @@ class ActivityController extends Controller
 					$pic = $post['pic'];
 				}
 				else{
-					die('|0|Minutes have more than 0');
+					die('|0|Menit harus lebih dari 0');
 				}
 			}
 			$training_class_subject_id=(int)$training_class_subject_id;
@@ -2077,20 +2077,20 @@ class ActivityController extends Controller
 				$model->status = 1;
 			
 				if($model->save()) {
-					Yii::$app->session->setFlash('success', 'Activity have Added');
-					die('|1|Activity have Added|'.date('Y-m-d',strtotime($start)).'|'.date('H:i',strtotime($end)));
+					Yii::$app->session->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Kegiatan berhasil ditambahkan');
+					die('|1|<i class="fa fa-fw fa-check-circle"></i>Kegiatan berhasil ditambahkan|'.date('Y-m-d',strtotime($start)).'|'.date('H:i',strtotime($end)));
 					
 				}
 				else{
-					die('|0|There are some error');
+					die('|0|<i class="fa fa-fw fa-times-circle"></i>Ada error');
 				}
 			}
 			else{
-				die('|0|Constrain time, please change time!');
+				die('|0|<i class="fa fa-fw fa-times-circle"></i>Constrain time, ubahlah waktunya');
 			}
 		}
 		else{
-			Yii::$app->session->setFlash('error', 'Only for ajax request');
+			Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>');
 			return $this->redirect(['class-schedule', 'id' => $id, 'class_id' => $class_id]);
 		}
     } 
@@ -2103,7 +2103,7 @@ class ActivityController extends Controller
 			//CHECKING SATKER
 			$satker_id = (int)Yii::$app->user->identity->employee->satker_id;
 			if ($satker_id!=$activity->satker_id){
-				die('|0|You have not privileges');
+				die('|0|Anda tidak memiliki wewenang');
 			}
 			
 			$trainingSchedule = \backend\models\TrainingSchedule::find()->where([
@@ -2112,15 +2112,15 @@ class ActivityController extends Controller
 			])->one();
 			$start = $trainingSchedule->start;
 			if($trainingSchedule->delete()) {
-				Yii::$app->session->setFlash('success', 'Delete activity success');
-				die('|1|Activity have deleted|'.date('Y-m-d',strtotime($start)).'|'.date('H:i',strtotime($start)));
+				Yii::$app->session->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Kegiatan berhasil dihapus');
+				die('|1|<i class="fa fa-fw fa-check-circle"></i> Kegiatan berhasil dihapus|'.date('Y-m-d',strtotime($start)).'|'.date('H:i',strtotime($start)));
 			}
 			else{
-				die('|0|There are some error');
+				die('|0|<i class="fa fa-fw fa-times-circle"></i>Ada error');
 			}
 		}
 		else{
-			Yii::$app->session->setFlash('error', 'Only for ajax request');
+			Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>');
 			return $this->redirect(['class-schedule', 'id' => $id, 'class_id' => $class_id]);
 		} 
 	}
@@ -2144,12 +2144,12 @@ class ActivityController extends Controller
 			if (Yii::$app->request->post()) {	
 				$model->activity_room_id = Yii::$app->request->post('TrainingSchedule')['activity_room_id'];
 				if($model->save()) {
-					Yii::$app->session->setFlash('success', 'Room have set');
-					die('|1|Room have set|'.date('Y-m-d',strtotime($model->start)).'|'.date('H:i',strtotime($model->end)));
+					Yii::$app->session->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Ruang berhasil dipilih');
+					die('|1|<i class="fa fa-fw fa-check-circle"></i> Ruang berhasil dipilih|'.date('Y-m-d',strtotime($model->start)).'|'.date('H:i',strtotime($model->end)));
 					
 				}
 				else{
-					die('|0|There are some error');
+					die('|0|<i class="fa fa-fw fa-times-circle"></i>Ada error');
 				}
 			}
 			else{
@@ -2162,7 +2162,7 @@ class ActivityController extends Controller
 			}
 		}
 		else{
-			Yii::$app->session->setFlash('error', 'Only for ajax request');
+			Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>');
 			return $this->redirect(['class-schedule', 'id' => $id, 'class_id' => $class_id]);
 		} 
     }
@@ -2205,16 +2205,16 @@ class ActivityController extends Controller
 						$insert++;
 					}
 					else{
-						die('|0|There are some error'.print_r($model2->errors));
+						die('|0|<i class="fa fa-fw fa-times-circle"></i> Ada error '.print_r($model2->errors));
 					}
 				}
 				
 				if($insert>0) {
-					Yii::$app->session->setFlash('success', 'Trainer have added');
-					die('|1|Trainer have added|'.date('Y-m-d',strtotime($trainingSchedule->start)).'|'.date('H:i',strtotime($trainingSchedule->end)));
+					Yii::$app->session->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Pengajar berhasil ditambahkan');
+					die('|1|<i class="fa fa-fw fa-check-circle"></i> Pengajar berhasil ditambahkan|'.date('Y-m-d',strtotime($trainingSchedule->start)).'|'.date('H:i',strtotime($trainingSchedule->end)));
 				}
 				else{
-					die('|0|No trainer added');
+					die('|0|<i class="fa fa-fw fa-times-circle"></i> Tidak ada pengajar yang ditambahkan');
 				} 
 			}
 			else{				
@@ -2229,7 +2229,7 @@ class ActivityController extends Controller
 			}
 		}
 		else{
-			Yii::$app->session->setFlash('error', 'Only for ajax request');
+			Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>');
 			return $this->redirect(['class-schedule', 'id' => $id, 'class_id' => $class_id]);
 		} 
     }
@@ -2246,8 +2246,8 @@ class ActivityController extends Controller
 			])
 			->one();
 		$trainingScheduleTrainer->delete();
-		Yii::$app->session->setFlash('success', 'Trainer have deleted');
-		die('|1|Trainer have deeted|'.date('Y-m-d',strtotime($trainingSchedule->start)).'|'.date('H:i',strtotime($trainingSchedule->end)));
+		Yii::$app->session->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Pengajar berhasil dikeluarkan');
+		die('|1|<i class="fa fa-fw fa-check-circle"></i> Pengajar berhasil dikeluarkan|'.date('Y-m-d',strtotime($trainingSchedule->start)).'|'.date('H:i',strtotime($trainingSchedule->end)));
 	}
 	
 	
@@ -3153,7 +3153,7 @@ class ActivityController extends Controller
 				$model->number = $npp[$admin[$i]];
 				$model->update();
 			}
-			Yii::$app->getSession()->setFlash('success', 'Data have updated.');
+			Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Data berhasil diperbarui');
 			return $this->redirect(['class-student', 'id' => $id,'class_id'=>$class_id]);            
     }
 	

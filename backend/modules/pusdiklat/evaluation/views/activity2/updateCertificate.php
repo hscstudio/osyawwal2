@@ -60,8 +60,9 @@ echo \kartik\widgets\AlertBlock::widget([
                         ]) ?>
                 </div>
                 <i class="fa fa-fw fa-globe"></i>
-                TrainingClassStudentCertificate    </div>
-            <div style="margin:10px">
+                TrainingClassStudentCertificate    
+            </div>
+            <div class="panel-body">
                 <?php $form = ActiveForm::begin([]); ?>
                 <?= $form->errorSummary($model) ?>
 
@@ -69,7 +70,7 @@ echo \kartik\widgets\AlertBlock::widget([
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-6">
-                                <?= $form->field($model, 'number')->textInput(['maxlength' => 4])->label('Number (only 4 digits)')?>
+                                <?= $form->field($model, 'number')->textInput(['maxlength' => 4])->label('Nomor (4 digit)')?>
                             </div>
                             <div class="col-md-6">
                                 <label>&nbsp;</label>
@@ -78,7 +79,7 @@ echo \kartik\widgets\AlertBlock::widget([
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <?= $form->field($model, 'seri')->textInput(['maxlength' => 4])->label('Seri (only 4 digits)') ?>
+                                <?= $form->field($model, 'seri')->textInput(['maxlength' => 4])->label('Seri (4 digit)') ?>
                             </div>
                         </div>
                     </div>
@@ -97,8 +98,8 @@ echo \kartik\widgets\AlertBlock::widget([
                       
                         <?= $form->field($model, 'status')->widget(\kartik\widgets\SwitchInput::classname(), [
 					'pluginOptions' => [
-						'onText' => 'On',
-						'offText' => 'Off',
+						'onText' => 'Final',
+						'offText' => 'Rencana',
 					]
 				]) ?>
                     </div>
@@ -106,7 +107,7 @@ echo \kartik\widgets\AlertBlock::widget([
                         <label class="col-md-2 control-label"></label>
                         <div class="col-md-10">
                             <?= Html::submitButton(
-                                $model->isNewRecord ? '<span class="fa fa-fw fa-save"></span> '.'Create' : '<span class="fa fa-fw fa-save"></span> '.'Update',
+                                $model->isNewRecord ? '<span class="fa fa-fw fa-save"></span> '.Yii::t('app', 'SYSTEM_BUTTON_CREATE') : '<span class="fa fa-fw fa-save"></span> '.Yii::t('app', 'SYSTEM_BUTTON_UPDATE'),
                                 ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
                         </div>
 

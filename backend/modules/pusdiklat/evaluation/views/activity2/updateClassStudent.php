@@ -15,9 +15,10 @@ use kartik\widgets\FileInput;
 /* @var $this yii\web\View */
 /* @var $person backend\models\TrainingClassStudentCertificate */
 
-$this->title = 'Update Student';
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Activities'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => Inflector::camel2words($activity->name), 'url' => ['class','id'=>$activity->id]];
+$this->title = 'Perbarui Data Peserta';
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_TRAINING_ACTIVITIES'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Kelas '.Inflector::camel2words($activity->name), 'url' => ['class','id'=>$activity->id]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_CLASS').' '.$class->class, 'url' => ['class-student','id'=>$activity->id,'class_id'=>$class->id]];
 $this->params['breadcrumbs'][] = $this->title;
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
@@ -32,13 +33,11 @@ echo \kartik\widgets\AlertBlock::widget([
     <div class="panel panel-default">
     <div class="panel-heading">
         <div class="pull-right">
-            <?= Html::a('<i class="fa fa-arrow-left"></i> BACK',['class-student','id'=>$activity->id,'class_id'=>$class->id],
-                ['class'=>'btn btn-xs btn-primary',
-                    'title'=>'Back to Index',
-                ]) ?>
+            <?= Html::a('<i class="fa fa-arrow-left"></i> '.Yii::t('app', 'SYSTEM_BUTTON_BACK'),['class-student','id'=>$activity->id,'class_id'=>$class->id],
+                ['class'=>'btn btn-xs btn-primary']) ?>
         </div>
         <i class="fa fa-fw fa-globe"></i>
-        Training Class Student
+        Pengaturan Data Peserta
     </div>
     <div class="panel-body">
     <?php $form = ActiveForm::begin([
@@ -48,13 +47,13 @@ echo \kartik\widgets\AlertBlock::widget([
     <?= $form->errorSummary($person) ?> <!-- ADDED HERE -->
 
     <ul class="nav nav-tabs" role="tablist" id="tab_wizard">
-        <li class="active"><a href="#personal_information" role="tab" data-toggle="tab">Personal</a></li>
-        <li class=""><a href="#contact_information" role="tab" data-toggle="tab">Contact</a></li>
-        <li class=""><a href="#employee_information" role="tab" data-toggle="tab">Employee</a></li>
-        <li class=""><a href="#office_information" role="tab" data-toggle="tab">Office</a></li>
-        <li class=""><a href="#education_information" role="tab" data-toggle="tab">Education</a></li>
-        <li class=""><a href="#photo_document" role="tab" data-toggle="tab">Photo & Document</a></li>
-        <li class=""><a href="#student" role="tab" data-toggle="tab">Student</a></li>
+        <li class="active"><a href="#personal_information" role="tab" data-toggle="tab">Pribadi</a></li>
+        <li class=""><a href="#contact_information" role="tab" data-toggle="tab">Kontak</a></li>
+        <li class=""><a href="#employee_information" role="tab" data-toggle="tab">Kepegawaian</a></li>
+        <li class=""><a href="#office_information" role="tab" data-toggle="tab">Kantor</a></li>
+        <li class=""><a href="#education_information" role="tab" data-toggle="tab">Pendidikan</a></li>
+        <li class=""><a href="#photo_document" role="tab" data-toggle="tab">Foto & Dokumen</a></li>
+        <li class=""><a href="#student" role="tab" data-toggle="tab">Peserta</a></li>
     </ul>
     <div class="tab-content" style="border: 1px solid #ddd; border-top-color: transparent; padding:10px; background-color: #fff;">
     <?php
@@ -68,7 +67,7 @@ echo \kartik\widgets\AlertBlock::widget([
 
         $field[$object_reference] = $form->field(${$object_reference}, '['.$object_reference.']reference_id')->widget(Select2::classname(), [
             'data' => $data,
-            'options' => ['placeholder' => 'Choose '.$label.' ...'],
+            'options' => ['placeholder' => 'Pilih '.$label.' ...'],
             'pluginOptions' => [
                 'allowClear' => true
             ],
@@ -115,8 +114,8 @@ echo \kartik\widgets\AlertBlock::widget([
             <div class="col-md-3">
                 <?= $form->field($person, 'married')->widget(SwitchInput::classname(), [
                     'pluginOptions' => [
-                        'onText' => 'On',
-                        'offText' => 'Off',
+                        'onText' => 'Ya',
+                        'offText' => 'Tidak',
                     ]
                 ]) ?>
             </div>
@@ -137,7 +136,7 @@ echo \kartik\widgets\AlertBlock::widget([
         </div>
 
         <a class="btn btn-default" onclick="$('#tab_wizard a[href=#contact_information]').tab('show')">
-            Next
+            Berikutnya
             <i class="fa fa-fw fa-arrow-circle-o-right"></i>
         </a>
     </div>
@@ -161,11 +160,11 @@ echo \kartik\widgets\AlertBlock::widget([
         <?= $form->field($person, 'bank_account')->textInput(['maxlength' => 255]) ?>
 
         <a class="btn btn-default" onclick="$('#tab_wizard a[href=#personal_information]').tab('show')">
-            Previous
+            Sebelumnya
             <i class="fa fa-fw fa-arrow-circle-o-left"></i>
         </a>
         <a class="btn btn-default" onclick="$('#tab_wizard a[href=#employee_information]').tab('show')">
-            Next
+            Berikutnya
             <i class="fa fa-fw fa-arrow-circle-o-right"></i>
         </a>
 
@@ -183,11 +182,11 @@ echo \kartik\widgets\AlertBlock::widget([
         <?= $field['rank_class'] ?>
 
         <a class="btn btn-default" onclick="$('#tab_wizard a[href=#contact_information]').tab('show')">
-            Previous
+            Sebelumnya
             <i class="fa fa-fw fa-arrow-circle-o-left"></i>
         </a>
         <a class="btn btn-default" onclick="$('#tab_wizard a[href=#office_information]').tab('show')">
-            Next
+            Berikutnya
             <i class="fa fa-fw fa-arrow-circle-o-right"></i>
         </a>
 
@@ -202,7 +201,7 @@ echo \kartik\widgets\AlertBlock::widget([
                 $data = ['5' => 'Pelaksana / Others','4' => 'Eselon 4','3' => 'Eselon 3','2' => 'Eselon 2','1' => 'Eselon 1'];
                 echo $form->field($person, 'position')->widget(Select2::classname(), [
                     'data' => $data,
-                    'options' => ['placeholder' => 'Choose position ...'],
+                    'options' => ['placeholder' => 'Pilih Jabatan ...'],
                     'pluginOptions' => [
                         'allowClear' => true
                     ],
@@ -236,11 +235,11 @@ echo \kartik\widgets\AlertBlock::widget([
         <?= $form->field($person, 'office_address')->textInput(['maxlength' => 255]) ?>
 
         <a class="btn btn-default" onclick="$('#tab_wizard a[href=#employee_information]').tab('show')">
-            Previous
+            Sebelumnya
             <i class="fa fa-fw fa-arrow-circle-o-left"></i>
         </a>
         <a class="btn btn-default" onclick="$('#tab_wizard a[href=#education_information]').tab('show')">
-            Next
+            Berikutnya
             <i class="fa fa-fw fa-arrow-circle-o-right"></i>
         </a>
 
@@ -259,11 +258,11 @@ echo \kartik\widgets\AlertBlock::widget([
         </div>
 
         <a class="btn btn-default" onclick="$('#tab_wizard a[href=#office_information]').tab('show')">
-            Previous
+            Sebelumnya
             <i class="fa fa-fw fa-arrow-circle-o-left"></i>
         </a>
         <a class="btn btn-default" onclick="$('#tab_wizard a[href=#photo_document]').tab('show')">
-            Next
+            Berikutnya
             <i class="fa fa-fw fa-arrow-circle-o-right"></i>
         </a>
 
@@ -335,11 +334,11 @@ echo \kartik\widgets\AlertBlock::widget([
         <div class="clearfix"></div>
 
         <a class="btn btn-default" onclick="$('#tab_wizard a[href=#education_information]').tab('show')">
-            Previous
+            Sebelumnya
             <i class="fa fa-fw fa-arrow-circle-o-left"></i>
         </a>
         <a class="btn btn-default" onclick="$('#tab_wizard a[href=#student]').tab('show')">
-            Next
+            Berikutnya
             <i class="fa fa-fw fa-arrow-circle-o-right"></i>
         </a>
 
@@ -381,18 +380,18 @@ echo \kartik\widgets\AlertBlock::widget([
         </div>
 
         <a class="btn btn-default" onclick="$('#tab_wizard a[href=#photo_document]').tab('show')">
-            Previous
+            Sebelumnya
             <i class="fa fa-fw fa-arrow-circle-o-left"></i>
         </a>
-        <?= Html::submitButton($person->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $person->isNewRecord ? 'btn btn-success' : 'btn btn-primary','onclick'=>'if($("#agreement_status").prop("checked")==false){ alert("Anda harus menyetujui Pakta Integritas!"); return false; }']) ?>
+        <?= Html::submitButton($person->isNewRecord ? Yii::t('app', 'SYSTEM_BUTTON_CREATE') : Yii::t('app', 'SYSTEM_BUTTON_UPDATE'), ['class' => $person->isNewRecord ? 'btn btn-success' : 'btn btn-primary','onclick'=>'if($("#agreement_status").prop("checked")==false){ alert("Anda harus menyetujui Pakta Integritas!"); return false; }']) ?>
     </div>
     </div>
     <div class="clearfix"><hr></div>
 
     <?= $form->field($person, 'status')->widget(SwitchInput::classname(), [
         'pluginOptions' => [
-            'onText' => 'On',
-            'offText' => 'Off',
+            'onText' => 'Aktif',
+            'offText' => 'Blokir',
         ]
     ]) ?>
 

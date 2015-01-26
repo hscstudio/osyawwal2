@@ -175,6 +175,7 @@ return [
     'BPPK_TEXT_TEXT4' => 'Teks 4',
     'BPPK_TEXT_TEXT5' => 'Teks 5',
     'BPPK_TEXT_OVERALL' => 'Keseluruhan',
+    'BPPK_TEXT_CERTIFICATE' => 'Sertifikat',
 
     'BPPK_BUTTON_GENERATE_FORM_A' => 'Buat Form A',
 
@@ -203,6 +204,7 @@ return [
 	'SYSTEM_BUTTON_PREVIOUS' => 'Mundur',
 	'SYSTEM_BUTTON_NEXT' => 'Maju',
 	'SYSTEM_BUTTON_BACK' => 'Kembali',
+	'SYSTEM_BUTTON_PRINT' => 'Cetak',
 	'SYSTEM_TEXT_DOWNLOAD' => 'Unduh',
 	'SYSTEM_TEXT_ITEM_NAME' => 'Nama Item',
 	'SYSTEM_TEXT_USER_ID' => 'ID Pengguna',

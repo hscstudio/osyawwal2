@@ -36,11 +36,11 @@ $this->params['breadcrumbs'][] = $this->title;
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
-				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+				'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
 			]);
 			?>
-			<h3>Property</h3>
-			<p>Property of Training</p>
+			<h3>Informasi</h3>
+			<p>Lihat data diklat</p>
 			<?php
 			Box::end();
 			?>

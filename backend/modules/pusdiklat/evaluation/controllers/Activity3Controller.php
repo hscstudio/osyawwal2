@@ -170,29 +170,33 @@ class Activity3Controller extends Controller
 					$model->satker = 'current';
 					$model->location = implode('|',$model->location);							
 					if($model->save()) {
-						Yii::$app->getSession()->setFlash('success', 'Activity data have saved.');
+						Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Diklat berhasil diperbarui');
 						if($training->load(Yii::$app->request->post())){							
 							$training->activity_id= $model->id;
 							$training->program_revision = (int)\backend\models\ProgramHistory::getRevision($training->program_id);
 							
 							if($training->save()){								 
-								Yii::$app->getSession()->setFlash('success', 'Training & activity data have saved.');
+								Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Diklat berhasil diperbarui');
 								$transaction->commit();
 								return $this->redirect(['index']);
 							}
 						}						
 					}
 					else{
-						Yii::$app->getSession()->setFlash('error', 'Data is NOT saved.');
+						Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Data gagal diperbarui');
 					}				
 				}
 			}
 			catch (Exception $e) {
-				Yii::$app->getSession()->setFlash('error', 'Roolback transaction. Data is not saved');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Data gagal diperbarui');
 			}
         } 
 		
-		return $this->render('update', $renders);
+		if (Yii::$app->request->isAjax) {
+			return $this->renderAjax('update', $renders);
+		} else {
+			return $this->render('update', $renders);
+		}
     }
 
    
@@ -382,9 +386,15 @@ class Activity3Controller extends Controller
     {
 		$model = $this->findModel($id);
 		
-        return $this->render('dashboard', [
-            'model' => $model,
-        ]);
+		if (Yii::$app->request->isAjax) {
+	        return $this->renderAjax('dashboard', [
+	            'model' => $model,
+	        ]);
+	    } else {
+	    	return $this->render('dashboard', [
+	            'model' => $model,
+	        ]);
+	    }
     }
 	
 	/**

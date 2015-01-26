@@ -86,7 +86,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'PIC');
 			$data = ArrayHelper::map($trainingClass,'id', 'class');
 			echo $form->field($model, 'training_class_id')->widget(Select2::classname(), [
 				'data' => $data,
-				'options' => ['placeholder' => 'Choose class ...'],
+				'options' => ['placeholder' => 'Pilih class ...'],
 				'pluginOptions' => [
 					'allowClear' => true
 				],
@@ -94,7 +94,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'PIC');
 			?>
 			
 			<div class="form-group">
-				<?= Html::submitButton(Yii::t('app', 'Update'), ['class' => 'btn btn-primary']) ?>
+				<?= Html::submitButton(Yii::t('app', 'SYSTEM_BUTTON_UPDATE'), ['class' => 'btn btn-primary']) ?>
 			</div>
 
 			<?php ActiveForm::end(); ?>
