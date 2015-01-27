@@ -229,7 +229,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				]).
 				'</div>',
 			'after'=>
-				Html::a('<i class="fa fa-fw fa-link"></i> '.Yii::t('app', 'BPPK_BUTTON_STUDENT_PLAN'), ['index-student-plan'], ['class' => 'btn btn-default','data-pjax'=>'0']).' '.
+				Html::a('<i class="fa fa-fw fa-tasks"></i> '.Yii::t('app', 'BPPK_BUTTON_STUDENT_PLAN'), ['index-student-plan'], ['class' => 'btn btn-default','data-pjax'=>'0']).' '.
 				Html::a('<i class="fa fa-fw fa-repeat"></i> '.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
@@ -242,7 +242,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <div class="panel panel-default">
 	<div class="panel-heading">
-	<i class="fa fa-fw fa-refresh"></i> Dokument Generator
+	<i class="fa fa-fw fa-refresh"></i> Dokumen Generator
 	</div>
     <div class="panel-body">
 		<?php

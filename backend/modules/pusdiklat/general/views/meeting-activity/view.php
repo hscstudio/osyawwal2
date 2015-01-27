@@ -17,7 +17,7 @@ $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 
 $this->title = 'Perbarui '. Inflector::camel2words($model->name);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Meeting Activities'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_MEETING'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 // Ngeformat
@@ -250,7 +250,7 @@ $terakhirDiubahOleh = Person::findOne($model->modified_by)->name; // baikin ya :
 											'data-toggle'=>'tooltip',
 											'data-pjax'=>'0',
 											'data-html'=>'true',
-											'title'=>($object_person!=null)?'CURRENT PIC PROGRAM <br> '.$object_person->person->name.'':'PIC IS UNAVAILABLE',
+											'title'=>($object_person!=null)?'PIC Program <br> '.$object_person->person->name.'':'PIC tidak tersedia',
 										];
 								$person_name = ($object_person!=null)?substr($object_person->person->name,0,5).'.':'-';
 								return Html::tag('span',$person_name,$options);

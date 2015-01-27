@@ -72,7 +72,7 @@ use yii\helpers\Url;
 
 		echo $form->field(${$object_person}, '['.$object_person.']person_id')->widget(Select2::classname(), [
 			'data' => $data,
-			'options' => ['placeholder' => 'Choose '.$label.' ...'],
+			'options' => ['placeholder' => 'Pilih '.$label.' ...'],
 			'pluginOptions' => [
 			'allowClear' => true
 			],
