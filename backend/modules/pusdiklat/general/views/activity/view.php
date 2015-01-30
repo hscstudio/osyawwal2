@@ -12,7 +12,7 @@ $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 
-$this->title = 'Informasi #'. Inflector::camel2words($model->name);
+$this->title = 'Informasi '. Inflector::camel2words($model->name);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_TRAINING'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -97,7 +97,7 @@ $terakhirDiubahOleh = Person::findOne($model->modified_by)->name; // baikin ya :
 ?>
 <div class="activity-view  panel panel-default">
 
-   <div class="panel-heading"> 
+   	<div class="panel-heading"> 
 		<div class="pull-right">
         <?= (Yii::$app->request->isAjax)?'':Html::a('<i class="fa fa-fw fa-arrow-left"></i> '.Yii::t('app', 'SYSTEM_BUTTON_BACK'), ['index'], ['class' => 'btn btn-xs btn-primary']) ?>
 		</div>

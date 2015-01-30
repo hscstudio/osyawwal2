@@ -37,11 +37,11 @@ $this->params['breadcrumbs'][] = $this->title;
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
-				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+				'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
 			]);
 			?>
-			<h3>Property</h3>
-			<p>Property of Training</p>
+			<h3>Informasi</h3>
+			<p>Lihat data diklat</p>
 			<?php
 			Box::end();
 			?>
@@ -58,17 +58,17 @@ $this->params['breadcrumbs'][] = $this->title;
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
-				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+				'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
 			]);
 			?>
-			<h3>Student</h3>
-			<p>Student of Training</p>
+			<h3>Peserta</h3>
+			<p>Input data peserta</p>
 			<?php
 			Box::end();
 			?>
 			</div>
 			
-						<div class="col-md-3">
+			<div class="col-md-3">
 			<?php
 			Box::begin([
 				'type'=>'small', // ,small, solid, tiles
@@ -79,11 +79,11 @@ $this->params['breadcrumbs'][] = $this->title;
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
-				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+				'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
 			]);
 			?>
-			<h3>Class</h3>
-			<p>Class of Training</p>
+			<h3>Kelas</h3>
+			<p>Kelola kelas</p>
 			<?php
 			Box::end();
 			?>
@@ -99,11 +99,11 @@ $this->params['breadcrumbs'][] = $this->title;
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
-				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+				'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
 			]);
 			?>
 			<h3>Form B</h3>
-			<p>Form B</p>
+			<p>Kelola Form B</p>
 			<?php
 			Box::end();
 			?>

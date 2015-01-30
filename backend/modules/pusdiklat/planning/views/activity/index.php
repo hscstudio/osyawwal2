@@ -165,6 +165,49 @@ $this->params['breadcrumbs'][] = $this->title;
 					);
 				},
 			],
+			[
+				'filter' => false,
+				'label' => Yii::t('app', 'BPPK_TEXT_APPROVED_STATUS'),
+				'vAlign'=>'middle',
+				'hAlign'=>'center',
+				'width'=>'75px',
+				'headerOptions'=>['class'=>'kv-sticky-column'],
+				'contentOptions'=>['class'=>'kv-sticky-column'],
+				'format'=>'raw',
+				'value' => function ($data) use ($satker_id) {
+					$status_icons = [
+						'0'=>'<i class="fa fa-fw fa-times-circle"></i>',
+						'1'=>'<i class="fa fa-fw fa-check-circle"></i>',
+					];
+					$status_classes = ['0'=>'warning','1'=>'success'];
+					$status_title = ['0'=> Yii::t('app', 'BPPK_TEXT_WAITING_APPROVAL'),'1'=> Yii::t('app', 'BPPK_TEXT_APPROVED')];
+
+					if ($data->training->approved_status === null) {
+						return Html::a(
+							$status_icons[0],
+							['togel-approve-diklat', 'training_id' => $data->training->activity_id],
+							[
+								'class'=>'label label-'.$status_classes[0],
+								'data-toggle'=>'tooltip',
+								'data-pjax'=>'0',
+								'title'=>$status_title[0],
+							]
+						);
+					}
+					else {
+						return Html::a(
+							$status_icons[$data->training->approved_status],
+							['togel-approve-diklat', 'training_id' => $data->training->activity_id, 'satker_id' => $satker_id],
+							[
+								'class'=>'label label-'.$status_classes[$data->training->approved_status],
+								'data-toggle'=>'tooltip',
+								'data-pjax'=>'0',
+								'title'=>$status_title[$data->training->approved_status],
+							]
+						);
+					}
+				},
+			],
 			
 			// 'location',
             // 'hostel',
@@ -243,6 +286,25 @@ $this->params['breadcrumbs'][] = $this->title;
 					'modal-title' => '<i class="fa fa-fw fa-plus-circle"></i> '.Yii::t('app', 'SYSTEM_BUTTON_CREATE'),
 					'modal-size' => 'modal-lg'
 				]).
+				'<div class="pull-right" style="margin-right:5px;" id="div-select2-satker">'.
+				Select2::widget([
+					'name' => 'satker_id', 
+					'data' => $satker,
+					'value' => $satker_id,
+					'options' => [
+						'width'=> '200px',
+						'placeholder' => 'Satker ...', 
+						'class'=>'form-control',
+						'onchange'=>'
+							$.pjax.reload({
+								url: "'.\yii\helpers\Url::to(['index']).'?status='.$status.'&satker_id="+$(this).val(), 
+								container: "#pjax-gridview", 
+								timeout: 1,
+							});
+						',	
+					],
+				]).
+				'</div>'.
 				'<div class="pull-right" style="margin-right:5px;">'.
 				Select2::widget([
 					'name' => 'year', 

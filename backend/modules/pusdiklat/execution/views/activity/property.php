@@ -517,8 +517,14 @@ $program_terakhirDiubahOleh = Person::findOne($program->modified_by)->name; // b
 							'headerOptions'=>['class'=>'kv-sticky-column'],
 							'contentOptions'=>['class'=>'kv-sticky-column'],
 							'format'=>'raw',
-							'value' => function($data){
-								return $data->file->created;
+							'value' => function($data)use ($namaHari, $namaBulan){
+								$waktuUpload = $namaHari[date('D', strtotime($data->file->created))].
+										date(', d ', strtotime($data->file->created)).
+										$namaBulan[date('F', strtotime($data->file->created))].
+										date(' Y', strtotime($data->file->created)).
+										' - pukul '.
+										date('H:i', strtotime($data->file->created));
+								return $waktuUpload;
 							},
 						],
 						

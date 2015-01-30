@@ -9,18 +9,145 @@ $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 
-$this->title = 'Generate Dokumen Khusus #'.$model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Training Activity', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Dashboard'), 'url' => ['dashboard','id'=>14]];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Generate Dokumen Khusus';
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_TRAINING_ACTIVITIES'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = 'Dokumen Khusus '. Inflector::camel2words($model->name);
 ?>
 <div class="activity-view  panel panel-default">
     
-    <div class="panel-heading"> 
+   	<div class="panel-heading"> 
 		<div class="pull-right">
-        <?= (Yii::$app->request->isAjax)?'':Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back', ['dashboard', 'id' => $model->id], ['class' => 'btn btn-xs btn-primary']) ?>
+        	<?= (Yii::$app->request->isAjax)?'':Html::a('<i class="fa fa-fw fa-arrow-left"></i> '.Yii::t('app', 'SYSTEM_BUTTON_BACK'), ['index'], ['class' => 'btn btn-xs btn-primary']) ?>
 		</div>
-		<h1 class="panel-title"><?= Html::encode($this->title) ?></h1> 
+		<h1 class="panel-title"><i class="fa fa-fw fa-ellipsis-h"></i>Navigasi</h1> 
+	</div>
+	
+	<div class="row clearfix">
+		<div class="col-md-2">
+		<?php
+		Box::begin([
+			'type'=>'small', // ,small, solid, tiles
+			'bgColor'=>'red', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+			'bodyOptions' => [],
+			'icon' => 'glyphicon glyphicon-eye-open',
+			'link' => ['property','id'=>$model->id],
+			'footerOptions' => [
+				'class' => 'dashboard-hide',
+			],
+			'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
+		]);
+		?>
+		<h3>Info</h3>
+		<p>Informasi diklat</p>
+		<?php
+		Box::end();
+		?>
+		</div>
+					
+		<div class="col-md-2">
+		<?php
+		Box::begin([
+			'type'=>'small', // ,small, solid, tiles
+			'bgColor'=>'yellow', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+			'bodyOptions' => [],
+			'icon' => 'glyphicon glyphicon-home',
+			'link' => ['class','id'=>$model->id],
+			'footerOptions' => [
+				'class' => 'dashboard-hide',
+			],
+			'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
+		]);
+		?>
+		<h3>Kelas</h3>
+		<p>Kelola Kelas</p>
+		<?php
+		Box::end();
+		?>
+		</div>
+		
+        <div class="col-md-2">
+		<?php
+		Box::begin([
+			'type'=>'small', // ,small, solid, tiles
+			'bgColor'=>'navy', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+			'bodyOptions' => [],
+			'icon' => 'fa fa-fw fa-building-o',
+			'link' => ['execution-evaluation','id'=>$model->id],
+			'footerOptions' => [
+				'class' => 'dashboard-hide',
+			],
+			'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
+		]);
+		?>
+		<h3>Pelaksanaan</h3>
+		<p>Evaluasi pelaksanaan</p>
+		<?php
+		Box::end();
+		?>
+		</div>
+        
+        <div class="col-md-2">
+		<?php
+		Box::begin([
+			'type'=>'small', // ,small, solid, tiles
+			'bgColor'=>'maroon', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+			'bodyOptions' => [],
+			'icon' => 'fa fa-fw fa-graduation-cap',
+			'link' => ['trainer-training-evaluation','id'=>$model->id],
+			'footerOptions' => [
+				'class' => 'dashboard-hide',
+			],
+			'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
+		]);
+		?>
+		<h3>Pengajar</h3>
+		<p>Evaluasi pengajar</p>
+		<?php
+		Box::end();
+		?>
+		</div>
+
+        <div class="col-md-2">
+		<?php
+		Box::begin([
+			'type'=>'small', // ,small, solid, tiles
+			'bgColor'=>'blue', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+			'bodyOptions' => [],
+			'icon' => 'fa fa-fw fa-book',
+			'link' => ['generate-dokumen','id'=>$model->id],
+			'footerOptions' => [
+				'class' => 'dashboard-hide',
+			],
+			'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
+		]);
+		?>
+		<h3>Umum</h3>
+		<p>Buat dokumen umum</p>
+		<?php
+		Box::end();
+		?>
+		</div>
+        
+        <div class="col-md-2 margin-top-small">
+		<?php
+		Box::begin([
+			'type'=>'small', // ,small, solid, tiles
+			'bgColor'=>'green', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
+			'bodyOptions' => [],
+			'icon' => 'fa fa-fw fa-file',
+			'link' => ['generate-dokumen-khusus','id'=>$model->id],
+			'footerOptions' => [
+				'class' => 'dashboard-hide',
+			],
+			'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
+		]);
+		?>
+		<h3>Khusus</h3>
+		<p>Anda disini</p>
+		<?php
+		Box::end();
+		?>
+		</div>
 	</div>
 
 	<div class="panel-body">

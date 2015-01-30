@@ -35,60 +35,16 @@ $this->params['breadcrumbs'][] = $this->title;
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
-				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+				'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
 			]);
 			?>
-			<h3>Property</h3>
-			<p>Property of Training</p>
+			<h3>Informasi</h3>
+			<p>Lihat semua data pada diklat ini, termasuk dokumen dan mata diklat</p>
 			<?php
 			Box::end();
 			?>
 			</div>
-			
-			<!--
-			<div class="col-md-3">
-			<?php
-			Box::begin([
-				'type'=>'small', // ,small, solid, tiles
-				'bgColor'=>'aqua', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
-				'bodyOptions' => [],
-				'icon' => 'fa fa-fw fa-home',
-				'link' => ['room','id'=>$model->id],
-				'footerOptions' => [
-					'class' => 'dashboard-hide',
-				],
-				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
-			]);
-			?>
-			<h3>Room</h3>
-			<p>Room of Training</p>
-			<?php
-			Box::end();
-			?>
-			</div>
-			
-			<div class="col-md-3">
-			<?php
-			Box::begin([
-				'type'=>'small', // ,small, solid, tiles
-				'bgColor'=>'green', // , aqua, green, yellow, red, blue, purple, teal, maroon, navy, light-blue
-				'bodyOptions' => [],
-				'icon' => 'fa fa-fw fa-user-md',
-				'link' => ['student','id'=>$model->id],
-				'footerOptions' => [
-					'class' => 'dashboard-hide',
-				],
-				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
-			]);
-			?>
-			<h3>Student</h3>
-			<p>Student of Training</p>
-			<?php
-			Box::end();
-			?>
-			</div>
-			--> 
-			
+						
 			<div class="col-md-3">
 			<?php
 			Box::begin([
@@ -100,11 +56,11 @@ $this->params['breadcrumbs'][] = $this->title;
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
-				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+				'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
 			]);
 			?>
-			<h3>Class</h3>
-			<p>Class of Training</p>
+			<h3>Kelas</h3>
+			<p>Kelola kelas, jadwal, dan assign pengajar ke jadwal. Semua pada fitur ini</p>
 			<?php
 			Box::end();
 			?>
@@ -121,11 +77,11 @@ $this->params['breadcrumbs'][] = $this->title;
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
-				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+				'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
 			]);
 			?>
-			<h3>Execution</h3>
-			<p>Evaluation Execution of Training</p>
+			<h3>Pelaksanaan</h3>
+			<p>Evaluasi pelaksanaan diklat, untuk setiap kelas yang ada</p>
 			<?php
 			Box::end();
 			?>
@@ -142,17 +98,19 @@ $this->params['breadcrumbs'][] = $this->title;
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
-				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+				'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
 			]);
 			?>
-			<h3>Trainer</h3>
-			<p>Evaluation Trainer of Training</p>
+			<h3>Pengajar</h3>
+			<p>Evaluasi pengajar dan cetak dokumen rekap evaluasi pengajar</p>
 			<?php
 			Box::end();
 			?>
 			</div>
-            
-            <div class="col-md-3">
+		</div>
+
+		<div class="row">
+            <div class="col-md-6">
 			<?php
 			Box::begin([
 				'type'=>'small', // ,small, solid, tiles
@@ -163,17 +121,17 @@ $this->params['breadcrumbs'][] = $this->title;
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
-				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+				'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
 			]);
 			?>
-			<h3>Generate Doc</h3>
-			<p>Generate Dokumen Umum</p>
+			<h3>Dokumen Umum</h3>
+			<p>Buat dokumen umum</p>
 			<?php
 			Box::end();
 			?>
 			</div>
             
-            <div class="col-md-3">
+            <div class="col-md-6">
 			<?php
 			Box::begin([
 				'type'=>'small', // ,small, solid, tiles
@@ -184,15 +142,15 @@ $this->params['breadcrumbs'][] = $this->title;
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
-				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+				'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
 			]);
 			?>
-			<h3>Generate Doc</h3>
-			<p>Generate Dokumen Khusus</p>
+			<h3>Dokumen Khusus</h3>
+			<p>Buat dokumen khusus</p>
 			<?php
 			Box::end();
 			?>
 			</div>
-		</div>		
+		</div>
 	</div>
 </div>

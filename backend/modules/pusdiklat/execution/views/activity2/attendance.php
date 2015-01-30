@@ -18,12 +18,13 @@ use backend\models\ProgramSubjectHistory;
 use backend\models\ProgramSubject;
 use backend\models\TrainingScheduleTrainer;
 use backend\models\TrainingSchedule;
+use yii\helpers\Inflector;
 
 use backend\modules\pusdiklat\execution\models\TrainingScheduleExtSearch;
 
-$this->title = 'Schedule : Class '.$trainingClass->class;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Activities'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'Training Classes', 'url' => ['class','id'=>$trainingClass->training_id]];
+$this->title = 'Input Kehadiran Kelas '.$trainingClass->class;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_TRAINING_ACTIVITIES'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_CLASS').' '.Inflector::camel2words($trainingClass->training->activity->name), 'url' => ['class','id'=>$trainingClass->training_id]];
 $this->params['breadcrumbs'][] = $this->title;
 
 $controller = $this->context;
@@ -46,7 +47,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
         'columns' => [
             ['class' => 'kartik\grid\SerialColumn'],
 			[
-				'label' => 'Datetime',
+				'label' => 'Waktu',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'200px',
@@ -89,7 +90,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				}
 			],
 			[
-				'label' => 'Activity',
+				'label' => Yii::t('app', 'BPPK_TEXT_ACTIVITY'),
 				'vAlign'=>'middle',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
@@ -129,7 +130,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				}
 			],
 			[
-				'label' => 'Hours',
+				'label' => Yii::t('app', 'BPPK_TEXT_HOURS'),
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'50px',
@@ -158,7 +159,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 
 			[
 				'format' => 'raw',
-				'label' => 'Action',
+				'label' => 'Tindakan',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'80px',
@@ -209,14 +210,14 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 			
         ],
 		'panel' => [
-			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> Schedule</h3>',
+			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> Daftar Jadwal Kegiatan Diklat</h3>',
 			'before'=>
-				Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back To Training Class', [
+				Html::a('<i class="fa fa-fw fa-arrow-left"></i> '.Yii::t('app', 'SYSTEM_BUTTON_BACK'), [
 					'class',
 					'id'=>$trainingClass->training_id
 				], ['class' => 'btn btn-warning'])
 				,
-			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', ['schedule','training_class_id'=>$trainingClass->id], ['class' => 'btn btn-info']),
+			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> '.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), ['schedule','training_class_id'=>$trainingClass->id], ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'responsive'=>true,

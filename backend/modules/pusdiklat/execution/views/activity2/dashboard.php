@@ -37,11 +37,11 @@ $this->params['breadcrumbs'][] = $this->title;
 					'footerOptions' => [
 						'class' => 'dashboard-hide',
 					],
-					'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+					'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
 				]);
 				?>
-				<h3>Property</h3>
-				<p>Property of Training</p>
+				<h3>Informasi</h3>
+				<p>Lihat semua data pada diklat ini, termasuk dokumen dan mata diklat</p>
 				<?php
 				Box::end();
 				?>
@@ -58,11 +58,11 @@ $this->params['breadcrumbs'][] = $this->title;
 					'footerOptions' => [
 						'class' => 'dashboard-hide',
 					],
-					'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+					'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
 				]);
 				?>
-				<h3>Student</h3>
-				<p>Student of Training</p>
+				<h3>Peserta</h3>
+				<p>Input data peserta untuk dikumpulkan dahulu sebelum input Kelas</p>
 				<?php
 				Box::end();
 				?>
@@ -79,11 +79,11 @@ $this->params['breadcrumbs'][] = $this->title;
 					'footerOptions' => [
 						'class' => 'dashboard-hide',
 					],
-					'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+					'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
 				]);
 				?>
-				<h3>Class</h3>
-				<p>Class of Training</p>
+				<h3>Kelas</h3>
+				<p>Kelola kelas, jadwal, dan assign pengajar ke jadwal. Semua pada fitur ini</p>
 				<?php
 				Box::end();
 				?>
@@ -102,11 +102,11 @@ $this->params['breadcrumbs'][] = $this->title;
 				'footerOptions' => [
 					'class' => 'dashboard-hide',
 				],
-				'footer' => 'More info <i class="fa fa-arrow-circle-right"></i>',
+				'footer' => 'Masuk <i class="fa fa-arrow-circle-right"></i>',
 			]);
 			?>
-			<h3>Honorarium</h3>
-			<p>Honorarium of Training</p>
+			<h3>Honor</h3>
+			<p>Kelola honorarium untuk setiap pengajar dan cetak dokumennya</p>
 			<?php
 			Box::end();
 			?>

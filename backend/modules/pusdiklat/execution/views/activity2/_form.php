@@ -22,7 +22,7 @@ use kartik\checkbox\CheckboxX;
 		<!--
 		<li class=""><a href="#activity" role="tab" data-toggle="tab">Activity <span class='label label-info'>1</span></a></li>
 		-->
-		<li class="active"><a href="#training" role="tab" data-toggle="tab">Training <span class='label label-warning'>2</span></a></li>
+		<li class="active"><a href="#training" role="tab" data-toggle="tab">Data Diklat <span class='label label-warning'>2</span></a></li>
 	</ul>
 	<div class="tab-content" style="border: 1px solid #ddd; border-top-color: transparent; padding:10px; background-color: #fff;">
 		<div class="tab-pane fade" id="activity">
@@ -72,7 +72,7 @@ use kartik\checkbox\CheckboxX;
 				);
 				echo $form->field($model, 'location[0]')->widget(Select2::classname(), [
 					'data' => $data,
-					'options' => ['placeholder' => 'Choose code ...'],
+					'options' => ['placeholder' => 'Pilih kode ...'],
 					'pluginOptions' => [
 						'allowClear' => true
 					],
@@ -113,21 +113,19 @@ use kartik\checkbox\CheckboxX;
 			
 			<?= $form->field($training, 'cost_source')->textInput(['maxlength' => 255]) ?>
 
-			<?= $form->field($training, 'cost_plan')->textInput(['maxlength' => 15]) ?>			
-			
+			<div class="row">
+				<div class="col-md-6">
+					<?= $form->field($training, 'cost_plan')->textInput(['maxlength' => 15]) ?>
+				</div>
+				<div class="col-md-6">
+					<?= $form->field($training, 'cost_real')->textInput(['maxlength' => 15]) ?>
+				</div>
+			</div>
+
 			<?= $form->field($training, 'execution_sk')->textInput(['maxlength' => 255]) ?>
 			
-			<?= $form->field($training, 'cost_real')->textInput(['maxlength' => 15]) ?>
-			<!--
-			<a class="btn btn-default" onclick="$('#tab_wizard a[href=#activity]').tab('show')">
-				Previous 
-				<i class="fa fa-fw fa-arrow-circle-o-left"></i>
-			</a>
-			-->
-			<div class="clearfix"><hr></div>  
-			
 			<div class="form-group">
-				<?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+				<?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'SYSTEM_BUTTON_CREATE') : Yii::t('app', 'SYSTEM_BUTTON_UPDATE'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 			</div>			
 			
 			<?php // EVALUASI ONLY ?>

@@ -57,11 +57,11 @@ use yii\helpers\ArrayHelper;
 	
 	echo $form->field($model, 'activity_room_id')->widget(Select2::classname(), [
 		'data' => $dataRoom,
-		'options' => ['placeholder' => 'Choose Room ...'],
+		'options' => ['placeholder' => 'Pilih ruang ...'],
 		'pluginOptions' => [
 		'allowClear' => true
 		],
-	])->label('Room'); ?>
+	])->label(Yii::t('app', 'BPPK_TEXT_ROOM')); ?>
 	
 	<hr>
 	
@@ -69,7 +69,7 @@ use yii\helpers\ArrayHelper;
 	Data diatas adalah data ruangan yang telah dibooking dan disetujui oleh pemilik ruangan	
     <hr>
     <?= Html::submitButton(
-		'<span class="fa fa-fw fa-save"></span> Update', 
+		'<span class="fa fa-fw fa-save"></span> '.Yii::t('app', 'SYSTEM_BUTTON_UPDATE'),  
 		['class' => 'btn btn-success']) ?>
 	
     <?php ActiveForm::end(); ?>

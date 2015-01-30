@@ -73,7 +73,7 @@ class ActivityGenerateController extends Controller
         if (($model = Activity::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('app','SYSTEM_TEXT_PAGE_NOT_FOUND'));
         }
     }
 	
@@ -820,7 +820,7 @@ class ActivityGenerateController extends Controller
 				$model->status = $status_lulus[$admin[$i]];
 				$model->update();				
 			}
-		Yii::$app->getSession()->setFlash('success', 'Data have updated.');
-		return $this->redirect(['./activity2/set-kelulusan-peserta', 'id' => $id,'class_id'=>$class_id]);
+		Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Data berhasil disimpan');
+		return $this->redirect(['./activity2/class-student', 'id' => $id,'class_id'=>$class_id]);
     }
 }

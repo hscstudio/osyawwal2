@@ -14,24 +14,13 @@ $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 
-$this->title = 'Class #'. $class->class;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Activities'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => Inflector::camel2words($activity->name), 'url' => ['class','id'=>$activity->id]];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Mata Pelajaran';
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_TRAINING_ACTIVITIES'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Kelas '.Inflector::camel2words($activity->name), 'url' => ['class','id'=>$activity->id]];
+$this->params['breadcrumbs'][] = Yii::t('app', 'BPPK_TEXT_CLASS').' '.$class->class;
 ?>
 <div class="training-class-subject-index">
 	
-<!--
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Training Class Subject',
-]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
--->
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -39,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'kartik\grid\SerialColumn'],
 
             [
-				'label' => 'Type',
+				'label' => 'Tipe',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'75px',
@@ -61,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 			],
 			[
-				'header' => '<div style="text-align:center">Name</div>',
+				'header' => '<div style="text-align:center">Nama</div>',
 				'vAlign'=>'middle',
 				'hAlign'=>'left',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
@@ -82,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 			],
 			[
-				'label' => 'hours',
+				'label' => 'Jamlat',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'75px',
@@ -105,7 +94,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			
 			[
-				'label' => 'test',
+				'label' => 'Ujian',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'75px',
@@ -132,10 +121,10 @@ $this->params['breadcrumbs'][] = $this->title;
 			
         ],
 		'panel' => [
-			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
+			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> Daftar Mata Pelajaran pada Kelas '.$class->class.'</h3>',
 			'before'=>
-				Html::a('<i class="fa fa-fw fa-arrow-circle-left"></i> Back ', ['class','id'=>$activity->id], ['class' => 'btn btn-warning']).' ',
-			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
+				Html::a('<i class="fa fa-fw fa-arrow-circle-left"></i> '.Yii::t('app', 'SYSTEM_BUTTON_BACK'), ['class','id'=>$activity->id], ['class' => 'btn btn-warning']).' ',
+			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> '.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'responsive'=>true,

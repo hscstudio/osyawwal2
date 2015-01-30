@@ -110,9 +110,16 @@ class ActivityController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+    	if (Yii::$app->request->isAjax) {
+			return $this->renderAjax('view', [
+	            'model' => $this->findModel($id),
+	        ]);
+		}
+		else {
+	        return $this->render('view', [
+	            'model' => $this->findModel($id),
+	        ]);
+	    }
     }
 
     
@@ -130,7 +137,7 @@ class ActivityController extends Controller
         if (($model = Activity::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('app','SYSTEM_TEXT_PAGE_NOT_FOUND'));
         }
     }
 	

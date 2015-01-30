@@ -52,7 +52,8 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			
 			[
-				'attribute' => Yii::t('app', 'BPPK_TEXT_NID'),
+				'label' => Yii::t('app', 'BPPK_TEXT_NID'),
+				'attribute' => 'nid',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'150px',
@@ -65,7 +66,8 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			
 			[
-				'attribute' => Yii::t('app', 'BPPK_TEXT_NIP'),
+				'label' => Yii::t('app', 'BPPK_TEXT_NIP'),
+				'attribute' => 'nip',
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'150px',

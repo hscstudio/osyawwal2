@@ -12,21 +12,11 @@ use kartik\widgets\Select2;
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
-$this->title = Yii::t('app', 'Meeting Activities');
+$this->title = Yii::t('app', 'BPPK_TEXT_MEETING_ACTIVITY');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="activity-index">
 	
-<!--
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Activity',
-]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
--->
 	<?php \yii\widgets\Pjax::begin([
 		'id'=>'pjax-gridview',
 	]); ?>
@@ -125,8 +115,8 @@ $this->params['breadcrumbs'][] = $this->title;
 									'data-toggle'=>'tooltip',
 									'data-pjax'=>'0',
 									'data-html'=>'true',
-									'title'=>($object_person!=null)?'CURRENT PIC <br> '.$object_person->person->name.'.<br> CLICK HERE TO CHANGE PIC':'CLICK HERE TO SET PIC',
-									'modal-title'=>($object_person!=null)?'CHANGE PIC':'SET PIC',
+									'title'=>($object_person!=null)?'PIC Sekarang <br> '.$object_person->person->name.'.<br> Klik untuk mengubah PIC':'Klik untuk memilih PIC',
+									'modal-title'=>($object_person!=null)?'Ubah PIC':'Pilih PIC',
 									'modal-size'=>'modal-md',
 								];
 						$person_name = ($object_person!=null)?substr($object_person->person->name,0,5).'.':'-';
@@ -138,7 +128,7 @@ $this->params['breadcrumbs'][] = $this->title;
 									'data-toggle'=>'tooltip',
 									'data-pjax'=>'0',
 									'data-html'=>'true',
-									'title'=>($object_person!=null)?'CURRENT PIC <br> '.$object_person->person->name.'':'PIC IS UNAVAILABLE',
+									'title'=>($object_person!=null)?'PIC Sekarang<br> '.$object_person->person->name.'':'PIC tidak tersedia',
 								];
 						$person_name = ($object_person!=null)?substr($object_person->person->name,0,5).'.':'-';
 						return Html::tag('span',$person_name,$options);
@@ -149,7 +139,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				//'attribute' => 'classCount',
 				'format'=>'raw',
-				'label'=>'Room',
+				'label'=> Yii::t('app', 'BPPK_TEXT_ROOM'),
 				'vAlign'=>'middle',
 				'hAlign'=>'center',
 				'width'=>'100px',
@@ -162,20 +152,21 @@ $this->params['breadcrumbs'][] = $this->title;
 									':activity_id' => $data->id
 								]);		
 					if($activityRoom->count()==0){ 
-						return Html::a('SET', ['room','activity_id'=>$data->id], 
+						return Html::a('Lihat', ['room','activity_id'=>$data->id], 
 							[							
 							'class' => 'label label-warning modal-heart',
 							'data-pjax'=>0,
 							'source'=>'',
 							'modal-size'=>'modal-lg',
+							'modal-title' => '<i class="fa fa-fw fa-inbox"></i> Lihat Status Ruangan'
 							]);
 					}		
 					else{
 						$statuss = [
-							'0' => 'Waiting',
-							'1' => 'Process',
-							'2' => 'Approved',
-							'3' => 'Rejected',
+							'0' => 'Menunggu',
+							'1' => 'Proses',
+							'2' => 'Disetujui',
+							'3' => 'Ditolak',
 						];
 						
 						$ars = $activityRoom->all();
@@ -213,7 +204,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						'1'=>'<span class="glyphicon glyphicon-check"></span>'
 					];
 					$status_classes = ['0'=>'warning','1'=>'info'];
-					$status_title = ['0'=>'Draft','1'=>'Ready'];
+					$status_title = ['0'=>'Rencana','1'=>'Siap'];
 					return Html::tag(
 						'span',
 						$status_icons[$data->status],
@@ -235,19 +226,57 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'modified',
             // 'modified_by',
 
-            ['class' => 'kartik\grid\ActionColumn'],
+            [
+				'class' => 'kartik\grid\ActionColumn',
+				'template' => '<div class="btn-group">{view} {update} {delete}</div>',
+				'width' => '120px',
+				'buttons' => [
+					'view' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-eye"></span>';
+								return Html::a($icon,$url,[
+									'class'=>'btn btn-default btn-xs modal-heart',
+									'modal-title' => '<i class="fa fa-fw fa-eye"></i> Informasi '.$model->name,
+									'data-pjax'=>'0',
+									'modal-size' => 'modal-lg'
+								]);
+							},
+					'update' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-pencil"></span>';
+								return Html::a($icon,$url,[
+									'class'=>'btn btn-default btn-xs modal-heart',
+									'modal-title' => '<i class="fa fa-fw fa-pencil"></i> Ubah '.$model->name,
+									'data-pjax'=>'0',
+									'modal-size' => 'modal-lg'
+								]);
+							},
+					'delete' => function ($url, $model) {
+								$icon='<span class="fa fa-fw fa-trash-o"></span>';
+								return Html::a($icon,$url,[
+									'class'=>'btn btn-default btn-xs',
+									'data-pjax'=>'0',
+									'data-method' => 'post',
+									'data-confirm' => 'Yakin ingin menghapus?'
+								]);
+							},
+				],
+			],
         ],
 		'panel' => [
 			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
 			'before'=>
-				Html::a('<i class="fa fa-fw fa-plus"></i> Create ', ['create'], ['class' => 'btn btn-success']).
+				Html::a('<i class="fa fa-fw fa-plus"></i> '.Yii::t('app', 'SYSTEM_BUTTON_CREATE'), ['create'], [
+					'class' => 'btn btn-success modal-heart',
+					'modal-size' => 'modal-lg',
+					'modal-title' => '<i class="fa fa-fw fa-plus-circle"></i>'.Yii::t('app', 'SYSTEM_BUTTON_CREATE'),
+					'data-pjax' => '0',
+				]).
 				'<div class="pull-right" style="margin-right:5px;">'.
 				Select2::widget([
 					'name' => 'year', 
 					'data' => $year_meeting,
 					'value' => $year,
 					'options' => [
-						'placeholder' => 'Year ...', 
+						'placeholder' => 'Tahun ...', 
 						'class'=>'form-control', 
 						'onchange'=>'
 							$.pjax.reload({
@@ -262,7 +291,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'<div class="pull-right" style="margin-right:5px;" id="div-select2-status">'.
 				Select2::widget([
 					'name' => 'status', 
-					'data' => ['all'=>'- All -','0'=>'Draft','1'=>'Publish'],
+					'data' => ['all'=>'- Semua -','0'=>'Draft','1'=>'Publikasi'],
 					'value' => $status,
 					'options' => [
 						'placeholder' => 'Status ...', 
@@ -278,7 +307,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				]).
 				'</div>',
 			'after'=>
-				Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
+				Html::a('<i class="fa fa-fw fa-repeat"></i> '.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'responsive'=>true,
@@ -291,7 +320,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-	<i class="fa fa-fw fa-refresh"></i> Document Generator
+	<i class="fa fa-fw fa-refresh"></i> Dokumen Generator
 	</div>
     <div class="panel-body">
 		<?php
@@ -299,7 +328,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			'method'=>'get',
 			'action'=>['export-meeting','year'=>$year,'status'=>$status],
 		]);
-		echo Html::submitButton('<i class="fa fa-fw fa-download"></i> Download Daftar Rapat', ['class' => 'btn btn-default','style'=>'display:block;']);
+		echo Html::submitButton('<i class="fa fa-fw fa-download"></i> Unduh Daftar Rapat', ['class' => 'btn btn-default','style'=>'display:block;']);
 		\yii\bootstrap\ActiveForm::end(); 
 		?>
 	</div>

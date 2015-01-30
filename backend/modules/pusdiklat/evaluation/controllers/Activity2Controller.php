@@ -176,29 +176,33 @@ class Activity2Controller extends Controller
 					$model->satker = 'current';
 					$model->location = implode('|',$model->location);							
 					if($model->save()) {
-						Yii::$app->getSession()->setFlash('success', 'Activity data have saved.');
+						Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Data berhasil diperbarui');
 						if($training->load(Yii::$app->request->post())){							
 							$training->activity_id= $model->id;
 							$training->program_revision = (int)\backend\models\ProgramHistory::getRevision($training->program_id);
 							
 							if($training->save()){								 
-								Yii::$app->getSession()->setFlash('success', 'Training & activity data have saved.');
+								Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Data berhasil diperbarui');
 								$transaction->commit();
 								return $this->redirect(['index']);
 							}
 						}						
 					}
 					else{
-						Yii::$app->getSession()->setFlash('error', 'Data is NOT saved.');
+						Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Data gagal disimpan');
 					}				
 				}
 			}
 			catch (Exception $e) {
-				Yii::$app->getSession()->setFlash('error', 'Roolback transaction. Data is not saved');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Data gagal disimpan');
 			}
         } 
 		
-		return $this->render('update', $renders);
+		if (Yii::$app->request->isAjax) {
+			return $this->renderAjax('update', $renders);
+		} else {
+			return $this->render('update', $renders);
+		}
     }
 
    
@@ -214,7 +218,7 @@ class Activity2Controller extends Controller
         if (($model = Activity::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('app','SYSTEM_TEXT_PAGE_NOT_FOUND'));
         }
     }
 	
@@ -336,7 +340,7 @@ class Activity2Controller extends Controller
 		$renders['model'] = $model;
 		$object_people_array = [
 			//1213030100 CEK KD_UNIT_ORG 1213030100 IN TABLE ORGANISATION IS SUBBIDANG PENYEL I
-			'organisation_1213040200'=>'PIC TRAINING ACTIVITY'
+			'organisation_1213040200'=>'PIC Diklat'
 		];
 		$renders['object_people_array'] = $object_people_array;
 		foreach($object_people_array as $object_person=>$label){
@@ -364,12 +368,12 @@ class Activity2Controller extends Controller
 				$person_id = (int)Yii::$app->request->post('ObjectPerson')[$object_person]['person_id'];
 				Heart::objectPerson($object_people[$object_person],$person_id,'activity',$id,$object_person);
 			}	
-			Yii::$app->getSession()->setFlash('success', 'Pic have updated.');
+			Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Pic berhasil diperbarui');
 			if (!Yii::$app->request->isAjax) {
-				return $this->redirect(['view', 'id' => $model->id]);	
+				return $this->redirect(['index']);	
 			}
 			else{
-				echo 'Pic have updated.';
+				echo '<i class="fa fa-fw fa-check-circle"></i>Pic berhasil diperbarui';
 			}
         } else {
 			if (Yii::$app->request->isAjax)
@@ -388,9 +392,15 @@ class Activity2Controller extends Controller
     {
 		$model = $this->findModel($id);
 		
-        return $this->render('dashboard', [
-            'model' => $model,
-        ]);
+		if (Yii::$app->request->isAjax) {
+	        return $this->renderAjax('dashboard', [
+	            'model' => $model,
+	        ]);
+	    } else {
+	        return $this->render('dashboard', [
+	            'model' => $model,
+	        ]);
+	    }
     }
 	
 	/**
@@ -467,13 +477,13 @@ class Activity2Controller extends Controller
 			$trainingClassCount = (int) $objectTrainingClass->count();
 			
 			if($student>$trainingStudentCount){
-				Yii::$app->session->setFlash('error', 'Your request more than stock!');
+				Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Jumlah peserta yang akan diacak terlalu besar');
 			}
 			else if($trainingClassCount==0){
-				Yii::$app->session->setFlash('error', 'There is no class!');
+				Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Kelas belum ada');
 			}
 			else if($baseon==0 or count($baseon)==0){
-				Yii::$app->session->setFlash('error', 'Select base on random!');
+				Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Pilih kriteria pengacakan terlebih dahulu');
 			}
 			else{				
 				$baseon = implode(',',$baseon);
@@ -513,7 +523,7 @@ class Activity2Controller extends Controller
 					$idx++;
 				}
 				
-				Yii::$app->session->setFlash('success', $student.' student added!');
+				Yii::$app->session->setFlash('success', $student.'<i class="fa fa-fw fa-check-circle"></i> Peserta berhasil ditambahkan');
 				
 				$subquery = TrainingClassStudent::find()
 					->select('training_student_id')
@@ -551,7 +561,7 @@ class Activity2Controller extends Controller
         if (($model = TrainingClass::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('app','SYSTEM_TEXT_PAGE_NOT_FOUND'));
         }
     }
 	
@@ -631,7 +641,7 @@ class Activity2Controller extends Controller
         if (($model = TrainingStudent::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('app','SYSTEM_TEXT_PAGE_NOT_FOUND'));
         }
     }
 	
@@ -676,10 +686,10 @@ class Activity2Controller extends Controller
 			$baseon = 0;
 			if(isset(Yii::$app->request->post()['baseon'])) $baseon = Yii::$app->request->post()['baseon'];
 			if($student>$trainingStudentCount){
-				Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Your request more than stock!');
+				Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Jumlah peserta yang akan diacak terlalu besar');
 			}
 			else if($baseon==0 or count($baseon)==0){
-				Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Select base on random!');
+				Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Pilih kriteria pengacakan terlebih dahulu');
 			}
 			else{				
 				$baseon = implode(',',$baseon);
@@ -706,7 +716,7 @@ class Activity2Controller extends Controller
 					]);
 					$trainingClassStudent->save();
 				}
-				Yii::$app->session->setFlash('success', $student.' student added!');
+				Yii::$app->session->setFlash('success', $student.'<i class="fa fa-fw fa-check-circle"></i> Peserta berhasil ditambahkan');
 			
 			}
 		}
@@ -758,11 +768,11 @@ class Activity2Controller extends Controller
             $model->eselon4=$student->eselon4;
             $model->satker=$student->satker;
             if($model->save()) {
-                Yii::$app->session->setFlash('success', 'Certificate created');
+                Yii::$app->session->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Sertifikat berhasil dibuat');
             }
             else{
                 //die(print_r($model->errors));
-                Yii::$app->session->setFlash('error', 'Unable create there are some error');
+                Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Gagal membuat sertifikat');
             }
             return $this->redirect([
                 'class-student',
@@ -770,11 +780,19 @@ class Activity2Controller extends Controller
                 'class_id'=>$class_id,
             ]);
         } else {
-            return $this->render('createCertificate', [
-                'model' => $model,
-                'activity'=>$activity,
-                'class'=>$class,
-            ]);
+        	if (Yii::$app->request->isAjax) {
+	            return $this->renderAjax('createCertificate', [
+	                'model' => $model,
+	                'activity'=>$activity,
+	                'class'=>$class,
+	            ]);
+	        } else {
+	        	return $this->render('createCertificate', [
+	                'model' => $model,
+	                'activity'=>$activity,
+	                'class'=>$class,
+	            ]);
+	        }
         }
     }
 	
@@ -842,7 +860,7 @@ class Activity2Controller extends Controller
 				$seri++;
 			}
 			
-			Yii::$app->session->setFlash('success', 'Certificate created');           
+			Yii::$app->session->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Sertifikat berhasil dibuat');           
         }
 		
 		return $this->redirect([
@@ -885,11 +903,11 @@ class Activity2Controller extends Controller
             $model->eselon4=$student->eselon4;
             $model->satker=$student->satker;
             if($model->save()) {
-                Yii::$app->session->setFlash('success', 'Certificate update');
+                Yii::$app->session->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Sertifikat berhasil diperbarui');
             }
             else{
                 //die(print_r($model->errors));
-                Yii::$app->session->setFlash('error', 'Unable update there are some error');
+                Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Gagal memperbarui sertifikat');
             }
             return $this->redirect([
                 'class-student',
@@ -897,11 +915,19 @@ class Activity2Controller extends Controller
                 'class_id'=>$class_id,
             ]);
         } else {
-            return $this->render('updateCertificate', [
-                'model' => $model,
-                'activity'=>$activity,
-                'class'=>$class,
-            ]);
+        	if (Yii::$app->request->isAjax) {
+	            return $this->renderAjax('updateCertificate', [
+	                'model' => $model,
+	                'activity'=>$activity,
+	                'class'=>$class,
+	            ]);
+	        } else {
+	        	return $this->render('updateCertificate', [
+	                'model' => $model,
+	                'activity'=>$activity,
+	                'class'=>$class,
+	            ]);
+	        }
         }
     }
 
@@ -919,11 +945,11 @@ class Activity2Controller extends Controller
         $model = $this->findModelClassStudentCerificate($training_class_student_id);
 
         if($model->delete()) {
-            Yii::$app->session->setFlash('success', 'Certificate deleted');
+            Yii::$app->session->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Sertifikat berhasil dihapus');
         }
         else{
             //die(print_r($model->errors));
-            Yii::$app->session->setFlash('error', 'Unable delete there are some error');
+            Yii::$app->session->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Gagal menghapus sertifikat');
         }
         return $this->redirect([
             'class-student',
@@ -953,7 +979,7 @@ class Activity2Controller extends Controller
         $renders['student'] = $student;
 
         $object_references_array = [
-            'unit'=>'Unit','religion'=>'Religion','rank_class'=>'Rank Class','graduate'=>'Graduate'];
+			'unit'=>'Unit','religion'=>Yii::t('app', 'BPPK_TEXT_RELIGION'),'rank_class'=>Yii::t('app', 'BPPK_TEXT_RANK_CLASS'),'graduate'=>Yii::t('app', 'BPPK_TEXT_GRADUATE')];
         $renders['object_references_array'] = $object_references_array;
         foreach($object_references_array as $object_reference=>$label){
             $object_references[$object_reference] = ObjectReference::find()
@@ -1026,14 +1052,14 @@ class Activity2Controller extends Controller
                         );
                     }
                 }
-                Yii::$app->getSession()->setFlash('success', 'Update Person Success');
+				Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Data peserta berhasil diperbarui');
 
                 $student->load(Yii::$app->request->post());
                 if(strlen($student->new_password)>3){
                     $student->password = $student->new_password;
                 }
                 if ($student->save()){
-                    Yii::$app->getSession()->setFlash('success', 'Update Person & Student Success');
+					Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Data peserta berhasil diperbarui');
                 }
                 return $this->redirect([
                     'class-student',
@@ -1042,7 +1068,7 @@ class Activity2Controller extends Controller
                 ]);
             }
             else{
-                Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Data gagal diperbarui');
                 return $this->render('updateClassStudent', $renders);
             }
 
@@ -1063,7 +1089,7 @@ class Activity2Controller extends Controller
         if (($model = TrainingClassStudentCertificate::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('app','SYSTEM_TEXT_PAGE_NOT_FOUND'));
         }
     }
 
@@ -1072,7 +1098,7 @@ class Activity2Controller extends Controller
         if (($model = TrainingClassStudent::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('app','SYSTEM_TEXT_PAGE_NOT_FOUND'));
         }
     }
 	
@@ -2088,6 +2114,10 @@ class Activity2Controller extends Controller
 		$dataProvider = $searchModel->search($queryParams);
 		// dah
 
+		// Ngambil Kelas
+		$trainingClass = TrainingClass::findOne($training_class_id);
+		// dah
+
 		// Ngambil model training
 		$modelTraining = Training::find()
 			->where([
@@ -2099,7 +2129,8 @@ class Activity2Controller extends Controller
 		return $this->render('finalscore', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
-            'modelTraining' => $modelTraining
+            'modelTraining' => $modelTraining,
+            'trainingClass' => $trainingClass
         ]);
     }
 
@@ -2497,9 +2528,23 @@ class Activity2Controller extends Controller
 	
 	public function actionSetKelulusanPeserta($id,$class_id)
     {
-        return $this->render('setKelulusanPeserta', [
-            'model' => $this->findModel($id),
-			'class_id' => $class_id,
-        ]);
+    	$activity = $this->findModel($id); // Activity
+        $class = $this->findModelClass($class_id); // Class
+
+    	if (Yii::$app->request->isAjax) {
+	        return $this->renderAjax('setKelulusanPeserta', [
+	            'model' => $this->findModel($id),
+				'class_id' => $class_id,
+		        'activity' => $activity,
+		        'class' => $class,
+	        ]);
+	    } else {
+	    	return $this->render('setKelulusanPeserta', [
+	            'model' => $this->findModel($id),
+				'class_id' => $class_id,
+		        'activity' => $activity,
+		        'class' => $class,
+	        ]);
+	    }
     }
 }

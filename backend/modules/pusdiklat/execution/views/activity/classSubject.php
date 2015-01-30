@@ -116,7 +116,6 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'BPPK_TEXT_CLASS').' '.$class->cl
 						return Html::tag('span', $icon, [
 							'class'=>($programSubject->test==1)?'label label-info':'label label-warning',
 							'title'=>($programSubject->test==1)?'Ujian':'Tanpa Ujian',
-							'data-toggle'=>'tooltip',
 							'data-contaiber' => 'body'
 						]);
 					}

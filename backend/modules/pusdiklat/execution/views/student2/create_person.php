@@ -10,10 +10,11 @@ $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 
-$this->title = Yii::t('app', 'Create {modelClass}', [
+$this->title = Yii::t('app', 'Buat {modelClass}', [
     'modelClass' => 'Person',
 ]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Students'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_STUDENT'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Tambah Peserta Baru', 'url' => ['person']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="person-create  panel panel-default">
@@ -21,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="panel-heading"> 
 		<div class="pull-right">
         <?=
- Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back', ['person'], ['class' => 'btn btn-xs btn-primary']) ?>
+ Html::a('<i class="fa fa-fw fa-arrow-left"></i> '.Yii::t('app', 'SYSTEM_BUTTON_BACK'), ['person'], ['class' => 'btn btn-xs btn-primary']) ?>
 		</div>
 		<h1 class="panel-title"><?= Html::encode($this->title) ?></h1> 
 	</div>

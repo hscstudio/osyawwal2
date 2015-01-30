@@ -13,7 +13,7 @@ use kartik\widgets\DatePicker;
 	echo Html::a('<i class="fa fa-fw fa-print"></i> Checklist Data Peserta', ['print-student-checklist','id'=>$activity->id,'class_id'=>$class->id], ['class' => 'btn btn-default','data-pjax'=>0]);
 	?>
 	<?php
-	echo Html::a('<i class="fa fa-fw fa-print"></i> Checklist Data Peserta + Photo', ['print-student-checklist-photo','id'=>$activity->id,'class_id'=>$class->id], ['class' => 'btn btn-default','data-pjax'=>0]);
+	echo Html::a('<i class="fa fa-fw fa-print"></i> Checklist Data Peserta + Foto', ['print-student-checklist-photo','id'=>$activity->id,'class_id'=>$class->id], ['class' => 'btn btn-default','data-pjax'=>0]);
 	?>
     </div>
     <div class="col-md-12 clearfix"><hr></div>
@@ -48,10 +48,10 @@ use kartik\widgets\DatePicker;
                 <th colspan="5"><label>Pembuatan Sertifikat Massal</label></th>
             </tr>
             <tr>
-                <td colspan="2">Number Awal</td>
+                <td colspan="2">Nomor Awal</td>
 				<td>Seri Awal</td>
                 <td>Tanggal</td>
-                <td>Action</td>
+                <td>Tindakan</td>
             </tr>
             <tr>
                 <td style="width:100px"><?php echo Html::input( 'text', 'number', $max_number, ['class'=>'form-control']) ?></td>
@@ -70,7 +70,7 @@ use kartik\widgets\DatePicker;
 					]); 
 				?>
 				</td>
-                <td><?= Html::submitButton('<i class="fa fa-refresh"></i> Set', ['class' => 'btn btn-primary']) ?></td>
+                <td><?= Html::submitButton('<i class="fa fa-refresh"></i> Kunci', ['class' => 'btn btn-primary']) ?></td>
             </tr>
         </table>
 
@@ -89,10 +89,10 @@ use kartik\widgets\DatePicker;
 		
 		<table class="table table-condensed table-striped">
 		<tr>
-			<th colspan="2"><label>Frontend Certificate</label></th>
+			<th colspan="2"><label>Lembar Depan</label></th>
 		</tr>
 		<tr>
-			<td>Certificate Type</td>
+			<td>Tipe Sertifikat</td>
 			<td>
 			<?php
 			$type_certificate=0;
@@ -182,7 +182,7 @@ use kartik\widgets\DatePicker;
 					'2'=>'Seminar',
 				],
 				'options' => [
-					'placeholder' => 'type ...', 
+					'placeholder' => 'tipe ...', 
 					'class'=>'form-control',	
 					'id' => 'select2-type_certificate'
 				],
@@ -198,15 +198,15 @@ use kartik\widgets\DatePicker;
 			</td>
 		</tr>
 		<tr>
-			<td>Training Name</td>
+			<td>Nama Diklat</td>
 			<td><?= Html::input( 'text', 'name_training', $name_training, ['class'=>'form-control'] ) ?></td>
 		</tr>
 		<tr>
-			<td>Training Location</td>
+			<td>Lokasi Diklat</td>
 			<td><?= Html::input( 'text', 'location_training', 'Jakarta', ['class'=>'form-control'] ) ?></td>
 		</tr>
 		<tr>
-			<td>Signer</td>
+			<td>Penandatangan</td>
 			<td>
 			<?php
 			$satker_id = Yii::$app->user->identity->employee->satker_id;
@@ -238,7 +238,7 @@ use kartik\widgets\DatePicker;
 				'name' => 'signer', 
 				'data' => $employeeSigners,
 				'options' => [
-					'placeholder' => 'signer ...', 
+					'placeholder' => 'Penandatangan ...', 
 					'class'=>'form-control',	
 				],
 			]); 
@@ -246,12 +246,12 @@ use kartik\widgets\DatePicker;
 			</td>
 		</tr>
 		<tr>
-			<td>City Signer</td>
+			<td>Kota Penandatangan</td>
 			<td><?= Html::input( 'text', 'city_signer', (strlen($activity->satker->satker->city)>2)?$activity->satker->satker->city:'Jakarta', ['class'=>'form-control'] ) ?></td>
 		</tr>
 		<tr>
 			<td></td>
-			<td><?= Html::submitButton('<i class="fa fa-print"></i> Print', ['class' => 'btn btn-primary']) ?></td>
+			<td><?= Html::submitButton('<i class="fa fa-print"></i> Cetak', ['class' => 'btn btn-primary']) ?></td>
 		</tr>
 		</table>
 
@@ -270,7 +270,7 @@ use kartik\widgets\DatePicker;
 		
 		<table class="table table-condensed table-striped">
 		<tr>
-			<th colspan="2"><label>Backend Certificate</label></th>
+			<th colspan="2"><label>Lembar Belakang</label></th>
 		</tr>
 		<tr>
 			<td style="width:30%">Tanggal</td>
@@ -289,7 +289,7 @@ use kartik\widgets\DatePicker;
 			</td>
 		</tr>
 		<tr>
-			<td>Signer</td>
+			<td>Penandatangan</td>
 			<td>
 			<?php
 			$satker_id = Yii::$app->user->identity->employee->satker_id;
@@ -319,7 +319,7 @@ use kartik\widgets\DatePicker;
 				'name' => 'signer', 
 				'data' => $employeeSigners,
 				'options' => [
-					'placeholder' => 'signer ...', 
+					'placeholder' => 'Penandatangan ...', 
 					'class'=>'form-control',	
 				],
 			]); 
@@ -327,12 +327,12 @@ use kartik\widgets\DatePicker;
 			</td>
 		</tr>
 		<tr>
-			<td>City Signer</td>
+			<td>Kota Penandatangan</td>
 			<td><?= Html::input( 'text', 'city_signer', (strlen($activity->satker->satker->city)>2)?$activity->satker->satker->city:'Jakarta', ['class'=>'form-control'] ) ?></td>
 		</tr>
 		<tr>
 			<td></td>
-			<td><?= Html::submitButton('<i class="fa fa-print"></i> Print', ['class' => 'btn btn-success']) ?></td>
+			<td><?= Html::submitButton('<i class="fa fa-print"></i> Cetak', ['class' => 'btn btn-success']) ?></td>
 		</tr>
 		</table>
 
@@ -370,7 +370,7 @@ use kartik\widgets\DatePicker;
 			</td>
 		</tr>
 		<tr>
-			<td>Signer</td>
+			<td>Penandatangan</td>
 			<td>
 			<?php
 			$satker_id = Yii::$app->user->identity->employee->satker_id;
@@ -400,7 +400,7 @@ use kartik\widgets\DatePicker;
 				'name' => 'signer', 
 				'data' => $employeeSigners,
 				'options' => [
-					'placeholder' => 'signer ...', 
+					'placeholder' => 'Penandatangan ...', 
 					'class'=>'form-control',	
 				],
 			]); 
@@ -408,12 +408,12 @@ use kartik\widgets\DatePicker;
 			</td>
 		</tr>
 		<tr>
-			<td>City Signer</td>
+			<td>Kota Penandatangan</td>
 			<td><?= Html::input( 'text', 'city_signer', (strlen($activity->satker->satker->city)>2)?$activity->satker->satker->city:'Jakarta', ['class'=>'form-control'] ) ?></td>
 		</tr>
 		<tr>
 			<td></td>
-			<td><?= Html::submitButton('<i class="fa fa-print"></i> Print', ['class' => 'btn btn-success']) ?></td>
+			<td><?= Html::submitButton('<i class="fa fa-print"></i> Cetak', ['class' => 'btn btn-success']) ?></td>
 		</tr>
 		</table>
 

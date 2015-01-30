@@ -6,6 +6,7 @@ use Yii;
 use backend\models\Activity;
 use backend\models\ActivityHistory;
 use backend\models\Training;
+use backend\models\Satker;
 use backend\models\TrainingStudentPlan;
 use backend\models\Program;
 use backend\models\Reference;
@@ -40,9 +41,12 @@ class ActivityController extends Controller
      * Lists all Activity models.
      * @return mixed
      */
-    public function actionIndex($year='',$status='nocancel')
+    public function actionIndex($year='',$status='nocancel',$satker_id=null)
     {
+    	if ($satker_id == null) $satker_id = Yii::$app->user->identity->employee->satker_id;
+
 		if(empty($year)) $year=date('Y');
+
 		$searchModel = new TrainingActivitySearch();
 		$queryParams = Yii::$app->request->getQueryParams();
 		if($status=='nocancel'){
@@ -82,10 +86,11 @@ class ActivityController extends Controller
 				];
 			}
 		}
+
 		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
-		$dataProvider = $searchModel->search($queryParams);
+		$dataProvider = $searchModel->search($queryParams,$satker_id);
 		$dataProvider->getSort()->defaultOrder = ['start'=>SORT_ASC,'end'=>SORT_ASC];
-		
+
 		// GET ALL TRAINING YEAR
 		$year_training = yii\helpers\ArrayHelper::map(Activity::find()
 			->select(['year'=>'YEAR(start)','start','end'])
@@ -95,6 +100,28 @@ class ActivityController extends Controller
 			->asArray()
 			->all(), 'year', 'year');
 		$year_training['all']='All'	;
+
+		// Ngambil semua satker
+		$satker = yii\helpers\ArrayHelper::map(
+			Satker::find()
+				->select('reference_id')
+				->where([
+					'eselon' => 3
+				])
+				->joinWith([
+					'reference' => function ($query) {
+						$query->select('id, name');
+						$query->where([
+							'type' => 'satker'
+						]);
+					}
+				])
+				->asArray()
+				->all(),
+			'reference_id', 'reference.name'
+		);
+		$satker[Yii::$app->user->identity->employee->satker_id] = Reference::findOne(Yii::$app->user->identity->employee->satker_id)->name;
+		//dah
 		
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -102,6 +129,8 @@ class ActivityController extends Controller
 			'year' => $year,
 			'status' => $status,
 			'year_training' => $year_training,
+			'satker_id' => $satker_id,
+			'satker' => $satker
         ]);
     }
 	
@@ -424,7 +453,7 @@ class ActivityController extends Controller
         if (($model = Activity::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('app','SYSTEM_TEXT_PAGE_NOT_FOUND'));
         }
     }
 	
@@ -623,7 +652,7 @@ class ActivityController extends Controller
 				return $this->redirect(['index']);
 			}
 			else{
-				echo 'Pic telah diperbarui';
+				echo '<i class="fa fa-fw fa-check-circle"></i>Pic telah diperbarui';
 			}
         } else {
 			if (Yii::$app->request->isAjax)
@@ -632,4 +661,32 @@ class ActivityController extends Controller
 				return $this->render('pic', $renders);
         }
     }
+
+
+
+
+	public function actionTogelApproveDiklat($training_id, $satker_id = null) {
+		$modelTraining = Training::findOne($training_id);
+		
+		$modelTraining->approved_status = ($modelTraining->approved_status == 0) ? 1 : 0;
+		$modelTraining->approved_date = date('Y-m-d H:i:s');
+		$modelTraining->approved_by = Yii::$app->user->identity->employee->person_id;
+
+		if ($modelTraining->save()) {
+			if ($modelTraining->approved_status == 1) {
+				Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Anda telah menyetujui '.$modelTraining->activity->name);
+			} else {
+				Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Anda telah menarik perijinan '.$modelTraining->activity->name);
+			}
+		}
+		else {
+			if ($modelTraining->approved_status == 1) {
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Gagal memberi persetujuan pada '.$modelTraining->activity->name);
+			} else {
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Gagal menarik perijinan pada '.$modelTraining->activity->name);
+			}
+		}
+		
+		return $this->redirect(['index', 'satker_id' => $satker_id]);
+	}
 }

@@ -55,9 +55,15 @@ class Student2Controller extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+    	if (Yii::$app->request->isAjax) {
+	        return $this->renderAjax('view', [
+	            'model' => $this->findModel($id),
+	        ]);
+	    } else {
+	        return $this->render('view', [
+	            'model' => $this->findModel($id),
+	        ]);
+	    }
     }
 
    /**
@@ -69,7 +75,7 @@ class Student2Controller extends Controller
     {
 		$person = Person::findOne($person_id);
 		if (null==$person){  
-			throw new NotFoundHttpException('The requested page does not exist.');
+			throw new NotFoundHttpException(Yii::t('app','SYSTEM_TEXT_PAGE_NOT_FOUND'));
 		}
 		
         $model = new Student([
@@ -81,10 +87,10 @@ class Student2Controller extends Controller
 				$model->username = $person->nip;
 				$model->password = $person->nip;				
 				if($model->save()) {
-					Yii::$app->getSession()->setFlash('success', 'New data have saved.');
+					Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Data baru berhasil disimpan');
 				}
 				else{
-					Yii::$app->getSession()->setFlash('error', 'New data is not saved.');
+					Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Data baru gagal disimpan');
 				}
 			}
 			else{
@@ -116,13 +122,13 @@ class Student2Controller extends Controller
         $model = $this->findModel($id);
 		$person = Person::findOne($model->person_id);
 		if (null==$person){  
-			throw new NotFoundHttpException('The requested page does not exist.');
+			throw new NotFoundHttpException(Yii::t('app','SYSTEM_TEXT_PAGE_NOT_FOUND'));
 		}
 		$renders = [];
 		$renders['model'] = $model;
 		$renders['person'] = $person;
 		$object_references_array = [
-			'unit'=>'Unit','religion'=>'Religion','rank_class'=>'Rank Class','graduate'=>'Graduate'];
+			'unit'=>'Unit','religion'=>Yii::t('app', 'BPPK_TEXT_RELIGION'),'rank_class'=>Yii::t('app', 'BPPK_TEXT_RANK_CLASS'),'graduate'=>Yii::t('app', 'BPPK_TEXT_GRADUATE')];
 		$renders['object_references_array'] = $object_references_array;
 		foreach($object_references_array as $object_reference=>$label){
 			$object_references[$object_reference] = ObjectReference::find()
@@ -170,12 +176,12 @@ class Student2Controller extends Controller
 		
         if ($model->load(Yii::$app->request->post())) {
             if($model->save()) {
-				Yii::$app->getSession()->setFlash('success', 'Data student have updated.');
+				Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Data peserta berhasil diperbarui');
 				$person->load(Yii::$app->request->post());
 				
 				//$person->scenario = 'profile';
 				if($person->save()) {
-					Yii::$app->getSession()->setFlash('success', 'Data student & person have updated.');
+					Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Data peserta berhasil diperbarui');
 					foreach($object_references_array as $object_reference=>$label){
 						$reference_id = Yii::$app->request->post('ObjectReference')[$object_reference]['reference_id'];
 						Heart::objectReference($object_references[$object_reference],$reference_id,'person',$person->id,$object_reference);
@@ -205,11 +211,15 @@ class Student2Controller extends Controller
 				return $this->redirect(['index']);
 			}
 			else{
-				Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
+				Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i> Data gagal diperbarui');
 			}
-			return $this->redirect(['view', 'id' => $model->person_id]);
+			return $this->redirect(['index']);
         } else {
-            return $this->render('update', $renders);
+        	if (Yii::$app->request->isAjax) {
+            	return $this->renderAjax('update', $renders);
+            } else {
+            	return $this->render('update', $renders);
+            }
         }
     }
 
@@ -222,10 +232,10 @@ class Student2Controller extends Controller
     public function actionDeleteX($id)
     {
 		if($this->findModel($id)->delete()) {
-			Yii::$app->getSession()->setFlash('success', 'Data have deleted.');
+			Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i>Data berhasil dihapus');
 		}
 		else{
-			Yii::$app->getSession()->setFlash('error', 'Data is not deleted.');
+			Yii::$app->getSession()->setFlash('error', '<i class="fa fa-fw fa-times-circle"></i>Data gagal dihapus');
 		}
         return $this->redirect(['index']);
     }
@@ -242,7 +252,7 @@ class Student2Controller extends Controller
         if (($model = Student::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('app','SYSTEM_TEXT_PAGE_NOT_FOUND'));
         }
     }
 	
@@ -276,7 +286,7 @@ class Student2Controller extends Controller
 		$renders['student'] = $student;
 		
 		$object_references_array = [
-			'religion'=>'Religion','rank_class'=>'Rank Class','graduate'=>'Graduate'];
+			'religion'=>Yii::t('app', 'BPPK_TEXT_RELIGION'),'rank_class'=>Yii::t('app', 'BPPK_TEXT_RANK_CLASS'),'graduate'=>Yii::t('app', 'BPPK_TEXT_GRADUATE')];
 		$renders['object_references_array'] = $object_references_array;
 		foreach($object_references_array as $object_reference=>$label){
 			$object_references[$object_reference]= new ObjectReference();
@@ -359,7 +369,7 @@ class Student2Controller extends Controller
 		$renders['model'] = $model;
 		$renders['student'] = $student;
 		$object_references_array = [
-			'religion'=>'Religion','rank_class'=>'Rank Class','graduate'=>'Graduate'];
+			'religion'=>Yii::t('app', 'BPPK_TEXT_RELIGION'),'rank_class'=>Yii::t('app', 'BPPK_TEXT_RANK_CLASS'),'graduate'=>Yii::t('app', 'BPPK_TEXT_GRADUATE')];
 		$renders['object_references_array'] = $object_references_array;
 		foreach($object_references_array as $object_reference=>$label){
 			$object_references[$object_reference] = ObjectReference::find()
@@ -537,7 +547,7 @@ class Student2Controller extends Controller
         if (($model = Person::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('app','SYSTEM_TEXT_PAGE_NOT_FOUND'));
         }
     }
 }

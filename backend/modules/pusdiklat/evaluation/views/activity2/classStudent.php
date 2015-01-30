@@ -14,10 +14,10 @@ $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 
-$this->title = 'Student Class #'. $class->class;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Activities'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => Inflector::camel2words($activity->name), 'url' => ['class','id'=>$activity->id]];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Peserta';
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_TRAINING_ACTIVITIES'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Kelas '.Inflector::camel2words($activity->name), 'url' => ['class','id'=>$activity->id]];
+$this->params['breadcrumbs'][] = Yii::t('app', 'BPPK_TEXT_CLASS').' '.$class->class;
 ?>
 <div class="training-class-subject-index">
     <?= GridView::widget([
@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'kartik\grid\SerialColumn'],
 			[
-				'header' => '<div style="text-align:center;">Name</div>',
+				'header' => '<div style="text-align:center;">Nama</div>',
 				'vAlign'=>'middle',
 				'hAlign'=>'left',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				},
 			],
 			[
-				'header' => '<div style="text-align:center;">NIP</div>',
+                'header' => Yii::t('app', 'BPPK_TEXT_NIP'),
 				'vAlign'=>'middle',
 				'hAlign'=>'left',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
@@ -94,10 +94,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     $err = 0;
                     $student = $model->trainingStudent->student;
                     if (!(empty($student->person->name))){
-                        $check[] = '<span class="glyphicon glyphicon-check"></span>'.' name';
+                        $check[] = '<span class="glyphicon glyphicon-check"></span>'.' nama';
                     }
                     else{
-                        $check[] = '<span class="text-danger glyphicon glyphicon-info-sign"></span>'.' name is empty';
+                        $check[] = '<span class="text-danger glyphicon glyphicon-info-sign"></span>'.' nama kosong';
                         $err++;
                     }
 
@@ -105,23 +105,23 @@ $this->params['breadcrumbs'][] = $this->title;
                         $check[] = '<span class="glyphicon glyphicon-check"></span>'.' nip';
                     }
                     else{
-                        $check[] = '<span class="text-danger glyphicon glyphicon-info-sign"></span>'.' nip is empty';
+                        $check[] = '<span class="text-danger glyphicon glyphicon-info-sign"></span>'.' nip kosong';
                         $err++;
                     }
 
                     if (!(empty($student->person->born))){
-                        $check[] = '<span class="glyphicon glyphicon-check"></span>'.' born';
+                        $check[] = '<span class="glyphicon glyphicon-check"></span>'.' tempat lahir';
                     }
                     else{
-                        $check[] = '<span class="text-danger glyphicon glyphicon-info-sign"></span>'.' born is empty';
+                        $check[] = '<span class="text-danger glyphicon glyphicon-info-sign"></span>'.' tempat lahir kosong';
                         $err++;
                     }
 
                     if (( date('Y') - substr($student->person->birthday,0,4))>10){
-                        $check[] = '<span class="glyphicon glyphicon-check"></span>'.' birhtday';
+                        $check[] = '<span class="glyphicon glyphicon-check"></span>'.' tanggal lahir';
                     }
                     else{
-                        $check[] = '<span class="text-danger glyphicon glyphicon-info-sign"></span>'.' birhtday is invalid';
+                        $check[] = '<span class="text-danger glyphicon glyphicon-info-sign"></span>'.' tanggal lahir salah';
                         $err++;
                     }
 
@@ -134,10 +134,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         ])
                         ->one();
                     if (null!=$objectReference){
-                        $check[] = '<span class="glyphicon glyphicon-check"></span>'.' rank class';
+                        $check[] = '<span class="glyphicon glyphicon-check"></span>'.' pangkat/golongan';
                     }
                     else{
-                        $check[] = '<span class="text-danger glyphicon glyphicon-info-sign"></span>'.' rank class is invalid';
+                        $check[] = '<span class="text-danger glyphicon glyphicon-info-sign"></span>'.' pangkat/golongan salah';
                         $err++;
                     }
 
@@ -164,7 +164,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         $check[] = '<span class="glyphicon glyphicon-check"></span>'.' unit';
                     }
                     else{
-                        $check[] = '<span class="text-danger glyphicon glyphicon-info-sign"></span>'.' unit is invalid';
+                        $check[] = '<span class="text-danger glyphicon glyphicon-info-sign"></span>'.' unit salah';
                         $err++;
                     }
 
@@ -186,10 +186,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         ->one();
                     if (null!=$objectFile){
                     /*if (file_exists($path.'person'.DIRECTORY_SEPARATOR.$model->trainingStudent->student->person_id.DIRECTORY_SEPARATOR.$objectFile->file->file_name) and strlen($objectFile->file->file_name)>3){*/
-                        $check[] = '<span class="glyphicon glyphicon-check"></span>'.' photo';
+                        $check[] = '<span class="glyphicon glyphicon-check"></span>'.' foto';
                     }
                     else{
-                        $check[] = '<span class="text-danger glyphicon glyphicon-info-sign"></span>'.' photo is invalid';
+                        $check[] = '<span class="text-danger glyphicon glyphicon-info-sign"></span>'.' foto salah';
                         $err++;
                     }
 
@@ -206,7 +206,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'header'=> 'Certificate',
+                'header'=> Yii::t('app', 'BPPK_TEXT_CERTIFICATE'),
                 'template'=>'{status} {create} {update} {delete}',
                 'width' => '120px',
                 'class' => 'kartik\grid\ActionColumn',
@@ -216,12 +216,12 @@ $this->params['breadcrumbs'][] = $this->title;
                         if (null!=$certificate){
                             $icon='<span class="glyphicon glyphicon-check"></span>';
                             $label='label label-success';
-                            $title='Get Certificate';
+                            $title='Sertifikat telah dibuat';
                         }
                         else{
-                            $icon='-';
+                            $icon='';
                             $label='';
-                            $title='-';
+                            $title='';
                         }
 
                         return Html::tag('span', $icon, ['class'=>$label,'title'=>$title,'data-toggle'=>"tooltip",'data-placement'=>"top",'style'=>'cursor:pointer']);
@@ -233,7 +233,9 @@ $this->params['breadcrumbs'][] = $this->title;
                             $url2 = ['update-certificate-class-student','id'=>$activity->id,'class_id'=>$class->id,'training_class_student_id'=>$model->id,];
                             return Html::a($icon,$url2,[
                                 'data-pjax'=>"0",
-                                'class'=>'btn btn-xs btn-default'
+                                'class'=>'btn btn-xs btn-default modal-heart',
+                                'modal-title' => '<i class="fa fa-fw fa-certificate"></i> Ubah Sertifikat',
+                                'modal-size' => 'modal-lg'
                             ]);
                         }
                     },
@@ -243,7 +245,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             $icon='<span class="fa fa-fw fa-trash"></span>';
                             $url2 = ['delete-certificate-class-student','id'=>$activity->id,'class_id'=>$class->id,'training_class_student_id'=>$model->id,];
                             return Html::a($icon,$url2,[
-                                'title'=>"Delete",'data-confirm'=>"Are you sure to delete this item?",'data-method'=>"post",
+                                'title'=>"Delete",'data-confirm'=>"Yakin ingin menghapus?",'data-method'=>"post",
                                 'data-pjax'=>"0",
                                 'class'=>'btn btn-xs btn-default'
                             ]);
@@ -258,7 +260,9 @@ $this->params['breadcrumbs'][] = $this->title;
                             $url2 = ['create-certificate-class-student','id'=>$activity->id,'class_id'=>$class->id,'training_class_student_id'=>$model->id,];
                             return Html::a($icon,$url2,[
                                 'data-pjax'=>"0",
-                                'class'=>'btn btn-xs btn-default'
+                                'class'=>'btn btn-xs btn-default modal-heart',
+                                'modal-title' => '<i class="fa fa-fw fa-certificate"></i> Buat Sertifikat',
+                                'modal-size' => 'modal-lg'
                             ]);
                         }
                     },
@@ -285,8 +289,8 @@ $this->params['breadcrumbs'][] = $this->title;
 		'panel' => [
 			'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> '.Html::encode($this->title).'</h3>',
 			'before'=>
-				Html::a('<i class="fa fa-fw fa-arrow-circle-left"></i> Back ', ['class','id'=>$activity->id], ['class' => 'btn btn-warning']).' ',
-			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> Reset Grid', Url::to(''), ['class' => 'btn btn-info']),
+				Html::a('<i class="fa fa-fw fa-arrow-circle-left"></i> '.Yii::t('app', 'SYSTEM_BUTTON_BACK'), ['class','id'=>$activity->id], ['class' => 'btn btn-warning']).' ',
+			'after'=>Html::a('<i class="fa fa-fw fa-repeat"></i> '.Yii::t('app', 'SYSTEM_BUTTON_RESET_GRID'), Url::to(''), ['class' => 'btn btn-info']),
 			'showFooter'=>false
 		],
 		'responsive'=>true,
@@ -297,12 +301,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-	<i class="fa fa-fw fa-file"></i> Document Generator
+	<i class="fa fa-fw fa-file"></i> Dokumen Generator
 	</div>
     <div class="panel-body">
         <ul class="nav nav-tabs" role="tablist">
             <li class="active"><a href="#sertifikat" role="tab" data-toggle="tab">Sertifikat</a></li>
-            <li><a href="#document" role="tab" data-toggle="tab">Document</a></li>
+            <li><a href="#document" role="tab" data-toggle="tab">Dokumen</a></li>
             <li><a href="#kelulusan" role="tab" data-toggle="tab">Status Kelulusan</a></li>
         </ul>
 
@@ -327,18 +331,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="row clearfix">
                 <div class="col-md-2">
                     <?php
-					echo Html::beginTag('label',['class'=>'control-label']).'Status Kelulusan Peserta'.Html::endTag('label');
-					echo Html::a('<i class="fa fa-fw fa-check"></i> Set Status Kelulusan Peserta',
-									Url::to(['set-kelulusan-peserta','id'=>$activity->id,'class_id'=>$class->id]),
-									[
-										'class'=>'btn btn-default btn-xs',
-										'title'=>'Set Status Kelulusan Peserta',
-										//'modal-size'=>'modal-lg',
-										'data-pjax'=>'0',
-										'data-toggle'=>"tooltip",
-										'data-placement'=>"top",
-									]
-								);
+    					echo Html::beginTag('label',['class'=>'control-label']).'Status Kelulusan Peserta';
+                        echo Html::endTag('label');
+    					echo Html::a('<i class="fa fa-fw fa-check"></i> Set Status Kelulusan Peserta',
+    							Url::to(['set-kelulusan-peserta','id'=>$activity->id,'class_id'=>$class->id]),
+    							[
+    								'class'=>'btn btn-default btn-xs',
+    								'modal-title'=>'<i class="fa fa-fw fa-child"></i>Tentukan Status Kelulusan Peserta',
+    								'modal-size'=>'modal-lg',
+    								'data-pjax'=>'0',
+    							]
+    						);
 					?>
                     </div>
                     </div>

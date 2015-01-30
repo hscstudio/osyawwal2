@@ -61,7 +61,7 @@ use yii\helpers\ArrayHelper;
 		'pluginOptions' => [
 		'allowClear' => true
 		],
-	])->label('Room'); ?>
+	])->label(Yii::t('app', 'BPPK_TEXT_ROOM')); ?>
 	
 	<hr>
 	

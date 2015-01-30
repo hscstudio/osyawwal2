@@ -15,10 +15,10 @@ use backend\models\TrainingSchedule;
 use backend\models\TrainingClassStudentAttendance;
 use backend\models\ObjectReference;
 
-$this->title = 'Nilai Akhir';
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Training Activities'), 'url' => ['index']];
+$this->title = 'Nilai Akhir Kelas '.$trainingClass->class;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'BPPK_TEXT_TRAINING_ACTIVITIES'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => Inflector::camel2words($modelTraining->activity->name), 'url' => ['view', 'id' => $modelTraining->activity->id]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+$this->params['breadcrumbs'][] = $this->title;
 $controller = $this->context;
 $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
@@ -37,7 +37,7 @@ echo AlertBlock::widget([
     		['class' => 'kartik\grid\SerialColumn'],
 
     		[
-    			'label' => 'Name',
+    			'label' => Yii::t('app', 'BPPK_TEXT_NAME'),
 				'vAlign'=>'middle',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
@@ -47,7 +47,7 @@ echo AlertBlock::widget([
 			],
 
     		[
-    			'label' => 'NIP',
+    			'label' => Yii::t('app', 'BPPK_TEXT_NIP'),
 				'vAlign'=>'middle',
 				'headerOptions'=>['class'=>'kv-sticky-column'],
 				'contentOptions'=>['class'=>'kv-sticky-column'],
@@ -150,9 +150,9 @@ echo AlertBlock::widget([
     			'hover' => true,
     			'responsive' => true,
     			'panel' => [
-					'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> Nilai Akhir</h3>',
+					'heading'=>'<h3 class="panel-title"><i class="fa fa-fw fa-globe"></i> Input Nilai Akhir</h3>',
 					'before'=>
-						Html::a('<i class="fa fa-fw fa-arrow-left"></i> Back', [
+						Html::a('<i class="fa fa-fw fa-arrow-left"></i> '.Yii::t('app', 'SYSTEM_BUTTON_BACK'), [
 								'activity2/index'
 							], ['class' => 'btn btn-warning']
 						),

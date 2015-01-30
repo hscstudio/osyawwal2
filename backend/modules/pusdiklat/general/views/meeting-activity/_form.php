@@ -59,7 +59,7 @@ use kartik\checkbox\CheckboxX;
 					);
 					echo $form->field($model, 'location[0]')->widget(Select2::classname(), [
 						'data' => $data,
-						'options' => ['placeholder' => 'Choose code ...'],
+						'options' => ['placeholder' => 'Pilih kode ...'],
 						'pluginOptions' => [
 							'allowClear' => true
 						],
