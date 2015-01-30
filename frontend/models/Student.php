@@ -43,11 +43,12 @@ class Student extends \yii\db\ActiveRecord  implements IdentityInterface
     {
         return [
             [['person_id','username'], 'required'],
-            [['person_id', 'satker', 'no_sk', 'tmt_sk'], 'integer'],
+            [['person_id', 'satker'], 'integer'],
             [['username'], 'string', 'max' => 25],
             [['password_hash'], 'string', 'max' => 60],
+			[['tmt_sk'], 'safe'],
             [['auth_key'], 'string', 'max' => 32],
-            [['password_reset_token', 'eselon2', 'eselon3', 'eselon4'], 'string', 'max' => 255],
+            [['password_reset_token', 'eselon2', 'eselon3','no_sk', 'eselon4'], 'string', 'max' => 255],
 			['status', 'default', 'value' => self::STATUS_ACTIVE],
 			['new_password', 'string', 'min' => 6],
 			

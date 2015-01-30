@@ -76,11 +76,16 @@ $this->params['breadcrumbs'][] = ['label' => 'NPP Peserta'];
 			$dataProvider->setPagination(false);
 			$no=$max_npp_awal;
 			foreach($dataProvider->getModels() as $person){
+				if(!empty($person->number))
+				{$npp=$person->number;}
+				else
+				{$npp=$no;}
+				
 				echo "<div class='row clearfix'>";
 				echo "<div class='col-md-4'><input type='checkbox' checked='checked' name='admin[]' value='".$person->id."'> ".$person->trainingStudent->student->person->name."</div>";
 				echo "<div class='col-md-3'>".$person->trainingStudent->student->person->nip."</div>";
 				echo "<div class='col-md-3'>".Html::input('text','number_training',$model->training->number."-",['class'=>'form-control','disabled'=>true,'id'=>'number_training'])."</div>";
-				echo "<div class='col-md-2'>".Html::input('text','number['.$person->id.']',str_pad($no,4,'0',STR_PAD_LEFT),['class'=>'form-control','id'=>'number['.$person->id.']'])."</div>";
+				echo "<div class='col-md-2'>".Html::input('text','number['.$person->id.']',str_pad($npp,4,'0',STR_PAD_LEFT),['class'=>'form-control','id'=>'number['.$person->id.']'])."</div>";
 				echo "</div>";
 				$no++;
 			} 

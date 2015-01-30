@@ -45,7 +45,7 @@ class ActivityController extends Controller
      * Lists all Activity models.
      * @return mixed
      */
-    public function actionIndex($year=NULL,$satker_id=NULL,$status='nocancel')
+    public function actionIndex($year='',$satker_id=NULL,$status='nocancel')
     {
 		$satker = ArrayHelper::map(\frontend\models\Reference::find()->select(['id','name'])->where(['type'=>'satker'])->asArray()->all(), 'id', 'name');
 		if(empty($year)) $year=date('Y');

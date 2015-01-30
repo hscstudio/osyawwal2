@@ -31,7 +31,9 @@ $menus = $controller->module->getMenuItems();
 $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 ?>
 <div class="schedule-index">
-	
+	<?php \yii\widgets\Pjax::begin([
+		'id'=>'pjax-gridview',
+	]); ?>
 	<?php 
 		Pjax::begin([
 			'id'=>'pjax-gridview-schedule',
@@ -164,7 +166,6 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'value' => function ($model) {
 
-
 					$modelTrainingSchedule = TrainingSchedule::find()
 						->where([
 							'training_class_id' => $model->training_class_id,
@@ -221,7 +222,7 @@ $this->params['sideMenu'][$controller->module->uniqueId]=$menus;
 		'responsive'=>true,
 		'hover'=>true,
     ]); ?>
-
+	<?= \hscstudio\heart\widgets\Modal::widget() ?>
 	<?php \yii\widgets\Pjax::end(); ?>
 	
 	<?php 

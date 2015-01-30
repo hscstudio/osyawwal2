@@ -1141,8 +1141,6 @@ class TrainingClassStudentAttendanceController extends Controller
 		exit;
 
     }
-
-
-
-
+	
+	
 }

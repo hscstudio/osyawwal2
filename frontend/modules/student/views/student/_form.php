@@ -191,7 +191,17 @@ use yii\helpers\Url;
 				<?= $form->field($model, 'no_sk')->textInput() ?>
 				</div>
 				<div class="col-md-4">
-				<?= $form->field($model, 'tmt_sk')->textInput() ?>
+                <?= $form->field($model, 'tmt_sk')->widget(DateControl::classname(), [
+						'type' => DateControl::FORMAT_DATE,
+						'ajaxConversion' => false,
+						'displayFormat' => 'php:d-m-Y',
+						'saveFormat' => 'php:Y-m-d',
+						'options' => [
+							   'pluginOptions' => [
+								   'autoclose' => true
+							   ]
+						   ],
+					]); ?>
 				</div>
 			</div>
 			

@@ -876,7 +876,36 @@ class Activity2Controller extends Controller
      */
     public function actionDeleteStudent($id, $student_id, $training_student_id)
     {
-        $model = $this->findModelStudent($training_student_id);
+		$model1 = TrainingClassStudent::find()
+			->where([
+						'training_id' => $id,
+						'training_student_id'=>$training_student_id,
+					])->one();
+		////////////////////////////////////////////////////////////////////
+		$model2 = new ActiveDataProvider([
+            'query' =>  \backend\models\TrainingClassStudentAttendance::find()
+									->where([
+					 						'training_class_student_id'=>$model1->id,
+					 						])
+			]);
+		///////////////////////////////////////////////////////////////////
+		$model3 = \backend\models\TrainingClassStudentCertificate::find()
+			->where([
+					 	'training_class_student_id'=>$model1->id,
+					 ])->one();
+		////////////////////////////////////////
+		if(!empty($model2)&& empty($model3))
+		{
+			foreach($model2->getModels() as $data_kehadiran)
+			{
+				\backend\models\TrainingClassStudentAttendance::findOne($data_kehadiran->id)->delete();
+			}					
+		}
+		////////////////////////////////////////////////////////////////////		
+		if(!empty($model1))
+		{$model1->delete();}
+		////////////////////////////////////////////////////////////////////		
+		$model = $this->findModelStudent($training_student_id);
 		$model->delete();
 		Yii::$app->getSession()->setFlash('success', 'Data have deleted.');
         return $this->redirect(['student', 'id' => $id]);
@@ -3961,5 +3990,45 @@ class Activity2Controller extends Controller
         ]);
     }
 	
-
+	public function actionDeleteAttendanceStudent($id=NULL,$student_id=NULL,$training_student_id=NULL)
+	{
+		$model = TrainingClassStudent::find()
+			->where([
+						'training_id' => $id,
+						'training_student_id'=>$training_student_id,
+					])->one();
+		////////////////////////////////////////////////////////////////////
+		$model2 = \backend\models\TrainingClassStudentAttendance::find()
+			->where([
+					 	'training_class_student_id'=>$model->id,
+					 ])->one();
+		if(!empty($model2))
+		{$model_data_kehadiran="Ya";}
+		else
+		{$model_data_kehadiran="-";}
+		////////////////////////////////////////////////////////////////////
+		$model3 = \backend\models\TrainingClassStudentCertificate::find()
+			->where([
+					 	'training_class_student_id'=>$model->id,
+					 ])->one();
+		if(!empty($model3))
+		{$model_data_sertifikat="Ya";}
+		else
+		{$model_data_sertifikat="-";}
+		/////////////////////////////////////////////////////////////////////
+		if (Yii::$app->request->isAjax)
+			return $this->renderAjax('delete_attendance_student_form', [
+				'model' => $model,
+				'student_id'=>$student_id,
+				'model_data_kehadiran'=>$model_data_kehadiran,
+				'model_data_sertifikat'=>$model_data_sertifikat,
+        ]);
+        else
+				return $this->render('delete_attendance_student_form', [
+				'model' => $model->one(),
+				'student_id'=>$student_id,
+				'model_data_kehadiran'=>$model_data_kehadiran,
+				'model_data_sertifikat'=>$model_data_sertifikat,
+		]);
+	}
 }

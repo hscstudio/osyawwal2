@@ -54,15 +54,21 @@ use yii\helpers\Url;
 	<?php if(!$model->isNewRecord){ ?>	
 	<?php
 	foreach($object_people_array as $object_person=>$label){;
-		$data = \hscstudio\heart\helpers\Heart::OrganisationAuthorized(
-			[
-				'1213010300', // CEK KD_UNIT_ORG 1213010300 IN TABLE ORGANISATION
-			],
-			[
-				0, // 1= HEAD OF KD_UNIT_ORG
-			],
-			true
-		);
+		$data = ArrayHelper::map(Person::find()
+				->select(['id', 'name'])
+				->where([
+					'id'=>Employee::find()
+						->select('person_id')
+						->where([
+							'organisation_id'=>65, // CEK ID 393 IN TABLE ORGANISATION IS SUBBIDANG PROGRAM
+						])
+						->currentSatker()						
+						->column(),
+				])		
+				->active()
+				->asArray()
+				->all()
+				, 'id', 'name');
 
 		echo $form->field(${$object_person}, '['.$object_person.']person_id')->widget(Select2::classname(), [
 			'data' => $data,

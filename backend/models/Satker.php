@@ -58,7 +58,7 @@ class Satker extends \yii\db\ActiveRecord
             'city' => Yii::t('app', 'BPPK_TEXT_CITY'),
             'phone' => Yii::t('app', 'BPPK_TEXT_PHONE'),
             'fax' => Yii::t('app', 'BPPK_TEXT_FAX'),
-            'email'Yii::t('app', 'BPPK_TEXT_EMAIL'),
+            'email' => Yii::t('app', 'BPPK_TEXT_EMAIL'),
             'website' => Yii::t('app', 'BPPK_TEXT_HOMEPAGE'),
         ];
     }

@@ -12,7 +12,8 @@ use frontend\models\Activity;
  */
 class ActivitySearch extends Activity
 {
-    /**
+    public $year;
+	/**
      * @inheritdoc
      */
     public function rules()
@@ -20,6 +21,7 @@ class ActivitySearch extends Activity
         return [
             [['id', 'satker_id', 'hostel', 'status', 'created_by', 'modified_by'], 'integer'],
             [['name', 'description', 'start', 'end', 'location', 'created', 'modified'], 'safe'],
+			[['year'], 'safe'],
         ];
     }
 
@@ -42,6 +44,7 @@ class ActivitySearch extends Activity
     public function search($params)
     {
         $query = Activity::find()
+				//->joinWith('training',false,'LEFT JOIN');
 				->leftjoin('training_student','training_student.training_id=activity.id')
 				->where(['training_student.student_id'=>Yii::$app->user->identity->id]);
 
