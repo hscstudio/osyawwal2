@@ -44,13 +44,36 @@ class TrainingActivitySearch extends Activity
     public function search($params, $satker_id=null)
     {
 		// satker_id dibuat lebih fleksibel, jadi pusdiklat bisa pantau bdk, cukup kasih aja di argumennya
-        if ($satker_id == null) $satker_id = (int)Yii::$app->user->identity->employee->satker_id;
-		
-        $query = Activity::find()
-			->joinWith('training',false,'RIGHT JOIN')
-			->where([
-				'satker_id' => $satker_id,
-			]);
+        if ($satker_id == null) {
+            
+            $satker_id = (int)Yii::$app->user->identity->employee->satker_id;
+            
+            $query = Activity::find()
+                ->joinWith('training',false,'RIGHT JOIN')
+                ->where([
+                    'satker_id' => $satker_id,
+                ]);
+
+        } else {
+            // improvement, jadi sekalipun bisa liat diklatnya BDK, tp cm diklat yg programnya dibuat oleh pusdiklat
+            // yang bersangkutan yg bisa diliat. Misal BDK punya diklat Pajak dan BC. Maka si pusdiklat BC hanya bisa liat diklat
+            // di BDK yg berbau BC saja
+            $query = Activity::find()
+            ->joinWith([
+                'training' => function ($query) {
+                    $query->joinWith([
+                        'program' => function ($queryP) {
+                            $queryP->where([
+                                'program.satker_id' => (int)Yii::$app->user->identity->employee->satker_id
+                            ]);
+                        }
+                    ]);
+                }
+            ])
+            ->where([
+                'activity.satker_id' => $satker_id,
+            ]);
+        }
 			
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
