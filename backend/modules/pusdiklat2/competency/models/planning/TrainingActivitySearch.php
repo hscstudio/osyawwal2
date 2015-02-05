@@ -41,9 +41,10 @@ class TrainingActivitySearch extends Activity
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $satker_id=null)
     {
-		$satker_id = (int)Yii::$app->user->identity->employee->satker_id;
+		// satker_id dibuat lebih fleksibel, jadi pusdiklat bisa pantau bdk, cukup kasih aja di argumennya
+        if ($satker_id == null) $satker_id = (int)Yii::$app->user->identity->employee->satker_id;
 		
         $query = Activity::find()
 			->joinWith('training',false,'RIGHT JOIN')
