@@ -7,11 +7,17 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use frontend\models\Activity;
+use frontend\models\ActivitySearch;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
+use hscstudio\heart\helpers\Heart;
+use yii\data\ArrayDataProvider;
 
 /**
  * Site controller
@@ -65,9 +71,72 @@ class SiteController extends Controller
         ];
     }
 
-    public function actionIndex()
+    public function actionIndex($year=NULL,$satker_id=NULL,$month=NULL)
     {
-        return $this->render('index');
+        $satker = ArrayHelper::map(\frontend\models\Reference::find()
+							->select(['id','name'])
+							->where(['type'=>'satker'])
+							->asArray()->all(), 'id', 'name');
+		
+		if(empty($year)) $year=date('Y');
+		$searchModel = new ActivitySearch();
+		$queryParams = Yii::$app->request->getQueryParams();
+		//die(var_dump($queryParams));
+			if($year=='all'){
+				if(!empty($satker_id))
+				{
+					$queryParams['ActivitySearch']=[
+						'status'=> [0,1,2],
+						'satker_id'=>$satker_id,
+					];
+				}
+				else
+				{
+					$queryParams['ActivitySearch']=[
+						'status'=> [0,1,2],
+					];
+				}
+			}
+			else{
+				if(!empty($satker_id))
+				{
+					$queryParams['ActivitySearch']=[
+						'year' => $year,
+						'status'=> [0,1,2],
+						'satker_id'=>$satker_id,
+					];
+				}
+				else
+				{
+					
+					$queryParams['ActivitySearch']=[
+						'year' => $year,
+						'status'=> [0,1,2],
+					];
+					
+				}
+			}
+		
+		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
+		$dataProvider = $searchModel->search($queryParams);		
+		$dataProvider->getSort()->defaultOrder = ['start'=>SORT_ASC,'end'=>SORT_ASC];
+		
+		$year_training = yii\helpers\ArrayHelper::map(Activity::find()
+			->select(['year'=>'YEAR(start)','start','end'])
+			->orderBy(['year'=>'DESC'])
+			->groupBy(['year'])
+			->asArray()
+			->all(), 'year', 'year');
+		$year_training['all']='All'	; 
+		
+		return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+			'year' => $year,
+			'year_training' => $year_training,
+			'satker' =>$satker,
+			'satker_id' =>$satker_id,
+        ]);
     }
 
     public function actionLogin()

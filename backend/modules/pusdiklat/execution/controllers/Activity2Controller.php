@@ -892,18 +892,17 @@ class Activity2Controller extends Controller
 						'training_id' => $id,
 						'training_student_id'=>$training_student_id,
 					])->one();
-		////////////////////////////////////////////////////////////////////
-		$model2 = new ActiveDataProvider([
-            'query' =>  \backend\models\TrainingClassStudentAttendance::find()
-									->where([
-					 						'training_class_student_id'=>$model1->id,
-					 						])
-			]);
-		///////////////////////////////////////////////////////////////////
-		$model3 = \backend\models\TrainingClassStudentCertificate::find()
+		/////////////////////////////////////////////////////////////////
+		if(!empty($model1))
+		{$model2 = \backend\models\TrainingClassStudentAttendance::find()
 			->where([
 					 	'training_class_student_id'=>$model1->id,
 					 ])->one();
+		 $model3 = \backend\models\TrainingClassStudentCertificate::find()
+			->where([
+					 	'training_class_student_id'=>$model1->id,
+					 ])->one();
+		}
 		////////////////////////////////////////
 		if(!empty($model2)&& empty($model3))
 		{
@@ -4003,41 +4002,51 @@ class Activity2Controller extends Controller
 	
 	public function actionDeleteAttendanceStudent($id=NULL,$student_id=NULL,$training_student_id=NULL)
 	{
+		$model_training_student = TrainingStudent::findOne($training_student_id);
+		////////////////////////////////////////////////////////////////////
 		$model = TrainingClassStudent::find()
 			->where([
 						'training_id' => $id,
 						'training_student_id'=>$training_student_id,
 					])->one();
 		////////////////////////////////////////////////////////////////////
-		$model2 = \backend\models\TrainingClassStudentAttendance::find()
+		if(!empty($model))
+		{$model2 = \backend\models\TrainingClassStudentAttendance::find()
 			->where([
 					 	'training_class_student_id'=>$model->id,
 					 ])->one();
+		 $model3 = \backend\models\TrainingClassStudentCertificate::find()
+			->where([
+					 	'training_class_student_id'=>$model->id,
+					 ])->one();
+		}
+		///////////////////////////////////////////////////////////////////
+		if(!empty($model))
+		{$model_data_kelas = $model->trainingClass->class;}
+		else
+		{$model_data_kelas = "-";}
+		///////////////////////////////////////////////////////////////////
 		if(!empty($model2))
-		{$model_data_kehadiran="Ya";}
+		{$model_data_kehadiran = "Ya";}
 		else
-		{$model_data_kehadiran="-";}
-		////////////////////////////////////////////////////////////////////
-		$model3 = \backend\models\TrainingClassStudentCertificate::find()
-			->where([
-					 	'training_class_student_id'=>$model->id,
-					 ])->one();
+		{$model_data_kehadiran = "-";}
+		////////////////////////////////////////////////////////////////////		
 		if(!empty($model3))
-		{$model_data_sertifikat="Ya";}
+		{$model_data_sertifikat = "Ya";}
 		else
-		{$model_data_sertifikat="-";}
+		{$model_data_sertifikat = "-";}
 		/////////////////////////////////////////////////////////////////////
 		if (Yii::$app->request->isAjax)
 			return $this->renderAjax('delete_attendance_student_form', [
-				'model' => $model,
-				'student_id'=>$student_id,
+				'model' => $model_training_student,
+				'model_data_kelas'=>$model_data_kelas,
 				'model_data_kehadiran'=>$model_data_kehadiran,
 				'model_data_sertifikat'=>$model_data_sertifikat,
         ]);
         else
 				return $this->render('delete_attendance_student_form', [
-				'model' => $model->one(),
-				'student_id'=>$student_id,
+				'model' => $model_training_student,
+				'model_data_kelas'=>$model_data_kelas,
 				'model_data_kehadiran'=>$model_data_kehadiran,
 				'model_data_sertifikat'=>$model_data_sertifikat,
 		]);

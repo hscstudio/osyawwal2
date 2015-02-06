@@ -29,3 +29,5 @@ phpunit.phar
 # local phpunit config
 /phpunit.xml
 /backend/config/
+/frontend/config/
+/frontend/views/site/

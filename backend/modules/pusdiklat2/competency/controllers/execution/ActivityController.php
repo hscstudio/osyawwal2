@@ -802,7 +802,7 @@ class ActivityController extends Controller
 				])
 				->one();
 			$class = '-';
-			if(!empty($trainingClassStudent)) $class = $trainingClassStudent->class;
+			if(!empty($trainingClassStudent)) $class = $trainingClassStudent->trainingClass->class;
 			$activeSheet->insertNewRowBefore($idx+1,1);
 			$activeSheet->setCellValue('A'.$idx, $idx-6)
 					    ->setCellValue('B'.$idx, $data->student->person->name)
@@ -3211,6 +3211,33 @@ class ActivityController extends Controller
 		} catch (\yii\base\ErrorException $e) {
 			 Yii::$app->session->setFlash('error', 'Unable export there are some error');
 		}	
+    }
+	
+	public function actionChangeNpp($id)
+    {
+        $model = TrainingClassStudent::findOne($id);
+		
+		//echo $new_password;
+        if(!empty(Yii::$app->request->post()['npp'])) {
+			
+			$model->number = Yii::$app->request->post()['npp'];
+            if($model->save()) {
+				Yii::$app->getSession()->setFlash('success', 'Data have updated.');
+			}
+			else{
+				Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
+			}
+			return $this->redirect(['class-student','id'=>$model->training_id,'class_id'=>$model->training_class_id]);
+			
+        } else {
+			
+			if (Yii::$app->request->isAjax)
+				{return $this->renderAjax('change_npp', [
+                'model' => $model,]);}
+            else
+            	{return $this->render('change_npp', [
+                'model' => $model,]);}
+        }
     }
 
 }

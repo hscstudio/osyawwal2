@@ -134,7 +134,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						'class'=>'form-control', 
 						'onchange'=>'
 							$.pjax.reload({
-								url: "'.\yii\helpers\Url::to(['index']).'?status='.$status.'&year="+$(this).val(), 
+								url: "'.\yii\helpers\Url::to(['index']).'?satker_id='.$satker_id.'&year="+$(this).val(), 
 								container: "#pjax-gridview", 
 								timeout: 1,
 							});
@@ -144,7 +144,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'</div>'.
 				'<div class="pull-right" style="margin-right:5px;">'.
 				Select2::widget([
-					'name' => 'status', 
+					'name' => 'satker_id', 
 					'data' => $satker,
 					'value' => $satker_id,
 					'options' => [

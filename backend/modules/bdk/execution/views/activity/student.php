@@ -158,20 +158,25 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
             [
 				'class' => 'kartik\grid\ActionColumn',
-				'template' => '{update} {delete}',
+				'template' => '<div class="btn-group">{update} {delete}</div>',
 				'buttons' => [
 					'delete' => function ($url, $model) {
 								$icon='<span class="fa fa-fw fa-trash"></span>';
 								return Html::a($icon,
 									[
-										'delete-student','id'=>$model->training_id,'student_id'=>$model->student_id,
+										'delete-attendance-student','id'=>$model->training_id,'student_id'=>$model->student_id,
 										'training_student_id'=>$model->id
 									],
 									[
-										'class'=>'btn btn-default btn-xs',
+										'class'=>'btn btn-default btn-xs modal-heart',
+										'style' => 'margin-right:5px',
+										'modal-title' => '<i class="fa fa-fw fa-trash"></i>Hapus Data Peserta',
+										'title' => 'Hapus Data Peserta',
+										'data-toggle' => 'tooltip',
+										'data-placement' => 'top',
+										'data-container' => 'body',
 										'data-pjax'=>'0',
-										'data-confirm'=>'Areyou sure you want delete this item!',
-										'data-method'=>'post',
+										'modal-size' => 'modal-lg'
 									]
 								);
 							},

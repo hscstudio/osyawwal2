@@ -975,7 +975,35 @@ class ActivityController extends Controller
      */
     public function actionDeleteStudent($id, $student_id, $training_student_id)
     {
-        $model = $this->findModelStudent($training_student_id);
+        $model1 = TrainingClassStudent::find()
+			->where([
+						'training_id' => $id,
+						'training_student_id'=>$training_student_id,
+					])->one();
+		/////////////////////////////////////////////////////////////////
+		if(!empty($model1))
+		{$model2 = \backend\models\TrainingClassStudentAttendance::find()
+			->where([
+					 	'training_class_student_id'=>$model1->id,
+					 ])->one();
+		 $model3 = \backend\models\TrainingClassStudentCertificate::find()
+			->where([
+					 	'training_class_student_id'=>$model1->id,
+					 ])->one();
+		}
+		////////////////////////////////////////
+		if(!empty($model2)&& empty($model3))
+		{
+			foreach($model2->getModels() as $data_kehadiran)
+			{
+				\backend\models\TrainingClassStudentAttendance::findOne($data_kehadiran->id)->delete();
+			}					
+		}
+		////////////////////////////////////////////////////////////////////		
+		if(!empty($model1))
+		{$model1->delete();}
+		////////////////////////////////////////////////////////////////////		
+		$model = $this->findModelStudent($training_student_id);
 		$model->delete();
 		Yii::$app->getSession()->setFlash('success', 'Data have deleted.');
         return $this->redirect(['student', 'id' => $id]);
@@ -4121,5 +4149,84 @@ class ActivityController extends Controller
 		} catch (\yii\base\ErrorException $e) {
 			 Yii::$app->session->setFlash('error', 'Unable export there are some error');
 		}	
+    }
+	
+	public function actionDeleteAttendanceStudent($id=NULL,$student_id=NULL,$training_student_id=NULL)
+	{
+		$model_training_student = TrainingStudent::findOne($training_student_id);
+		////////////////////////////////////////////////////////////////////
+		$model = TrainingClassStudent::find()
+			->where([
+						'training_id' => $id,
+						'training_student_id'=>$training_student_id,
+					])->one();
+		////////////////////////////////////////////////////////////////////
+		if(!empty($model))
+		{$model2 = \backend\models\TrainingClassStudentAttendance::find()
+			->where([
+					 	'training_class_student_id'=>$model->id,
+					 ])->one();
+		 $model3 = \backend\models\TrainingClassStudentCertificate::find()
+			->where([
+					 	'training_class_student_id'=>$model->id,
+					 ])->one();
+		}
+		///////////////////////////////////////////////////////////////////
+		if(!empty($model))
+		{$model_data_kelas = $model->trainingClass->class;}
+		else
+		{$model_data_kelas = "-";}
+		///////////////////////////////////////////////////////////////////
+		if(!empty($model2))
+		{$model_data_kehadiran = "Ya";}
+		else
+		{$model_data_kehadiran = "-";}
+		////////////////////////////////////////////////////////////////////		
+		if(!empty($model3))
+		{$model_data_sertifikat = "Ya";}
+		else
+		{$model_data_sertifikat = "-";}
+		/////////////////////////////////////////////////////////////////////
+		if (Yii::$app->request->isAjax)
+			return $this->renderAjax('delete_attendance_student_form', [
+				'model' => $model_training_student,
+				'model_data_kelas'=>$model_data_kelas,
+				'model_data_kehadiran'=>$model_data_kehadiran,
+				'model_data_sertifikat'=>$model_data_sertifikat,
+        ]);
+        else
+				return $this->render('delete_attendance_student_form', [
+				'model' => $model_training_student,
+				'model_data_kelas'=>$model_data_kelas,
+				'model_data_kehadiran'=>$model_data_kehadiran,
+				'model_data_sertifikat'=>$model_data_sertifikat,
+		]);
+	}
+	
+	public function actionChangeNpp($id)
+    {
+        $model = TrainingClassStudent::findOne($id);
+		
+		//echo $new_password;
+        if(!empty(Yii::$app->request->post()['npp'])) {
+			
+			$model->number = Yii::$app->request->post()['npp'];
+            if($model->save()) {
+				Yii::$app->getSession()->setFlash('success', 'Data have updated.');
+			}
+			else{
+				Yii::$app->getSession()->setFlash('error', 'Data is not updated.');
+			}
+			return $this->redirect(['class-student','id'=>$model->training_id,'class_id'=>$model->training_class_id]);
+			
+        } else {
+			
+			if (Yii::$app->request->isAjax)
+				{return $this->renderAjax('change_npp', [
+                'model' => $model,]);}
+            else
+            	{return $this->render('change_npp', [
+                'model' => $model,]);}
+        }
     }
 }

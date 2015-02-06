@@ -79,14 +79,16 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions'=>['class'=>'kv-sticky-column'],
 				'format'=>'raw',
 				'value' => function ($data){
-					return Html::tag('span',
-						$data->training->number."-".str_pad($data->number,4,'0',STR_PAD_LEFT),
-						[
-							'class'=>'label label-info',
-							'data-toggle'=>'tooltip',
-							'data-html'=>'true',
-						]
-					);
+					$options = [
+									'class'=>'label label-info modal-heart',
+									'data-toggle'=>'tooltip',
+									'data-pjax'=>'0',
+									'data-html'=>'true',
+									'title'=>'Klik untuk mengubah NPP peserta ini',
+									'modal-title'=>'<i class="fa fa-fw fa-pencil"></i> Ubah NPP Peserta',
+									'modal-size'=>'modal-md',
+								];
+						return Html::a($data->training->number."-".str_pad($data->number,4,'0',STR_PAD_LEFT),['change-npp','id'=>$data->id],$options);
 				},
 			],
 			[
