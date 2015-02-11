@@ -42,7 +42,7 @@ class RoomRequest3Controller extends Controller
      * Lists all Activity models.
      * @return mixed
      */
-    public function actionIndex($year='',$status=1, $organisation_id='387')
+    public function actionIndex($year='',$status=1, $organisation_id='343')
     {
 		if(empty($year)) $year=date('Y');
 		$searchModel = new ActivitySearch();
@@ -81,8 +81,9 @@ class RoomRequest3Controller extends Controller
 		$organisation['all']='- All -';
 		$organisations = yii\helpers\ArrayHelper::map(Organisation::find()
 			->where([
-				'KD_UNIT_ES2'=>'13',
-				'KD_ESELON'=>[2,4],
+				'KD_UNIT_ES2'=>'00',
+				'KD_UNIT_ES3'=>'01',
+				'KD_ESELON'=>[3,4],
 			])
 			->asArray()
 			->all(), 'ID', 'NM_UNIT_ORG');

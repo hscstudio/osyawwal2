@@ -82,43 +82,10 @@ class SiteController extends Controller
 		$searchModel = new ActivitySearch();
 		$queryParams = Yii::$app->request->getQueryParams();
 		//die(var_dump($queryParams));
-			if($year=='all'){
-				if(!empty($satker_id))
-				{
-					$queryParams['ActivitySearch']=[
-						'status'=> [0,1,2],
-						'satker_id'=>$satker_id,
-					];
-				}
-				else
-				{
-					$queryParams['ActivitySearch']=[
-						'status'=> [0,1,2],
-					];
-				}
-			}
-			else{
-				if(!empty($satker_id))
-				{
-					$queryParams['ActivitySearch']=[
-						'year' => $year,
-						'status'=> [0,1,2],
-						'satker_id'=>$satker_id,
-					];
-				}
-				else
-				{
-					
-					$queryParams['ActivitySearch']=[
-						'year' => $year,
-						'status'=> [0,1,2],
-					];
-					
-				}
-			}
+			
 		
 		$queryParams=yii\helpers\ArrayHelper::merge(Yii::$app->request->getQueryParams(),$queryParams);
-		$dataProvider = $searchModel->search($queryParams);		
+		$dataProvider = $searchModel->search($queryParams,$year,$satker_id);		
 		$dataProvider->getSort()->defaultOrder = ['start'=>SORT_ASC,'end'=>SORT_ASC];
 		
 		$year_training = yii\helpers\ArrayHelper::map(Activity::find()

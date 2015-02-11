@@ -46,7 +46,7 @@ class MeetingActivityController extends Controller
 		if(empty($year)) $year=date('Y');
 		$searchModel = new MeetingActivitySearch();
 		$queryParams = Yii::$app->request->getQueryParams();
-		$organisation_id = 389;
+		$organisation_id = 345;
 		if($status=='all'){
 			if($year=='all'){
 				$queryParams['MeetingActivitySearch']=[
@@ -142,7 +142,7 @@ class MeetingActivityController extends Controller
     {
         $model = new Activity();		
 		$meeting = new Meeting([
-			'organisation_id'=>389
+			'organisation_id'=>345
 		]);
 		$renders=[];
 		$renders['model'] = $model;
@@ -159,7 +159,7 @@ class MeetingActivityController extends Controller
 						Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Rapat berhasil disimpan');
 						if($meeting->load(Yii::$app->request->post())){							
 							$meeting->activity_id= $model->id;	
-							$meeting->organisation_id = 389;							
+							$meeting->organisation_id = 345;							
 							if($meeting->save()){								 
 								Yii::$app->getSession()->setFlash('success', '<i class="fa fa-fw fa-check-circle"></i> Rapat berhasil disimpan');
 								$transaction->commit();
@@ -198,7 +198,7 @@ class MeetingActivityController extends Controller
 		$model->end = date('Y-m-d',strtotime($model->end));
 		$meeting = Meeting::findOne([
 			'activity_id'=>$model->id,
-			'organisation_id'=>389
+			'organisation_id'=>345
 		]);
 		$renders=[];
 		$renders['model'] = $model;
@@ -321,7 +321,7 @@ class MeetingActivityController extends Controller
 		$renders['model'] = $model;
 		$object_people_array = [
 			// CEK ID 1213010100 IN TABLE ORGANISATION
-			'organisation_1213010100'=>'PIC Rapat'
+			'organisation_1200010101'=>'PIC Rapat'
 		];
 		$renders['object_people_array'] = $object_people_array;
 		foreach($object_people_array as $object_person=>$label){

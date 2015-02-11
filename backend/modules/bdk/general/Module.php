@@ -85,9 +85,6 @@ class Module extends \yii\base\Module
 					['icon'=>'fa fa-fw fa-book', 'label' => 'Training Activity', 'url' => ['activity2/index'],'path'=>[
 						'/activity2/',
 					]],
-					['icon'=>'fa fa-fw fa-briefcase', 'label' => 'Meeting Activity', 'url' => ['meeting-activity2/index'],'path'=>[
-						'/meeting-activity2/',
-					]],
 				];
 			}
 			$menus_2 = ['icon'=>'fa fa-money fa-fw','label' => 'Keuangan', 'url' => ['#'], 'items' => $menus_2 ];
@@ -101,9 +98,6 @@ class Module extends \yii\base\Module
 				$menus_3 = [
 					['icon'=>'fa fa-fw fa-book', 'label' => 'Training Activity', 'url' => ['activity3/index'],'path'=>[
 						'/activity3/',
-					]],
-					['icon'=>'fa fa-fw fa-briefcase', 'label' => 'Meeting Activity', 'url' => ['meeting-activity3/index'],'path'=>[
-						'/meeting-activity3/',
 					]],
 					['icon'=>'fa fa-fw fa-ticket', 'label' => 'Room Request', 'url' => ['room-request3/index'],'path'=>[
 						'/room-request3/',

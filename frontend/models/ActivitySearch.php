@@ -42,12 +42,45 @@ class ActivitySearch extends Activity
      * @return ActiveDataProvider
      */
 	 
-    public function search($params)
+    public function search($params,$year=NULL,$satker_id=NULL)
     {
-       // die(var_dump($params));
+       if($year=='all'){
+				if(!empty($satker_id))
+				{
+					$queryParams=[
+						'status'=> [0,1,2],
+						'satker_id'=>$satker_id,
+					];
+				}
+				else
+				{
+					$queryParams=[
+						'status'=> [0,1,2],
+					];
+				}
+			}
+			else{
+				if(!empty($satker_id))
+				{
+					$queryParams=[
+						'YEAR(start)' => $year,
+						'status'=> [0,1,2],
+						'satker_id'=>$satker_id,
+					];
+				}
+				else
+				{
+					
+					$queryParams=[
+						'YEAR(start)' => $year,
+						'status'=> [0,1,2],
+					];
+					
+				}
+			}
 		$query = Activity::find()
-				->joinWith('training',false,'RIGHT JOIN');
-				//->where(['YEAR(start)' => 2015]);
+				->joinWith('training',false,'RIGHT JOIN')
+				->where($queryParams);
 				
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -60,20 +93,21 @@ class ActivitySearch extends Activity
         $query->andFilterWhere([
             'id' => $this->id,
             'satker_id' => $this->satker_id,
+			'name' =>$this->name,
             'start' => $this->start,
             'end' => $this->end,
             'hostel' => $this->hostel,
             'status' => $this->status,
-            /*'created' => $this->created,
+            'created' => $this->created,
             'created_by' => $this->created_by,
             'modified' => $this->modified,
-            'modified_by' => $this->modified_by,*/
+            'modified_by' => $this->modified_by,
 			'YEAR(start)' => $this->year,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'location', $this->location]);
+            ->andFilterWhere(['like', 'start', $this->start])
+            ->andFilterWhere(['like', 'end', $this->end]);
 		
         return $dataProvider;
     }
