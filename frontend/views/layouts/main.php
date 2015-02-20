@@ -28,7 +28,7 @@ AppAsset::register($this);
     <?php $this->beginBody() ?>
     <div class="wrap">
         <?php
-            NavBar::begin([
+			NavBar::begin([
                 'brandLabel' => 'SIMBPPK',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
@@ -38,14 +38,11 @@ AppAsset::register($this);
                     'class' => 'container-fluid',
                 ]
             ]);
-            $menuItems = [
-                ['label' => 'Home', 'url' => ['/site/index']],
-                //['label' => 'About', 'url' => ['/site/about']],
-                //['label' => 'Contact', 'url' => ['/site/contact']],
-            ];
+            
             if (Yii::$app->user->isGuest) {
                // $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-                $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+			   $menuItems = [['label' => 'Home', 'url' => ['/site/index']],];
+                $menuItems[] = ['label' => 'Masuk', 'url' => ['/site/masuk']];
             } else {
                 /* $menuItems[] = [
                     'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
@@ -70,6 +67,7 @@ AppAsset::register($this);
                 'items' => $menuItems,
             ]);
             NavBar::end();
+		  
         ?>
 
         <div class="container-fluid">
@@ -77,12 +75,13 @@ AppAsset::register($this);
         </div>
     </div>
 
+    <?php if (Yii::$app->user->isGuest === false) { // Klo guest, berarti belum login, so ga usa munculin footer ?>
     <footer class="footer">
-        <div class="container-fluid">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-        <p class="pull-right"><?= Yii::powered() ?></p>
-        </div>
+		<div class="col-md-12">
+			<p>Hak cipta &copy; Badan Pendidikan dan Pelatihan Keuangan <?= date('Y') ?></p>
+		</div>
     </footer>
+    <?php } ?>
 
     <?php $this->endBody() ?>
 </body>

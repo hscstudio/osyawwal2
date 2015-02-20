@@ -41,7 +41,7 @@ AppAsset::register($this);
 	            ]);
 				
 				if (Yii::$app->user->isGuest) {
-					$menuItems[] = ['icon'=>'fa fa-key fa-fw','label' => 'Login', 'url' => ['/site/login']];
+					$menuItems[] = ['icon'=>'fa fa-key fa-fw','label' => 'Masuk', 'url' => ['/site/masuk']];
 	            } else {
 					$callback = function($menuX){
 						$data = eval($menuX['data']);

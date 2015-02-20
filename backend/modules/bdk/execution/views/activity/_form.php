@@ -24,6 +24,53 @@ use kartik\checkbox\CheckboxX;
 	</ul>
 	<div class="tab-content" style="border: 1px solid #ddd; border-top-color: transparent; padding:10px; background-color: #fff;">
 		<div class="tab-pane fade-in active" id="activity">
+        		<?php
+					$satker = ArrayHelper::map(
+						Reference::find()
+							->select(['id','parent_id','type','name'])
+							->where([
+									 'parent_id'=>[3,9,13],
+									 'type'=>'satker',
+									 ])
+							->asArray()
+							->all(), 'id', 'name');
+							
+					echo $form->field($program, 'satker_id')->widget(Select2::classname(), [
+						'data' => $satker,
+						'options' => [
+							'placeholder' => Yii::t('app', 'BPPK_TEXT_SATKER'),
+							'onchange'=>'
+								$.post( "'.Url::to(['program-id']).'?satker_id="+$(this).val(), function( data ) 								{$( "select#training-program_id" ).html( data );
+								});
+							'],])->label(Yii::t('app', 'BPPK_TEXT_SATKER'));
+			?>
+			<?php			
+			$data = ArrayHelper::map(
+				Program::find()
+					->select(['id','name', 'num_name' => 'CONCAT(number," - ",name)'])
+					->active()
+					->asArray()
+					->all(), 'id', 'num_name');
+					
+			echo $form->field($training, 'program_id')->widget(Select2::classname(), [
+				'data' => $data,
+				'options' => [
+					'placeholder' => Yii::t('app', 'BPPK_TEXT_CHOOSE_PROGRAM'),
+					'onchange'=>'
+						$.post( "'.Url::to(['program-name']).'?id="+$(this).val(), function( data ) {
+						  $( "input#activity-name" ).val( data + " ");
+						  $( "input#activity-name" ).focus();
+						});
+					',
+				],
+				'pluginOptions' => [
+					'allowClear' => true,
+				],
+			])->label(Yii::t('app', 'BPPK_TEXT_PROGRAM')); ?>
+
+			<?= $form->field($model, 'name')->textInput(['maxlength' => 255,])->label(Yii::t('app', 'BPPK_TEXT_NAME')) ?>
+
+			<?= $form->field($model, 'description')->textarea(['rows' => 3])->label(Yii::t('app', 'BPPK_TEXT_DESCRIPTION')) ?>
 			<div class="row clearfix">
 				<div class="col-md-3">
 				<?= $form->field($model, 'start')->widget(DateControl::classname(), [

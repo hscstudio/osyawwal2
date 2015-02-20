@@ -106,7 +106,7 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionLogin()
+    public function actionMasuk()
     {
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
@@ -117,7 +117,7 @@ class SiteController extends Controller
             //return $this->goBack();
 			return $this->redirect(['./student/student/profile']);
         } else {
-            return $this->render('login', [
+            return $this->render('masuk', [
                 'model' => $model,
             ]);
         }
@@ -158,7 +158,7 @@ class SiteController extends Controller
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
-                if (Yii::$app->getUser()->login($user)) {
+                if (Yii::$app->getUser()->masuk($user)) {
                     return $this->goHome();
                 }
             }

@@ -36,7 +36,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-				'only' => ['logout', 'login', 'signup', 'error', 'index'],
+				'only' => ['logout', 'masuk', 'signup', 'error', 'index'],
                 'rules' => [
 					[
                         'actions' => ['signup'],
@@ -44,7 +44,7 @@ class SiteController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['masuk', 'error'],
                         'allow' => true,
                     ],
                     [
@@ -163,7 +163,7 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionLogin($previous="")
+    public function actionMasuk($previous="")
     {
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
@@ -199,7 +199,7 @@ class SiteController extends Controller
 				return $this->goBack();
 			}
         } else {
-            return $this->render('login', [
+            return $this->render('masuk', [
                 'model' => $model,
             ]);
         }
@@ -238,7 +238,7 @@ class SiteController extends Controller
 			]);  
         }
 		else{
-			return $this->redirect(['login']);
+			return $this->redirect(['masuk']);
 		}
     }
 	

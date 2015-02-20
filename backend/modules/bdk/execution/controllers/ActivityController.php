@@ -192,9 +192,11 @@ class ActivityController extends Controller
 		$model->start = date('Y-m-d',strtotime($model->start));
 		$model->end = date('Y-m-d',strtotime($model->end));
 		$training = Training::findOne(['activity_id'=>$model->id]);
+		$program = Program::findOne(['id'=>$training->program_id]);
 		$renders=[];
 		$renders['model'] = $model;
 		$renders['training'] = $training;
+		$renders['program'] = $program;
 		
 		if (Yii::$app->request->post()){ 
 			$connection=Yii::$app->getDb();
@@ -250,6 +252,24 @@ class ActivityController extends Controller
             throw new NotFoundHttpException(Yii::t('app','SYSTEM_TEXT_PAGE_NOT_FOUND'));
         }
     }
+	
+	public function actionProgramId($satker_id){
+		$countPosts = Program::find()->where(['satker_id' => $satker_id])->count();
+		 
+		 $posts = Program::find()
+					 ->where(['satker_id' => $satker_id])
+					 ->orderBy('number')
+					 ->all();
+		 
+		 if($countPosts>0){
+		 foreach($posts as $post){
+		 echo "<option value='".$post->id."'>".$post->number." - ".$post->name."</option>";
+		 }
+		 }
+		 else{
+		 echo "<option>-</option>";
+		 }
+	}
 	
 	public function actionProgramName($id){
 		$model = Program::find()->where([

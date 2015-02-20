@@ -10,6 +10,7 @@ use backend\models\Program;
 use kartik\widgets\FileInput; 
 use yii\helpers\Url; 
 use kartik\checkbox\CheckboxX;
+//use kartik\widgets\DepDrop;
 
 $edited = 1; // permit
 if(!$model->isNewRecord){
@@ -44,11 +45,29 @@ if(!$model->isNewRecord){
 	<div class="tab-content" style="border: 1px solid #ddd; border-top-color: transparent; padding:10px; background-color: #fff;">
 		<div class="tab-pane fade-in active" id="activity">
 			<?php
+					$satker = ArrayHelper::map(
+						Reference::find()
+							->select(['id','parent_id','type','name'])
+							->where([
+									 'parent_id'=>[3,9,13],
+									 'type'=>'satker',
+									 ])
+							->asArray()
+							->all(), 'id', 'name');
+							
+					echo $form->field($model, 'satker_id')->widget(Select2::classname(), [
+						'data' => $satker,
+						'options' => [
+							'placeholder' => Yii::t('app', 'BPPK_TEXT_SATKER'),
+							'onchange'=>'
+								$.post( "'.Url::to(['program-id']).'?satker_id="+$(this).val(), function( data ) 								{$( "select#training-program_id" ).html( data );
+								});
+							'],])->label(Yii::t('app', 'BPPK_TEXT_SATKER'));
+			?>
+			<?php			
 			$data = ArrayHelper::map(
 				Program::find()
-					->select([
-						'id','name', 'num_name' => 'CONCAT(number," - ",name)'
-					])
+					->select(['id','name', 'num_name' => 'CONCAT(number," - ",name)'])
 					->active()
 					->asArray()
 					->all(), 'id', 'num_name');

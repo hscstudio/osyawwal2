@@ -64,14 +64,17 @@ return [
         ],
 		'request' => [
             'baseUrl' => '/github/osyawwal2',
+			'enableCsrfValidation'=>true,
+			'enableCookieValidation'=>true,
         ],
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
 			'suffix' => '.aspx',
-			'rules' => [
-				['class' => 'hscstudio\heart\helpers\UrlRule', 'connectionID' => 'db', /* ... */],
-			],
+			/*'rules' => [
+				['class' => 'hscstudio\heart\helpers\UrlRule', 'connectionID' => 'db',],
+			],*/
         ],
     ],
     'params' => $params,

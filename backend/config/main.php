@@ -178,6 +178,8 @@ return [
 		// http://mickgeek.com/yii-2-advanced-template-on-the-same-domain
 		'request' => [
             'baseUrl' => '/github/osyawwal2/administrator',
+			'enableCsrfValidation' => true,
+			'enableCookieValidation'=>true,
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,

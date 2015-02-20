@@ -30,7 +30,7 @@ $this->title = 'Request password reset';
 			</div>
 			<div class="row">
 				<div class="col-lg-12">
-					<?php echo Html::a('<i class="fa fa-fw fa-sign-in"></i>Kembali ke halaman login', ['site/login'], [
+					<?php echo Html::a('<i class="fa fa-fw fa-sign-in"></i>Kembali ke halaman login', ['site/masuk'], [
 						'class' => 'pull-right'
 					]);
 					?>
