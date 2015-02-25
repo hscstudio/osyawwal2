@@ -13,16 +13,13 @@ $this->title = 'Request password reset';
     <div class="panel  panel-default">
 		<div class="panel-heading"><h1 class="panel-title"><?= Html::encode($this->title) ?></h1></div>
 		<div class="panel-body">			
-			<p>Please fill out your email. A link to reset password will be sent there.</p>
+			<p>Silahkan Menghubungi Call Center BPPK di 021-29054300 atau menghubungi bidang penyelenggara pusdiklat/balai diklat terkait .</p>
 
 			<div class="row">
 				<div class="col-lg-12">
-					<?php $form = ActiveForm::begin(['id' => 'request-password-reset-form']); ?>
-						<?= $form->field($model, 'email') ?>
 						<div class="form-group">
-							<?= Html::submitButton('Send', ['class' => 'btn btn-primary']) ?>
+							<?php //Html::submitButton('Send', ['class' => 'btn btn-primary']) ;?>
 						</div>
-					<?php ActiveForm::end(); ?>
 				</div>
 			</div>
 		</div>

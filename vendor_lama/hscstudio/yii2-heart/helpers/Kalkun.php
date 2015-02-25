@@ -17,19 +17,29 @@ use Yii;
 class Kalkun
 {
    
-   public static function AsciiToHex($ascii)
+   public function xss_filter($val) 
+   {
+		$val	= htmlspecialchars($val);
+		$val	= htmlentities($val);	
+		$val	= strip_tags($val);
+		$val 	= filter_var($val, FILTER_SANITIZE_STRING);
+	 
+		return $val;
+   }
+   
+   public function AsciiToHex($ascii)
    {
       $hex = '';
 
       for($i = 0; $i < strlen($ascii); $i++)
          $hex .= str_pad(base_convert(ord($ascii[$i]), 10, 16), 2, '0', STR_PAD_LEFT);
 
-      return $hex;
+      return $this->xss_filter($hex);
    }
 
    // convert a hex string to ascii, prepend with '0' if input is not an even number
    // of characters in length   
-   public static function HexToAscii($hex)
+   public function HexToAscii($hex)
    {
       $ascii = '';
    
@@ -39,6 +49,6 @@ class Kalkun
       for($i = 0; $i < strlen($hex); $i += 2)
          $ascii .= chr(base_convert(substr($hex, $i, 2), 16, 10));
    
-      return $ascii;
+      return $this->xss_filter($ascii);
    }	
 }

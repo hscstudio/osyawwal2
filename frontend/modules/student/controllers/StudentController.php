@@ -4,14 +4,14 @@ namespace frontend\modules\student\controllers;
 
 use Yii;
 use frontend\models\Student;
+use frontend\models\TrainingStudent;
 use frontend\models\Person;
+use frontend\models\ObjectReference;
 use frontend\models\StudentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-
-use backend\models\ObjectReference;
 use backend\models\ObjectFile;
 use backend\models\File;
 use hscstudio\heart\helpers\Heart;
@@ -181,11 +181,11 @@ class StudentController extends Controller
         ]);
     }
 	
-	public function actionPrint($status_training_student=NULL,$filetype='docx') {
+	public function actionPrint($training_id=NULL,$filetype='docx') {
 		$dataProvider = new ActiveDataProvider([
             'query' => \frontend\models\Person::find()->where(['id'=>Yii::$app->user->identity->id]),
         ]);
-		
+		$status_training_student = TrainingStudent::findOne(['training_id'=>$training_id,'student_id'=>Yii::$app->user->identity->id])->status;
 		try {
 			$templates=[
 				'docx'=>'ms-word.docx',
@@ -204,21 +204,28 @@ class StudentController extends Controller
 			$data2 = [];
 			foreach($dataProvider->getModels() as $student){
 				$tgllahir = explode('-',$student->birthday);
+				$unit = ObjectReference::findOne(['object'=>'person','object_id'=>$student->id,'type'=>'unit'])->reference->name;
+				$rank_class = ObjectReference::findOne(['object'=>'person','object_id'=>$student->id,'type'=>'rank_class'])->reference_id;
+				if(!empty($rank_class))
+				{$rank_class2=strtoupper(ObjectReference::findOne(['object'=>'person','object_id'=>$student->id,'type'=>'rank_class'])->reference->name);}
+				else
+				{$rank_class2=' ';}
 				$data2[] = [
+					
 					'col0'=>strtoupper($student->name),
 					'col1'=>$student->nip,
 					'col2'=>strtoupper($student->born),
 					'col3'=>$tgllahir[2].'-'.$tgllahir[1].'-'.$tgllahir[0],
 					'col4'=>'KEMENTERIAN KEUANGAN',
-					'col5'=> strtoupper(\frontend\models\ObjectReference::findOne(['object'=>'person','object_id'=>$student->id,'type'=>'unit'])->reference->name),
-					'col6'=>strtoupper(\frontend\models\ObjectReference::findOne(['object'=>'person','object_id'=>$student->id,'type'=>'rank_class'])->reference->name),
+					'col5'=>strtoupper($unit),
+					'col6'=>$rank_class2,
 					'col7'=>strtoupper($student->position_desc),
 					'col8'=>$status_training_student==2?'MENGULANG':'BARU',
 				];
 			}
 			$OpenTBS->MergeBlock('b', $data2);
 			// Output the result as a file on the server. You can change output file
-			$OpenTBS->Show(OPENTBS_DOWNLOAD, 'result.'.$filetype); // Also merges all [onshow] automatic fields.			
+			$OpenTBS->Show(OPENTBS_DOWNLOAD, 'CetakEregisterasi.'.$filetype); // Also merges all [onshow] automatic fields.			
 			exit;
 		} catch (\yii\base\ErrorException $e) {
 			 Yii::$app->session->setFlash('error', 'Unable export there are some error');
