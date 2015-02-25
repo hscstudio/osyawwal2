@@ -21,8 +21,8 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'User'), 'url' => ['p
 	<div class="panel-body">
 		<?php $form = ActiveForm::begin(); ?>
 		<?= $form->errorSummary($model) ?> <!-- ADDED HERE -->
-		<?= $form->field($model, 'old_password')->passwordInput(['maxlength' => 60]) ?>
-		<?= $form->field($model, 'new_password')->passwordInput(['maxlength' => 60]) ?>
+		<?= $form->field($model, 'old_password')->passwordInput(['maxlength' => 60, 'autocomplete' => 'off']) ?>
+		<?= $form->field($model, 'new_password')->passwordInput(['maxlength' => 60, 'autocomplete' => 'off']) ?>
 		<div class="form-group">
 			<?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 		</div>

@@ -20,7 +20,7 @@ use backend\models\Employee;
 	
 	<?= $form->field($model, 'username')->textInput(['maxlength' => 255]) ?>
 
-	<?= $form->field($model, 'new_password')->passwordInput(['maxlength' => 255])->label('Sandi Baru') ?>
+	<?= $form->field($model, 'new_password')->passwordInput(['maxlength' => 255, 'autocomplete' => 'off'])->label('Sandi Baru') ?>
 
 	<?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
 

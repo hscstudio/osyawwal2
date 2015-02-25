@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						echo Html::activeHiddenInput($model, 'username');
 						?>
 						<h1><?= $name ?></h1>
-						<?= $form->field($model, 'password')->passwordInput() ?>
+						<?= $form->field($model, 'password')->passwordInput(['autocomplete' => 'off']) ?>
 						<?php
 						$this->registerJs("
 							$('#loginform-password').focus();
