@@ -2,6 +2,9 @@
 
 namespace backend\assets;
 
+use Yii;
+use yii\base\Event;
+use yii\web\Response;
 use yii\web\AssetBundle;
 
 class AppAsset extends AssetBundle
@@ -18,3 +21,8 @@ class AppAsset extends AssetBundle
         'yii\bootstrap\BootstrapAsset',
     ];
 }
+
+/* Titip hook. Hapus header expires tiap kali ngirim repon. Pusintek ga suka persisten cookie */
+Event::on(Response::className(), Response::EVENT_AFTER_PREPARE, function ($event) {
+    header_remove('Expires');
+});
