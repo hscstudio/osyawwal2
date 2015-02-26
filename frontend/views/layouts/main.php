@@ -84,6 +84,86 @@ AppAsset::register($this);
     <?php } ?>
 
     <?php $this->endBody() ?>
+    <?php
+	if (!Yii::$app->user->isGuest) {
+		$this->registerJs("
+			var goLockScreen = false;
+			var stop = false;
+			var autoLockTimer;
+			window.onload = resetTimer;
+			window.onmousemove = resetTimer;
+			window.onmousedown = resetTimer; // catches touchscreen presses
+			window.onclick = resetTimer;     // catches touchpad clicks
+			window.onscroll = resetTimer;    // catches scrolling with arrow keys
+			window.onkeypress = resetTimer;
+
+			function lockScreen() {
+				stop = true;
+				window.location.href = '".\yii\helpers\Url::toRoute(['/site/lock-screen'])."?previous='+encodeURIComponent(window.location.href);
+			}
+			
+			function lockIdentity(){
+				goLockScreen = true;
+			}
+			
+			function resetTimer() {
+				if(stop==true){
+				
+				}
+				else if (goLockScreen) {
+					lockScreen();				
+				}
+				else{
+					clearTimeout(autoLockTimer);
+					autoLockTimer = setTimeout(lockIdentity, 1000*5*60);  // time is in milliseconds						
+				}
+					
+			}
+		");
+
+		// Ngatur css buat semua file yang manggil main.php
+		$this->registerCss('
+			.kartu-profil {
+				margin-top:-5px;
+				text-align: center;
+				padding: 10px;
+				width: 300px;
+				background-color: rgb(38, 152, 222);
+			}
+			.kartu-profil p {
+				text-align: center;
+				color: rgba(255, 255, 255, 0.8);
+				text-shadow: 2px 2px 3px #333333;
+			}
+			.kartu-profil p.nama-nid {
+				font-size: 110%;
+			}
+			.kartu-profil p.tanggal-terdaftar {
+				font-size: 90%;
+			}
+			.kartu-profil img {
+				width: 80px;
+				height: 80px;
+				margin: 0px 0px 10px 0px;
+				border-radius: 50%;
+				border-style: solid;
+				border-color: #5eb4e7;
+				border-width: 9px;
+				background-color: #daebf5;
+			}
+			.kartu-profil .btn {
+				width: 40%;
+			}
+			.kartu-profil .pull-left {
+				margin-top: 22px;
+			}
+			.kartu-profil .pull-right {
+				margin-top: -30px;
+				margin-bottom: 7px;
+			}
+		');
+	}
+	?>
 </body>
 </html>
 <?php $this->endPage() ?>

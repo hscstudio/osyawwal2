@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
 							<?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
 						</div>
 						<div style="color:#999;margin:1em 0">
-							Logged as someone else ? <?= Html::a('click here', ['site/login']) ?>.
+							Logged as someone else ? <?= Html::a('click here', ['site/masuk']) ?>.
 						</div>						
 					<?php ActiveForm::end(); ?>
 				</div>

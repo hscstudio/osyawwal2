@@ -133,6 +133,28 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+	
+	public function actionLockScreen($previous)
+    {
+		if(isset(Yii::$app->user->identity->username)){
+			// save current username	
+			$username = Yii::$app->user->identity->username;
+			//$name = Yii::$app->user->identity->username->person->name;
+			// force logout		
+			Yii::$app->user->logout();
+			// render form lockscreen
+			$model = new LoginForm(); 
+			$model->username = $username;	//set default value	
+			return $this->render('lockScreen', [
+				'model' => $model,
+				'previous' => $previous,
+				'name' => $username,
+			]);  
+        }
+		else{
+			return $this->redirect(['masuk']);
+		}
+    }
 
     public function actionContact()
     {

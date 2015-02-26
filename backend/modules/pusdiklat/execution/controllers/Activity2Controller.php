@@ -4024,17 +4024,17 @@ class Activity2Controller extends Controller
 		if(!empty($model))
 		{$model_data_kelas = $model->trainingClass->class;}
 		else
-		{$model_data_kelas = "-";}
+		{$model_data_kelas = 'Kosong';}
 		///////////////////////////////////////////////////////////////////
 		if(!empty($model2))
-		{$model_data_kehadiran = "Ya";}
+		{$model_data_kehadiran = 'Ya';}
 		else
-		{$model_data_kehadiran = "-";}
+		{$model_data_kehadiran = 'Kosong';}
 		////////////////////////////////////////////////////////////////////		
 		if(!empty($model3))
-		{$model_data_sertifikat = "Ya";}
+		{$model_data_sertifikat = 'Ya';}
 		else
-		{$model_data_sertifikat = "-";}
+		{$model_data_sertifikat = 'Kosong';}
 		/////////////////////////////////////////////////////////////////////
 		if (Yii::$app->request->isAjax)
 			return $this->renderAjax('delete_attendance_student_form', [
